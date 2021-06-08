@@ -31,7 +31,8 @@ A preliminary syllabus - actually for now an exact copy of Karl's syllabus as a 
     
     3. Applications
         
-        Do a series of applications for a whole unit (Karls application about structuring risks would be particularly fitting for a finance course
+        Do a series of applications for a whole unit 
+        (Karls application about structuring risks would be particularly fitting for a finance course)
 
 
     4. Discrete Random Variables
