@@ -1,4 +1,4 @@
-# Probability_Introduction
+# Probability Introduction
 Lecture Notes
 
 # Contents
