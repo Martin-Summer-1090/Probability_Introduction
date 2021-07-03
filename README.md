@@ -12,6 +12,10 @@ solving probability problems using R and R studio.
 
 A preliminary syllabus - actually for now an exact copy of Karl's syllabus as a starting point - is roughly as follows.
 
+    0. Working with R and the RStudio: Building dice on your computer
+    
+        Basics
+        Using packages and getting help
 
     1. Probability
 
