@@ -48,9 +48,11 @@ When we talk of a *basic outcome* we mean the possible outcome of a random exper
 a subset of basic outcomes. Any event which consists of a single outcome in  the sample space
 is called a *simple event*.
 
-Probability is a measure of how likely an event of an experiment is. Thus when we 
-talk about probability in a precise and meaningful sense we can only so in relation to
-a given sample space or to a certain conceptual experiment. Thus before we can begin to seriously 
+*Probability* is a measure of how likely an event of an experiment is. Thus when we 
+talk about probability in a precise and meaningful sense we can only do so in relation to
+a given sample space or to a certain conceptual experiment. 
+
+Thus before we can begin to seriously 
 talk about probability we need to develop a good understanding of experiments, sample
 spaces, basic outcomes and events. In the spirit of this course we will develop this
 understanding by building these concepts using R. This will at the same time
@@ -59,6 +61,116 @@ probability concepts. As we proceed through our course we will develop a broader
 understanding of this language together with the probability concepts.
 
 # Building experiments, sample spaces and events using R
+
+Lets start with a classic and old example of a probability model: Rolling a six sided die. 
+We want to roll this die not physically but on our computer using R and RStudio as our tool.
+How can we doe this?
+
+## The R User Interface
+
+Before we can ask our tool to do anything for us, we need to know how to talk to
+it. In our case RStudio allows us to talk to our computer. It works like any other
+application. When you launch RStudio on your computer, you will see a screen looking like
+this:
+
+```{r, out.width='90%', fig.align='center', fig.cap='The RStudio startup screen', echo = F}
+knitr::include_graphics('figures/Screenshot_RStudio.png')
+```
+
+In this picture you see a creenshot of my RStudio screen. Interacting with the app is easy. You
+type commands via your keyboard at the prompt, which uses the `>` symbol which you can see on
+the left in  the screenshot. You send the command to the computer 
+by pressing enter. After you have pressed enter, RStudio 
+sends the command to R and displays the result of your command with
+a new prompt to enter new commands, like this:
+```
+> 1 + 1
+[1] 2
+>
+```
+The ```[1]``` means that the line begins with the first value of your result. For
+example, if you enter the command ```20:60``` which means in the R language list 
+all the integers from 20 to 60, and press return, you will get an output like this:
+```
+[1] 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52
+[34] 53 54 55 56 57 58 59 60
+```
+meaning that 20 is the first value displayed in your result. Then  there is a line break because not
+all values can be displayed on the same line and R tells you that ```53``` is the 34-th value of the
+result.
+
+The colon operator ```:``` is a very useful function in R which we will often need. It allows us
+to create sequences of every integer between two integers.
+
+R needs a complete command to execute it, when the return key is pressed. If a command is incomplete,
+like for instance ```5* ```, where we enter 5, the multiplication operator but no 
+second factor to multiply 5 with R will show:
+```
+> 5*
++ 
+```
+The ```+``` sign means that R needs more input to complete the expression. So if we type the missing
+factor after the ```+``` prompt, say 4 and then press the return key again, we will get the result
+```
+> 5*
++ 4
+[1] 20
+
+```
+
+If you type a command that R does not understand, you will be returned an error message. Don't worry
+if you see an error message. It just is a way the computer tells you that he does not understand what you
+want him to do.
+
+For instance, if you type ```5%3``` you will get an error message like this
+```
+> 5%3
+Error: unexpected input in "5%3"
+>
+```
+Sometimes it is onbvious that a mistake occurred, in this case that R just does not know what to do with
+the symbol ```%```. It has no meaning in this context. Sometimes it is not so obvious what the error
+message actually means and what you might do about it. A usuful strategy in this case is to type
+the error message into a seach engine and see what you can find. The chance is very high that others
+encountered the same problem before you and got helpful advice how to fix it from other users on 
+the internet. One site, we find particularly helpful for all kinds of questions related to R
+and R programming is https://stackoverflow.com/. Try it at the next opportunity.
+
+Now with this basic knowledge, we can already make the first step to create a die on the computer
+using R. If you think of a physical die, the essential thing that matters are the points on its
+six sides. If you throw the dice it will usually land on one of these sides and the side which is
+on the upper side of the die shows the number of points. The colon operator ```:``` gives us a way to
+create a group of numbers from 1 to 6. R gives us the result as a one dimensional set of numbers.
+
+```
+> 1:6
+[1] 1 2 3 4 5 6
+> 
+```
+Lets use these first steps in R to recap the probability concepts we have learned using this
+example of the six sided die:
+A *basic outcome* of rolling a six-sided die is for example ```6``` if the upper side after
+rolling the die happens
+to be the side with 6 points. The *sample space* of  the experiment of rolling a six-sided die is
+the set ${\cal S} = \{1,2,3,4,5,6\}$. In probability theory we often use the symbol ${\cal S}$ or
+$S$ for sample space. In many probability texts the sample space is also often denoted by
+the symbol $\Omega$ the greek letter for (big) Omega. A *random experiment* in this example is
+the rolling of the die. The outcome is uncertain but once the die is rolled the outcome
+can be determined precisely. Finally we can also illustrate in the example the concept of an
+*event*: For example, the event, that the die will show less than 4 points is $A = \{1,2,3\}$. We use here
+the symbol $A$ to denote this event and use set notation to describe the set of basic outcomes that
+make up the event "number of points smaller than 4". The event that the outcome is that the point
+shows 10 points is the empty set $B = \emptyset$. The symbol $\emptyset$ comes from set theory and
+means the set containing no elements. This event can contain no elements because we can not get
+a score of 10 by rolling a six sided die.
+
+Lets go back to R now.
+
+## Objects
+
+
+
+
 
 
 
