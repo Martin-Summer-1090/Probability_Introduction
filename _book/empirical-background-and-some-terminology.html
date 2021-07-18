@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer and Branko Urosevic" />
 
 
-<meta name="date" content="2021-07-17" />
+<meta name="date" content="2021-07-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="literature.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -81,7 +81,7 @@
 <li class="chapter" data-level="2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html"><i class="fa fa-check"></i><b>2</b> Empirical background and some terminology</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#terminology"><i class="fa fa-check"></i><b>2.1</b> Terminology</a></li>
-<li class="chapter" data-level="2.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#examples-building-experiments-sample-spaces-and-events-using-r"><i class="fa fa-check"></i><b>2.2</b> Examples: Building experiments, sample spaces and events using R</a>
+<li class="chapter" data-level="2.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#rolling-a-die-constructing-a-random-experiment-a-sample-space-and-events-using-r"><i class="fa fa-check"></i><b>2.2</b> Rolling a die: Constructing a random experiment, a sample space and events using R</a>
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-r-user-interface"><i class="fa fa-check"></i><b>2.2.1</b> The R User Interface</a></li>
 </ul></li>
@@ -90,7 +90,12 @@
 <li class="chapter" data-level="2.5" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#writing-your-own-functions"><i class="fa fa-check"></i><b>2.5</b> Writing your own functions</a></li>
 <li class="chapter" data-level="2.6" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#arguments"><i class="fa fa-check"></i><b>2.6</b> Arguments</a></li>
 <li class="chapter" data-level="2.7" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#scripts"><i class="fa fa-check"></i><b>2.7</b> Scripts</a></li>
-<li class="chapter" data-level="2.8" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#some-more-examples"><i class="fa fa-check"></i><b>2.8</b> Some more examples</a></li>
+<li class="chapter" data-level="2.8" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#using-packages-and-finding-help"><i class="fa fa-check"></i><b>2.8</b> Using packages and finding Help</a>
+<ul>
+<li class="chapter" data-level="2.8.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#packages"><i class="fa fa-check"></i><b>2.8.1</b> Packages</a></li>
+<li class="chapter" data-level="2.8.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#getting-help"><i class="fa fa-check"></i><b>2.8.2</b> Getting Help</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#some-more-examples"><i class="fa fa-check"></i><b>2.9</b> Some more examples</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
@@ -184,8 +189,8 @@ probability concepts.</p>
 <p>As we proceed through our course we will develop a broader and deeper
 understanding of this language together with the probability concepts.</p>
 </div>
-<div id="examples-building-experiments-sample-spaces-and-events-using-r" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Examples: Building experiments, sample spaces and events using R</h2>
+<div id="rolling-a-die-constructing-a-random-experiment-a-sample-space-and-events-using-r" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Rolling a die: Constructing a random experiment, a sample space and events using R</h2>
 <p>Lets start with a classic and old example of a probability model: Rolling a six sided die.
 We want to roll this die not physically but on our computer using R and RStudio as our tool.
 How can we do this?</p>
@@ -460,11 +465,29 @@ have to write the actual code within the braces <code>{}</code>.</p>
 [1] 6
 &gt; 
 </code></pre>
+<p>A final remark in the <code>sample</code>function is in place here. If we look at the argunments of
+sample using the <code>args</code> function we see</p>
+<pre><code>&gt; args(sample)
+function (x, size, replace = FALSE, prob = NULL) 
+NULL
+&gt; </code></pre>
+<p>Lets do not discuss all the details of this output but concentrate for a moment on the <code>replace</code>
+argument. What does this mean? As we saw previously we can use the sample function to
+model the rolling of our die. If we set the <code>size</code> argument to <code>1</code> we get the roll of one
+die. If we set the <code>size</code> argument to <code>n</code>, we would simulate the rolling of <code>n</code> dies.
+But now the <code>replace</code> argument becomes crucial. As we can see in the output of the
+<code>args</code> function <code>replace</code> has a default value <code>FALSE</code>. This is a logical argument.
+It tells R, for example, that if we set <code>size = 2</code>, meaning that two dice are rolled, if the
+first dice shows, say a value of 3, the second die cannot show 3 as well. This is clearly not
+what we have in mind when we model the rolling of 2 dice. It should be possible that
+both dies show the same value. To enable this behavior of the sample function, we have to
+change the default value of the <code>replace</code> argument to <code>TRUE</code>. Then R chooses a random draw
+from all of the six possible values for all dice rolled.</p>
 <p>Congratulations. You have written your first R function for conducting a simple random
 experiment. Think of the parentheses as a trigger that tells R to run the function. If
-you omitt the trigger R just prints the body of the function. When you run a function,
+you omit the trigger R just prints the body of the function. When you run a function,
 all the code in the function body is executed and R returns the result of the last
-line of code. If the last line of code does not return a vlaue neither will R.</p>
+line of code. If the last line of code does not return a value neither will R.</p>
 </div>
 <div id="arguments" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Arguments</h2>
@@ -508,13 +531,135 @@ menu bar.</p>
 Figure 2.3: The RStudio Script
 </p>
 </div>
-<p>RStuido has many useful features to help you work with scripts. You can for instance automatically
+<p>RStudio has many useful features to help you work with scripts. You can for instance automatically
 execute a line in a code by using the run button. You can also execute sections of code or the
 entire script. The entire script is executed by running the Source button. For all these commands
 there are key short cuts which you will learn as you work more with RStudio and R.</p>
 </div>
-<div id="some-more-examples" class="section level2" number="2.8">
-<h2><span class="header-section-number">2.8</span> Some more examples</h2>
+<div id="using-packages-and-finding-help" class="section level2" number="2.8">
+<h2><span class="header-section-number">2.8</span> Using packages and finding Help</h2>
+<p>We have now a function which we can use to simulate the rolling of a die, <code>roll_die()</code>. If the
+die is fair it should be the case that if we roll the die often, all numbers should occur
+about equally often. The die should not be weighted in favor of a particular value.</p>
+<p>One way to learn whether our die is fair are <em>repetition</em> and <em>visualization</em>. These
+are tools we will need all the time, when working with data and when doing probability.
+While R has many useful functions, one of the great powers is that R is contsnatly extended
+by a huge community of users by providing packages. Packages are add on functions, which will
+not be available when you install R. They need to be installed and loaded before you can use them.
+Since packages are such a powerful tool in R we need to introduce what they are and how to use
+them in the beginning.</p>
+<div id="packages" class="section level3" number="2.8.1">
+<h3><span class="header-section-number">2.8.1</span> Packages</h3>
+<p>There are many visualization tools in R that come with the basic installation. Since the point
+we want to make here is about packages, we will use a visualization function which is part of
+the package <em>ggplot2</em>, a very popular package for making all kinds of graphs. There are
+many additional functions provided with this package. For the point we want to make here
+we will use one of them, called <code>qplot</code>.</p>
+<p>Since <code>qplot</code> is a function in the package <em>ggplot2</em>, we first need to install this package.
+To install a package you need to be connected to the internet. If you have internet connection
+go to the command line and run at the command line</p>
+<pre><code>&gt; install.packages(&quot;ggplot2&quot;)
+</code></pre>
+<p>R will now download the package via the internet and install it. It will display various messages
+in the console during this process. Don’t worry if you don not know what they exactly mean and don’t
+panic that they are displayed in red. All packages can be installed like this. You have just to enter the
+correct name in the function <code>install.packages()</code>. The lower left pane in the RStudio software
+alternatively provides a tab called <strong>Packages</strong>. Using this tab, you can also install R packages
+interactively by clicking the install button on the upper left corner of the Packages tab.</p>
+<p>After installation the package is on our harddrive but it can not yet be used. To use the package it has
+to be laoded. This is done with the command <code>library</code>. To load the <em>ggplot2</em> package we type</p>
+<pre><code>&gt; library(&quot;ggplot2&quot;)
+</code></pre>
+<p>and hit the return key. Many things could be said about the R package system and you will learn it
+in more detail as we go along in our course. For the moment the most important thing to remember now
+is that a package needs to be newly loaded whenever you want to use it in a new R session.</p>
+<p>To check whether our dies is fair, we need to roll it many times. R provides a function, that does this
+for us. This function is called <code>replicate</code> and provides an easy way to repeat a command many times.
+The number of times we want to repeat something is given as an argument to the <code>replicate</code> function.</p>
+<p>Now lets roll our die 100 times and save the result in an object we call <code>rolls</code>:</p>
+<pre><code>rolls &lt;-replicate(100, roll_die())</code></pre>
+<p>We now use the ``plot``` function from the <em>ggplot2</em> library to make a quick visualization.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="figures/100_rolls.png" alt="Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 100 times" width="90%" />
+<p class="caption">
+Figure 2.4: Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 100 times
+</p>
+</div>
+<p>It looks like every value occcured roughly 16 times but there is still quite some variation. For instance,
+the value 3 seems to occur more than 20 times whereas the value 2 occurs less than 15 times. Maybe
+we have to give it another trial with more replications. With the computer we can do this with
+a fingertip. Let us roll our die 10000 times and plot the result.</p>
+<pre><code>&gt; rolls2 &lt;- replicate(10000, roll_die())
+&gt; qplot(rolls2m bindwidth = 1)
+</code></pre>
+<p>Now the picture looks better.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="figures/10000_rolls.png" alt="Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 10000 times" width="90%" />
+<p class="caption">
+Figure 2.5: Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 10000 times
+</p>
+</div>
+<p>It seems that there is no significant visual evidence that our die is loaded.</p>
+</div>
+<div id="getting-help" class="section level3" number="2.8.2">
+<h3><span class="header-section-number">2.8.2</span> Getting Help</h3>
+<p>We have now learned a tiny number of R functions and we have written one function ourselves. We have
+learned how to make use of functions provided by packages. It would be overwhelming to memorize and
+learn them all. In R, fortunately, every functions comes with a detailed documentation and with its own
+help page. You need to learn how to use this source right from the beginning.</p>
+<p>To access the help page of a function you type the function name preceeded by a questionmark at the
+prompt, like this</p>
+<pre><code>&gt; ?sample
+</code></pre>
+<p>Then, after you have pressed the return key, a help page is opened in the right lower pane under the
+help tab. This help page has a particular structure that you will find for every other R function
+no matter whether it is provided by the base installation or by a package. In the upper left
+corner you see the name of the function (<code>sample</code>) and in curly brackets next to it the term
+<code>base</code>, which means that this is a function in the R base installation. Then you see a headline
+about what the function does.</p>
+<p>From the top of the page, you then first see the field <strong>Description</strong>. This is a short description what the function does. Here it says</p>
+<pre><code>Description
+sample takes a sample of the specified size from the elements of x using either with or without replacement.</code></pre>
+<p>The next field is <strong>Usage</strong>. It gives you the function description with the arguments. Here for example</p>
+<pre><code>Usage
+sample(x, size, replace = FALSE, prob = NULL)
+
+sample.int(n, size = n, replace = FALSE, prob = NULL,
+           useHash = (!replace &amp;&amp; is.null(prob) &amp;&amp; size &lt;= n/2 &amp;&amp; n &gt; 1e7))
+           
+           </code></pre>
+<p>The first line in Usage should by now be familiar. Don’t worry about the second line. The function can
+obviously do more than we know so far.</p>
+<p>Next comes a list of arguments the function takes and what type of information R
+expects you to provide, as well as what R will do with this information. Here it says for example</p>
+<pre><code>Arguments
+x   
+either a vector of one or more elements from which to choose, or a positive integer. See ‘Details.’
+
+n   
+a positive number, the number of items to choose from. See ‘Details.’
+
+size    
+a non-negative integer giving the number of items to choose.
+
+replace 
+should sampling be with replacement?
+
+prob    
+a vector of probability weights for obtaining the elements of the vector being sampled.
+
+...
+</code></pre>
+<p>We omit some information here.</p>
+<p>Then comes a field called <strong>Details</strong> which gives a more in-depth description of the function. The next
+field is calles <strong>Value</strong>. It describes what the function returns when you run it. Then
+we have a referecne to related R functions under the field <strong>See</strong>. Finally there is a field called
+<strong>Examples</strong>. This field contains example code that is guaranteed to work. It shows a
+couple of different cases how you can use the function in practice.</p>
+</div>
+</div>
+<div id="some-more-examples" class="section level2" number="2.9">
+<h2><span class="header-section-number">2.9</span> Some more examples</h2>
 
 </div>
 </div>
