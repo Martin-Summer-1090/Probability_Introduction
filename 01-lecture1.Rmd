@@ -665,3 +665,105 @@ we have a referecne to related R functions under the field **See**. Finally ther
 couple of different cases how you can use the function in practice.
 
 ## Some more examples
+
+To close this lecture let us come back to proabability and discuss some more examples of
+random experiments, sample spaces, basic outcomes and events. Let us try to leverage our
+R knowlegde to build the objects in the different examples ourselves.
+
+### Tossing a coin twice
+
+Suppose we want to study the random experiment of tossing a coin twice. This is a random
+experiment because whether the coin will land on heads (H) or tail (T) is uncertain before we
+make the throws, but once we have made the throws, the outcomes are clear. The sample space is
+${\cal S}=\{HH, HT, TH, TT \}$. The event that heads will occur at the first throw of the coin
+is $A = \{HH, HT\}$. The event that tail does not occur is $B = \{HH\}$, which is also a 
+basic outcome of the random experiment. 
+
+While this example is so simple that we do not need a computer, let us take the opportunity to
+introduce a new R function, which computes all possible combinations of objects. 
+Let us first create a virtual coin which can land either heads or tails.
+
+```{r}
+coin1 <- c("H", "T")
+coin2 <- c("H", "T")
+```
+
+There are some new things here. Let us explain. First, while we used gray boxes to show you input
+and output of code as it would appear if you interact on the console we use here a very convenient
+feature in RStudio, which we will use from now on. We compose these lecture notes in a document
+format, which allows the mixing of text and code. Whenever we write a piece of R code, it is shown
+in a gray box, as before but without the ```>``` prompt. When you move the cursor on the gray box
+now, you will see a copy icon in the upper right corner of the box. This will allow you to copy this
+code snippet and use it in another document or on your console to execute it.
+
+The second new thing is that we have used a new data type, which we will need very often: characters.
+Characters can be used to form strings and R has many powerful functions to work with and operate
+on strings. We will see many examples of this later. Strings are always between ```" "```, like this. Like
+numbers, strings can be stored in objects and referred to later. But what we need here is actually
+two strings in one vector. This is achieven by using the `c()` function of R. c stands for concatenation
+and here it stores both basic outcomes of a coin throw in two single vectors `coin1` and `coin2`.
+
+We can now pass these two virtual coins to the R function `expand.grid()`. This function will produce
+the sample space of two coin throws by computing all possible combinations of sequences of heads and tails
+that can occur in two throws. 
+
+```{r}
+expand.grid(coin1, coin2)
+```
+Don't worry at the moment if you do not understand what the output format is and why the columns are
+headed by **Var1** and **Var2** followed by the symbols `<fctr>`. We will come back to this.
+
+Before we look at yet another sample, let us mention that this coin tossing setup, simple as it may
+seem, plays a very important role in the theory of random price fluctuations of asset prices and in 
+option pricing and we will encounter it later in detail.
+
+### Boys and Girls
+
+A family has four children. Which one of these children will turn out to be a boy or a girl is
+uncertain ex ante but once the baby is born we can see whether it is a boy or a girl. Conceptually
+we can thing of this as a random experiment. Can you figure out the sample space ? Can you figure out 
+the event that the family will have two boys?
+
+### Birthdays
+
+Assume there are 10 students in a class. When we assume that the year has 365 days, how 
+many configurations of birthdays are possible? Again we can conceptually think of the birthday
+of the students in the class as the outcome of a random experiment. The number of basic
+outcomes are all the possible configurations of 25 birthdays among the 365 days of the
+year.
+
+Here we encounter a situation where it would be possible but impractical to write down the sample
+space explicitly. It would just be a very long list of 25 dates long sequences of 
+birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
+practical to know counting techniques to figure out the number of possible outcomes. The
+example we are considering here is a special case of a general counting problem often encountered
+in probability: The random placement of `r`` balls in `n` cells. The mathematical notation for such
+a counting problem is:
+$\binom{n}{r} = \frac{n!}{k!(n - r)!}$
+The left habd side of the equation means "the number of ways to choose $r$ things from among $n$ things.
+The right hand side shows a formular how this can be computed. R has a function to compute these things
+directly. It is called `choose()` and we apply it to the birthdays example
+
+```{r}
+choose(365, 10)
+```
+A pretty large number. Here you see that R displays the number in scientific notation meaning
+$1.021296*10^{19}$, a number with 13 zeros. Pretty large.
+
+## Summary
+
+These are the basic **probability concepts** we have covered in this lecture:
+
+1. A **random experiment**: A process leading to an uncertain outcome.
+2. **State space**: The collection of all possible outcomes of a random experiment.
+3. **Basic outcome**: A possible outcome of a random experiment.
+4. **Event**: An event is a subset of basic outcomes. Any event which contains a single outcome is called a simple event.
+
+## Project 1: Rolling two dice and adding the points
+
+Here we formulate a project where you can apply the concepts we have learned in this lecture.
+In this project we ask you to write an R function that virtually throws two dice and
+adds up the number of points shown by the dice. Using this function do a simulation of this
+random experiment. Install and load the `ggplot2` package to make a plot using the qplot function to
+visualize the behavior of our dice. Are the dice fair?
+

@@ -41,6 +41,46 @@
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -77,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer and Branko Urosevic}
-\date{2021-07-18}
+\date{2021-07-20}
 
 \begin{document}
 \maketitle
@@ -891,8 +931,137 @@ couple of different cases how you can use the function in practice.
 \hypertarget{some-more-examples}{%
 \section{Some more examples}\label{some-more-examples}}
 
-\hypertarget{literature}{%
-\chapter{Literature}\label{literature}}
+To close this lecture let us come back to proabability and discuss some more examples of
+random experiments, sample spaces, basic outcomes and events. Let us try to leverage our
+R knowlegde to build the objects in the different examples ourselves.
+
+\hypertarget{tossing-a-coin-twice}{%
+\subsection{Tossing a coin twice}\label{tossing-a-coin-twice}}
+
+Suppose we want to study the random experiment of tossing a coin twice. This is a random
+experiment because whether the coin will land on heads (H) or tail (T) is uncertain before we
+make the throws, but once we have made the throws, the outcomes are clear. The sample space is
+\({\cal S}=\{HH, HT, TH, TT \}\). The event that heads will occur at the first throw of the coin
+is \(A = \{HH, HT\}\). The event that tail does not occur is \(B = \{HH\}\), which is also a
+basic outcome of the random experiment.
+
+While this example is so simple that we do not need a computer, let us take the opportunity to
+introduce a new R function, which computes all possible combinations of objects.
+Let us first create a virtual coin which can land either heads or tails.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{coin1 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{, }\StringTok{"T"}\NormalTok{)}
+\NormalTok{coin2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{, }\StringTok{"T"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+There are some new things here. Let us explain. First, while we used gray boxes to show you input
+and output of code as it would appear if you interact on the console we use here a very convenient
+feature in RStudio, which we will use from now on. We compose these lecture notes in a document
+format, which allows the mixing of text and code. Whenever we write a piece of R code, it is shown
+in a gray box, as before but without the \texttt{\textgreater{}} prompt. When you move the cursor on the gray box
+now, you will see a copy icon in the upper right corner of the box. This will allow you to copy this
+code snippet and use it in another document or on your console to execute it.
+
+The second new thing is that we have used a new data type, which we will need very often: characters.
+Characters can be used to form strings and R has many powerful functions to work with and operate
+on strings. We will see many examples of this later. Strings are always between \texttt{"\ "}, like this. Like
+numbers, strings can be stored in objects and referred to later. But what we need here is actually
+two strings in one vector. This is achieven by using the \texttt{c()} function of R. c stands for concatenation
+and here it stores both basic outcomes of a coin throw in two single vectors \texttt{coin1} and \texttt{coin2}.
+
+We can now pass these two virtual coins to the R function \texttt{expand.grid()}. This function will produce
+the sample space of two coin throws by computing all possible combinations of sequences of heads and tails
+that can occur in two throws.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{expand.grid}\NormalTok{(coin1, coin2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Var1 Var2
+## 1    H    H
+## 2    T    H
+## 3    H    T
+## 4    T    T
+\end{verbatim}
+
+Don't worry at the moment if you do not understand what the output format is and why the columns are
+headed by \textbf{Var1} and \textbf{Var2} followed by the symbols \texttt{\textless{}fctr\textgreater{}}. We will come back to this.
+
+Before we look at yet another sample, let us mention that this coin tossing setup, simple as it may
+seem, plays a very important role in the theory of random price fluctuations of asset prices and in
+option pricing and we will encounter it later in detail.
+
+\hypertarget{boys-and-girls}{%
+\subsection{Boys and Girls}\label{boys-and-girls}}
+
+A family has four children. Which one of these children will turn out to be a boy or a girl is
+uncertain ex ante but once the baby is born we can see whether it is a boy or a girl. Conceptually
+we can thing of this as a random experiment. Can you figure out the sample space ? Can you figure out
+the event that the family will have two boys?
+
+\hypertarget{birthdays}{%
+\subsection{Birthdays}\label{birthdays}}
+
+Assume there are 10 students in a class. When we assume that the year has 365 days, how
+many configurations of birthdays are possible? Again we can conceptually think of the birthday
+of the students in the class as the outcome of a random experiment. The number of basic
+outcomes are all the possible configurations of 25 birthdays among the 365 days of the
+year.
+
+Here we encounter a situation where it would be possible but impractical to write down the sample
+space explicitly. It would just be a very long list of 25 dates long sequences of
+birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
+practical to know counting techniques to figure out the number of possible outcomes. The
+example we are considering here is a special case of a general counting problem often encountered
+in probability: The random placement of \texttt{r\textasciigrave{}\textasciigrave{}\ balls\ in}n\texttt{cells.\ The\ mathematical\ notation\ for\ such\ a\ counting\ problem\ is:\ \$\textbackslash{}binom\{n\}\{r\}\ =\ \textbackslash{}frac\{n!\}\{k!(n\ -\ r)!\}\$\ The\ left\ habd\ side\ of\ the\ equation\ means\ "the\ number\ of\ ways\ to\ choose\ \$r\$\ things\ from\ among\ \$n\$\ things.\ The\ right\ hand\ side\ shows\ a\ formular\ how\ this\ can\ be\ computed.\ R\ has\ a\ function\ to\ compute\ these\ things\ directly.\ It\ is\ called}choose()` and we apply it to the birthdays example
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{choose}\NormalTok{(}\DecValTok{365}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.021296e+19
+\end{verbatim}
+
+A pretty large number. Here you see that R displays the number in scientific notation meaning
+\(1.021296*10^{19}\), a number with 13 zeros. Pretty large.
+
+\hypertarget{summary}{%
+\section{Summary}\label{summary}}
+
+These are the basic \textbf{probability concepts} we have covered in this lecture:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A \textbf{random experiment}: A process leading to an uncertain outcome.
+\item
+  \textbf{State space}: The collection of all possible outcomes of a random experiment.
+\item
+  \textbf{Basic outcome}: A possible outcome of a random experiment.
+\item
+  \textbf{Event}: An event is a subset of basic outcomes. Any event which contains a single outcome is called a simple event.
+\end{enumerate}
+
+\hypertarget{project-1-rolling-two-dice-and-adding-the-points}{%
+\section{Project 1: Rolling two dice and adding the points}\label{project-1-rolling-two-dice-and-adding-the-points}}
+
+Here we formulate a project where you can apply the concepts we have learned in this lecture.
+In this project we ask you to write an R function that virtually throws two dice and
+adds up the number of points shown by the dice. Using this function do a simulation of this
+random experiment. Install and load the \texttt{ggplot2} package to make a plot using the qplot function to
+visualize the behavior of our dice. Are the dice fair?
+
+\hypertarget{probability-basic-definitions-and-rules}{%
+\chapter{Probability: Basic Definitions and Rules}\label{probability-basic-definitions-and-rules}}
 
 Here is a review of existing methods.
 
