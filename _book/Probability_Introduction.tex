@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer and Branko Urosevic}
-\date{2021-07-20}
+\date{2021-07-21}
 
 \begin{document}
 \maketitle
@@ -798,7 +798,7 @@ correct name in the function \texttt{install.packages()}. The lower left pane in
 alternatively provides a tab called \textbf{Packages}. Using this tab, you can also install R packages
 interactively by clicking the install button on the upper left corner of the Packages tab.
 
-After installation the package is on our harddrive but it can not yet be used. To use the package it has
+After installation the package is on our hard-drive but it can not yet be used. To use the package it has
 to be laoded. This is done with the command \texttt{library}. To load the \emph{ggplot2} package we type
 
 \begin{verbatim}
@@ -1063,7 +1063,96 @@ visualize the behavior of our dice. Are the dice fair?
 \hypertarget{probability-basic-definitions-and-rules}{%
 \chapter{Probability: Basic Definitions and Rules}\label{probability-basic-definitions-and-rules}}
 
-Here is a review of existing methods.
+\hypertarget{probability-in-theory-and-applications-of-probability}{%
+\section{Probability in theory and applications of probability}\label{probability-in-theory-and-applications-of-probability}}
+
+Now that we have introduced the concepts of a random experiment, sample space, events and basic outcomes, we
+can finally proceed to introduce the notion of \emph{probability}. From the preceeding lecture it should be
+clear that we always speak of probability in relation to a given sample space or a conceptual random
+experiment.
+
+In lecture 1 we said that \emph{probability} is a measure of how likely an event of an experiment is.
+Probabilities are expressed as numbers. As observed in Feller (p.~19), these numbers are of the same
+nature as distances in geometry. In the theory we assume they are given to us. We need not assume
+anything about how they are measured. In actual applications, the determination of probabilities
+or the application of the theory to observations requires often sophisticated statistical methods.
+So, while the mathematical as well as the intuitive meaning of probability are clear only
+as we proceed with the theory we will get a better ability to see how we can apply this concept.
+
+\hypertarget{basic-rules-of-probability}{%
+\section{Basic rules of probability}\label{basic-rules-of-probability}}
+
+When we talk of probabilities in this lecture we always consider probabilities with relation
+to a \emph{discrete} sample space. The simple sample spaces we considered in lecture 1 contain only a
+finite number of points. Such sample space belong to the discrete sample spaces. There are also more
+complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as
+necessary to see Heads for the first time. We can begin writing down the basic outcomes as:
+\(E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...\). We may consider it possible that Head never appears. This
+event we should perhaps call \(E_0\). In this case, when the basic events can be arranged into a simple sequence.
+A sample spac is called \emph{discrete} if it contains only finitely many points, or infinitely many
+points which can be arranged into a simple sequence. Not all sample spaces are discrete. Except for the
+technical tools required there is no essential difference between the two cases. In our discussion
+of probability in this lecture we consider only discrete sample spaces.
+
+Given a (discrete) sample space \({\cal S}\) the probabilities assigned to events in this sample
+space must always fulfill three rules:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(P({\cal S}) = 1\), where \({\cal S}\) is the sample space.
+\item
+  For any event \(A \in {\cal S}\), \(0 \leq P(A) \leq 1\). The probability of an event can never be
+  negative or larger than 1.
+\item
+  The probability of the union of two events \(A\) and \(B\) is always smaller or equal to the sum of the
+  probability of these events looked at in isolation: \(P(A \cup B) = P(A) + P(B)\).
+\end{enumerate}
+
+In the theory of probability we use the language of sets and set theory to describe relations among events.
+We have used one of these relations in rule three, where we expressed the relation between two sets
+as the union \(\cup\). It is useful to know a few of these definitions.
+
+Let's go through them and illustrate the concepts in the context of the examples we h ave already developed
+in lecture 1.
+
+\begin{description}
+\tightlist
+\item[Union]
+The \textbf{union of two events} \(A\) and \(B\) is the set that contains all events that are either in \(A\) or in \(B\)
+or in both sets. Set union is written as \(A \cup B\).
+\end{description}
+
+Insert Diagramm here
+
+\begin{description}
+\tightlist
+\item[Intersection]
+The \textbf{intersection of two events} is the set that contains all events that are both in \(A\) and in \(B\).
+Set intersection is written as \(A \cap B\).
+\end{description}
+
+Insert Diagram here
+
+\begin{description}
+\tightlist
+\item[Complement]
+The \textbf{complement} of an event \(A\) with respect to an event \(B\) is the set of all elements that are in \(B\) but not in \(A\). Set complementation is written as \(A \setminus B\).
+\end{description}
+
+Insert Diagram here
+
+\begin{description}
+\tightlist
+\item[Mutually Exclusive]
+Two events \(A\) and \(B\) are said to be \textbf{mutually exclusive} if they have no basic outcomes in common. The
+notation is \(A \cup B = \emptyset\)
+\end{description}
+
+Insert Diagram here
+
+Example six sided die and R set functions.
 
 \hypertarget{methods}{%
 \chapter{Methods}\label{methods}}

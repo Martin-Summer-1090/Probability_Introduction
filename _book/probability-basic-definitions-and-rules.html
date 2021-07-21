@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer and Branko Urosevic" />
 
 
-<meta name="date" content="2021-07-20" />
+<meta name="date" content="2021-07-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -168,7 +168,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.10" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#summary"><i class="fa fa-check"></i><b>2.10</b> Summary</a></li>
 <li class="chapter" data-level="2.11" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#project-1-rolling-two-dice-and-adding-the-points"><i class="fa fa-check"></i><b>2.11</b> Project 1: Rolling two dice and adding the points</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html"><i class="fa fa-check"></i><b>3</b> Probability: Basic Definitions and Rules</a></li>
+<li class="chapter" data-level="3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html"><i class="fa fa-check"></i><b>3</b> Probability: Basic Definitions and Rules</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#probability-in-theory-and-applications-of-probability"><i class="fa fa-check"></i><b>3.1</b> Probability in theory and applications of probability</a></li>
+<li class="chapter" data-level="3.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>3.2</b> Basic rules of probability</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
 <ul>
@@ -204,8 +208,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="probability-basic-definitions-and-rules" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Probability: Basic Definitions and Rules</h1>
-<p>Here is a review of existing methods.</p>
+<div id="probability-in-theory-and-applications-of-probability" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Probability in theory and applications of probability</h2>
+<p>Now that we have introduced the concepts of a random experiment, sample space, events and basic outcomes, we
+can finally proceed to introduce the notion of <em>probability</em>. From the preceeding lecture it should be
+clear that we always speak of probability in relation to a given sample space or a conceptual random
+experiment.</p>
+<p>In lecture 1 we said that <em>probability</em> is a measure of how likely an event of an experiment is.
+Probabilities are expressed as numbers. As observed in Feller (p. 19), these numbers are of the same
+nature as distances in geometry. In the theory we assume they are given to us. We need not assume
+anything about how they are measured. In actual applications, the determination of probabilities
+or the application of the theory to observations requires often sophisticated statistical methods.
+So, while the mathematical as well as the intuitive meaning of probability are clear only
+as we proceed with the theory we will get a better ability to see how we can apply this concept.</p>
+</div>
+<div id="basic-rules-of-probability" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Basic rules of probability</h2>
+<p>When we talk of probabilities in this lecture we always consider probabilities with relation
+to a <em>discrete</em> sample space. The simple sample spaces we considered in lecture 1 contain only a
+finite number of points. Such sample space belong to the discrete sample spaces. There are also more
+complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as
+necessary to see Heads for the first time. We can begin writing down the basic outcomes as:
+<span class="math inline">\(E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...\)</span>. We may consider it possible that Head never appears. This
+event we should perhaps call <span class="math inline">\(E_0\)</span>. In this case, when the basic events can be arranged into a simple sequence.
+A sample spac is called <em>discrete</em> if it contains only finitely many points, or infinitely many
+points which can be arranged into a simple sequence. Not all sample spaces are discrete. Except for the
+technical tools required there is no essential difference between the two cases. In our discussion
+of probability in this lecture we consider only discrete sample spaces.</p>
+<p>Given a (discrete) sample space <span class="math inline">\({\cal S}\)</span> the probabilities assigned to events in this sample
+space must always fulfill three rules:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(P({\cal S}) = 1\)</span>, where <span class="math inline">\({\cal S}\)</span> is the sample space.</li>
+<li>For any event <span class="math inline">\(A \in {\cal S}\)</span>, <span class="math inline">\(0 \leq P(A) \leq 1\)</span>. The probability of an event can never be
+negative or larger than 1.</li>
+<li>The probability of the union of two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is always smaller or equal to the sum of the
+probability of these events looked at in isolation: <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>.</li>
+</ol>
+<p>In the theory of probability we use the language of sets and set theory to describe relations among events.
+We have used one of these relations in rule three, where we expressed the relation between two sets
+as the union <span class="math inline">\(\cup\)</span>. It is useful to know a few of these definitions.</p>
+<p>Let’s go through them and illustrate the concepts in the context of the examples we h ave already developed
+in lecture 1.</p>
+<dl>
+<dt>Union</dt>
+<dd>The <strong>union of two events</strong> <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is the set that contains all events that are either in <span class="math inline">\(A\)</span> or in <span class="math inline">\(B\)</span>
+or in both sets. Set union is written as <span class="math inline">\(A \cup B\)</span>.
+</dd>
+</dl>
+<p>Insert Diagramm here</p>
+<dl>
+<dt>Intersection</dt>
+<dd>The <strong>intersection of two events</strong> is the set that contains all events that are both in <span class="math inline">\(A\)</span> and in <span class="math inline">\(B\)</span>.
+Set intersection is written as <span class="math inline">\(A \cap B\)</span>.
+</dd>
+</dl>
+<p>Insert Diagram here</p>
+<dl>
+<dt>Complement</dt>
+<dd>The <strong>complement</strong> of an event <span class="math inline">\(A\)</span> with respect to an event <span class="math inline">\(B\)</span> is the set of all elements that are in <span class="math inline">\(B\)</span> but not in <span class="math inline">\(A\)</span>. Set complementation is written as <span class="math inline">\(A \setminus B\)</span>.
+</dd>
+</dl>
+<p>Insert Diagram here</p>
+<dl>
+<dt>Mutually Exclusive</dt>
+<dd>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are said to be <strong>mutually exclusive</strong> if they have no basic outcomes in common. The
+notation is <span class="math inline">\(A \cup B = \emptyset\)</span>
+</dd>
+</dl>
+<p>Insert Diagram here</p>
+<p>Example six sided die and R set functions.</p>
 
+</div>
 </div>
             </section>
 
