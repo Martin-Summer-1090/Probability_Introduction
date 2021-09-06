@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer and Branko Urosevic" />
 
 
-<meta name="date" content="2021-09-01" />
+<meta name="date" content="2021-09-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -172,6 +172,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#probability-in-theory-and-applications-of-probability"><i class="fa fa-check"></i><b>3.1</b> Probability in theory and applications of probability</a></li>
 <li class="chapter" data-level="3.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>3.2</b> Basic rules of probability</a></li>
+<li class="chapter" data-level="3.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#interpretations-of-probability"><i class="fa fa-check"></i><b>3.3</b> Interpretations of Probability</a></li>
+<li class="chapter" data-level="3.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#examples"><i class="fa fa-check"></i><b>3.4</b> Examples</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
@@ -210,9 +212,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 3</span> Probability: Basic Definitions and Rules</h1>
 <div id="probability-in-theory-and-applications-of-probability" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Probability in theory and applications of probability</h2>
-<p>Now that we have introduced the concepts of a random experiment, sample space, events and basic outcomes, we
-can finally proceed to introduce the notion of <em>probability</em>. From the preceeding lecture it should be
-clear that we always speak of probability in relation to a given sample space or a conceptual random
+<p>Now that we have introduced the concepts of a random experiment, sample space,
+events and basic outcomes, we
+can finally proceed to introduce the notion of <em>probability</em>. From the preceding
+lecture it should be
+clear that we always speak of probability in relation to a given sample space or
+a conceptual random
 experiment.</p>
 <p>In lecture 1 we said that <em>probability</em> is a measure of how likely an event of an experiment is.
 Probabilities are expressed as numbers. As observed in Feller (p. 19), these numbers are of the same
@@ -224,14 +229,14 @@ as we proceed with the theory we will get a better ability to see how we can app
 </div>
 <div id="basic-rules-of-probability" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Basic rules of probability</h2>
-<p>When we talk of probabilities in this lecture we always consider probabilities with relation
+<p>When we talk of probabilities in this lecture we mostly consider probabilities with relation
 to a <em>discrete</em> sample space. The simple sample spaces we considered in lecture 1 contain only a
 finite number of points. Such sample space belong to the discrete sample spaces. There are also more
 complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as
 necessary to see Heads for the first time. We can begin writing down the basic outcomes as:
 <span class="math inline">\(E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...\)</span>. We may consider it possible that Head never appears. This
 event we should perhaps call <span class="math inline">\(E_0\)</span>. In this case, when the basic events can be arranged into a simple sequence.
-A sample spac is called <em>discrete</em> if it contains only finitely many points, or infinitely many
+A sample space is called <em>discrete</em> if it contains only finitely many points, or infinitely many
 points which can be arranged into a simple sequence. Not all sample spaces are discrete.
 Except for the
 technical tools required there is no essential difference between the two cases. In our discussion
@@ -246,9 +251,10 @@ negative or larger than 1.</li>
 probability of these events looked at in isolation: <span class="math inline">\(P(A \cup B) \leq P(A) + P(B)\)</span>.</li>
 </ol>
 <p>In the theory of probability we use the language of sets and set theory to
-describe relations among events.
+describe relations among event.
 We have used one of these relations in rule three, where we expressed the relation between two sets
-as the union <span class="math inline">\(\cup\)</span>. It is useful to know a few of these set theoretic definitions.</p>
+as their union <span class="math inline">\(\cup\)</span>. It is useful in studying probability
+to know a few of these set theoretic definitions.</p>
 <p>Let’s go through them and illustrate the concepts in the context of the
 examples we have already developed
 in lecture 1.</p>
@@ -265,13 +271,15 @@ also assume that the second event is that the outcome is some even number, i.e.�
 using set notation we would write <span class="math inline">\(B = \{2,4,6\}\)</span>. The event <span class="math inline">\(A \cup B\)</span> is then the set of all
 outcomes such that the outcome is in A or in B or in both or these sets. In such simple examples
 it is sometimes helpful to depict the situation graphically.
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
+<div class="figure" style="text-align: center"><span id="fig:set-union"></span>
 <img src="figures/set_union.png" alt="The meaning of set union" width="80%" />
 <p class="caption">
 Figure 3.1: The meaning of set union
 </p>
 </div>
-<p>Graphically the union of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(A \cup B\)</span> is the entire colored area.</p>
+<p>The sample space <span class="math inline">\({\cal S}\)</span> is the gray set containing all possible outcomes of our
+random experiment. Graphically the union of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(A \cup B\)</span> is a subset of
+the sample space, the entire colored area.</p>
 <p>By the way: R provides functions for
 computing set operations. Let us use the occasion to show you briefly how to use these functions
 in the context of this example: We define the sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> first using the assignment operator:</p>
@@ -288,7 +296,7 @@ Set intersection is written as <span class="math inline">\(A \cap B\)</span>.
 </dd>
 </dl>
 We can again illustrate this concept graphically
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-12"></span>
+<div class="figure" style="text-align: center"><span id="fig:set-intersection"></span>
 <img src="figures/set_intersection.png" alt="The meaning of set intersection" width="80%" />
 <p class="caption">
 Figure 3.2: The meaning of set intersection
@@ -305,27 +313,27 @@ Complement
 : The <strong>complement</strong> of an event <span class="math inline">\(A\)</span> with respect to an event <span class="math inline">\(B\)</span> is the set
 of all elements that are in <span class="math inline">\(B\)</span> but not in <span class="math inline">\(A\)</span>. Set difference is written as <span class="math inline">\(A \setminus B\)</span>.</p>
 Lets say we want to get the complement, or the set difference of <span class="math inline">\(A \cap B\)</span> with respect to the
-sample space <span class="math inline">\({\cal S}\)</span>. Let us show <span class="math inline">\({\cal S} \setminus (A \cap B)\)</span>.
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-14"></span>
+sample space <span class="math inline">\({\cal S}\)</span>. Let us show <span class="math inline">\({\cal S} \setminus (A \cup B)\)</span>.
+<div class="figure" style="text-align: center"><span id="fig:set-minus"></span>
 <img src="figures/set_minus.png" alt="The meaning of set intersection" width="80%" />
 <p class="caption">
 Figure 3.3: The meaning of set intersection
 </p>
 </div>
 <p>This complement is the dice shown in the light yellow area, i.e. all the elements of <span class="math inline">\({\cal S}\)</span>
-which are not in <span class="math inline">\(A \cap B\)</span>.</p>
+which are not in <span class="math inline">\(A \cup B\)</span>.</p>
 <p>The R function for computing set complements is called <code>setdiff()</code>. You can try it with our
 example:</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="probability-basic-definitions-and-rules.html#cb51-1" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)</span>
 <span id="cb51-2"><a href="probability-basic-definitions-and-rules.html#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-3"><a href="probability-basic-definitions-and-rules.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(S, <span class="fu">union</span>(A,B))</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<p>which is 5 as expected.</p>
+<p>which is 5, as expected.</p>
 <dl>
 <dt>Mutually Exclusive</dt>
 <dd>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are said to be <strong>mutually exclusive</strong> if they have no
 basic outcomes in common. The
-notation is <span class="math inline">\(A \cup B = \emptyset\)</span>
+notation is <span class="math inline">\(A \cap B = \emptyset\)</span>
 </dd>
 </dl>
 <p>An example in our context is the set of even outcomes <span class="math inline">\(B=\{2,4,6\}\)</span> and the set of
@@ -338,7 +346,43 @@ odd outcomes, let us call it <span class="math inline">\(C=\{1,3,5\}\)</span>. I
 <p>we get the empty set, which is expressed by R by giving the data type, in this
 case numeric, because we are intersecting sets of numeric values, followed by (0). This means,
 there is no numeric value in the intersection of <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>.</p>
-<p>Example six sided die and R set functions.</p>
+<p>Let us discuss probability rule 3 a bit further. Let us go to the picture we drew to
+illustrate the meaning of set union <a href="probability-basic-definitions-and-rules.html#fig:set-union">3.1</a>. To compute the probability <span class="math inline">\(P(A \cup B)\)</span>
+we have to add the probabilities of all sample points that are contained either in <span class="math inline">\(A\)</span> or in <span class="math inline">\(B\)</span>
+but each point is to be counted only once. Therefore, probability rule 3, has a (weak)
+inequality: <span class="math inline">\(P(A \cup B) \leq P(A) + P(B)\)</span>.</p>
+<p>Now let <span class="math inline">\(E\)</span> be a point contained both in <span class="math inline">\(A\)</span> and in <span class="math inline">\(B\)</span>, in our example this would be <span class="math inline">\(E = \{2\}\)</span>,
+then <span class="math inline">\(P(E)\)</span> occurs twice on the right hand side of our inequality but only once on the left.
+Therefor the right hand side exceeds the left by the amount <span class="math inline">\(P(A \cap B\)</span>). Thus we have
+<span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span>.</p>
+<p>This reasoning holds for arbitrary pairs of events and not only in our example. In the
+case <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are arbitrary events and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive,
+i.e. <span class="math inline">\(A \cap B = \emptyset\)</span> then our inequality in rule 3 becomes an equality and we have
+<span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>.</p>
+</div>
+<div id="interpretations-of-probability" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Interpretations of Probability</h2>
+<p>While rule 1 - 3 pins down three basic mathematical properties of probabilities, there is an
+ongoing and still unsettled debate what probabilities actually mean. While in this course we
+will be less concerned with this philosophical question, it is so important that you hear about
+the basic interpretations at least once.</p>
+<p>Probability theory took shape in the 17th century through discussions on the mathematics of
+games of chance, such as poker or roulette or gamed where dice are rolled. In this
+stage the <em>classical</em> meaning of probability was the ratio of outcomes that satisfy a condition
+or the description of an event divided by the total number of outcomes in the state space. Of
+course this interpretation of probability makes the implicit assumption that all outcomes
+have the same probability. For example, in this interpretation the probability that one role
+of a dice will result in a <span class="math inline">\(6\)</span> is <span class="math inline">\(1/6\)</span>.</p>
+<p>A more important interpretation is the interpretation of probability as <em>relative frequency</em>.
+In this interpretation the probability of an event <span class="math inline">\(A\)</span> is interpreted as the number of times
+the event <span class="math inline">\(A\)</span> occurs in repeated trials divided by the total number of trials in a
+random experiment.</p>
+<p>A competing interpretation of probability is called <em>subjective probability</em>. In this
+interpretation probability is an opinion or a belief about how likely the occurence of
+a particular event is.</p>
+</div>
+<div id="examples" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Examples</h2>
 
 </div>
 </div>
