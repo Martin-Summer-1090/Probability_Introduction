@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer and Branko Urosevic" />
 
 
-<meta name="date" content="2021-09-06" />
+<meta name="date" content="2021-09-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -161,9 +161,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.9" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#some-more-examples"><i class="fa fa-check"></i><b>2.9</b> Some more examples</a>
 <ul>
-<li class="chapter" data-level="2.9.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#tossing-a-coin-twice"><i class="fa fa-check"></i><b>2.9.1</b> Tossing a coin twice</a></li>
-<li class="chapter" data-level="2.9.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#boys-and-girls"><i class="fa fa-check"></i><b>2.9.2</b> Boys and Girls</a></li>
-<li class="chapter" data-level="2.9.3" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#birthdays"><i class="fa fa-check"></i><b>2.9.3</b> Birthdays</a></li>
+<li class="chapter" data-level="2.9.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-stock-price-of-apple"><i class="fa fa-check"></i><b>2.9.1</b> The stock price of Apple</a></li>
+<li class="chapter" data-level="2.9.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#tossing-a-coin-twice"><i class="fa fa-check"></i><b>2.9.2</b> Tossing a coin twice</a></li>
+<li class="chapter" data-level="2.9.3" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#boys-and-girls"><i class="fa fa-check"></i><b>2.9.3</b> Boys and Girls</a></li>
+<li class="chapter" data-level="2.9.4" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#birthdays"><i class="fa fa-check"></i><b>2.9.4</b> Birthdays</a></li>
 </ul></li>
 <li class="chapter" data-level="2.10" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#summary"><i class="fa fa-check"></i><b>2.10</b> Summary</a></li>
 <li class="chapter" data-level="2.11" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#project-1-rolling-two-dice-and-adding-the-points"><i class="fa fa-check"></i><b>2.11</b> Project 1: Rolling two dice and adding the points</a></li>
@@ -173,7 +174,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#probability-in-theory-and-applications-of-probability"><i class="fa fa-check"></i><b>3.1</b> Probability in theory and applications of probability</a></li>
 <li class="chapter" data-level="3.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>3.2</b> Basic rules of probability</a></li>
 <li class="chapter" data-level="3.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#interpretations-of-probability"><i class="fa fa-check"></i><b>3.3</b> Interpretations of Probability</a></li>
-<li class="chapter" data-level="3.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#examples"><i class="fa fa-check"></i><b>3.4</b> Examples</a></li>
+<li class="chapter" data-level="3.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#revisiting-our-examples."><i class="fa fa-check"></i><b>3.4</b> Revisiting our examples.</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
@@ -737,11 +738,77 @@ couple of different cases how you can use the function in practice.</p>
 </div>
 <div id="some-more-examples" class="section level2" number="2.9">
 <h2><span class="header-section-number">2.9</span> Some more examples</h2>
-<p>To close this lecture let us come back to proabability and discuss some more examples of
+<p>To close this lecture let us come back to probability and discuss some more examples of
 random experiments, sample spaces, basic outcomes and events. Let us try to leverage our
-R knowlegde to build the objects in the different examples ourselves.</p>
-<div id="tossing-a-coin-twice" class="section level3" number="2.9.1">
-<h3><span class="header-section-number">2.9.1</span> Tossing a coin twice</h3>
+R knowledge to build the objects in the different examples ourselves.</p>
+<div id="the-stock-price-of-apple" class="section level3" number="2.9.1">
+<h3><span class="header-section-number">2.9.1</span> The stock price of Apple</h3>
+<p>Since the context of this course is Computational Finance, let us discuss an example from
+Finance first: The
+stock price of Apple is recorded daily. Let us use this example to make a first step in
+loading data into R. We have already learned how we could have a first quick glance at
+how they look like. We will discuss various ways to get financial data as we go along. For this
+initial example we have prepared a data file for the Apple stock price from January 2021 to
+the beginning of September 2021 and we have stored the data (in some format) locally. In
+practice we often will not have data ready fro retrieval but will have to retrieve them from the
+web, from a database or from other sources but let us not worry about these practical details
+for the moment. We have stored the data in an R internal format, called RDS and we have stored the
+file <code>apple_stock_prices.RDS</code> in a folder in our current working directory which we have
+called <code>data</code>. Under this assumption we read these data and assign them to an R object
+using the R function <code>readRDS</code>. Let us call
+this object <code>apple_stock</code>:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="empirical-background-and-some-terminology.html#cb41-1" aria-hidden="true" tabindex="-1"></a>apple_stock <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/apple_stock_price.RDS&quot;</span>)</span></code></pre></div>
+<p>To have a first look at the data, we use the R-function <code>head()</code>. This is a very useful function
+to glance at the data because instead of shwoing us the entire, possibly very big, dataset it
+shows us just the first few lines. We can even specify how many by specifying a parameter
+for the number of lines we want to display, say 10:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="empirical-background-and-some-terminology.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(apple_stock, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##    symbol       date   open   high    low  close    volume adjusted
+## 1    AAPL 2021-01-04 133.52 133.61 126.76 129.41 143301900 128.8048
+## 2    AAPL 2021-01-05 128.89 131.74 128.43 131.01  97664900 130.3973
+## 3    AAPL 2021-01-06 127.72 131.05 126.38 126.60 155088000 126.0080
+## 4    AAPL 2021-01-07 128.36 131.63 127.86 130.92 109578200 130.3078
+## 5    AAPL 2021-01-08 132.43 132.63 130.23 132.05 105158200 131.4325
+## 6    AAPL 2021-01-11 129.19 130.17 128.50 128.98 100384500 128.3768
+## 7    AAPL 2021-01-12 128.50 129.69 126.86 128.80  91951100 128.1977
+## 8    AAPL 2021-01-13 128.76 131.45 128.49 130.89  88636800 130.2779
+## 9    AAPL 2021-01-14 130.80 131.00 128.76 128.91  90221800 128.3072
+## 10   AAPL 2021-01-15 128.78 130.22 127.00 127.14 111598500 126.5454</code></pre>
+<p>Now we see what is contained in the data. They are organized in a table. Each column is a
+variable, starting with the stock symbol of Apple, then the date, the opening price, the
+highest, the lowest and the closing price, the volume and the adjusted volume. Every
+row is a record of the values of these variables for a particular trading day in
+the time period we consider.</p>
+<p>Now let us make a chart of the closing price at each day over the time period of our data using
+the plotting function <code>qplot()</code> we already used for visualizing the outcomes of
+repeated die rolls. In order to do so, we create two new R objects which contain the date
+and the column close. This means we need to select these two columns.</p>
+<p>We
+will learn more systematically how to do this in R. For the moment we just show one
+way to achieve this for the particular example:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="empirical-background-and-some-terminology.html#cb44-1" aria-hidden="true" tabindex="-1"></a>date <span class="ot">&lt;-</span> apple_stock<span class="sc">$</span>date</span>
+<span id="cb44-2"><a href="empirical-background-and-some-terminology.html#cb44-2" aria-hidden="true" tabindex="-1"></a>price <span class="ot">&lt;-</span> apple_stock<span class="sc">$</span>close</span></code></pre></div>
+<p>Now we load the library <code>ggplot2</code> and use the <code>qplot</code> function:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="empirical-background-and-some-terminology.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb45-2"><a href="empirical-background-and-some-terminology.html#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="empirical-background-and-some-terminology.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(date,price)</span></code></pre></div>
+<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Now assume we are at the end of our price data series, at August 6th 2021. We want to
+think about the uncertain price tomorrow. This is our random exmeriment. What would
+be a suitable state space?</p>
+<p>What are the possible prices Apple can attain? The minimum price is zero. The maximum price can
+not be determined. In principle it could be infinite. The state space here would be an open
+interval of real numbers, <span class="math inline">\({\cal S} = [0, \infty)]\)</span>. Quite complicated.</p>
+<p>We could define the state space for the price change, in another way, by thinking about three
+events: Up, denoted by <span class="math inline">\(u\)</span> when the stock price increases, Even, denoted <span class="math inline">\(e\)</span> when the stock price
+does not move, and Down, denoted <span class="math inline">\(d\)</span> when the price decreases. From this perspective
+the state space would be <span class="math inline">\({\cal S} = \{u,e,d\}\)</span>. A bit simpler than before.</p>
+<p>There are more elegant and powerful ways to read and plot data in R. We used this particular
+example just to show you one particular way. More details and more general insights
+how to do this we will develop as we go along.</p>
+</div>
+<div id="tossing-a-coin-twice" class="section level3" number="2.9.2">
+<h3><span class="header-section-number">2.9.2</span> Tossing a coin twice</h3>
 <p>Suppose we want to study the random experiment of tossing a coin twice. This is a random
 experiment because whether the coin will land on heads (H) or tail (T) is uncertain before we
 make the throws, but once we have made the throws, the outcomes are clear. The sample space is
@@ -751,8 +818,8 @@ basic outcome of the random experiment.</p>
 <p>While this example is so simple that we do not need a computer, let us take the opportunity to
 introduce a new R function, which computes all possible combinations of objects.
 Let us first create a virtual coin which can land either heads or tails.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="empirical-background-and-some-terminology.html#cb41-1" aria-hidden="true" tabindex="-1"></a>coin1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
-<span id="cb41-2"><a href="empirical-background-and-some-terminology.html#cb41-2" aria-hidden="true" tabindex="-1"></a>coin2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="empirical-background-and-some-terminology.html#cb46-1" aria-hidden="true" tabindex="-1"></a>coin1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
+<span id="cb46-2"><a href="empirical-background-and-some-terminology.html#cb46-2" aria-hidden="true" tabindex="-1"></a>coin2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span></code></pre></div>
 <p>There are some new things here. Let us explain. First, while we used gray boxes to show you input
 and output of code as it would appear if you interact on the console we use here a very convenient
 feature in RStudio, which we will use from now on. We compose these lecture notes in a document
@@ -769,7 +836,7 @@ and here it stores both basic outcomes of a coin throw in two single vectors <co
 <p>We can now pass these two virtual coins to the R function <code>expand.grid()</code>. This function will produce
 the sample space of two coin throws by computing all possible combinations of sequences of heads and tails
 that can occur in two throws.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="empirical-background-and-some-terminology.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand.grid</span>(coin1, coin2)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="empirical-background-and-some-terminology.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand.grid</span>(coin1, coin2)</span></code></pre></div>
 <pre><code>##   Var1 Var2
 ## 1    H    H
 ## 2    T    H
@@ -781,15 +848,16 @@ headed by <strong>Var1</strong> and <strong>Var2</strong> followed by the symbol
 seem, plays a very important role in the theory of random price fluctuations of asset prices and in
 option pricing and we will encounter it later in detail.</p>
 </div>
-<div id="boys-and-girls" class="section level3" number="2.9.2">
-<h3><span class="header-section-number">2.9.2</span> Boys and Girls</h3>
+<div id="boys-and-girls" class="section level3" number="2.9.3">
+<h3><span class="header-section-number">2.9.3</span> Boys and Girls</h3>
 <p>A family has four children. Which one of these children will turn out to be a boy or a girl is
 uncertain ex ante but once the baby is born we can see whether it is a boy or a girl. Conceptually
-we can thing of this as a random experiment. Can you figure out the sample space ? Can you figure out
+we can thing of this as a random experiment. Can you figure out the sample space ?
+Can you figure out
 the event that the family will have two boys?</p>
 </div>
-<div id="birthdays" class="section level3" number="2.9.3">
-<h3><span class="header-section-number">2.9.3</span> Birthdays</h3>
+<div id="birthdays" class="section level3" number="2.9.4">
+<h3><span class="header-section-number">2.9.4</span> Birthdays</h3>
 <p>Assume there are 10 students in a class. When we assume that the year has 365 days, how
 many configurations of birthdays are possible? Again we can conceptually think of the birthday
 of the students in the class as the outcome of a random experiment. The number of basic
@@ -800,8 +868,15 @@ space explicitly. It would just be a very long list of 25 dates long sequences o
 birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
 practical to know counting techniques to figure out the number of possible outcomes. The
 example we are considering here is a special case of a general counting problem often encountered
-in probability: The random placement of <code>r`` balls in</code>n<code>cells. The mathematical notation for such a counting problem is: $\binom{n}{r} = \frac{n!}{k!(n - r)!}$ The left habd side of the equation means "the number of ways to choose $r$ things from among $n$ things. The right hand side shows a formular how this can be computed. R has a function to compute these things directly. It is called</code>choose()` and we apply it to the birthdays example</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="empirical-background-and-some-terminology.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">365</span>, <span class="dv">10</span>)</span></code></pre></div>
+in probability: The random placement of <code>r</code> balls in <code>n</code> cells. The mathematical notation for such
+a counting problem is:
+<span class="math inline">\(\binom{n}{r} = \frac{n!}{k!(n - r)!}\)</span>
+The left hand side of the equation means "the number of ways to
+choose <span class="math inline">\(r\)</span> things from among <span class="math inline">\(n\)</span> things.
+The right hand side shows a formular how this can be computed. R has a
+function to compute these things
+directly. It is called <code>choose()</code> and we apply it to the birthdays example</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="empirical-background-and-some-terminology.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">365</span>, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] 1.021296e+19</code></pre>
 <p>A pretty large number. Here you see that R displays the number in scientific notation meaning
 <span class="math inline">\(1.021296*10^{19}\)</span>, a number with 13 zeros. Pretty large.</p>

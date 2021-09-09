@@ -666,9 +666,83 @@ couple of different cases how you can use the function in practice.
 
 ## Some more examples
 
-To close this lecture let us come back to proabability and discuss some more examples of
+To close this lecture let us come back to probability and discuss some more examples of
 random experiments, sample spaces, basic outcomes and events. Let us try to leverage our
-R knowlegde to build the objects in the different examples ourselves.
+R knowledge to build the objects in the different examples ourselves.
+
+### The stock price of Apple
+
+Since the context of this course is Computational Finance, let us discuss an example from
+Finance first: The
+stock price of Apple is recorded daily. Let us use this example to make a first step in
+loading data into R. We have already learned how we could have a first quick glance at 
+how they look like. We will discuss various ways to get financial data as we go along. For this
+initial example we have prepared a data file for the Apple stock price from January 2021 to
+the beginning of September 2021 and we have stored the data (in some format) locally. In
+practice we often will not have data ready fro retrieval but will have to retrieve them from the
+web, from a database or from other sources but let us not worry about these practical details
+for the moment. We have stored the data in an R internal format, called RDS and we have stored the
+file `apple_stock_prices.RDS` in a folder in our current working directory which we have
+called `data`. Under this assumption we read these data and assign them to an R object
+using the R function `readRDS`. Let us call
+this object `apple_stock`:
+
+```{r}
+apple_stock <- readRDS("data/apple_stock_price.RDS")
+```
+
+To have a first look at the data, we use the R-function `head()`. This is a very useful function
+to glance at the data because instead of shwoing us the entire, possibly very big, dataset it 
+shows us just the first few lines. We can even specify how many by specifying a parameter
+for the number of lines we want to display, say 10:
+
+```{r}
+head(apple_stock, n = 10)
+```
+Now we see what is contained in  the data. They are organized in a table. Each column is a
+variable, starting with the stock symbol of Apple, then the date, the opening price, the 
+highest, the lowest and the closing price, the volume and the adjusted volume. Every
+row is a record of the values of these variables for a particular trading day in 
+the time period we consider.
+
+Now let us make a chart of the closing price at each day over the time period of our data using
+the plotting function `qplot()` we already used for visualizing the outcomes of 
+repeated die rolls. In order to do so, we create two new R objects which contain the date
+and the column close. This means we need to select these two columns. 
+
+We
+will learn more systematically how to do this in R. For the moment we just show one
+way to achieve this for the particular example:
+
+```{r}
+date <- apple_stock$date
+price <- apple_stock$close
+```
+
+Now we load the library `ggplot2` and use the `qplot` function:
+
+```{r}
+library("ggplot2")
+
+qplot(date,price)
+```
+
+Now assume we are at the end of our price data series, at August 6th 2021. We want to
+think about the uncertain price tomorrow. This is our random exmeriment. What would
+be a suitable state space?
+
+What are the possible prices Apple can attain? The minimum price is zero. The maximum price can
+not be determined. In principle it could be infinite. The state space here would be an open
+interval of real numbers, ${\cal S} = [0, \infty)]$. Quite complicated.
+
+We could define the state space for the price change, in another way, by thinking about three
+events: Up, denoted by $u$ when the stock price increases, Even, denoted $e$ when the stock price
+does not move, and Down, denoted $d$ when the price decreases. From this perspective
+the state space would be ${\cal S} = \{u,e,d\}$. A bit simpler than before.
+
+There are more elegant and powerful ways to read and plot data in R. We used this particular
+example just to show you one particular way. More details and more general insights 
+how to do this we will develop as we go along.
 
 ### Tossing a coin twice
 
@@ -721,7 +795,8 @@ option pricing and we will encounter it later in detail.
 
 A family has four children. Which one of these children will turn out to be a boy or a girl is
 uncertain ex ante but once the baby is born we can see whether it is a boy or a girl. Conceptually
-we can thing of this as a random experiment. Can you figure out the sample space ? Can you figure out 
+we can thing of this as a random experiment. Can you figure out the sample space ? 
+Can you figure out 
 the event that the family will have two boys?
 
 ### Birthdays
@@ -737,11 +812,13 @@ space explicitly. It would just be a very long list of 25 dates long sequences o
 birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
 practical to know counting techniques to figure out the number of possible outcomes. The
 example we are considering here is a special case of a general counting problem often encountered
-in probability: The random placement of `r`` balls in `n` cells. The mathematical notation for such
+in probability: The random placement of `r` balls in `n` cells. The mathematical notation for such
 a counting problem is:
 $\binom{n}{r} = \frac{n!}{k!(n - r)!}$
-The left habd side of the equation means "the number of ways to choose $r$ things from among $n$ things.
-The right hand side shows a formular how this can be computed. R has a function to compute these things
+The left hand side of the equation means "the number of ways to 
+choose $r$ things from among $n$ things.
+The right hand side shows a formular how this can be computed. R has a 
+function to compute these things
 directly. It is called `choose()` and we apply it to the birthdays example
 
 ```{r}

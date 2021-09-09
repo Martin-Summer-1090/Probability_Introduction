@@ -22,16 +22,20 @@ as we proceed with the theory we will get a better ability to see how we can app
 
 When we talk of probabilities in this lecture we mostly consider probabilities with relation
 to a *discrete* sample space.  The simple sample spaces we considered in lecture 1 contain only a
-finite number of points. Such sample space belong to the discrete sample spaces. There are also more
+finite number of points. Such sample spaces belong to the discrete sample spaces. 
+
+There are also more
 complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as 
 necessary to see Heads for the first time. We can begin writing down the basic outcomes as:
 $E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...$. We may consider it possible that Head never appears. This
 event we should perhaps call $E_0$. In this case, when the basic events can be arranged into a simple sequence.
 A sample space is called *discrete* if it contains only finitely many points, or infinitely many
-points which can be arranged into a simple sequence. Not all sample spaces are discrete. 
+points which can be arranged into a simple sequence. 
+
+Not all sample spaces are discrete. 
 Except for the
 technical tools required there is no essential difference between the two cases. In our discussion
-of probability in this lecture we consider only discrete sample spaces.
+of probability in this lecture we consider mostly discrete sample spaces.
 
 Given a (discrete) sample space ${\cal S}$ the probabilities assigned to events in this sample
 space must always fulfill three rules:
@@ -100,18 +104,19 @@ knitr::include_graphics('figures/set_intersection.png')
 The intersection of $A$ and $B$, $A \cap B$ is the orange area containing the dice face with two
 points. Indeed two is both in $A$ and in $B$, which is exactly the meaning of set intersection.
 
-The R function for computing intersections is calles `intersect()`. We call this function for
+The R function for computing intersections is called `intersect()`. We call this function for
 our example
 ```{r}
 intersect(A,B)
 ```
 
 which gives us the result we have already derived graphically. 
+
 Complement
 : The **complement** of an event $A$ with respect to an event $B$ is the set 
 of all elements that are in $B$ but not in $A$. Set difference is written as $A \setminus B$.
 
-Lets say we want to get the complement, or the set difference of $A \cap B$ with respect to the
+Lets say we want to get the complement, or the set difference of $A \cup B$ with respect to the
 sample space ${\cal S}$. Let us show ${\cal S} \setminus (A \cup B)$.
 ```{r set-minus, out.width='80%', fig.align='center', fig.cap='The meaning of set intersection', echo = F}
 knitr::include_graphics('figures/set_minus.png')
@@ -147,7 +152,7 @@ we get the empty set, which is expressed by R by giving the data type, in this
 case numeric, because we are intersecting sets of numeric values, followed by (0). This means,
 there is no numeric value in the intersection of $B$ and $C$.
 
-Let us discuss probability rule 3 a bit further. Let us go to the picture we drew to 
+Let us discuss probability rule 3 a bit further: Go to the picture we drew to 
 illustrate the meaning of set union \@ref(fig:set-union). To compute the probability $P(A \cup B)$
 we have to add the probabilities of all sample points that are contained either in $A$ or in $B$
 but each point is to be counted only once. Therefore, probability rule 3, has a (weak) 
@@ -188,7 +193,7 @@ A competing interpretation of probability is called *subjective probability*. In
 interpretation probability is an opinion or a belief about how likely the occurence of
 a particular event is.
 
-## Examples
+## Revisiting our examples.
 
 
 

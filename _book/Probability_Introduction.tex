@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer and Branko Urosevic}
-\date{2021-09-06}
+\date{2021-09-09}
 
 \begin{document}
 \maketitle
@@ -931,9 +931,109 @@ couple of different cases how you can use the function in practice.
 \hypertarget{some-more-examples}{%
 \section{Some more examples}\label{some-more-examples}}
 
-To close this lecture let us come back to proabability and discuss some more examples of
+To close this lecture let us come back to probability and discuss some more examples of
 random experiments, sample spaces, basic outcomes and events. Let us try to leverage our
-R knowlegde to build the objects in the different examples ourselves.
+R knowledge to build the objects in the different examples ourselves.
+
+\hypertarget{the-stock-price-of-apple}{%
+\subsection{The stock price of Apple}\label{the-stock-price-of-apple}}
+
+Since the context of this course is Computational Finance, let us discuss an example from
+Finance first: The
+stock price of Apple is recorded daily. Let us use this example to make a first step in
+loading data into R. We have already learned how we could have a first quick glance at
+how they look like. We will discuss various ways to get financial data as we go along. For this
+initial example we have prepared a data file for the Apple stock price from January 2021 to
+the beginning of September 2021 and we have stored the data (in some format) locally. In
+practice we often will not have data ready fro retrieval but will have to retrieve them from the
+web, from a database or from other sources but let us not worry about these practical details
+for the moment. We have stored the data in an R internal format, called RDS and we have stored the
+file \texttt{apple\_stock\_prices.RDS} in a folder in our current working directory which we have
+called \texttt{data}. Under this assumption we read these data and assign them to an R object
+using the R function \texttt{readRDS}. Let us call
+this object \texttt{apple\_stock}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{apple\_stock }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"data/apple\_stock\_price.RDS"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+To have a first look at the data, we use the R-function \texttt{head()}. This is a very useful function
+to glance at the data because instead of shwoing us the entire, possibly very big, dataset it
+shows us just the first few lines. We can even specify how many by specifying a parameter
+for the number of lines we want to display, say 10:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(apple\_stock, }\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    symbol       date   open   high    low  close    volume adjusted
+## 1    AAPL 2021-01-04 133.52 133.61 126.76 129.41 143301900 128.8048
+## 2    AAPL 2021-01-05 128.89 131.74 128.43 131.01  97664900 130.3973
+## 3    AAPL 2021-01-06 127.72 131.05 126.38 126.60 155088000 126.0080
+## 4    AAPL 2021-01-07 128.36 131.63 127.86 130.92 109578200 130.3078
+## 5    AAPL 2021-01-08 132.43 132.63 130.23 132.05 105158200 131.4325
+## 6    AAPL 2021-01-11 129.19 130.17 128.50 128.98 100384500 128.3768
+## 7    AAPL 2021-01-12 128.50 129.69 126.86 128.80  91951100 128.1977
+## 8    AAPL 2021-01-13 128.76 131.45 128.49 130.89  88636800 130.2779
+## 9    AAPL 2021-01-14 130.80 131.00 128.76 128.91  90221800 128.3072
+## 10   AAPL 2021-01-15 128.78 130.22 127.00 127.14 111598500 126.5454
+\end{verbatim}
+
+Now we see what is contained in the data. They are organized in a table. Each column is a
+variable, starting with the stock symbol of Apple, then the date, the opening price, the
+highest, the lowest and the closing price, the volume and the adjusted volume. Every
+row is a record of the values of these variables for a particular trading day in
+the time period we consider.
+
+Now let us make a chart of the closing price at each day over the time period of our data using
+the plotting function \texttt{qplot()} we already used for visualizing the outcomes of
+repeated die rolls. In order to do so, we create two new R objects which contain the date
+and the column close. This means we need to select these two columns.
+
+We
+will learn more systematically how to do this in R. For the moment we just show one
+way to achieve this for the particular example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{date }\OtherTok{\textless{}{-}}\NormalTok{ apple\_stock}\SpecialCharTok{$}\NormalTok{date}
+\NormalTok{price }\OtherTok{\textless{}{-}}\NormalTok{ apple\_stock}\SpecialCharTok{$}\NormalTok{close}
+\end{Highlighting}
+\end{Shaded}
+
+Now we load the library \texttt{ggplot2} and use the \texttt{qplot} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+
+\FunctionTok{qplot}\NormalTok{(date,price)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+Now assume we are at the end of our price data series, at August 6th 2021. We want to
+think about the uncertain price tomorrow. This is our random exmeriment. What would
+be a suitable state space?
+
+What are the possible prices Apple can attain? The minimum price is zero. The maximum price can
+not be determined. In principle it could be infinite. The state space here would be an open
+interval of real numbers, \({\cal S} = [0, \infty)]\). Quite complicated.
+
+We could define the state space for the price change, in another way, by thinking about three
+events: Up, denoted by \(u\) when the stock price increases, Even, denoted \(e\) when the stock price
+does not move, and Down, denoted \(d\) when the price decreases. From this perspective
+the state space would be \({\cal S} = \{u,e,d\}\). A bit simpler than before.
+
+There are more elegant and powerful ways to read and plot data in R. We used this particular
+example just to show you one particular way. More details and more general insights
+how to do this we will develop as we go along.
 
 \hypertarget{tossing-a-coin-twice}{%
 \subsection{Tossing a coin twice}\label{tossing-a-coin-twice}}
@@ -1001,7 +1101,8 @@ option pricing and we will encounter it later in detail.
 
 A family has four children. Which one of these children will turn out to be a boy or a girl is
 uncertain ex ante but once the baby is born we can see whether it is a boy or a girl. Conceptually
-we can thing of this as a random experiment. Can you figure out the sample space ? Can you figure out
+we can thing of this as a random experiment. Can you figure out the sample space ?
+Can you figure out
 the event that the family will have two boys?
 
 \hypertarget{birthdays}{%
@@ -1018,7 +1119,14 @@ space explicitly. It would just be a very long list of 25 dates long sequences o
 birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
 practical to know counting techniques to figure out the number of possible outcomes. The
 example we are considering here is a special case of a general counting problem often encountered
-in probability: The random placement of \texttt{r\textasciigrave{}\textasciigrave{}\ balls\ in}n\texttt{cells.\ The\ mathematical\ notation\ for\ such\ a\ counting\ problem\ is:\ \$\textbackslash{}binom\{n\}\{r\}\ =\ \textbackslash{}frac\{n!\}\{k!(n\ -\ r)!\}\$\ The\ left\ habd\ side\ of\ the\ equation\ means\ "the\ number\ of\ ways\ to\ choose\ \$r\$\ things\ from\ among\ \$n\$\ things.\ The\ right\ hand\ side\ shows\ a\ formular\ how\ this\ can\ be\ computed.\ R\ has\ a\ function\ to\ compute\ these\ things\ directly.\ It\ is\ called}choose()` and we apply it to the birthdays example
+in probability: The random placement of \texttt{r} balls in \texttt{n} cells. The mathematical notation for such
+a counting problem is:
+\(\binom{n}{r} = \frac{n!}{k!(n - r)!}\)
+The left hand side of the equation means "the number of ways to
+choose \(r\) things from among \(n\) things.
+The right hand side shows a formular how this can be computed. R has a
+function to compute these things
+directly. It is called \texttt{choose()} and we apply it to the birthdays example
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1087,16 +1195,20 @@ as we proceed with the theory we will get a better ability to see how we can app
 
 When we talk of probabilities in this lecture we mostly consider probabilities with relation
 to a \emph{discrete} sample space. The simple sample spaces we considered in lecture 1 contain only a
-finite number of points. Such sample space belong to the discrete sample spaces. There are also more
+finite number of points. Such sample spaces belong to the discrete sample spaces.
+
+There are also more
 complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as
 necessary to see Heads for the first time. We can begin writing down the basic outcomes as:
 \(E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...\). We may consider it possible that Head never appears. This
 event we should perhaps call \(E_0\). In this case, when the basic events can be arranged into a simple sequence.
 A sample space is called \emph{discrete} if it contains only finitely many points, or infinitely many
-points which can be arranged into a simple sequence. Not all sample spaces are discrete.
+points which can be arranged into a simple sequence.
+
+Not all sample spaces are discrete.
 Except for the
 technical tools required there is no essential difference between the two cases. In our discussion
-of probability in this lecture we consider only discrete sample spaces.
+of probability in this lecture we consider mostly discrete sample spaces.
 
 Given a (discrete) sample space \({\cal S}\) the probabilities assigned to events in this sample
 space must always fulfill three rules:
@@ -1198,7 +1310,7 @@ We can again illustrate this concept graphically
 The intersection of \(A\) and \(B\), \(A \cap B\) is the orange area containing the dice face with two
 points. Indeed two is both in \(A\) and in \(B\), which is exactly the meaning of set intersection.
 
-The R function for computing intersections is calles \texttt{intersect()}. We call this function for
+The R function for computing intersections is called \texttt{intersect()}. We call this function for
 our example
 
 \begin{Shaded}
@@ -1212,11 +1324,15 @@ our example
 \end{verbatim}
 
 which gives us the result we have already derived graphically.
-Complement
-: The \textbf{complement} of an event \(A\) with respect to an event \(B\) is the set
-of all elements that are in \(B\) but not in \(A\). Set difference is written as \(A \setminus B\).
 
-Lets say we want to get the complement, or the set difference of \(A \cap B\) with respect to the
+\begin{description}
+\tightlist
+\item[Complement]
+The \textbf{complement} of an event \(A\) with respect to an event \(B\) is the set
+of all elements that are in \(B\) but not in \(A\). Set difference is written as \(A \setminus B\).
+\end{description}
+
+Lets say we want to get the complement, or the set difference of \(A \cup B\) with respect to the
 sample space \({\cal S}\). Let us show \({\cal S} \setminus (A \cup B)\).
 
 \begin{figure}
@@ -1276,7 +1392,7 @@ we get the empty set, which is expressed by R by giving the data type, in this
 case numeric, because we are intersecting sets of numeric values, followed by (0). This means,
 there is no numeric value in the intersection of \(B\) and \(C\).
 
-Let us discuss probability rule 3 a bit further. Let us go to the picture we drew to
+Let us discuss probability rule 3 a bit further: Go to the picture we drew to
 illustrate the meaning of set union \ref{fig:set-union}. To compute the probability \(P(A \cup B)\)
 we have to add the probabilities of all sample points that are contained either in \(A\) or in \(B\)
 but each point is to be counted only once. Therefore, probability rule 3, has a (weak)
@@ -1317,8 +1433,8 @@ A competing interpretation of probability is called \emph{subjective probability
 interpretation probability is an opinion or a belief about how likely the occurence of
 a particular event is.
 
-\hypertarget{examples}{%
-\section{Examples}\label{examples}}
+\hypertarget{revisiting-our-examples.}{%
+\section{Revisiting our examples.}\label{revisiting-our-examples.}}
 
 \hypertarget{methods}{%
 \chapter{Methods}\label{methods}}
