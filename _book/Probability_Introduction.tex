@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer and Branko Urosevic}
-\date{2021-09-09}
+\date{2021-09-10}
 
 \begin{document}
 \maketitle
@@ -1006,13 +1006,16 @@ way to achieve this for the particular example:
 \end{Highlighting}
 \end{Shaded}
 
-Now we load the library \texttt{ggplot2} and use the \texttt{qplot} function:
+Now we load the library \texttt{ggplot2} and use the \texttt{qplot} function. As arguments we give the
+qplot function the series of dates and the series of closing prices and set a display
+option, called \texttt{geom} to ``line'' to get a line graph (instead of the qplot default of a point
+graph)
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
 
-\FunctionTok{qplot}\NormalTok{(date,price)}
+\FunctionTok{qplot}\NormalTok{(date,price, }\AttributeTok{geom =} \StringTok{"line"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1433,8 +1436,180 @@ A competing interpretation of probability is called \emph{subjective probability
 interpretation probability is an opinion or a belief about how likely the occurence of
 a particular event is.
 
-\hypertarget{revisiting-our-examples.}{%
-\section{Revisiting our examples.}\label{revisiting-our-examples.}}
+\hypertarget{example-continued}{%
+\section{Example continued}\label{example-continued}}
+
+\hypertarget{the-stock-price-of-apple-1}{%
+\subsection{The stock price of Apple}\label{the-stock-price-of-apple-1}}
+
+Let us go back to our example with the stock price of Apple. In this example we had expressed
+the state space as \({\cal S}=\{u,m,d\}\). It is however impossible to determine the probability
+for each of these three elements. It is also not possible to determine the probability
+for each price which is theoretically possible.
+
+\hypertarget{tossing-a-fair-coin-twice}{%
+\subsection{Tossing a fair coin twice}\label{tossing-a-fair-coin-twice}}
+
+In the example of tossing a fair coin twice we found that the state space is
+\({\cal S} = \{HH, HT, TH, TT\}\). We can now ask: What is the probability of getting H
+after the first toss? Since the coin is assumed to be a fair coin each outcome of
+the toss is equally likely. The probability of getting H after the first toss, must
+therefore be \(1/2\). Now we could ask: What is the probability that we get H after the second
+toss as well? If you think about the situation, you will see that the probability of
+getting H in the second toss is completely unaffected by what happened after the first toss.
+This probability is independent of the outcome of the first toss and since the coin is
+a fair coin it is also equally likely to get H as it is to get T. The probability of getting
+H after the first toss is therefore again \(1/2\).
+
+Here we derived the equal probability postulate by an assumption, interpreting
+the probability as a classical probability. We could also give this postulate a frequency
+interpretation using our knowledge of R.
+
+We proceed by analogy to our approach of rolling a die. This time, however the
+outcome is a character not a number. R understands characters. A character vector in R
+stores small pieces of text. You can create a character vector in R by surrounding the string
+of characters by a quote, either as " " or as ' '. Both notations are valid. Let us
+therefore create a virtual coin first.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{coin }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{, }\StringTok{"T"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+As in the case of the die we next write a function, so we can virtually toss the coin
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{toss\_coin }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{()\{coin }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{, }\StringTok{"T"}\NormalTok{)}
+                        \FunctionTok{sample}\NormalTok{(coin, }\AttributeTok{size =} \DecValTok{1}\NormalTok{) \}}
+\end{Highlighting}
+\end{Shaded}
+
+Now lets toss this coin 100 times by using the \texttt{replicate} function and
+save the result in an object called
+tosses\_100:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tosses\_100 }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(}\DecValTok{100}\NormalTok{, }\FunctionTok{toss\_coin}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+Lets look at the outcome of the 100 tosses graphically
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qplot}\NormalTok{(tosses\_100)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-21-1.pdf}
+The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not
+exactly. Lets toss 1000 times and then look again.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tosses\_1000 }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\FunctionTok{toss\_coin}\NormalTok{())}
+\FunctionTok{qplot}\NormalTok{(tosses\_1000)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-22-1.pdf}
+This looks already pretty good. Lets toss even more. Why not a million of times?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tosses\_m }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{6}\NormalTok{, }\FunctionTok{toss\_coin}\NormalTok{())}
+\FunctionTok{qplot}\NormalTok{(tosses\_m)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-23-1.pdf}
+Now you see the idea of the frequency interpretation. The number of occurrences of H divided
+by the total number of tosses comes closer to the \(1/2\) probability as we toss many
+times. We will come back to this idea again a bit later.
+
+\hypertarget{boys-and-girls-1}{%
+\subsection{Boys and Girls}\label{boys-and-girls-1}}
+
+We have introduced the four child family before in lecture 1 and asked you to figure out the
+state space of the random experiment how the sequences of boys and girls might result in this
+four children outcome.
+
+If you have correctly figured out the state space, you will surely be able to which of the
+following sequences is more likely i.e.~has the highes probability: \texttt{bbbb}, \texttt{bgbg} or
+\texttt{gggg}?
+
+Let's use the idea we considered first in coin tossing, and use the \texttt{expand.grid()} function
+to figure out all combinations of boys and girls in a family of four kids. The outcome
+of the sex of a baby at any of the four births is abstractly the same as a coin toss with
+the possible outcomes: \texttt{b} or \texttt{g}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{birth\_1 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"b"}\NormalTok{, }\StringTok{"g"}\NormalTok{)}
+\NormalTok{birth\_2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"b"}\NormalTok{, }\StringTok{"g"}\NormalTok{)}
+\NormalTok{birth\_3 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"b"}\NormalTok{, }\StringTok{"g"}\NormalTok{)}
+\NormalTok{birth\_4 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"b"}\NormalTok{, }\StringTok{"g"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Now we can let R figure out all possible sequences of outcomes. We store the outcome in an
+object called n and count the combinations using the R function \texttt{nrow()} which counts the
+number of rows of a so called dataframe, a structure we discuss in detail in a minute.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{expand.grid}\NormalTok{(birth\_1, birth\_2, birth\_3, birth\_4)}
+\FunctionTok{nrow}\NormalTok{(n)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 16
+\end{verbatim}
+
+There are 16 combinations in total. Applying the same reasoning as with the coin tossing
+example, we see that the probability of each sequence should be equal to \(1/16\). In reality
+by the way births are slightly more likely for boys than girls. Gelman and Nolan report for
+example the US numbers for the year 1981, where 1 769 000 girls were born, while there
+were 1 860 000 boys: \(48.7 \%\) of births were thus girls.
+
+Let us come to our last example, the birthday problem, after we have introduced a last
+new probability concept in this lecture. But before we do that let us introduce two
+more examples illustrating the interpretation of subjective probability.
+
+\hypertarget{example-fintech-start-up}{%
+\subsection{Example: FinTech Start Up}\label{example-fintech-start-up}}
+
+Suppose you had a great idea for a path breaking FinTech innovation, which will disrupt
+the banking landscape. To predict the success of this innovation in probabilistic terms
+you could only use a subjective probability. There are no data you can rely on, since this
+idea had not existed before. You can only rely on your experience and your belief in
+your idea. There is no way you could use classical or relative frequency probability.
+
+\hypertarget{independence}{%
+\section{Independence}\label{independence}}
+
+Let us go back to our fair die and ask another probability question about the
+potential outcomes of rolling the die: What is the probability that a fair six sided die
+will roll a 5 and then a 6? Note that this is a question, slightly different from what
+we have asked before. What we need to calculate is actually the probability of
+the event that the dice shows first 5 and then 6, i.e.~we need to compute
+\(P(5 \cap 6)\). We can multiply the individual probabilities because the subsequent rolls of
+the die are independent:
+\(P(5 \cap 6) = P(5) \cdot P(6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}\).
+
+Indeed we have the following definition:
+
+\begin{description}
+\tightlist
+\item[Independence]
+Two events \(A\) and \(B\) are \textbf{independent} if an only if the probability of
+both \(A\) and \(B\) occurring is the product of the probability of the two events
+\(P(A \cap B) = P(A) \cdot P(B)\).
+\end{description}
 
 \hypertarget{methods}{%
 \chapter{Methods}\label{methods}}

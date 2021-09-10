@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer and Branko Urosevic" />
 
 
-<meta name="date" content="2021-09-09" />
+<meta name="date" content="2021-09-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,7 +174,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#probability-in-theory-and-applications-of-probability"><i class="fa fa-check"></i><b>3.1</b> Probability in theory and applications of probability</a></li>
 <li class="chapter" data-level="3.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>3.2</b> Basic rules of probability</a></li>
 <li class="chapter" data-level="3.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#interpretations-of-probability"><i class="fa fa-check"></i><b>3.3</b> Interpretations of Probability</a></li>
-<li class="chapter" data-level="3.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#revisiting-our-examples."><i class="fa fa-check"></i><b>3.4</b> Revisiting our examples.</a></li>
+<li class="chapter" data-level="3.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-continued"><i class="fa fa-check"></i><b>3.4</b> Example continued</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#the-stock-price-of-apple-1"><i class="fa fa-check"></i><b>3.4.1</b> The stock price of Apple</a></li>
+<li class="chapter" data-level="3.4.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#tossing-a-fair-coin-twice"><i class="fa fa-check"></i><b>3.4.2</b> Tossing a fair coin twice</a></li>
+<li class="chapter" data-level="3.4.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#boys-and-girls-1"><i class="fa fa-check"></i><b>3.4.3</b> Boys and Girls</a></li>
+<li class="chapter" data-level="3.4.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-fintech-start-up"><i class="fa fa-check"></i><b>3.4.4</b> Example: FinTech Start Up</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#independence"><i class="fa fa-check"></i><b>3.5</b> Independence</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
@@ -387,8 +394,117 @@ random experiment.</p>
 interpretation probability is an opinion or a belief about how likely the occurence of
 a particular event is.</p>
 </div>
-<div id="revisiting-our-examples." class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Revisiting our examples.</h2>
+<div id="example-continued" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Example continued</h2>
+<div id="the-stock-price-of-apple-1" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> The stock price of Apple</h3>
+<p>Let us go back to our example with the stock price of Apple. In this example we had expressed
+the state space as <span class="math inline">\({\cal S}=\{u,m,d\}\)</span>. It is however impossible to determine the probability
+for each of these three elements. It is also not possible to determine the probability
+for each price which is theoretically possible.</p>
+</div>
+<div id="tossing-a-fair-coin-twice" class="section level3" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Tossing a fair coin twice</h3>
+<p>In the example of tossing a fair coin twice we found that the state space is
+<span class="math inline">\({\cal S} = \{HH, HT, TH, TT\}\)</span>. We can now ask: What is the probability of getting H
+after the first toss? Since the coin is assumed to be a fair coin each outcome of
+the toss is equally likely. The probability of getting H after the first toss, must
+therefore be <span class="math inline">\(1/2\)</span>. Now we could ask: What is the probability that we get H after the second
+toss as well? If you think about the situation, you will see that the probability of
+getting H in the second toss is completely unaffected by what happened after the first toss.
+This probability is independent of the outcome of the first toss and since the coin is
+a fair coin it is also equally likely to get H as it is to get T. The probability of getting
+H after the first toss is therefore again <span class="math inline">\(1/2\)</span>.</p>
+<p>Here we derived the equal probability postulate by an assumption, interpreting
+the probability as a classical probability. We could also give this postulate a frequency
+interpretation using our knowledge of R.</p>
+<p>We proceed by analogy to our approach of rolling a die. This time, however the
+outcome is a character not a number. R understands characters. A character vector in R
+stores small pieces of text. You can create a character vector in R by surrounding the string
+of characters by a quote, either as " " or as ’ ’. Both notations are valid. Let us
+therefore create a virtual coin first.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="probability-basic-definitions-and-rules.html#cb60-1" aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span></code></pre></div>
+<p>As in the case of the die we next write a function, so we can virtually toss the coin</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="probability-basic-definitions-and-rules.html#cb61-1" aria-hidden="true" tabindex="-1"></a>toss_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
+<span id="cb61-2"><a href="probability-basic-definitions-and-rules.html#cb61-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>) }</span></code></pre></div>
+<p>Now lets toss this coin 100 times by using the <code>replicate</code> function and
+save the result in an object called
+tosses_100:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="probability-basic-definitions-and-rules.html#cb62-1" aria-hidden="true" tabindex="-1"></a>tosses_100 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">toss_coin</span>())</span></code></pre></div>
+<p>Lets look at the outcome of the 100 tosses graphically</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="probability-basic-definitions-and-rules.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(tosses_100)</span></code></pre></div>
+<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not
+exactly. Lets toss 1000 times and then look again.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="probability-basic-definitions-and-rules.html#cb64-1" aria-hidden="true" tabindex="-1"></a>tosses_1000 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">toss_coin</span>())</span>
+<span id="cb64-2"><a href="probability-basic-definitions-and-rules.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(tosses_1000)</span></code></pre></div>
+<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+This looks already pretty good. Lets toss even more. Why not a million of times?</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="probability-basic-definitions-and-rules.html#cb65-1" aria-hidden="true" tabindex="-1"></a>tosses_m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fu">toss_coin</span>())</span>
+<span id="cb65-2"><a href="probability-basic-definitions-and-rules.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(tosses_m)</span></code></pre></div>
+<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+Now you see the idea of the frequency interpretation. The number of occurrences of H divided
+by the total number of tosses comes closer to the <span class="math inline">\(1/2\)</span> probability as we toss many
+times. We will come back to this idea again a bit later.</p>
+</div>
+<div id="boys-and-girls-1" class="section level3" number="3.4.3">
+<h3><span class="header-section-number">3.4.3</span> Boys and Girls</h3>
+<p>We have introduced the four child family before in lecture 1 and asked you to figure out the
+state space of the random experiment how the sequences of boys and girls might result in this
+four children outcome.</p>
+<p>If you have correctly figured out the state space, you will surely be able to which of the
+following sequences is more likely i.e. has the highes probability: <code>bbbb</code>, <code>bgbg</code> or
+<code>gggg</code>?</p>
+<p>Let’s use the idea we considered first in coin tossing, and use the <code>expand.grid()</code> function
+to figure out all combinations of boys and girls in a family of four kids. The outcome
+of the sex of a baby at any of the four births is abstractly the same as a coin toss with
+the possible outcomes: <code>b</code> or <code>g</code>.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="probability-basic-definitions-and-rules.html#cb66-1" aria-hidden="true" tabindex="-1"></a>birth_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>)</span>
+<span id="cb66-2"><a href="probability-basic-definitions-and-rules.html#cb66-2" aria-hidden="true" tabindex="-1"></a>birth_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>)</span>
+<span id="cb66-3"><a href="probability-basic-definitions-and-rules.html#cb66-3" aria-hidden="true" tabindex="-1"></a>birth_3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>)</span>
+<span id="cb66-4"><a href="probability-basic-definitions-and-rules.html#cb66-4" aria-hidden="true" tabindex="-1"></a>birth_4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>)</span></code></pre></div>
+<p>Now we can let R figure out all possible sequences of outcomes. We store the outcome in an
+object called n and count the combinations using the R function <code>nrow()</code> which counts the
+number of rows of a so called dataframe, a structure we discuss in detail in a minute.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="probability-basic-definitions-and-rules.html#cb67-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(birth_1, birth_2, birth_3, birth_4)</span>
+<span id="cb67-2"><a href="probability-basic-definitions-and-rules.html#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(n)</span></code></pre></div>
+<pre><code>## [1] 16</code></pre>
+<p>There are 16 combinations in total. Applying the same reasoning as with the coin tossing
+example, we see that the probability of each sequence should be equal to <span class="math inline">\(1/16\)</span>. In reality
+by the way births are slightly more likely for boys than girls. Gelman and Nolan report for
+example the US numbers for the year 1981, where 1 769 000 girls were born, while there
+were 1 860 000 boys: <span class="math inline">\(48.7 \%\)</span> of births were thus girls.</p>
+<p>Let us come to our last example, the birthday problem, after we have introduced a last
+new probability concept in this lecture. But before we do that let us introduce two
+more examples illustrating the interpretation of subjective probability.</p>
+</div>
+<div id="example-fintech-start-up" class="section level3" number="3.4.4">
+<h3><span class="header-section-number">3.4.4</span> Example: FinTech Start Up</h3>
+<p>Suppose you had a great idea for a path breaking FinTech innovation, which will disrupt
+the banking landscape. To predict the success of this innovation in probabilistic terms
+you could only use a subjective probability. There are no data you can rely on, since this
+idea had not existed before. You can only rely on your experience and your belief in
+your idea. There is no way you could use classical or relative frequency probability.</p>
+</div>
+</div>
+<div id="independence" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Independence</h2>
+<p>Let us go back to our fair die and ask another probability question about the
+potential outcomes of rolling the die: What is the probability that a fair six sided die
+will roll a 5 and then a 6? Note that this is a question, slightly different from what
+we have asked before. What we need to calculate is actually the probability of
+the event that the dice shows first 5 and then 6, i.e. we need to compute
+<span class="math inline">\(P(5 \cap 6)\)</span>. We can multiply the individual probabilities because the subsequent rolls of
+the die are independent:
+<span class="math inline">\(P(5 \cap 6) = P(5) \cdot P(6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}\)</span>.</p>
+<p>Indeed we have the following definition:</p>
+<dl>
+<dt>Independence</dt>
+<dd>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>independent</strong> if an only if the probability of
+both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> occurring is the product of the probability of the two events
+<span class="math inline">\(P(A \cap B) = P(A) \cdot P(B)\)</span>.
+</dd>
+</dl>
 
 </div>
 </div>

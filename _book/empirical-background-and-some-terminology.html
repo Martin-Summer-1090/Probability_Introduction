@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer and Branko Urosevic" />
 
 
-<meta name="date" content="2021-09-09" />
+<meta name="date" content="2021-09-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,7 +174,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#probability-in-theory-and-applications-of-probability"><i class="fa fa-check"></i><b>3.1</b> Probability in theory and applications of probability</a></li>
 <li class="chapter" data-level="3.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>3.2</b> Basic rules of probability</a></li>
 <li class="chapter" data-level="3.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#interpretations-of-probability"><i class="fa fa-check"></i><b>3.3</b> Interpretations of Probability</a></li>
-<li class="chapter" data-level="3.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#revisiting-our-examples."><i class="fa fa-check"></i><b>3.4</b> Revisiting our examples.</a></li>
+<li class="chapter" data-level="3.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-continued"><i class="fa fa-check"></i><b>3.4</b> Example continued</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#the-stock-price-of-apple-1"><i class="fa fa-check"></i><b>3.4.1</b> The stock price of Apple</a></li>
+<li class="chapter" data-level="3.4.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#tossing-a-fair-coin-twice"><i class="fa fa-check"></i><b>3.4.2</b> Tossing a fair coin twice</a></li>
+<li class="chapter" data-level="3.4.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#boys-and-girls-1"><i class="fa fa-check"></i><b>3.4.3</b> Boys and Girls</a></li>
+<li class="chapter" data-level="3.4.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-fintech-start-up"><i class="fa fa-check"></i><b>3.4.4</b> Example: FinTech Start Up</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#independence"><i class="fa fa-check"></i><b>3.5</b> Independence</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
 <li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
@@ -788,10 +795,13 @@ will learn more systematically how to do this in R. For the moment we just show 
 way to achieve this for the particular example:</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="empirical-background-and-some-terminology.html#cb44-1" aria-hidden="true" tabindex="-1"></a>date <span class="ot">&lt;-</span> apple_stock<span class="sc">$</span>date</span>
 <span id="cb44-2"><a href="empirical-background-and-some-terminology.html#cb44-2" aria-hidden="true" tabindex="-1"></a>price <span class="ot">&lt;-</span> apple_stock<span class="sc">$</span>close</span></code></pre></div>
-<p>Now we load the library <code>ggplot2</code> and use the <code>qplot</code> function:</p>
+<p>Now we load the library <code>ggplot2</code> and use the <code>qplot</code> function. As arguments we give the
+qplot function the series of dates and the series of closing prices and set a display
+option, called <code>geom</code> to “line” to get a line graph (instead of the qplot default of a point
+graph)</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="empirical-background-and-some-terminology.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
 <span id="cb45-2"><a href="empirical-background-and-some-terminology.html#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="empirical-background-and-some-terminology.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(date,price)</span></code></pre></div>
+<span id="cb45-3"><a href="empirical-background-and-some-terminology.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(date,price, <span class="at">geom =</span> <span class="st">&quot;line&quot;</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Now assume we are at the end of our price data series, at August 6th 2021. We want to
 think about the uncertain price tomorrow. This is our random exmeriment. What would

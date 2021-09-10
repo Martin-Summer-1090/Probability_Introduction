@@ -719,12 +719,15 @@ date <- apple_stock$date
 price <- apple_stock$close
 ```
 
-Now we load the library `ggplot2` and use the `qplot` function:
+Now we load the library `ggplot2` and use the `qplot` function. As arguments we give the
+qplot function the series of dates and the series of closing prices and set a display
+option, called `geom` to "line" to get a line graph (instead of the qplot default of a point
+graph)
 
 ```{r}
 library("ggplot2")
 
-qplot(date,price)
+qplot(date,price, geom = "line")
 ```
 
 Now assume we are at the end of our price data series, at August 6th 2021. We want to

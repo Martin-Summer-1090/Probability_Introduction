@@ -188,12 +188,146 @@ In this interpretation the probability of an event $A$ is interpreted as the num
 the event $A$ occurs in repeated trials divided by the total number of trials in a 
 random experiment.
 
-
 A competing interpretation of probability is called *subjective probability*. In this
 interpretation probability is an opinion or a belief about how likely the occurence of
 a particular event is.
 
-## Revisiting our examples.
+## Example continued
 
+### The stock price of Apple
 
+Let us go back to our example with the stock price of Apple. In this example we had expressed
+the state space as ${\cal S}=\{u,m,d\}$. It is however impossible to determine the probability
+for each of these three elements. It is also not possible to determine the probability
+for each price which is theoretically possible.
 
+### Tossing a fair coin twice
+
+In the example of tossing a fair coin twice we found that the state space is
+${\cal S} = \{HH, HT, TH, TT\}$. We can now ask: What is the probability of getting H 
+after the first toss? Since the coin is assumed to be a fair coin each outcome of
+the toss is equally likely. The probability of getting H after the first toss, must
+therefore be $1/2$. Now we could ask: What is the probability that we get H after the second
+toss as well? If you think about the situation, you will see that the probability of
+getting H in the second toss is completely unaffected by what happened after the first toss. 
+This probability is independent of the outcome of the first toss and since the coin is 
+a fair coin it is also equally likely to get H as it is to get T. The probability of getting
+H after the first toss is therefore again $1/2$.
+
+Here we derived the equal probability postulate by an assumption, interpreting
+the probability as a classical probability. We could also give this postulate a frequency
+interpretation using our knowledge of R.
+
+We proceed by analogy to our approach of rolling a die. This time, however the
+outcome is a character not a number. R understands characters. A character vector in R
+stores small pieces of text. You can create a character vector in R by surrounding the string
+of characters by a quote, either as " " or as ' '. Both notations are valid. Let us
+therefore create a virtual coin first.
+
+```{r}
+coin <- c("H", "T")
+```
+
+As in the case of the die we next write a function, so we can virtually toss the coin
+
+```{r}
+toss_coin <- function(){coin <- c("H", "T")
+                        sample(coin, size = 1) }
+```
+
+Now lets toss this coin 100 times by using the `replicate` function and 
+save the result in an object called 
+tosses_100:
+
+```{r}
+tosses_100 <- replicate(100, toss_coin())
+```
+
+Lets look at the outcome of the 100 tosses graphically
+
+```{r}
+qplot(tosses_100)
+```
+The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not 
+exactly. Lets toss 1000 times and then look again.
+
+```{r}
+tosses_1000 <- replicate(1000, toss_coin())
+qplot(tosses_1000)
+```
+This looks already pretty good. Lets toss even more. Why not a million of times?
+
+```{r}
+tosses_m <- replicate(10^6, toss_coin())
+qplot(tosses_m)
+```
+Now you see the idea of the frequency interpretation. The number of occurrences of H divided
+by the total number of tosses comes closer to the $1/2$ probability as we toss many
+times. We will come back to this idea again a bit later.
+
+### Boys and Girls
+
+We have introduced the four child family before in lecture 1 and asked you to figure out the
+state space of the random experiment how the sequences of boys and girls might result in this
+four children outcome.
+
+If you have correctly figured out the state space, you will surely be able to which of the 
+following sequences is more likely i.e. has the highes probability: `bbbb`, `bgbg` or
+`gggg`?
+
+Let's use the idea we considered first in coin tossing, and use the `expand.grid()` function
+to figure out all combinations of boys and girls in a family of four kids. The outcome
+of the sex of a baby at any of the four births is abstractly the same as a coin toss with
+the possible outcomes: `b` or `g`.
+
+```{r}
+birth_1 <- c("b", "g")
+birth_2 <- c("b", "g")
+birth_3 <- c("b", "g")
+birth_4 <- c("b", "g")
+```
+
+Now we can let R figure out all possible sequences of outcomes. We store the outcome in an
+object called n and count the combinations using the R function `nrow()` which counts the
+number of rows of a so called dataframe, a structure we discuss in detail in a minute.
+
+```{r}
+n <- expand.grid(birth_1, birth_2, birth_3, birth_4)
+nrow(n)
+```
+
+There are 16 combinations in total. Applying the same reasoning as with the coin tossing
+example, we see that the probability of each sequence should be equal to $1/16$. In reality
+by the way births are slightly more likely for boys than girls. Gelman and Nolan report for
+example the US numbers for the year 1981, where 1 769 000 girls were born, while there
+were 1 860 000 boys: $48.7 \%$ of births were thus girls.
+
+Let us come to our last example, the birthday problem, after we have introduced a last
+new probability concept in this lecture. But before we do that let us introduce two 
+more examples illustrating the interpretation of subjective probability.
+
+### Example: FinTech Start Up
+
+Suppose you had a great idea for a path breaking FinTech innovation, which will disrupt
+the banking landscape. To predict the success of this innovation in probabilistic terms
+you could only use a subjective probability. There are no data you can rely on, since this
+idea had not existed before. You can only rely on your experience and your belief in
+your idea. There is no way you could use classical or relative frequency probability.
+
+## Independence
+
+Let us go back to our fair die and ask another probability question about the
+potential outcomes of rolling the die: What is the probability that a fair six sided die
+will roll a 5 and then a 6? Note that this is a question, slightly different from what
+we have asked before. What we need to calculate is actually the probability of
+the event that the dice shows first 5 and then 6, i.e. we need to compute
+$P(5 \cap 6)$. We can multiply the individual probabilities because the subsequent rolls of 
+the die are independent: 
+$P(5 \cap 6) = P(5) \cdot P(6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}$.
+
+Indeed we have the following definition:
+
+Independence
+: Two events $A$ and $B$ are **independent** if an only if the probability of
+both $A$ and $B$ occurring is the product of the probability of the two events
+$P(A \cap B) = P(A) \cdot P(B)$.
