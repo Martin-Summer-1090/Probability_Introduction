@@ -21,10 +21,10 @@
   <meta name="twitter:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   
 
-<meta name="author" content="Martin Summer and Branko Urosevic" />
+<meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-09-10" />
+<meta name="date" content="2021-09-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -162,7 +162,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.9" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#some-more-examples"><i class="fa fa-check"></i><b>2.9</b> Some more examples</a>
 <ul>
 <li class="chapter" data-level="2.9.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-stock-price-of-apple"><i class="fa fa-check"></i><b>2.9.1</b> The stock price of Apple</a></li>
-<li class="chapter" data-level="2.9.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#tossing-a-coin-twice"><i class="fa fa-check"></i><b>2.9.2</b> Tossing a coin twice</a></li>
+<li class="chapter" data-level="2.9.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-change-of-a-stock-price-two-days-from-now"><i class="fa fa-check"></i><b>2.9.2</b> The change of a stock price two days from now</a></li>
 <li class="chapter" data-level="2.9.3" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#boys-and-girls"><i class="fa fa-check"></i><b>2.9.3</b> Boys and Girls</a></li>
 <li class="chapter" data-level="2.9.4" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#birthdays"><i class="fa fa-check"></i><b>2.9.4</b> Birthdays</a></li>
 </ul></li>
@@ -183,18 +183,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#independence"><i class="fa fa-check"></i><b>3.5</b> Independence</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
-<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
-<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<li class="chapter" data-level="4" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>4</b> Appendix</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#installing-r"><i class="fa fa-check"></i><b>7.1</b> Installing R</a></li>
-<li class="chapter" data-level="7.2" data-path="appendix.html"><a href="appendix.html#installing-rstudio"><i class="fa fa-check"></i><b>7.2</b> Installing RStudio</a></li>
+<li class="chapter" data-level="4.1" data-path="appendix.html"><a href="appendix.html#installing-r"><i class="fa fa-check"></i><b>4.1</b> Installing R</a></li>
+<li class="chapter" data-level="4.2" data-path="appendix.html"><a href="appendix.html#installing-rstudio"><i class="fa fa-check"></i><b>4.2</b> Installing RStudio</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -218,8 +211,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">Probability, R and Computational Finance</h1>
-<p class="author"><em>Martin Summer and Branko Urosevic</em></p>
-<p class="date" style="margin-top: 1.5em;"><em>2021-09-10</em></p>
+<p class="author"><em>Martin Summer</em></p>
+<p class="date" style="margin-top: 1.5em;"><em>2021-09-27</em></p>
 </div>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
@@ -229,20 +222,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 — Confucius, 551-479 BC
 </footer>
 </blockquote>
-<p>Our lectures are going to teach you basic concepts of probability and
-their applications in computational finance. Our approach is based on
-intuition and on understanding concepts by building them with your own hands.</p>
+<p>Our lectures are going to teach you basic concepts of probability every finance
+practitioner needs to know and be familiar with. Because you will need
+probability as a tool for thinking about and solving finance problems with
+computational methods, we will use computational finance as the context within
+which we develop the concepts and ideas of probability. But we will also
+make much use of the computer in this course: Our approach to teaching you
+basic concepts of probability is based on understanding concepts by building
+them with your own hands.</p>
 <p>But how can we build abstract concepts such as probability, random phenomena and chance by
 our own hands? How can we “touch” such things like an idea?
 While probability is a mathematical theory, it gains practical value and an intuitive meaning in
-connection with real or conceptual experiments such as, tossing a coin, rolling two dice, playing
-roulette, observing the change in the index value of stocks, bonds or in exchange rates, selecting
-a random sample of financial transactions in a payment system and observing
-the number of transactions with a value below a certain amount.</p>
-<p>Many of these experiments we can nowadays do not only physically – by actually
-rolling a pair of dice, for example – but we can use the computer to build a
-virtual dice and roll it on the computer. We
-can build and simulate a huge variety of random phenomena. We can - for instance -
+connection with real or conceptual experiments such as, the future change in a stock price
+index, the future value of a portfolio of securities, the chance that a creditor is not going
+to be able to pay back your loan.</p>
+<p>Many of these experiments we can nowadays simulate on the computer. We
+can can construct, build and simulate a huge variety of random phenomena. We can - for instance -
 implement models of random fluctuations of asset prices. We can model financial risks
 and contemplate possible future scenarios through simulation.</p>
 <p>We can approach our understanding of abstract concepts
@@ -264,8 +259,8 @@ Linux. These links will lead you to the necessary information you need to instal
 version of R. The easiest install option is to install R from precompiled binaries. There is also
 the option to built R from source on all operationg systems if you have the tools and the
 expertise to do so. R also comes both in a 32-bit and a 64-bit version. It does not make
-a substantial differecne which version you use. 64-bit versions
-can handle larger files and datasets with fewer memory management problems.</p>
+a substantial difference which version you use. 64-bit versions
+can handle larger files and data sets with fewer memory management problems.</p>
 </div>
 <div id="downloading-and-installing-rstudio" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Downloading and installing RStudio</h2>

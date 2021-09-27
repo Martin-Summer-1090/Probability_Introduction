@@ -37,7 +37,7 @@
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
   pdftitle={Probability, R and Computational Finance},
-  pdfauthor={Martin Summer and Branko Urosevic},
+  pdfauthor={Martin Summer},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
@@ -116,8 +116,8 @@
 \bibliographystyle{apalike}
 
 \title{Probability, R and Computational Finance}
-\author{Martin Summer and Branko Urosevic}
-\date{2021-09-10}
+\author{Martin Summer}
+\date{2021-09-27}
 
 \begin{document}
 \maketitle
@@ -135,22 +135,24 @@
 \hfill --- Confucius, 551-479 BC
 \end{quote}
 
-Our lectures are going to teach you basic concepts of probability and
-their applications in computational finance. Our approach is based on
-intuition and on understanding concepts by building them with your own hands.
+Our lectures are going to teach you basic concepts of probability every finance
+practitioner needs to know and be familiar with. Because you will need
+probability as a tool for thinking about and solving finance problems with
+computational methods, we will use computational finance as the context within
+which we develop the concepts and ideas of probability. But we will also
+make much use of the computer in this course: Our approach to teaching you
+basic concepts of probability is based on understanding concepts by building
+them with your own hands.
 
 But how can we build abstract concepts such as probability, random phenomena and chance by
 our own hands? How can we ``touch'' such things like an idea?
 While probability is a mathematical theory, it gains practical value and an intuitive meaning in
-connection with real or conceptual experiments such as, tossing a coin, rolling two dice, playing
-roulette, observing the change in the index value of stocks, bonds or in exchange rates, selecting
-a random sample of financial transactions in a payment system and observing
-the number of transactions with a value below a certain amount.
+connection with real or conceptual experiments such as, the future change in a stock price
+index, the future value of a portfolio of securities, the chance that a creditor is not going
+to be able to pay back your loan.
 
-Many of these experiments we can nowadays do not only physically -- by actually
-rolling a pair of dice, for example -- but we can use the computer to build a
-virtual dice and roll it on the computer. We
-can build and simulate a huge variety of random phenomena. We can - for instance -
+Many of these experiments we can nowadays simulate on the computer. We
+can can construct, build and simulate a huge variety of random phenomena. We can - for instance -
 implement models of random fluctuations of asset prices. We can model financial risks
 and contemplate possible future scenarios through simulation.
 
@@ -177,8 +179,8 @@ Linux. These links will lead you to the necessary information you need to instal
 version of R. The easiest install option is to install R from precompiled binaries. There is also
 the option to built R from source on all operationg systems if you have the tools and the
 expertise to do so. R also comes both in a 32-bit and a 64-bit version. It does not make
-a substantial differecne which version you use. 64-bit versions
-can handle larger files and datasets with fewer memory management problems.
+a substantial difference which version you use. 64-bit versions
+can handle larger files and data sets with fewer memory management problems.
 
 \hypertarget{downloading-and-installing-rstudio}{%
 \section{Downloading and installing RStudio}\label{downloading-and-installing-rstudio}}
@@ -209,28 +211,41 @@ every serious student of Finance has to study probability early on.
 \section{Terminology}\label{terminology}}
 
 Probability is a mathematical theory. This theory gets practical value and intuitive meaning
-in connection with real or conceptual experiments such as rolling a dice, tossing a coin or
+in connection with real or conceptual experiments such as
 selecting a random sample of stocks and observing their most extreme price drop over a
-given period of time or observing the frequency of car accidents etc. All of these
-descriptions are, however, rather vague. We have to be more precise what we mean by an
+given period of time or observing the frequency of loan defaults. In the early days of
+probability when some conceptual ideas about which we are going to learn in this course
+were first developed the conceptual experiments considered by the pioneers of
+probability where games of chance involving rolls of dies, or spins of a wheel as well
+as reflections on placing bets on the outcomes of such games. While we will stick
+mainly to our main context - computational finance - some of these chance games are
+so intuitive and insightful that we will occasionally in the beginning of the course
+also use some of them for illustrating concepts and playing with them.
+
+All of the examples and
+descriptions given above are, however, rather vague.
+We have to be more precise what we mean by an
 experiment or observation.
 
 When we use the term (random) \emph{experiment} we mean a process leading to an uncertain
 outcome. To make this notion precise and useful we need to agree what we mean by
 uncertain outcomes.
 
-Take the simple example of tossing a coin. In a practical situations the outcome
-of a coin toss can be that the coin lands on head or tail. But it could in principle
-also fall on an edge, stand and roll away. Still when we think about the
-experiment of tossing a coin in the theory of probability we agree \emph{on the outset} that
-heads and tail are the only possible outcomes of this experiment. By such an
+Take the simple example of considering whether the price of a stock is
+going to rise or fall at the next day. In a practical situations the outcome
+of a move in the stock price can be that it goes up or down but it could in principle
+also stay the same. Still when we think about the
+experiment of observing the stock price tomorrow
+in many applications in Finance we usually agree \emph{on the outset} that
+\emph{up} and \emph{down} are the only possible outcomes of this experiment. By such an
 agreement we have pinned down the possible outcomes.
 
-The collection of all possible outcomes of an experiment is calles the \emph{sample space}.
-While the sample space of the experiment of tossing a coin is an idealization it is
+The collection of all possible outcomes of an experiment is called the \emph{sample space}.
+While the sample space of the experiment of observing tomorrow's stock price
+is an idealization it is
 exactly this idealization which simplifies the theory without affecting its applicability.
 
-Idealizations of this kind are standard in probability and are widely used also in Finance. It
+Idealizations of this kind are standard in probability. It
 is - for example - impossible to know how high the price of a stock might become. Is there
 a maximal price beyond which the price can not possibly hike? Many of us would
 hesitate to claim that the price might rise without bound. Yet many models in applied
@@ -243,7 +258,8 @@ on a security price at \(x\) it would be also awkward to assume that it is impos
 could be just a cent higher, an assumption equally unappealing than assuming it can get in
 principle arbitrarily high.
 
-When we talk of a \emph{basic outcome} we mean the possible outcome of a random experiment. An \emph{event} is
+When we talk of a \emph{basic outcome} we mean the possible outcome of a random experiment.
+An \emph{event} is
 a subset of basic outcomes. Any event which consists of a single outcome in the sample space
 is called a \emph{simple event}.
 
@@ -266,6 +282,10 @@ understanding of this language together with the probability concepts.
 \section{Rolling a die: Constructing a random experiment, a sample space and events using R}\label{rolling-a-die-constructing-a-random-experiment-a-sample-space-and-events-using-r}}
 
 Lets start with a classic and old example of a probability model: Rolling a six sided die.
+The rolling of the die is one of the non-finance examples we mentioned before. It is so
+useful that we will come back to it once in a while in the beginning of the course. Here
+its usefulness is enhanced because it allows us in an easy way to quickly learn
+some powerful R concepts and techniques.
 We want to roll this die not physically but on our computer using R and RStudio as our tool.
 How can we do this?
 
@@ -308,8 +328,10 @@ all the integers from 20 to 60'', and you then press return, you will get an out
 [34] 53 54 55 56 57 58 59 60
 \end{verbatim}
 
-meaning that 20 is the first value displayed in your result. Then there is a line break because not
-all values can be displayed on the same line and R tells you that \texttt{53} is the 34-th value of the
+meaning that 20 is the first value displayed in your result. Then there is a
+line break because not
+all values can be displayed on the same line and R tells you that \texttt{53} is the
+34-th value of the
 result.
 
 The colon operator \texttt{:} is a very useful function in R which we will often need. It allows us
@@ -317,7 +339,9 @@ to create sequences of every integer between two given integers.
 
 R needs a complete command to be able to execute it, when the return key is pressed.
 If a command is incomplete,
-like for instance \texttt{5*}, where we enter 5, the multiplication operator but no
+like for instance
+\texttt{5*},
+where we enter 5, the multiplication operator but no
 second factor to multiply 5 with R will show:
 
 \begin{verbatim}
@@ -325,8 +349,10 @@ second factor to multiply 5 with R will show:
 + 
 \end{verbatim}
 
-The \texttt{+} sign means that R needs more input to complete the expression. So if we type the missing
-factor after the \texttt{+} prompt, say 4 and then press the return key again, we will get the result
+The \texttt{+} sign means that R needs more input to complete the expression.
+So if we type the missing
+factor after the \texttt{+} prompt, say 4 and then press the return key again, we
+will get the result
 
 \begin{verbatim}
 > 5*
@@ -334,8 +360,10 @@ factor after the \texttt{+} prompt, say 4 and then press the return key again, w
 [1] 20
 \end{verbatim}
 
-If you type a command that R does not understand, you will be returned an error message. Don't worry
-if you see an error message. It just is a way the computer tells you that he does not understand what you
+If you type a command that R does not understand, you will be returned an error message.
+Don't worry
+if you see an error message. It just is a way the computer tells you that he does
+not understand what you
 want him to do.
 
 For instance, if you type \texttt{5\%3} you will get an error message like this
@@ -346,19 +374,28 @@ Error: unexpected input in "5%3"
 >
 \end{verbatim}
 
-Sometimes it is obvious why a mistake occurred. In this case, that R just does not know what to do with
-the symbol \texttt{\%}. It has no meaning in this context. Sometimes it is not so obvious what the error
-message actually means and what you might do about it. A useful strategy in this case is to type
-the error message into a search engine and see what you can find. The chance is very high that others
+Sometimes it is obvious why a mistake occurred. In this case, that R just does not
+know what to do with
+the symbol \texttt{\%}. It has no meaning in this context. Sometimes it is
+not so obvious what the error
+message actually means and what you might do about it. A useful strategy in this
+case is to type
+the error message into a search engine and see what you can find. The chance is very
+high that others
 encountered the same problem before you and got helpful advice how to fix it from other users on
 the internet. One site, we find particularly helpful for all kinds of questions related to R
 and R programming is \url{https://stackoverflow.com/}. Try it at the next opportunity.
 
-Now with this basic knowledge, we can already make the first step to create a die on the computer
-using R. If you think of a physical die, the essential thing that matters are the points on its
-six sides. If you throw the dice it will usually land on one of these sides and the side which is
-on the upper side of the die shows the number of points. The colon operator \texttt{:} gives us a way to
-create a group of numbers from 1 to 6. R gives us the result as a one dimensional set of numbers.
+Now with this basic knowledge, we can already make the first step to create a
+die on the computer
+using R. If you think of a physical die, the essential thing that matters are
+the points on its
+six sides. If you throw the dice it will usually land on one of these sides
+and the side which is
+on the upper side of the die shows the number of points.
+The colon operator \texttt{:} gives us a way to
+create a group of numbers from 1 to 6. R gives us the result as a
+one dimensional set of numbers.
 
 \begin{verbatim}
 > 1:6
@@ -466,10 +503,10 @@ if we type
 > 
 \end{verbatim}
 
-This might irritate some of you. we have called the object a vector. In linear
+This might irritate some of you because we have called the object a vector. In linear
 algebra multiplication of vectors is only allowed if there is an inner product. What happens
 here, if we use \texttt{*} the multiplication operator is that R does an element-wise multiplication
-of the six numbers of our die. Of course R alows to take an inner product as well, but this needs
+of the six numbers of our die. Of course R allows to take an inner product as well, but this needs
 a different operator. To compute an inner product, we would type
 
 \begin{verbatim}
@@ -503,7 +540,7 @@ it is of equal length with the longer one. For example, if you have:
 \end{verbatim}
 
 you see that R adds 1 to 1 and 2 to 2 and then starts over again by adding 1 to 3 and 2 to 4 and then
-starts over once again by adding 1 to 5 and 2 to 6. If the longer vectors is not a multiple of the shorter one, R recycles but the ciuts off. It will give you a warning though.
+starts over once again by adding 1 to 5 and 2 to 6. If the longer vectors is not a multiple of the shorter one, R recycles but the cuts off. It will give you a warning though.
 
 \begin{verbatim}
 > die + 1:4
@@ -514,16 +551,16 @@ In die + 1:4 :
 > 
 \end{verbatim}
 
-While this might seem awakward to some of you, we will see that for data manipulation
+While this might seem awkward to some of you, we will see that for data manipulation
 element-wise execution is often extremely useful. It allows to manipulate groups of values in
 a systematic way.
 
 \hypertarget{functions}{%
 \section{Functions}\label{functions}}
 
-R contains many functions whcih we can use to manipulate data and compute things. The sytax for
-usuing a function is very simple: You type the function name and put the value of the function
-argument in parentheses. Here we use for illustrations the function of the squareroot \texttt{sqrt()}
+R contains many functions which we can use to manipulate data and compute things. The syntax for
+using a function is very simple: You type the function name and put the value of the function
+argument in parentheses. Here we use for illustrations the function of the square root \texttt{sqrt()}
 and the function for rounding a number \texttt{round()}.
 
 \begin{verbatim}
@@ -553,8 +590,8 @@ for example.
 
 For simulating random experiments, R has the function \texttt{sample()}. With this function
 we can roll our die on the computer and conduct actual random experiments. The function takes
-as arguments a vector names \texttt{x} and a numer named \texttt{size}. \texttt{sample} will return
-\texttt{size} elements randomly chosen from the vetcor \texttt{x}. Lets say:
+as arguments a vector names \texttt{x} and a number named \texttt{size}. \texttt{sample} will return
+\texttt{size} elements randomly chosen from the vector \texttt{x}. Lets say:
 
 \begin{verbatim}
 > sample(x = 1:4, size = 2)
@@ -699,7 +736,7 @@ If we call the function now, we will get an error
 Error in sample(ball, size = 1) : object 'ball' not found
 \end{verbatim}
 
-We could supply ball when we call ```roll\_die2```` if we make ball an argument of the
+We could supply ball when we call \texttt{roll\_die2} if we make ball an argument of the
 function. Lets do this:
 
 \begin{verbatim}
@@ -740,7 +777,7 @@ your functions? It would be much easier, if you could use a draft of your code a
 work form there. This can be done by using a \emph{script}.
 
 You create a script by going to \texttt{File\ \textgreater{}\ New\ File\ \textgreater{}\ R\ script} in the menu bar of RStudio. Using
-scripts is the stander way to write code in R. It not only helps you to keep track of your code,
+scripts is the standard way to write code in R. It not only helps you to keep track of your code,
 save it and edit it later. It also makes your work reproducible. You can edit and proofread your
 code and share it with others. To save your script go to \texttt{File\ \textgreater{}\ Save\ As} in the
 menu bar.
@@ -768,7 +805,7 @@ about equally often. The die should not be weighted in favor of a particular val
 
 One way to learn whether our die is fair are \emph{repetition} and \emph{visualization}. These
 are tools we will need all the time, when working with data and when doing probability.
-While R has many useful functions, one of the great powers is that R is contsnatly extended
+While R has many useful functions, one of the great powers is that R is constantly extended
 by a huge community of users by providing packages. Packages are add on functions, which will
 not be available when you install R. They need to be installed and loaded before you can use them.
 Since packages are such a powerful tool in R we need to introduce what they are and how to use
@@ -1038,66 +1075,80 @@ There are more elegant and powerful ways to read and plot data in R. We used thi
 example just to show you one particular way. More details and more general insights
 how to do this we will develop as we go along.
 
-\hypertarget{tossing-a-coin-twice}{%
-\subsection{Tossing a coin twice}\label{tossing-a-coin-twice}}
+\hypertarget{the-change-of-a-stock-price-two-days-from-now}{%
+\subsection{The change of a stock price two days from now}\label{the-change-of-a-stock-price-two-days-from-now}}
 
-Suppose we want to study the random experiment of tossing a coin twice. This is a random
-experiment because whether the coin will land on heads (H) or tail (T) is uncertain before we
-make the throws, but once we have made the throws, the outcomes are clear. The sample space is
-\({\cal S}=\{HH, HT, TH, TT \}\). The event that heads will occur at the first throw of the coin
-is \(A = \{HH, HT\}\). The event that tail does not occur is \(B = \{HH\}\), which is also a
+Suppose we want to study the random experiment of observing a stock price move twice.
+This is a random
+experiment because whether the coin will go up (U) or down (D) is uncertain before we
+make the observation, but once the closing price is published, the outcomes
+are clear. The sample space is
+\({\cal S}=\{UU, UD, DU, DD \}\). The event that the closing price at the end
+of the first trading day will be higher is \(A = \{UU, UD\}\). The event that the
+stock price does not decrease is \(B = \{UU\}\), which is also a
 basic outcome of the random experiment.
 
 While this example is so simple that we do not need a computer, let us take the opportunity to
 introduce a new R function, which computes all possible combinations of objects.
-Let us first create a virtual coin which can land either heads or tails.
+Let us first create a virtual price move by listing the possible moves at day 1 and
+day 2.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{coin1 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{, }\StringTok{"T"}\NormalTok{)}
-\NormalTok{coin2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"H"}\NormalTok{, }\StringTok{"T"}\NormalTok{)}
+\NormalTok{day\_1 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"U"}\NormalTok{, }\StringTok{"D"}\NormalTok{)}
+\NormalTok{day\_2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"U"}\NormalTok{, }\StringTok{"D"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 There are some new things here. Let us explain. First, while we used gray boxes to show you input
 and output of code as it would appear if you interact on the console we use here a very convenient
-feature in RStudio, which we will use from now on. We compose these lecture notes in a document
+feature in RStudio, which we will use from now on.
+
+We compose these lecture notes in a document
 format, which allows the mixing of text and code. Whenever we write a piece of R code, it is shown
-in a gray box, as before but without the \texttt{\textgreater{}} prompt. When you move the cursor on the gray box
-now, you will see a copy icon in the upper right corner of the box. This will allow you to copy this
+in a gray box, as before but without the \texttt{\textgreater{}} prompt. When you move the cursor
+on the gray box
+now, you will see a copy icon in the upper right
+corner of the box. This will allow you to copy this
 code snippet and use it in another document or on your console to execute it.
 
-The second new thing is that we have used a new data type, which we will need very often: characters.
+The second new thing is that we have used a new data type, which we will
+need very often: characters.
 Characters can be used to form strings and R has many powerful functions to work with and operate
-on strings. We will see many examples of this later. Strings are always between \texttt{"\ "}, like this. Like
+on strings. We will see many examples of this later.
+Strings are always between \texttt{"\ "}, like this. Like
 numbers, strings can be stored in objects and referred to later. But what we need here is actually
-two strings in one vector. This is achieven by using the \texttt{c()} function of R. c stands for concatenation
-and here it stores both basic outcomes of a coin throw in two single vectors \texttt{coin1} and \texttt{coin2}.
+two strings in one vector. This is achieved by using the \texttt{c()} function of R.
+c stands for concatenation
+and here it stores both basic outcomes of a price move in two single vectors \texttt{day\_1} and \texttt{day\_2}.
 
-We can now pass these two virtual coins to the R function \texttt{expand.grid()}. This function will produce
-the sample space of two coin throws by computing all possible combinations of sequences of heads and tails
-that can occur in two throws.
+We can now pass these two virtual oves to the R function \texttt{expand.grid()}.
+This function will produce
+the sample space of two price moves by computing all possible combinations of sequences of U and D
+that can occur at the end of two trading days.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{expand.grid}\NormalTok{(coin1, coin2)}
+\FunctionTok{expand.grid}\NormalTok{(day\_1, day\_2)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##   Var1 Var2
-## 1    H    H
-## 2    T    H
-## 3    H    T
-## 4    T    T
+## 1    U    U
+## 2    D    U
+## 3    U    D
+## 4    D    D
 \end{verbatim}
 
-Don't worry at the moment if you do not understand what the output format is and why the columns are
+Don't worry at the moment if you do not understand what the output
+format is and why the columns are
 headed by \textbf{Var1} and \textbf{Var2} followed by the symbols \texttt{\textless{}fctr\textgreater{}}. We will come back to this.
 
-Before we look at yet another sample, let us mention that this coin tossing setup, simple as it may
-seem, plays a very important role in the theory of random price fluctuations of asset prices and in
-option pricing and we will encounter it later in detail.
+Before we look at yet another sample, let us mention that this setup, simple as it may
+seem, plays a very important role in the theory of random price
+fluctuations of asset prices and in
+option pricing and we will encounter it later in more detail.
 
 \hypertarget{boys-and-girls}{%
 \subsection{Boys and Girls}\label{boys-and-girls}}
@@ -1160,6 +1211,24 @@ These are the basic \textbf{probability concepts} we have covered in this lectur
   \textbf{Basic outcome}: A possible outcome of a random experiment.
 \item
   \textbf{Event}: An event is a subset of basic outcomes. Any event which contains a single outcome is called a simple event.
+\end{enumerate}
+
+These are the \textbf{R concepts} we have covered in this lecture:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{objects} arbitrary names that can store different values and data types.
+\item
+  \textbf{functions} ab R object that can accept other R objects as arguments, operate on them and return a new object.
+\item
+  \textbf{scripts} files that store sequences of R commands and can be saved, repopened and allow the
+  execution of commands.
+\item
+  \textbf{using packages}
+\item
+  \textbf{finding help}
 \end{enumerate}
 
 \hypertarget{project-1-rolling-two-dice-and-adding-the-points}{%
@@ -1610,27 +1679,6 @@ Two events \(A\) and \(B\) are \textbf{independent} if an only if the probabilit
 both \(A\) and \(B\) occurring is the product of the probability of the two events
 \(P(A \cap B) = P(A) \cdot P(B)\).
 \end{description}
-
-\hypertarget{methods}{%
-\chapter{Methods}\label{methods}}
-
-We describe our methods in this chapter.
-
-\hypertarget{applications}{%
-\chapter{Applications}\label{applications}}
-
-Some \emph{significant} applications are demonstrated in this chapter.
-
-\hypertarget{example-one}{%
-\section{Example one}\label{example-one}}
-
-\hypertarget{example-two}{%
-\section{Example two}\label{example-two}}
-
-\hypertarget{final-words}{%
-\chapter{Final Words}\label{final-words}}
-
-We have finished a nice book.
 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}
