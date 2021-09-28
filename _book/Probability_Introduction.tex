@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer}
-\date{2021-09-27}
+\date{2021-09-28}
 
 \begin{document}
 \maketitle
@@ -1315,7 +1315,7 @@ The \textbf{union of two events} \(A\) and \(B\) is the set that contains all ev
 or in both sets. Set union is written as \(A \cup B\).
 \end{description}
 
-Let us use the example of the experiment of rolling a dice. The sample space \({\cal S}\) is
+Let us use the example of the experiment of rolling a die. The sample space \({\cal S}\) is
 the set of all possible outcomes of rolling the dice \({\cal S}=\{1,2,3,4,5,6\}\). Assume one
 event is that the outcome is 1, 2 or 3. In set notation, we would write \(A = \{1,2,3\}\). Let us
 also assume that the second event is that the outcome is some even number, i.e.~2, 4, 6. Again
@@ -1485,16 +1485,18 @@ i.e.~\(A \cap B = \emptyset\) then our inequality in rule 3 becomes an equality 
 
 While rule 1 - 3 pins down three basic mathematical properties of probabilities, there is an
 ongoing and still unsettled debate what probabilities actually mean. While in this course we
-will be less concerned with this philosophical question, it is so important that you hear about
+will be less concerned with this philosophical question, it is so important that you
+should hear about
 the basic interpretations at least once.
 
 Probability theory took shape in the 17th century through discussions on the mathematics of
-games of chance, such as poker or roulette or gamed where dice are rolled. In this
+games of chance, such as poker or roulette or games where dice are rolled. In this
 stage the \emph{classical} meaning of probability was the ratio of outcomes that satisfy a condition
 or the description of an event divided by the total number of outcomes in the state space. Of
 course this interpretation of probability makes the implicit assumption that all outcomes
 have the same probability. For example, in this interpretation the probability that one role
-of a dice will result in a \(6\) is \(1/6\).
+of a dice will result in a \(6\) is \(1/6\). This interpretation is often called
+\emph{classical probability}.
 
 A more important interpretation is the interpretation of probability as \emph{relative frequency}.
 In this interpretation the probability of an event \(A\) is interpreted as the number of times
@@ -1512,14 +1514,16 @@ a particular event is.
 \subsection{The stock price of Apple}\label{the-stock-price-of-apple-1}}
 
 Let us go back to our example with the stock price of Apple. In this example we had expressed
-the state space as \({\cal S}=\{u,m,d\}\). It is however impossible to determine the probability
-for each of these three elements. It is also not possible to determine the probability
+the state space as \({\cal S}=\{U, D\}\). It is however impossible to determine the probability
+for each of these two elements. It is also not possible to determine the probability
 for each price which is theoretically possible.
 
 \hypertarget{tossing-a-fair-coin-twice}{%
 \subsection{Tossing a fair coin twice}\label{tossing-a-fair-coin-twice}}
 
-In the example of tossing a fair coin twice we found that the state space is
+Assume we toss a fair coin twice and that the two possible outcomes
+of this random experiment is that the coin comes up heads \(H\) or tails \(T\).
+The state space of the random experiment of tossing a coin twice is
 \({\cal S} = \{HH, HT, TH, TT\}\). We can now ask: What is the probability of getting H
 after the first toss? Since the coin is assumed to be a fair coin each outcome of
 the toss is equally likely. The probability of getting H after the first toss, must
@@ -1531,13 +1535,12 @@ a fair coin it is also equally likely to get H as it is to get T. The probabilit
 H after the first toss is therefore again \(1/2\).
 
 Here we derived the equal probability postulate by an assumption, interpreting
-the probability as a classical probability. We could also give this postulate a frequency
+the probability as a classical probability.
+
+We could also give this postulate a frequency
 interpretation using our knowledge of R.
 
-We proceed by analogy to our approach of rolling a die. This time, however the
-outcome is a character not a number. R understands characters. A character vector in R
-stores small pieces of text. You can create a character vector in R by surrounding the string
-of characters by a quote, either as " " or as ' '. Both notations are valid. Let us
+We proceed by analogy to our approach of rolling a die. Let us
 therefore create a virtual coin first.
 
 \begin{Shaded}
@@ -1585,7 +1588,7 @@ exactly. Lets toss 1000 times and then look again.
 \end{Shaded}
 
 \includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-22-1.pdf}
-This looks already pretty good. Lets toss even more. Why not a million of times?
+This looks already pretty good. Lets toss even more. Why not toss a million of times?
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1606,8 +1609,9 @@ We have introduced the four child family before in lecture 1 and asked you to fi
 state space of the random experiment how the sequences of boys and girls might result in this
 four children outcome.
 
-If you have correctly figured out the state space, you will surely be able to which of the
-following sequences is more likely i.e.~has the highes probability: \texttt{bbbb}, \texttt{bgbg} or
+If you have correctly figured out the state space, you will surely be able to
+tell which of the
+following sequences is more likely i.e.~has the higher probability: \texttt{bbbb}, \texttt{bgbg} or
 \texttt{gggg}?
 
 Let's use the idea we considered first in coin tossing, and use the \texttt{expand.grid()} function
@@ -1640,14 +1644,15 @@ number of rows of a so called dataframe, a structure we discuss in detail in a m
 \end{verbatim}
 
 There are 16 combinations in total. Applying the same reasoning as with the coin tossing
-example, we see that the probability of each sequence should be equal to \(1/16\). In reality
+example, we see that the probability of each sequence should be equal to \(1/16\).
+
+In reality
 by the way births are slightly more likely for boys than girls. Gelman and Nolan report for
 example the US numbers for the year 1981, where 1 769 000 girls were born, while there
 were 1 860 000 boys: \(48.7 \%\) of births were thus girls.
 
-Let us come to our last example, the birthday problem, after we have introduced a last
-new probability concept in this lecture. But before we do that let us introduce two
-more examples illustrating the interpretation of subjective probability.
+Let us come to our last example,illustrating the interpretation of
+probability as subjective probability.
 
 \hypertarget{example-fintech-start-up}{%
 \subsection{Example: FinTech Start Up}\label{example-fintech-start-up}}
@@ -1656,14 +1661,17 @@ Suppose you had a great idea for a path breaking FinTech innovation, which will 
 the banking landscape. To predict the success of this innovation in probabilistic terms
 you could only use a subjective probability. There are no data you can rely on, since this
 idea had not existed before. You can only rely on your experience and your belief in
-your idea. There is no way you could use classical or relative frequency probability.
+your idea. There is no way you could use a classical or a relative frequency
+interpretation of probability.
 
 \hypertarget{independence}{%
 \section{Independence}\label{independence}}
 
 Let us go back to our fair die and ask another probability question about the
 potential outcomes of rolling the die: What is the probability that a fair six sided die
-will roll a 5 and then a 6? Note that this is a question, slightly different from what
+will roll a 5 and then a 6?
+
+Note that this is a question, slightly different from what
 we have asked before. What we need to calculate is actually the probability of
 the event that the dice shows first 5 and then 6, i.e.~we need to compute
 \(P(5 \cap 6)\). We can multiply the individual probabilities because the subsequent rolls of
@@ -1679,6 +1687,68 @@ Two events \(A\) and \(B\) are \textbf{independent} if an only if the probabilit
 both \(A\) and \(B\) occurring is the product of the probability of the two events
 \(P(A \cap B) = P(A) \cdot P(B)\).
 \end{description}
+
+\hypertarget{example-the-apple-stock-price-again}{%
+\subsection{Example: The Apple stock price again}\label{example-the-apple-stock-price-again}}
+
+Let us go back to our Apple stock price data, we have used previously. We read the
+data again from our data folder.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{apple\_stock }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"data/apple\_stock\_price.RDS"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Our data store price information about 150 trading days. During these dates, as you can
+convince yourself, the price went up on 72 days and it went down on 77 days. It didn't
+stay the same at any day. We get in total 149 counts because we need to drop one observation
+to compute the changes in the price.
+
+Now let us assume that the probability of a future up movement is \(P(U) = \frac{72}{149}\), which
+is about \(0.48\) and the probability of a down movement is \(P(D) = \frac{77}{149}\), which is
+about \(0.52\).
+
+Now assume in addition that the performance of the Apple stock price on the current trading day is
+independent of the performance of the Apple stock price on previous trading days. This means
+that the probability of \(U\)-movements and of \(D\)-movements is unaffected by the number of
+previous \(U\) and \(D\) movements. This is - of course - an assumption. You may think about
+whether this assumption is reasonable.
+
+Now let us consider a week from Monday to Friday:
+
+\begin{itemize}
+\tightlist
+\item
+  What is the probability that the price of
+  Apple will increase on each of the consecutive days?
+\end{itemize}
+
+There are five trading days, so we need to compute
+\(P(U \cap U \cap U \cap U \cap U \cap U)\). This is by our assumption of independence equal
+to \(P(U) \cdot P(U) \cdot P(U) \cdot P(U) \cdot P(U)\). By our probability estimate from
+relative frequency this amounts to \(0.48^5\), which amounts to \(0.025\).
+
+\begin{itemize}
+\tightlist
+\item
+  What is the probability that the stock price will decrease either on Monday, Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?
+\end{itemize}
+
+The probability that the \(D\) movement happens, say on a Monday, is
+\(P(D \cap U \cap U \cap U \cap U)\) or \(0.52*0.48^4\) which is \(0.028\).
+We have in total five mutually exclusive scenarios:
+\(P(D \cap U \cap U \cap U \cap U)\), \(P(U \cap D \cap U \cap U \cap U)\),
+\(P(U \cap U \cap D \cap U \cap U)\), \(P(U \cap U \cap U \cap D \cap U)\),
+\(P(U \cap U \cap U \cap U \cap D)\). Thus we have \(0.028 + 0.028 + 0.028 + 0.028 + 0.028\)
+as the final probability of this event, which is \(0.14\).
+
+\hypertarget{analyzing-the-stock-price-of-apple-more-r-concepts}{%
+\section{Analyzing the stock price of Apple: More R concepts}\label{analyzing-the-stock-price-of-apple-more-r-concepts}}
+
+By discussing some probability concepts within the context of stock price movements we looked
+at the Apple stock price data. R gives us some powerful tools to work with such data
+and they provide a very good example to teach you some more things about R.
 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}

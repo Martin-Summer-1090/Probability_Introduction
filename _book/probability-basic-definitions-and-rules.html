@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-09-27" />
+<meta name="date" content="2021-09-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -181,7 +181,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#boys-and-girls-1"><i class="fa fa-check"></i><b>3.4.3</b> Boys and Girls</a></li>
 <li class="chapter" data-level="3.4.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-fintech-start-up"><i class="fa fa-check"></i><b>3.4.4</b> Example: FinTech Start Up</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#independence"><i class="fa fa-check"></i><b>3.5</b> Independence</a></li>
+<li class="chapter" data-level="3.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#independence"><i class="fa fa-check"></i><b>3.5</b> Independence</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-the-apple-stock-price-again"><i class="fa fa-check"></i><b>3.5.1</b> Example: The Apple stock price again</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#analyzing-the-stock-price-of-apple-more-r-concepts"><i class="fa fa-check"></i><b>3.6</b> Analyzing the stock price of Apple: More R concepts</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="4" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>4</b> Appendix</a>
@@ -267,7 +271,7 @@ in lecture 1.</p>
 or in both sets. Set union is written as <span class="math inline">\(A \cup B\)</span>.
 </dd>
 </dl>
-Let us use the example of the experiment of rolling a dice. The sample space <span class="math inline">\({\cal S}\)</span> is
+Let us use the example of the experiment of rolling a die. The sample space <span class="math inline">\({\cal S}\)</span> is
 the set of all possible outcomes of rolling the dice <span class="math inline">\({\cal S}=\{1,2,3,4,5,6\}\)</span>. Assume one
 event is that the outcome is 1, 2 or 3. In set notation, we would write <span class="math inline">\(A = \{1,2,3\}\)</span>. Let us
 also assume that the second event is that the outcome is some even number, i.e. 2, 4, 6. Again
@@ -370,15 +374,17 @@ i.e. <span class="math inline">\(A \cap B = \emptyset\)</span> then our inequal
 <h2><span class="header-section-number">3.3</span> Interpretations of Probability</h2>
 <p>While rule 1 - 3 pins down three basic mathematical properties of probabilities, there is an
 ongoing and still unsettled debate what probabilities actually mean. While in this course we
-will be less concerned with this philosophical question, it is so important that you hear about
+will be less concerned with this philosophical question, it is so important that you
+should hear about
 the basic interpretations at least once.</p>
 <p>Probability theory took shape in the 17th century through discussions on the mathematics of
-games of chance, such as poker or roulette or gamed where dice are rolled. In this
+games of chance, such as poker or roulette or games where dice are rolled. In this
 stage the <em>classical</em> meaning of probability was the ratio of outcomes that satisfy a condition
 or the description of an event divided by the total number of outcomes in the state space. Of
 course this interpretation of probability makes the implicit assumption that all outcomes
 have the same probability. For example, in this interpretation the probability that one role
-of a dice will result in a <span class="math inline">\(6\)</span> is <span class="math inline">\(1/6\)</span>.</p>
+of a dice will result in a <span class="math inline">\(6\)</span> is <span class="math inline">\(1/6\)</span>. This interpretation is often called
+<em>classical probability</em>.</p>
 <p>A more important interpretation is the interpretation of probability as <em>relative frequency</em>.
 In this interpretation the probability of an event <span class="math inline">\(A\)</span> is interpreted as the number of times
 the event <span class="math inline">\(A\)</span> occurs in repeated trials divided by the total number of trials in a
@@ -392,13 +398,15 @@ a particular event is.</p>
 <div id="the-stock-price-of-apple-1" class="section level3" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> The stock price of Apple</h3>
 <p>Let us go back to our example with the stock price of Apple. In this example we had expressed
-the state space as <span class="math inline">\({\cal S}=\{u,m,d\}\)</span>. It is however impossible to determine the probability
-for each of these three elements. It is also not possible to determine the probability
+the state space as <span class="math inline">\({\cal S}=\{U, D\}\)</span>. It is however impossible to determine the probability
+for each of these two elements. It is also not possible to determine the probability
 for each price which is theoretically possible.</p>
 </div>
 <div id="tossing-a-fair-coin-twice" class="section level3" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> Tossing a fair coin twice</h3>
-<p>In the example of tossing a fair coin twice we found that the state space is
+<p>Assume we toss a fair coin twice and that the two possible outcomes
+of this random experiment is that the coin comes up heads <span class="math inline">\(H\)</span> or tails <span class="math inline">\(T\)</span>.
+The state space of the random experiment of tossing a coin twice is
 <span class="math inline">\({\cal S} = \{HH, HT, TH, TT\}\)</span>. We can now ask: What is the probability of getting H
 after the first toss? Since the coin is assumed to be a fair coin each outcome of
 the toss is equally likely. The probability of getting H after the first toss, must
@@ -409,12 +417,10 @@ This probability is independent of the outcome of the first toss and since the c
 a fair coin it is also equally likely to get H as it is to get T. The probability of getting
 H after the first toss is therefore again <span class="math inline">\(1/2\)</span>.</p>
 <p>Here we derived the equal probability postulate by an assumption, interpreting
-the probability as a classical probability. We could also give this postulate a frequency
+the probability as a classical probability.</p>
+<p>We could also give this postulate a frequency
 interpretation using our knowledge of R.</p>
-<p>We proceed by analogy to our approach of rolling a die. This time, however the
-outcome is a character not a number. R understands characters. A character vector in R
-stores small pieces of text. You can create a character vector in R by surrounding the string
-of characters by a quote, either as " " or as ’ ’. Both notations are valid. Let us
+<p>We proceed by analogy to our approach of rolling a die. Let us
 therefore create a virtual coin first.</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="probability-basic-definitions-and-rules.html#cb60-1" aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span></code></pre></div>
 <p>As in the case of the die we next write a function, so we can virtually toss the coin</p>
@@ -432,7 +438,7 @@ exactly. Lets toss 1000 times and then look again.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="probability-basic-definitions-and-rules.html#cb64-1" aria-hidden="true" tabindex="-1"></a>tosses_1000 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">toss_coin</span>())</span>
 <span id="cb64-2"><a href="probability-basic-definitions-and-rules.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(tosses_1000)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-22-1.png" width="672" />
-This looks already pretty good. Lets toss even more. Why not a million of times?</p>
+This looks already pretty good. Lets toss even more. Why not toss a million of times?</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="probability-basic-definitions-and-rules.html#cb65-1" aria-hidden="true" tabindex="-1"></a>tosses_m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fu">toss_coin</span>())</span>
 <span id="cb65-2"><a href="probability-basic-definitions-and-rules.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(tosses_m)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-23-1.png" width="672" />
@@ -445,8 +451,9 @@ times. We will come back to this idea again a bit later.</p>
 <p>We have introduced the four child family before in lecture 1 and asked you to figure out the
 state space of the random experiment how the sequences of boys and girls might result in this
 four children outcome.</p>
-<p>If you have correctly figured out the state space, you will surely be able to which of the
-following sequences is more likely i.e. has the highes probability: <code>bbbb</code>, <code>bgbg</code> or
+<p>If you have correctly figured out the state space, you will surely be able to
+tell which of the
+following sequences is more likely i.e. has the higher probability: <code>bbbb</code>, <code>bgbg</code> or
 <code>gggg</code>?</p>
 <p>Let’s use the idea we considered first in coin tossing, and use the <code>expand.grid()</code> function
 to figure out all combinations of boys and girls in a family of four kids. The outcome
@@ -463,13 +470,13 @@ number of rows of a so called dataframe, a structure we discuss in detail in a m
 <span id="cb67-2"><a href="probability-basic-definitions-and-rules.html#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(n)</span></code></pre></div>
 <pre><code>## [1] 16</code></pre>
 <p>There are 16 combinations in total. Applying the same reasoning as with the coin tossing
-example, we see that the probability of each sequence should be equal to <span class="math inline">\(1/16\)</span>. In reality
+example, we see that the probability of each sequence should be equal to <span class="math inline">\(1/16\)</span>.</p>
+<p>In reality
 by the way births are slightly more likely for boys than girls. Gelman and Nolan report for
 example the US numbers for the year 1981, where 1 769 000 girls were born, while there
 were 1 860 000 boys: <span class="math inline">\(48.7 \%\)</span> of births were thus girls.</p>
-<p>Let us come to our last example, the birthday problem, after we have introduced a last
-new probability concept in this lecture. But before we do that let us introduce two
-more examples illustrating the interpretation of subjective probability.</p>
+<p>Let us come to our last example,illustrating the interpretation of
+probability as subjective probability.</p>
 </div>
 <div id="example-fintech-start-up" class="section level3" number="3.4.4">
 <h3><span class="header-section-number">3.4.4</span> Example: FinTech Start Up</h3>
@@ -477,14 +484,16 @@ more examples illustrating the interpretation of subjective probability.</p>
 the banking landscape. To predict the success of this innovation in probabilistic terms
 you could only use a subjective probability. There are no data you can rely on, since this
 idea had not existed before. You can only rely on your experience and your belief in
-your idea. There is no way you could use classical or relative frequency probability.</p>
+your idea. There is no way you could use a classical or a relative frequency
+interpretation of probability.</p>
 </div>
 </div>
 <div id="independence" class="section level2" number="3.5">
 <h2><span class="header-section-number">3.5</span> Independence</h2>
 <p>Let us go back to our fair die and ask another probability question about the
 potential outcomes of rolling the die: What is the probability that a fair six sided die
-will roll a 5 and then a 6? Note that this is a question, slightly different from what
+will roll a 5 and then a 6?</p>
+<p>Note that this is a question, slightly different from what
 we have asked before. What we need to calculate is actually the probability of
 the event that the dice shows first 5 and then 6, i.e. we need to compute
 <span class="math inline">\(P(5 \cap 6)\)</span>. We can multiply the individual probabilities because the subsequent rolls of
@@ -498,6 +507,49 @@ both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)<
 <span class="math inline">\(P(A \cap B) = P(A) \cdot P(B)\)</span>.
 </dd>
 </dl>
+<div id="example-the-apple-stock-price-again" class="section level3" number="3.5.1">
+<h3><span class="header-section-number">3.5.1</span> Example: The Apple stock price again</h3>
+<p>Let us go back to our Apple stock price data, we have used previously. We read the
+data again from our data folder.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="probability-basic-definitions-and-rules.html#cb69-1" aria-hidden="true" tabindex="-1"></a>apple_stock <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/apple_stock_price.RDS&quot;</span>)</span></code></pre></div>
+<p>Our data store price information about 150 trading days. During these dates, as you can
+convince yourself, the price went up on 72 days and it went down on 77 days. It didn’t
+stay the same at any day. We get in total 149 counts because we need to drop one observation
+to compute the changes in the price.</p>
+<p>Now let us assume that the probability of a future up movement is <span class="math inline">\(P(U) = \frac{72}{149}\)</span>, which
+is about <span class="math inline">\(0.48\)</span> and the probability of a down movement is <span class="math inline">\(P(D) = \frac{77}{149}\)</span>, which is
+about <span class="math inline">\(0.52\)</span>.</p>
+<p>Now assume in addition that the performance of the Apple stock price on the current trading day is
+independent of the performance of the Apple stock price on previous trading days. This means
+that the probability of <span class="math inline">\(U\)</span>-movements and of <span class="math inline">\(D\)</span>-movements is unaffected by the number of
+previous <span class="math inline">\(U\)</span> and <span class="math inline">\(D\)</span> movements. This is - of course - an assumption. You may think about
+whether this assumption is reasonable.</p>
+<p>Now let us consider a week from Monday to Friday:</p>
+<ul>
+<li>What is the probability that the price of
+Apple will increase on each of the consecutive days?</li>
+</ul>
+<p>There are five trading days, so we need to compute
+<span class="math inline">\(P(U \cap U \cap U \cap U \cap U \cap U)\)</span>. This is by our assumption of independence equal
+to <span class="math inline">\(P(U) \cdot P(U) \cdot P(U) \cdot P(U) \cdot P(U)\)</span>. By our probability estimate from
+relative frequency this amounts to <span class="math inline">\(0.48^5\)</span>, which amounts to <span class="math inline">\(0.025\)</span>.</p>
+<ul>
+<li>What is the probability that the stock price will decrease either on Monday, Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?</li>
+</ul>
+<p>The probability that the <span class="math inline">\(D\)</span> movement happens, say on a Monday, is
+<span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span> or <span class="math inline">\(0.52*0.48^4\)</span> which is <span class="math inline">\(0.028\)</span>.
+We have in total five mutually exclusive scenarios:
+<span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap D \cap U \cap U \cap U)\)</span>,
+<span class="math inline">\(P(U \cap U \cap D \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap U \cap D \cap U)\)</span>,
+<span class="math inline">\(P(U \cap U \cap U \cap U \cap D)\)</span>. Thus we have <span class="math inline">\(0.028 + 0.028 + 0.028 + 0.028 + 0.028\)</span>
+as the final probability of this event, which is <span class="math inline">\(0.14\)</span>.</p>
+</div>
+</div>
+<div id="analyzing-the-stock-price-of-apple-more-r-concepts" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Analyzing the stock price of Apple: More R concepts</h2>
+<p>By discussing some probability concepts within the context of stock price movements we looked
+at the Apple stock price data. R gives us some powerful tools to work with such data
+and they provide a very good example to teach you some more things about R.</p>
 
 </div>
 </div>
