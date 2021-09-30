@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer}
-\date{2021-09-28}
+\date{2021-09-30}
 
 \begin{document}
 \maketitle
@@ -1748,7 +1748,372 @@ as the final probability of this event, which is \(0.14\).
 
 By discussing some probability concepts within the context of stock price movements we looked
 at the Apple stock price data. R gives us some powerful tools to work with such data
-and they provide a very good example to teach you some more things about R.
+and they provide a very good example to teach you some more R concepts to enhance
+our toolbox.
+
+\hypertarget{loading-data}{%
+\section{Loading Data}\label{loading-data}}
+
+We loaded the apple stock price data from a file I had provided you in RDS format. This
+is not the usual way you will load data into R. The most common case will be that you
+get a plain text file, usually in a comma separated form or csv for short. In the data
+directory we have a version of the Apple stock price file we already have already worked with
+in csv format (\texttt{apple\_stock\_price.csv}). If you open this file in a text editor it
+will look something like this:
+
+\begin{verbatim}
+symbol,date,open,high,low,close,volume,adjusted
+AAPL,2021-01-04,133.520004,133.610001,126.760002,129.410004,143301900,128.804825
+AAPL,2021-01-05,128.889999,131.740005,128.429993,131.009995,97664900,130.397324
+AAPL,2021-01-06,127.720001,131.050003,126.379997,126.599998,155088000,126.007957
+AAPL,2021-01-07,128.360001,131.630005,127.860001,130.919998,109578200,130.307755
+AAPL,2021-01-08,132.429993,132.630005,130.229996,132.050003,105158200,131.432465
+AAPL,2021-01-11,129.190002,130.169998,128.5,128.979996,100384500,128.376831
+AAPL,2021-01-12,128.5,129.690002,126.860001,128.800003,91951100,128.197662 ... etc.
+\end{verbatim}
+
+Most languages used for data science applications can open plain text files and export data
+as plain text files. This is why you so often find them. To load a plain text file into
+R just click the \texttt{Import\ Dataset}icon in R Studios environment pane. Then select ``From
+text file''. R-Studio will then ask you to select the file, you want to import. You can use the
+wizard to tell RStudio what name to give to the data set (for example apple\_stock\_price).
+You can also use the wizard to tell
+RStudio which is the separation character used in your dataset and which character is
+used to represent decimals (usually . in the US and , in Europe) and whether
+the data set comes with a row of column names or a so called header. To help you, the wizard
+shows you what the raw file looks like as well what your loaded data will look like based
+on the input settings. I recommend to unclick the box ``Strings as factors'' in the wizard. This
+will ensure that all character strings are loaded as characters (and not converted tp so called
+factors). Once everything looks right, click Import. You can examine the data in
+with the \texttt{head()} function.
+
+Sometimes, for instance if you write a script, it is more convenient to use a direct command to
+read a file. If the decimal sign is \texttt{.} (US convention) use \texttt{read.csv}, if it is \texttt{,} then use
+\texttt{read.csv2()}. The syntax for this function, assuming that the file we want to read is in a
+directory called data and is named \texttt{apple\_stock\_price.csv} is
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{apple\_stock\_price }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/apple\_stock\_price.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Please use the help functions to study the details of this function. It is quite powerful.
+You can inspect the entire dataset using the \texttt{View()}function like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{View}\NormalTok{(apple\_stock\_price)}
+\end{Highlighting}
+\end{Shaded}
+
+This command will open a View pane like shown in this picture, which you can use to inspect
+all the data pretty much like in an excel sheet.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{figures/view} 
+
+}
+
+\caption{The result of calling the View() function}\label{fig:unnamed-chunk-29}
+\end{figure}
+
+There are many more possibilities to import data into R from many other formats, which we will
+not discuss here. The principle is basically always the same and we refer you to the help menus
+for further details.
+
+\hypertarget{saving-data}{%
+\section{Saving Data}\label{saving-data}}
+
+Data can be saved by using the \texttt{write.csv()} function. It allows you to export data as a
+comma separated text file. (There are many more export or saving options we do not discuss here).
+If we would like to save the apple\_stock\_price object we have just assigned to a csv file we
+would write
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.csv}\NormalTok{(apple\_stock\_price, }\AttributeTok{file =} \StringTok{"data/prices.csv"}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Wit this command R turns the R-object \texttt{apple\_stock\_price} into a csv file with the name
+\texttt{prices.csv} and stores it in a subdirectory called data. There are many possible
+arguments you can set with \texttt{write.csv()} (see ?write.csv for details) but there are three
+you should always use: First you should give \texttt{write.csv()} the name of the object you want to
+save. Then you should give a name (if necessary with a path) to the object. Make sure to give
+the full name with extension. Finally you should set the argument \texttt{row.names\ =\ FALSE}. It prevents
+R from adding an extra column with a counting index for the rows. It is unlikely that another
+program which reads the data will interpret the row name system correctly.
+
+\hypertarget{atomic-vectors}{%
+\section{Atomic vectors}\label{atomic-vectors}}
+
+An atomic vector is just a simple vector of data, like the die we have already constructed
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{die }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{)}
+\NormalTok{die}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 3 4 5 6
+\end{verbatim}
+
+We can use R to check whether \texttt{die}is a vector
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{is.vector}\NormalTok{(die)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+An atomic vector can have only 1 value also. Each atomic vector stores values as
+a one-dimensional vector and can only store one type of data. Different types
+of data can be saved by different types of atomic vectors. R recognizes
+altogether six basic types of atomic vectors: doubles, integers, characters,
+logical, complex and raw.´
+
+\hypertarget{doubles}{%
+\subsection{Doubles}\label{doubles}}
+
+A double vector stores regular numbers. In our data these are the columns open, high, low,
+close, volume and adjusted. In general R will save any number you type as a double. Doubles can
+be positive negative, large or small and can have digits or not. Ususally it is obvious
+what type of object you are working with but you can check also.
+
+Let us create a new object close by selecting the column lose`from apple\_stock\_price. In R
+this is done by typing:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{close }\OtherTok{\textless{}{-}}\NormalTok{ apple\_stock\_price}\SpecialCharTok{$}\NormalTok{close}
+\end{Highlighting}
+\end{Shaded}
+
+We use the symbol \texttt{\$} followed by the name of the column we want to select and assign the
+selected column to an object called \texttt{close}. Now check the type by invoking the \texttt{typeof()}function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{typeof}\NormalTok{(close)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "double"
+\end{verbatim}
+
+\hypertarget{integers}{%
+\subsection{Integers}\label{integers}}
+
+Integer vectors store numbers that can be written without commas. We will not need them
+very often in probability and finance, because you can save integers also as doubles.
+
+Integers can be specifically created in R by typing the number followed by an upper case L.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{int }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{1L, 2L, 4L)}
+\NormalTok{int}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1  2  4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{typeof}\NormalTok{(int)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "integer"
+\end{verbatim}
+
+\hypertarget{characters}{%
+\subsection{Characters}\label{characters}}
+
+A character vector stores small pieces of text. For instance the stock symbol is
+such a character. Lets select the symbol column and check:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{symb }\OtherTok{\textless{}{-}}\NormalTok{ apple\_stock\_price}\SpecialCharTok{$}\NormalTok{symbol}
+\FunctionTok{typeof}\NormalTok{(symb)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "character"
+\end{verbatim}
+
+The individual elements of a character vector are called strings. A string can contain more than
+just one letter. Character strings can be assembled from numbers and symbols as well. We
+have encountered characters in some of our examples already before.
+
+It is easy to confude R objects with character strings and you have to be careful to avoid that.
+For example \texttt{symb} is the name of an R object names symb, while ``symb'' in quotations is a string
+containing the characzers symb. If you forget the quotation marks R will look for an object which
+probably won't exist.
+
+\hypertarget{logicals}{%
+\subsection{Logicals}\label{logicals}}
+
+Locial vectors store TRUE and FALSE, Rs form of boolean values. Logicals are very helpful
+for comparisons. Assume we are interested how many closing prices are smaller than 124.
+We have already created an object \texttt{close}. So we would type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{close }\SpecialCharTok{\textless{}} \DecValTok{124}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [37]  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [49]  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [61]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [73] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [85] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [97] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+## [109] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [121] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [133] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [145] FALSE FALSE FALSE FALSE FALSE FALSE
+\end{verbatim}
+
+\hypertarget{coercion}{%
+\subsection{Coercion}\label{coercion}}
+
+R implements a coercion system for types which always follows the same rules. Once you
+are familiar with these rules you will find them very useful.
+
+How does R coerce data types? If a character string is present in an atomic vector,
+R coerces every element in this vector to character strings. If the vector contains
+logicals and numbers every TRUE becomes a 1 and every FALSE becomes a 0. The same coercion
+rules are used when you try to do math with logicals
+
+This is very convenient. Say we want to count the instances when
+the closing price of Apple stock was smaller than 124, i.e.~when the logical is TRUE.
+We can use the \texttt{sum()}function
+for that because R will treat each TRUE as a 1 and FALSE as a 0 when used with an algebraic
+operation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(close }\SpecialCharTok{\textless{}} \DecValTok{124}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 24
+\end{verbatim}
+
+We count exactly 24 days when this was true in our sample. As a consequence of this cool
+feature we can compute the porportion of days in our sample when the stock price of Apple
+was below 124 as
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(close }\SpecialCharTok{\textless{}} \DecValTok{124}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.16
+\end{verbatim}
+
+\hypertarget{complex-and-raw}{%
+\subsection{Complex and Raw}\label{complex-and-raw}}
+
+These data types are much less common than the ones we discussed before. They
+store complex numbers and raw bytes of data. At the moment we will not say much more
+about these two types.
+
+\hypertarget{lists}{%
+\section{Lists}\label{lists}}
+
+Lists are like atomic vectors because they group data into a one-dimensional set. However
+lists do not group individual values but they group R objects, such as different
+atomic vectors or other lists. For example, you can make a list that contains
+a numeric vector of length 31 in the first element, a character vector of length 1 in its second
+and a new list with length 2 in its third. This is done by using the \texttt{list()}function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_list }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\DecValTok{100}\SpecialCharTok{:}\DecValTok{130}\NormalTok{, }\StringTok{"R"}\NormalTok{, }\FunctionTok{list}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{))}
+\NormalTok{test\_list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+##  [1] 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118
+## [20] 119 120 121 122 123 124 125 126 127 128 129 130
+## 
+## [[2]]
+## [1] "R"
+## 
+## [[3]]
+## [[3]][[1]]
+## [1] TRUE
+## 
+## [[3]][[2]]
+## [1] FALSE
+\end{verbatim}
+
+\texttt{list} creates a list in the same way as \texttt{c} creates a vector. Seperate every element in the
+list by a comma.
+
+The double-bracketed indexes tell you which element of the list is beeing displayed. The single
+bracketd indexes tell you which subelement of an element is beeing displayed.
+
+\hypertarget{data-frames}{%
+\section{Data Frames}\label{data-frames}}
+
+Data frames are the two-dimensional versions of a list. They are by far the most
+frequent data structure we will use. For example the apple\_stock\_price object
+we have created by reading the csv datafile is a data frame. Think of a data frame
+as something like an Excel spreadsheet.
+
+Data frames group vectors together into a two dimensional table. Each vector becomes a column
+of this table. As a result each column can contain different types of data. The symbol
+column contains characters, the close column contains doubles for example.
+
+\hypertarget{project-2-analyzing-stock-price-changes}{%
+\section{Project 2: Analyzing stock price changes}\label{project-2-analyzing-stock-price-changes}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Load the data for the netflix stock price.
+\item
+  Estimate the probability that the netflix stock
+  price will rise from the share of daily up moves in the total trading days.
+\item
+  Estimate the
+  probability that the stock price will fall in a similar way.
+\item
+  Assuming independence what is
+  the probability that the price will rise from Monday to Wednesday and than fall on
+  Thursday and Friday?
+\end{enumerate}
+
+\hypertarget{conditional-probability}{%
+\chapter{Conditional Probability}\label{conditional-probability}}
 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}
