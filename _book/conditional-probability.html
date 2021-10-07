@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-09-30" />
+<meta name="date" content="2021-10-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -201,7 +201,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.11" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#data-frames"><i class="fa fa-check"></i><b>3.11</b> Data Frames</a></li>
 <li class="chapter" data-level="3.12" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#project-2-analyzing-stock-price-changes"><i class="fa fa-check"></i><b>3.12</b> Project 2: Analyzing stock price changes</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>4</b> Conditional Probability</a></li>
+<li class="chapter" data-level="4" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>4</b> Conditional Probability</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="conditional-probability.html"><a href="conditional-probability.html#introdcution"><i class="fa fa-check"></i><b>4.1</b> Introdcution</a></li>
+<li class="chapter" data-level="4.2" data-path="conditional-probability.html"><a href="conditional-probability.html#marginal-joint-and-conditional-probability"><i class="fa fa-check"></i><b>4.2</b> Marginal, joint and conditional probability</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="5" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>5</b> Appendix</a>
 <ul>
@@ -230,7 +234,253 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="conditional-probability" class="section level1" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Conditional Probability</h1>
+<div id="introdcution" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Introdcution</h2>
+<p>We begin this chapter with a definition and an example. Here is the definition:</p>
+<dl>
+<dt>Contingency Table</dt>
+<dd>A contingency table shows counts of cases on one categorical variable contingent
+on the value of another for every combination of both variables.
+</dd>
+</dl>
+<p>Contingency tables are useful for calculating <strong>conditional probabilities</strong> as they
+contain all the necessary ingredients for the computation. The concept of
+conditional probability will be the main contents of this lecture.</p>
+<p>Let us start with an example of a contingency table, which will allow us to repeat at the
+same time some R concepts. In our data directory I have stored
+the daily prices of the Standard &amp; Poors 500 stock price index and the daily prices
+of four stocks, Google, Amazon, Facebook and Apple beginning from January 1st 2015.
+Now we would like to construct
+a contingency table from these data to think about how these individual stocks
+move with the overall index. Let us start with Google and you can then do the others
+yourself.</p>
+<p>First of all let us load the data for the index and write them into a variable called SP500</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="conditional-probability.html#cb95-1" aria-hidden="true" tabindex="-1"></a>SP500 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/sp500.csv&quot;</span>)</span></code></pre></div>
+<p>We next read the prices of the four individual stocks which are stored in
+one file and write them into the variable <code>stock_data</code></p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="conditional-probability.html#cb96-1" aria-hidden="true" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stock_prices.csv&quot;</span>)</span></code></pre></div>
+<p>For the contingency table we would like to count the number of days when the
+S&amp;P was moving up from one day to the next and how often it was moving down. We would
+like to do the same with the Google (Amazon, Facebook, Apple) stock price.</p>
+<p>One way to see whether the price moved up or down from one day to the next is to
+compute the daily price differences in the closing price. When this difference is
+positive the price made an up movement, when it is negative, it made a down movement (it
+could theoretically also not change at all).</p>
+<p>There are many ways to implement such a computation in R. An efficient way to do sp one is to use
+one of R’s internal functions <code>diff()</code>. It implements a method for
+computing differences in time series. Consider the following example: Say we have
+a vector of values like</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="conditional-probability.html#cb97-1" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span></code></pre></div>
+<p>and we apply the <code>diff()</code>function we will get</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="conditional-probability.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(val)</span></code></pre></div>
+<pre><code>## [1]  2  3 -6  8  1</code></pre>
+<p>Now, of course by taking differences between 4 and 2, 7 and 4, 1 and 7, 9 and 1, ans 10 and 9 we
+have to drop the first observation and get a vector which is shorter than val by one component.
+We can
+produce a vector of equal length if we add as the first component the value NA, which is
+R’s symbol of “not available” or of a missing value. Indeed this makes sense because for the
+first date if you want we have no value for the change (since we cut off there and don’t know
+the value from the day before).</p>
+<p>Now let us apply this reasoning to the Standard and Poors 500: The data of the index are in a
+dataframe, which is a special case of a list. We can add a column by the $ symbol. This
+symbol will append a new column with the name we write after $. Let us call this new
+column “changes” and compute the changes in the closing price by the <code>diff()</code>function.
+Now, since we loose the first value here by taking the first difference, let us
+replace it by NA and from a new column of price differecnes with the first observation
+replace by NA. Thus we type:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="conditional-probability.html#cb100-1" aria-hidden="true" tabindex="-1"></a>SP500<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(SP500<span class="sc">$</span>close))</span></code></pre></div>
+<p>Lets do the same for the Google stock price. If you inspect the data by using the <code>View()</code> function
+you will see that the price series of our different stocks
+are stacked upon each other. How can we filter just the
+Google Price? Here we can make use of Rs system of selecting values from lists (since the
+stock prices are a dataframe, a special list). We type:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="conditional-probability.html#cb101-1" aria-hidden="true" tabindex="-1"></a>google <span class="ot">&lt;-</span> stock_data[stock_data<span class="sc">$</span>symbol <span class="sc">==</span> <span class="st">&quot;GOOGL&quot;</span>, ]</span></code></pre></div>
+<p>Let us explain: We can filter the rows which have the symbol “GOOGL” by telling R to select
+the rows - rows are the first entries in stock_data[rows,columns] after the [ bracket.
+For example, if we would type</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="conditional-probability.html#cb102-1" aria-hidden="true" tabindex="-1"></a>stock_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code></pre></div>
+<pre><code>##    symbol       date   open   high    low  close
+## 1   GOOGL 2015-01-02 532.60 535.80 527.88 529.55
+## 2   GOOGL 2015-01-05 527.15 527.99 517.75 519.46
+## 3   GOOGL 2015-01-06 520.50 521.21 505.55 506.64
+## 4   GOOGL 2015-01-07 510.95 511.49 503.65 505.15
+## 5   GOOGL 2015-01-08 501.51 507.50 495.02 506.91
+## 6   GOOGL 2015-01-09 508.18 508.60 498.65 500.72
+## 7   GOOGL 2015-01-12 499.24 500.28 490.91 497.06
+## 8   GOOGL 2015-01-13 502.57 508.60 497.26 501.80
+## 9   GOOGL 2015-01-14 500.42 508.26 498.16 505.93
+## 10  GOOGL 2015-01-15 508.89 509.75 502.01 504.01</code></pre>
+<p>we get row 1 to 10 and column 1 to 6. Now this syntax can also be used by
+specifying conditions. The
+condition we use is that the values of the rows we look for are all rows, where
+the value of the column stock_data$symbol is equal to the string “GOOGL” and other than this
+we select all columns. To express this equality we need the symbol <code>==</code> (and not <code>=</code> which
+works as an assignment operator in R, similar to <code>&lt;-</code>).</p>
+<p>This is expressed as:</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="conditional-probability.html#cb104-1" aria-hidden="true" tabindex="-1"></a>google <span class="ot">&lt;-</span> stock_data[stock_data<span class="sc">$</span>symbol <span class="sc">==</span> <span class="st">&quot;GOOGL&quot;</span>, ]</span></code></pre></div>
+<p>Now as before with the Standard and Poors 500 Index we can add a column recording the changes
+in the closing price</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="conditional-probability.html#cb105-1" aria-hidden="true" tabindex="-1"></a>google<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(google<span class="sc">$</span>close))</span></code></pre></div>
+<p>Now we add two new columns to the SP500 dataframe, by assigning a logical operation. Whenever
+the price movment went up the first difference will be positive. R checks this condition for
+every row and writes TRUE if the condition is fulfills and FALSE otherwise. An analogous
+operation can be done for the up movements of Google’s stock price.</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="conditional-probability.html#cb106-1" aria-hidden="true" tabindex="-1"></a>SP500<span class="sc">$</span>Up <span class="ot">&lt;-</span> SP500<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb106-2"><a href="conditional-probability.html#cb106-2" aria-hidden="true" tabindex="-1"></a>google<span class="sc">$</span>Up <span class="ot">&lt;-</span> google<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span></span></code></pre></div>
+<p>We can now compute a contingency table of both movements. R has a function, called <code>table()</code>
+which does this job.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="conditional-probability.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(SP500<span class="sc">$</span>Up, google<span class="sc">$</span>Up)</span></code></pre></div>
+<pre><code>##        
+##         FALSE TRUE
+##   FALSE   556  218
+##   TRUE    223  702</code></pre>
+<p>The contingency table shows counts of Up and Down movements of the Stadard and Poors index closing
+price and the price of Google. In all the 1699 observations, there are 556 days when
+the Index moves down and the Price of Google also moves down. There are only 218 days when the
+Index moves down but Google moves in the other direction Up. There are even more days when
+the Index and the Google stock price move up together. Using a relative frequency interpretation
+of probability we can transform these counts into probabilities by dividing the number by the
+number of total observations 1699. Let’s do this:</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="conditional-probability.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(SP500<span class="sc">$</span>Up, google<span class="sc">$</span>Up)<span class="sc">/</span><span class="dv">1699</span></span></code></pre></div>
+<pre><code>##        
+##             FALSE      TRUE
+##   FALSE 0.3272513 0.1283108
+##   TRUE  0.1312537 0.4131842</code></pre>
+<p>These are the probabilities of joint moves or cross moves.</p>
+</div>
+<div id="marginal-joint-and-conditional-probability" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Marginal, joint and conditional probability</h2>
+<p>Marginal probabilty
+:The <strong>marginal probability</strong> is the unconditional probability on an event. This
+probability is not conditioned on any other event. In terms of notation, we
+denote the marginal probabilities of two arbitrary events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> by
+<span class="math inline">\(P(A)\)</span> and <span class="math inline">\(P(B)\)</span> respectively.</p>
+<dl>
+<dt>Joint probability</dt>
+<dd>The <strong>joint probability</strong> is the probability of simultaneous events. This is
+the probability of the intersection of two or more events. If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are
+arbitrary events, we write <span class="math inline">\(P(A \cap B)\)</span>.
+</dd>
+<dt>Conditional probability</dt>
+<dd>The conditional probability is the probability of an event <em>given</em> that some other
+event has occurred. The information from the event that has occured can influence
+the probability of the original event. The following notation is used for
+conditional probabilities: For two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the conditional probability of
+<span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span> is denoted by <span class="math inline">\(P(A\,|\,B)\)</span> and the conditional probability of <span class="math inline">\(B\)</span> given
+<span class="math inline">\(A\)</span> is denoted as <span class="math inline">\(P(B\, |\, A)\)</span>. In general these two conditional probabilities are
+not the same.
+</dd>
+</dl>
+<p>The probability table of joint moves, we have computed before can help us to illustrate
+these concepts and state a formula for the conditional probability.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Google-Down</th>
+<th align="center">Google-Up</th>
+<th align="right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SP500-Down</td>
+<td align="center">0.33</td>
+<td align="center">0.13</td>
+<td align="right">0.46</td>
+</tr>
+<tr class="even">
+<td>SP500-Up</td>
+<td align="center">0.13</td>
+<td align="center">0.41</td>
+<td align="right">0.54</td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td align="center">0.46</td>
+<td align="center">0.54</td>
+<td align="right">1.00</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>marginal probability</strong> that the SP500 will make an Up move is
+<span class="math inline">\(P(\text{SP500-Up} \cap \text{Google-Down}) + P(\text{SP500-Up} \cap \text{Google-up}) = P(\text{SP500-Up})\)</span>, which is 0.54, given our table. It is the sum
+of the two <strong>joint probabilities</strong> <span class="math inline">\(P(\text{SP500-Up} \cap \text{Google-Down})\)</span> and
+<span class="math inline">\(P(\text{SP500-Up} \cap \text{Google-Up})\)</span>. To compute the conditional probability
+that the stock price of Google will make an up move given that the SP500 makes an
+up move we have to compute <span class="math inline">\(P(\text{Google-Up} | \text{SP500-Up})\)</span>. The probability
+that the Google price went up and the SP500 went up is <span class="math inline">\(P(\text{Google-up} \cap \text{SP500-Up})\)</span>.
+But given I already know that by the condition SP500 went up, I am in the second line of
+my table and we know that the first line, SP500 went down - is ruled out by the
+condition. We thus have now a <em>new sample space</em> and we must
+adjust the probabilities proportionally
+to be consistent with the rules of probability. We therefore have to divide by
+<span class="math inline">\(P(\text{SP500-Up})\)</span> to get the formula
+<span class="math inline">\(P(\text{Google-Up} | \text{SP500-Up}) = \frac{P(\text{Google-up} \cap \text{SP500-Up})}{P(\text{SP500-Up})}\)</span> which is <span class="math inline">\(0.41/0.54\)</span> or <span class="math inline">\(0.76\)</span>.
+To check whether we have made the correct renormalisation you can ask yourself: Given the
+rules of probability, what is <span class="math inline">\(P(\text{Google-Down} | \text{SP500-Up}))\)</span> ? It should be
+<span class="math inline">\(1 - 0.76\)</span> or 0.24. Applying the formula for conditional probability we would compute
+<span class="math inline">\(0.13/0.54\)</span> which is indeed 0.24.</p>
+<p>Another way to think about this formula can perhaps help to foster our intuition if we
+look at this problem through the frequency interpretation of probability:</p>
+<p>We would like to
+find the conditional probability that Google makes an Up move given that
+SP500 mkes an up move. Suppose the daily price moves are a conceptual
+random experiment with the outcomes that the
+price can either move up or down and we have two prices SP500 and Google, so our
+sample space has four possible outcomes
+We repeat this
+experiment 1699 times and keep a notebook where at every repetition we write down the
+number of the experiment, the outcome and then we note whether both Google and the SP500
+went up.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">notebook line</th>
+<th align="center">outcome</th>
+<th align="center">SP500-Up and Google-Up ?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">SP500-Up, Google-Down</td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">SP500-Down, Google-Up</td>
+<td align="center">No</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">SP500-Up, Google-Up</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="even">
+<td align="center">.</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="odd">
+<td align="center">.</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="even">
+<td align="center">.</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="odd">
+<td align="center">1699</td>
+<td align="center">SP500-Up, Google-Up</td>
+<td align="center">Yes</td>
+</tr>
+</tbody>
+</table>
 
+</div>
 </div>
             </section>
 

@@ -1,0 +1,23 @@
+---
+title: "Loading Stock Data with Tidyquant"
+output: html_notebook
+author: Martin Summer
+date: 4.10.2021
+---
+
+```{r}
+library(tidyquant)
+```
+
+# Load Standard and Poor 500
+
+```{r}
+SP500 <- tq_get("^GSPC", from = "2015-01-01", get = "stock.price")
+write.csv(SP500, "../data/sp500.csv", row.names = FALSE)
+```
+
+```{r}
+stock_data <- tq_get(c("GOOGL","AMZN","FB","AAPL"), from = "2015-01-01", get="stock.prices")
+write.csv(stock_data, "../data/stock_prices.csv", row.names = FALSE )
+```
+

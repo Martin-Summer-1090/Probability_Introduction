@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer}
-\date{2021-09-30}
+\date{2021-10-07}
 
 \begin{document}
 \maketitle
@@ -2114,6 +2114,300 @@ column contains characters, the close column contains doubles for example.
 
 \hypertarget{conditional-probability}{%
 \chapter{Conditional Probability}\label{conditional-probability}}
+
+\hypertarget{introdcution}{%
+\section{Introdcution}\label{introdcution}}
+
+We begin this chapter with a definition and an example. Here is the definition:
+
+\begin{description}
+\tightlist
+\item[Contingency Table]
+A contingency table shows counts of cases on one categorical variable contingent
+on the value of another for every combination of both variables.
+\end{description}
+
+Contingency tables are useful for calculating \textbf{conditional probabilities} as they
+contain all the necessary ingredients for the computation. The concept of
+conditional probability will be the main contents of this lecture.
+
+Let us start with an example of a contingency table, which will allow us to repeat at the
+same time some R concepts. In our data directory I have stored
+the daily prices of the Standard \& Poors 500 stock price index and the daily prices
+of four stocks, Google, Amazon, Facebook and Apple beginning from January 1st 2015.
+Now we would like to construct
+a contingency table from these data to think about how these individual stocks
+move with the overall index. Let us start with Google and you can then do the others
+yourself.
+
+First of all let us load the data for the index and write them into a variable called SP500
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SP500 }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/sp500.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We next read the prices of the four individual stocks which are stored in
+one file and write them into the variable \texttt{stock\_data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stock\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/stock\_prices.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+For the contingency table we would like to count the number of days when the
+S\&P was moving up from one day to the next and how often it was moving down. We would
+like to do the same with the Google (Amazon, Facebook, Apple) stock price.
+
+One way to see whether the price moved up or down from one day to the next is to
+compute the daily price differences in the closing price. When this difference is
+positive the price made an up movement, when it is negative, it made a down movement (it
+could theoretically also not change at all).
+
+There are many ways to implement such a computation in R. An efficient way to do sp one is to use
+one of R's internal functions \texttt{diff()}. It implements a method for
+computing differences in time series. Consider the following example: Say we have
+a vector of values like
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{val }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+and we apply the \texttt{diff()}function we will get
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{diff}\NormalTok{(val)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  2  3 -6  8  1
+\end{verbatim}
+
+Now, of course by taking differences between 4 and 2, 7 and 4, 1 and 7, 9 and 1, ans 10 and 9 we
+have to drop the first observation and get a vector which is shorter than val by one component.
+We can
+produce a vector of equal length if we add as the first component the value NA, which is
+R's symbol of ``not available'' or of a missing value. Indeed this makes sense because for the
+first date if you want we have no value for the change (since we cut off there and don't know
+the value from the day before).
+
+Now let us apply this reasoning to the Standard and Poors 500: The data of the index are in a
+dataframe, which is a special case of a list. We can add a column by the \$ symbol. This
+symbol will append a new column with the name we write after \$. Let us call this new
+column ``changes'' and compute the changes in the closing price by the \texttt{diff()}function.
+Now, since we loose the first value here by taking the first difference, let us
+replace it by NA and from a new column of price differecnes with the first observation
+replace by NA. Thus we type:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SP500}\SpecialCharTok{$}\NormalTok{changes }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\FunctionTok{diff}\NormalTok{(SP500}\SpecialCharTok{$}\NormalTok{close))}
+\end{Highlighting}
+\end{Shaded}
+
+Lets do the same for the Google stock price. If you inspect the data by using the \texttt{View()} function
+you will see that the price series of our different stocks
+are stacked upon each other. How can we filter just the
+Google Price? Here we can make use of Rs system of selecting values from lists (since the
+stock prices are a dataframe, a special list). We type:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{google }\OtherTok{\textless{}{-}}\NormalTok{ stock\_data[stock\_data}\SpecialCharTok{$}\NormalTok{symbol }\SpecialCharTok{==} \StringTok{"GOOGL"}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+Let us explain: We can filter the rows which have the symbol ``GOOGL'' by telling R to select
+the rows - rows are the first entries in stock\_data{[}rows,columns{]} after the {[} bracket.
+For example, if we would type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stock\_data[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    symbol       date   open   high    low  close
+## 1   GOOGL 2015-01-02 532.60 535.80 527.88 529.55
+## 2   GOOGL 2015-01-05 527.15 527.99 517.75 519.46
+## 3   GOOGL 2015-01-06 520.50 521.21 505.55 506.64
+## 4   GOOGL 2015-01-07 510.95 511.49 503.65 505.15
+## 5   GOOGL 2015-01-08 501.51 507.50 495.02 506.91
+## 6   GOOGL 2015-01-09 508.18 508.60 498.65 500.72
+## 7   GOOGL 2015-01-12 499.24 500.28 490.91 497.06
+## 8   GOOGL 2015-01-13 502.57 508.60 497.26 501.80
+## 9   GOOGL 2015-01-14 500.42 508.26 498.16 505.93
+## 10  GOOGL 2015-01-15 508.89 509.75 502.01 504.01
+\end{verbatim}
+
+we get row 1 to 10 and column 1 to 6. Now this syntax can also be used by
+specifying conditions. The
+condition we use is that the values of the rows we look for are all rows, where
+the value of the column stock\_data\$symbol is equal to the string ``GOOGL'' and other than this
+we select all columns. To express this equality we need the symbol \texttt{==} (and not \texttt{=} which
+works as an assignment operator in R, similar to \texttt{\textless{}-}).
+
+This is expressed as:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{google }\OtherTok{\textless{}{-}}\NormalTok{ stock\_data[stock\_data}\SpecialCharTok{$}\NormalTok{symbol }\SpecialCharTok{==} \StringTok{"GOOGL"}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+Now as before with the Standard and Poors 500 Index we can add a column recording the changes
+in the closing price
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{google}\SpecialCharTok{$}\NormalTok{changes }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\FunctionTok{diff}\NormalTok{(google}\SpecialCharTok{$}\NormalTok{close))}
+\end{Highlighting}
+\end{Shaded}
+
+Now we add two new columns to the SP500 dataframe, by assigning a logical operation. Whenever
+the price movment went up the first difference will be positive. R checks this condition for
+every row and writes TRUE if the condition is fulfills and FALSE otherwise. An analogous
+operation can be done for the up movements of Google's stock price.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SP500}\SpecialCharTok{$}\NormalTok{Up }\OtherTok{\textless{}{-}}\NormalTok{ SP500}\SpecialCharTok{$}\NormalTok{changes }\SpecialCharTok{\textgreater{}} \DecValTok{0}
+\NormalTok{google}\SpecialCharTok{$}\NormalTok{Up }\OtherTok{\textless{}{-}}\NormalTok{ google}\SpecialCharTok{$}\NormalTok{changes }\SpecialCharTok{\textgreater{}} \DecValTok{0}
+\end{Highlighting}
+\end{Shaded}
+
+We can now compute a contingency table of both movements. R has a function, called \texttt{table()}
+which does this job.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(SP500}\SpecialCharTok{$}\NormalTok{Up, google}\SpecialCharTok{$}\NormalTok{Up)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        
+##         FALSE TRUE
+##   FALSE   556  218
+##   TRUE    223  702
+\end{verbatim}
+
+The contingency table shows counts of Up and Down movements of the Stadard and Poors index closing
+price and the price of Google. In all the 1699 observations, there are 556 days when
+the Index moves down and the Price of Google also moves down. There are only 218 days when the
+Index moves down but Google moves in the other direction Up. There are even more days when
+the Index and the Google stock price move up together. Using a relative frequency interpretation
+of probability we can transform these counts into probabilities by dividing the number by the
+number of total observations 1699. Let's do this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(SP500}\SpecialCharTok{$}\NormalTok{Up, google}\SpecialCharTok{$}\NormalTok{Up)}\SpecialCharTok{/}\DecValTok{1699}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        
+##             FALSE      TRUE
+##   FALSE 0.3272513 0.1283108
+##   TRUE  0.1312537 0.4131842
+\end{verbatim}
+
+These are the probabilities of joint moves or cross moves.
+
+\hypertarget{marginal-joint-and-conditional-probability}{%
+\section{Marginal, joint and conditional probability}\label{marginal-joint-and-conditional-probability}}
+
+Marginal probabilty
+:The \textbf{marginal probability} is the unconditional probability on an event. This
+probability is not conditioned on any other event. In terms of notation, we
+denote the marginal probabilities of two arbitrary events \(A\) and \(B\) by
+\(P(A)\) and \(P(B)\) respectively.
+
+\begin{description}
+\tightlist
+\item[Joint probability]
+The \textbf{joint probability} is the probability of simultaneous events. This is
+the probability of the intersection of two or more events. If \(A\) and \(B\) are
+arbitrary events, we write \(P(A \cap B)\).
+\item[Conditional probability]
+The conditional probability is the probability of an event \emph{given} that some other
+event has occurred. The information from the event that has occured can influence
+the probability of the original event. The following notation is used for
+conditional probabilities: For two events \(A\) and \(B\), the conditional probability of
+\(A\) given \(B\) is denoted by \(P(A\,|\,B)\) and the conditional probability of \(B\) given
+\(A\) is denoted as \(P(B\, |\, A)\). In general these two conditional probabilities are
+not the same.
+\end{description}
+
+The probability table of joint moves, we have computed before can help us to illustrate
+these concepts and state a formula for the conditional probability.
+
+\begin{longtable}[]{@{}lccr@{}}
+\toprule
+& Google-Down & Google-Up & Total \\
+\midrule
+\endhead
+SP500-Down & 0.33 & 0.13 & 0.46 \\
+SP500-Up & 0.13 & 0.41 & 0.54 \\
+Total & 0.46 & 0.54 & 1.00 \\
+\bottomrule
+\end{longtable}
+
+The \textbf{marginal probability} that the SP500 will make an Up move is
+\(P(\text{SP500-Up} \cap \text{Google-Down}) + P(\text{SP500-Up} \cap \text{Google-up}) = P(\text{SP500-Up})\), which is 0.54, given our table. It is the sum
+of the two \textbf{joint probabilities} \(P(\text{SP500-Up} \cap \text{Google-Down})\) and
+\(P(\text{SP500-Up} \cap \text{Google-Up})\). To compute the conditional probability
+that the stock price of Google will make an up move given that the SP500 makes an
+up move we have to compute \(P(\text{Google-Up} | \text{SP500-Up})\). The probability
+that the Google price went up and the SP500 went up is \(P(\text{Google-up} \cap \text{SP500-Up})\).
+But given I already know that by the condition SP500 went up, I am in the second line of
+my table and we know that the first line, SP500 went down - is ruled out by the
+condition. We thus have now a \emph{new sample space} and we must
+adjust the probabilities proportionally
+to be consistent with the rules of probability. We therefore have to divide by
+\(P(\text{SP500-Up})\) to get the formula
+\(P(\text{Google-Up} | \text{SP500-Up}) = \frac{P(\text{Google-up} \cap \text{SP500-Up})}{P(\text{SP500-Up})}\) which is \(0.41/0.54\) or \(0.76\).
+To check whether we have made the correct renormalisation you can ask yourself: Given the
+rules of probability, what is \(P(\text{Google-Down} | \text{SP500-Up}))\) ? It should be
+\(1 - 0.76\) or 0.24. Applying the formula for conditional probability we would compute
+\(0.13/0.54\) which is indeed 0.24.
+
+Another way to think about this formula can perhaps help to foster our intuition if we
+look at this problem through the frequency interpretation of probability:
+
+We would like to
+find the conditional probability that Google makes an Up move given that
+SP500 mkes an up move. Suppose the daily price moves are a conceptual
+random experiment with the outcomes that the
+price can either move up or down and we have two prices SP500 and Google, so our
+sample space has four possible outcomes
+We repeat this
+experiment 1699 times and keep a notebook where at every repetition we write down the
+number of the experiment, the outcome and then we note whether both Google and the SP500
+went up.
+
+\begin{longtable}[]{@{}ccc@{}}
+\toprule
+notebook line & outcome & SP500-Up and Google-Up ? \\
+\midrule
+\endhead
+1 & SP500-Up, Google-Down & No \\
+2 & SP500-Down, Google-Up & No \\
+3 & SP500-Up, Google-Up & Yes \\
+. & . & . \\
+. & . & . \\
+. & . & . \\
+1699 & SP500-Up, Google-Up & Yes \\
+\bottomrule
+\end{longtable}
 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}
