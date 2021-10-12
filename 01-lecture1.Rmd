@@ -851,33 +851,44 @@ we can thing of this as a random experiment. Can you figure out the sample space
 Can you figure out 
 the event that the family will have two boys?
 
-### Birthdays
+### Birthdays and the Blockchain
 
-Assume there are 10 students in a class. When we assume that the year has 365 days, how 
-many configurations of birthdays are possible? Again we can conceptually think of the birthday
-of the students in the class as the outcome of a random experiment. The number of basic
-outcomes are all the possible configurations of 10 birthdays among the 365 days of the
-year.
+Suppose we are interested in the probability that at least two students in a class 
+have the same birthday. We will talk about probabilities in the next lecture. But in
+this lecture we have learned that we can only talk meaningfully about probabilities if
+we know the random experiment and the basic outcomes.
 
-Here we encounter a situation where it would be possible but impractical to write down the sample
-space explicitly. It would just be a very long list of 10 dates long sequences of 
-birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
-practical to know counting techniques to figure out the number of possible outcomes. The
-example we are considering here is a special case of a general counting problem often encountered
-in probability: The random placement of `r` balls in `n` cells. The mathematical notation for such
-a counting problem is:
-$\binom{n}{r} = \frac{n!}{k!(n - r)!}$
-The left hand side of the equation means "the number of ways to 
-choose $r$ things from among $n$ things.
-The right hand side shows a formular how this can be computed. R has a 
-function to compute these things
-directly. It is called `choose()` and we apply it to the birthdays example
+Again we can conceptually think of the birthday
+of the students in the class as the outcome of a random experiment. Let us assume for
+simplicity that the year has 356 days ignoring leap years. If we have $n$ students
+the number of ways these students can have birthdays in 365 day long year is
+$365^n$. This is the sample space ${\cal S}$ consists of all these different birthday
+profiles. With 10 students we have $4.1969e+25$ such profiles.
+
+The event we are interested in is that *at least two students have the same birthday*. It turns
+out that it is easier to think about the complementary event, which is that 
+*all students have different birthdays*. The way that $n$ students can have different birthdays
+is $365 \cdot 364 \cdot 363 \ldots 365 - n + 1$. So for instance for 10 students this would
+amount to
+```{r}
+365*364*363*362*361*360*359*358*357*356
+```
+a pretty large number
+
+We can by the way use R functions to calculate this big product without typing the different
+numbers so many times. We can use the product function to to this:
 
 ```{r}
-choose(365, 10)
+prod(365:(365-10+1))
 ```
-A pretty large number. Here you see that R displays the number in scientific notation meaning
-$1.021296*10^{19}$, a number with 13 zeros. Pretty large.
+The birthday problem plays an important role in cryptography, and its concept of hash-functions.
+Hash-functions play a key role in the implementation of Cryptocurrencies. Let us explain this
+context and what it has to do with Crypto:
+
+explain Hash-Functions
+
+
+
 
 ## Summary
 

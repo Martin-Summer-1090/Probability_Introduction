@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer}
-\date{2021-10-10}
+\date{2021-10-12}
 
 \begin{document}
 \maketitle
@@ -1159,41 +1159,51 @@ we can thing of this as a random experiment. Can you figure out the sample space
 Can you figure out
 the event that the family will have two boys?
 
-\hypertarget{birthdays}{%
-\subsection{Birthdays}\label{birthdays}}
+\hypertarget{birthdays-and-the-blockchain}{%
+\subsection{Birthdays and the Blockchain}\label{birthdays-and-the-blockchain}}
 
-Assume there are 10 students in a class. When we assume that the year has 365 days, how
-many configurations of birthdays are possible? Again we can conceptually think of the birthday
-of the students in the class as the outcome of a random experiment. The number of basic
-outcomes are all the possible configurations of 10 birthdays among the 365 days of the
-year.
+Suppose we are interested in the probability that at least two students in a class
+have the same birthday. We will talk about probabilities in the next lecture. But in
+this lecture we have learned that we can only talk meaningfully about probabilities if
+we know the random experiment and the basic outcomes.
 
-Here we encounter a situation where it would be possible but impractical to write down the sample
-space explicitly. It would just be a very long list of 10 dates long sequences of
-birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
-practical to know counting techniques to figure out the number of possible outcomes. The
-example we are considering here is a special case of a general counting problem often encountered
-in probability: The random placement of \texttt{r} balls in \texttt{n} cells. The mathematical notation for such
-a counting problem is:
-\(\binom{n}{r} = \frac{n!}{k!(n - r)!}\)
-The left hand side of the equation means "the number of ways to
-choose \(r\) things from among \(n\) things.
-The right hand side shows a formular how this can be computed. R has a
-function to compute these things
-directly. It is called \texttt{choose()} and we apply it to the birthdays example
+Again we can conceptually think of the birthday
+of the students in the class as the outcome of a random experiment. Let us assume for
+simplicity that the year has 356 days ignoring leap years. If we have \(n\) students
+the number of ways these students can have birthdays in 365 day long year is
+\(365^n\). This is the sample space \({\cal S}\) consists of all these different birthday
+profiles. With 10 students we have \(4.1969e+25\) such profiles.
+
+The event we are interested in is that \emph{at least two students have the same birthday}. It turns
+out that it is easier to think about the complementary event, which is that
+\emph{all students have different birthdays}. The way that \(n\) students can have different birthdays
+is \(365 \cdot 364 \cdot 363 \ldots 365 - n + 1\). So for instance for 10 students this would
+amount to
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{choose}\NormalTok{(}\DecValTok{365}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\DecValTok{365}\SpecialCharTok{*}\DecValTok{364}\SpecialCharTok{*}\DecValTok{363}\SpecialCharTok{*}\DecValTok{362}\SpecialCharTok{*}\DecValTok{361}\SpecialCharTok{*}\DecValTok{360}\SpecialCharTok{*}\DecValTok{359}\SpecialCharTok{*}\DecValTok{358}\SpecialCharTok{*}\DecValTok{357}\SpecialCharTok{*}\DecValTok{356}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.021296e+19
+## [1] 3.70608e+25
 \end{verbatim}
 
-A pretty large number. Here you see that R displays the number in scientific notation meaning
-\(1.021296*10^{19}\), a number with 13 zeros. Pretty large.
+a pretty large number
+
+We can by the way use R functions to calculate this big product without typing the different
+numbers so many times. We can use the product function to to this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prod}\NormalTok{(}\DecValTok{365}\SpecialCharTok{:}\NormalTok{(}\DecValTok{365{-}10}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.70608e+25
+\end{verbatim}
 
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
@@ -1576,7 +1586,7 @@ Lets look at the outcome of the 100 tosses graphically
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-21-1.pdf}
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-22-1.pdf}
 The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not
 exactly. Lets toss 1000 times and then look again.
 
@@ -1587,7 +1597,7 @@ exactly. Lets toss 1000 times and then look again.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-22-1.pdf}
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-23-1.pdf}
 This looks already pretty good. Lets toss even more. Why not toss a million of times?
 
 \begin{Shaded}
@@ -1597,7 +1607,7 @@ This looks already pretty good. Lets toss even more. Why not toss a million of t
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-23-1.pdf}
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-24-1.pdf}
 Now you see the idea of the frequency interpretation. The number of occurrences of H divided
 by the total number of tosses comes closer to the \(1/2\) probability as we toss many
 times. We will come back to this idea again a bit later.
@@ -1799,14 +1809,7 @@ directory called data and is named \texttt{apple\_stock\_price.csv} is
 \end{Shaded}
 
 Please use the help functions to study the details of this function. It is quite powerful.
-You can inspect the entire dataset using the \texttt{View()}function like this:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{View}\NormalTok{(apple\_stock\_price)}
-\end{Highlighting}
-\end{Shaded}
-
+You can inspect the entire dataset using the \texttt{View()}function.
 This command will open a View pane like shown in this picture, which you can use to inspect
 all the data pretty much like in an excel sheet.
 
@@ -3404,19 +3407,38 @@ Now we compute \(702/926\) which gives us 0.76 as we have already verified befor
 \hypertarget{birthdays-and-blockchains}{%
 \section{Birthdays and Blockchains}\label{birthdays-and-blockchains}}
 
-Let us go back to the problem we discussed in lecture 1 where we had 10 people in a room. How
+Let us go back to the problem we discussed in lecture 1 where we had \(n\) people in a room. How
 much would you bet that there is nobody in the room who shares the same birthday?
 
-Let us think about this problem a bit more generally. Say the number of people in the room is
-some number \(n\). Let \(A\) denote the event that at least two people in the room share the
-same birthday. We denote the probability of \(A\) by \(P(A)\). To calculate this
-probability it is easiest to realize that the probability that at least two people share the
-same birthday is equivalent to the 1 minus the probability that nobody shares the same
-birthday, which is the complementary event \(A^C\). For \(n\) people in the room there are in
-total \(365^n\) possible outcomes and the event \(A\) can happen in \(365 \cdot 364 \cdot 363 \ldots (365-n+1)\) ways. Thus we get
-\(P(A) = 1 - P(A^C) = 1 - \frac{365 \cdot 364 \cdot 363 \ldots (365-n+1)}{365^n}\)
-It can be shown that this expression is equal to
-\(\frac{365 \, !}{365 \, ! (365 - n) \, !}\)
+We have worked out the numbers in lecture 1. We want to know \(P(\text{all different birthdays}\).
+
+Now we can use this formula to write a function in R which gives us the probability as a
+function of the number of people in a room.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{birthday\_collision }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n)\{}
+  
+  \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{prod}\NormalTok{(}\DecValTok{365}\SpecialCharTok{:}\NormalTok{(}\DecValTok{365}\SpecialCharTok{{-}}\NormalTok{n}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))}\SpecialCharTok{/}\DecValTok{365}\SpecialCharTok{\^{}}\NormalTok{n}
+  
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+If there are 10 people:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{birthday\_collision}\NormalTok{(}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.1169482
+\end{verbatim}
+
+\hypertarget{baysian-updating-stock-market-and-overconfidence}{%
+\section{Baysian Updating, Stock Market and Overconfidence}\label{baysian-updating-stock-market-and-overconfidence}}
 
 \hypertarget{r-concepts}{%
 \section{R-Concepts}\label{r-concepts}}

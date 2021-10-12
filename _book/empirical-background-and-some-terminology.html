@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-10-10" />
+<meta name="date" content="2021-10-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -164,7 +164,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.9.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-stock-price-of-apple"><i class="fa fa-check"></i><b>2.9.1</b> The stock price of Apple</a></li>
 <li class="chapter" data-level="2.9.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-change-of-a-stock-price-two-days-from-now"><i class="fa fa-check"></i><b>2.9.2</b> The change of a stock price two days from now</a></li>
 <li class="chapter" data-level="2.9.3" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#boys-and-girls"><i class="fa fa-check"></i><b>2.9.3</b> Boys and Girls</a></li>
-<li class="chapter" data-level="2.9.4" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#birthdays"><i class="fa fa-check"></i><b>2.9.4</b> Birthdays</a></li>
+<li class="chapter" data-level="2.9.4" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#birthdays-and-the-blockchain"><i class="fa fa-check"></i><b>2.9.4</b> Birthdays and the Blockchain</a></li>
 </ul></li>
 <li class="chapter" data-level="2.10" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#summary"><i class="fa fa-check"></i><b>2.10</b> Summary</a></li>
 <li class="chapter" data-level="2.11" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#project-1-rolling-two-dice-and-adding-the-points"><i class="fa fa-check"></i><b>2.11</b> Project 1: Rolling two dice and adding the points</a></li>
@@ -206,8 +206,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="conditional-probability.html"><a href="conditional-probability.html#introdcution"><i class="fa fa-check"></i><b>4.1</b> Introdcution</a></li>
 <li class="chapter" data-level="4.2" data-path="conditional-probability.html"><a href="conditional-probability.html#marginal-joint-and-conditional-probability"><i class="fa fa-check"></i><b>4.2</b> Marginal, joint and conditional probability</a></li>
 <li class="chapter" data-level="4.3" data-path="conditional-probability.html"><a href="conditional-probability.html#birthdays-and-blockchains"><i class="fa fa-check"></i><b>4.3</b> Birthdays and Blockchains</a></li>
-<li class="chapter" data-level="4.4" data-path="conditional-probability.html"><a href="conditional-probability.html#r-concepts"><i class="fa fa-check"></i><b>4.4</b> R-Concepts</a></li>
-<li class="chapter" data-level="4.5" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>4.5</b> Project</a></li>
+<li class="chapter" data-level="4.4" data-path="conditional-probability.html"><a href="conditional-probability.html#baysian-updating-stock-market-and-overconfidence"><i class="fa fa-check"></i><b>4.4</b> Baysian Updating, Stock Market and Overconfidence</a></li>
+<li class="chapter" data-level="4.5" data-path="conditional-probability.html"><a href="conditional-probability.html#r-concepts"><i class="fa fa-check"></i><b>4.5</b> R-Concepts</a></li>
+<li class="chapter" data-level="4.6" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>4.6</b> Project</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="5" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>5</b> Appendix</a>
@@ -932,30 +933,30 @@ we can thing of this as a random experiment. Can you figure out the sample space
 Can you figure out
 the event that the family will have two boys?</p>
 </div>
-<div id="birthdays" class="section level3" number="2.9.4">
-<h3><span class="header-section-number">2.9.4</span> Birthdays</h3>
-<p>Assume there are 10 students in a class. When we assume that the year has 365 days, how
-many configurations of birthdays are possible? Again we can conceptually think of the birthday
-of the students in the class as the outcome of a random experiment. The number of basic
-outcomes are all the possible configurations of 10 birthdays among the 365 days of the
-year.</p>
-<p>Here we encounter a situation where it would be possible but impractical to write down the sample
-space explicitly. It would just be a very long list of 10 dates long sequences of
-birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
-practical to know counting techniques to figure out the number of possible outcomes. The
-example we are considering here is a special case of a general counting problem often encountered
-in probability: The random placement of <code>r</code> balls in <code>n</code> cells. The mathematical notation for such
-a counting problem is:
-<span class="math inline">\(\binom{n}{r} = \frac{n!}{k!(n - r)!}\)</span>
-The left hand side of the equation means "the number of ways to
-choose <span class="math inline">\(r\)</span> things from among <span class="math inline">\(n\)</span> things.
-The right hand side shows a formular how this can be computed. R has a
-function to compute these things
-directly. It is called <code>choose()</code> and we apply it to the birthdays example</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="empirical-background-and-some-terminology.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">choose</span>(<span class="dv">365</span>, <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>## [1] 1.021296e+19</code></pre>
-<p>A pretty large number. Here you see that R displays the number in scientific notation meaning
-<span class="math inline">\(1.021296*10^{19}\)</span>, a number with 13 zeros. Pretty large.</p>
+<div id="birthdays-and-the-blockchain" class="section level3" number="2.9.4">
+<h3><span class="header-section-number">2.9.4</span> Birthdays and the Blockchain</h3>
+<p>Suppose we are interested in the probability that at least two students in a class
+have the same birthday. We will talk about probabilities in the next lecture. But in
+this lecture we have learned that we can only talk meaningfully about probabilities if
+we know the random experiment and the basic outcomes.</p>
+<p>Again we can conceptually think of the birthday
+of the students in the class as the outcome of a random experiment. Let us assume for
+simplicity that the year has 356 days ignoring leap years. If we have <span class="math inline">\(n\)</span> students
+the number of ways these students can have birthdays in 365 day long year is
+<span class="math inline">\(365^n\)</span>. This is the sample space <span class="math inline">\({\cal S}\)</span> consists of all these different birthday
+profiles. With 10 students we have <span class="math inline">\(4.1969e+25\)</span> such profiles.</p>
+<p>The event we are interested in is that <em>at least two students have the same birthday</em>. It turns
+out that it is easier to think about the complementary event, which is that
+<em>all students have different birthdays</em>. The way that <span class="math inline">\(n\)</span> students can have different birthdays
+is <span class="math inline">\(365 \cdot 364 \cdot 363 \ldots 365 - n + 1\)</span>. So for instance for 10 students this would
+amount to</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="empirical-background-and-some-terminology.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="dv">365</span><span class="sc">*</span><span class="dv">364</span><span class="sc">*</span><span class="dv">363</span><span class="sc">*</span><span class="dv">362</span><span class="sc">*</span><span class="dv">361</span><span class="sc">*</span><span class="dv">360</span><span class="sc">*</span><span class="dv">359</span><span class="sc">*</span><span class="dv">358</span><span class="sc">*</span><span class="dv">357</span><span class="sc">*</span><span class="dv">356</span></span></code></pre></div>
+<pre><code>## [1] 3.70608e+25</code></pre>
+<p>a pretty large number</p>
+<p>We can by the way use R functions to calculate this big product without typing the different
+numbers so many times. We can use the product function to to this:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="empirical-background-and-some-terminology.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prod</span>(<span class="dv">365</span><span class="sc">:</span>(<span class="dv">365-10</span><span class="sc">+</span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] 3.70608e+25</code></pre>
 </div>
 </div>
 <div id="summary" class="section level2" number="2.10">
