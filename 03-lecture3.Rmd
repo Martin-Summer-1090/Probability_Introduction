@@ -261,11 +261,41 @@ sum(joint_ups$simultaneous, na.rm = T)
 
 Now we compute $702/926$ which gives us 0.76 as we have already verified before. 
 
-## Probability Trees
+## Birthdays and Blockchains
 
-## Naive Bayes Classification
+Let us go back to the problem we discussed in lecture 1 where we had 10 people in a room. How
+much would you bet that there is nobody in the room who shares the same birthday?
 
-## Hash-Functions
+Let us think about this problem a bit more generally. Say the number of people in the room is
+some number $n$. Let $A$ denote the event that at least two people in the room share the
+same birthday. We denote the probability of $A$ by $P(A)$. To calculate this
+probability it is easiest to realize that the probability that at least two people share the
+same birthday is equivalent to the 1 minus the probability that nobody shares the same
+birthday, which is the complementary event $A^C$. For $n$ people in the room there are in
+total $365^n$ possible outcomes and the event $A$ can happen in $365 \cdot 364 \cdot 363 \ldots (365-n+1)$ ways. Thus we get
+$P(A) = 1 - P(A^C) = 1 - \frac{365 \cdot 364 \cdot 363 \ldots (365-n+1)}{365^n}$
+It can be shown that this expression is equal to
+$1 - \frac{365 \, !}{365^n (365 - n) \, !}$.
+
+Now we can use this formula to write a function in R which gives us the probability as a
+function of the number of people in a room.
+
+```{r}
+birthday_collision <- function(n){
+  
+  1 - (factorial(365) / (365^n * factorial((365 - n))))
+  
+}
+```
+
+If there are 10 people:
+
+```{r}
+birthday_collision(10)
+```
+
+
+## Baysian Updating, Stock Market and Overconfidence
 
 ## R-Concepts
 

@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer}
-\date{2021-10-07}
+\date{2021-10-10}
 
 \begin{document}
 \maketitle
@@ -1165,11 +1165,11 @@ the event that the family will have two boys?
 Assume there are 10 students in a class. When we assume that the year has 365 days, how
 many configurations of birthdays are possible? Again we can conceptually think of the birthday
 of the students in the class as the outcome of a random experiment. The number of basic
-outcomes are all the possible configurations of 25 birthdays among the 365 days of the
+outcomes are all the possible configurations of 10 birthdays among the 365 days of the
 year.
 
 Here we encounter a situation where it would be possible but impractical to write down the sample
-space explicitly. It would just be a very long list of 25 dates long sequences of
+space explicitly. It would just be a very long list of 10 dates long sequences of
 birthdays. Not very useful. Most of the time sample spaces will be like this. It is therefore
 practical to know counting techniques to figure out the number of possible outcomes. The
 example we are considering here is a special case of a general counting problem often encountered
@@ -2385,10 +2385,12 @@ look at this problem through the frequency interpretation of probability:
 
 We would like to
 find the conditional probability that Google makes an Up move given that
-SP500 mkes an up move. Suppose the daily price moves are a conceptual
+SP500 makes an up move. Suppose the daily price moves are a conceptual
 random experiment with the outcomes that the
 price can either move up or down and we have two prices SP500 and Google, so our
-sample space has four possible outcomes
+sample space has four possible outcomes:
+\({\cal S} = \{ UU, UD, DU, DD \}\) where the first character if it is U means SP500-Up
+and the second if it is U means Google-Up and so on for all possible combinations.
 We repeat this
 experiment 1699 times and keep a notebook where at every repetition we write down the
 number of the experiment, the outcome and then we note whether both Google and the SP500
@@ -2408,6 +2410,1019 @@ notebook line & outcome & SP500-Up and Google-Up ? \\
 1699 & SP500-Up, Google-Up & Yes \\
 \bottomrule
 \end{longtable}
+
+To get the conditional probability of a Google-Up given an SP500-Up we have to count
+the Google-Ups \textbf{among the notebook lines} where the SP500 has an Up move and divide by
+the number of these SP500-Up lines.
+
+Let's do this in R. To create the notebook we make a dataframe where one column is the Up column
+of the SP500 data and the second columns is the Up column of the Google data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{joint\_ups }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{SP500Up =}\NormalTok{ SP500}\SpecialCharTok{$}\NormalTok{Up, }\AttributeTok{GoogleUp =}\NormalTok{ google}\SpecialCharTok{$}\NormalTok{Up)}
+\end{Highlighting}
+\end{Shaded}
+
+Now we apply what we h ave already learned about referencing values in a dataframe in R to
+select all the number in our fictitious notebook where the SP500 moves Up:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{joint\_ups[joint\_ups}\SpecialCharTok{$}\NormalTok{SP500Up }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      SP500Up GoogleUp
+## NA        NA       NA
+## 4       TRUE    FALSE
+## 5       TRUE     TRUE
+## 11      TRUE     TRUE
+## 12      TRUE    FALSE
+## 13      TRUE     TRUE
+## 14      TRUE     TRUE
+## 16      TRUE    FALSE
+## 19      TRUE     TRUE
+## 21      TRUE    FALSE
+## 22      TRUE     TRUE
+## 24      TRUE     TRUE
+## 27      TRUE     TRUE
+## 29      TRUE     TRUE
+## 30      TRUE     TRUE
+## 31      TRUE    FALSE
+## 34      TRUE    FALSE
+## 36      TRUE     TRUE
+## 40      TRUE     TRUE
+## 43      TRUE     TRUE
+## 45      TRUE     TRUE
+## 48      TRUE     TRUE
+## 50      TRUE     TRUE
+## 52      TRUE     TRUE
+## 54      TRUE     TRUE
+## 59      TRUE    FALSE
+## 60      TRUE     TRUE
+## 63      TRUE    FALSE
+## 64      TRUE     TRUE
+## 66      TRUE     TRUE
+## 67      TRUE    FALSE
+## 68      TRUE     TRUE
+## 70      TRUE    FALSE
+## 71      TRUE     TRUE
+## 74      TRUE     TRUE
+## 76      TRUE     TRUE
+## 77      TRUE     TRUE
+## 78      TRUE     TRUE
+## 80      TRUE    FALSE
+## 83      TRUE     TRUE
+## 84      TRUE     TRUE
+## 87      TRUE     TRUE
+## 88      TRUE     TRUE
+## 92      TRUE     TRUE
+## 93      TRUE    FALSE
+## 94      TRUE     TRUE
+## 97      TRUE     TRUE
+## 100     TRUE     TRUE
+## 103     TRUE     TRUE
+## 105     TRUE     TRUE
+## 109     TRUE    FALSE
+## 110     TRUE     TRUE
+## 111     TRUE    FALSE
+## 114     TRUE     TRUE
+## 115     TRUE     TRUE
+## 116     TRUE     TRUE
+## 118     TRUE     TRUE
+## 119     TRUE     TRUE
+## 124     TRUE    FALSE
+## 125     TRUE     TRUE
+## 128     TRUE     TRUE
+## 130     TRUE     TRUE
+## 131     TRUE     TRUE
+## 132     TRUE     TRUE
+## 133     TRUE     TRUE
+## 135     TRUE     TRUE
+## 136     TRUE     TRUE
+## 137     TRUE    FALSE
+## 143     TRUE     TRUE
+## 144     TRUE     TRUE
+## 145     TRUE     TRUE
+## 149     TRUE     TRUE
+## 152     TRUE    FALSE
+## 154     TRUE     TRUE
+## 156     TRUE     TRUE
+## 157     TRUE     TRUE
+## 164     TRUE     TRUE
+## 165     TRUE     TRUE
+## 166     TRUE    FALSE
+## 169     TRUE     TRUE
+## 170     TRUE    FALSE
+## 172     TRUE     TRUE
+## 174     TRUE     TRUE
+## 175     TRUE     TRUE
+## 177     TRUE     TRUE
+## 178     TRUE     TRUE
+## 181     TRUE     TRUE
+## 187     TRUE    FALSE
+## 188     TRUE     TRUE
+## 189     TRUE     TRUE
+## 190     TRUE     TRUE
+## 191     TRUE     TRUE
+## 193     TRUE    FALSE
+## 194     TRUE    FALSE
+## 195     TRUE     TRUE
+## 196     TRUE     TRUE
+## 199     TRUE     TRUE
+## 200     TRUE     TRUE
+## 201     TRUE     TRUE
+## 204     TRUE     TRUE
+## 205     TRUE     TRUE
+## 208     TRUE     TRUE
+## 211     TRUE     TRUE
+## 212     TRUE     TRUE
+## 217     TRUE     TRUE
+## 221     TRUE     TRUE
+## 223     TRUE     TRUE
+## 225     TRUE     TRUE
+## 227     TRUE    FALSE
+## 229     TRUE     TRUE
+## 231     TRUE     TRUE
+## 234     TRUE     TRUE
+## 238     TRUE    FALSE
+## 240     TRUE     TRUE
+## 241     TRUE    FALSE
+## 242     TRUE     TRUE
+## 245     TRUE     TRUE
+## 246     TRUE     TRUE
+## 247     TRUE     TRUE
+## 250     TRUE     TRUE
+## 254     TRUE     TRUE
+## 258     TRUE     TRUE
+## 259     TRUE     TRUE
+## 261     TRUE     TRUE
+## 263     TRUE     TRUE
+## 265     TRUE     TRUE
+## 266     TRUE     TRUE
+## 268     TRUE     TRUE
+## 270     TRUE     TRUE
+## 271     TRUE     TRUE
+## 274     TRUE    FALSE
+## 275     TRUE    FALSE
+## 281     TRUE     TRUE
+## 282     TRUE     TRUE
+## 283     TRUE     TRUE
+## 286     TRUE     TRUE
+## 288     TRUE     TRUE
+## 289     TRUE     TRUE
+## 292     TRUE     TRUE
+## 293     TRUE    FALSE
+## 294     TRUE    FALSE
+## 295     TRUE    FALSE
+## 296     TRUE    FALSE
+## 298     TRUE     TRUE
+## 299     TRUE     TRUE
+## 300     TRUE     TRUE
+## 303     TRUE     TRUE
+## 304     TRUE     TRUE
+## 305     TRUE    FALSE
+## 306     TRUE     TRUE
+## 310     TRUE    FALSE
+## 311     TRUE     TRUE
+## 312     TRUE     TRUE
+## 314     TRUE     TRUE
+## 317     TRUE     TRUE
+## 319     TRUE    FALSE
+## 321     TRUE     TRUE
+## 322     TRUE     TRUE
+## 323     TRUE     TRUE
+## 325     TRUE     TRUE
+## 326     TRUE    FALSE
+## 327     TRUE    FALSE
+## 329     TRUE    FALSE
+## 331     TRUE    FALSE
+## 332     TRUE    FALSE
+## 335     TRUE     TRUE
+## 339     TRUE     TRUE
+## 340     TRUE     TRUE
+## 341     TRUE     TRUE
+## 345     TRUE     TRUE
+## 347     TRUE     TRUE
+## 349     TRUE     TRUE
+## 351     TRUE     TRUE
+## 352     TRUE     TRUE
+## 354     TRUE     TRUE
+## 356     TRUE    FALSE
+## 357     TRUE    FALSE
+## 359     TRUE    FALSE
+## 360     TRUE     TRUE
+## 361     TRUE     TRUE
+## 367     TRUE    FALSE
+## 369     TRUE     TRUE
+## 370     TRUE     TRUE
+## 372     TRUE     TRUE
+## 375     TRUE     TRUE
+## 376     TRUE     TRUE
+## 377     TRUE     TRUE
+## 378     TRUE     TRUE
+## 380     TRUE     TRUE
+## 382     TRUE     TRUE
+## 383     TRUE     TRUE
+## 384     TRUE     TRUE
+## 385     TRUE    FALSE
+## 386     TRUE     TRUE
+## 388     TRUE     TRUE
+## 390     TRUE     TRUE
+## 392     TRUE     TRUE
+## 394     TRUE     TRUE
+## 396     TRUE     TRUE
+## 397     TRUE     TRUE
+## 400     TRUE    FALSE
+## 401     TRUE    FALSE
+## 402     TRUE     TRUE
+## 404     TRUE     TRUE
+## 406     TRUE    FALSE
+## 408     TRUE    FALSE
+## 410     TRUE     TRUE
+## 411     TRUE    FALSE
+## 414     TRUE    FALSE
+## 418     TRUE     TRUE
+## 422     TRUE     TRUE
+## 423     TRUE     TRUE
+## 427     TRUE     TRUE
+## 430     TRUE     TRUE
+## 433     TRUE     TRUE
+## 434     TRUE     TRUE
+## 435     TRUE     TRUE
+## 438     TRUE     TRUE
+## 439     TRUE    FALSE
+## 441     TRUE     TRUE
+## 444     TRUE    FALSE
+## 445     TRUE     TRUE
+## 447     TRUE     TRUE
+## 449     TRUE     TRUE
+## 451     TRUE     TRUE
+## 453     TRUE     TRUE
+## 454     TRUE     TRUE
+## 457     TRUE     TRUE
+## 467     TRUE     TRUE
+## 468     TRUE     TRUE
+## 469     TRUE    FALSE
+## 470     TRUE    FALSE
+## 473     TRUE     TRUE
+## 475     TRUE     TRUE
+## 477     TRUE     TRUE
+## 478     TRUE     TRUE
+## 479     TRUE    FALSE
+## 480     TRUE     TRUE
+## 482     TRUE     TRUE
+## 485     TRUE     TRUE
+## 486     TRUE     TRUE
+## 487     TRUE    FALSE
+## 488     TRUE     TRUE
+## 489     TRUE     TRUE
+## 490     TRUE     TRUE
+## 492     TRUE     TRUE
+## 494     TRUE    FALSE
+## 496     TRUE     TRUE
+## 497     TRUE     TRUE
+## 500     TRUE    FALSE
+## 501     TRUE     TRUE
+## 505     TRUE     TRUE
+## 506     TRUE    FALSE
+## 508     TRUE     TRUE
+## 511     TRUE     TRUE
+## 513     TRUE     TRUE
+## 515     TRUE     TRUE
+## 517     TRUE     TRUE
+## 519     TRUE     TRUE
+## 520     TRUE     TRUE
+## 525     TRUE    FALSE
+## 526     TRUE     TRUE
+## 527     TRUE     TRUE
+## 529     TRUE     TRUE
+## 530     TRUE     TRUE
+## 531     TRUE     TRUE
+## 532     TRUE     TRUE
+## 533     TRUE     TRUE
+## 534     TRUE     TRUE
+## 535     TRUE    FALSE
+## 537     TRUE     TRUE
+## 538     TRUE     TRUE
+## 540     TRUE    FALSE
+## 541     TRUE    FALSE
+## 542     TRUE     TRUE
+## 544     TRUE     TRUE
+## 546     TRUE    FALSE
+## 550     TRUE     TRUE
+## 551     TRUE     TRUE
+## 552     TRUE     TRUE
+## 554     TRUE     TRUE
+## 559     TRUE    FALSE
+## 563     TRUE     TRUE
+## 564     TRUE     TRUE
+## 565     TRUE    FALSE
+## 568     TRUE    FALSE
+## 570     TRUE    FALSE
+## 572     TRUE    FALSE
+## 576     TRUE     TRUE
+## 579     TRUE     TRUE
+## 581     TRUE     TRUE
+## 582     TRUE     TRUE
+## 584     TRUE     TRUE
+## 586     TRUE     TRUE
+## 587     TRUE     TRUE
+## 589     TRUE     TRUE
+## 590     TRUE    FALSE
+## 591     TRUE     TRUE
+## 593     TRUE    FALSE
+## 596     TRUE     TRUE
+## 599     TRUE     TRUE
+## 600     TRUE     TRUE
+## 601     TRUE     TRUE
+## 602     TRUE     TRUE
+## 603     TRUE     TRUE
+## 604     TRUE     TRUE
+## 605     TRUE     TRUE
+## 608     TRUE     TRUE
+## 609     TRUE     TRUE
+## 612     TRUE     TRUE
+## 613     TRUE     TRUE
+## 616     TRUE     TRUE
+## 619     TRUE    FALSE
+## 620     TRUE     TRUE
+## 624     TRUE     TRUE
+## 625     TRUE    FALSE
+## 627     TRUE     TRUE
+## 629     TRUE    FALSE
+## 630     TRUE    FALSE
+## 631     TRUE     TRUE
+## 633     TRUE     TRUE
+## 634     TRUE     TRUE
+## 636     TRUE     TRUE
+## 637     TRUE     TRUE
+## 638     TRUE     TRUE
+## 640     TRUE     TRUE
+## 641     TRUE     TRUE
+## 645     TRUE    FALSE
+## 646     TRUE    FALSE
+## 650     TRUE     TRUE
+## 651     TRUE     TRUE
+## 653     TRUE     TRUE
+## 654     TRUE    FALSE
+## 658     TRUE     TRUE
+## 659     TRUE     TRUE
+## 661     TRUE     TRUE
+## 664     TRUE    FALSE
+## 665     TRUE     TRUE
+## 668     TRUE    FALSE
+## 669     TRUE    FALSE
+## 670     TRUE     TRUE
+## 671     TRUE     TRUE
+## 672     TRUE     TRUE
+## 673     TRUE    FALSE
+## 675     TRUE     TRUE
+## 678     TRUE     TRUE
+## 679     TRUE     TRUE
+## 680     TRUE     TRUE
+## 682     TRUE    FALSE
+## 683     TRUE    FALSE
+## 684     TRUE     TRUE
+## 685     TRUE     TRUE
+## 687     TRUE    FALSE
+## 689     TRUE     TRUE
+## 690     TRUE     TRUE
+## 691     TRUE     TRUE
+## 692     TRUE     TRUE
+## 693     TRUE    FALSE
+## 694     TRUE     TRUE
+## 695     TRUE    FALSE
+## 696     TRUE     TRUE
+## 699     TRUE    FALSE
+## 700     TRUE     TRUE
+## 702     TRUE     TRUE
+## 703     TRUE     TRUE
+## 704     TRUE     TRUE
+## 705     TRUE     TRUE
+## 706     TRUE    FALSE
+## 707     TRUE     TRUE
+## 709     TRUE     TRUE
+## 711     TRUE    FALSE
+## 712     TRUE     TRUE
+## 714     TRUE    FALSE
+## 715     TRUE     TRUE
+## 716     TRUE     TRUE
+## 717     TRUE     TRUE
+## 718     TRUE    FALSE
+## 720     TRUE     TRUE
+## 723     TRUE    FALSE
+## 726     TRUE     TRUE
+## 728     TRUE    FALSE
+## 729     TRUE     TRUE
+## 731     TRUE     TRUE
+## 733     TRUE    FALSE
+## 735     TRUE    FALSE
+## 740     TRUE     TRUE
+## 741     TRUE     TRUE
+## 742     TRUE     TRUE
+## 743     TRUE    FALSE
+## 746     TRUE     TRUE
+## 747     TRUE     TRUE
+## 750     TRUE    FALSE
+## 753     TRUE    FALSE
+## 754     TRUE    FALSE
+## 756     TRUE     TRUE
+## 757     TRUE     TRUE
+## 758     TRUE     TRUE
+## 759     TRUE     TRUE
+## 760     TRUE     TRUE
+## 761     TRUE    FALSE
+## 763     TRUE     TRUE
+## 764     TRUE     TRUE
+## 766     TRUE     TRUE
+## 768     TRUE     TRUE
+## 769     TRUE     TRUE
+## 770     TRUE     TRUE
+## 772     TRUE     TRUE
+## 773     TRUE     TRUE
+## 776     TRUE     TRUE
+## 780     TRUE     TRUE
+## 783     TRUE     TRUE
+## 784     TRUE     TRUE
+## 785     TRUE    FALSE
+## 786     TRUE     TRUE
+## 787     TRUE     TRUE
+## 788     TRUE     TRUE
+## 791     TRUE    FALSE
+## 792     TRUE     TRUE
+## 793     TRUE     TRUE
+## 797     TRUE     TRUE
+## 798     TRUE     TRUE
+## 799     TRUE     TRUE
+## 801     TRUE     TRUE
+## 802     TRUE     TRUE
+## 807     TRUE    FALSE
+## 809     TRUE    FALSE
+## 813     TRUE     TRUE
+## 816     TRUE     TRUE
+## 818     TRUE     TRUE
+## 819     TRUE     TRUE
+## 820     TRUE     TRUE
+## 822     TRUE     TRUE
+## 823     TRUE     TRUE
+## 825     TRUE     TRUE
+## 827     TRUE     TRUE
+## 828     TRUE     TRUE
+## 829     TRUE    FALSE
+## 832     TRUE    FALSE
+## 834     TRUE     TRUE
+## 835     TRUE     TRUE
+## 836     TRUE    FALSE
+## 838     TRUE     TRUE
+## 841     TRUE     TRUE
+## 842     TRUE     TRUE
+## 844     TRUE     TRUE
+## 845     TRUE     TRUE
+## 846     TRUE    FALSE
+## 847     TRUE     TRUE
+## 849     TRUE    FALSE
+## 852     TRUE     TRUE
+## 854     TRUE     TRUE
+## 858     TRUE     TRUE
+## 860     TRUE     TRUE
+## 861     TRUE     TRUE
+## 862     TRUE    FALSE
+## 863     TRUE    FALSE
+## 865     TRUE    FALSE
+## 866     TRUE     TRUE
+## 867     TRUE     TRUE
+## 869     TRUE     TRUE
+## 873     TRUE     TRUE
+## 875     TRUE    FALSE
+## 877     TRUE    FALSE
+## 879     TRUE     TRUE
+## 880     TRUE     TRUE
+## 881     TRUE     TRUE
+## 883     TRUE     TRUE
+## 884     TRUE     TRUE
+## 885     TRUE     TRUE
+## 886     TRUE    FALSE
+## 888     TRUE     TRUE
+## 889     TRUE     TRUE
+## 891     TRUE     TRUE
+## 892     TRUE    FALSE
+## 895     TRUE     TRUE
+## 896     TRUE     TRUE
+## 897     TRUE     TRUE
+## 901     TRUE    FALSE
+## 903     TRUE     TRUE
+## 904     TRUE    FALSE
+## 905     TRUE    FALSE
+## 906     TRUE     TRUE
+## 911     TRUE     TRUE
+## 913     TRUE    FALSE
+## 914     TRUE    FALSE
+## 915     TRUE     TRUE
+## 916     TRUE    FALSE
+## 919     TRUE     TRUE
+## 920     TRUE     TRUE
+## 921     TRUE    FALSE
+## 922     TRUE     TRUE
+## 924     TRUE    FALSE
+## 929     TRUE    FALSE
+## 930     TRUE     TRUE
+## 931     TRUE    FALSE
+## 932     TRUE     TRUE
+## 933     TRUE    FALSE
+## 935     TRUE     TRUE
+## 936     TRUE     TRUE
+## 937     TRUE     TRUE
+## 942     TRUE     TRUE
+## 944     TRUE     TRUE
+## 946     TRUE     TRUE
+## 953     TRUE     TRUE
+## 955     TRUE     TRUE
+## 962     TRUE     TRUE
+## 965     TRUE     TRUE
+## 966     TRUE     TRUE
+## 967     TRUE    FALSE
+## 969     TRUE    FALSE
+## 970     TRUE     TRUE
+## 971     TRUE     TRUE
+## 977     TRUE     TRUE
+## 978     TRUE    FALSE
+## 981     TRUE     TRUE
+## 983     TRUE     TRUE
+## 984     TRUE    FALSE
+## 985     TRUE     TRUE
+## 987     TRUE     TRUE
+## 988     TRUE     TRUE
+## 992     TRUE     TRUE
+## 994     TRUE     TRUE
+## 998     TRUE     TRUE
+## 1003    TRUE     TRUE
+## 1004    TRUE     TRUE
+## 1006    TRUE    FALSE
+## 1007    TRUE     TRUE
+## 1009    TRUE     TRUE
+## 1010    TRUE    FALSE
+## 1011    TRUE     TRUE
+## 1012    TRUE    FALSE
+## 1013    TRUE    FALSE
+## 1016    TRUE     TRUE
+## 1017    TRUE     TRUE
+## 1018    TRUE     TRUE
+## 1019    TRUE     TRUE
+## 1021    TRUE     TRUE
+## 1022    TRUE    FALSE
+## 1023    TRUE     TRUE
+## 1026    TRUE     TRUE
+## 1027    TRUE     TRUE
+## 1028    TRUE    FALSE
+## 1029    TRUE     TRUE
+## 1030    TRUE     TRUE
+## 1033    TRUE    FALSE
+## 1034    TRUE    FALSE
+## 1035    TRUE     TRUE
+## 1036    TRUE     TRUE
+## 1038    TRUE    FALSE
+## 1039    TRUE     TRUE
+## 1040    TRUE    FALSE
+## 1042    TRUE     TRUE
+## 1043    TRUE     TRUE
+## 1047    TRUE     TRUE
+## 1053    TRUE     TRUE
+## 1054    TRUE     TRUE
+## 1055    TRUE     TRUE
+## 1057    TRUE    FALSE
+## 1058    TRUE    FALSE
+## 1061    TRUE     TRUE
+## 1064    TRUE    FALSE
+## 1066    TRUE    FALSE
+## 1067    TRUE     TRUE
+## 1068    TRUE     TRUE
+## 1069    TRUE     TRUE
+## 1070    TRUE     TRUE
+## 1071    TRUE     TRUE
+## 1072    TRUE    FALSE
+## 1073    TRUE    FALSE
+## 1075    TRUE     TRUE
+## 1076    TRUE     TRUE
+## 1077    TRUE     TRUE
+## 1079    TRUE     TRUE
+## 1081    TRUE     TRUE
+## 1082    TRUE     TRUE
+## 1083    TRUE     TRUE
+## 1086    TRUE     TRUE
+## 1087    TRUE     TRUE
+## 1088    TRUE    FALSE
+## 1091    TRUE     TRUE
+## 1096    TRUE    FALSE
+## 1098    TRUE    FALSE
+## 1099    TRUE     TRUE
+## 1100    TRUE     TRUE
+## 1103    TRUE     TRUE
+## 1106    TRUE    FALSE
+## 1109    TRUE     TRUE
+## 1112    TRUE     TRUE
+## 1113    TRUE    FALSE
+## 1114    TRUE     TRUE
+## 1115    TRUE     TRUE
+## 1116    TRUE     TRUE
+## 1119    TRUE     TRUE
+## 1121    TRUE     TRUE
+## 1122    TRUE     TRUE
+## 1123    TRUE    FALSE
+## 1124    TRUE     TRUE
+## 1129    TRUE    FALSE
+## 1130    TRUE     TRUE
+## 1131    TRUE     TRUE
+## 1132    TRUE     TRUE
+## 1133    TRUE     TRUE
+## 1136    TRUE     TRUE
+## 1137    TRUE     TRUE
+## 1138    TRUE     TRUE
+## 1139    TRUE     TRUE
+## 1140    TRUE     TRUE
+## 1143    TRUE     TRUE
+## 1145    TRUE     TRUE
+## 1146    TRUE     TRUE
+## 1147    TRUE    FALSE
+## 1149    TRUE     TRUE
+## 1156    TRUE     TRUE
+## 1157    TRUE     TRUE
+## 1158    TRUE     TRUE
+## 1161    TRUE     TRUE
+## 1163    TRUE     TRUE
+## 1164    TRUE     TRUE
+## 1165    TRUE     TRUE
+## 1167    TRUE     TRUE
+## 1170    TRUE     TRUE
+## 1172    TRUE     TRUE
+## 1173    TRUE     TRUE
+## 1174    TRUE    FALSE
+## 1176    TRUE     TRUE
+## 1177    TRUE     TRUE
+## 1178    TRUE    FALSE
+## 1180    TRUE     TRUE
+## 1181    TRUE     TRUE
+## 1182    TRUE     TRUE
+## 1185    TRUE    FALSE
+## 1186    TRUE     TRUE
+## 1187    TRUE     TRUE
+## 1191    TRUE     TRUE
+## 1194    TRUE    FALSE
+## 1197    TRUE     TRUE
+## 1198    TRUE     TRUE
+## 1201    TRUE     TRUE
+## 1202    TRUE     TRUE
+## 1203    TRUE     TRUE
+## 1205    TRUE     TRUE
+## 1207    TRUE     TRUE
+## 1209    TRUE    FALSE
+## 1211    TRUE     TRUE
+## 1212    TRUE     TRUE
+## 1213    TRUE     TRUE
+## 1214    TRUE     TRUE
+## 1216    TRUE     TRUE
+## 1218    TRUE     TRUE
+## 1219    TRUE     TRUE
+## 1221    TRUE    FALSE
+## 1222    TRUE     TRUE
+## 1223    TRUE     TRUE
+## 1225    TRUE    FALSE
+## 1226    TRUE    FALSE
+## 1227    TRUE     TRUE
+## 1228    TRUE     TRUE
+## 1229    TRUE    FALSE
+## 1233    TRUE    FALSE
+## 1234    TRUE     TRUE
+## 1235    TRUE     TRUE
+## 1236    TRUE    FALSE
+## 1240    TRUE     TRUE
+## 1241    TRUE     TRUE
+## 1242    TRUE     TRUE
+## 1245    TRUE     TRUE
+## 1246    TRUE     TRUE
+## 1247    TRUE    FALSE
+## 1248    TRUE     TRUE
+## 1249    TRUE    FALSE
+## 1251    TRUE     TRUE
+## 1252    TRUE    FALSE
+## 1253    TRUE    FALSE
+## 1255    TRUE     TRUE
+## 1256    TRUE    FALSE
+## 1258    TRUE    FALSE
+## 1259    TRUE     TRUE
+## 1261    TRUE     TRUE
+## 1263    TRUE     TRUE
+## 1264    TRUE     TRUE
+## 1266    TRUE     TRUE
+## 1268    TRUE     TRUE
+## 1269    TRUE     TRUE
+## 1270    TRUE     TRUE
+## 1272    TRUE     TRUE
+## 1273    TRUE     TRUE
+## 1276    TRUE     TRUE
+## 1278    TRUE    FALSE
+## 1280    TRUE     TRUE
+## 1281    TRUE    FALSE
+## 1282    TRUE     TRUE
+## 1283    TRUE     TRUE
+## 1285    TRUE     TRUE
+## 1286    TRUE     TRUE
+## 1287    TRUE     TRUE
+## 1289    TRUE     TRUE
+## 1291    TRUE     TRUE
+## 1299    TRUE     TRUE
+## 1301    TRUE     TRUE
+## 1305    TRUE     TRUE
+## 1308    TRUE     TRUE
+## 1310    TRUE     TRUE
+## 1312    TRUE     TRUE
+## 1315    TRUE     TRUE
+## 1316    TRUE    FALSE
+## 1317    TRUE     TRUE
+## 1319    TRUE     TRUE
+## 1322    TRUE     TRUE
+## 1324    TRUE     TRUE
+## 1326    TRUE     TRUE
+## 1327    TRUE    FALSE
+## 1329    TRUE     TRUE
+## 1331    TRUE     TRUE
+## 1332    TRUE     TRUE
+## 1335    TRUE     TRUE
+## 1337    TRUE     TRUE
+## 1338    TRUE    FALSE
+## 1340    TRUE     TRUE
+## 1343    TRUE     TRUE
+## 1344    TRUE     TRUE
+## 1346    TRUE     TRUE
+## 1347    TRUE     TRUE
+## 1348    TRUE     TRUE
+## 1351    TRUE     TRUE
+## 1352    TRUE     TRUE
+## 1353    TRUE     TRUE
+## 1355    TRUE     TRUE
+## 1357    TRUE     TRUE
+## 1358    TRUE     TRUE
+## 1359    TRUE    FALSE
+## 1361    TRUE     TRUE
+## 1362    TRUE     TRUE
+## 1363    TRUE     TRUE
+## 1364    TRUE    FALSE
+## 1366    TRUE     TRUE
+## 1367    TRUE     TRUE
+## 1371    TRUE     TRUE
+## 1372    TRUE     TRUE
+## 1373    TRUE     TRUE
+## 1375    TRUE    FALSE
+## 1377    TRUE     TRUE
+## 1378    TRUE     TRUE
+## 1380    TRUE     TRUE
+## 1382    TRUE     TRUE
+## 1383    TRUE     TRUE
+## 1384    TRUE     TRUE
+## 1385    TRUE     TRUE
+## 1386    TRUE     TRUE
+## 1388    TRUE     TRUE
+## 1390    TRUE     TRUE
+## 1392    TRUE     TRUE
+## 1393    TRUE    FALSE
+## 1395    TRUE     TRUE
+## 1396    TRUE     TRUE
+## 1397    TRUE    FALSE
+## 1398    TRUE     TRUE
+## 1401    TRUE     TRUE
+## 1403    TRUE     TRUE
+## 1405    TRUE    FALSE
+## 1406    TRUE    FALSE
+## 1407    TRUE    FALSE
+## 1408    TRUE     TRUE
+## 1409    TRUE     TRUE
+## 1410    TRUE    FALSE
+## 1411    TRUE    FALSE
+## 1413    TRUE     TRUE
+## 1416    TRUE     TRUE
+## 1417    TRUE     TRUE
+## 1419    TRUE     TRUE
+## 1420    TRUE    FALSE
+## 1421    TRUE     TRUE
+## 1422    TRUE     TRUE
+## 1423    TRUE     TRUE
+## 1424    TRUE    FALSE
+## 1425    TRUE     TRUE
+## 1427    TRUE     TRUE
+## 1428    TRUE     TRUE
+## 1432    TRUE     TRUE
+## 1434    TRUE    FALSE
+## 1435    TRUE    FALSE
+## 1436    TRUE     TRUE
+## 1441    TRUE     TRUE
+## 1443    TRUE     TRUE
+## 1444    TRUE     TRUE
+## 1445    TRUE     TRUE
+## 1447    TRUE    FALSE
+## 1448    TRUE     TRUE
+## 1450    TRUE     TRUE
+## 1452    TRUE     TRUE
+## 1453    TRUE     TRUE
+## 1454    TRUE     TRUE
+## 1455    TRUE     TRUE
+## 1459    TRUE     TRUE
+## 1461    TRUE     TRUE
+## 1463    TRUE     TRUE
+## 1464    TRUE     TRUE
+## 1468    TRUE     TRUE
+## 1470    TRUE     TRUE
+## 1471    TRUE     TRUE
+## 1472    TRUE     TRUE
+## 1473    TRUE     TRUE
+## 1475    TRUE     TRUE
+## 1477    TRUE     TRUE
+## 1479    TRUE     TRUE
+## 1480    TRUE     TRUE
+## 1483    TRUE     TRUE
+## 1485    TRUE    FALSE
+## 1486    TRUE     TRUE
+## 1488    TRUE     TRUE
+## 1490    TRUE     TRUE
+## 1491    TRUE     TRUE
+## 1493    TRUE     TRUE
+## 1495    TRUE    FALSE
+## 1500    TRUE     TRUE
+## 1501    TRUE    FALSE
+## 1502    TRUE    FALSE
+## 1506    TRUE     TRUE
+## 1507    TRUE     TRUE
+## 1508    TRUE     TRUE
+## 1510    TRUE    FALSE
+## 1511    TRUE     TRUE
+## 1513    TRUE     TRUE
+## 1514    TRUE    FALSE
+## 1515    TRUE     TRUE
+## 1516    TRUE     TRUE
+## 1518    TRUE    FALSE
+## 1519    TRUE     TRUE
+## 1522    TRUE     TRUE
+## 1523    TRUE     TRUE
+## 1524    TRUE     TRUE
+## 1526    TRUE     TRUE
+## 1529    TRUE     TRUE
+## 1531    TRUE     TRUE
+## 1532    TRUE     TRUE
+## 1533    TRUE     TRUE
+## 1534    TRUE    FALSE
+## 1535    TRUE     TRUE
+## 1536    TRUE    FALSE
+## 1539    TRUE     TRUE
+## 1540    TRUE     TRUE
+## 1546    TRUE     TRUE
+## 1547    TRUE     TRUE
+## 1550    TRUE     TRUE
+## 1554    TRUE     TRUE
+## 1556    TRUE     TRUE
+## 1557    TRUE    FALSE
+## 1558    TRUE     TRUE
+## 1559    TRUE    FALSE
+## 1560    TRUE     TRUE
+## 1562    TRUE    FALSE
+## 1565    TRUE     TRUE
+## 1568    TRUE    FALSE
+## 1569    TRUE    FALSE
+## 1572    TRUE     TRUE
+## 1573    TRUE     TRUE
+## 1574    TRUE     TRUE
+## 1576    TRUE     TRUE
+## 1577    TRUE     TRUE
+## 1578    TRUE     TRUE
+## 1580    TRUE     TRUE
+## 1582    TRUE     TRUE
+## 1583    TRUE    FALSE
+## 1586    TRUE    FALSE
+## 1588    TRUE     TRUE
+## 1589    TRUE     TRUE
+## 1592    TRUE     TRUE
+## 1594    TRUE    FALSE
+## 1596    TRUE     TRUE
+## 1597    TRUE     TRUE
+## 1598    TRUE     TRUE
+## 1602    TRUE     TRUE
+## 1603    TRUE     TRUE
+## 1607    TRUE     TRUE
+## 1609    TRUE     TRUE
+## 1611    TRUE     TRUE
+## 1612    TRUE    FALSE
+## 1613    TRUE    FALSE
+## 1615    TRUE    FALSE
+## 1617    TRUE     TRUE
+## 1619    TRUE    FALSE
+## 1621    TRUE     TRUE
+## 1622    TRUE    FALSE
+## 1623    TRUE     TRUE
+## 1628    TRUE     TRUE
+## 1629    TRUE     TRUE
+## 1631    TRUE     TRUE
+## 1632    TRUE     TRUE
+## 1633    TRUE     TRUE
+## 1634    TRUE    FALSE
+## 1635    TRUE    FALSE
+## 1636    TRUE     TRUE
+## 1637    TRUE     TRUE
+## 1639    TRUE     TRUE
+## 1641    TRUE     TRUE
+## 1642    TRUE     TRUE
+## 1644    TRUE     TRUE
+## 1648    TRUE     TRUE
+## 1649    TRUE     TRUE
+## 1650    TRUE     TRUE
+## 1651    TRUE     TRUE
+## 1652    TRUE     TRUE
+## 1655    TRUE    FALSE
+## 1658    TRUE     TRUE
+## 1660    TRUE     TRUE
+## 1661    TRUE    FALSE
+## 1663    TRUE    FALSE
+## 1664    TRUE    FALSE
+## 1665    TRUE     TRUE
+## 1666    TRUE     TRUE
+## 1667    TRUE     TRUE
+## 1670    TRUE     TRUE
+## 1671    TRUE     TRUE
+## 1672    TRUE     TRUE
+## 1673    TRUE     TRUE
+## 1674    TRUE     TRUE
+## 1676    TRUE     TRUE
+## 1677    TRUE     TRUE
+## 1679    TRUE     TRUE
+## 1680    TRUE    FALSE
+## 1686    TRUE     TRUE
+## 1688    TRUE     TRUE
+## 1693    TRUE     TRUE
+## 1694    TRUE     TRUE
+## 1695    TRUE     TRUE
+## 1698    TRUE    FALSE
+## 1700    TRUE     TRUE
+\end{verbatim}
+
+To count the number of rows we can use the \texttt{dim()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(joint\_ups[joint\_ups}\SpecialCharTok{$}\NormalTok{SP500Up }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{, ])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 926   2
+\end{verbatim}
+
+It says that the number of notebook lines where the SP500 makes an Up move are 926. Since the
+first line is an NA we have to subtract this line, so we have 925 lines with actual Ups in the
+SP500.
+
+Now, let us count the Ups in the Google occurring simultaneously with the SP500 ups
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{joint\_ups}\SpecialCharTok{$}\NormalTok{simultaneous }\OtherTok{=}\NormalTok{ (joint\_ups}\SpecialCharTok{$}\NormalTok{SP500Up }\SpecialCharTok{\&}\NormalTok{ joint\_ups}\SpecialCharTok{$}\NormalTok{GoogleUp)}
+\end{Highlighting}
+\end{Shaded}
+
+Now we can make use of R's precedence rules to count the simultaneous up moves
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(joint\_ups}\SpecialCharTok{$}\NormalTok{simultaneous, }\AttributeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 702
+\end{verbatim}
+
+Now we compute \(702/926\) which gives us 0.76 as we have already verified before.
+
+\hypertarget{birthdays-and-blockchains}{%
+\section{Birthdays and Blockchains}\label{birthdays-and-blockchains}}
+
+Let us go back to the problem we discussed in lecture 1 where we had 10 people in a room. How
+much would you bet that there is nobody in the room who shares the same birthday?
+
+Let us think about this problem a bit more generally. Say the number of people in the room is
+some number \(n\). Let \(A\) denote the event that at least two people in the room share the
+same birthday. We denote the probability of \(A\) by \(P(A)\). To calculate this
+probability it is easiest to realize that the probability that at least two people share the
+same birthday is equivalent to the 1 minus the probability that nobody shares the same
+birthday, which is the complementary event \(A^C\). For \(n\) people in the room there are in
+total \(365^n\) possible outcomes and the event \(A\) can happen in \(365 \cdot 364 \cdot 363 \ldots (365-n+1)\) ways. Thus we get
+\(P(A) = 1 - P(A^C) = 1 - \frac{365 \cdot 364 \cdot 363 \ldots (365-n+1)}{365^n}\)
+It can be shown that this expression is equal to
+\(\frac{365 \, !}{365 \, ! (365 - n) \, !}\)
+
+\hypertarget{r-concepts}{%
+\section{R-Concepts}\label{r-concepts}}
+
+\hypertarget{project}{%
+\section{Project}\label{project}}
 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}
