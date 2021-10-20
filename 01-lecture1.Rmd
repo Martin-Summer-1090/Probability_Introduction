@@ -843,52 +843,80 @@ seem, plays a very important role in the theory of random price
 fluctuations of asset prices and in 
 option pricing and we will encounter it later in more detail.
 
-### Boys and Girls
-
-A family has four children. Which one of these children will turn out to be a boy or a girl is
-uncertain ex ante but once the baby is born we can see whether it is a boy or a girl. Conceptually
-we can thing of this as a random experiment. Can you figure out the sample space ? 
-Can you figure out 
-the event that the family will have two boys?
-
 ### Birthdays and the Blockchain
 
 Suppose we are interested in the probability that at least two students in a class 
-have the same birthday. We will talk about probabilities in the next lecture. But in
+of size $n$ share the same birthday. This is a very famous probability problem which
+is often referred to as the *birthday paradox*. It is technically not really a 
+paradox but it is called like this because this probability behaves in a surprising
+way if viewed as a function of the class size $n$. We discuss the problem in the
+context of computational finance because it has also an important application in
+the design of crypto-currencies and the new field of decentralized Finance, which
+make heavy use of cryptographic methods.
+
+We will talk about actual probabilities in the next lecture. But in
 this lecture we have learned that we can only talk meaningfully about probabilities if
-we know the random experiment and the basic outcomes.
+we know the random experiment and the basic outcomes. One interesting aspect with respect to
+the concepts of basic outcomes and sample space is that the birthday paradox example is
+an instance where we cannot simply write down the sample space like in the example of
+rolling a die.
 
-Again we can conceptually think of the birthday
-of the students in the class as the outcome of a random experiment. Let us assume for
-simplicity that the year has 356 days ignoring leap years. If we have $n$ students
-the number of ways these students can have birthdays in 365 day long year is
-$365^n$. This is the sample space ${\cal S}$ consists of all these different birthday
-profiles. With 10 students we have $4.1969e+25$ such profiles.
+The event we are interested in is that 
+*at least two students in a randomly selected sample of $n$ out of class have the same birthday*. 
+It turns out that it is easier to think about the complementary event, which is that 
+*all students have different birthdays*. 
 
-The event we are interested in is that *at least two students have the same birthday*. It turns
-out that it is easier to think about the complementary event, which is that 
-*all students have different birthdays*. The way that $n$ students can have different birthdays
-is $365 \cdot 364 \cdot 363 \ldots 365 - n + 1$. So for instance for 10 students this would
-amount to
-```{r}
-365*364*363*362*361*360*359*358*357*356
-```
-a pretty large number
+In terms of possible basic outcomes there
+are $365^n$ possible outcomes if there are $n$ students in the class. Each of
+them can have a birthday at any of the 365 days in the year and in total there are
+$n$ students. 
 
-We can by the way use R functions to calculate this big product without typing the different
-numbers so many times. We can use the product function to to this:
+So the sample space ${\cal S}$ for the conceptual 
+random experiment that all $n$ randomly selected students have different birthdays
+is the set ${\cal S} =\{1,2,\ldots, 356^n\}$ of basic outcomes. For 10 students this would
+be
 
 ```{r}
-prod(365:(365-10+1))
+365^10
 ```
-The birthday problem plays an important role in cryptography, and its concept of hash-functions.
+
+basic outcomes for all $n$ students having different birthdays.
+
+The birthday problem also plays an important role in cryptography, and its 
+concept of hash-functions.
 Hash-functions play a key role in the implementation of Cryptocurrencies. Let us explain this
 context and what it has to do with Crypto:
 
-explain Hash-Functions
+A **hash-function** maps a string of arbitrary but finite length to a fixed length string 
+of output. A
+very frequently used hash-function in practice is the function SHA-256, which maps its input
+to a string of 256 bits^[A bit, short for binary digit, is defined as the most basic 
+unit of data in telecommunications and computing. Each bit is represented 
+by either a 1 or a 0]. So, you could for instance give the text of the bible as an 
+input to SHA-256 and it would map this into a 256-bit string, which functions like
+a finger print of this text. This is a so 
+called *one-way-function* meaning that it is easy to evaluate or compute but it is
+practically impossible to learn from the value the initial argument by computing the inverse.
 
+Hash-Functions are key pillars of modern cryptography, where they play a major role in message
+authentication. This is because it is impossible to modify the input without significantly
+changing the output. So in our previous example, if you only dropped one letter from the text
+of the bible it would hash into a completely different value than the previous version which 
+still contained this letter and you would immediately see from
+comparing the hash-values that something has changed.
 
+The collision problem for hash-functions is formally equivalent to the birthday problem. The event
+we are interested in is that *at least two input strings hash-to the same value*. Again it
+is easier to think about the complementary event that *all inputs hash to a different value*.
 
+If the range of the hash-function is $M$ and the hash-function maps into a 256 bit string
+then there are $2^{256}$ basic outcomes. Since the hash-function maps a large string onto
+a smaller string it is possible that there are two different strings $x \neq y$ mapping
+to the same value $\text{hash}(x)=\text{hash}(y)$. This would be a problem for message
+authentification because it would give the same "fingerprint" for two different strings. For
+a cryptographically secure hash function it is therefore required that the probability of
+such a collision should be small enough to exclude a collision in all practically
+relevant circumstances. We will take up the eexample again in the next lecture.
 
 ## Summary
 

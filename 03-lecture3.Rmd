@@ -157,7 +157,7 @@ the probability of the intersection of two or more events. If $A$ and $B$ are
 arbitrary events, we write $P(A \cap B)$.
 
 Conditional probability
-: The conditional probability is the probability of an event *given* that some other 
+: The **conditional probability** is the probability of an event *given* that some other 
 event has occurred. The information from the event that has occured can influence
 the probability of the original event. The following notation is used for
 conditional probabilities: For two events $A$ and $B$, the conditional probability of
@@ -259,14 +259,46 @@ Now we can make use of R's precedence rules to count the simultaneous up moves
 sum(joint_ups$simultaneous, na.rm = T)
 ```
 
-Now we compute $702/926$ which gives us 0.76 as we have already verified before. 
+Now we compute $702/926$ which gives us 0.76 as we have already verified before.
 
-## Birthdays and Blockchains
+Note that for conditional probabilities we have for two events $A$ and $B$, that 
+$P(A|B) \neq P(B|A)$. To see this assume that $P(A) \neq P(B)$ and $P(A) \neq 0$ and 
+$P(B)\neq 0$. We then get:
+$P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(B \cap A)}{P(B}$, since $P(A \cap B) = P(B \cap A)$.
+It follows that $\frac{P(B \cap A)}{P(B} \neq \frac{P(B \cap A)}{P(A} = P(B|A)$, since we
+has assumed that $P(A) \neq P(B)$. Therefore $P(A|B) \neq P(B|A)$.
 
-Let us go back to the problem we discussed in lecture 1 where we had $n$ people in a room. How
+Try it with the stock price example above.
+
+The notion of conditional probability also gives us a new insight into the notion of
+independence, we discussed earlier. Remember that two events $A$ and $B$ are independent
+if $P(A \cap B) = P(B \cap A) = P(A) \cdot P(B)$. If we combine this rule with the 
+concept of conditional probability, we see that if two events $A$ and $B$ are independent, then
+$P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A) \cdot P(B)}{P(B)} = P(A)$ and
+$P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \cdot P(B)}{P(A)} = P(B)$.
+
+This formula says that if two events are independent the probability of $A$ is 
+not influenced by the event $B$ occuring and the probability of event $B$ is not
+influenced by the event $A$ occurring.
+
+## Birthdays and Blockchains continued
+
+Let us go back to the problem we discussed in lecture 1 where we had $n$ people in a class. How
 much would you bet that there is nobody in the room who shares the same birthday?
 
-We have worked out the numbers in lecture 1. We want to know $P(\text{all different birthdays}$.
+We would like to compute the probability of the event that at least two people have the
+same birthday, $P(A)$. We compute this via the simpler problem that all $n$ students have
+a different birthday and by using the rules of probability. 
+
+Since the union of an event $A$ and
+its complement $A^C$ is the whole sample space ${\cal S} = A \cup A^C$ and $A \cap A^C = \emptyset$, we have
+$P({\cal S}) = P(A) + P(A^C)$. Now since $P({\cal S}) = 1$, this means we can 
+compute the probability we are looking for as: $1 - P(A^C)$.
+
+In lecture 1 we have already found that for $n$ students, assuming that every birthday is
+equally likely, we have $365^n$ possible outcomes for all students having a different birthday
+and this can happen in $365\cdot 364\cdot 363,\ldots, (365-n+1)$ ways. Therefore we get
+$1 - P(A^C) = 1 - \frac{365\cdot 364\cdot 363,\ldots, (365-n+1)}{365^n}$
 
 Now we can use this formula to write a function in R which gives us the probability as a
 function of the number of people in a room.
@@ -279,19 +311,76 @@ birthday_collision <- function(n){
 }
 ```
 
+In terms of R this should look all familiar to you: You know already how to write functions, we
+use the R function `prod()` giving the product of an arbitrary finite number of factors. We did
+not explicitly introduce this function but you can look up its details using the help facilities of R. The colon operator `:` you have alsoe learned already. In this example it would create
+a vector of numbers from 365 to 356, which is then taken as the input to the `prod()` function. That's it. 
+
 If there are 10 people:
 
 ```{r}
 birthday_collision(10)
 ```
 
-Now let us go to the birthday-problem in its hash-function context. To make a hash function
-practically useful we need to make the probability of collisions smaller than a given threshold.
+If there are 23 people in the room this probability is already
 
-explain the threshold and compute it.
+```{r}
+birthday_collision(23)
+```
 
-## Baysian Updating, Stock Market and Overconfidence
+more than 50 %. This is quite stunning because intuitively perhaps most of you 
+including myself would assume that this probability is much smaller. This is fun, but 
+what does this example have to do with computational Finance?
 
+In lecture 1 we have explained that there is a common context with the birthday problem 
+and collisions of a hash function. Lets work out the collision probabilities for the
+SHA-256 hash function. In the analogy of the birthday problem and hash-collsions the
+number $n$ of students in class are the inputs and their birthdays can be considered the
+analogy to the hash values. When two people share the same birthday this is analogous to 
+a hash collision.
+
+A hash with 256 bits can store $2^{256}$ combinations of output values. For values
+of this size we cannot make precise computations using the exact formula. This is
+because the floatimg point representation of numbers will not allow us to distinguish
+very large numbers. We need to work with approximations. It can be shown that the
+expression:
+$\frac{M - 1}{M} \cdot \frac{M-2}{M} \cdot \frac{M-3}{M} \ldots \frac{M-(n-2)}{M} \cdot \frac{M-(n-1)}{M}$ is approximately equal to $\exp(\frac{-n(n-1)}{2 M})$ and that this
+approximation is good in the sense that the approximation error gets smaller as $M$ gets larger
+and eventually vanishes as $M$ goes to infinity. We do not explain this calculus based argument 
+in detail here but those of you who are interested will find lost of references by a simple
+web search.
+
+If you take as an output range a hash function with 32 bits you can use this formula to convince
+yourself that the number of hashes needed to get a collision probability of 50 \% is at
+77163 hashes. This is not good enough for cryptographic security. 
+
+If we want to get the numerics for such lare ranges as 256 bit hash functions we even need
+another approximation. If the exponent is very small, i.e. M very large compared to n we can use
+the further approximation $1-\exp(-X) \approx X$. This means that $\frac{n(n-1)}{2 M}$ is already 
+good enough for very large $M$ and is $n$ is relatively small then this can be again
+simplified to $\frac{n^2}{2 M}$. Taking this approximation we see that to make the 
+probability that no collision occurs $99.8 \%$ you need with a 256 bit hash function you can
+hash $n = \sqrt{2 \cdot M \cdot 0.998}$ values before that occurs. This is a number of
+the magnitude $4.807505 \cdot 10^38$. At current hardware capacity this is several times the
+age of the universe. So for practical purposes this can be considered safe.
+
+Finally this example shows that while the computer is a powerful machine at very large numbers
+brute force programming won't help because you hit the limits of numerical computation. You need
+to think about how to deal with such situations. 
+
+# Bayes' Rule
+
+The definition of conditional probabilities has an important implication about the relation 
+between the probabilities of events, which is known as *Bayes' rule*. Lets say we have two
+events $A$ and $B$, then we know from the definition of conditional probability that
+$P(B|A) = \frac{P(B \cap A)}{P(A)}$. Since $P(B \cap A) = P(A \cap B)$ we have
+$P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A \cap B)}{P(A)}$ which is by definition
+equal to $\frac{P(A|B) \cdot P(B)}{P(A}$ provided that $P(A) \neq 0$. The terminology
+calls $P(B)$ the *prior probability* of $B$ and $P(B|A)$ is called the *posterior probability*.
+
+One way to think about the relation
+$P(B|A) = \frac{P(A|B) \cdot P(B)}{P(A}$ is to think about the event $B$ as some hypothesis and
+the event $A$ as data or information.
 ## R-Concepts
 
 Pack the R concepts into the Apple and Stock market example.

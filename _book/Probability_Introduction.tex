@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer}
-\date{2021-10-12}
+\date{2021-10-20}
 
 \begin{document}
 \maketitle
@@ -1150,60 +1150,87 @@ seem, plays a very important role in the theory of random price
 fluctuations of asset prices and in
 option pricing and we will encounter it later in more detail.
 
-\hypertarget{boys-and-girls}{%
-\subsection{Boys and Girls}\label{boys-and-girls}}
-
-A family has four children. Which one of these children will turn out to be a boy or a girl is
-uncertain ex ante but once the baby is born we can see whether it is a boy or a girl. Conceptually
-we can thing of this as a random experiment. Can you figure out the sample space ?
-Can you figure out
-the event that the family will have two boys?
-
 \hypertarget{birthdays-and-the-blockchain}{%
 \subsection{Birthdays and the Blockchain}\label{birthdays-and-the-blockchain}}
 
 Suppose we are interested in the probability that at least two students in a class
-have the same birthday. We will talk about probabilities in the next lecture. But in
+of size \(n\) share the same birthday. This is a very famous probability problem which
+is often referred to as the \emph{birthday paradox}. It is technically not really a
+paradox but it is called like this because this probability behaves in a surprising
+way if viewed as a function of the class size \(n\). We discuss the problem in the
+context of computational finance because it has also an important application in
+the design of crypto-currencies and the new field of decentralized Finance, which
+make heavy use of cryptographic methods.
+
+We will talk about actual probabilities in the next lecture. But in
 this lecture we have learned that we can only talk meaningfully about probabilities if
-we know the random experiment and the basic outcomes.
+we know the random experiment and the basic outcomes. One interesting aspect with respect to
+the concepts of basic outcomes and sample space is that the birthday paradox example is
+an instance where we cannot simply write down the sample space like in the example of
+rolling a die.
 
-Again we can conceptually think of the birthday
-of the students in the class as the outcome of a random experiment. Let us assume for
-simplicity that the year has 356 days ignoring leap years. If we have \(n\) students
-the number of ways these students can have birthdays in 365 day long year is
-\(365^n\). This is the sample space \({\cal S}\) consists of all these different birthday
-profiles. With 10 students we have \(4.1969e+25\) such profiles.
+The event we are interested in is that
+\emph{at least two students in a randomly selected sample of \(n\) out of class have the same birthday}.
+It turns out that it is easier to think about the complementary event, which is that
+\emph{all students have different birthdays}.
 
-The event we are interested in is that \emph{at least two students have the same birthday}. It turns
-out that it is easier to think about the complementary event, which is that
-\emph{all students have different birthdays}. The way that \(n\) students can have different birthdays
-is \(365 \cdot 364 \cdot 363 \ldots 365 - n + 1\). So for instance for 10 students this would
-amount to
+In terms of possible basic outcomes there
+are \(365^n\) possible outcomes if there are \(n\) students in the class. Each of
+them can have a birthday at any of the 365 days in the year and in total there are
+\(n\) students.
+
+So the sample space \({\cal S}\) for the conceptual
+random experiment that all \(n\) randomly selected students have different birthdays
+is the set \({\cal S} =\{1,2,\ldots, 356^n\}\) of basic outcomes. For 10 students this would
+be
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DecValTok{365}\SpecialCharTok{*}\DecValTok{364}\SpecialCharTok{*}\DecValTok{363}\SpecialCharTok{*}\DecValTok{362}\SpecialCharTok{*}\DecValTok{361}\SpecialCharTok{*}\DecValTok{360}\SpecialCharTok{*}\DecValTok{359}\SpecialCharTok{*}\DecValTok{358}\SpecialCharTok{*}\DecValTok{357}\SpecialCharTok{*}\DecValTok{356}
+\DecValTok{365}\SpecialCharTok{\^{}}\DecValTok{10}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3.70608e+25
+## [1] 4.1969e+25
 \end{verbatim}
 
-a pretty large number
+basic outcomes for all \(n\) students having different birthdays.
 
-We can by the way use R functions to calculate this big product without typing the different
-numbers so many times. We can use the product function to to this:
+The birthday problem also plays an important role in cryptography, and its
+concept of hash-functions.
+Hash-functions play a key role in the implementation of Cryptocurrencies. Let us explain this
+context and what it has to do with Crypto:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{prod}\NormalTok{(}\DecValTok{365}\SpecialCharTok{:}\NormalTok{(}\DecValTok{365{-}10}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
+A \textbf{hash-function} maps a string of arbitrary but finite length to a fixed length string
+of output. A
+very frequently used hash-function in practice is the function SHA-256, which maps its input
+to a string of 256 bits\footnote{A bit, short for binary digit, is defined as the most basic
+  unit of data in telecommunications and computing. Each bit is represented
+  by either a 1 or a 0}. So, you could for instance give the text of the bible as an
+input to SHA-256 and it would map this into a 256-bit string, which functions like
+a finger print of this text. This is a so
+called \emph{one-way-function} meaning that it is easy to evaluate or compute but it is
+practically impossible to learn from the value the initial argument by computing the inverse.
 
-\begin{verbatim}
-## [1] 3.70608e+25
-\end{verbatim}
+Hash-Functions are key pillars of modern cryptography, where they play a major role in message
+authentication. This is because it is impossible to modify the input without significantly
+changing the output. So in our previous example, if you only dropped one letter from the text
+of the bible it would hash into a completely different value than the previous version which
+still contained this letter and you would immediately see from
+comparing the hash-values that something has changed.
+
+The collision problem for hash-functions is formally equivalent to the birthday problem. The event
+we are interested in is that \emph{at least two input strings hash-to the same value}. Again it
+is easier to think about the complementary event that \emph{all inputs hash to a different value}.
+
+If the range of the hash-function is \(M\) and the hash-function maps into a 256 bit string
+then there are \(2^{256}\) basic outcomes. Since the hash-function maps a large string onto
+a smaller string it is possible that there are two different strings \(x \neq y\) mapping
+to the same value \(\text{hash}(x)=\text{hash}(y)\). This would be a problem for message
+authentification because it would give the same ``fingerprint'' for two different strings. For
+a cryptographically secure hash function it is therefore required that the probability of
+such a collision should be small enough to exclude a collision in all practically
+relevant circumstances. We will take up the eexample again in the next lecture.
 
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
@@ -1586,7 +1613,7 @@ Lets look at the outcome of the 100 tosses graphically
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-22-1.pdf}
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-21-1.pdf}
 The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not
 exactly. Lets toss 1000 times and then look again.
 
@@ -1597,7 +1624,7 @@ exactly. Lets toss 1000 times and then look again.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-23-1.pdf}
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-22-1.pdf}
 This looks already pretty good. Lets toss even more. Why not toss a million of times?
 
 \begin{Shaded}
@@ -1607,13 +1634,13 @@ This looks already pretty good. Lets toss even more. Why not toss a million of t
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-24-1.pdf}
+\includegraphics{Probability_Introduction_files/figure-latex/unnamed-chunk-23-1.pdf}
 Now you see the idea of the frequency interpretation. The number of occurrences of H divided
 by the total number of tosses comes closer to the \(1/2\) probability as we toss many
 times. We will come back to this idea again a bit later.
 
-\hypertarget{boys-and-girls-1}{%
-\subsection{Boys and Girls}\label{boys-and-girls-1}}
+\hypertarget{boys-and-girls}{%
+\subsection{Boys and Girls}\label{boys-and-girls}}
 
 We have introduced the four child family before in lecture 1 and asked you to figure out the
 state space of the random experiment how the sequences of boys and girls might result in this
@@ -1819,7 +1846,7 @@ all the data pretty much like in an excel sheet.
 
 }
 
-\caption{The result of calling the View() function}\label{fig:unnamed-chunk-29}
+\caption{The result of calling the View() function}\label{fig:unnamed-chunk-28}
 \end{figure}
 
 There are many more possibilities to import data into R from many other formats, which we will
@@ -2341,7 +2368,7 @@ The \textbf{joint probability} is the probability of simultaneous events. This i
 the probability of the intersection of two or more events. If \(A\) and \(B\) are
 arbitrary events, we write \(P(A \cap B)\).
 \item[Conditional probability]
-The conditional probability is the probability of an event \emph{given} that some other
+The \textbf{conditional probability} is the probability of an event \emph{given} that some other
 event has occurred. The information from the event that has occured can influence
 the probability of the original event. The following notation is used for
 conditional probabilities: For two events \(A\) and \(B\), the conditional probability of
@@ -3404,13 +3431,45 @@ Now we can make use of R's precedence rules to count the simultaneous up moves
 
 Now we compute \(702/926\) which gives us 0.76 as we have already verified before.
 
-\hypertarget{birthdays-and-blockchains}{%
-\section{Birthdays and Blockchains}\label{birthdays-and-blockchains}}
+Note that for conditional probabilities we have for two events \(A\) and \(B\), that
+\(P(A|B) \neq P(B|A)\). To see this assume that \(P(A) \neq P(B)\) and \(P(A) \neq 0\) and
+\(P(B)\neq 0\). We then get:
+\(P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(B \cap A)}{P(B}\), since \(P(A \cap B) = P(B \cap A)\).
+It follows that \(\frac{P(B \cap A)}{P(B} \neq \frac{P(B \cap A)}{P(A} = P(B|A)\), since we
+has assumed that \(P(A) \neq P(B)\). Therefore \(P(A|B) \neq P(B|A)\).
 
-Let us go back to the problem we discussed in lecture 1 where we had \(n\) people in a room. How
+Try it with the stock price example above.
+
+The notion of conditional probability also gives us a new insight into the notion of
+independence, we discussed earlier. Remember that two events \(A\) and \(B\) are independent
+if \(P(A \cap B) = P(B \cap A) = P(A) \cdot P(B)\). If we combine this rule with the
+concept of conditional probability, we see that if two events \(A\) and \(B\) are independent, then
+\(P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A) \cdot P(B)}{P(B)} = P(A)\) and
+\(P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \cdot P(B)}{P(A)} = P(B)\).
+
+This formula says that if two events are independent the probability of \(A\) is
+not influenced by the event \(B\) occuring and the probability of event \(B\) is not
+influenced by the event \(A\) occurring.
+
+\hypertarget{birthdays-and-blockchains-continued}{%
+\section{Birthdays and Blockchains continued}\label{birthdays-and-blockchains-continued}}
+
+Let us go back to the problem we discussed in lecture 1 where we had \(n\) people in a class. How
 much would you bet that there is nobody in the room who shares the same birthday?
 
-We have worked out the numbers in lecture 1. We want to know \(P(\text{all different birthdays}\).
+We would like to compute the probability of the event that at least two people have the
+same birthday, \(P(A)\). We compute this via the simpler problem that all \(n\) students have
+a different birthday and by using the rules of probability.
+
+Since the union of an event \(A\) and
+its complement \(A^C\) is the whole sample space \({\cal S} = A \cup A^C\) and \(A \cap A^C = \emptyset\), we have
+\(P({\cal S}) = P(A) + P(A^C)\). Now since \(P({\cal S}) = 1\), this means we can
+compute the probability we are looking for as: \(1 - P(A^C)\).
+
+In lecture 1 we have already found that for \(n\) students, assuming that every birthday is
+equally likely, we have \(365^n\) possible outcomes for all students having a different birthday
+and this can happen in \(365\cdot 364\cdot 363,\ldots, (365-n+1)\) ways. Therefore we get
+\(1 - P(A^C) = 1 - \frac{365\cdot 364\cdot 363,\ldots, (365-n+1)}{365^n}\)
 
 Now we can use this formula to write a function in R which gives us the probability as a
 function of the number of people in a room.
@@ -3425,6 +3484,11 @@ function of the number of people in a room.
 \end{Highlighting}
 \end{Shaded}
 
+In terms of R this should look all familiar to you: You know already how to write functions, we
+use the R function \texttt{prod()} giving the product of an arbitrary finite number of factors. We did
+not explicitly introduce this function but you can look up its details using the help facilities of R. The colon operator \texttt{:} you have alsoe learned already. In this example it would create
+a vector of numbers from 365 to 356, which is then taken as the input to the \texttt{prod()} function. That's it.
+
 If there are 10 people:
 
 \begin{Shaded}
@@ -3437,14 +3501,81 @@ If there are 10 people:
 ## [1] 0.1169482
 \end{verbatim}
 
-\hypertarget{baysian-updating-stock-market-and-overconfidence}{%
-\section{Baysian Updating, Stock Market and Overconfidence}\label{baysian-updating-stock-market-and-overconfidence}}
+If there are 23 people in the room this probability is already
 
-\hypertarget{r-concepts}{%
-\section{R-Concepts}\label{r-concepts}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{birthday\_collision}\NormalTok{(}\DecValTok{23}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5072972
+\end{verbatim}
+
+more than 50 \%. This is quite stunning because intuitively perhaps most of you
+including myself would assume that this probability is much smaller. This is fun, but
+what does this example have to do with computational Finance?
+
+In lecture 1 we have explained that there is a common context with the birthday problem
+and collisions of a hash function. Lets work out the collision probabilities for the
+SHA-256 hash function. In the analogy of the birthday problem and hash-collsions the
+number \(n\) of students in class are the inputs and their birthdays can be considered the
+analogy to the hash values. When two people share the same birthday this is analogous to
+a hash collision.
+
+A hash with 256 bits can store \(2^{256}\) combinations of output values. For values
+of this size we cannot make precise computations using the exact formula. This is
+because the floatimg point representation of numbers will not allow us to distinguish
+very large numbers. We need to work with approximations. It can be shown that the
+expression:
+\(\frac{M - 1}{M} \cdot \frac{M-2}{M} \cdot \frac{M-3}{M} \ldots \frac{M-(n-2)}{M} \cdot \frac{M-(n-1)}{M}\) is approximately equal to \(\exp(\frac{-n(n-1)}{2 M})\) and that this
+approximation is good in the sense that the approximation error gets smaller as \(M\) gets larger
+and eventually vanishes as \(M\) goes to infinity. We do not explain this calculus based argument
+in detail here but those of you who are interested will find lost of references by a simple
+web search.
+
+If you take as an output range a hash function with 32 bits you can use this formula to convince
+yourself that the number of hashes needed to get a collision probability of 50 \% is at
+77163 hashes. This is not good enough for cryptographic security.
+
+If we want to get the numerics for such lare ranges as 256 bit hash functions we even need
+another approximation. If the exponent is very small, i.e.~M very large compared to n we can use
+the further approximation \(1-\exp(-X) \approx X\). This means that \(\frac{n(n-1)}{2 M}\) is already
+good enough for very large \(M\) and is \(n\) is relatively small then this can be again
+simplified to \(\frac{n^2}{2 M}\). Taking this approximation we see that to make the
+probability that no collision occurs \(99.8 \%\) you need with a 256 bit hash function you can
+hash \(n = \sqrt{2 \cdot M \cdot 0.998}\) values before that occurs. This is a number of
+the magnitude \(4.807505 \cdot 10^38\). At current hardware capacity this is several times the
+age of the universe. So for practical purposes this can be considered safe.
+
+Finally this example shows that while the computer is a powerful machine at very large numbers
+brute force programming won't help because you hit the limits of numerical computation. You need
+to think about how to deal with such situations.
+
+\hypertarget{bayes-rule}{%
+\chapter{Bayes' Rule}\label{bayes-rule}}
+
+The definition of conditional probabilities has an important implication about the relation
+between the probabilities of events, which is known as \emph{Bayes' rule}. Lets say we have two
+events \(A\) and \(B\), then we know from the definition of conditional probability that
+\(P(B|A) = \frac{P(B \cap A)}{P(A)}\). Since \(P(B \cap A) = P(A \cap B)\) we have
+\(P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A \cap B)}{P(A)}\) which is by definition
+equal to \(\frac{P(A|B) \cdot P(B)}{P(A}\) provided that \(P(A) \neq 0\). The terminology
+calls \(P(B)\) the \emph{prior probability} of \(B\) and \(P(B|A)\) is called the \emph{posterior probability}.
+
+One way to think about the relation
+\(P(B|A) = \frac{P(A|B) \cdot P(B)}{P(A}\) is to think about the event \(B\) as some hypothesis and
+the event \(A\) as data or information.
+\#\# R-Concepts
+
+Pack the R concepts into the Apple and Stock market example.
 
 \hypertarget{project}{%
 \section{Project}\label{project}}
+
+\hypertarget{random-variables}{%
+\chapter{Random Variables}\label{random-variables}}
 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}
