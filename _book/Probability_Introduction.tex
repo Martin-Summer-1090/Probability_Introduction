@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer}
-\date{2021-10-20}
+\date{2021-11-15}
 
 \begin{document}
 \maketitle
@@ -3571,11 +3571,104 @@ the event \(A\) as data or information.
 
 Pack the R concepts into the Apple and Stock market example.
 
+Example strutured finance and violations of independence
+
 \hypertarget{project}{%
 \section{Project}\label{project}}
 
 \hypertarget{random-variables}{%
 \chapter{Random Variables}\label{random-variables}}
+
+We now come to an extension of the simple probability model which is very useful. Let \({\cal S}\)
+be some finite set and \(P(x)\) a probability on \({\cal S}\). A \textbf{random variable} is a
+function assigning numbers to points of \({\cal S}\).
+The notation \({\cal S}\) has been chosen deliberately to connect this lecture with the previous ones. A \textbf{random variable} is a function defined on the sample space.
+
+The term random variable is slightly confusing, for what is really meant is something like a random function where the range is the sample space, i.e.~the outcome of a random experiment, and
+the image is the set of real numbers.
+
+It is a widely held convention in probability theory to denote random variables by capital letters, like \(X\) and \(Y\) and their values are denoted by \(x\) and \(y\) respectively.
+
+Let \(X\) be a random variable and let \(x_1, x_2, \dots , x_n\) denote the values it can assume. The
+aggregate of all sample points on which \(X\) assumes the fixed value \(X = x_j\) forms the event
+that \(X = x_j\). Its probability is denoted by \(P(X = x_j)\).
+
+When a random variable can only take finitely many or uncountably many values, i.e.~when the
+sample space contains only finitley many or uncountably many basic outcomes, we say that the
+random variable is \emph{discrete}.
+
+The function \(P(X = x_j) = p(x_j)\) for \(j = 1, \cdots ,n\) is called
+the \textbf{(probability) distribution} of the random variable \(X\). This function completely
+describes the probability properties of the random variable. Note that \(p(x_j) \geq 0\)
+and \(\sum_{j=1}^n p(x_j) = 1\).
+
+The \textbf{cumulative distribution function} - abbreviated CDF - shows the probability that a
+random variable \(X\) take a value less than or equal to a given value \(x\). It is usually denoted as \(F(x) = P(x \leq x)\) where \(-\infty < x < \infty\).
+
+We have actually already encountered a random variable in our very first lecture, where we discussed
+the six sided fair die. The random variable \(X\) is the rolling of the die with the numbers of
+spots being \(x\). \(X\) is actually a function on the space of basic outcomes \(1, 2, 3, 4, 5, 6\).
+Each of these outcomes has probability \(1/6\), since the dice is fair.
+
+It is common to display the probabilities associated with a random variables, graphically as
+a density ( a probability distribution).
+
+insert plot use R
+
+insert CDF for fair die use R
+
+Now consider two random variables \(X\) and \(Y\) instead of only one. Assume both random variables
+are functions on the same sample space \({\cal S}\) and denote the values which they respectively
+assume by \(x_1,x_2, \cdots, x_n\) and \(y_1, y_2, \cdots, y_m\). Let us denote the corresponding
+probability distributions \(f(x_i), i = 1, cdots, n\), by \(f(x_1), f(x_2), \cdots, f(x_n)\) and
+\(g(x_j), j = 1 \cdots m\) by \(g(y_1), g(y_2), \cdots, g(y_m)\).
+The aggregate points which satisfy the condition \(X = x_i\) and \(Y=y_j\) for an event. Its
+probability is denoted by \(P(X=x_i, Y=y_j) = p(x_i, y_j), \, i = 1 \cdots n, \, j = 1,\cdots m\)
+and is called the \textbf{joint probability distribution}. Clearly we must have
+\(p(x_i,y_j) \geq 0\) and \(\sum_{i,j} p(x_i,y_j) = 1\).
+
+example 2 dice from before as tables, maybe a 3-D graph?
+
+Here we encounter again a concept we have already heard about in the context of conditional
+probability. For every fixed \(i\), we have
+\(p(x_i, y_1) + p(x_i, y_2) + \cdots + p(x_i, y_m) = P(X = x_i) = f(x_i)\)
+and for evey fixed \(j\) we have
+\(p(x_1, y_j) + p(x_2, y_j) + \cdots p(x_n, y_j) = P(Y = y_j) = g(y_j)\)
+
+This means that adding the probabilities of different rows and columns we obtain the probability
+distribution of \(X\) and \(Y\). They may be exhibited using our tables and they are called the
+\textbf{marginal distributions} which refers directly to the appearance in the table.
+
+These notions carry over to more than two random variables.
+
+Let us summarize the concepts we have learned in this section now in a formal definition (Feller p 217)
+
+\begin{description}
+\tightlist
+\item[Random variable]
+A random variable \(X\) is a function defined on a given sample space, mapping each sample point
+into a real number
+\item[Probability distribution]
+The probability distribution of \(X\) is a function \(P(X = x_j) = p(x_j)\) for \(j = 1, \cdots ,n\).
+\item[Joint Distribution]
+If we have a finite set of random variables \(X, Y, \cdots, Z\) defined on the same
+sample space, their joint distribution is given by the function
+\(P(X=x_i, Y = y_j, \cdots, Z=z_k) = p(x_i,y_j, \cdots, z_k)\). These variables are called
+\textbf{mutually independent} if
+\(P(X=x_i, Y = y_j, \cdots, Z=z_k) = P(X = x_i)P(Y=y_j) \cdots P(Z=z_k)\)
+\end{description}
+
+\hypertarget{expected-value}{%
+\chapter{Expected value}\label{expected-value}}
+
+\hypertarget{measures-of-dispersion}{%
+\chapter{Measures of Dispersion}\label{measures-of-dispersion}}
+
+\hypertarget{example}{%
+\chapter{Example}\label{example}}
+
+\hypertarget{binomial-distribution}{%
+\chapter{Binomial Distribution}\label{binomial-distribution}}
 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}

@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-10-20" />
+<meta name="date" content="2021-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="bayes-rule.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="expected-value.html"/>
 <script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -211,11 +211,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="bayes-rule.html"><a href="bayes-rule.html#project"><i class="fa fa-check"></i><b>5.1</b> Project</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>6</b> Random Variables</a></li>
+<li class="chapter" data-level="7" data-path="expected-value.html"><a href="expected-value.html"><i class="fa fa-check"></i><b>7</b> Expected value</a></li>
+<li class="chapter" data-level="8" data-path="measures-of-dispersion.html"><a href="measures-of-dispersion.html"><i class="fa fa-check"></i><b>8</b> Measures of Dispersion</a></li>
+<li class="chapter" data-level="9" data-path="example.html"><a href="example.html"><i class="fa fa-check"></i><b>9</b> Example</a></li>
+<li class="chapter" data-level="10" data-path="binomial-distribution.html"><a href="binomial-distribution.html"><i class="fa fa-check"></i><b>10</b> Binomial Distribution</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<li class="chapter" data-level="11" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>11</b> Appendix</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#installing-r"><i class="fa fa-check"></i><b>7.1</b> Installing R</a></li>
-<li class="chapter" data-level="7.2" data-path="appendix.html"><a href="appendix.html#installing-rstudio"><i class="fa fa-check"></i><b>7.2</b> Installing RStudio</a></li>
+<li class="chapter" data-level="11.1" data-path="appendix.html"><a href="appendix.html#installing-r"><i class="fa fa-check"></i><b>11.1</b> Installing R</a></li>
+<li class="chapter" data-level="11.2" data-path="appendix.html"><a href="appendix.html#installing-rstudio"><i class="fa fa-check"></i><b>11.2</b> Installing RStudio</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -239,7 +243,69 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="random-variables" class="section level1" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Random Variables</h1>
-
+<p>We now come to an extension of the simple probability model which is very useful. Let <span class="math inline">\({\cal S}\)</span>
+be some finite set and <span class="math inline">\(P(x)\)</span> a probability on <span class="math inline">\({\cal S}\)</span>. A <strong>random variable</strong> is a
+function assigning numbers to points of <span class="math inline">\({\cal S}\)</span>.
+The notation <span class="math inline">\({\cal S}\)</span> has been chosen deliberately to connect this lecture with the previous ones. A <strong>random variable</strong> is a function defined on the sample space.</p>
+<p>The term random variable is slightly confusing, for what is really meant is something like a random function where the range is the sample space, i.e. the outcome of a random experiment, and
+the image is the set of real numbers.</p>
+<p>It is a widely held convention in probability theory to denote random variables by capital letters, like <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> and their values are denoted by <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> respectively.</p>
+<p>Let <span class="math inline">\(X\)</span> be a random variable and let <span class="math inline">\(x_1, x_2, \dots , x_n\)</span> denote the values it can assume. The
+aggregate of all sample points on which <span class="math inline">\(X\)</span> assumes the fixed value <span class="math inline">\(X = x_j\)</span> forms the event
+that <span class="math inline">\(X = x_j\)</span>. Its probability is denoted by <span class="math inline">\(P(X = x_j)\)</span>.</p>
+<p>When a random variable can only take finitely many or uncountably many values, i.e. when the
+sample space contains only finitley many or uncountably many basic outcomes, we say that the
+random variable is <em>discrete</em>.</p>
+<p>The function <span class="math inline">\(P(X = x_j) = p(x_j)\)</span> for <span class="math inline">\(j = 1, \cdots ,n\)</span> is called
+the <strong>(probability) distribution</strong> of the random variable <span class="math inline">\(X\)</span>. This function completely
+describes the probability properties of the random variable. Note that <span class="math inline">\(p(x_j) \geq 0\)</span>
+and <span class="math inline">\(\sum_{j=1}^n p(x_j) = 1\)</span>.</p>
+<p>The <strong>cumulative distribution function</strong> - abbreviated CDF - shows the probability that a
+random variable <span class="math inline">\(X\)</span> take a value less than or equal to a given value <span class="math inline">\(x\)</span>. It is usually denoted as <span class="math inline">\(F(x) = P(x \leq x)\)</span> where <span class="math inline">\(-\infty &lt; x &lt; \infty\)</span>.</p>
+<p>We have actually already encountered a random variable in our very first lecture, where we discussed
+the six sided fair die. The random variable <span class="math inline">\(X\)</span> is the rolling of the die with the numbers of
+spots being <span class="math inline">\(x\)</span>. <span class="math inline">\(X\)</span> is actually a function on the space of basic outcomes <span class="math inline">\(1, 2, 3, 4, 5, 6\)</span>.
+Each of these outcomes has probability <span class="math inline">\(1/6\)</span>, since the dice is fair.</p>
+<p>It is common to display the probabilities associated with a random variables, graphically as
+a density ( a probability distribution).</p>
+<p>insert plot use R</p>
+<p>insert CDF for fair die use R</p>
+<p>Now consider two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> instead of only one. Assume both random variables
+are functions on the same sample space <span class="math inline">\({\cal S}\)</span> and denote the values which they respectively
+assume by <span class="math inline">\(x_1,x_2, \cdots, x_n\)</span> and <span class="math inline">\(y_1, y_2, \cdots, y_m\)</span>. Let us denote the corresponding
+probability distributions <span class="math inline">\(f(x_i), i = 1, cdots, n\)</span>, by <span class="math inline">\(f(x_1), f(x_2), \cdots, f(x_n)\)</span> and
+<span class="math inline">\(g(x_j), j = 1 \cdots m\)</span> by <span class="math inline">\(g(y_1), g(y_2), \cdots, g(y_m)\)</span>.
+The aggregate points which satisfy the condition <span class="math inline">\(X = x_i\)</span> and <span class="math inline">\(Y=y_j\)</span> for an event. Its
+probability is denoted by <span class="math inline">\(P(X=x_i, Y=y_j) = p(x_i, y_j), \, i = 1 \cdots n, \, j = 1,\cdots m\)</span>
+and is called the <strong>joint probability distribution</strong>. Clearly we must have
+<span class="math inline">\(p(x_i,y_j) \geq 0\)</span> and <span class="math inline">\(\sum_{i,j} p(x_i,y_j) = 1\)</span>.</p>
+<p>example 2 dice from before as tables, maybe a 3-D graph?</p>
+<p>Here we encounter again a concept we have already heard about in the context of conditional
+probability. For every fixed <span class="math inline">\(i\)</span>, we have
+<span class="math inline">\(p(x_i, y_1) + p(x_i, y_2) + \cdots + p(x_i, y_m) = P(X = x_i) = f(x_i)\)</span>
+and for evey fixed <span class="math inline">\(j\)</span> we have
+<span class="math inline">\(p(x_1, y_j) + p(x_2, y_j) + \cdots p(x_n, y_j) = P(Y = y_j) = g(y_j)\)</span></p>
+<p>This means that adding the probabilities of different rows and columns we obtain the probability
+distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. They may be exhibited using our tables and they are called the
+<strong>marginal distributions</strong> which refers directly to the appearance in the table.</p>
+<p>These notions carry over to more than two random variables.</p>
+<p>Let us summarize the concepts we have learned in this section now in a formal definition (Feller p 217)</p>
+<dl>
+<dt>Random variable</dt>
+<dd>A random variable <span class="math inline">\(X\)</span> is a function defined on a given sample space, mapping each sample point
+into a real number
+</dd>
+<dt>Probability distribution</dt>
+<dd>The probability distribution of <span class="math inline">\(X\)</span> is a function <span class="math inline">\(P(X = x_j) = p(x_j)\)</span> for <span class="math inline">\(j = 1, \cdots ,n\)</span>.
+</dd>
+<dt>Joint Distribution</dt>
+<dd>If we have a finite set of random variables <span class="math inline">\(X, Y, \cdots, Z\)</span> defined on the same
+sample space, their joint distribution is given by the function
+<span class="math inline">\(P(X=x_i, Y = y_j, \cdots, Z=z_k) = p(x_i,y_j, \cdots, z_k)\)</span>. These variables are called
+<strong>mutually independent</strong> if
+<span class="math inline">\(P(X=x_i, Y = y_j, \cdots, Z=z_k) = P(X = x_i)P(Y=y_j) \cdots P(Z=z_k)\)</span>
+</dd>
+</dl>
 </div>
             </section>
 
@@ -247,7 +313,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="bayes-rule.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="expected-value.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

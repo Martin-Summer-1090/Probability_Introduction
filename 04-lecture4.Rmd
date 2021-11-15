@@ -1,2 +1,154 @@
 # Random Variables
 
+We now come to an extension of the simple probability model which is very useful. Let ${\cal S}$ 
+be some finite set and $P(x)$ a probability on ${\cal S}$. A **random variable** is a 
+function assigning numbers to points of ${\cal S}$.
+The notation ${\cal S}$ has been chosen deliberately to connect this lecture with the previous ones. A **random variable** is a function defined on  the sample space.
+
+The term random variable is slightly confusing, for what is really meant is something like a random function where the range is the sample space, i.e. the outcome of a random experiment, and 
+the image is the set of real numbers.
+
+It is a widely held convention in probability theory to denote random variables by capital letters, like $X$ and $Y$ and their values are denoted by $x$ and $y$ respectively.
+
+Let $X$ be a random variable and let $x_1, x_2, \dots , x_n$ denote the values it can assume. The
+aggregate of all sample points on which $X$ assumes the fixed value $X = x_j$ forms the event
+that $X = x_j$. Its probability is denoted by $P(X = x_j)$.
+
+When a random variable can only take finitely many or uncountably many values, i.e. when the 
+sample space contains only finitley many or uncountably many basic outcomes, we say that the
+random variable is *discrete*.
+
+The function $P(X = x_j) = p(x_j)$ for $j = 1, \cdots ,n$ is called 
+the **(probability) distribution** of the random variable $X$. This function completely 
+describes the probability properties of the random variable. Note that $p(x_j) \geq 0$ 
+and $\sum_{j=1}^n p(x_j) = 1$.
+
+The **cumulative distribution function** - abbreviated CDF - shows the probability that a 
+random variable $X$ take a value less than or equal to a given value $x$. It is usually denoted as $F(x) = P(x \leq x)$ where $-\infty < x < \infty$.
+
+We have actually already encountered a random variable in our very first lecture, where we discussed
+the six sided fair die. The random variable $X$ is the rolling of the die with the numbers of 
+spots being $x$. $X$ is actually a function on the space of basic outcomes $1, 2, 3, 4, 5, 6$. 
+Each of these outcomes has probability $1/6$, since the dice is fair.
+
+It is common to display the probabilities associated with a random variables, graphically as 
+a density ( a probability distribution).
+
+insert plot use R
+
+insert CDF for fair die use R
+
+Now consider two random variables $X$ and $Y$ instead of only one. Assume both random variables
+are functions on the same sample space ${\cal S}$ and denote the values which they respectively
+assume by $x_1,x_2, \cdots, x_n$ and $y_1, y_2, \cdots, y_m$. Let us denote the corresponding
+probability distributions $f(x_i), i = 1, \cdots, n$, by $f(x_1), f(x_2), \cdots, f(x_n)$ and
+$g(x_j), j = 1 \cdots m$ by $g(y_1), g(y_2), \cdots, g(y_m)$.
+The aggregate points which satisfy the condition $X = x_i$  and $Y=y_j$ are an event. Its
+probability is denoted by $P(X=x_i, Y=y_j) = p(x_i, y_j), \, i = 1 \cdots n, \, j = 1,\cdots m$
+and is called the **joint probability distribution**. Clearly we must have
+$p(x_i,y_j) \geq 0$ and $\sum_{i,j} p(x_i,y_j) = 1$.
+
+example 2 dice from before as tables, maybe a 3-D graph?
+
+Here we encounter again a concept we have already heard about in the context of conditional
+probability. For every fixed $i$, we have
+$p(x_i, y_1) + p(x_i, y_2) + \cdots + p(x_i, y_m) = P(X = x_i) = f(x_i)$ 
+and for evey fixed $j$ we have
+$p(x_1, y_j) + p(x_2, y_j) + \cdots p(x_n, y_j) = P(Y = y_j) = g(y_j)$
+
+This means that adding the probabilities of different rows and columns we obtain the probability
+distribution of $X$ and $Y$. They may be exhibited using our tables and they are called the
+**marginal distributions** which refers directly to the appearance in the  table.
+
+These notions carry over to more than two random variables. With the notation we have introduced
+so far we can also define the **conditional probability** of an event $Y = y_j$ given that
+$X = x_i$ (with $f(x_i) > 0$). This conditional probability is denoted as
+$P(y = y_j \, | X = x_i) = \frac{p(x_i,y_j)}{f(x_i)}$. Since this expression gives a number for
+every value of $X$ it is a function of $X$ and
+we call it the **conditional distribution of $Y$ for given $X$** denoted by $P(Y = y_j | X)$.
+The conditional probability $P(y = y_j \, | X = x_i)$ is in general different from $g(y_j)$. In
+this case the two random variables are stochastically dependent. If on the other hand
+$p(x_i,y_j)=f(x_i)g(y_j)$ for all combinations of $x_i,y_j$ then the events $X = x_i$ and $Y = y_j$
+are independent and we speak of independent random variables.
+
+Note that the joint distribution $x$ and $Y$ determines the distribution of $X$ and $Y$ but we cannot compute the distribution of $X$ and $Y$ from their marginal distributions. If two variables
+$X$ and $Y$ have the same distribution they may or may not be independent.
+
+Let us summarize the concepts we have learned in this section now in a formal definition (Feller p 217)
+
+Random variable
+: A random variable $X$ is a function defined on a given sample space, mapping each sample point 
+into a real number
+
+Probability distribution
+: The probability distribution of $X$ is a function $P(X = x_j) = p(x_j)$ for $j = 1, \cdots ,n$.
+
+Joint Distribution
+: If we have a finite set of random variables $X, Y, \cdots, Z$ defined on the same
+sample space, their joint distribution is given by the function 
+$P(X=x_i, Y = y_j, \cdots, Z=z_k) = p(x_i,y_j, \cdots, z_k)$. These variables are called
+**mutually independent** if
+$P(X=x_i, Y = y_j, \cdots, Z=z_k) = P(X = x_i)P(Y=y_j) \cdots P(Z=z_k)$
+
+# Expected value
+
+Sometimes the entire probability distribution is difficult to grasp at once. It is common to 
+describe probability distributions therefore by a summary measure. Amonng the typical summary
+measure the **expectation** or the **mean** is by far the most important one.
+
+Expected Value
+: The expected value $E[X]$ of a discrete random variable $X$ is the probability weighted sum of 
+all possible values: $E[X] = x_1p(x_1) + x_2 p(x_2) + \cdots + x_n p(x_n)$ for $n$ possible
+values of $x$.
+
+Examples: Find my simulations the following properties of expectations:
+
+expectations of functions of a random variable )log returns.
+linearity of expectation
+expectation of mutually independent variables is the product of expectations.
+conditional expectation is a new random variable
+
+example: mean of a portfolio does not say anything about its risk
+
+# Measures of Dispersion
+
+To capture information about the risk of the investment we need something like a deviation from
+the mean or the variation of returns. If all historical returns are very close to the mean then
+it will be very likely that the realized returns will not be far away from the expected value and
+thus there will be not much risk. if, on the other hand, many of the historical returns are
+far away from the mean one could argue that it is likely that the investment will outperform or
+underperform the expected return. Measures of dispersion try to capture such variation in
+one single number.
+
+Variance
+: The variance of a random variable $X$ is the expected value of the squared deviation
+from the expected value of $X$ or
+$Var[X] = E[(X -E[X])^2]$
+
+In the case of a discrete random variable, the case we discuss in this lecture, we have
+$Var[X] = \sum_{i=1}^{n} (x_i - E[X]=^2 p(x_i))$. Note that the units of the variance are the
+squared units of the random variable. This is often not very useful for interpretations. This
+leads us to the concept of a standard deviation:
+
+Standard Deviation
+: The standard deviation of a random variable $X$ is the suqare root of the variance of $X$,
+denoted $SD[X] = \sqrt{Var[X]}$.
+
+By example: 
+
+$Var[X + a] = Vat[X]$
+$Var[c X] = c^2 Var[X]$
+$Var[a+ c X] = c^2Var[X]$
+
+Covariance
+
+The correlation coefficient
+
+# Example
+
+# Binomial Distribution
+
+Bernoulli
+Binomial
+
+Example: Credit Risk and Portfolio credit risk
