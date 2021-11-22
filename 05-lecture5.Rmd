@@ -1,0 +1,106 @@
+# Continuous random variables
+
+In this lecture we will introduce the most important probability distribution, the normal
+distribution. While we have discussed discrete random variables so far, where the 
+number of possible outcomes for $X$ is finite, to discuss the normal distribution we
+need to deal with the case that the number of outcomes for $X$ is uncountable infinite.
+This leads us to the concept of a continuous random variable.
+
+We will discuss here the most important concepts needed for the practical work with
+continuous random variables. We just note that for a mathematically rigorous treatment
+of this case we would need advanced techniques such as measure theory. We will not do that here
+(reference to literature) because we want to focus on the more applied or practical aspects
+of continuous random variables.
+
+Continuous random variable
+: A **continuous random variable** can take on a continuum of possible values.
+
+Note that random variables that can take on a continuum of values rather than only discrete values 
+like the fair die, we discussed before, play an important role in practical situations. Just think
+of the possible values of an asset price. Other practically important cases where a continuum
+of outcomes would be a very natural model is the length of finishing a task, or the lengths and the
+weight of an item. 
+
+You might object that these examples are not really continuous. Take time. We measure it in
+hours, minutes or seconds. But we can measure it on a much finer grid and ultimately this
+process finishes at some smallest unit only because of our limitations to measure time
+at even smaller scales. Time is a continuous variable. It does not jump. In the case of stock
+prices the situation is different. We have a smallest monetary unit, in the Eurozone this would
+be cents. Still it turns out that in the case of prices practical modelling can be
+simpler if we think of prices as continuous.
+
+Even if we circumvent the mathematical machinery of measure theory to discuss 
+continuous random variable it is still important to spend some time thinking of what
+a continuous random variable means.
+
+In order to do this let us think of a continuous random variable which can take any
+value in the interval $[0,1]$. We can generate such numbers very easely in R using the
+function `runif()`. Let's create 10 such numbers:
+
+```{r}
+runif(10, 0, 1)
+```
+Now you could ask: What is the probability that this random variable takes the value of 
+$0.4848450$? Make the point that this probability is 0. The numbers always change. (explain
+pseudorandom numbers), there is an infinite amount of numbers between 0 and 1 and you can not
+count them. The continuum does not allow us to give positive probabilities to any one number.
+No given number in the continuum can have a positive probability. 
+
+This is key: For every continuous random variable $X$ we have $P(X = x) = 0$ for all $x$. Thus
+in the case of a continuous random variable we can no longer talk about individual probabilities.
+
+Now let us think about a different question. What is the probability that the random variable comes
+up with a value between $0$ and $1/4$? Lets simulate: R exercise.
+
+Point: It looks uniform. 25 %. Try other thresholds.
+
+So as soon as we have range, we can talk about positive probabilities. But this is the big
+change from discrete to continuous random variables. Whereas in the discrete cas we had points
+and could talk about probabilities of points, in the continuous case we represent
+probabilities as *areas under a curve*. Give examples.
+
+Areas under a curve are integrals. The representation of probabilities of a continuous random
+variable corresponds to what you learned in high-school about integration under a curve.
+
+The function that we need is called a probability density function and is defined as follows:
+
+Probability density function
+: For a continuous random variable, the probability density function, usually denoted by 
+$f(x)$, has the following properties:
+1. $f(x) \leq 0$
+2. \int_{-\infty}^{+\infty} g(x) dx = 1
+If $X$ is a continuous random variable with a density function $f$, then for any $a < b$, the
+probability that $X$ falls in the interval $(a,b)$ is the area under the density function between
+$a$ and $b$:
+$P(a < X < b) = \int_a^b f(x) dx
+
+Since we can talk only about areas under the curve for continuous random variables the
+really important function is the **cumulative distribution function** or CDF. Let us give
+the definition here:
+
+Cumulative Distribution Function
+: The **cumulative distribution function** (abbreviated CDF) shows the probability that the
+random variable $X$ takes a value less than or equal to a deterministic value $x$. It
+shows the area under the probability density function from $-\infty$ to $x$. The notation is
+$F(x) = P( X \leq x)$ where $- \infty < x < \infty$.
+
+Note that the CDF can be used to compute probabilities because 
+$P(a < X < b) = P(a < X \leq b) = P(a \leq X \leq b) = F(b) - F(a) = \int_a^b f(x) dx$
+
+Maybe graphical example here:
+
+# Normal Distribution
+
+# Inverse Normal
+
+# Quantiles
+
+# Student t-distribution
+
+# Example: The story of Long Term Capital and ignoring fat tails
+
+# Example: Models of asset price dynamics continued
+
+# Project: Portfolio credit risk with dependent defaults
+
+Schönbucher continued.
