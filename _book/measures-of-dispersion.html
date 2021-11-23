@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-11-15" />
+<meta name="date" content="2021-11-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="expected-value.html"/>
-<link rel="next" href="example.html"/>
+<link rel="next" href="example-mean-variance-portfolio-theory.html"/>
 <script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -213,13 +213,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>6</b> Random Variables</a></li>
 <li class="chapter" data-level="7" data-path="expected-value.html"><a href="expected-value.html"><i class="fa fa-check"></i><b>7</b> Expected value</a></li>
 <li class="chapter" data-level="8" data-path="measures-of-dispersion.html"><a href="measures-of-dispersion.html"><i class="fa fa-check"></i><b>8</b> Measures of Dispersion</a></li>
-<li class="chapter" data-level="9" data-path="example.html"><a href="example.html"><i class="fa fa-check"></i><b>9</b> Example</a></li>
+<li class="chapter" data-level="9" data-path="example-mean-variance-portfolio-theory.html"><a href="example-mean-variance-portfolio-theory.html"><i class="fa fa-check"></i><b>9</b> Example: Mean-variance portfolio theory</a></li>
 <li class="chapter" data-level="10" data-path="binomial-distribution.html"><a href="binomial-distribution.html"><i class="fa fa-check"></i><b>10</b> Binomial Distribution</a></li>
+<li class="chapter" data-level="11" data-path="example-models-of-asset-price-dynamics.html"><a href="example-models-of-asset-price-dynamics.html"><i class="fa fa-check"></i><b>11</b> Example: Models of asset price dynamics</a></li>
+<li class="chapter" data-level="12" data-path="project-credit-risk-model-and-independence-based-on-schönbucher.html"><a href="project-credit-risk-model-and-independence-based-on-schönbucher.html"><i class="fa fa-check"></i><b>12</b> Project: Credit risk model and independence based on Schönbucher</a></li>
+<li class="chapter" data-level="13" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>13</b> Continuous random variables</a></li>
+<li class="chapter" data-level="14" data-path="normal-distribution.html"><a href="normal-distribution.html"><i class="fa fa-check"></i><b>14</b> Normal Distribution</a></li>
+<li class="chapter" data-level="15" data-path="inverse-normal.html"><a href="inverse-normal.html"><i class="fa fa-check"></i><b>15</b> Inverse Normal</a></li>
+<li class="chapter" data-level="16" data-path="quantiles.html"><a href="quantiles.html"><i class="fa fa-check"></i><b>16</b> Quantiles</a></li>
+<li class="chapter" data-level="17" data-path="student-t-distribution.html"><a href="student-t-distribution.html"><i class="fa fa-check"></i><b>17</b> Student t-distribution</a></li>
+<li class="chapter" data-level="18" data-path="example-the-story-of-long-term-capital-and-ignoring-fat-tails.html"><a href="example-the-story-of-long-term-capital-and-ignoring-fat-tails.html"><i class="fa fa-check"></i><b>18</b> Example: The story of Long Term Capital and ignoring fat tails</a></li>
+<li class="chapter" data-level="19" data-path="example-models-of-asset-price-dynamics-continued.html"><a href="example-models-of-asset-price-dynamics-continued.html"><i class="fa fa-check"></i><b>19</b> Example: Models of asset price dynamics continued</a></li>
+<li class="chapter" data-level="20" data-path="project-portfolio-credit-risk-with-dependent-defaults.html"><a href="project-portfolio-credit-risk-with-dependent-defaults.html"><i class="fa fa-check"></i><b>20</b> Project: Portfolio credit risk with dependent defaults</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="11" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>11</b> Appendix</a>
+<li class="chapter" data-level="21" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>21</b> Appendix</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="appendix.html"><a href="appendix.html#installing-r"><i class="fa fa-check"></i><b>11.1</b> Installing R</a></li>
-<li class="chapter" data-level="11.2" data-path="appendix.html"><a href="appendix.html#installing-rstudio"><i class="fa fa-check"></i><b>11.2</b> Installing RStudio</a></li>
+<li class="chapter" data-level="21.1" data-path="appendix.html"><a href="appendix.html#installing-r"><i class="fa fa-check"></i><b>21.1</b> Installing R</a></li>
+<li class="chapter" data-level="21.2" data-path="appendix.html"><a href="appendix.html#installing-rstudio"><i class="fa fa-check"></i><b>21.2</b> Installing RStudio</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -243,6 +253,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="measures-of-dispersion" class="section level1" number="8">
 <h1><span class="header-section-number">Chapter 8</span> Measures of Dispersion</h1>
+<p>To capture information about the risk of the investment we need something like a deviation from
+the mean or the variation of returns. If all historical returns are very close to the mean then
+it will be very likely that the realized returns will not be far away from the expected value and
+thus there will be not much risk. if, on the other hand, many of the historical returns are
+far away from the mean one could argue that it is likely that the investment will outperform or
+underperform the expected return. Measures of dispersion try to capture such variation in
+one single number.</p>
+<dl>
+<dt>Variance</dt>
+<dd>The variance of a random variable <span class="math inline">\(X\)</span> is the expected value of the squared deviation
+from the expected value of <span class="math inline">\(X\)</span> or
+<span class="math inline">\(Var[X] = E[(X -E[X])^2]\)</span>
+</dd>
+</dl>
+<p>In the case of a discrete random variable, the case we discuss in this lecture, we have
+<span class="math inline">\(Var[X] = \sum_{i=1}^{n} (x_i - E[X]=^2 p(x_i))\)</span>. Note that the units of the variance are the
+squared units of the random variable. This is often not very useful for interpretations. This
+leads us to the concept of a standard deviation:</p>
+<dl>
+<dt>Standard Deviation</dt>
+<dd>The standard deviation of a random variable <span class="math inline">\(X\)</span> is the suqare root of the variance of <span class="math inline">\(X\)</span>,
+denoted <span class="math inline">\(SD[X] = \sqrt{Var[X]}\)</span>.
+</dd>
+</dl>
+<p>By example:</p>
+<p><span class="math inline">\(Var[X + a] = Vat[X]\)</span>
+<span class="math inline">\(Var[c X] = c^2 Var[X]\)</span>
+<span class="math inline">\(Var[a+ c X] = c^2Var[X]\)</span></p>
+<p>Assume we have two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> then we define their as</p>
+<dl>
+<dt>Covariance</dt>
+<dd><span class="math inline">\(Cov(X,Y) = E((X - E(X))(Y-E(Y)))\)</span>
+</dd>
+</dl>
+<p>Note that <span class="math inline">\(Cov(X,Y) = E(XY) - E(X)E(Y)\)</span>. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then <span class="math inline">\(E(XY) = E(X)E(Y)\)</span>,
+hence if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, <span class="math inline">\(Cov(X,Y) = 0\)</span>. Note, however, that the converse is not true.
+A covariance of 0 does <strong>not</strong> imply independence.</p>
+<p>The choice of an origin and unit of measurement of a random variable is to a large
+degree arbitrary. It is thus ofetn most convenient to take the mean as the origin and the
+standard deviation as unit. Denote the mean of a random variable <span class="math inline">\(X\)</span> as <span class="math inline">\(\mu\)</span> and the variance as
+<span class="math inline">\(\sigma^2\)</span>. In this case <span class="math inline">\(X-\mu\)</span> has mean zero and variance <span class="math inline">\(\sigma^2\)</span>, and hence the variable
+<span class="math inline">\(X^* = \frac{(X-\mu)}{\sigma}\)</span> has mean 0 and variance 1. If we take the covariance
+of two such normalized random variables we get the so called <strong>correlation coefficient</strong> <span class="math inline">\(\rho(X,Y)\)</span>.</p>
+<dl>
+<dt>Correlation Coefficient</dt>
+<dd><span class="math inline">\(\rho(X,Y) = Cov(X^*,Y^*) = \frac{Cov(X,Y)}{\sigma_x \sigma_y}\)</span>
+</dd>
+</dl>
+<p>The correlation coerfficient is thus just a way of writing the covariance.</p>
+<p>Discuss examples (a) and (b) in Feller p 236 as R examples to make the point that the covariance
+is not a general measure of dependence but a measure of linear dependence.</p>
 </div>
             </section>
 
@@ -250,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="expected-value.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="example.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="example-mean-variance-portfolio-theory.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

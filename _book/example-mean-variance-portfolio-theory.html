@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 10 Binomial Distribution | Probability, R and Computational Finance</title>
+  <title>Chapter 9 Example: Mean-variance portfolio theory | Probability, R and Computational Finance</title>
   <meta name="description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 10 Binomial Distribution | Probability, R and Computational Finance" />
+  <meta property="og:title" content="Chapter 9 Example: Mean-variance portfolio theory | Probability, R and Computational Finance" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 10 Binomial Distribution | Probability, R and Computational Finance" />
+  <meta name="twitter:title" content="Chapter 9 Example: Mean-variance portfolio theory | Probability, R and Computational Finance" />
   
   <meta name="twitter:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="example-mean-variance-portfolio-theory.html"/>
-<link rel="next" href="example-models-of-asset-price-dynamics.html"/>
+<link rel="prev" href="measures-of-dispersion.html"/>
+<link rel="next" href="binomial-distribution.html"/>
 <script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -251,21 +251,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="binomial-distribution" class="section level1" number="10">
-<h1><span class="header-section-number">Chapter 10</span> Binomial Distribution</h1>
-<p>Explain Bernoulli trials
-Explain repeated Bernouli trials
-Show how these repeated Bernoulli trials or sums can be modeled by the binomial distribution
-use R for that
-Binomial</p>
+<div id="example-mean-variance-portfolio-theory" class="section level1" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Example: Mean-variance portfolio theory</h1>
+<p>An important case where probability is applied in Finance is the problem that when you
+make an investment with a known initial outlay of capital the amount to be returned from the
+investment in the future is unknown. In the example we want to discuss now, we restrict
+attention to a class of these problems where we have only a single investment period: Money
+is invested at an initial time and a payoff is attained at the end of this period. Random
+variables are a concept that allows us to construct models for thinking about and analyzing the
+uncertainty inherent in such practical situation. While the assumption of a single
+period is an idealization that does not apply to public stocks such models are applied to
+this common class of investments as a simplification. For other situations the one period
+model is sometimes a pretty good approximation. Think of a zero-coupon bond that will be
+held to maturity. Or think about an investment in a physical project that only will yield
+a payoff when completed.</p>
+<p>Before we dive into the modelling of investment problems with uncertainty using probability and
+random variables as a tool, we need to introduce some financial concepts first: An
+investment instrument that can be bought and sold is called an <strong>asset</strong> in Finance. If <span class="math inline">\(X_0\)</span> is
+the amount invested today and <span class="math inline">\(X_1\)</span> is the amount received “tomorrow,” say for example in a
+year from now the <strong>total return</strong> is defined as the ratio of the amount received to
+the amount invested or formally <span class="math inline">\(R = \frac{X_1}{X_0}\)</span>. Often we simply use the term return.
+The <strong>rate of return</strong> is defined as the difference between the amount received and the amount
+invested in relation to the amount invested or <span class="math inline">\(r = \frac{X_1-X_0}{X_0}\)</span>. Often people also
+speak of return when they refer to the rate of return. Both notions are related by the
+equation <span class="math inline">\(R = 1+r\)</span> and the equation for the rate of return can be rewirtten as <span class="math inline">\(X_1 = (1+r)X_0\)</span>.
+This shows that the rate of return acts much like an interest rate.</p>
+<p>When an asset is initially acquired, its rate of return is uncertain. Modelling the rate of
+return as a random variable is one possibility to describe and analyze this situation of
+uncertain returns. In mean-variance portfolio analysis the uncertainty is summarized by
+the mean or expected value <span class="math inline">\(E(r)\)</span> of the rate of return and its variance <span class="math inline">\(E((r-E(r)))\)</span> and by
+its covariance with other assets. Thus we reduce the description of uncertainty to two
+summary measures of the distribution of the rate or return instead of working with the
+entire rate of return distribution.</p>
+<p>load a portfolio of stocks
+compute returns
+create a vector of weights
+compute the mean return of the portfolio
+compute the variance of the portfolio
+discuss the magic of diversification
+feasible set
+feasible minimum variance set
+do this with real stock data</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="example-mean-variance-portfolio-theory.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="example-models-of-asset-price-dynamics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="measures-of-dispersion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binomial-distribution.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

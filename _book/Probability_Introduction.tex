@@ -117,7 +117,7 @@
 
 \title{Probability, R and Computational Finance}
 \author{Martin Summer}
-\date{2021-11-15}
+\date{2021-11-23}
 
 \begin{document}
 \maketitle
@@ -3554,7 +3554,7 @@ brute force programming won't help because you hit the limits of numerical compu
 to think about how to deal with such situations.
 
 \hypertarget{bayes-rule}{%
-\chapter{Bayes' Rule}\label{bayes-rule}}
+\section{Bayes' Rule}\label{bayes-rule}}
 
 The definition of conditional probabilities has an important implication about the relation
 between the probabilities of events, which is known as \emph{Bayes' rule}. Lets say we have two
@@ -3620,9 +3620,9 @@ insert CDF for fair die use R
 Now consider two random variables \(X\) and \(Y\) instead of only one. Assume both random variables
 are functions on the same sample space \({\cal S}\) and denote the values which they respectively
 assume by \(x_1,x_2, \cdots, x_n\) and \(y_1, y_2, \cdots, y_m\). Let us denote the corresponding
-probability distributions \(f(x_i), i = 1, cdots, n\), by \(f(x_1), f(x_2), \cdots, f(x_n)\) and
+probability distributions \(f(x_i), i = 1, \cdots, n\), by \(f(x_1), f(x_2), \cdots, f(x_n)\) and
 \(g(x_j), j = 1 \cdots m\) by \(g(y_1), g(y_2), \cdots, g(y_m)\).
-The aggregate points which satisfy the condition \(X = x_i\) and \(Y=y_j\) for an event. Its
+The aggregate points which satisfy the condition \(X = x_i\) and \(Y=y_j\) are an event. Its
 probability is denoted by \(P(X=x_i, Y=y_j) = p(x_i, y_j), \, i = 1 \cdots n, \, j = 1,\cdots m\)
 and is called the \textbf{joint probability distribution}. Clearly we must have
 \(p(x_i,y_j) \geq 0\) and \(\sum_{i,j} p(x_i,y_j) = 1\).
@@ -3639,7 +3639,19 @@ This means that adding the probabilities of different rows and columns we obtain
 distribution of \(X\) and \(Y\). They may be exhibited using our tables and they are called the
 \textbf{marginal distributions} which refers directly to the appearance in the table.
 
-These notions carry over to more than two random variables.
+These notions carry over to more than two random variables. With the notation we have introduced
+so far we can also define the \textbf{conditional probability} of an event \(Y = y_j\) given that
+\(X = x_i\) (with \(f(x_i) > 0\)). This conditional probability is denoted as
+\(P(y = y_j \, | X = x_i) = \frac{p(x_i,y_j)}{f(x_i)}\). Since this expression gives a number for
+every value of \(X\) it is a function of \(X\) and
+we call it the \textbf{conditional distribution of \(Y\) for given \(X\)} denoted by \(P(Y = y_j | X)\).
+The conditional probability \(P(y = y_j \, | X = x_i)\) is in general different from \(g(y_j)\). In
+this case the two random variables are stochastically dependent. If on the other hand
+\(p(x_i,y_j)=f(x_i)g(y_j)\) for all combinations of \(x_i,y_j\) then the events \(X = x_i\) and \(Y = y_j\)
+are independent and we speak of independent random variables.
+
+Note that the joint distribution \(x\) and \(Y\) determines the distribution of \(X\) and \(Y\) but we cannot compute the distribution of \(X\) and \(Y\) from their marginal distributions. If two variables
+\(X\) and \(Y\) have the same distribution they may or may not be independent.
 
 Let us summarize the concepts we have learned in this section now in a formal definition (Feller p 217)
 
@@ -3659,16 +3671,373 @@ sample space, their joint distribution is given by the function
 \end{description}
 
 \hypertarget{expected-value}{%
-\chapter{Expected value}\label{expected-value}}
+\section{Expected value}\label{expected-value}}
+
+Sometimes the entire probability distribution is difficult to grasp at once. It is common to
+describe probability distributions therefore by a summary measure. Amonng the typical summary
+measure the \textbf{expectation} or the \textbf{mean} is by far the most important one.
+
+\begin{description}
+\tightlist
+\item[Expected Value]
+The expected value \(E[X]\) of a discrete random variable \(X\) is the probability weighted sum of
+all possible values: \(E[X] = x_1p(x_1) + x_2 p(x_2) + \cdots + x_n p(x_n)\) for \(n\) possible
+values of \(x\).
+\end{description}
+
+Examples: Find my simulations the following properties of expectations:
+
+expectations of functions of a random variable )log returns.
+linearity of expectation
+expectation of mutually independent variables is the product of expectations.
+conditional expectation is a new random variable
+
+example: mean of a portfolio does not say anything about its risk
 
 \hypertarget{measures-of-dispersion}{%
-\chapter{Measures of Dispersion}\label{measures-of-dispersion}}
+\section{Measures of Dispersion}\label{measures-of-dispersion}}
 
-\hypertarget{example}{%
-\chapter{Example}\label{example}}
+To capture information about the risk of the investment we need something like a deviation from
+the mean or the variation of returns. If all historical returns are very close to the mean then
+it will be very likely that the realized returns will not be far away from the expected value and
+thus there will be not much risk. if, on the other hand, many of the historical returns are
+far away from the mean one could argue that it is likely that the investment will outperform or
+underperform the expected return. Measures of dispersion try to capture such variation in
+one single number.
+
+\begin{description}
+\tightlist
+\item[Variance]
+The variance of a random variable \(X\) is the expected value of the squared deviation
+from the expected value of \(X\) or
+\(Var[X] = E[(X -E[X])^2]\)
+\end{description}
+
+In the case of a discrete random variable, the case we discuss in this lecture, we have
+\(Var[X] = \sum_{i=1}^{n} (x_i - E[X]=^2 p(x_i))\). Note that the units of the variance are the
+squared units of the random variable. This is often not very useful for interpretations. This
+leads us to the concept of a standard deviation:
+
+\begin{description}
+\tightlist
+\item[Standard Deviation]
+The standard deviation of a random variable \(X\) is the suqare root of the variance of \(X\),
+denoted \(SD[X] = \sqrt{Var[X]}\).
+\end{description}
+
+By example:
+
+\(Var[X + a] = Vat[X]\)
+\(Var[c X] = c^2 Var[X]\)
+\(Var[a+ c X] = c^2Var[X]\)
+
+Assume we have two random variables \(X\) and \(Y\) then we define their as
+
+\begin{description}
+\tightlist
+\item[Covariance]
+\(Cov(X,Y) = E((X - E(X))(Y-E(Y)))\)
+\end{description}
+
+Note that \(Cov(X,Y) = E(XY) - E(X)E(Y)\). If \(X\) and \(Y\) are independent, then \(E(XY) = E(X)E(Y)\),
+hence if \(X\) and \(Y\) are independent, \(Cov(X,Y) = 0\). Note, however, that the converse is not true.
+A covariance of 0 does \textbf{not} imply independence.
+
+The choice of an origin and unit of measurement of a random variable is to a large
+degree arbitrary. It is thus ofetn most convenient to take the mean as the origin and the
+standard deviation as unit. Denote the mean of a random variable \(X\) as \(\mu\) and the variance as
+\(\sigma^2\). In this case \(X-\mu\) has mean zero and variance \(\sigma^2\), and hence the variable
+\(X^* = \frac{(X-\mu)}{\sigma}\) has mean 0 and variance 1. If we take the covariance
+of two such normalized random variables we get the so called \textbf{correlation coefficient} \(\rho(X,Y)\).
+
+\begin{description}
+\tightlist
+\item[Correlation Coefficient]
+\(\rho(X,Y) = Cov(X^*,Y^*) = \frac{Cov(X,Y)}{\sigma_x \sigma_y}\)
+\end{description}
+
+The correlation coerfficient is thus just a way of writing the covariance.
+
+Discuss examples (a) and (b) in Feller p 236 as R examples to make the point that the covariance
+is not a general measure of dependence but a measure of linear dependence.
+
+\hypertarget{example-mean-variance-portfolio-theory}{%
+\section{Example: Mean-variance portfolio theory}\label{example-mean-variance-portfolio-theory}}
+
+An important case where probability is applied in Finance is the problem that when you
+make an investment with a known initial outlay of capital the amount to be returned from the
+investment in the future is unknown. In the example we want to discuss now, we restrict
+attention to a class of these problems where we have only a single investment period: Money
+is invested at an initial time and a payoff is attained at the end of this period. Random
+variables are a concept that allows us to construct models for thinking about and analyzing the
+uncertainty inherent in such practical situation. While the assumption of a single
+period is an idealization that does not apply to public stocks such models are applied to
+this common class of investments as a simplification. For other situations the one period
+model is sometimes a pretty good approximation. Think of a zero-coupon bond that will be
+held to maturity. Or think about an investment in a physical project that only will yield
+a payoff when completed.
+
+Before we dive into the modelling of investment problems with uncertainty using probability and
+random variables as a tool, we need to introduce some financial concepts first: An
+investment instrument that can be bought and sold is called an \textbf{asset} in Finance. If \(X_0\) is
+the amount invested today and \(X_1\) is the amount received ``tomorrow'', say for example in a
+year from now the \textbf{total return} is defined as the ratio of the amount received to
+the amount invested or formally \(R = \frac{X_1}{X_0}\). Often we simply use the term return.
+The \textbf{rate of return} is defined as the difference between the amount received and the amount
+invested in relation to the amount invested or \(r = \frac{X_1-X_0}{X_0}\). Often people also
+speak of return when they refer to the rate of return. Both notions are related by the
+equation \(R = 1+r\) and the equation for the rate of return can be rewirtten as \(X_1 = (1+r)X_0\).
+This shows that the rate of return acts much like an interest rate.
+
+When an asset is initially acquired, its rate of return is uncertain. Modelling the rate of
+return as a random variable is one possibility to describe and analyze this situation of
+uncertain returns. In mean-variance portfolio analysis the uncertainty is summarized by
+the mean or expected value \(E(r)\) of the rate of return and its variance \(E((r-E(r)))\) and by
+its covariance with other assets. Thus we reduce the description of uncertainty to two
+summary measures of the distribution of the rate or return instead of working with the
+entire rate of return distribution.
+
+load a portfolio of stocks
+compute returns
+create a vector of weights
+compute the mean return of the portfolio
+compute the variance of the portfolio
+discuss the magic of diversification
+feasible set
+feasible minimum variance set
+do this with real stock data
 
 \hypertarget{binomial-distribution}{%
-\chapter{Binomial Distribution}\label{binomial-distribution}}
+\section{Binomial Distribution}\label{binomial-distribution}}
+
+Explain Bernoulli trials
+Explain repeated Bernouli trials
+Show how these repeated Bernoulli trials or sums can be modeled by the binomial distribution
+use R for that
+Binomial
+
+\hypertarget{example-models-of-asset-price-dynamics}{%
+\section{Example: Models of asset price dynamics}\label{example-models-of-asset-price-dynamics}}
+
+Luenberger p 296 - 299 until
+
+\hypertarget{project-credit-risk-model-and-independence-based-on-schuxf6nbucher}{%
+\section{Project: Credit risk model and independence based on Schönbucher}\label{project-credit-risk-model-and-independence-based-on-schuxf6nbucher}}
+
+This can be constructed to apply the binomial distribution and discuss the
+importance of dependence. The modelling of dependence can be taken up in
+the last project
+
+\hypertarget{continuous-random-variables}{%
+\chapter{Continuous random variables}\label{continuous-random-variables}}
+
+In this lecture we will introduce the most important probability distribution, the normal
+distribution. While we have discussed discrete random variables so far, where the
+number of possible outcomes for \(X\) is finite, to discuss the normal distribution we
+need to deal with the case that the number of outcomes for \(X\) is uncountable infinite.
+This leads us to the concept of a continuous random variable.
+
+We will discuss here the most important concepts needed for the practical work with
+continuous random variables. We just note that for a mathematically rigorous treatment
+of this case we would need advanced techniques such as measure theory. We will not do that here
+(reference to literature) because we want to focus on the more applied or practical aspects
+of continuous random variables.
+
+\begin{description}
+\tightlist
+\item[Continuous random variable]
+A \textbf{continuous random variable} can take on a continuum of possible values.
+\end{description}
+
+Note that random variables that can take on a continuum of values rather than only discrete values
+like the fair die, we discussed before, play an important role in practical situations. Just think
+of the possible values of an asset price. Other practically important cases where a continuum
+of outcomes would be a very natural model is the length of finishing a task, or the lengths and the
+weight of an item.
+
+You might object that these examples are not really continuous. Take time. We measure it in
+hours, minutes or seconds. But we can measure it on a much finer grid and ultimately this
+process finishes at some smallest unit only because of our limitations to measure time
+at even smaller scales. Time is a continuous variable. It does not jump. In the case of stock
+prices the situation is different. We have a smallest monetary unit, in the Eurozone this would
+be cents. Still it turns out that in the case of prices practical modelling can be
+simpler if we think of prices as continuous.
+
+Even if we circumvent the mathematical machinery of measure theory to discuss
+continuous random variable it is still important to spend some time thinking of what
+a continuous random variable means.
+
+In order to do this let us think of a continuous random variable which can take any
+value in the interval \([0,1]\). We can generate such numbers very easely in R using the
+function \texttt{runif()}. Let's create 10 such numbers:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{runif}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 0.2789058 0.4554437 0.7365566 0.4507225 0.6400935 0.2913543 0.4590840
+##  [8] 0.3781021 0.5442116 0.9224635
+\end{verbatim}
+
+Now you could ask: What is the probability that this random variable takes the value of
+\(0.4848450\)? Make the point that this probability is 0. The numbers always change. (explain
+pseudorandom numbers), there is an infinite amount of numbers between 0 and 1 and you can not
+count them. The continuum does not allow us to give positive probabilities to any one number.
+No given number in the continuum can have a positive probability.
+
+This is key: For every continuous random variable \(X\) we have \(P(X = x) = 0\) for all \(x\). Thus
+in the case of a continuous random variable we can no longer talk about individual probabilities.
+
+Now let us think about a different question. What is the probability that the random variable comes
+up with a value between \(0\) and \(1/4\)? Lets simulate: R exercise.
+
+Point: It looks uniform. 25 \%. Try other thresholds.
+
+So as soon as we have range, we can talk about positive probabilities. But this is the big
+change from discrete to continuous random variables. Whereas in the discrete cas we had points
+and could talk about probabilities of points, in the continuous case we represent
+probabilities as \emph{areas under a curve}. Give examples.
+
+Areas under a curve are integrals. The representation of probabilities of a continuous random
+variable corresponds to what you learned in high-school about integration under a curve.
+
+The function that we need is called a probability density function and is defined as follows:
+
+\begin{description}
+\tightlist
+\item[Probability density function]
+For a continuous random variable, the probability density function, usually denoted by
+\(f(x)\), has the following properties:
+1. \(f(x) \leq 0\)
+2. \(\int_{-\infty}^{+\infty} f(x) dx = 1\)
+If \(X\) is a continuous random variable with a density function \(f\), then for any \(a < b\), the
+probability that \(X\) falls in the interval \((a,b)\) is the area under the density function between
+\(a\) and \(b\):
+\(P(a < X < b) = \int_a^b f(x) dx\)
+\end{description}
+
+Since we can talk only about areas under the curve for continuous random variables the
+really important function is the \textbf{cumulative distribution function} or CDF. Let us give
+the definition here:
+
+\begin{description}
+\tightlist
+\item[Cumulative Distribution Function]
+The \textbf{cumulative distribution function} (abbreviated CDF) shows the probability that the
+random variable \(X\) takes a value less than or equal to a deterministic value \(x\). It
+shows the area under the probability density function from \(-\infty\) to \(x\). The notation is
+\(F(x) = P( X \leq x)\) where \(- \infty < x < \infty\).
+\end{description}
+
+Note that the CDF can be used to compute probabilities because
+\(P(a < X < b) = P(a < X \leq b) = P(a \leq X \leq b) = F(b) - F(a) = \int_a^b f(x) dx\)
+
+Maybe graphical example here:
+
+We now come to the most important continuous distribution, which plays a key role in
+probability and all of its applications. The normal distribution.
+
+\hypertarget{normal-distribution}{%
+\section{Normal Distribution}\label{normal-distribution}}
+
+\begin{description}
+\tightlist
+\item[Normal Distribution]
+The normal distribution is a continuous probability distribution that is
+centered around the mean, bell-shaped, symmetric and completely determined by
+two parameters: The mean \(\mu\) and the variance \(\sigma^2\). The notation
+is \(X \sim N(\mu, \sigma^2)\). The probability density
+function of the normal distribution with mean \(\mu\) and variance \(\sigma^2\)
+is given by
+\(f(x,\mu, \sigma) = \frac{1}{\sigma \sqrt{2 \pi}} \exp\left(\frac{-(x - \mu)^2}{2 \sigma^2}\right)\)
+\end{description}
+
+A normally distributed random variable \(X\) can be standardized to a normally distributed
+random variable with mean \(0\) and variance \(1\). This is called the
+
+\begin{description}
+\tightlist
+\item[Standard Normal Distribution]
+The standard normal distribution is a normal distribution with mean \(\mu = 0\) and
+variance \(\sigma^2 = 1\). Any normally distributed random variable \(X\) with mean
+\(\mu\) and variance \(\sigma^2\) can be rewritten as a standard normal random variable
+\(Z\) in the following way:
+\(Z = \frac{X - \mu}{\sigma}\). By definition \(Z \sim N(0,1)\)
+\end{description}
+
+Example with normal returns. Compute probability that return exceeds a threshold. Redo
+probability computation with standardized returns. Probability is the same.
+
+Example: An important property of the normal distribution:
+
+\(P(\mu - \sigma \leq X \leq \mu + \sigma) = a\)
+\(P(\mu - 2 \sigma \leq X \leq \mu + 2 \sigma) = b\)
+\(P(\mu - 3 \sigma \leq X \leq \mu + 3 \sigma) = c\)
+
+Sketch. Do the computation with R
+
+\hypertarget{inverse-normal-and-quantiles}{%
+\section{Inverse Normal and Quantiles}\label{inverse-normal-and-quantiles}}
+
+In risk management we often ask the following question: For a given time horizon we would
+like to know the threshold loss value, such that the probability that the portfolio loss
+exceeds this value over the given time horizon is \(p\).
+
+Note that is a different question than we asked before. Before we had a given threshold and
+we were interested in the probability to get a value below the threshold. Now we have an
+\textbf{inverse} problem. We have a given probability \(p\) and we want to know the threshold such
+that this threshold is exceeded with this given probability. As a risk manager we want to
+make this probability small.
+
+Let us formulate these ideas in the form of a few definitions:
+
+\begin{description}
+\tightlist
+\item[Inverse Normal Distribution]
+With the inverse normal distribution, it is possible to calculate the value \(x\) such that
+\(P(X \leq x)\) is equal to probability \(p\) for a given normally distributed random variable.
+\end{description}
+
+shwo the concept in R and how to apply it.
+
+\begin{description}
+\tightlist
+\item[Quantile]
+The \(pth\) quantile (or percentile) of a probability distribution is the value \(x\) such that
+\(P(X \leq x) = p\). If \(X\) is normally distributed, \(X \sim N(\mu, \sigma^2)\) then the
+\(x\) value such that \(P(X \leq x) = p\) is given by the inverse CDF of the normal distribution
+with parameters \(\mu\) and \(\sigma\) for given \(p\).
+\end{description}
+
+Coming back to our risk management problem, we can now see that we are looking for a certain
+quantile of the portfolio loss distribution. This quantile is called the \textbf{value at risk}.
+
+\begin{description}
+\tightlist
+\item[Value-at-Risk]
+Given a confidence level \(\alpha \in (0,1)\), Value-at-Risk (VaR) is defined as
+\(VaR_\alpha = F_L(\alpha)^{-1} = \inf\{x \in \mathbb{R} | F_L(x) \geq \alpha \}\)
+With a normal loss distribution \(F_L\) we can compute the value at risk
+in an easy way.
+\end{description}
+
+Example: Value at risk, Portfolio with value x with average growth z over year y and stanrdard deviation k. what is the 95 VaR the 99 VaR? Compute and show.
+
+\hypertarget{example-the-story-of-long-term-capital-and-ignoring-fat-tails}{%
+\section{Example: The story of Long Term Capital and ignoring fat tails}\label{example-the-story-of-long-term-capital-and-ignoring-fat-tails}}
+
+Student t-distribution
+
+\hypertarget{example-models-of-asset-price-dynamics-continued}{%
+\section{Example: Models of asset price dynamics continued}\label{example-models-of-asset-price-dynamics-continued}}
+
+\hypertarget{project-portfolio-credit-risk-with-dependent-defaults}{%
+\section{Project: Portfolio credit risk with dependent defaults}\label{project-portfolio-credit-risk-with-dependent-defaults}}
+
+Schönbucher continued.
 
 \hypertarget{appendix}{%
 \chapter{Appendix}\label{appendix}}

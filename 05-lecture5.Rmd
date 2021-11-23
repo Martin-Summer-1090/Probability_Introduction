@@ -68,11 +68,11 @@ Probability density function
 : For a continuous random variable, the probability density function, usually denoted by 
 $f(x)$, has the following properties:
 1. $f(x) \leq 0$
-2. \int_{-\infty}^{+\infty} g(x) dx = 1
+2. $\int_{-\infty}^{+\infty} f(x) dx = 1$
 If $X$ is a continuous random variable with a density function $f$, then for any $a < b$, the
 probability that $X$ falls in the interval $(a,b)$ is the area under the density function between
 $a$ and $b$:
-$P(a < X < b) = \int_a^b f(x) dx
+$P(a < X < b) = \int_a^b f(x) dx$
 
 Since we can talk only about areas under the curve for continuous random variables the
 really important function is the **cumulative distribution function** or CDF. Let us give
@@ -89,18 +89,86 @@ $P(a < X < b) = P(a < X \leq b) = P(a \leq X \leq b) = F(b) - F(a) = \int_a^b f(
 
 Maybe graphical example here:
 
-# Normal Distribution
+We now come to the most important continuous distribution, which plays a key role in
+probability and all of its applications. The normal distribution.
 
-# Inverse Normal
+## Normal Distribution
 
-# Quantiles
+Normal Distribution
+: The normal distribution is a continuous probability distribution that is 
+centered around the mean, bell-shaped, symmetric and completely determined by
+two parameters: The mean $\mu$ and the variance $\sigma^2$. The notation
+is $X \sim N(\mu, \sigma^2)$. The probability density
+function of the normal distribution with mean $\mu$ and variance $\sigma^2$ 
+is given by
+$f(x,\mu, \sigma) = \frac{1}{\sigma \sqrt{2 \pi}} \exp\left(\frac{-(x - \mu)^2}{2 \sigma^2}\right)$
 
-# Student t-distribution
+A normally distributed random variable $X$ can be standardized to a normally distributed
+random variable with mean $0$ and variance $1$. This is called the
 
-# Example: The story of Long Term Capital and ignoring fat tails
+Standard Normal Distribution
+: The standard normal distribution is a normal distribution with mean $\mu = 0$ and
+variance $\sigma^2 = 1$. Any normally distributed random variable $X$ with mean
+$\mu$ and variance $\sigma^2$ can be rewritten as a standard normal random variable
+$Z$ in the following way:
+$Z = \frac{X - \mu}{\sigma}$. By definition $Z \sim N(0,1)$
 
-# Example: Models of asset price dynamics continued
+Example with normal returns. Compute probability that return exceeds a threshold. Redo
+probability computation with standardized returns. Probability is the same.
 
-# Project: Portfolio credit risk with dependent defaults
+Example: An important property of the normal distribution:
+
+$P(\mu - \sigma \leq X \leq \mu + \sigma) =  a$
+$P(\mu - 2 \sigma \leq X \leq \mu + 2 \sigma) =  b$
+$P(\mu - 3 \sigma \leq X \leq \mu + 3 \sigma) =  c$
+
+Sketch. Do the computation with R
+
+## Inverse Normal and Quantiles
+
+In risk management we often ask the following question: For a given time horizon we would
+like to know the threshold loss value, such that the probability that the portfolio loss
+exceeds this value over the given time horizon is $p$.
+
+Note that is a different question than we asked before. Before we had a given threshold and
+we were interested in the probability to get a value below the threshold. Now we have an
+**inverse** problem. We have a given probability $p$  and we want to know the threshold such
+that this threshold is exceeded with this given probability. As a risk manager we want to
+make this probability small.
+
+Let us formulate these ideas in the form of a few definitions:
+
+Inverse Normal Distribution
+: With the inverse normal distribution, it is possible to calculate the value $x$ such that
+$P(X \leq x)$ is equal to probability $p$ for a given normally distributed random variable.
+
+shwo the concept in R and how to apply it.
+
+Quantile
+: The $pth$ quantile (or percentile) of a probability distribution is the value $x$ such that
+$P(X \leq x) = p$. If $X$ is normally distributed, $X \sim N(\mu, \sigma^2)$ then the
+$x$ value such that $P(X \leq x) = p$ is given by the inverse CDF of the normal distribution
+with parameters $\mu$ and $\sigma$ for given $p$.
+
+Coming back to our risk management problem, we can now see that we are looking for a certain
+quantile of the portfolio loss distribution. This quantile is called the **value at risk**.
+
+Value-at-Risk
+: Given a confidence level $\alpha \in (0,1)$, Value-at-Risk (VaR) is defined as
+$VaR_\alpha = F_L(\alpha)^{-1} = \inf\{x \in \mathbb{R} | F_L(x) \geq \alpha \}$
+With a normal loss distribution $F_L$ we can compute the value at risk
+in an easy way.
+
+Example: Value at risk, Portfolio with value x with average growth z over year y and stanrdard deviation k. what is the 95 VaR the 99 VaR? Compute and show.
+
+
+
+## Example: The story of Long Term Capital and ignoring fat tails
+
+Student t-distribution
+
+## Example: Models of asset price dynamics continued
+
+## Project: Portfolio credit risk with dependent defaults
 
 Schönbucher continued.
