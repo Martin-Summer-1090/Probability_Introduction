@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Continuous random variables | An Introduction to Probability</title>
+  <title>Chapter 7 Overflow Material | An Introduction to Probability</title>
   <meta name="description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Continuous random variables | An Introduction to Probability" />
+  <meta property="og:title" content="Chapter 7 Overflow Material | An Introduction to Probability" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Continuous random variables | An Introduction to Probability" />
+  <meta name="twitter:title" content="Chapter 7 Overflow Material | An Introduction to Probability" />
   
   <meta name="twitter:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="random-variables.html"/>
-<link rel="next" href="references-1.html"/>
+<link rel="prev" href="appendix.html"/>
+
 <script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -267,179 +267,222 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="continuous-random-variables" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Continuous random variables</h1>
-<p>In this lecture we will introduce the most important probability distribution, the normal
-distribution. While we have discussed discrete random variables so far, where the
-number of possible outcomes for <span class="math inline">\(X\)</span> is finite, to discuss the normal distribution we
-need to deal with the case that the number of outcomes for <span class="math inline">\(X\)</span> is uncountable infinite.
-This leads us to the concept of a continuous random variable.</p>
-<p>We will discuss here the most important concepts needed for the practical work with
-continuous random variables. We just note that for a mathematically rigorous treatment
-of this case we would need advanced techniques such as measure theory. We will not do that here
-(reference to literature) because we want to focus on the more applied or practical aspects
-of continuous random variables.</p>
-<dl>
-<dt>Continuous random variable</dt>
-<dd>A <strong>continuous random variable</strong> can take on a continuum of possible values.
-</dd>
-</dl>
-<p>Note that random variables that can take on a continuum of values rather than only discrete values
-like the fair die, we discussed before, play an important role in practical situations. Just think
-of the possible values of an asset price. Other practically important cases where a continuum
-of outcomes would be a very natural model is the length of finishing a task, or the lengths and the
-weight of an item.</p>
-<p>You might object that these examples are not really continuous. Take time. We measure it in
-hours, minutes or seconds. But we can measure it on a much finer grid and ultimately this
-process finishes at some smallest unit only because of our limitations to measure time
-at even smaller scales. Time is a continuous variable. It does not jump. In the case of stock
-prices the situation is different. We have a smallest monetary unit, in the Eurozone this would
-be cents. Still it turns out that in the case of prices practical modelling can be
-simpler if we think of prices as continuous.</p>
-<p>Even if we circumvent the mathematical machinery of measure theory to discuss
-continuous random variable it is still important to spend some time thinking of what
-a continuous random variable means.</p>
-<p>In order to do this let us think of a continuous random variable which can take any
-value in the interval <span class="math inline">\([0,1]\)</span>. We can generate such numbers very easely in R using the
-function <code>runif()</code>. Let’s create 10 such numbers:</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="continuous-random-variables.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>##  [1] 0.46227793 0.68922532 0.88879779 0.52359304 0.29445332 0.68126068
-##  [7] 0.03902948 0.34253937 0.92227719 0.66377446</code></pre>
-<p>Now you could ask: What is the probability that this random variable takes the value of
-<span class="math inline">\(0.4848450\)</span>? Make the point that this probability is 0. The numbers always change. (explain
-pseudorandom numbers), there is an infinite amount of numbers between 0 and 1 and you can not
-count them. The continuum does not allow us to give positive probabilities to any one number.
-No given number in the continuum can have a positive probability.</p>
-<p>This is key: For every continuous random variable <span class="math inline">\(X\)</span> we have <span class="math inline">\(P(X = x) = 0\)</span> for all <span class="math inline">\(x\)</span>. Thus
-in the case of a continuous random variable we can no longer talk about individual probabilities.</p>
-<p>Now let us think about a different question. What is the probability that the random variable comes
-up with a value between <span class="math inline">\(0\)</span> and <span class="math inline">\(1/4\)</span>? Lets simulate: R exercise.</p>
-<p>Point: It looks uniform. 25 %. Try other thresholds.</p>
-<p>So as soon as we have range, we can talk about positive probabilities. But this is the big
-change from discrete to continuous random variables. Whereas in the discrete cas we had points
-and could talk about probabilities of points, in the continuous case we represent
-probabilities as <em>areas under a curve</em>. Give examples.</p>
-<p>Areas under a curve are integrals. The representation of probabilities of a continuous random
-variable corresponds to what you learned in high-school about integration under a curve.</p>
-<p>The function that we need is called a probability density function and is defined as follows:</p>
-<dl>
-<dt>Probability density function</dt>
-<dd>For a continuous random variable, the probability density function, usually denoted by
-<span class="math inline">\(f(x)\)</span>, has the following properties:
-1. <span class="math inline">\(f(x) \leq 0\)</span>
-2. <span class="math inline">\(\int_{-\infty}^{+\infty} f(x) dx = 1\)</span>
-If <span class="math inline">\(X\)</span> is a continuous random variable with a density function <span class="math inline">\(f\)</span>, then for any <span class="math inline">\(a &lt; b\)</span>, the
-probability that <span class="math inline">\(X\)</span> falls in the interval <span class="math inline">\((a,b)\)</span> is the area under the density function between
-<span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>:
-<span class="math inline">\(P(a &lt; X &lt; b) = \int_a^b f(x) dx\)</span>
-</dd>
-</dl>
-<p>Since we can talk only about areas under the curve for continuous random variables the
-really important function is the <strong>cumulative distribution function</strong> or CDF. Let us give
-the definition here:</p>
-<dl>
-<dt>Cumulative Distribution Function</dt>
-<dd>The <strong>cumulative distribution function</strong> (abbreviated CDF) shows the probability that the
-random variable <span class="math inline">\(X\)</span> takes a value less than or equal to a deterministic value <span class="math inline">\(x\)</span>. It
-shows the area under the probability density function from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(x\)</span>. The notation is
-<span class="math inline">\(F(x) = P( X \leq x)\)</span> where <span class="math inline">\(- \infty &lt; x &lt; \infty\)</span>.
-</dd>
-</dl>
-<p>Note that the CDF can be used to compute probabilities because
-<span class="math inline">\(P(a &lt; X &lt; b) = P(a &lt; X \leq b) = P(a \leq X \leq b) = F(b) - F(a) = \int_a^b f(x) dx\)</span></p>
-<p>Maybe graphical example here:</p>
-<p>We now come to the most important continuous distribution, which plays a key role in
-probability and all of its applications. The normal distribution.</p>
-<div id="normal-distribution" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Normal Distribution</h2>
-<dl>
-<dt>Normal Distribution</dt>
-<dd>The normal distribution is a continuous probability distribution that is
-centered around the mean, bell-shaped, symmetric and completely determined by
-two parameters: The mean <span class="math inline">\(\mu\)</span> and the variance <span class="math inline">\(\sigma^2\)</span>. The notation
-is <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>. The probability density
-function of the normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>
-is given by
-<span class="math inline">\(f(x,\mu, \sigma) = \frac{1}{\sigma \sqrt{2 \pi}} \exp\left(\frac{-(x - \mu)^2}{2 \sigma^2}\right)\)</span>
-</dd>
-</dl>
-<p>A normally distributed random variable <span class="math inline">\(X\)</span> can be standardized to a normally distributed
-random variable with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(1\)</span>. This is called the</p>
-<dl>
-<dt>Standard Normal Distribution</dt>
-<dd>The standard normal distribution is a normal distribution with mean <span class="math inline">\(\mu = 0\)</span> and
-variance <span class="math inline">\(\sigma^2 = 1\)</span>. Any normally distributed random variable <span class="math inline">\(X\)</span> with mean
-<span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> can be rewritten as a standard normal random variable
-<span class="math inline">\(Z\)</span> in the following way:
-<span class="math inline">\(Z = \frac{X - \mu}{\sigma}\)</span>. By definition <span class="math inline">\(Z \sim N(0,1)\)</span>
-</dd>
-</dl>
-<p>Example with normal returns. Compute probability that return exceeds a threshold. Redo
-probability computation with standardized returns. Probability is the same.</p>
-<p>Example: An important property of the normal distribution:</p>
-<p><span class="math inline">\(P(\mu - \sigma \leq X \leq \mu + \sigma) = a\)</span>
-<span class="math inline">\(P(\mu - 2 \sigma \leq X \leq \mu + 2 \sigma) = b\)</span>
-<span class="math inline">\(P(\mu - 3 \sigma \leq X \leq \mu + 3 \sigma) = c\)</span></p>
-<p>Sketch. Do the computation with R</p>
+<div id="overflow-material" class="section level1" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Overflow Material</h1>
+<div id="the-stock-price-of-apple-1" class="section level3" number="7.0.1">
+<h3><span class="header-section-number">7.0.1</span> The stock price of Apple</h3>
+<p>Since the context of this course is Computational Finance, let us discuss an example from
+Finance first: The
+stock price of Apple is recorded daily. Let us use this example to make a first step in
+loading data into R. We have already learned how we could have a first quick glance at
+how they look like. We will discuss various ways to get financial data as we go along. For this
+initial example we have prepared a data file for the Apple stock price from January 2021 to
+the beginning of September 2021 and we have stored the data (in some format) locally. In
+practice we often will not have data ready fro retrieval but will have to retrieve them from the
+web, from a database or from other sources but let us not worry about these practical details
+for the moment. We have stored the data in an R internal format, called RDS and we have stored the
+file <code>apple_stock_prices.RDS</code> in a folder in our current working directory which we have
+called <code>data</code>. Under this assumption we read these data and assign them to an R object
+using the R function <code>readRDS</code>. Let us call
+this object <code>apple_stock</code>:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="overflow-material.html#cb157-1" aria-hidden="true" tabindex="-1"></a>apple_stock <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/apple_stock_price.RDS&quot;</span>)</span></code></pre></div>
+<p>To have a first look at the data, we use the R-function <code>head()</code>. This is a very useful function
+to glance at the data because instead of shwoing us the entire, possibly very big, dataset it
+shows us just the first few lines. We can even specify how many by specifying a parameter
+for the number of lines we want to display, say 10:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="overflow-material.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(apple_stock, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 8
+##    symbol date        open  high   low close    volume adjusted
+##    &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 AAPL   2021-01-04  134.  134.  127.  129. 143301900     129.
+##  2 AAPL   2021-01-05  129.  132.  128.  131.  97664900     130.
+##  3 AAPL   2021-01-06  128.  131.  126.  127. 155088000     126.
+##  4 AAPL   2021-01-07  128.  132.  128.  131. 109578200     130.
+##  5 AAPL   2021-01-08  132.  133.  130.  132. 105158200     131.
+##  6 AAPL   2021-01-11  129.  130.  128.  129. 100384500     128.
+##  7 AAPL   2021-01-12  128.  130.  127.  129.  91951100     128.
+##  8 AAPL   2021-01-13  129.  131.  128.  131.  88636800     130.
+##  9 AAPL   2021-01-14  131.  131   129.  129.  90221800     128.
+## 10 AAPL   2021-01-15  129.  130.  127   127. 111598500     127.</code></pre>
+<p>Now we see what is contained in the data. They are organized in a table. Each column is a
+variable, starting with the stock symbol of Apple, then the date, the opening price, the
+highest, the lowest and the closing price, the volume and the adjusted volume. Every
+row is a record of the values of these variables for a particular trading day in
+the time period we consider.</p>
+<p>Now let us make a chart of the closing price at each day over the time period of our data using
+the plotting function <code>qplot()</code> we already used for visualizing the outcomes of
+repeated die rolls. In order to do so, we create two new R objects which contain the date
+and the column close. This means we need to select these two columns.</p>
+<p>We
+will learn more systematically how to do this in R. For the moment we just show one
+way to achieve this for the particular example:</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="overflow-material.html#cb160-1" aria-hidden="true" tabindex="-1"></a>date <span class="ot">&lt;-</span> apple_stock<span class="sc">$</span>date</span>
+<span id="cb160-2"><a href="overflow-material.html#cb160-2" aria-hidden="true" tabindex="-1"></a>price <span class="ot">&lt;-</span> apple_stock<span class="sc">$</span>close</span></code></pre></div>
+<p>Now we load the library <code>ggplot2</code> and use the <code>qplot</code> function. As arguments we give the
+qplot function the series of dates and the series of closing prices and set a display
+option, called <code>geom</code> to “line” to get a line graph (instead of the qplot default of a point
+graph)</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="overflow-material.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb161-2"><a href="overflow-material.html#cb161-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-3"><a href="overflow-material.html#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(date,price, <span class="at">geom =</span> <span class="st">&quot;line&quot;</span>)</span></code></pre></div>
+<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p>Now assume we are at the end of our price data series, at August 6th 2021. We want to
+think about the uncertain price tomorrow. This is our random exmeriment. What would
+be a suitable state space?</p>
+<p>What are the possible prices Apple can attain? The minimum price is zero. The maximum price can
+not be determined. In principle it could be infinite. The state space here would be an open
+interval of real numbers, <span class="math inline">\({\cal S} = [0, \infty)]\)</span>. Quite complicated.</p>
+<p>We could define the state space for the price change, in another way, by thinking about three
+events: Up, denoted by <span class="math inline">\(u\)</span> when the stock price increases, Even, denoted <span class="math inline">\(e\)</span> when the stock price
+does not move, and Down, denoted <span class="math inline">\(d\)</span> when the price decreases. From this perspective
+the state space would be <span class="math inline">\({\cal S} = \{u,e,d\}\)</span>. A bit simpler than before.</p>
+<p>There are more elegant and powerful ways to read and plot data in R. We used this particular
+example just to show you one particular way. More details and more general insights
+how to do this we will develop as we go along.</p>
 </div>
-<div id="inverse-normal-and-quantiles" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Inverse Normal and Quantiles</h2>
-<p>In risk management we often ask the following question: For a given time horizon we would
-like to know the threshold loss value, such that the probability that the portfolio loss
-exceeds this value over the given time horizon is <span class="math inline">\(p\)</span>.</p>
-<p>Note that is a different question than we asked before. Before we had a given threshold and
-we were interested in the probability to get a value below the threshold. Now we have an
-<strong>inverse</strong> problem. We have a given probability <span class="math inline">\(p\)</span> and we want to know the threshold such
-that this threshold is exceeded with this given probability. As a risk manager we want to
-make this probability small.</p>
-<p>Let us formulate these ideas in the form of a few definitions:</p>
-<dl>
-<dt>Inverse Normal Distribution</dt>
-<dd>With the inverse normal distribution, it is possible to calculate the value <span class="math inline">\(x\)</span> such that
-<span class="math inline">\(P(X \leq x)\)</span> is equal to probability <span class="math inline">\(p\)</span> for a given normally distributed random variable.
-</dd>
-</dl>
-<p>shwo the concept in R and how to apply it.</p>
-<dl>
-<dt>Quantile</dt>
-<dd>The <span class="math inline">\(pth\)</span> quantile (or percentile) of a probability distribution is the value <span class="math inline">\(x\)</span> such that
-<span class="math inline">\(P(X \leq x) = p\)</span>. If <span class="math inline">\(X\)</span> is normally distributed, <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span> then the
-<span class="math inline">\(x\)</span> value such that <span class="math inline">\(P(X \leq x) = p\)</span> is given by the inverse CDF of the normal distribution
-with parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> for given <span class="math inline">\(p\)</span>.
-</dd>
-</dl>
-<p>Coming back to our risk management problem, we can now see that we are looking for a certain
-quantile of the portfolio loss distribution. This quantile is called the <strong>value at risk</strong>.</p>
-<dl>
-<dt>Value-at-Risk</dt>
-<dd>Given a confidence level <span class="math inline">\(\alpha \in (0,1)\)</span>, Value-at-Risk (VaR) is defined as
-<span class="math inline">\(VaR_\alpha = F_L(\alpha)^{-1} = \inf\{x \in \mathbb{R} | F_L(x) \geq \alpha \}\)</span>
-With a normal loss distribution <span class="math inline">\(F_L\)</span> we can compute the value at risk
-in an easy way.
-</dd>
-</dl>
-<p>Example: Value at risk, Portfolio with value x with average growth z over year y and stanrdard deviation k. what is the 95 VaR the 99 VaR? Compute and show.</p>
+<div id="the-change-of-a-stock-price-two-days-from-now" class="section level3" number="7.0.2">
+<h3><span class="header-section-number">7.0.2</span> The change of a stock price two days from now</h3>
+<p>Suppose we want to study the random experiment of observing a stock price move twice.
+This is a random
+experiment because whether the coin will go up (U) or down (D) is uncertain before we
+make the observation, but once the closing price is published, the outcomes
+are clear. The sample space is
+<span class="math inline">\({\cal S}=\{UU, UD, DU, DD \}\)</span>. The event that the closing price at the end
+of the first trading day will be higher is <span class="math inline">\(A = \{UU, UD\}\)</span>. The event that the
+stock price does not decrease is <span class="math inline">\(B = \{UU\}\)</span>, which is also a
+basic outcome of the random experiment.</p>
+<p>While this example is so simple that we do not need a computer, let us take the opportunity to
+introduce a new R function, which computes all possible combinations of objects.
+Let us first create a virtual price move by listing the possible moves at day 1 and
+day 2.</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="overflow-material.html#cb162-1" aria-hidden="true" tabindex="-1"></a>day_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;U&quot;</span>, <span class="st">&quot;D&quot;</span>)</span>
+<span id="cb162-2"><a href="overflow-material.html#cb162-2" aria-hidden="true" tabindex="-1"></a>day_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;U&quot;</span>, <span class="st">&quot;D&quot;</span>)</span></code></pre></div>
+<p>There are some new things here. Let us explain. First, while we used gray boxes to show you input
+and output of code as it would appear if you interact on the console we use here a very convenient
+feature in RStudio, which we will use from now on.</p>
+<p>We compose these lecture notes in a document
+format, which allows the mixing of text and code. Whenever we write a piece of R code, it is shown
+in a gray box, as before but without the <code>&gt;</code> prompt. When you move the cursor
+on the gray box
+now, you will see a copy icon in the upper right
+corner of the box. This will allow you to copy this
+code snippet and use it in another document or on your console to execute it.</p>
+<p>The second new thing is that we have used a new data type, which we will
+need very often: characters.
+Characters can be used to form strings and R has many powerful functions to work with and operate
+on strings. We will see many examples of this later.
+Strings are always between <code>" "</code>, like this. Like
+numbers, strings can be stored in objects and referred to later. But what we need here is actually
+two strings in one vector. This is achieved by using the <code>c()</code> function of R.
+c stands for concatenation
+and here it stores both basic outcomes of a price move in two single vectors <code>day_1</code> and <code>day_2</code>.</p>
+<p>We can now pass these two virtual oves to the R function <code>expand.grid()</code>.
+This function will produce
+the sample space of two price moves by computing all possible combinations of sequences of U and D
+that can occur at the end of two trading days.</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="overflow-material.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expand.grid</span>(day_1, day_2)</span></code></pre></div>
+<pre><code>##   Var1 Var2
+## 1    U    U
+## 2    D    U
+## 3    U    D
+## 4    D    D</code></pre>
+<p>Don’t worry at the moment if you do not understand what the output
+format is and why the columns are
+headed by <strong>Var1</strong> and <strong>Var2</strong> followed by the symbols <code>&lt;fctr&gt;</code>. We will come back to this.</p>
+<p>Before we look at yet another sample, let us mention that this setup, simple as it may
+seem, plays a very important role in the theory of random price
+fluctuations of asset prices and in
+option pricing and we will encounter it later in more detail.</p>
 </div>
-<div id="example-the-story-of-long-term-capital-and-ignoring-fat-tails" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Example: The story of Long Term Capital and ignoring fat tails</h2>
-<p>Student t-distribution</p>
-</div>
-<div id="example-models-of-asset-price-dynamics-continued" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Example: Models of asset price dynamics continued</h2>
-</div>
-<div id="project-portfolio-credit-risk-with-dependent-defaults" class="section level2" number="5.5">
-<h2><span class="header-section-number">5.5</span> Project: Portfolio credit risk with dependent defaults</h2>
-<p>Schönbucher continued.</p>
+<div id="birthdays-and-the-blockchain" class="section level3" number="7.0.3">
+<h3><span class="header-section-number">7.0.3</span> Birthdays and the Blockchain</h3>
+<p>Suppose we are interested in the probability that at least two students in a class
+of size <span class="math inline">\(n\)</span> share the same birthday. This is a very famous probability problem which
+is often referred to as the <em>birthday paradox</em>. It is technically not really a
+paradox but it is called like this because this probability behaves in a surprising
+way if viewed as a function of the class size <span class="math inline">\(n\)</span>. We discuss the problem in the
+context of computational finance because it has also an important application in
+the design of crypto-currencies and the new field of decentralized Finance, which
+make heavy use of cryptographic methods.</p>
+<p>We will talk about actual probabilities in the next lecture. But in
+this lecture we have learned that we can only talk meaningfully about probabilities if
+we know the random experiment and the basic outcomes. One interesting aspect with respect to
+the concepts of basic outcomes and sample space is that the birthday paradox example is
+an instance where we cannot simply write down the sample space like in the example of
+rolling a die.</p>
+<p>The event we are interested in is that
+<em>at least two students in a randomly selected sample of <span class="math inline">\(n\)</span> out of class have the same birthday</em>.
+It turns out that it is easier to think about the complementary event, which is that
+<em>all students have different birthdays</em>.</p>
+<p>In terms of possible basic outcomes there
+are <span class="math inline">\(365^n\)</span> possible outcomes if there are <span class="math inline">\(n\)</span> students in the class. Each of
+them can have a birthday at any of the 365 days in the year and in total there are
+<span class="math inline">\(n\)</span> students.</p>
+<p>So the sample space <span class="math inline">\({\cal S}\)</span> for the conceptual
+random experiment that all <span class="math inline">\(n\)</span> randomly selected students have different birthdays
+is the set <span class="math inline">\({\cal S} =\{1,2,\ldots, 356^n\}\)</span> of basic outcomes. For 10 students this would
+be</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="overflow-material.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="dv">365</span><span class="sc">^</span><span class="dv">10</span></span></code></pre></div>
+<pre><code>## [1] 4.1969e+25</code></pre>
+<p>basic outcomes for all <span class="math inline">\(n\)</span> students having different birthdays.</p>
+<p>The birthday problem also plays an important role in cryptography, and its
+concept of hash-functions.
+Hash-functions play a key role in the implementation of Cryptocurrencies. Let us explain this
+context and what it has to do with Crypto:</p>
+<p>A <strong>hash-function</strong> maps a string of arbitrary but finite length to a fixed length string
+of output. A
+very frequently used hash-function in practice is the function SHA-256, which maps its input
+to a string of 256 bits<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. So, you could for instance give the text of the bible as an
+input to SHA-256 and it would map this into a 256-bit string, which functions like
+a finger print of this text. This is a so
+called <em>one-way-function</em> meaning that it is easy to evaluate or compute but it is
+practically impossible to learn from the value the initial argument by computing the inverse.</p>
+<p>Hash-Functions are key pillars of modern cryptography, where they play a major role in message
+authentication. This is because it is impossible to modify the input without significantly
+changing the output. So in our previous example, if you only dropped one letter from the text
+of the bible it would hash into a completely different value than the previous version which
+still contained this letter and you would immediately see from
+comparing the hash-values that something has changed.</p>
+<p>The collision problem for hash-functions is formally equivalent to the birthday problem. The event
+we are interested in is that <em>at least two input strings hash-to the same value</em>. Again it
+is easier to think about the complementary event that <em>all inputs hash to a different value</em>.</p>
+<p>If the range of the hash-function is <span class="math inline">\(M\)</span> and the hash-function maps into a 256 bit string
+then there are <span class="math inline">\(2^{256}\)</span> basic outcomes. Since the hash-function maps a large string onto
+a smaller string it is possible that there are two different strings <span class="math inline">\(x \neq y\)</span> mapping
+to the same value <span class="math inline">\(\text{hash}(x)=\text{hash}(y)\)</span>. This would be a problem for message
+authentification because it would give the same “fingerprint” for two different strings. For
+a cryptographically secure hash function it is therefore required that the probability of
+such a collision should be small enough to exclude a collision in all practically
+relevant circumstances. We will take up the example again in the next lecture.</p>
 
 </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>A bit, short for binary digit, is defined as the most basic
+unit of data in telecommunications and computing. Each bit is represented
+by either a 1 or a 0<a href="overflow-material.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="random-variables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="appendix.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

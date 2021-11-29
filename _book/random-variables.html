@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Random Variables | Probability, R and Computational Finance</title>
+  <title>Chapter 4 Random Variables | An Introduction to Probability</title>
   <meta name="description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Random Variables | Probability, R and Computational Finance" />
+  <meta property="og:title" content="Chapter 4 Random Variables | An Introduction to Probability" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Random Variables | Probability, R and Computational Finance" />
+  <meta name="twitter:title" content="Chapter 4 Random Variables | An Introduction to Probability" />
   
   <meta name="twitter:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-11-23" />
+<meta name="date" content="2021-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -121,7 +121,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/box.css" type="text/css" />
 </head>
 
 <body>
@@ -134,102 +135,117 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">An Introduction to Probability Theory</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#downloading-and-installing-r"><i class="fa fa-check"></i><b>1.1</b> Downloading and installing R</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#downloading-and-installing-rstudio"><i class="fa fa-check"></i><b>1.2</b> Downloading and installing RStudio</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-are-these-lecture-notes-about"><i class="fa fa-check"></i>What are these lecture notes about</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#downloading-and-installing-r"><i class="fa fa-check"></i>Downloading and installing R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#downloading-and-installing-rstudio"><i class="fa fa-check"></i>Downloading and installing RStudio</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-notes"><i class="fa fa-check"></i>Structure of the Notes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#references"><i class="fa fa-check"></i>References</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html"><i class="fa fa-check"></i><b>2</b> Empirical background and some terminology</a>
+<li class="chapter" data-level="1" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html"><i class="fa fa-check"></i><b>1</b> First probability ideas and first steps in R</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#terminology"><i class="fa fa-check"></i><b>2.1</b> Terminology</a></li>
-<li class="chapter" data-level="2.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#rolling-a-die-constructing-a-random-experiment-a-sample-space-and-events-using-r"><i class="fa fa-check"></i><b>2.2</b> Rolling a die: Constructing a random experiment, a sample space and events using R</a>
+<li class="chapter" data-level="1.1" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#rolling-a-die-first-probability-ideas."><i class="fa fa-check"></i><b>1.1</b> Rolling a die: First Probability ideas.</a>
 <ul>
-<li class="chapter" data-level="2.2.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-r-user-interface"><i class="fa fa-check"></i><b>2.2.1</b> The R User Interface</a></li>
+<li class="chapter" data-level="1.1.1" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#random-experiments-sample-space-events"><i class="fa fa-check"></i><b>1.1.1</b> Random experiments, sample space, events</a></li>
+<li class="chapter" data-level="1.1.2" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#the-role-and-nature-of-idealizations-in-applications"><i class="fa fa-check"></i><b>1.1.2</b> The role and nature of idealizations in applications</a></li>
+<li class="chapter" data-level="1.1.3" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#classical-probability-measuring-uncertainty"><i class="fa fa-check"></i><b>1.1.3</b> Classical Probability: Measuring uncertainty</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#objects"><i class="fa fa-check"></i><b>2.3</b> Objects</a></li>
-<li class="chapter" data-level="2.4" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#functions"><i class="fa fa-check"></i><b>2.4</b> Functions</a></li>
-<li class="chapter" data-level="2.5" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#writing-your-own-functions"><i class="fa fa-check"></i><b>2.5</b> Writing your own functions</a></li>
-<li class="chapter" data-level="2.6" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#arguments"><i class="fa fa-check"></i><b>2.6</b> Arguments</a></li>
-<li class="chapter" data-level="2.7" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#scripts"><i class="fa fa-check"></i><b>2.7</b> Scripts</a></li>
-<li class="chapter" data-level="2.8" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#using-packages-and-finding-help"><i class="fa fa-check"></i><b>2.8</b> Using packages and finding Help</a>
+<li class="chapter" data-level="1.2" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#rolling-a-die-on-the-computer-first-steps-in-r"><i class="fa fa-check"></i><b>1.2</b> Rolling a die on the computer: First steps in R</a>
 <ul>
-<li class="chapter" data-level="2.8.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#packages"><i class="fa fa-check"></i><b>2.8.1</b> Packages</a></li>
-<li class="chapter" data-level="2.8.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#getting-help"><i class="fa fa-check"></i><b>2.8.2</b> Getting Help</a></li>
+<li class="chapter" data-level="1.2.1" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#the-r-user-interface"><i class="fa fa-check"></i><b>1.2.1</b> The R User Interface</a></li>
+<li class="chapter" data-level="1.2.2" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#objects"><i class="fa fa-check"></i><b>1.2.2</b> Objects</a></li>
+<li class="chapter" data-level="1.2.3" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#functions"><i class="fa fa-check"></i><b>1.2.3</b> Functions</a></li>
+<li class="chapter" data-level="1.2.4" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#writing-your-own-functions"><i class="fa fa-check"></i><b>1.2.4</b> Writing your own functions</a></li>
+<li class="chapter" data-level="1.2.5" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#arguments"><i class="fa fa-check"></i><b>1.2.5</b> Arguments</a></li>
+<li class="chapter" data-level="1.2.6" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#scripts"><i class="fa fa-check"></i><b>1.2.6</b> Scripts</a></li>
+<li class="chapter" data-level="1.2.7" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#using-packages-and-finding-help"><i class="fa fa-check"></i><b>1.2.7</b> Using packages and finding Help</a></li>
+<li class="chapter" data-level="1.2.8" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#packages"><i class="fa fa-check"></i><b>1.2.8</b> Packages</a></li>
+<li class="chapter" data-level="1.2.9" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#getting-help"><i class="fa fa-check"></i><b>1.2.9</b> Getting Help</a></li>
 </ul></li>
-<li class="chapter" data-level="2.9" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#some-more-examples"><i class="fa fa-check"></i><b>2.9</b> Some more examples</a>
+<li class="chapter" data-level="1.3" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#application-coincidences-and-the-blockchain"><i class="fa fa-check"></i><b>1.3</b> Application: Coincidences and the Blockchain</a>
 <ul>
-<li class="chapter" data-level="2.9.1" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-stock-price-of-apple"><i class="fa fa-check"></i><b>2.9.1</b> The stock price of Apple</a></li>
-<li class="chapter" data-level="2.9.2" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#the-change-of-a-stock-price-two-days-from-now"><i class="fa fa-check"></i><b>2.9.2</b> The change of a stock price two days from now</a></li>
-<li class="chapter" data-level="2.9.3" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#birthdays-and-the-blockchain"><i class="fa fa-check"></i><b>2.9.3</b> Birthdays and the Blockchain</a></li>
+<li class="chapter" data-level="1.3.1" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#the-birthday-problem"><i class="fa fa-check"></i><b>1.3.1</b> The birthday problem</a></li>
+<li class="chapter" data-level="1.3.2" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#an-r-function-to-compute-birthday-probabilities"><i class="fa fa-check"></i><b>1.3.2</b> An R function to compute birthday probabilities</a></li>
+<li class="chapter" data-level="1.3.3" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#hash-functions-and-the-blockchain"><i class="fa fa-check"></i><b>1.3.3</b> Hash-functions and the blockchain</a></li>
 </ul></li>
-<li class="chapter" data-level="2.10" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#summary"><i class="fa fa-check"></i><b>2.10</b> Summary</a></li>
-<li class="chapter" data-level="2.11" data-path="empirical-background-and-some-terminology.html"><a href="empirical-background-and-some-terminology.html#project-1-rolling-two-dice-and-adding-the-points"><i class="fa fa-check"></i><b>2.11</b> Project 1: Rolling two dice and adding the points</a></li>
+<li class="chapter" data-level="1.4" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
+<li class="chapter" data-level="1.5" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#project-1-rolling-two-dice-and-adding-the-points"><i class="fa fa-check"></i><b>1.5</b> Project 1: Rolling two dice and adding the points</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html"><i class="fa fa-check"></i><b>3</b> Probability: Basic Definitions and Rules</a>
+<li class="chapter" data-level="2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html"><i class="fa fa-check"></i><b>2</b> Probability: Basic Definitions and Rules</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#probability-in-theory-and-applications-of-probability"><i class="fa fa-check"></i><b>3.1</b> Probability in theory and applications of probability</a></li>
-<li class="chapter" data-level="3.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>3.2</b> Basic rules of probability</a></li>
-<li class="chapter" data-level="3.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#interpretations-of-probability"><i class="fa fa-check"></i><b>3.3</b> Interpretations of Probability</a></li>
-<li class="chapter" data-level="3.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-continued"><i class="fa fa-check"></i><b>3.4</b> Example continued</a>
+<li class="chapter" data-level="2.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#terminology"><i class="fa fa-check"></i><b>2.1</b> Terminology</a></li>
+<li class="chapter" data-level="2.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#probability-in-theory-and-applications-of-probability"><i class="fa fa-check"></i><b>2.2</b> Probability in theory and applications of probability</a></li>
+<li class="chapter" data-level="2.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>2.3</b> Basic rules of probability</a></li>
+<li class="chapter" data-level="2.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#interpretations-of-probability"><i class="fa fa-check"></i><b>2.4</b> Interpretations of Probability</a></li>
+<li class="chapter" data-level="2.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-continued"><i class="fa fa-check"></i><b>2.5</b> Example continued</a>
 <ul>
-<li class="chapter" data-level="3.4.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#the-stock-price-of-apple-1"><i class="fa fa-check"></i><b>3.4.1</b> The stock price of Apple</a></li>
-<li class="chapter" data-level="3.4.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#tossing-a-fair-coin-twice"><i class="fa fa-check"></i><b>3.4.2</b> Tossing a fair coin twice</a></li>
-<li class="chapter" data-level="3.4.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#boys-and-girls"><i class="fa fa-check"></i><b>3.4.3</b> Boys and Girls</a></li>
-<li class="chapter" data-level="3.4.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-fintech-start-up"><i class="fa fa-check"></i><b>3.4.4</b> Example: FinTech Start Up</a></li>
+<li class="chapter" data-level="2.5.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#the-stock-price-of-apple"><i class="fa fa-check"></i><b>2.5.1</b> The stock price of Apple</a></li>
+<li class="chapter" data-level="2.5.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#tossing-a-fair-coin-twice"><i class="fa fa-check"></i><b>2.5.2</b> Tossing a fair coin twice</a></li>
+<li class="chapter" data-level="2.5.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#boys-and-girls"><i class="fa fa-check"></i><b>2.5.3</b> Boys and Girls</a></li>
+<li class="chapter" data-level="2.5.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-fintech-start-up"><i class="fa fa-check"></i><b>2.5.4</b> Example: FinTech Start Up</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#independence"><i class="fa fa-check"></i><b>3.5</b> Independence</a>
+<li class="chapter" data-level="2.6" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#independence"><i class="fa fa-check"></i><b>2.6</b> Independence</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-the-apple-stock-price-again"><i class="fa fa-check"></i><b>3.5.1</b> Example: The Apple stock price again</a></li>
+<li class="chapter" data-level="2.6.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-the-apple-stock-price-again"><i class="fa fa-check"></i><b>2.6.1</b> Example: The Apple stock price again</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#analyzing-the-stock-price-of-apple-more-r-concepts"><i class="fa fa-check"></i><b>3.6</b> Analyzing the stock price of Apple: More R concepts</a></li>
-<li class="chapter" data-level="3.7" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#loading-data"><i class="fa fa-check"></i><b>3.7</b> Loading Data</a></li>
-<li class="chapter" data-level="3.8" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#saving-data"><i class="fa fa-check"></i><b>3.8</b> Saving Data</a></li>
-<li class="chapter" data-level="3.9" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#atomic-vectors"><i class="fa fa-check"></i><b>3.9</b> Atomic vectors</a>
+<li class="chapter" data-level="2.7" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#analyzing-the-stock-price-of-apple-more-r-concepts"><i class="fa fa-check"></i><b>2.7</b> Analyzing the stock price of Apple: More R concepts</a></li>
+<li class="chapter" data-level="2.8" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#loading-data"><i class="fa fa-check"></i><b>2.8</b> Loading Data</a></li>
+<li class="chapter" data-level="2.9" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#saving-data"><i class="fa fa-check"></i><b>2.9</b> Saving Data</a></li>
+<li class="chapter" data-level="2.10" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#atomic-vectors"><i class="fa fa-check"></i><b>2.10</b> Atomic vectors</a>
 <ul>
-<li class="chapter" data-level="3.9.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#doubles"><i class="fa fa-check"></i><b>3.9.1</b> Doubles</a></li>
-<li class="chapter" data-level="3.9.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#integers"><i class="fa fa-check"></i><b>3.9.2</b> Integers</a></li>
-<li class="chapter" data-level="3.9.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#characters"><i class="fa fa-check"></i><b>3.9.3</b> Characters</a></li>
-<li class="chapter" data-level="3.9.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#logicals"><i class="fa fa-check"></i><b>3.9.4</b> Logicals</a></li>
-<li class="chapter" data-level="3.9.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#coercion"><i class="fa fa-check"></i><b>3.9.5</b> Coercion</a></li>
-<li class="chapter" data-level="3.9.6" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#complex-and-raw"><i class="fa fa-check"></i><b>3.9.6</b> Complex and Raw</a></li>
+<li class="chapter" data-level="2.10.1" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#doubles"><i class="fa fa-check"></i><b>2.10.1</b> Doubles</a></li>
+<li class="chapter" data-level="2.10.2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#integers"><i class="fa fa-check"></i><b>2.10.2</b> Integers</a></li>
+<li class="chapter" data-level="2.10.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#characters"><i class="fa fa-check"></i><b>2.10.3</b> Characters</a></li>
+<li class="chapter" data-level="2.10.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#logicals"><i class="fa fa-check"></i><b>2.10.4</b> Logicals</a></li>
+<li class="chapter" data-level="2.10.5" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#coercion"><i class="fa fa-check"></i><b>2.10.5</b> Coercion</a></li>
+<li class="chapter" data-level="2.10.6" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#complex-and-raw"><i class="fa fa-check"></i><b>2.10.6</b> Complex and Raw</a></li>
 </ul></li>
-<li class="chapter" data-level="3.10" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#lists"><i class="fa fa-check"></i><b>3.10</b> Lists</a></li>
-<li class="chapter" data-level="3.11" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#data-frames"><i class="fa fa-check"></i><b>3.11</b> Data Frames</a></li>
-<li class="chapter" data-level="3.12" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#project-2-analyzing-stock-price-changes"><i class="fa fa-check"></i><b>3.12</b> Project 2: Analyzing stock price changes</a></li>
+<li class="chapter" data-level="2.11" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#lists"><i class="fa fa-check"></i><b>2.11</b> Lists</a></li>
+<li class="chapter" data-level="2.12" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#data-frames"><i class="fa fa-check"></i><b>2.12</b> Data Frames</a></li>
+<li class="chapter" data-level="2.13" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#project-2-analyzing-stock-price-changes"><i class="fa fa-check"></i><b>2.13</b> Project 2: Analyzing stock price changes</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>4</b> Conditional Probability</a>
+<li class="chapter" data-level="3" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>3</b> Conditional Probability</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="conditional-probability.html"><a href="conditional-probability.html#introdcution"><i class="fa fa-check"></i><b>4.1</b> Introdcution</a></li>
-<li class="chapter" data-level="4.2" data-path="conditional-probability.html"><a href="conditional-probability.html#marginal-joint-and-conditional-probability"><i class="fa fa-check"></i><b>4.2</b> Marginal, joint and conditional probability</a></li>
-<li class="chapter" data-level="4.3" data-path="conditional-probability.html"><a href="conditional-probability.html#birthdays-and-blockchains-continued"><i class="fa fa-check"></i><b>4.3</b> Birthdays and Blockchains continued</a></li>
-<li class="chapter" data-level="4.4" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>4.4</b> Bayes’ Rule</a></li>
-<li class="chapter" data-level="4.5" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>4.5</b> Project</a></li>
+<li class="chapter" data-level="3.1" data-path="conditional-probability.html"><a href="conditional-probability.html#introdcution"><i class="fa fa-check"></i><b>3.1</b> Introdcution</a></li>
+<li class="chapter" data-level="3.2" data-path="conditional-probability.html"><a href="conditional-probability.html#marginal-joint-and-conditional-probability"><i class="fa fa-check"></i><b>3.2</b> Marginal, joint and conditional probability</a></li>
+<li class="chapter" data-level="3.3" data-path="conditional-probability.html"><a href="conditional-probability.html#birthdays-and-blockchains-continued"><i class="fa fa-check"></i><b>3.3</b> Birthdays and Blockchains continued</a></li>
+<li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.4</b> Bayes’ Rule</a></li>
+<li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>3.5</b> Project</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>5</b> Random Variables</a>
+<li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="random-variables.html"><a href="random-variables.html#expected-value"><i class="fa fa-check"></i><b>5.1</b> Expected value</a></li>
-<li class="chapter" data-level="5.2" data-path="random-variables.html"><a href="random-variables.html#measures-of-dispersion"><i class="fa fa-check"></i><b>5.2</b> Measures of Dispersion</a></li>
-<li class="chapter" data-level="5.3" data-path="random-variables.html"><a href="random-variables.html#example-mean-variance-portfolio-theory"><i class="fa fa-check"></i><b>5.3</b> Example: Mean-variance portfolio theory</a></li>
-<li class="chapter" data-level="5.4" data-path="random-variables.html"><a href="random-variables.html#binomial-distribution"><i class="fa fa-check"></i><b>5.4</b> Binomial Distribution</a></li>
-<li class="chapter" data-level="5.5" data-path="random-variables.html"><a href="random-variables.html#example-models-of-asset-price-dynamics"><i class="fa fa-check"></i><b>5.5</b> Example: Models of asset price dynamics</a></li>
-<li class="chapter" data-level="5.6" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>5.6</b> Project: Credit risk model and independence based on Schönbucher</a></li>
+<li class="chapter" data-level="4.1" data-path="random-variables.html"><a href="random-variables.html#expected-value"><i class="fa fa-check"></i><b>4.1</b> Expected value</a></li>
+<li class="chapter" data-level="4.2" data-path="random-variables.html"><a href="random-variables.html#measures-of-dispersion"><i class="fa fa-check"></i><b>4.2</b> Measures of Dispersion</a></li>
+<li class="chapter" data-level="4.3" data-path="random-variables.html"><a href="random-variables.html#example-mean-variance-portfolio-theory"><i class="fa fa-check"></i><b>4.3</b> Example: Mean-variance portfolio theory</a></li>
+<li class="chapter" data-level="4.4" data-path="random-variables.html"><a href="random-variables.html#binomial-distribution"><i class="fa fa-check"></i><b>4.4</b> Binomial Distribution</a></li>
+<li class="chapter" data-level="4.5" data-path="random-variables.html"><a href="random-variables.html#example-models-of-asset-price-dynamics"><i class="fa fa-check"></i><b>4.5</b> Example: Models of asset price dynamics</a></li>
+<li class="chapter" data-level="4.6" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>4.6</b> Project: Credit risk model and independence based on Schönbucher</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>6</b> Continuous random variables</a>
+<li class="chapter" data-level="5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>5</b> Continuous random variables</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>6.1</b> Normal Distribution</a></li>
-<li class="chapter" data-level="6.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#inverse-normal-and-quantiles"><i class="fa fa-check"></i><b>6.2</b> Inverse Normal and Quantiles</a></li>
-<li class="chapter" data-level="6.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#example-the-story-of-long-term-capital-and-ignoring-fat-tails"><i class="fa fa-check"></i><b>6.3</b> Example: The story of Long Term Capital and ignoring fat tails</a></li>
-<li class="chapter" data-level="6.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#example-models-of-asset-price-dynamics-continued"><i class="fa fa-check"></i><b>6.4</b> Example: Models of asset price dynamics continued</a></li>
-<li class="chapter" data-level="6.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#project-portfolio-credit-risk-with-dependent-defaults"><i class="fa fa-check"></i><b>6.5</b> Project: Portfolio credit risk with dependent defaults</a></li>
+<li class="chapter" data-level="5.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>5.1</b> Normal Distribution</a></li>
+<li class="chapter" data-level="5.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#inverse-normal-and-quantiles"><i class="fa fa-check"></i><b>5.2</b> Inverse Normal and Quantiles</a></li>
+<li class="chapter" data-level="5.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#example-the-story-of-long-term-capital-and-ignoring-fat-tails"><i class="fa fa-check"></i><b>5.3</b> Example: The story of Long Term Capital and ignoring fat tails</a></li>
+<li class="chapter" data-level="5.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#example-models-of-asset-price-dynamics-continued"><i class="fa fa-check"></i><b>5.4</b> Example: Models of asset price dynamics continued</a></li>
+<li class="chapter" data-level="5.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#project-portfolio-credit-risk-with-dependent-defaults"><i class="fa fa-check"></i><b>5.5</b> Project: Portfolio credit risk with dependent defaults</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="6" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>6</b> Appendix</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#installing-r"><i class="fa fa-check"></i><b>7.1</b> Installing R</a></li>
-<li class="chapter" data-level="7.2" data-path="appendix.html"><a href="appendix.html#installing-rstudio"><i class="fa fa-check"></i><b>7.2</b> Installing RStudio</a></li>
+<li class="chapter" data-level="6.1" data-path="appendix.html"><a href="appendix.html#installing-r"><i class="fa fa-check"></i><b>6.1</b> Installing R</a></li>
+<li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#installing-rstudio"><i class="fa fa-check"></i><b>6.2</b> Installing RStudio</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="overflow-material.html"><a href="overflow-material.html"><i class="fa fa-check"></i><b>7</b> Overflow Material</a>
+<ul>
+<li class="chapter" data-level="7.0.1" data-path="overflow-material.html"><a href="overflow-material.html#the-stock-price-of-apple-1"><i class="fa fa-check"></i><b>7.0.1</b> The stock price of Apple</a></li>
+<li class="chapter" data-level="7.0.2" data-path="overflow-material.html"><a href="overflow-material.html#the-change-of-a-stock-price-two-days-from-now"><i class="fa fa-check"></i><b>7.0.2</b> The change of a stock price two days from now</a></li>
+<li class="chapter" data-level="7.0.3" data-path="overflow-material.html"><a href="overflow-material.html#birthdays-and-the-blockchain"><i class="fa fa-check"></i><b>7.0.3</b> Birthdays and the Blockchain</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -243,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Probability, R and Computational Finance</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability</a>
           </h1>
         </div>
 
@@ -251,8 +267,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="random-variables" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Random Variables</h1>
+<div id="random-variables" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Random Variables</h1>
 <p>We now come to an extension of the simple probability model which is very useful. Let <span class="math inline">\({\cal S}\)</span>
 be some finite set and <span class="math inline">\(P(x)\)</span> a probability on <span class="math inline">\({\cal S}\)</span>. A <strong>random variable</strong> is a
 function assigning numbers to points of <span class="math inline">\({\cal S}\)</span>.
@@ -327,8 +343,8 @@ sample space, their joint distribution is given by the function
 <span class="math inline">\(P(X=x_i, Y = y_j, \cdots, Z=z_k) = P(X = x_i)P(Y=y_j) \cdots P(Z=z_k)\)</span>
 </dd>
 </dl>
-<div id="expected-value" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Expected value</h2>
+<div id="expected-value" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Expected value</h2>
 <p>Sometimes the entire probability distribution is difficult to grasp at once. It is common to
 describe probability distributions therefore by a summary measure. Amonng the typical summary
 measure the <strong>expectation</strong> or the <strong>mean</strong> is by far the most important one.</p>
@@ -346,8 +362,8 @@ expectation of mutually independent variables is the product of expectations.
 conditional expectation is a new random variable</p>
 <p>example: mean of a portfolio does not say anything about its risk</p>
 </div>
-<div id="measures-of-dispersion" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Measures of Dispersion</h2>
+<div id="measures-of-dispersion" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Measures of Dispersion</h2>
 <p>To capture information about the risk of the investment we need something like a deviation from
 the mean or the variation of returns. If all historical returns are very close to the mean then
 it will be very likely that the realized returns will not be far away from the expected value and
@@ -400,8 +416,8 @@ of two such normalized random variables we get the so called <strong>correlation
 <p>Discuss examples (a) and (b) in Feller p 236 as R examples to make the point that the covariance
 is not a general measure of dependence but a measure of linear dependence.</p>
 </div>
-<div id="example-mean-variance-portfolio-theory" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Example: Mean-variance portfolio theory</h2>
+<div id="example-mean-variance-portfolio-theory" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Example: Mean-variance portfolio theory</h2>
 <p>An important case where probability is applied in Finance is the problem that when you
 make an investment with a known initial outlay of capital the amount to be returned from the
 investment in the future is unknown. In the example we want to discuss now, we restrict
@@ -442,20 +458,20 @@ feasible set
 feasible minimum variance set
 do this with real stock data</p>
 </div>
-<div id="binomial-distribution" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Binomial Distribution</h2>
+<div id="binomial-distribution" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Binomial Distribution</h2>
 <p>Explain Bernoulli trials
 Explain repeated Bernouli trials
 Show how these repeated Bernoulli trials or sums can be modeled by the binomial distribution
 use R for that
 Binomial</p>
 </div>
-<div id="example-models-of-asset-price-dynamics" class="section level2" number="5.5">
-<h2><span class="header-section-number">5.5</span> Example: Models of asset price dynamics</h2>
+<div id="example-models-of-asset-price-dynamics" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Example: Models of asset price dynamics</h2>
 <p>Luenberger p 296 - 299 until</p>
 </div>
-<div id="project-credit-risk-model-and-independence-based-on-schönbucher" class="section level2" number="5.6">
-<h2><span class="header-section-number">5.6</span> Project: Credit risk model and independence based on Schönbucher</h2>
+<div id="project-credit-risk-model-and-independence-based-on-schönbucher" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Project: Credit risk model and independence based on Schönbucher</h2>
 <p>This can be constructed to apply the binomial distribution and discuss the
 importance of dependence. The modelling of dependence can be taken up in
 the last project</p>
@@ -484,8 +500,8 @@ the last project</p>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
-"facebook": true,
+"github": true,
+"facebook": false,
 "twitter": true,
 "linkedin": false,
 "weibo": false,
