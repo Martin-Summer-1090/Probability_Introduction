@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-11-29" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -172,10 +172,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.3.1" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#the-birthday-problem"><i class="fa fa-check"></i><b>1.3.1</b> The birthday problem</a></li>
 <li class="chapter" data-level="1.3.2" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#an-r-function-to-compute-birthday-probabilities"><i class="fa fa-check"></i><b>1.3.2</b> An R function to compute birthday probabilities</a></li>
-<li class="chapter" data-level="1.3.3" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#hash-functions-and-the-blockchain"><i class="fa fa-check"></i><b>1.3.3</b> Hash-functions and the blockchain</a></li>
+<li class="chapter" data-level="1.3.3" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#determining-birthday-collisions-by-simulation"><i class="fa fa-check"></i><b>1.3.3</b> Determining birthday collisions by simulation</a></li>
+<li class="chapter" data-level="1.3.4" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#hash-functions-and-the-blockchain"><i class="fa fa-check"></i><b>1.3.4</b> Hash-functions and the blockchain</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
-<li class="chapter" data-level="1.5" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#project-1-rolling-two-dice-and-adding-the-points"><i class="fa fa-check"></i><b>1.5</b> Project 1: Rolling two dice and adding the points</a></li>
+<li class="chapter" data-level="1.5" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#project-1-craps-a-casion-dice-game."><i class="fa fa-check"></i><b>1.5</b> Project 1: Craps: A casion dice game.</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html"><i class="fa fa-check"></i><b>2</b> Probability: Basic Definitions and Rules</a>
 <ul>
@@ -600,18 +601,18 @@ we can roll our die on the computer and conduct actual random experiments.</p>
 as arguments a vector names <code>x</code> and a number named <code>size</code>. <code>sample</code> will return
 <code>size</code> elements randomly chosen from the vector <code>x</code>. Lets say:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] 3 1</code></pre>
+<pre><code>## [1] 4 2</code></pre>
 <p>In this case <code>sample</code> has chosen <code>4,1</code> from the vector <code>x = (1,2,3,4)</code>. If we want
 to roll the die in our computer we can thus pass the die as an argument to <code>sample</code> and
 use the number <code>1</code> for the <code>size</code> argument. Lets do a few rolls with our die</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 3</code></pre>
+<pre><code>## [1] 6</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 4</code></pre>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 3</code></pre>
+<pre><code>## [1] 1</code></pre>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
+<pre><code>## [1] 1</code></pre>
 <p>These are the random outcomes of our consecutive rolls. It is as if we had thrown an
 actual die but in this case we have done the same thing on the computer. Isn’t it cool that
 this is possible at all? The <code>sample()</code> function will remain our good friend throughout this
@@ -652,15 +653,15 @@ have to write the actual code within the braces <code>{}</code>.</p>
 <span id="cb51-2"><a href="first-probability-ideas-and-first-steps-in-r.html#cb51-2" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">sample</span>(die, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now we can roll our die for a few times to show how the function works</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 3</code></pre>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
+<pre><code>## [1] 4</code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
+<pre><code>## [1] 3</code></pre>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 6</code></pre>
 <p>A final remark in the <code>sample</code> function is in place here. If we look at the arguments of
 sample using the <code>args</code> function we see</p>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">args</span>(sample)</span></code></pre></div>
@@ -699,13 +700,13 @@ function. Lets do this:</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb65-1" aria-hidden="true" tabindex="-1"></a>roll_die2 <span class="ot">&lt;-</span> <span class="cf">function</span>(ball){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now the function will work as long as we supply <code>ball</code> when we call the function.</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die2</span>(<span class="at">ball =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code></pre></div>
-<pre><code>## [1] 6</code></pre>
+<pre><code>## [1] 2</code></pre>
 <p>Note that we still get an error, if we forget to supply ball argument.
 This could be avoided if we give the function a default argument</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb68-1" aria-hidden="true" tabindex="-1"></a>roll_die2 <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ball=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now if we type:</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die2</span>()</span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
+<pre><code>## [1] 5</code></pre>
 <p>everything works, just as intended.</p>
 </div>
 <div id="scripts" class="section level3" number="1.2.6">
@@ -946,9 +947,89 @@ here is how we could go about writing this function:</p>
 <p>Voila, indeed with 50 people in the group the collision probability is already
 at 97 %.</p>
 </div>
-<div id="hash-functions-and-the-blockchain" class="section level3" number="1.3.3">
-<h3><span class="header-section-number">1.3.3</span> Hash-functions and the blockchain</h3>
-<p>The birthday problem also plays an important role for studying coincidences more generally.
+<div id="determining-birthday-collisions-by-simulation" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Determining birthday collisions by simulation</h3>
+<p>Now this was an argument derived analytically and then we just packed the derived result into
+a function to compute the exact birthday-collision probabilities. Here is how we could
+figure out these probabilities by simulation, even with the minimal tools we have
+learned so far.</p>
+<p>Let us simulate first birthdays for 23 people in a room using the sample function. We
+stick to the assumption that our year has 365 days (no leap years), and that all birthdays
+are equally likely, so we can sample from the list of days from 1 to 365 with the
+sample function which we have already encountered.</p>
+<p>But this time we need
+to take care to set the <code>replace</code> argument
+in the sample function to the value <code>TRUE</code>. This is because we always draw for
+every person in the
+room from the same list of values. if one birthday is drawn it is possible
+in principle that later in the process the same birthday is drawn again. Before, when we worked
+with only one die we did not need to care whether sample drew with replacement or not.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb83-1" aria-hidden="true" tabindex="-1"></a>b_23 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, <span class="dv">23</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>This little piece of code is to be read in the same way as before when we built the process
+of rolling a die on the computer. We sample 23 values from the vector <span class="math inline">\(1,2,3,\cdots,365\)</span>
+<strong>without</strong> replacement. Think about a situation where I use uniform random numbers to call 23
+people in your group and write the birthdays I get in this way into the object <code>b_23</code>.</p>
+<p>Here is how I can find the number of matches in <code>b_23</code>. R has a built in function, which is
+called <code>unique()</code>. So if there were two people with the same birthday in <code>b_23</code>, applying
+<code>unique()</code> to <code>b_23</code> would only keep one value. Now clearly if we subtract the length of
+the resulting object from 23 we get the number of collisions in <code>b_23</code>. Fortunately we can
+use the R function <code>length()</code> to achieve this task. <code>length()</code> computes the length of any
+object we give it as an argument.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb84-1" aria-hidden="true" tabindex="-1"></a>m_23 <span class="ot">&lt;-</span> <span class="dv">23</span> <span class="sc">-</span> <span class="fu">length</span>(<span class="fu">unique</span>(b_23))</span></code></pre></div>
+<p>So for instance if <code>sample()</code> drew 23 different birthdays <code>m_23</code> would be 0.</p>
+<p>Let’s pack this process into a function:</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb85-1" aria-hidden="true" tabindex="-1"></a>sim_23 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb85-2"><a href="first-probability-ideas-and-first-steps-in-r.html#cb85-2" aria-hidden="true" tabindex="-1"></a>  b_23 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, <span class="dv">23</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb85-3"><a href="first-probability-ideas-and-first-steps-in-r.html#cb85-3" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">23</span> <span class="sc">-</span> <span class="fu">length</span>(<span class="fu">unique</span>(b_23)))</span>
+<span id="cb85-4"><a href="first-probability-ideas-and-first-steps-in-r.html#cb85-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now we can repeat this process many times - say 10000 times - using the replicate function.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb86-1" aria-hidden="true" tabindex="-1"></a>simprobs_23 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10000</span>, <span class="fu">sim_23</span>())</span></code></pre></div>
+<p>Now how do we get from here to probabilities? Here we anticipate and introduce a new
+probability concept which we will
+discuss in more detail in the next lecture but which you perhaps already came across a few
+times.</p>
+<p>This concept could be called the <strong>relative frequency probability</strong> . In this concept
+the probability of an event <span class="math inline">\(A\)</span> is defined as
+<span class="math display">\[\begin{equation*}
+P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\text{Total number of trials in a random experiment}}
+\end{equation*}\]</span>
+Applying this concept to our data generated by the replicate function and stored in <code>b_23</code> would
+require two things. First we would have to count the number of times we saw a 1,2 or more matches, which in our case means 1,2 or more birthday collisions, add up the count and divide by the
+number of replications. Clearly it is also easier here to work the other way round. We count
+the number of no collisions and use the complement rule, by computing 1 minus the relative
+frequency of no collisions. Let us do that.</p>
+<p>Now this is clearly too tedious to do by hand.
+We will discuss systematically in the next lecture how to refer to individual values in an R
+object and select and operate on ranges of values etc.</p>
+<p>For the moment, look at the next step
+just as a piece of magic and don’t worry if you do not exactly understand the syntax
+at the moment.</p>
+<p>In the numerator I ask R to count the number of 0s (no birthday collisions) in the object
+<code>simprobs_23</code> and then I divide it by 10000, just as in the definition of relative frequency probability. Then I compute 1 minus this relative frequency</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_23[simprobs_23 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">10000</span></span></code></pre></div>
+<pre><code>## [1] 0.5012</code></pre>
+<p>Voila, this is pretty good, isn’t it? Remember that the analytical solution we just got a bit
+earlier was <code>0.5072972</code></p>
+<p>Isn’t this cool? Instead of using formal reasoning we built a random experiment on the
+computer and came up with a pretty good approximation of the collision probability.</p>
+<p>Let’s check the result with 50 for the sake of completeness and for the sake of practice, with
+an experiment with 10000 trials. I now
+stitch all steps together.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb89-1" aria-hidden="true" tabindex="-1"></a>sim_50 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb89-2"><a href="first-probability-ideas-and-first-steps-in-r.html#cb89-2" aria-hidden="true" tabindex="-1"></a>  b_50 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb89-3"><a href="first-probability-ideas-and-first-steps-in-r.html#cb89-3" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">50</span> <span class="sc">-</span> <span class="fu">length</span>(<span class="fu">unique</span>(b_50)))}</span>
+<span id="cb89-4"><a href="first-probability-ideas-and-first-steps-in-r.html#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-5"><a href="first-probability-ideas-and-first-steps-in-r.html#cb89-5" aria-hidden="true" tabindex="-1"></a>simprobs_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100000</span>, <span class="fu">sim_50</span>())</span>
+<span id="cb89-6"><a href="first-probability-ideas-and-first-steps-in-r.html#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_50[simprobs_50 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">100000</span></span></code></pre></div>
+<pre><code>## [1] 0.97065</code></pre>
+<p>Pretty amazing! Before we got the exact value as <code>0.9703736</code>.</p>
+<p>But now let us stay still with the birthday problem but now get away from this playful
+application to something really serious: Cryptography.</p>
+</div>
+<div id="hash-functions-and-the-blockchain" class="section level3" number="1.3.4">
+<h3><span class="header-section-number">1.3.4</span> Hash-functions and the blockchain</h3>
+<p>The birthday problem is the canonical model for the probabilistic study
+of coincidences of all kinds.
 A particular important application of this idea is in cryptography, and its
 concept of so called <strong>hash-functions</strong>.</p>
 <p>A hash-function maps a string of arbitrary but finite length to a fixed length string
@@ -961,7 +1042,7 @@ called a <em>one-way-function</em> meaning that it is easy to evaluate or comput
 practically impossible to learn from the value the initial argument by computing the inverse.</p>
 <p>Hash-Functions are key pillars of modern cryptography, where they play a major role in message
 authentication. This is because it is impossible to modify the input without significantly
-changing the output. So in our previous example, if you only delted or added a comma to these
+changing the output. So in our previous example, if you only deleted or added a comma to these
 notes and hash-them again they would hash into a completely different
 value than the previous version which
 still was without this minor change.
@@ -977,14 +1058,53 @@ authentication because it would give the same “fingerprint” for two differen
 <p>For a cryptographically secure hash function it is therefore required that the probability of
 such a collision should be small enough to exclude a collision in all practically
 relevant circumstances.</p>
-<p>Lets try to figure out the collision probability of SHA-253 by using what we already know about
-the birthday problem. The original birthday problems has 365 different days or categories. Here
-we have <span class="math inline">\(2^{256}\)</span> categories.</p>
-<p>work this out</p>
+<p>Note that this is a problem formally similar to the birthday problem. In the cryptography
+context we ask, how many values does a potential attacker have to hash through SHA-256
+before the probability of a collision is larger than a certain threshold?</p>
+<p>The probability of no-collision (<span class="math inline">\(nc\)</span>) with <span class="math inline">\(n\)</span> hashed-messages through a SHA-256 hash function is
+<span class="math display">\[\begin{equation*}
+P_{nc}(n) = 1 \times \left(1 - \frac{1}{2^{256}}\right)\times \left(1 - \frac{2}{2^{256}}\right) \times \cdots \times \left(1 - \frac{(n-1)}{2^{256}}\right)
+\end{equation*}\]</span></p>
+<p>Now to do the estimation of the threshold we use an approximation, which works with
+a simple property of the logarithm: <span class="math inline">\(\log(1-x)\approx -x\)</span> when <span class="math inline">\(x\)</span> is small. Thus for
+<span class="math inline">\(n\)</span> much smaller than <span class="math inline">\(M\)</span>, or <span class="math inline">\(n \ll M\)</span>, we can write the no-collision probability
+approximately as
+<span class="math display">\[\begin{align*}
+P_{nc}(n) &amp;\approx 1 \times \exp\left(-\frac{1}{2^{256}}\right) \times \exp\left(-\frac{2}{2^{256}}\right) \times \cdots
+\times \exp\left(-\frac{(n-1)}{2^{256}}\right) \\
+ &amp;\approx 1 \times \exp\left(-\frac{(1+2+3+...+(n-1))}{2^{256}} \right) \\
+ &amp;\approx \exp\left(-\frac{n \times (n-1)}{2 \times 2^{256}}\right)\\
+ &amp;\approx \exp\left(-\frac{n^2}{2 \times 2^{256}}\right) \\
+ &amp;\approx \exp \left(- \frac{1}{2} \left(\frac{n}{2^{128}}\right)^2 \right)
+\end{align*}\]</span>
+Now if <span class="math inline">\(n \ll 2^{256/2}\)</span> and thus <span class="math inline">\(P_c = (1 - P_{nc}) \ll 1\)</span> we can again use the approximation
+<span class="math inline">\(\exp(x) \approx 1 + x\)</span> to get the probability of a hash-collision as
+<span class="math display">\[\begin{equation*}
+P_c(n) \approx \frac{1}{2} \left( \frac{n}{2^{128}} \right)^2
+\end{equation*}\]</span>
+Now as long as the number <span class="math inline">\(n\)</span> of hashes is significantly less than <span class="math inline">\(2^128\)</span> this probability
+is so small as to be practically negligible.</p>
+<p>Assume, for instance, the desired collision probability threshold should be <span class="math inline">\(0.01 \%\)</span>. Then
+we have:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="first-probability-ideas-and-first-steps-in-r.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">128</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span><span class="fl">0.0001</span>)</span></code></pre></div>
+<pre><code>## [1] 4.812319e+36</code></pre>
+<p>This is a pretty huge number. For a comparison of the orders of magnitude, at the time
+of writing up these notes (November 30 2021), the age of the universe in seconds was
+<code>4.361171e+17</code> seconds. Thus the number of hashes that can be performed by SHA-253 before
+a collision occurs, is about a factor of <span class="math inline">\(10^19\)</span> larger than the entire seconds passed since
+the beginning of the universe.</p>
 </div>
 </div>
 <div id="summary" class="section level2" number="1.4">
 <h2><span class="header-section-number">1.4</span> Summary</h2>
+<p>In this lecture we have taken a first step towards some very basic probability notions and some
+basic steps in R. Isn’t it amazing how much territory we could cover with so few concepts?
+You have learned about how to think in probability about collision probabilities and
+how to solve for them analytically, by simulation and for large numbers by approximation.
+We have convinced ourselves that the cryptographic Hash-function SHA-256, while it can
+produce collisions in theory, practically the number of hashes to make such a collision occur
+would be so large that for practical reasons we can be confident that hashing bit stringe with
+SHA-256 gives us a unique fingerprint practically with certainty.</p>
 <p>These are the basic <strong>probability concepts</strong> we have covered in this lecture:</p>
 <ol style="list-style-type: decimal">
 <li>A <strong>random experiment</strong>: A process leading to an uncertain outcome.</li>
@@ -994,6 +1114,8 @@ we have <span class="math inline">\(2^{256}\)</span> categories.</p>
 <li><strong>Classical probability</strong> find or make equally probably cases and the count them.
 The probability of an event <span class="math inline">\(A\)</span> is the number of cases when <span class="math inline">\(A\)</span> occurs divided by the
 total number of cases.</li>
+<li><strong>Relative frequency probability</strong> defined as the number of times an event <span class="math inline">\(A\)</span> occurs in
+a repeated number of trials divided by the total number of trials in a random experiment.</li>
 </ol>
 <p>These are the <strong>R concepts</strong> we have covered in this lecture:</p>
 <ol style="list-style-type: decimal">
@@ -1005,14 +1127,47 @@ execution of commands.</li>
 <li><strong>finding help</strong></li>
 <li><strong>the functions sample and replicate</strong></li>
 </ol>
+<p>These are the <strong>Applications</strong> we have covered in the lecture:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Constructing a die on the computer and roll it an arbitrary number of times</strong></li>
+<li><strong>The birthday problem and how to solve it analytically as well as through simulation</strong></li>
+<li><strong>Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability</strong></li>
+</ol>
 </div>
-<div id="project-1-rolling-two-dice-and-adding-the-points" class="section level2" number="1.5">
-<h2><span class="header-section-number">1.5</span> Project 1: Rolling two dice and adding the points</h2>
-<p>Here we formulate a project where you can apply the concepts we have learned in this lecture.
-In this project we ask you to write an R function that virtually throws two dice and
-adds up the number of points shown by the dice. Using this function do a simulation of this
-random experiment. Install and load the <code>ggplot2</code> package to make a plot using the qplot function to
-visualize the behavior of our dice. Are the dice fair?</p>
+<div id="project-1-craps-a-casion-dice-game." class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Project 1: Craps: A casion dice game.</h2>
+<p>After every lecture unit we formulate a project. A project is a kind of exercise
+where you can apply the concepts we have learned in this lecture and thereby
+deepen your knowledge and anchor the newly learned concepts in your long term
+memory.</p>
+<p>The first project is about one of the very few dice games offered at a Casino: Craps.
+In Craps people throw a pair of dice. We will come back to this game time and again
+during this course. In the first project we confine ourselves to model the throwing
+of two dice and summing up theory points on the computer. We try to find out the
+probability of the possible outcomes and check the fairness of the dice.</p>
+<ol style="list-style-type: decimal">
+<li>Your first task in this project will be to write a function which allows you
+to virtually throw a pair of dice and sum up the points shown after the throw.</li>
+<li>Simulate and plot the result of your simulation using <code>qplot()</code> with the <code>binwidth</code>
+argument set to 1.</li>
+<li>Are these dice fair? Why?</li>
+<li>Assume the dice were unfair in the following sense: Numbers 1,2,3,4 and 5 have a
+probability of <span class="math inline">\(1/8\)</span> while the 6 has a probability of <span class="math inline">\(3/8\)</span>. Study the help page of
+the <code>sample</code>function and find out how you could give these new probability weights
+to the function. If you redo your simulation analysis with the loaded dice, how does the
+picture change?</li>
+<li>Now look at the random experiment of throwing two dice with the concepts from
+probability theory: What is the sample space of this experiment. What are the
+probabilities of the basic outcomes? What is the probability of getting sum 7, what is
+the probability of getting sum 2?</li>
+<li>In the early 17th century the Grand Duke of Tuscany was puzzled because he thought that
+counting possible cases in a game where three dice are thrown seemed
+to give the wrong answer. Counting combinations of numbers, 10 and 11 can be
+made in 6 ways, as can 9 and 12“, yet experienced dice players regard 10 and 11
+to be more advantageous than 9 and 12.”How
+can this be ?", the count asked Galileo Galilei who composed a short note to explain to the
+count what was going on. What might have been Galileo’s reply?</li>
+</ol>
 
 </div>
 </div>

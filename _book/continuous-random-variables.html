@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-11-29" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -172,10 +172,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.3.1" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#the-birthday-problem"><i class="fa fa-check"></i><b>1.3.1</b> The birthday problem</a></li>
 <li class="chapter" data-level="1.3.2" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#an-r-function-to-compute-birthday-probabilities"><i class="fa fa-check"></i><b>1.3.2</b> An R function to compute birthday probabilities</a></li>
-<li class="chapter" data-level="1.3.3" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#hash-functions-and-the-blockchain"><i class="fa fa-check"></i><b>1.3.3</b> Hash-functions and the blockchain</a></li>
+<li class="chapter" data-level="1.3.3" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#determining-birthday-collisions-by-simulation"><i class="fa fa-check"></i><b>1.3.3</b> Determining birthday collisions by simulation</a></li>
+<li class="chapter" data-level="1.3.4" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#hash-functions-and-the-blockchain"><i class="fa fa-check"></i><b>1.3.4</b> Hash-functions and the blockchain</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
-<li class="chapter" data-level="1.5" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#project-1-rolling-two-dice-and-adding-the-points"><i class="fa fa-check"></i><b>1.5</b> Project 1: Rolling two dice and adding the points</a></li>
+<li class="chapter" data-level="1.5" data-path="first-probability-ideas-and-first-steps-in-r.html"><a href="first-probability-ideas-and-first-steps-in-r.html#project-1-craps-a-casion-dice-game."><i class="fa fa-check"></i><b>1.5</b> Project 1: Craps: A casion dice game.</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html"><i class="fa fa-check"></i><b>2</b> Probability: Basic Definitions and Rules</a>
 <ul>
@@ -302,9 +303,9 @@ a continuous random variable means.</p>
 <p>In order to do this let us think of a continuous random variable which can take any
 value in the interval <span class="math inline">\([0,1]\)</span>. We can generate such numbers very easely in R using the
 function <code>runif()</code>. Let’s create 10 such numbers:</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="continuous-random-variables.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>##  [1] 0.46227793 0.68922532 0.88879779 0.52359304 0.29445332 0.68126068
-##  [7] 0.03902948 0.34253937 0.92227719 0.66377446</code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="continuous-random-variables.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.29193349 0.31623353 0.28267101 0.40554792 0.01585301 0.24209327
+##  [7] 0.79242932 0.86095657 0.08867644 0.87311255</code></pre>
 <p>Now you could ask: What is the probability that this random variable takes the value of
 <span class="math inline">\(0.4848450\)</span>? Make the point that this probability is 0. The numbers always change. (explain
 pseudorandom numbers), there is an infinite amount of numbers between 0 and 1 and you can not
