@@ -954,28 +954,29 @@ approximately as
 P_{nc}(n) &\approx 1 \times \exp\left(-\frac{1}{2^{256}}\right) \times \exp\left(-\frac{2}{2^{256}}\right) \times \cdots
 \times \exp\left(-\frac{(n-1)}{2^{256}}\right) \\
  &\approx 1 \times \exp\left(-\frac{(1+2+3+...+(n-1))}{2^{256}} \right) \\
- &\approx \exp\left(-\frac{n \times (n-1)}{2 \times 2^{256}}\right)\\
- &\approx \exp\left(-\frac{n^2}{2 \times 2^{256}}\right) \\
- &\approx \exp \left(- \frac{1}{2} \left(\frac{n}{2^{128}}\right)^2 \right)
+ &\approx \exp\left(-\frac{n \times (n-1)}{2 \times 2^{256}}\right)
 \end{align*}
-Now if $n \ll 2^{256/2}$ and thus $P_c = (1 - P_{nc}) \ll 1$ we can again use the approximation
+Now if $n \ll 2^{256}$ we can again use the approximation
 $\exp(x) \approx 1 + x$ to get the probability of a hash-collision as
+\begin{align*}
+P_{nc}(n) &\approx 1 - \frac{n \times (n-1)}{2\times 2^{256}}\\
+       & \approx 1 - \frac{n^2}{2\times 2^{256}}
+\end{align*}
+Thus the probability of a hash-collision as a function of $n$ is then approximately
 \begin{equation*}
-P_c(n) \approx \frac{1}{2} \left( \frac{n}{2^{128}} \right)^2
+P_{c}(n) = \frac{n^2}{2 \times 2^{256}}
 \end{equation*}
-Now as long as the number $n$ of hashes is significantly less than $2^128$ this probability
-is so small as to be practically negligible.
-
-Assume, for instance, the desired collision probability threshold should be $0.01 \%$. Then
-we have:
-```{r collision-probability-sha-256}
-2^128*sqrt(2*0.0001)
+Thus to have a collision probability with $99.8%$ you need
+```{r 99-percent-collision}
+sqrt(2*2^256*0.998)
 ```
-This is a pretty huge number. For a comparison of the orders of magnitude, at the time
-of writing up these notes (November 30 2021), the age of the universe in seconds was
-`4.361171e+17` seconds. Thus the number of hashes that can be performed by SHA-253 before
-a collision occurs, is about a factor of $10^19$ larger than the entire seconds passed since
-the beginning of the universe. 
+which is about $5*10^38$ hashes. To have a collision probability of $50 \%$ you need
+```{r 50-percent-collision}
+sqrt(2^256)
+```
+which amounts to $2^{128}$ hashes. This is, of course a really big number. Let's put this
+into perspective: If a computer computes $10000$ hashes per second, it would take
+more than $10^27$ years to calculate $2^128$ hashes. Narrayanan et. al. formulate it like this: "*...if every computer ever made by humanity had been computing since the beginning of the universe, the odds that they would have found a collision by now are still infinitesimally small. So small that it it's far less than the odds that a meteor will land on your house.*". 
 
 ## Summary
 
@@ -1039,14 +1040,16 @@ probability of $1/8$ while the 6 has a probability of $3/8$. Study the help page
 the `sample`function and find out how you could give these new probability weights
 to the function. If you redo your simulation analysis with the loaded dice, how does the
 picture change?
-5. Now look at the random experiment of throwing two dice with the concepts from
+5. Write a script for this random experiment.
+6. Now look at the random experiment of throwing two dice with the concepts from
 probability theory: What is the sample space of this experiment. What are the 
 probabilities of the basic outcomes? What is the probability of getting sum 7, what is
 the probability of getting sum 2?
-6. In the early 17th century the Grand Duke of Tuscany was puzzled because he thought that
+7. In the early 17th century the Grand Duke of Tuscany was puzzled because he thought that
 counting possible cases in a game where three dice are thrown seemed 
 to give the wrong answer. Counting combinations of numbers, 10 and 11 can be 
 made in 6 ways, as can 9 and 12", yet experienced dice players regard 10 and 11 
 to be more advantageous than 9 and 12. "How 
-can this be ?", the count asked Galileo Galilei who composed a short note to explain to the
+can this be ?", the count asked Galileo Galilei (1564 - 1642) 
+who composed a short note to explain to the
 count what was going on. What might have been Galileo's reply?

@@ -1,123 +1,122 @@
 # Probability: Basic Definitions and Rules
 
-From lecture 1
+Now that we have taken the first steps in probability ideas and in R, which have already taken us
+surprisingly far, let us now start with making the terminology a bit more precise. We will deepen
+the ideas we have learned so far. In particular we will discuss the notion of 
+empirical probability 
+in some more detail. We will also learn about a very important
+new idea which was often used implicitly in early studies of probability, namely the idea of
+independence. 
+
+In this lecture we will also encounter the first proper applications to Finance and financial data,
+which will also help us to learn about R's syntax to read, manipulate and store data. This
+we will need as a foundation for more complex applications later in the course.
 
 ## Terminology
 
 Probability is a mathematical theory. This theory gets practical value and intuitive meaning
-in connection with real or conceptual experiments such as 
-selecting a random sample of stocks and observing their most extreme price drop over a
-given period of time or observing the frequency of loan defaults. In the early days of
-probability when some conceptual ideas about which we are going to learn in this course
-were first developed the conceptual experiments considered by the pioneers of
-probability where games of chance involving rolls of dies, or spins of a wheel as well
-as reflections on placing bets on  the outcomes of such games. While we will stick 
-mainly to our main context - computational finance - some of these chance games are
-so intuitive and insightful that we will occasionally in the beginning of the course
-also use some of them for illustrating concepts and playing with them. 
+in connection with real or conceptual experiments such as sampling individuals at random
+from a population or observing
+the movements of stock prices or the frequency of loan defaults. In the last
+lecture we already introduced some basic notions in the context of gambling and early
+probability theory.
 
-All of the examples and 
-descriptions given above are, however, rather vague. 
-We have to be more precise what we mean by an
-experiment or observation.
+Let us wrap up the definitions we have already discussed:
 
-When we use the term (random) *experiment* we mean a process leading to an uncertain 
-outcome. To make this notion precise and useful we need to agree what we mean by
+Random Experiment
+: When we use the term (random) *experiment* we mean a process leading to an uncertain 
+outcome. 
+
+To make this notion precise and useful we need to agree what we mean by
 uncertain outcomes.
-
+Note again that we pin down the possible outcomes by agreeing *on the outset* what
+we want to consider as the possible outcomes.
 Take the simple example of considering whether the price of a stock is
 going to rise or fall at the next day. In a practical situations the outcome 
 of a move in the stock price can be that it goes up or down but it could in principle
 also stay the same. Still when we think about the
 experiment of observing the stock price tomorrow
-in many applications in Finance we usually agree *on the outset* that
-*up* and *down* are the only possible outcomes of this experiment. By such an
-agreement we have pinned down the possible outcomes. 
+in many applications in Finance we usually agree that
+*up* and *down* are the only possible outcomes of this experiment.  
 
-The collection of all possible outcomes of an experiment is called the *sample space*.
-While the sample space of the experiment of observing tomorrow's stock price 
-is an idealization it is
-exactly this idealization which simplifies the theory without affecting its applicability.
+Sample space
+: The collection of all possible outcomes of an experiment is called the *sample space*.
 
-Idealizations of this kind are standard in probability. It
-is - for example - impossible to know how high the price of a stock might become. Is there
-a maximal price beyond which the price can not possibly hike? Many of us would
-hesitate to claim that the price might rise without bound. Yet many models in applied
-Finance are based on such an assumption. The models allow arbitrary price hikes but with arbitrary
-small probability as the price gets higher and higher. Practically it does not make sense
-to believe that a security price can become arbitrarily high. The use of arbitrarily small
-probabilities in a financial model might seem absurd but it does no practical harm and makes
-the model simple and convenient to use. Moreover, if we seriously introduced an upper bound 
-on a security price at $x$ it would be also awkward to assume that it is impossible that it
-could be just a cent higher, an assumption equally unappealing than assuming it can get in
-principle arbitrarily high.
+Basic outcome, event, simple event
+: When we talk of a *basic outcome* we mean the possible outcome of a random experiment. 
+An *event* is a subset of basic outcomes. Any event which consists of a 
+single outcome in  the sample space is called a *simple event*.
 
-When we talk of a *basic outcome* we mean the possible outcome of a random experiment. 
-An *event* is 
-a subset of basic outcomes. Any event which consists of a single outcome in  the sample space
-is called a *simple event*.
+In the first lecture we learned about two approaches to measure probability. But the
+theory of probability actually does not depend on how we measure it 
+precisely. In the theory of probability this measure is an abstract concept
 
-*Probability* is a measure of how likely an event of an experiment is. Thus when we 
+**Probability** is a measure of how likely an event of an experiment is. 
+Thus when we 
 talk about probability in a precise and meaningful sense we can only do so in relation to
 a given sample space or to a certain conceptual experiment. 
 
-Thus before we can begin to seriously 
-talk about probability we need to develop a good understanding of experiments, sample
-spaces, basic outcomes and events. In the spirit of this course we will develop this
-understanding by building these concepts using R. Thus let us develop examples
-of random experiments, sample spaces, basic outcomes and events in parallel with
-making our first steps in R. R will  be our tool which will allow us to "touch"
-probability concepts. 
-
-As we proceed through our course we will develop a broader and deeper
-understanding of this language together with the probability concepts.
+But before we go on let me clarify what we mean when we said that in the theory,
+probability is an abstract measure of uncertainty which we take as given.
 
 ## Probability in theory and applications of probability
 
-Now that we have introduced the concepts of a random experiment, sample space, 
-events and basic outcomes, we
-can finally proceed to introduce the notion of *probability*. From the preceding 
-lecture it should be
-clear that we always speak of probability in relation to a given sample space or 
-a conceptual random
-experiment.
+Probabilities are expressed as numbers between 0 and 1. As mentioned by 
+Feller (p. 19) in his famous probability textbook, these numbers are of the same
+nature as distances in geometry. In the theory we assume they are given to us. 
 
-In lecture 1 we said that *probability* is a measure of how likely an event of an experiment is. 
-Probabilities are expressed as numbers. As observed in Feller (p. 19), these numbers are of the same
-nature as distances in geometry. In the theory we assume they are given to us. We need not assume
-anything about how they are measured. In actual applications, the determination of probabilities
+From the viewpoint of probability theory, we need not assume
+anything about how they are measured. In this sense probabilities in the
+theory of probability are an abstract measure of uncertainty. 
+
+In actual applications, however, the 
+determination of probabilities
 or the application of the theory to observations requires often sophisticated statistical methods. 
 So, while the mathematical as well as the intuitive meaning of probability are clear only
 as we proceed with the theory we will get a better ability to see how we can apply this concept.
 
 ## Basic rules of probability
 
-When we talk of probabilities in this lecture we mostly consider probabilities with relation
+We already saw that the classical notion of probability directly lead to a few simple rules. 
+In fact in the theory of probability we require these rules to hold more generally no matter
+how probability is measured in actual applications.
+
+When we talk of probabilities we mostly consider probabilities with relation
 to a *discrete* sample space.  The simple sample spaces we considered in lecture 1 contain only a
-finite number of points. Such sample spaces belong to the discrete sample spaces. 
+finite number of points, though they could get very large, as in the example of the SHA-256 hash 
+function. Such sample spaces with a finite number of points
+belong to the discrete sample spaces. 
 
 There are also more
 complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as 
 necessary to see Heads for the first time. We can begin writing down the basic outcomes as:
-$E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...$. We may consider it possible that Head never appears. This
-event we should perhaps call $E_0$. In this case, when the basic events can be arranged into a simple sequence.
+$E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...$. We may consider it possible that 
+Head never appears. This
+event we should perhaps call $E_0$. In this case, when the basic 
+events can be arranged into a simple sequence.
 A sample space is called *discrete* if it contains only finitely many points, or infinitely many
 points which can be arranged into a simple sequence. 
 
 Not all sample spaces are discrete. 
 Except for the
 technical tools required there is no essential difference between the two cases. In our discussion
-of probability in this lecture we consider mostly discrete sample spaces.
+of probability in this lecture we consider mostly discrete sample spaces, however we will
+also discuss some basic non-discrete sample spaces later in the lectures. Now let us
+state more formally what we mean by probability.
 
-Given a (discrete) sample space ${\cal S}$ the probabilities assigned to events in this sample
+Given a (discrete) sample space ${\cal S}$ the **probability** assigned to events in this sample
 space must always fulfill three rules:
-
 
 1. $P({\cal S}) = 1$, where ${\cal S}$ is the sample space.
 2. For any event $A \in {\cal S}$,  $0 \leq P(A) \leq 1$. The probability of an event can never be
 negative or larger than 1.
-3. The probability of the union of two events $A$ and $B$ is always smaller or equal to the sum of the
+3. The probability of the union of two events $A$ and $B$ is always 
+smaller or equal to the sum of the
 probability of these events looked at in isolation: $P(A \cup B) \leq P(A) + P(B)$.
+
+Note that these three properties resulted naturally from the classic idea to make equi-probable
+cases and count. Property 3 looks slightly different but we will shortly see that it amounts to
+the same thing. 
 
 In the theory of probability we use the language of sets and set theory to 
 describe relations among event.
@@ -138,7 +137,8 @@ the set of all possible outcomes of rolling the dice ${\cal S}=\{1,2,3,4,5,6\}$.
 event is that the outcome is 1, 2 or 3. In set notation, we would write $A = \{1,2,3\}$. Let us 
 also assume that the second event is that the outcome is some even number, i.e. 2, 4, 6. Again
 using set notation we would write $B = \{2,4,6\}$. The event $A \cup B$ is then the set of all
-outcomes such that the outcome is in A or in B or in both or these sets. In such simple examples
+outcomes such that the outcome is in $A$ or in $B$ or in both or these sets. 
+In such simple examples
 it is sometimes helpful to depict the situation graphically.
 ```{r set-union, out.width='80%', fig.align='center', fig.cap='The meaning of set union', echo = F}
 knitr::include_graphics('figures/set_union.png')
@@ -147,7 +147,7 @@ The sample space ${\cal S}$ is the gray set containing all possible outcomes of 
 random experiment. Graphically the union of $A$ and $B$, $A \cup B$ is a subset of
 the sample space, the entire colored area. 
 
-By the way: R provides functions for
+By the way and as an aside: R provides functions for
 computing set operations. Let us use the occasion to show you briefly how to use these functions
 in the context of this example: We define the sets $A$ and $B$ first using the assignment operator:
 
@@ -232,76 +232,62 @@ inequality: $P(A \cup B) \leq P(A) + P(B)$.
 
 Now let $E$ be a point contained both in $A$ and in $B$, in our example this would be $E = \{2\}$,
 then $P(E)$ occurs twice on the right hand side of our inequality but only once on the left.
-Therefor the right hand side exceeds the left by the amount $P(A \cap B$). Thus we have
+Therefore the right hand side exceeds the left by the amount $P(A \cap B$). Thus we have
 $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
 
 This reasoning holds for arbitrary pairs of events and not only in our example. In the
 case $A$ and $B$ are arbitrary events and $A$ and $B$ are mutually exclusive, 
 i.e. $A \cap B = \emptyset$ then our inequality in rule 3 becomes an equality and we have
-$P(A \cup B) = P(A) + P(B)$.
+$P(A \cup B) = P(A) + P(B)$. 
 
-## Interpretations of Probability
+Now you recognize property 3 in lecture 1, where we said that: "
+If $A$ and $B$ never occur in the same case, then 
+$P(A \,\text{or}\, B) = P(A) + P(B)$." The meaning 
+of $A$ and $B$ not occurring in the same case is in set theoretic terms
+exactly the requirement that they are mutually exclusive events.
 
-While rule 1 - 3 pins down three basic mathematical properties of probabilities, there is an
-ongoing and still unsettled debate what probabilities actually mean. While in this course we
-will be less concerned with this philosophical question, it is so important that you 
-should hear about
-the basic interpretations at least once.
+## Probability and Frequency
 
-Probability theory took shape in the 17th century through discussions on the mathematics of
-games of chance, such as poker or roulette or games where dice are rolled. In this
-stage the *classical* meaning of probability was the ratio of outcomes that satisfy a condition
-or the description of an event divided by the total number of outcomes in the state space. Of
-course this interpretation of probability makes the implicit assumption that all outcomes
-have the same probability. For example, in this interpretation the probability that one role
-of a dice will result in a $6$ is $1/6$. This interpretation is often called 
-*classical probability*.
+In the discussion about a simulation approach to determine the probability of 
+birthday collisions we introduced the notion of relative frequency probability.
+In this concept we defined
+the probability of an event $A$ as
+\begin{equation*}
+P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\text{Total number of trials in a random experiment}}
+\end{equation*}
+Indeed this is the approach practical men had always chosen informally when they 
+looked for evidence to inform their probability judgement. Indeed this notion of "empirical" 
+probability is so important that it deserves a more detailed discussion to convey both the
+strengths and weakness of giving such a frequency interpretation to probability.
 
-A more important interpretation is the interpretation of probability as *relative frequency*.
-In this interpretation the probability of an event $A$ is interpreted as the number of times
-the event $A$ occurs in repeated trials divided by the total number of trials in a 
-random experiment.
+The origins of this discussion reach back to the seventeenth century. 
+The philosophers Gottfried Wilhelm Leibnitz (1646 - 1716) and Jacob Bernoulli (1655 - 1705)
+had great hopes for the new field of probability to find applications in fields like
+medicine, law, commerce and finance. This interest in exploring new fields of potential
+applications drove them to study frequency evidence of events. They felt that 
+relying on intuitively equi-probable cases might not be enough for these ambitious 
+application attempts.
 
-A competing interpretation of probability is called *subjective probability*. In this
-interpretation probability is an opinion or a belief about how likely the occurence of
-a particular event is.
+Jacob Bernoulli gave an answer which is among the great ideas in probability theory, the 
+**law of large numbers**. It establishes one of the most important connections between 
+frequency and probability.
 
-## Example continued
+Let us look closer on how this connection looks like, more precisely without going into 
+a technical discussion. The insight that Bernoulli proved in his law of large numbers, which is
+today referred to as the weak law of large numbers is the following: *With arbitrary high probability the relative frequency of Heads appearing in a repeated throw of a fair coin can
+be mad approximate the probability of heads as closely as you wish by choosing a long enough
+series of (independent) trials*.
 
-### The stock price of Apple
-
-Let us go back to our example with the stock price of Apple. In this example we had expressed
-the state space as ${\cal S}=\{U, D\}$. It is however impossible to determine the probability
-for each of these two elements. It is also not possible to determine the probability
-for each price which is theoretically possible.
-
-### Tossing a fair coin twice
-
-Assume we toss a fair coin twice and that the two possible outcomes 
-of this random experiment is that the coin comes up heads $H$ or tails $T$. 
-The state space of the random experiment of tossing a coin twice is
-${\cal S} = \{HH, HT, TH, TT\}$. We can now ask: What is the probability of getting H 
-after the first toss? Since the coin is assumed to be a fair coin each outcome of
-the toss is equally likely. The probability of getting H after the first toss, must
-therefore be $1/2$. Now we could ask: What is the probability that we get H after the second
-toss as well? If you think about the situation, you will see that the probability of
-getting H in the second toss is completely unaffected by what happened after the first toss. 
-This probability is independent of the outcome of the first toss and since the coin is 
-a fair coin it is also equally likely to get H as it is to get T. The probability of getting
-H after the first toss is therefore again $1/2$.
-
-Here we derived the equal probability postulate by an assumption, interpreting
-the probability as a classical probability. 
-
-We could also give this postulate a frequency
-interpretation using our knowledge of R.
-
+We can use what we know about R to think about this argument in a hands on way:
 We proceed by analogy to our approach of rolling a die. Let us
 therefore create a virtual coin first.
-
-```{r}
+```{r coin}
 coin <- c("H", "T")
 ```
+Here we see a new data-type, which we will soon discuss more systematically in this lecture.
+R does not only allow us to create vectors of numbers but also vectors of characters. Characters
+have to be written between quotation marks. For example, while `1.23` will be interpreted by R as
+a number `"1.23"` will be interpreted as a character string consisting of 1, ., 2 and 3.
 
 As in the case of the die we next write a function, so we can virtually toss the coin
 
@@ -338,68 +324,39 @@ qplot(tosses_m)
 ```
 Now you see the idea of the frequency interpretation. The number of occurrences of H divided
 by the total number of tosses comes closer to the $1/2$ probability as we toss many
-times. We will come back to this idea again a bit later.
+times.
 
-### Boys and Girls
+Note that the Bernoulli law of large numbers does not say that frequencies **are** probabilities.
+The statement of Bernoulli's  law of large numbers is a statement of frequencies falling between
+given bounds. **Given** the chances, the desired interval and the desired probability of the 
+frequency falling within the approximation interval, Bernoulli derived under the assumption of
+independence an upper bound on the required number of trials.
 
-We have introduced the four child family before in lecture 1 and asked you to figure out the
-state space of the random experiment how the sequences of boys and girls might result in this
-four children outcome.
+Note that this theorem then does not solve the problem of inference from frequencies to
+probabilities but the problem of inference from probabilities to frequencies. So we can
+not say, based on the weak law of large numbers, that frequencies **are** probabilities, we
+can only say that given a probability how many trials are needed that the relative frequency
+of the event occurring among all trials comes close to this probability for 
+given bounds of closeness.
 
-If you have correctly figured out the state space, you will surely be able to 
-tell which of the 
-following sequences is more likely i.e. has the higher probability: `bbbb`, `bgbg` or
-`gggg`?
-
-Let's use the idea we considered first in coin tossing, and use the `expand.grid()` function
-to figure out all combinations of boys and girls in a family of four kids. The outcome
-of the sex of a baby at any of the four births is abstractly the same as a coin toss with
-the possible outcomes: `b` or `g`.
-
-```{r}
-birth_1 <- c("b", "g")
-birth_2 <- c("b", "g")
-birth_3 <- c("b", "g")
-birth_4 <- c("b", "g")
-```
-
-Now we can let R figure out all possible sequences of outcomes. We store the outcome in an
-object called n and count the combinations using the R function `nrow()` which counts the
-number of rows of a so called dataframe, a structure we discuss in detail in a minute.
-
-```{r}
-n <- expand.grid(birth_1, birth_2, birth_3, birth_4)
-nrow(n)
-```
-
-There are 16 combinations in total. Applying the same reasoning as with the coin tossing
-example, we see that the probability of each sequence should be equal to $1/16$. 
-
-In reality
-by the way births are slightly more likely for boys than girls. Gelman and Nolan report for
-example the US numbers for the year 1981, where 1 769 000 girls were born, while there
-were 1 860 000 boys: $48.7 \%$ of births were thus girls.
-
-Let us come to our last example,illustrating the interpretation of
-probability as subjective probability.
-
-### Example: FinTech Start Up
-
-Suppose you had a great idea for a path breaking FinTech innovation, which will disrupt
-the banking landscape. To predict the success of this innovation in probabilistic terms
-you could only use a subjective probability. There are no data you can rely on, since this
-idea had not existed before. You can only rely on your experience and your belief in
-your idea. There is no way you could use a classical or a relative frequency 
-interpretation of probability.
+While we will use frequency based measures of probability in  the following, this 
+digression about the relation of probabilities and frequencies is important because it 
+illustrates a deeper question which has to be faced by any theory, especially when it has
+the ambition to be applied: How is the idealization of the theory related to the reality
+it seeks to describe? Here the theory does not just require frequencies in the real world. It
+also required limiting relative frequencies in idealized infinite sequences. Thus there is
+never a naive or direct application of an idealized theory to real world problems. It is
+always necessary to involve judgement, field experience and have a sound understanding what
+the theory actually says.
 
 ## Independence
 
+The idealized thought experiment behind the weak law of large numbers used the idea
+of independence. Let us more precisely explain what is meant by this. We have implicitly
+used this concept before.
 Let us go back to our fair die and ask another probability question about the
 potential outcomes of rolling the die: What is the probability that a fair six sided die
-will roll a 5 and then a 6? 
-
-Note that this is a question, slightly different from what
-we have asked before. What we need to calculate is actually the probability of
+will roll a 5 and then a 6? We need to calculate is actually the probability of
 the event that the dice shows first 5 and then 6, i.e. we need to compute
 $P(5 \cap 6)$. We can multiply the individual probabilities because the subsequent rolls of 
 the die are independent: 
@@ -408,11 +365,17 @@ $P(5 \cap 6) = P(5) \cdot P(6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}$.
 Indeed we have the following definition:
 
 Independence
-: Two events $A$ and $B$ are **independent** if an only if the probability of
+: Two events $A$ and $B$ are **independent** if and only if the probability of
 both $A$ and $B$ occurring is the product of the probability of the two events
 $P(A \cap B) = P(A) \cdot P(B)$.
 
-### Example: The Apple stock price again
+## Some more concepts from R: Reading and Storing Data, R Objects, Subsetting and Modifying Values
+
+But now enough of dices and coins and finally move on to Finance with the help
+of some more concepts from R. Let us try out and apply some of the new ideas we just have 
+learned and use the opportunity to learn some more important R concepts.
+
+### Example: Will the stock price of Apple move up or down?
 
 Let us go back to our Apple stock price data, we have used previously. We read the
 data again from our data folder.
@@ -456,248 +419,11 @@ $P(D \cap U \cap U \cap U \cap U)$, $P(U \cap D \cap U \cap U \cap U)$,
 $P(U \cap U \cap D \cap U \cap U)$, $P(U \cap U \cap U \cap D \cap U)$,
 $P(U \cap U \cap U \cap U \cap D)$. Thus we have $0.028 + 0.028 + 0.028 + 0.028 + 0.028$
 as the final probability of this event, which is $0.14$.
+... introduce R concepts
 
-## Analyzing the stock price of Apple: More R concepts
+### Example: Benfords law: The empirical probabilities of leading digits
 
-By discussing some probability concepts within the context of stock price movements we looked
-at the Apple stock price data. R gives us some powerful tools to work with such data
-and they provide a very good example to teach you some more R concepts to enhance 
-our toolbox.
+## Project 2: Should we trust supervisory bank data?
 
-## Loading Data
 
-We loaded the apple stock price data from a file I had provided you in RDS format. This 
-is not the usual way you will load data into R. The most common case will be that you
-get a plain text file, usually in a comma separated form or csv for short. In the data
-directory we have a version of the Apple stock price file we already have already worked with
-in csv format (`apple_stock_price.csv`). If you open this file in a text editor it
-will look something like this:
-
-```
-symbol,date,open,high,low,close,volume,adjusted
-AAPL,2021-01-04,133.520004,133.610001,126.760002,129.410004,143301900,128.804825
-AAPL,2021-01-05,128.889999,131.740005,128.429993,131.009995,97664900,130.397324
-AAPL,2021-01-06,127.720001,131.050003,126.379997,126.599998,155088000,126.007957
-AAPL,2021-01-07,128.360001,131.630005,127.860001,130.919998,109578200,130.307755
-AAPL,2021-01-08,132.429993,132.630005,130.229996,132.050003,105158200,131.432465
-AAPL,2021-01-11,129.190002,130.169998,128.5,128.979996,100384500,128.376831
-AAPL,2021-01-12,128.5,129.690002,126.860001,128.800003,91951100,128.197662 ... etc.
-
-```
-Most languages used for data science applications can open plain text files and export data
-as plain text files. This is why you so often find them. To load a plain text file into
-R just click the `Import Dataset`icon in R Studios environment pane. Then select "From
-text file". R-Studio will then ask you to select the file, you want to import. You can use the
-wizard to tell RStudio what name to give to the data set (for example apple_stock_price). 
-You can also use the wizard to tell
-RStudio which is the separation character used in your dataset and which character is 
-used to represent decimals (usually . in the US and , in Europe) and whether 
-the data set comes with a row of column names or a so called header. To help you, the wizard
-shows you what the raw file looks like as well what your loaded data will look like based
-on the input settings. I recommend to unclick the box "Strings as factors" in the wizard. This
-will ensure that all character strings are loaded as characters (and not converted tp so called
-factors). Once everything looks right, click Import. You can examine the data in 
-with the `head()` function.
-
-Sometimes, for instance if you write a script, it is more convenient to use a direct command to
-read a file. If the decimal sign is `.` (US convention) use `read.csv`, if it is `,` then use
-`read.csv2()`. The syntax for this function, assuming that the file we want to read is in a 
-directory called data and is named `apple_stock_price.csv` is
-
-```{r}
-apple_stock_price <- read.csv("data/apple_stock_price.csv")
-```
-
-Please use the help functions to study the details of this function. It is quite powerful.
-You can inspect the entire dataset using the `View()`function. 
-This command will open a View pane like shown in this picture, which you can use to inspect
-all the data pretty much like in an excel sheet.
-
-```{r, out.width='90%', fig.align='center', fig.cap='The result of calling the View() function', echo = F}
-knitr::include_graphics('figures/view.png')
-```
-
-There are many more possibilities to import data into R from many other formats, which we will
-not discuss here. The principle is basically always the same and we refer you to the help menus 
-for further details.
-
-## Saving Data
-
-Data can be saved by using the `write.csv()` function. It allows you to export data as a
-comma separated text file. (There are many more export or saving options we do not discuss here).
-If we would like to save the apple_stock_price object we have just assigned to a csv file we
-would write
-
-```{r}
-write.csv(apple_stock_price, file = "data/prices.csv", row.names = FALSE)
-```
-
-Wit this command R turns the R-object `apple_stock_price` into a csv file with the name 
-`prices.csv` and stores it in a subdirectory called data. There are many possible
-arguments you can set with `write.csv()` (see ?write.csv for details) but there are three
-you should always use: First you should give `write.csv()` the name of the object you want to
-save. Then you should give a name (if necessary with a path) to the object. Make sure to give
-the full name with extension. Finally you should set the argument `row.names = FALSE`. It prevents
-R from adding an extra column with a counting index for the rows. It is unlikely that another
-program which reads the data will interpret the row name system correctly.
-
-## Atomic vectors
-
-An atomic vector is just a simple vector of data, like the die we have already constructed
-
-```{r}
-die <- c(1, 2, 3, 4, 5, 6)
-die
-```
-
-We can use R to check whether `die`is a vector
-```{r}
-is.vector(die)
-```
-
-An atomic vector can have only 1 value also. Each atomic vector stores values as 
-a one-dimensional vector and can only store one type of data. Different types
-of data can  be saved by different types of atomic vectors. R recognizes 
-altogether six basic types of atomic vectors: doubles, integers, characters, 
-logical, complex and raw.´
-
-### Doubles
-
-A double vector stores regular numbers. In our data these are the columns open, high, low,
-close, volume and adjusted. In general R will save any number you type as a double. Doubles can
-be positive negative, large or small and can have digits or not. Ususally it is obvious
-what type of object you are working with but you can check also.
-
-Let us create a new object close by selecting the column lose`from apple_stock_price. In R
-this is done by typing:
-
-```{r}
-close <- apple_stock_price$close
-```
-
-We use the symbol `$` followed by the name of the column we want to select and assign the
-selected column to an object called `close`. Now check the type by invoking the `typeof()`function:
-
-```{r}
-typeof(close)
-```
-
-### Integers
-
-Integer vectors store numbers that can be written without commas. We will not need them
-very often in probability and finance, because you can save integers also as doubles.
-
-Integers can be specifically created in R by typing the number followed by an upper case L.
-
-```{r}
-int <- c(-1L, 2L, 4L)
-int
-```
-
-```{r}
-typeof(int)
-```
-
-### Characters
-
-A character vector stores small pieces of text. For instance the stock symbol is
-such a character. Lets select the symbol column and check:
-
-```{r}
-symb <- apple_stock_price$symbol
-typeof(symb)
-```
-
-The individual elements of a character vector are called strings. A string can contain more than
-just one letter. Character strings can be assembled from numbers and symbols as well. We
-have encountered characters in some of our examples already before.
-
-It is easy to confude R objects with character strings and you have to be careful to avoid that.
-For example `symb` is the name of an R object names symb, while "symb" in quotations is a string
-containing the characzers symb. If you forget the quotation marks R will look for an object which
-probably won't exist.
-
-### Logicals
-
-Locial vectors store TRUE and FALSE, Rs form of boolean values. Logicals are very helpful
-for comparisons. Assume we are interested how many closing prices are smaller than 124.
-We have already created an object `close`. So we would type
-
-```{r}
-close < 124
-```
-
-### Coercion
-
-R implements a coercion system for types which always follows the same rules. Once you
-are familiar with these rules you will find them very useful.
-
-How does R coerce data types? If a character string is present in an atomic vector, 
-R coerces every element in this vector to character strings. If the vector contains
-logicals and numbers every TRUE becomes a 1 and every FALSE becomes a 0. The same coercion
-rules are used when you try to do math with logicals
-
-This is very convenient. Say we want to count the instances when
-the closing price of Apple stock was smaller than 124, i.e. when the logical is TRUE. 
-We can use the `sum()`function
-for that because R will treat each TRUE as a 1 and FALSE as a 0 when used with an algebraic
-operation.
-
-```{r}
-sum(close < 124)
-```
-
-We count exactly 24 days when this was true in our sample. As a consequence of this cool
-feature we can compute the porportion of days in our sample when the stock price of Apple
-was below 124 as
-
-```{r}
-mean(close < 124)
-```
-
-### Complex and Raw
-
-These data types are much less common than the ones we discussed before. They
-store complex numbers and raw bytes of data. At the moment we will not say much more 
-about these two types.
-
-## Lists
-
-Lists are like atomic vectors because they group data into a one-dimensional set. However
-lists do not group individual values but they group R objects, such as different 
-atomic vectors or other lists. For example, you can make a list that contains
-a numeric vector of length 31 in the first element, a character vector of length 1 in its second
-and a new list with length 2 in its third. This is done by using the `list()`function:
-
-```{r}
-test_list <- list(100:130, "R", list(TRUE, FALSE))
-test_list
-```
-`list` creates a list in the same way as `c` creates a vector. Seperate every element in the
-list by a comma.
-
-The double-bracketed indexes tell you which element of the list is beeing displayed. The single
-bracketd indexes tell you which subelement of an element is beeing displayed.
-
-## Data Frames
-
-Data frames are the two-dimensional versions of a list. They are by far the most
-frequent data structure we will use. For example the apple_stock_price object
-we have created by reading the csv datafile is a data frame. Think of a data frame
-as something like an Excel spreadsheet.
-
-Data frames group vectors together into a two dimensional table. Each vector becomes a column
-of this table. As a result each column can contain different types of data. The symbol
-column contains characters, the close column contains doubles for example.
-
-## Project 2: Analyzing stock price changes
-
-1. Load the data for the netflix stock price. 
-2. Estimate the probability that the netflix stock
-price will rise from the share of daily up moves in the total trading days. 
-3. Estimate the
-probability that the stock price will fall in a similar way. 
-4. Assuming independence what is
-the probability that the price will rise from Monday to Wednesday and than fall on
-Thursday and Friday?
 
