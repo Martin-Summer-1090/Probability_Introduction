@@ -2,11 +2,11 @@
 
 Now that we have taken the first steps in probability ideas and in R, which have already taken us
 surprisingly far, let us now start with making the terminology a bit more precise. We will deepen
-the ideas we have learned so far. In particular we will discuss the notion of 
-empirical probability 
+the ideas we have learned so far. In particular we will discuss the notion of
+empirical probability
 in some more detail. We will also learn about a very important
 new idea which was often used implicitly in early studies of probability, namely the idea of
-independence. 
+independence.
 
 In this lecture we will also encounter the first proper applications to Finance and financial data,
 which will also help us to learn about R's syntax to read, manipulate and store data. This
@@ -24,80 +24,80 @@ probability theory.
 Let us wrap up the definitions we have already discussed:
 
 Random Experiment
-: When we use the term (random) *experiment* we mean a process leading to an uncertain 
-outcome. 
+: When we use the term (random) *experiment* we mean a process leading to an uncertain
+outcome.
 
 To make this notion precise and useful we need to agree what we mean by
 uncertain outcomes.
 Note again that we pin down the possible outcomes by agreeing *on the outset* what
 we want to consider as the possible outcomes.
 Take the simple example of considering whether the price of a stock is
-going to rise or fall at the next day. In a practical situations the outcome 
+going to rise or fall at the next day. In a practical situations the outcome
 of a move in the stock price can be that it goes up or down but it could in principle
 also stay the same. Still when we think about the
 experiment of observing the stock price tomorrow
 in many applications in Finance we usually agree that
-*up* and *down* are the only possible outcomes of this experiment.  
+*up* and *down* are the only possible outcomes of this experiment.
 
 Sample space
 : The collection of all possible outcomes of an experiment is called the *sample space*.
 
 Basic outcome, event, simple event
-: When we talk of a *basic outcome* we mean the possible outcome of a random experiment. 
-An *event* is a subset of basic outcomes. Any event which consists of a 
+: When we talk of a *basic outcome* we mean the possible outcome of a random experiment.
+An *event* is a subset of basic outcomes. Any event which consists of a
 single outcome in  the sample space is called a *simple event*.
 
 In the first lecture we learned about two approaches to measure probability. But the
-theory of probability actually does not depend on how we measure it 
+theory of probability actually does not depend on how we measure it
 precisely. In the theory of probability this measure is an abstract concept
 
-**Probability** is a measure of how likely an event of an experiment is. 
-Thus when we 
+**Probability** is a measure of how likely an event of an experiment is.
+Thus when we
 talk about probability in a precise and meaningful sense we can only do so in relation to
-a given sample space or to a certain conceptual experiment. 
+a given sample space or to a certain conceptual experiment.
 
 But before we go on let me clarify what we mean when we said that in the theory,
 probability is an abstract measure of uncertainty which we take as given.
 
 ## Probability in theory and applications of probability
 
-Probabilities are expressed as numbers between 0 and 1. As mentioned by 
+Probabilities are expressed as numbers between 0 and 1. As mentioned by
 Feller (p. 19) in his famous probability textbook, these numbers are of the same
-nature as distances in geometry. In the theory we assume they are given to us. 
+nature as distances in geometry. In the theory we assume they are given to us.
 
 From the viewpoint of probability theory, we need not assume
 anything about how they are measured. In this sense probabilities in the
-theory of probability are an abstract measure of uncertainty. 
+theory of probability are an abstract measure of uncertainty.
 
-In actual applications, however, the 
+In actual applications, however, the
 determination of probabilities
-or the application of the theory to observations requires often sophisticated statistical methods. 
+or the application of the theory to observations requires often sophisticated statistical methods.
 So, while the mathematical as well as the intuitive meaning of probability are clear only
 as we proceed with the theory we will get a better ability to see how we can apply this concept.
 
 ## Basic rules of probability
 
-We already saw that the classical notion of probability directly lead to a few simple rules. 
+We already saw that the classical notion of probability directly lead to a few simple rules.
 In fact in the theory of probability we require these rules to hold more generally no matter
 how probability is measured in actual applications.
 
 When we talk of probabilities we mostly consider probabilities with relation
 to a *discrete* sample space.  The simple sample spaces we considered in lecture 1 contain only a
-finite number of points, though they could get very large, as in the example of the SHA-256 hash 
+finite number of points, though they could get very large, as in the example of the SHA-256 hash
 function. Such sample spaces with a finite number of points
-belong to the discrete sample spaces. 
+belong to the discrete sample spaces.
 
 There are also more
-complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as 
+complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as
 necessary to see Heads for the first time. We can begin writing down the basic outcomes as:
-$E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...$. We may consider it possible that 
+$E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...$. We may consider it possible that
 Head never appears. This
-event we should perhaps call $E_0$. In this case, when the basic 
+event we should perhaps call $E_0$. In this case, when the basic
 events can be arranged into a simple sequence.
 A sample space is called *discrete* if it contains only finitely many points, or infinitely many
-points which can be arranged into a simple sequence. 
+points which can be arranged into a simple sequence.
 
-Not all sample spaces are discrete. 
+Not all sample spaces are discrete.
 Except for the
 technical tools required there is no essential difference between the two cases. In our discussion
 of probability in this lecture we consider mostly discrete sample spaces, however we will
@@ -110,22 +110,22 @@ space must always fulfill three rules:
 1. $P({\cal S}) = 1$, where ${\cal S}$ is the sample space.
 2. For any event $A \in {\cal S}$,  $0 \leq P(A) \leq 1$. The probability of an event can never be
 negative or larger than 1.
-3. The probability of the union of two events $A$ and $B$ is always 
+3. The probability of the union of two events $A$ and $B$ is always
 smaller or equal to the sum of the
 probability of these events looked at in isolation: $P(A \cup B) \leq P(A) + P(B)$.
 
 Note that these three properties resulted naturally from the classic idea to make equi-probable
 cases and count. Property 3 looks slightly different but we will shortly see that it amounts to
-the same thing. 
+the same thing.
 
-In the theory of probability we use the language of sets and set theory to 
+In the theory of probability we use the language of sets and set theory to
 describe relations among event.
 We have used one of these relations in rule three, where we expressed the relation between two sets
 as their union $\cup$. It is useful in studying probability
 to know a few of these set theoretic definitions.
 
-Let's go through them and illustrate the concepts in the context of the 
-examples we have already developed 
+Let's go through them and illustrate the concepts in the context of the
+examples we have already developed
 in lecture 1.
 
 Union
@@ -134,10 +134,10 @@ or in both sets. Set union is written as $A \cup B$.
 
 Let us use the example of the experiment of rolling a die. The sample space ${\cal S}$ is
 the set of all possible outcomes of rolling the dice ${\cal S}=\{1,2,3,4,5,6\}$. Assume one
-event is that the outcome is 1, 2 or 3. In set notation, we would write $A = \{1,2,3\}$. Let us 
+event is that the outcome is 1, 2 or 3. In set notation, we would write $A = \{1,2,3\}$. Let us
 also assume that the second event is that the outcome is some even number, i.e. 2, 4, 6. Again
 using set notation we would write $B = \{2,4,6\}$. The event $A \cup B$ is then the set of all
-outcomes such that the outcome is in $A$ or in $B$ or in both or these sets. 
+outcomes such that the outcome is in $A$ or in $B$ or in both or these sets.
 In such simple examples
 it is sometimes helpful to depict the situation graphically.
 ```{r set-union, out.width='80%', fig.align='center', fig.cap='The meaning of set union', echo = F}
@@ -145,7 +145,7 @@ knitr::include_graphics('figures/set_union.png')
 ```
 The sample space ${\cal S}$ is the gray set containing all possible outcomes of our
 random experiment. Graphically the union of $A$ and $B$, $A \cup B$ is a subset of
-the sample space, the entire colored area. 
+the sample space, the entire colored area.
 
 By the way and as an aside: R provides functions for
 computing set operations. Let us use the occasion to show you briefly how to use these functions
@@ -182,10 +182,10 @@ our example
 intersect(A,B)
 ```
 
-which gives us the result we have already derived graphically. 
+which gives us the result we have already derived graphically.
 
 Complement
-: The **complement** of an event $A$ with respect to an event $B$ is the set 
+: The **complement** of an event $A$ with respect to an event $B$ is the set
 of all elements that are in $B$ but not in $A$. Set difference is written as $A \setminus B$.
 
 Lets say we want to get the complement, or the set difference of $A \cup B$ with respect to the
@@ -193,8 +193,8 @@ sample space ${\cal S}$. Let us show ${\cal S} \setminus (A \cup B)$.
 ```{r set-minus, out.width='80%', fig.align='center', fig.cap='The meaning of set intersection', echo = F}
 knitr::include_graphics('figures/set_minus.png')
 ```
-This complement is the dice shown in the light yellow area, i.e. all the elements of ${\cal S}$ 
-which are not in $A \cup B$. 
+This complement is the dice shown in the light yellow area, i.e. all the elements of ${\cal S}$
+which are not in $A \cup B$.
 
 The R function for computing set complements is called `setdiff()`. You can try it with our
 example:
@@ -207,11 +207,11 @@ setdiff(S, union(A,B))
 which is 5, as expected.
 
 Mutually Exclusive
-: Two events $A$ and $B$ are said to be **mutually exclusive** if they have no 
+: Two events $A$ and $B$ are said to be **mutually exclusive** if they have no
 basic outcomes in common. The
 notation is $A \cap B = \emptyset$
 
-An example in our context is the set of even outcomes $B=\{2,4,6\}$ and the set of 
+An example in our context is the set of even outcomes $B=\{2,4,6\}$ and the set of
 odd outcomes, let us call it $C=\{1,3,5\}$. If we intersect these sets
 ```{r}
 B <- c(2,4,6)
@@ -220,14 +220,14 @@ C <- c(1,3,5)
 intersect(B,C)
 
 ```
-we get the empty set, which is expressed by R by giving the data type, in this 
+we get the empty set, which is expressed by R by giving the data type, in this
 case numeric, because we are intersecting sets of numeric values, followed by (0). This means,
 there is no numeric value in the intersection of $B$ and $C$.
 
-Let us discuss probability rule 3 a bit further: Go to the picture we drew to 
+Let us discuss probability rule 3 a bit further: Go to the picture we drew to
 illustrate the meaning of set union \@ref(fig:set-union). To compute the probability $P(A \cup B)$
 we have to add the probabilities of all sample points that are contained either in $A$ or in $B$
-but each point is to be counted only once. Therefore, probability rule 3, has a (weak) 
+but each point is to be counted only once. Therefore, probability rule 3, has a (weak)
 inequality: $P(A \cup B) \leq P(A) + P(B)$.
 
 Now let $E$ be a point contained both in $A$ and in $B$, in our example this would be $E = \{2\}$,
@@ -236,43 +236,43 @@ Therefore the right hand side exceeds the left by the amount $P(A \cap B$). Thus
 $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
 
 This reasoning holds for arbitrary pairs of events and not only in our example. In the
-case $A$ and $B$ are arbitrary events and $A$ and $B$ are mutually exclusive, 
+case $A$ and $B$ are arbitrary events and $A$ and $B$ are mutually exclusive,
 i.e. $A \cap B = \emptyset$ then our inequality in rule 3 becomes an equality and we have
-$P(A \cup B) = P(A) + P(B)$. 
+$P(A \cup B) = P(A) + P(B)$.
 
 Now you recognize property 3 in lecture 1, where we said that: "
-If $A$ and $B$ never occur in the same case, then 
-$P(A \,\text{or}\, B) = P(A) + P(B)$." The meaning 
+If $A$ and $B$ never occur in the same case, then
+$P(A \,\text{or}\, B) = P(A) + P(B)$." The meaning
 of $A$ and $B$ not occurring in the same case is in set theoretic terms
 exactly the requirement that they are mutually exclusive events.
 
 ## Probability and Frequency
 
-In the discussion about a simulation approach to determine the probability of 
+In the discussion about a simulation approach to determine the probability of
 birthday collisions we introduced the notion of relative frequency probability.
 In this concept we defined
 the probability of an event $A$ as
 \begin{equation*}
 P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\text{Total number of trials in a random experiment}}
 \end{equation*}
-Indeed this is the approach practical men had always chosen informally when they 
-looked for evidence to inform their probability judgement. Indeed this notion of "empirical" 
+Indeed this is the approach practical men had always chosen informally when they
+looked for evidence to inform their probability judgement. Indeed this notion of "empirical"
 probability is so important that it deserves a more detailed discussion to convey both the
 strengths and weakness of giving such a frequency interpretation to probability.
 
-The origins of this discussion reach back to the seventeenth century. 
+The origins of this discussion reach back to the seventeenth century.
 The philosophers Gottfried Wilhelm Leibnitz (1646 - 1716) and Jacob Bernoulli (1655 - 1705)
 had great hopes for the new field of probability to find applications in fields like
 medicine, law, commerce and finance. This interest in exploring new fields of potential
-applications drove them to study frequency evidence of events. They felt that 
-relying on intuitively equi-probable cases might not be enough for these ambitious 
+applications drove them to study frequency evidence of events. They felt that
+relying on intuitively equi-probable cases might not be enough for these ambitious
 application attempts.
 
-Jacob Bernoulli gave an answer which is among the great ideas in probability theory, the 
-**law of large numbers**. It establishes one of the most important connections between 
+Jacob Bernoulli gave an answer which is among the great ideas in probability theory, the
+**law of large numbers**. It establishes one of the most important connections between
 frequency and probability.
 
-Let us look closer on how this connection looks like, more precisely without going into 
+Let us look closer on how this connection looks like, more precisely without going into
 a technical discussion. The insight that Bernoulli proved in his law of large numbers, which is
 today referred to as the weak law of large numbers is the following: *With arbitrary high probability the relative frequency of Heads appearing in a repeated throw of a fair coin can
 be mad approximate the probability of heads as closely as you wish by choosing a long enough
@@ -293,11 +293,11 @@ As in the case of the die we next write a function, so we can virtually toss the
 
 ```{r}
 toss_coin <- function(){coin <- c("H", "T")
-                        sample(coin, size = 1) }
+sample(coin, size = 1) }
 ```
 
-Now lets toss this coin 100 times by using the `replicate` function and 
-save the result in an object called 
+Now lets toss this coin 100 times by using the `replicate` function and
+save the result in an object called
 tosses_100:
 
 ```{r}
@@ -309,7 +309,7 @@ Lets look at the outcome of the 100 tosses graphically
 ```{r}
 qplot(tosses_100)
 ```
-The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not 
+The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not
 exactly. Lets toss 1000 times and then look again.
 
 ```{r}
@@ -328,7 +328,7 @@ times.
 
 Note that the Bernoulli law of large numbers does not say that frequencies **are** probabilities.
 The statement of Bernoulli's  law of large numbers is a statement of frequencies falling between
-given bounds. **Given** the chances, the desired interval and the desired probability of the 
+given bounds. **Given** the chances, the desired interval and the desired probability of the
 frequency falling within the approximation interval, Bernoulli derived under the assumption of
 independence an upper bound on the required number of trials.
 
@@ -336,11 +336,11 @@ Note that this theorem then does not solve the problem of inference from frequen
 probabilities but the problem of inference from probabilities to frequencies. So we can
 not say, based on the weak law of large numbers, that frequencies **are** probabilities, we
 can only say that given a probability how many trials are needed that the relative frequency
-of the event occurring among all trials comes close to this probability for 
+of the event occurring among all trials comes close to this probability for
 given bounds of closeness.
 
-While we will use frequency based measures of probability in  the following, this 
-digression about the relation of probabilities and frequencies is important because it 
+While we will use frequency based measures of probability in  the following, this
+digression about the relation of probabilities and frequencies is important because it
 illustrates a deeper question which has to be faced by any theory, especially when it has
 the ambition to be applied: How is the idealization of the theory related to the reality
 it seeks to describe? Here the theory does not just require frequencies in the real world. It
@@ -358,8 +358,8 @@ Let us go back to our fair die and ask another probability question about the
 potential outcomes of rolling the die: What is the probability that a fair six sided die
 will roll a 5 and then a 6? We need to calculate is actually the probability of
 the event that the dice shows first 5 and then 6, i.e. we need to compute
-$P(5 \cap 6)$. We can multiply the individual probabilities because the subsequent rolls of 
-the die are independent: 
+$P(5 \cap 6)$. We can multiply the individual probabilities because the subsequent rolls of
+the die are independent:
 $P(5 \cap 6) = P(5) \cdot P(6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}$.
 
 Indeed we have the following definition:
@@ -369,23 +369,359 @@ Independence
 both $A$ and $B$ occurring is the product of the probability of the two events
 $P(A \cap B) = P(A) \cdot P(B)$.
 
-## Some more concepts from R: Reading and Storing Data, R Objects, Subsetting and Modifying Values
+Keep it in mind, we will need it often in what is to follow.
 
-But now enough of dices and coins and finally move on to Finance with the help
-of some more concepts from R. Let us try out and apply some of the new ideas we just have 
-learned and use the opportunity to learn some more important R concepts.
+## Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values
+
+But now enough of dices and coins. Let us try out and apply some of the new ideas we just have
+learned and use the opportunity to learn some more important R concepts in the context
+of an example with stock price data.
+
+### Reading data in R
+
+Before we can do anything with data, we need to learn how  to load data into R and how
+to save then. We will discuss now how to do this with comma separated
+text files. R provides packages for reading and writing from almost any other format, like
+Excel, STATA, SAS or MATLAB. In all those cases the same principles apply as in the csv case.
+
+I have prepared a data-file recording daily information on the stock
+price of Apple in csv, which I have downloaded from the internet.
+This file is called `aapl_prices.csv`. Let me at this stage skip the details
+of how I did that exactly. We will discuss getting financial data from the internet
+later.
+
+To read a plain text or csv file, R provides the function `read.csv()`. If the csv file
+comes with a European instead of an US decimal format (`,` instead of `.` for the 
+decimal sign.) you need `read.csv2()`.
+
+In the simplest form you read the data and write them to an object
+you can work with in R. For this you need to type something like this:
+```{r reading-csv-file, message = F}
+aapl_prices <- read.csv("data/aapl_prices.csv")
+```
+The function needs as an argument the file name. If the file is in a sub-folder
+of  the current directory you need to also specify the path. 
+To specify the correct path to the file
+you need to know in which part of your directory tree you are currently working. 
+
+In my
+case I am working in the project folder for my lecture notes, which has a sub-folder called
+`data` and thus I specify the path relative to this location. To find out what is your current
+R working directory, R provides the function `getwd()`. If I type this in my case, I will get
+```{r wd}
+getwd()
+```
+the path of my project folder for this lecture notes. So if I type the string
+`"data/aapl_prices.csv"` this specifies the path relative to my working directory.
+
+Now `read.csv()` has many additional arguments, which provide you with lots of
+flexibility. I encourage you to check it out and play with it using the help function and
+the examples given therein.
+
+We have now read the apple stock price data and written it to the R-object `aapl_prices`. Lets
+inspect the object a bit to see what we've got. I use the function `head()` with 
+the parameter value `n = 10`. This will show me the first 10 rows of the datafile.
+```{r aapl_prices_head}
+head(aapl_prices, n = 10)
+```
+Without going into the details, we see that we get a data table, which records for every day
+beginning in January 1990 the opening, the highest and the lowest price, the closing price,
+the volume (number of shares) and the closing price adjusted 
+for dividend and stock splits. Let's not worry for the moment what the
+exact technical meaning of these financial terms is. Now we are ready to work with these
+data.
+
+### R objects
+
+The most simple type of R objects are **atomic vectors**. Most structures in R are built
+from atomic vectors. The stock data-file we have just loaded is an example of such 
+a more complex structure built from atomic vectors. We have already encountered a few of
+those in our previous lecture.
+
+#### Atomic vectors
+
+An atomic vector is just a simple vector of data. For example our die constructed
+in the first lecture is an instance of this.
+```{r create-die-again}
+die <- 1:6
+```
+R has a function, which allows you to check whether an onject is an atomic vector or not.
+This function is called `is.vector)`. It takes the object name as an argument and returns `TRUE`
+if the object is an atomic vector and `FALSE` if it is not. For example:
+```{r check-atomic}
+is.vector(die)
+```
+does indeed return `TRUE`.
+
+Each atomic vector stores values in a one-dimensional vector, and each atomic vector can
+only store one type of data. The length of the atomic vector can be determined by the
+function `length() This function takes an R object, which is an atomic vector, as an
+argument and returns the number of elements in this vector. Here is the example of the die
+```{r vector-length}
+length(die)
+```
+which is 6 as it should be. An atomic vector could also have only one element, in which case
+`lenght()`would return 1.
+
+Now altogether R has implemented six basic types of atomic vectors:
+1. double
+2. integers
+3. characters
+4. logical
+5. complex
+6. raw
+
+We will not encounter complex and raw data-types in this course, so let us skip those and discuss
+only the first 4 types.
+
+If yo u go back to our stock data and look at the first three lines
+```{r apple-price-1-3}
+head(aapl_prices, n=3)
+```
+The variables open, high, close, volume and adjusted are all stored 
+as the first R data type: **Doubles**. A double vector stores regular numbers. It seems
+natural to store such quantities as opening and closing prices as doubles. Doubles can be
+positive or negative, they can have digits right of the decimal place. If not
+explicitly told otherwise, R saves any number you give it as a double. Note that some functions
+refer to doubles with the more intuitive term numeric. It has an equivalent meaning in R.
+
+For example the number of traded shares in our apple stock price file is saved as a double. But
+arguably the number of shares could also have been saved as an **Integer**. This is the second
+data type in R for number which can be written without decimals. If you explicitly specify
+number as integers, you need to append the letter `L` to the number. Say, for example, 
+we would want to specifie the points shown on our die explicitly as integers, then we would type
+```{r die-int}
+die_int <- c(1L,2L,3L,4L,5L,6L)
+```
+Now R will save the die with integer values. Before, since we did not explicitly specify it, 
+the values were stored as doubles. You can check this with the function `typeof()`:
+```{r check-type}
+typeof(die)
+typeof(die_int)
+```
+Now why should we care for distinguishing integers from doubles? This has to do with the
+way a computer does computations. Sometimes a difference in precision can have surprising effects.
+In your computer 64bits of memory are allocated for each double in an R program. While this 
+allows for a very precise representation of numbers not all numbers can be exactly represented 
+with 64-bits. The famous candidates are $\pi$, which has an infinite sequence of digits and must
+therefore be rounded by the computer. Usually the rounding error introduced into your
+computations will go unnoticed but sometimes surprises can occur. Take for instance:
+```{r}
+sqrt(2)^2 - 2
+```
+Why is that? The squre root of 2 can not be expresses precisely because, as already the old greeks
+knew, it is not a rational number. An voila, you have a small rounding error. Such errors
+are called *floating point errors* in computer science lingo and computing with such numbers is
+called *floating-point-arithmetic*. 
+
+With integers floating point errors are avoided, but for many applications this is not an 
+option. Luckily for most cases floating-point arithmetic provides sufficient precision
+for most of the applications we encounter in practice.
+
+When you look at the first column of our stock price data you see the ticker symbol of the 
+apple stock `AAPL`. This is the symbol of the
+third data type: **Character**. A character vector stores strings of text, which have to 
+be put between quotation marks `""`. Strings are the individual elements of a character vector.
+We have encountered character vectors already in this lecture, where we represented the
+fair coin with the vector `c("H", "T")` with the string `"H"` for head and the string
+`"T"` for tail.
+
+Note that a string can be more than just letters. If you type, for instance the number `1` with
+quotation marks, like `"1"` R would interpret the value as a string not as a number. Sometimes
+one can get confused in R becuase both objects and characters appear as text in R code. Object
+names are without quotation marks strings alway are between quotation marks.
+
+The next data type in the list are: **Logicals**. Logical vectors store `TRUEs` and `FALSES`. They
+are extremely useful for doing comparisons and - as we will see shortly - also for
+subsetting.
+
+For example, if you type:
+```{r comp}
+0 > 1
+```
+R tells you that this statement is False. 
+
+Whenever you type `TRUE` of `FALSE` without quotation marks, R will treat the
+input as logial data. For instance, the follwoing statement yields:
+```{r ligical-inputs}
+logic <- c(TRUE, FALSE, TRUE)
+logic
+```
+You can check the type:
+```{r check-logic}
+typeof(logic)
+```
+
+One important R-fact which you need to know about atomic vectors is that atomic vectors
+can have **attributes**. Attributes won't affect the values of an object but can hold
+and store object metadata. Normally we do not look at these metadata, but many R functions
+check for attributes and then do special things with the obeject depnedning on these 
+attributes.
+
+Attributes can be checked with the function `attributes()` using an R object as an argument.
+```{r attrib}
+attributes(die)
+```
+Since `die`has no attributes R returns `NULL`. This value is often returned by functions whose 
+values are undefined.
+
+The most common attributes for atomic vectors are **names**, **dimensions** and **classes**.
+Each of these attributes has its own helper function that you can use to give attributes to
+the object. 
+
+When you look up the value for the die you will get
+```{r names-of-die}
+names(die)
+```
+We see that our die object has no names, but we could assign some. For example:
+```{r assign-names-to-die}
+names(die) <- c("one", "two", "three", "four", "five", "six")
+```
+Now the die has a name attribute:
+```{r show-die-name}
+attributes(die)
+```
+Note that the values are not affected nor will the names be affected when the 
+values are manipulated. For instance, if you type
+```{r increase-values}
+die + 1
+```
+the names stay what they were and all values are increased by 1. To remove the names
+you can type:
+```{r remove-names}
+names(die) <- NULL
+```
+
+One very important attribute, we will encounter all the time is **dimension**, with the
+helper function `dim()`. For example we can look at our data object of stock prices
+to get:
+```{r dim-in-action}
+dim(aapl_prices)
+```
+which returns two numbers, which mean that the object has 8044 rows and 8 columns. 
+
+But with dim we can also transform our die into a matrix, with say two rows and three columns:
+```{r transform-die-to-matrix}
+dim(die) <- c(2,3)
+die
+```
+R will always use the first value in dim for the rows and the second for the columns. dim can
+be generalized to higher dimensional array structures.
+
+If you want to have more control on how R fills up the values, you can use a richer
+helper function, which gives you more control. For two dimensional data arrays this
+is provide by the function `matrix()`. Say you type
+```{r construct-matrix}
+m <- matrix(die, nrow = 2)
+m
+```
+the matrix will be filled up by column. You can change that behavior by setting the `byrow` 
+argument to `TRUE`.
+```{r}
+m <- matrix(die, nrow = 2, byrow = TRUE)
+m
+```
+
+Notice that changing the dimensions of an object, will not change its type. But it will
+change the objetc#s **class* attribute:
+```{r class-attribute-behavior}
+dim(die) <- c(2,3)
+typeof(die)
+class(die)
+```
+A class in R is a special case of an atomic vector. 
+
+With the attribute system R allows you to represent more data types. R uses, for example
+a special class to represent dates and times. The data variable in our stock data is - for
+example - represents as a type of this kind.
+
+To illustrate this we take the R-function `Sys.time()`. This function returns the
+current time on your computer. It looks like a character string
+when you display it but it is actually a double with class `POSIXct`, `POSIXt` (it has
+two classes):
+```{r time-type}
+now <- Sys.time()
+now
+typeof(now)
+class(now)
+```
+`POSIXct` is a widely used framework for representing dates and times. But we will skip the
+detail here.
+
+R stores categorical data, such as nationality, sex etc. by using **factors**. If
+you take for instance, sex, it can have only two values - make or female - and these
+values may have their idiosyncratic order, for example females go always first.
+To make a factor in R you have to pass an atomic vector to the `factor()` function.
+This function works by recoding the values in the vector as integers abd store the 
+results in an integer vector. R also addas a `level` attribute which contains the set
+of labels and their order and a class attribute that says the vector is
+a factor. Example:
+```{r sex-factor}
+sex <- factor(c("m", "f", "f", "m"))
+typeof(sex)
+attributes(sex)
+```
+Factors can be confusing since they look like characters but behave like integers.
+
+Note that R will often try to convert character strings to factors when you load and create data.
+I recommend that you do not allwo R to make factors unless you explicitly ask for it. This
+can usually be controlled by an argument to whatever the data reader function is. For instance
+you can give the `read.csv()` function the argument `stringsAsFactors = FALSE`. 
+
+R has an internal **coercion** behavior behavior for data types, which you should know
+about of you work with R. With this knowledge you can do many useful things.
+
+If a character string is present in an atomic vector, R will automatically convert every
+other component in this vector to a character string. If a vector only contains only logicals 
+and numbers, R will convert the logicals to numbers. In this case every `TRUE` becomes a 1 and
+every `FALSE` becomes a 0.
+
+R also uses the coercion rules, when we do math with logicals, like for example
+```{r math-with-logicals}
+sum(c(TRUE, TRUE, FALSE, FALSE))
+```
+What happens here is that R coerces the vector `c(TRUE, TRUE, FALSE, FALSE)` to the 
+vector `c(1, 1, 0, 0)` and sums the components.
+
+Going back to our data set on the apple stock price, we see that this dataset stores 
+values of different types, characters, dates and doubles. How does R achieve this?
+
+The answer is that this is achvieved by a data structure called a **list**. List are
+like atomic vectors, because the group data into a one-dimensional set. However, lists do
+no group together individual values. List group together R objects, such as atomic
+vectors or even other lists. 
+
+For example, you can create a list, which cotians a numeric vector of length 31 in its
+first element, a character vector of length 1 in its second element and a new list of length 2 in its third. This is done by using the `list()`function of R, like this:
+```{r create-list}
+list_example <- list(100:130, "R", list(TRUE, FALSE))
+list_example
+```
+The double bracketed indices tell you which element of the list is being displayed. The
+single bracketed indices tell you which sub-element of the list is being displayed. For example
+100 is the first subelement of the first element in the list. "R" is the first subelement of the
+second list element.
+
+**Data Frames** are the two dimensional version of a list. They are by far the most
+useful stroeage structure for data analysis. Indeed, our dataset on the Apple stock
+price we have loaded before is an instance of a data frame. Data frames group vectors
+together in a two dimensional table. As a consequence each variable can, i.e. each column of the
+data frame can contain a different data type. Within a column, however, we can have only
+one data type.
+
+if you look at the type of a data frame, you will see that it is indeed a list and the class is 
+a data frame.
+```{r type-of-data-frame}
+typeof(aapl_prices)
+class(aapl_prices)
+```
+Now armed with our new knowledge of R and probability lets ask a question to
+our new data set.
 
 ### Example: Will the stock price of Apple move up or down?
 
-Let us go back to our Apple stock price data, we have used previously. We read the
-data again from our data folder.
-
-```{r}
-apple_stock <- readRDS("data/apple_stock_price.RDS")
-```
-
 Our data store price information about 150 trading days. During these dates, as you can
-convince yourself, the price went up on 72 days and it went down on 77 days. It didn't 
+convince yourself, the price went up on 72 days and it went down on 77 days. It didn't
 stay the same at any day. We get in total 149 counts because we need to drop one observation
 to compute the changes in the price.
 
@@ -399,11 +735,11 @@ that the probability of $U$-movements and of $D$-movements is unaffected by the 
 previous $U$ and $D$ movements. This is - of course - an assumption. You may think about
 whether this assumption is reasonable.
 
-Now let us consider a week from Monday to Friday: 
+Now let us consider a week from Monday to Friday:
 
 
 - What is the probability that the price of
-Apple will increase on each of the consecutive days? 
+Apple will increase on each of the consecutive days?
 
 There are five trading days, so we need to compute
 $P(U \cap U \cap U \cap U \cap U \cap U)$. This is by our assumption of independence equal
@@ -412,16 +748,20 @@ relative frequency this amounts to $0.48^5$, which amounts to $0.025$.
 
 - What is the probability that the stock price will decrease either on Monday, Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?
 
-The probability that the $D$ movement happens, say on a Monday, is 
+The probability that the $D$ movement happens, say on a Monday, is
 $P(D \cap U \cap U \cap U \cap U)$ or $0.52*0.48^4$ which is $0.028$.
 We have in total five mutually exclusive scenarios:
-$P(D \cap U \cap U \cap U \cap U)$, $P(U \cap D \cap U \cap U \cap U)$, 
+$P(D \cap U \cap U \cap U \cap U)$, $P(U \cap D \cap U \cap U \cap U)$,
 $P(U \cap U \cap D \cap U \cap U)$, $P(U \cap U \cap U \cap D \cap U)$,
 $P(U \cap U \cap U \cap U \cap D)$. Thus we have $0.028 + 0.028 + 0.028 + 0.028 + 0.028$
 as the final probability of this event, which is $0.14$.
-... introduce R concepts
+introduce R concepts
+
+discuss the pros and cons of these assumptions.
 
 ### Example: Benfords law: The empirical probabilities of leading digits
+
+discuss loading data from internet
 
 ## Project 2: Should we trust supervisory bank data?
 
