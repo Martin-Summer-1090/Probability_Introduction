@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-05" />
+<meta name="date" content="2021-12-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -794,7 +794,7 @@ when you display it but it is actually a double with class <code>POSIXct</code>,
 two classes):</p>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="probability-basic-definitions-and-rules.html#cb157-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb157-2"><a href="probability-basic-definitions-and-rules.html#cb157-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
-<pre><code>## [1] &quot;2021-12-05 22:02:30 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2021-12-06 22:31:15 CET&quot;</code></pre>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="probability-basic-definitions-and-rules.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;double&quot;</code></pre>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="probability-basic-definitions-and-rules.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
@@ -873,14 +873,204 @@ a data frame.</p>
 <pre><code>## [1] &quot;list&quot;</code></pre>
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="probability-basic-definitions-and-rules.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<p>perhaps add a figure like grolemund fig 3-6</p>
+<p>Now armed with our new knowledge of R and probability lets ask a question to
+our new data set.</p>
 </div>
 </div>
 <div id="example-will-the-stock-price-of-apple-move-up-or-down" class="section level3" number="2.6.3">
 <h3><span class="header-section-number">2.6.3</span> Example: Will the stock price of Apple move up or down?</h3>
-<p>Our data store price information about 150 trading days. During these dates, as you can
-convince yourself, the price went up on 72 days and it went down on 77 days. It didn’t
-stay the same at any day. We get in total 149 counts because we need to drop one observation
-to compute the changes in the price.</p>
+<p>Let us look at the first lines of our data once again:</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="probability-basic-definitions-and-rules.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##    symbol       date     open     high      low    close    volume adjusted
+## 1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+## 2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+## 3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+## 4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+## 5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+## 6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
+## 7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
+## 8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
+## 9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
+## 10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
+<p>Let us check what kind of object <code>aapl_prices</code> is.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="probability-basic-definitions-and-rules.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code></pre></div>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="probability-basic-definitions-and-rules.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<p>As expected the object is a list. The class shows that our
+object is a <code>data.frame</code>. Since the object is of class data-frame we can use the <code>dim</code>function
+to see the number of daily observations in our data set.</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="probability-basic-definitions-and-rules.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code></pre></div>
+<pre><code>## [1] 8044    8</code></pre>
+<p>We see that our data store price information about 8044 trading days.</p>
+<p>We could now
+approach the question about the probability of the Apple stock price moving up
+tomorrow by taking a frequency-approach. This would require us first to count the
+number of up-movements in our data. How do we do that?</p>
+<p>Now we need to know know how we address and work with individual values in our data-set. Let’s say
+we measure the movement of the close price. R has a notation system to extract a value
+or subset of values from an object: You write the name of the object first, followed
+by a pair of hard brackets. Between the brackets goes a <code>,</code>separating row and column
+indices. The notation is thus like <code>aapl_prices[ , ]</code>.</p>
+<p>When it comes to writing the indices you have six different ways to do this, all of them
+very simple. You can use:</p>
+<ol style="list-style-type: decimal">
+<li>Positive integers</li>
+<li>Negative integers</li>
+<li>Zero</li>
+<li>Blank spaces</li>
+<li>Logical values</li>
+<li>Names</li>
+</ol>
+<p>The simplest are <strong>positive integers</strong>. For example if you choose</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="probability-basic-definitions-and-rules.html#cb183-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>,<span class="dv">6</span>]</span></code></pre></div>
+<pre><code>## [1] 0.332589</code></pre>
+<p>you see that the first value in the sixth column is selected. You thus get the first closing
+price of the Apple stock recorded in our dataset. You can extract more than one value, for instance
+by typing:</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="probability-basic-definitions-and-rules.html#cb185-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code></pre></div>
+<pre><code>##  [1] 0.332589 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036
+##  [9] 0.308036 0.305804</code></pre>
+<p>which gives you the first 10 closing prices.</p>
+<p>Note that R’s notation system is not limited to data frames. The same syntax can be used to select values from any R object, provided you supply an index for each dimension of the object. Two
+things have to be kept in mind. In R indexing begins at 1. In some other programming languages
+indexing begins at 0. The indexing convention in R is just like in linear algebra. The second
+thing to note is that if you select two or more columns from a data frame, R will return a new data
+frame, like in</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="probability-basic-definitions-and-rules.html#cb187-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code></pre></div>
+<pre><code>##    symbol       date     open     high      low    close    volume adjusted
+## 1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+## 2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+## 3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+## 4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+## 5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+## 6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
+## 7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
+## 8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
+## 9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
+## 10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
+<p>However, if you select a single column, R will return a vector:</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="probability-basic-definitions-and-rules.html#cb189-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code></pre></div>
+<pre><code>##  [1] 0.332589 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036
+##  [9] 0.308036 0.305804</code></pre>
+<p>If you prefer to get returned a data frame in this cane, you have to add the argument
+<code>drop = FALSE</code>, like:</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="probability-basic-definitions-and-rules.html#cb191-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code></pre></div>
+<pre><code>##       close
+## 1  0.332589
+## 2  0.334821
+## 3  0.335938
+## 4  0.337054
+## 5  0.339286
+## 6  0.335938
+## 7  0.321429
+## 8  0.308036
+## 9  0.308036
+## 10 0.305804</code></pre>
+<p><strong>Negative integers</strong> work exactly opposite to positive integers. If you type:</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="probability-basic-definitions-and-rules.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices[<span class="sc">-</span><span class="dv">1</span>,<span class="dv">6</span>], <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036 0.308036
+##  [9] 0.305804 0.311384</code></pre>
+<p>R will return the sixth column of the data frame <em>except</em> the first row. We just display the
+first 10 values.</p>
+<p>If you try to pair a negative and a positive integer in an index, R will return an error.
+However, you can us both negative and positive integers if you use them in <em>different</em>
+indices.</p>
+<p><strong>Zero</strong> is neither positive nor negative, If oyu use 0 as an index, R will return nothing
+from a dimension with index 0. The following syntax for instance creates an empty object</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="probability-basic-definitions-and-rules.html#cb195-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">0</span>,<span class="dv">0</span>]</span></code></pre></div>
+<pre><code>## data frame with 0 columns and 0 rows</code></pre>
+<p><strong>Blank spaces</strong> are used if you want to ask R to select <em>every</em> value in a dimension. So for
+instance, if you type:</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="probability-basic-definitions-and-rules.html#cb197-1" aria-hidden="true" tabindex="-1"></a>sel <span class="ot">&lt;-</span> aapl_prices[ , <span class="dv">6</span>]</span></code></pre></div>
+<p>R will select the entire column of closing prices. You can check that the length of this
+vector is</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="probability-basic-definitions-and-rules.html#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel)</span></code></pre></div>
+<pre><code>## [1] 8044</code></pre>
+<p>as expected.</p>
+<p><strong>Logical Values</strong> can also be used for subsetting. If you type for instance</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="probability-basic-definitions-and-rules.html#cb200-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="fu">c</span>(F,F,F,F,F,T,F,F)]</span></code></pre></div>
+<pre><code>## [1] 0.332589</code></pre>
+<p>R will select the first closing price. Note that here we used the R convention that <code>TRUE</code>and <code>T</code>
+as well as <code>FALSE</code>and <code>F</code> have an equivalent meaning.</p>
+<p>Finally, you can ask for the elements, you want by name. On our case, you could select the first
+closing price by</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="probability-basic-definitions-and-rules.html#cb202-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">&quot;close&quot;</span>]</span></code></pre></div>
+<pre><code>## [1] 0.332589</code></pre>
+<p>Finally, note that two types of object in R obey an optional second system of notation. You can
+extract values from data frames and lists with th <code>$</code>syntax. It works as follows: For example</p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="probability-basic-definitions-and-rules.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>close)</span></code></pre></div>
+<pre><code>## [1] 16.39576</code></pre>
+<p>would select the column of closing prices and compute their mean.</p>
+<p>Now lets try to solve the counting problem for our data set. To see whether the price went up
+we need to subtract the closing price of the first data from the second, and see whether it is
+larger than zero. This we would have to do for every observation in the whole frame.</p>
+<p>Now let us bring our indexing rules into action. We create two new objects, one ranging from
+observation 2 of the close price until the end of the data frame, the other ranging from 1 to but the last
+element, then we subtract and write the result in a new object. Finally we inspect
+the first 10 elements of the result</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="probability-basic-definitions-and-rules.html#cb206-1" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">2</span><span class="sc">:</span><span class="dv">8044</span>, <span class="st">&quot;close&quot;</span>]</span>
+<span id="cb206-2"><a href="probability-basic-definitions-and-rules.html#cb206-2" aria-hidden="true" tabindex="-1"></a>aux_2 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8043</span> , <span class="st">&quot;close&quot;</span>]</span>
+<span id="cb206-3"><a href="probability-basic-definitions-and-rules.html#cb206-3" aria-hidden="true" tabindex="-1"></a>diff_close <span class="ot">&lt;-</span> (aux_1 <span class="sc">-</span> aux_2)</span>
+<span id="cb206-4"><a href="probability-basic-definitions-and-rules.html#cb206-4" aria-hidden="true" tabindex="-1"></a>diff_close[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>##  [1]  0.002232  0.001117  0.001116  0.002232 -0.003348 -0.014509 -0.013393
+##  [8]  0.000000 -0.002232  0.005580</code></pre>
+<p>Now this works but it is not very elegant. Actually R has a built in function, called
+<code>diff() which will do the job for us. We can even append the result to the frame we have using the</code>$<code>notation as follows: Let us call the new variable</code>diff<code>. But now we have to be careful. Since we take first differences we will looe one observation. This will create a  mismatch in the dimenion of the dataframe. Since the data frame starts at some date (in our case 1990-01-02) we have no difference for the first observation. R's notation for a missing observation is</code>NA<code>. So we neet to put an</code>NA`ahead of our diff column:</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="probability-basic-definitions-and-rules.html#cb208-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(aapl_prices<span class="sc">$</span>close, <span class="at">lag =</span> <span class="dv">1</span>))</span>
+<span id="cb208-2"><a href="probability-basic-definitions-and-rules.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n=</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##   symbol       date     open     high      low    close    volume adjusted
+## 1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+## 2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+## 3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+## 4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+## 5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+##       diff
+## 1       NA
+## 2 0.002232
+## 3 0.001117
+## 4 0.001116
+## 5 0.002232</code></pre>
+<p>Let’s check whether we get the same thing and compare with the values in <code>diff_close</code>. They
+do indeed match.</p>
+<p>Now we can use a really cool feature to count the up moves, which shows you the power of R
+in a very nice example. We can test conditions by logical operators. In our case we want
+to know whether the diff between two consecutive closing prices is positive. We add another
+column to the dataframe which will then contain <code>TRUE</code> or <code>FALSE</code>values, when the condition
+holds. To see what happens, let us do this and look at the first 5 rows of our new data frame:</p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="probability-basic-definitions-and-rules.html#cb210-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff_pos <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>diff <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb210-2"><a href="probability-basic-definitions-and-rules.html#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##    symbol       date     open     high      low    close    volume adjusted
+## 1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+## 2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+## 3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+## 4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+## 5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+## 6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
+## 7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
+## 8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
+## 9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
+## 10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967
+##         diff diff_pos
+## 1         NA       NA
+## 2   0.002232     TRUE
+## 3   0.001117     TRUE
+## 4   0.001116     TRUE
+## 5   0.002232     TRUE
+## 6  -0.003348    FALSE
+## 7  -0.014509    FALSE
+## 8  -0.013393    FALSE
+## 9   0.000000    FALSE
+## 10 -0.002232    FALSE</code></pre>
+<p>Now according to the frequency notion of probability we could attach the probability of an
+inter day up move of the Apple stock price by computing the share of up moves (diff positive)
+among all our change observations.</p>
+<p>Now we can use the R coercion rules. If we apply the mean function to our <code>diff_pos</code> column
+we get the share of up moves, since R will coerce the <code>TRUE</code> values to 1 and the <code>FALSE</code> values
+to 0. This is a new opportunity to practice our newly acquired subsetting rules:</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="probability-basic-definitions-and-rules.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>## [1] 0.5051598</code></pre>
 <p>Now let us assume that the probability of a future up movement is <span class="math inline">\(P(U) = \frac{72}{149}\)</span>, which
 is about <span class="math inline">\(0.48\)</span> and the probability of a down movement is <span class="math inline">\(P(D) = \frac{77}{149}\)</span>, which is
 about <span class="math inline">\(0.52\)</span>.</p>
@@ -909,9 +1099,11 @@ We have in total five mutually exclusive scenarios:
 <span class="math inline">\(P(U \cap U \cap U \cap U \cap D)\)</span>. Thus we have <span class="math inline">\(0.028 + 0.028 + 0.028 + 0.028 + 0.028\)</span>
 as the final probability of this event, which is <span class="math inline">\(0.14\)</span>.
 introduce R concepts</p>
+<p>discuss the pros and cons of these assumptions.</p>
 </div>
 <div id="example-benfords-law-the-empirical-probabilities-of-leading-digits" class="section level3" number="2.6.4">
 <h3><span class="header-section-number">2.6.4</span> Example: Benfords law: The empirical probabilities of leading digits</h3>
+<p>discuss loading data from internet</p>
 </div>
 </div>
 <div id="project-2-should-we-trust-supervisory-bank-data" class="section level2" number="2.7">

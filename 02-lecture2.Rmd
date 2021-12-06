@@ -715,49 +715,216 @@ a data frame.
 typeof(aapl_prices)
 class(aapl_prices)
 ```
+
+perhaps add a figure like grolemund fig 3-6
+
 Now armed with our new knowledge of R and probability lets ask a question to
 our new data set.
 
 ### Example: Will the stock price of Apple move up or down?
 
-Our data store price information about 150 trading days. During these dates, as you can
-convince yourself, the price went up on 72 days and it went down on 77 days. It didn't
-stay the same at any day. We get in total 149 counts because we need to drop one observation
-to compute the changes in the price.
+Let us look at the first lines of our data once again:
+```{r fist-lines-again}
+head(aapl_prices, n = 10)
+```
+Let us check what kind of object `aapl_prices` is.
+```{r}
+typeof(aapl_prices)
+class(aapl_prices)
+```
+As expected the object is a list. The class shows that our
+object is a `data.frame`. Since the object is of class data-frame we can use the `dim`function
+to see the number of daily observations in our data set.
+```{r dim-aapl}
+dim(aapl_prices)
+```
+We see that our data store price information about 8044 trading days. 
 
-Now let us assume that the probability of a future up movement is $P(U) = \frac{72}{149}$, which
-is about $0.48$ and the probability of a down movement is $P(D) = \frac{77}{149}$, which is
-about $0.52$.
+We could now
+approach the question about the probability of the Apple stock price moving up
+tomorrow by taking a frequency-approach. This would require us first to count the
+number of up-movements in our data. How do we do that?
 
-Now assume in addition that the performance of the Apple stock price on the current trading day is
-independent of the performance of the Apple stock price on previous trading days. This means
+Now we need to know know how we address and work with individual values in our data-set. Let's say
+we measure the movement of the close price. R has a notation system to extract a value
+or subset of values from an object: You write the name of the object first, followed 
+by a pair of hard brackets. Between the brackets goes a `,`separating row and column
+indices. The notation is thus like `aapl_prices[ , ]`.
+
+When it comes to writing the indices you have six different ways to do this, all of them
+very simple. You can use:
+
+1. Positive integers
+2. Negative integers
+3. Zero
+4. Blank spaces
+5. Logical values
+6. Names
+
+The simplest are **positive integers**. For example if you choose
+```{r select-values-by-integers}
+aapl_prices[1,6]
+```
+you see that the first value in the sixth column is selected. You thus get the first closing
+price of the Apple stock recorded in our dataset. You can extract more than one value, for instance
+by typing:
+```{r}
+aapl_prices[1:10, 6]
+```
+which gives you the first 10 closing prices.
+
+Note that R's notation system is not limited to data frames. The same syntax can be used to select values from any R object, provided you supply an index for each dimension of the object. Two
+things have to be kept in mind. In R indexing begins at 1. In some other programming languages
+indexing begins at 0. The indexing convention in R is just like in linear algebra. The second
+thing to note is that if you select two or more columns from a data frame, R will return a new data
+frame, like in
+```{r select-block}
+aapl_prices[1:10,1:8]
+```
+However, if you select a single column, R will return a vector:
+```{r select-single-column}
+aapl_prices[1:10, 6]
+```
+If you prefer to get returned a data frame in this cane, you have to add the argument
+`drop = FALSE`, like:
+```{r drop-false}
+aapl_prices[1:10, 6, drop = FALSE]
+```
+
+**Negative integers** work exactly opposite to positive integers. If you type:
+```{r negative-integers}
+head(aapl_prices[-1,6], n = 10)
+```
+R will return the sixth column of the data frame *except* the first row. We just display the
+first 10 values.
+
+If you try to pair a negative and a positive integer in an index, R will return an error.
+However, you can us both negative and positive integers if you use them in *different*
+indices.
+
+**Zero** is neither positive nor negative, If oyu use 0 as an index, R will return nothing
+from a dimension with index 0. The following syntax for instance creates an empty object
+```{r empty-object}
+aapl_prices[0,0]
+```
+
+**Blank spaces** are used if you want to ask R to select *every* value in a dimension. So for
+instance, if you type:
+```{r select one column}
+sel <- aapl_prices[ , 6]
+```
+R will select the entire column of closing prices. You can check that the length of this
+vector is
+```{r length-sel}
+length(sel)
+```
+as expected.
+
+**Logical Values** can also be used for subsetting. If you type for instance
+```{r logical subsetting}
+aapl_prices[1, c(F,F,F,F,F,T,F,F)]
+```
+R will select the first closing price. Note that here we used the R convention that `TRUE`and `T`
+as well as `FALSE`and `F` have an equivalent meaning.
+
+Finally, you can ask for the elements, you want by name. On our case, you could select the first
+closing price by
+```{r first-value-by-name}
+aapl_prices[1, "close"]
+```
+
+Finally, note that two types of object in R obey an optional second system of notation. You can
+extract values from data frames and lists with th `$`syntax. It works as follows: For example
+```{r select-dollar-notation}
+mean(aapl_prices$close)
+```
+would select the column of closing prices and compute their mean.
+
+Now lets try to solve the counting problem for our data set. To see whether the price went up
+we need to subtract the closing price of the first data from the second, and see whether it is
+larger than zero. This we would have to do for every observation in the whole frame.
+
+Now let us bring our indexing rules into action. We create two new objects, one ranging from
+observation 2 of the close price until the end of the data frame, the other ranging from 1 to but the last
+element, then we subtract and write the result in a new object. Finally we inspect
+the first 10 elements of the result
+```{r differencing}
+aux_1 <- aapl_prices[2:8044, "close"]
+aux_2 <- aapl_prices[1:8043 , "close"]
+diff_close <- (aux_1 - aux_2)
+diff_close[1:10]
+```
+Now this works but it is not very elegant. Actually R has a built in function, called
+`diff() which will do the job for us. We can even append the result to the frame we have
+using the `$` notation as follows: Let us call the new variable `diff`. But now we have to
+be careful. Since we take first differences we will looe one observation. This will create a 
+mismatch in the dimenion of the dataframe. Since the data frame starts at some date (in our case 1990-01-02) we have no difference for the first observation. R's notation for a missing
+observation is `NA`. So we neet to put an `NA`ahead of our diff column:
+```{r apply-diff-function}
+aapl_prices$diff <- c(NA, diff(aapl_prices$close, lag = 1))
+head(aapl_prices, n= 5)
+```
+Let's check whether we get the same thing and compare with the values in `diff_close`. They 
+do indeed match.
+
+Now we can use a really cool feature to count the up moves, which shows you the power of R
+in a very nice example. We can test conditions by logical operators. In our case we want
+to know whether the diff between two consecutive closing prices is positive. We add another
+column to the dataframe which will then contain `TRUE` or `FALSE`values, when the condition
+holds. To see what happens, let us do this and look at the first 5 rows of our new data frame:
+```{r logical-test}
+aapl_prices$diff_pos <- aapl_prices$diff > 0
+head(aapl_prices, n = 10)
+```
+Now according to the frequency notion of probability we could attach the probability of an
+inter day up move of the Apple stock price by computing the share of up moves (diff positive)
+among all our change observations.
+
+Now we can use the R coercion rules. If we apply the mean function to our `diff_pos` column
+we get the share of up moves, since R will coerce the `TRUE` values to 1 and the `FALSE` values
+to 0. This is a new opportunity to practice our newly acquired subsetting rules:
+```{r share-up}
+mean(aapl_prices$diff_pos, na.rm = T)
+```
+We see that the result is that the stock price has moved up about half of the days and not up 
+at the other days.
+
+Let me explain what is going on in the syntax of oru R statement. We selected the column
+from our data frame that contained the differences. Then we apply the `mean()` function to this
+column. But since the column contains one value which is `NA` the mean would return `NA` if we not
+correct for this fact. This is what the argument `na.rm = T ` does. It tells R to first remove
+`NA` form the observations and then compute the mean.
+
+Now from a frequency point of view $P(U) = 0.51$ and $P(D) = 0.49$ accordingly.
+
+Now **assume in addition** that the direction of a price move of the Apple stock 
+on the current trading day is
+**independent** of the direction of the Apple stock price move on the previous trading day for
+all days. This means
 that the probability of $U$-movements and of $D$-movements is unaffected by the number of
 previous $U$ and $D$ movements. This is - of course - an assumption. You may think about
-whether this assumption is reasonable.
+whether this assumption is reasonable. 
 
-Now let us consider a week from Monday to Friday:
-
-
-- What is the probability that the price of
-Apple will increase on each of the consecutive days?
+Postponing this important discussion, consider now a week from Monday to Friday and ask:
+"What is the probability that the price of Apple will increase on each of the consecutive days?"
 
 There are five trading days, so we need to compute
 $P(U \cap U \cap U \cap U \cap U \cap U)$. This is by our assumption of independence equal
 to $P(U) \cdot P(U) \cdot P(U) \cdot P(U) \cdot P(U)$. By our probability estimate from
-relative frequency this amounts to $0.48^5$, which amounts to $0.025$.
+relative frequency this amounts to $0.51^5$, which amounts to $0.035$.
 
-- What is the probability that the stock price will decrease either on Monday, Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?
+"What is the probability that the stock price will decrease either on Monday, 
+Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?"
 
 The probability that the $D$ movement happens, say on a Monday, is
-$P(D \cap U \cap U \cap U \cap U)$ or $0.52*0.48^4$ which is $0.028$.
+$P(D \cap U \cap U \cap U \cap U)$ or $0.51*0.49^4$ which is $0.029$.
 We have in total five mutually exclusive scenarios:
 $P(D \cap U \cap U \cap U \cap U)$, $P(U \cap D \cap U \cap U \cap U)$,
 $P(U \cap U \cap D \cap U \cap U)$, $P(U \cap U \cap U \cap D \cap U)$,
-$P(U \cap U \cap U \cap U \cap D)$. Thus we have $0.028 + 0.028 + 0.028 + 0.028 + 0.028$
-as the final probability of this event, which is $0.14$.
-introduce R concepts
+$P(U \cap U \cap U \cap U \cap D)$. Thus we have $0.029 + 0.029 + 0.029 + 0.029 + 0.029$
+as the final probability of this event, which is $0.145$.
 
-discuss the pros and cons of these assumptions.
+Discuss the role of assumptions and their rationale
 
 ### Example: Benfords law: The empirical probabilities of leading digits
 
