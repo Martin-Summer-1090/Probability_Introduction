@@ -1046,13 +1046,9 @@ names(benford) <- as.character(1:9)
 benford
 ```
 
-Isn't this fascinating? This is surprisingly close. Let us try the same with the closing
-price of apple stock:
-```{r}
-aapl_prices$leading_digit <- substr(aapl_prices$close, 1, 1)
-table(aapl_prices$leading_digit)/length(aapl_prices$leading_digit)
-```
-
+Isn't this fascinating? This is surprisingly close. So the leading digits are indeed
+distributed as Benford's law claims - or at least very close to that - and not equally
+distributed as would perhaps be expected from intuition. Referecne to Berger and Hill.
 
 ## Project 2: Should we trust European supervisory bank data?
 
