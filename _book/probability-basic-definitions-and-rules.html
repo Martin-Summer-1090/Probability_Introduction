@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -192,7 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6.3" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-will-the-stock-price-of-apple-move-up-or-down"><i class="fa fa-check"></i><b>2.6.3</b> Example: Will the stock price of Apple move up or down?</a></li>
 <li class="chapter" data-level="2.6.4" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#example-benfords-law-the-empirical-probabilities-of-leading-digits"><i class="fa fa-check"></i><b>2.6.4</b> Example: Benfords law: The empirical probabilities of leading digits</a></li>
 </ul></li>
-<li class="chapter" data-level="2.7" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#project-2-should-we-trust-supervisory-bank-data"><i class="fa fa-check"></i><b>2.7</b> Project 2: Should we trust supervisory bank data?</a></li>
+<li class="chapter" data-level="2.7" data-path="probability-basic-definitions-and-rules.html"><a href="probability-basic-definitions-and-rules.html#project-2-should-we-trust-european-supervisory-bank-data"><i class="fa fa-check"></i><b>2.7</b> Project 2: Should we trust European supervisory bank data?</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>3</b> Conditional Probability</a>
 <ul>
@@ -279,7 +279,7 @@ single outcome in the sample space is called a <em>simple event</em>.
 </dl>
 <p>In the first lecture we learned about two approaches to measure probability. But the
 theory of probability actually does not depend on how we measure it
-precisely. In the theory of probability this measure is an abstract concept</p>
+precisely. In the theory of probability this measure is an abstract concept.</p>
 <p><strong>Probability</strong> is a measure of how likely an event of an experiment is.
 Thus when we
 talk about probability in a precise and meaningful sense we can only do so in relation to
@@ -457,6 +457,9 @@ If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</s
 <span class="math inline">\(P(A \,\text{or}\, B) = P(A) + P(B)\)</span>." The meaning
 of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> not occurring in the same case is in set theoretic terms
 exactly the requirement that they are mutually exclusive events.</p>
+<p>Therefore in many treatments of probability you will find rule 3 formulated as:</p>
+<p>3-a: The probability of the union of two mutually exclusive events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is
+<span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>.</p>
 </div>
 <div id="probability-and-frequency" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Probability and Frequency</h2>
@@ -483,8 +486,9 @@ application attempts.</p>
 frequency and probability.</p>
 <p>Let us look closer on how this connection looks like, more precisely without going into
 a technical discussion. The insight that Bernoulli proved in his law of large numbers, which is
-today referred to as the weak law of large numbers is the following: <em>With arbitrary high probability the relative frequency of Heads appearing in a repeated throw of a fair coin can
-be mad approximate the probability of heads as closely as you wish by choosing a long enough
+today referred to as the weak law of large numbers is the following: <em>With arbitrary
+high probability the relative frequency of Heads appearing in a repeated throw of a fair coin can
+be made approximate the probability of heads as closely as you wish by choosing a long enough
 series of (independent) trials</em>.</p>
 <p>We can use what we know about R to think about this argument in a hands on way:
 We proceed by analogy to our approach of rolling a die. Let us
@@ -518,7 +522,7 @@ by the total number of tosses comes closer to the <span class="math inline">\(1/
 times.</p>
 <p>Note that the Bernoulli law of large numbers does not say that frequencies <strong>are</strong> probabilities.
 The statement of Bernoulli’s law of large numbers is a statement of frequencies falling between
-given bounds. <strong>Given</strong> the chances, the desired interval and the desired probability of the
+given bounds: <strong>Given</strong> the chances, the desired interval and the desired probability of the
 frequency falling within the approximation interval, Bernoulli derived under the assumption of
 independence an upper bound on the required number of trials.</p>
 <p>Note that this theorem then does not solve the problem of inference from frequencies to
@@ -534,7 +538,7 @@ the ambition to be applied: How is the idealization of the theory related to the
 it seeks to describe? Here the theory does not just require frequencies in the real world. It
 also required limiting relative frequencies in idealized infinite sequences. Thus there is
 never a naive or direct application of an idealized theory to real world problems. It is
-always necessary to involve judgement, field experience and have a sound understanding what
+always necessary to involve judgement, field experience and to have a sound understanding what
 the theory actually says.</p>
 </div>
 <div id="independence" class="section level2" number="2.5">
@@ -546,15 +550,18 @@ Let us go back to our fair die and ask another probability question about the
 potential outcomes of rolling the die: What is the probability that a fair six sided die
 will roll a 5 and then a 6? We need to calculate is actually the probability of
 the event that the dice shows first 5 and then 6, i.e. we need to compute
-<span class="math inline">\(P(5 \cap 6)\)</span>. We can multiply the individual probabilities because the subsequent rolls of
-the die are independent:
+<span class="math inline">\(P(5 \cap 6)\)</span>. The probabilities in each roll of the die do not depend on what the
+die showed before. The probability of any number showing up in the roll of the first die will
+be <span class="math inline">\(1/6\)</span> and sow will be the probability of any number showing up in the roll of the
+second die not matter what happened with the first die. In such a case we can multiply
+the individual probabilities to get the probability of the event.
 <span class="math inline">\(P(5 \cap 6) = P(5) \cdot P(6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}\)</span>.</p>
 <p>Indeed we have the following definition:</p>
 <dl>
 <dt>Independence</dt>
 <dd>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>independent</strong> if and only if the probability of
 both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> occurring is the product of the probability of the two events
-<span class="math inline">\(P(A \cap B) = P(A) \cdot P(B)\)</span>.
+<span class="math inline">\(P(A \cap B) = P(A) \times P(B)\)</span>.
 </dd>
 </dl>
 <p>Keep it in mind, we will need it often in what is to follow.</p>
@@ -794,7 +801,7 @@ when you display it but it is actually a double with class <code>POSIXct</code>,
 two classes):</p>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="probability-basic-definitions-and-rules.html#cb157-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb157-2"><a href="probability-basic-definitions-and-rules.html#cb157-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
-<pre><code>## [1] &quot;2021-12-06 22:31:15 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2021-12-09 00:01:07 CET&quot;</code></pre>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="probability-basic-definitions-and-rules.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;double&quot;</code></pre>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="probability-basic-definitions-and-rules.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
@@ -1071,43 +1078,173 @@ we get the share of up moves, since R will coerce the <code>TRUE</code> values t
 to 0. This is a new opportunity to practice our newly acquired subsetting rules:</p>
 <div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="probability-basic-definitions-and-rules.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> T)</span></code></pre></div>
 <pre><code>## [1] 0.5051598</code></pre>
-<p>Now let us assume that the probability of a future up movement is <span class="math inline">\(P(U) = \frac{72}{149}\)</span>, which
-is about <span class="math inline">\(0.48\)</span> and the probability of a down movement is <span class="math inline">\(P(D) = \frac{77}{149}\)</span>, which is
-about <span class="math inline">\(0.52\)</span>.</p>
-<p>Now assume in addition that the performance of the Apple stock price on the current trading day is
-independent of the performance of the Apple stock price on previous trading days. This means
+<p>We see that the result is that the stock price has moved up about half of the days and not up
+at the other days.</p>
+<p>Let me explain what is going on in the syntax of oru R statement. We selected the column
+from our data frame that contained the differences. Then we apply the <code>mean()</code> function to this
+column. But since the column contains one value which is <code>NA</code> the mean would return <code>NA</code> if we not
+correct for this fact. This is what the argument <code>na.rm = T</code> does. It tells R to first remove
+<code>NA</code> form the observations and then compute the mean.</p>
+<p>Now from a frequency point of view <span class="math inline">\(P(U) = 0.51\)</span> and <span class="math inline">\(P(D) = 0.49\)</span> accordingly.</p>
+<p>Now <strong>assume in addition</strong> that the direction of a price move of the Apple stock
+on the current trading day is
+<strong>independent</strong> of the direction of the Apple stock price move on the previous trading day for
+all days. This means
 that the probability of <span class="math inline">\(U\)</span>-movements and of <span class="math inline">\(D\)</span>-movements is unaffected by the number of
 previous <span class="math inline">\(U\)</span> and <span class="math inline">\(D\)</span> movements. This is - of course - an assumption. You may think about
 whether this assumption is reasonable.</p>
-<p>Now let us consider a week from Monday to Friday:</p>
-<ul>
-<li>What is the probability that the price of
-Apple will increase on each of the consecutive days?</li>
-</ul>
+<p>Postponing this important discussion, consider now a week from Monday to Friday and ask:
+“What is the probability that the price of Apple will increase on each of the consecutive days?”</p>
 <p>There are five trading days, so we need to compute
 <span class="math inline">\(P(U \cap U \cap U \cap U \cap U \cap U)\)</span>. This is by our assumption of independence equal
 to <span class="math inline">\(P(U) \cdot P(U) \cdot P(U) \cdot P(U) \cdot P(U)\)</span>. By our probability estimate from
-relative frequency this amounts to <span class="math inline">\(0.48^5\)</span>, which amounts to <span class="math inline">\(0.025\)</span>.</p>
-<ul>
-<li>What is the probability that the stock price will decrease either on Monday, Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?</li>
-</ul>
+relative frequency this amounts to <span class="math inline">\(0.51^5\)</span>, which amounts to <span class="math inline">\(0.035\)</span>.</p>
+<p>“What is the probability that the stock price will decrease either on Monday,
+Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?”</p>
 <p>The probability that the <span class="math inline">\(D\)</span> movement happens, say on a Monday, is
-<span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span> or <span class="math inline">\(0.52*0.48^4\)</span> which is <span class="math inline">\(0.028\)</span>.
+<span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span> or <span class="math inline">\(0.51*0.49^4\)</span> which is <span class="math inline">\(0.029\)</span>.
 We have in total five mutually exclusive scenarios:
 <span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap D \cap U \cap U \cap U)\)</span>,
 <span class="math inline">\(P(U \cap U \cap D \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap U \cap D \cap U)\)</span>,
-<span class="math inline">\(P(U \cap U \cap U \cap U \cap D)\)</span>. Thus we have <span class="math inline">\(0.028 + 0.028 + 0.028 + 0.028 + 0.028\)</span>
-as the final probability of this event, which is <span class="math inline">\(0.14\)</span>.
-introduce R concepts</p>
-<p>discuss the pros and cons of these assumptions.</p>
+<span class="math inline">\(P(U \cap U \cap U \cap U \cap D)\)</span>. Thus we have <span class="math inline">\(0.029 + 0.029 + 0.029 + 0.029 + 0.029\)</span>
+as the final probability of this event, which is <span class="math inline">\(0.145\)</span>.</p>
+<p>Is this analysis any good? How could we possibly judge this? Interestingly the relative
+frequencies of up and down moves look similar to a random experiment of a few thousand tosses
+of a fair coin. But can we learn anything from this? Are the up and down moves independent?
+Independence - of course - does not follow from the result we just got.</p>
+<p>The idea that stock prices may fluctuate randomly was first discussed systematically by
+Louis Bachelier (1870 - 1946), a french mathematician who studied stock orice movements
+mathematically. In 1965 the economist Paul Samuelson published an article with the title
+“Proof that properly anticipated prices fluctuate randomly.” He argues that randomness
+comes about through the active participation of traders seeking to maximize their wealth.
+A huge army of investors would aggressively use the smallest informational advantage
+and in doing so, they incorporate the information into market prices, which
+quickly eliminates this profit
+opportunity.
+This lead to a cornerstone of modern Finance theory called the *random walk hypothesis" of
+stock price fluctuations.</p>
+<p>If this theory was true, it would give an argument, why we might look at the up and down movements
+in the stock price of apple as if it was the outcome of tossing a fair coin. In this case
+the probability of an up or a down movement should be 1/2 and with the number of trials
+approaching infinity the frequency of ups and downs should approach this probability.</p>
+<p>The literature on stock price fluctuations which came later, however, presented evidence that
+stock prices are predictable to a certain degree and do not fluctuate randomly. In this
+case our approach would perhaps produce a misleading answer.</p>
+<p>We cannot give a clear cut answer here. The point of this brief discussion is that you
+just cannot apply a theoretical machinery mechanically without giving it further thought and
+without maintaining a healthy amount of skepticism. It is fascinating that there are
+situations where abstract theories, like the theory of probability, show a robust relation
+to real world phenomena. But the nature, the precise meaning and the robustness of this
+relation has to be investigated for each single case.</p>
 </div>
 <div id="example-benfords-law-the-empirical-probabilities-of-leading-digits" class="section level3" number="2.6.4">
 <h3><span class="header-section-number">2.6.4</span> Example: Benfords law: The empirical probabilities of leading digits</h3>
-<p>discuss loading data from internet</p>
+<p>Let us discuss last example in this lecture which will fortify both our
+probability knowledge as well as our newly gained R skills. It will also prepare
+you for the project assigned in this lecture, which will familiarize you
+with yet another financial dataset.</p>
+<p>The example we are going to discuss here is again an instance of empirical probabilities for
+a rather surprising instance: Leading digits. What are leading digits? Well the concept
+is actually simple: Say we have the number 7829, then the leading digit in this number is 7, the
+first digit in 7829. If the number is 10892, it would be 1, if it is 4 it would be 4.</p>
+<p>Now we could ask the following question: let’s look at datasets we can find in real life, any
+datasets. How often in these datasets is the leading digit a 1, a 2, etc. or a 9? You might
+think that they all occur with about the same frequency. Indeed, what would be special
+about any particual digit? So in this case each number would occur with probability
+<span class="math inline">\(1/9\)</span> or with a frequency of about <span class="math inline">\(11 \%\)</span>.</p>
+<p>But here is an interesting fact: They occur with unequal frequency. They are actually quite
+unequal and follow a peculiar logarithmic pattern; you can give a formula for the
+empirical probabilities. This formula looks as follows:</p>
+<dl>
+<dt>Benfords Law</dt>
+<dd>In a dataset the frequency of <span class="math inline">\(d\)</span> being the first digit is
+<span class="math display">\[\begin{equation*}
+P(d) = \log_{10}\left(1+ \frac{1}{d}\right)
+\end{equation*}\]</span>
+where <span class="math inline">\(d \in \{1,\cdots, 9 \}\)</span>
+</dd>
+</dl>
+<p>Now here comes the really surprising fact. This law has been observed in credit card bills,
+stock market prices, in the market valuation of listed companies, in population data,
+the length of rivers.</p>
+<p>There are some requirements on these datasets: They should not have an arbitrary maximum or
+minimum for example. The numbers also must not be assigend, like grades of exams, assigned
+phone numbers or assigned identities.</p>
+<p>Now let’s check this out. I have included a dataset from the US-census containing the
+size of the US-population at the level of counties. I have called this dataset
+<code>co-est2020-transformed.csv</code>.</p>
+<p>We read this dataset using the <code>read.csv</code> function. Remember that you need to give the
+appropriate path to where you have stored the file on you machine. So what you see in the
+following command applies to my specific setup. I read the data and store them in an object
+<code>us-pop</code> and look at the first 10 rows</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="probability-basic-definitions-and-rules.html#cb214-1" aria-hidden="true" tabindex="-1"></a>us_pop <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/co-est2020-transformed.csv&quot;</span>)</span>
+<span id="cb214-2"><a href="probability-basic-definitions-and-rules.html#cb214-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(us_pop, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##             County   State Population
+## 1   Autauga County Alabama      56145
+## 2   Baldwin County Alabama     229287
+## 3   Barbour County Alabama      24589
+## 4      Bibb County Alabama      22136
+## 5    Blount County Alabama      57879
+## 6   Bullock County Alabama       9976
+## 7    Butler County Alabama      19504
+## 8   Calhoun County Alabama     113469
+## 9  Chambers County Alabama      32865
+## 10 Cherokee County Alabama      26294</code></pre>
+<p>Now we want to extract the leading digit. We use the R string function <code>substr()</code> for this. The
+function takes a string as an argument and returns a substring , given a start and a stop
+argument, which would in our case be 1, since we want to extract the first digit. Now if we
+give a number to the function, R will coerce the number to a character and then apply <code>substr</code>.
+Now let us do this and append the new leading digit column to our data frame and expect the
+new frame’s first 10 rows</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="probability-basic-definitions-and-rules.html#cb216-1" aria-hidden="true" tabindex="-1"></a>us_pop<span class="sc">$</span>leading_digit <span class="ot">&lt;-</span> <span class="fu">substr</span>(us_pop<span class="sc">$</span>Population, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb216-2"><a href="probability-basic-definitions-and-rules.html#cb216-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(us_pop, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##             County   State Population leading_digit
+## 1   Autauga County Alabama      56145             5
+## 2   Baldwin County Alabama     229287             2
+## 3   Barbour County Alabama      24589             2
+## 4      Bibb County Alabama      22136             2
+## 5    Blount County Alabama      57879             5
+## 6   Bullock County Alabama       9976             9
+## 7    Butler County Alabama      19504             1
+## 8   Calhoun County Alabama     113469             1
+## 9  Chambers County Alabama      32865             3
+## 10 Cherokee County Alabama      26294             2</code></pre>
+<p>Let me explain what is going on. I first define a new column name <code>leading_digit</code>. Using the
+<code>$</code> operator, I can append the new object to the data frame <code>us_pop</code>. Now I apply the first
+digit extraction function to the entire Population column. Since <code>substr</code> is a function which
+operates on single numbers as well as on vectors this is very handy.</p>
+<p>Now we can tabulate the results using the <code>table</code> function in R. This function will count the
+number of occurrence of each digit in our <code>leading_digit</code>column. Since we
+need proportions we divide by the number of observations. We make use here of R’s
+componentwise computation mechanics. Let’s do this now:</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="probability-basic-definitions-and-rules.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(us_pop<span class="sc">$</span>leading_digit)<span class="sc">/</span><span class="fu">length</span>(us_pop<span class="sc">$</span>leading_digit)</span></code></pre></div>
+<pre><code>## 
+##          1          2          3          4          5          6          7 
+## 0.30289532 0.18867324 0.11644925 0.09863188 0.07254216 0.06617881 0.05281578 
+##          8          9 
+## 0.05090678 0.05090678</code></pre>
+<p>Now let’s compare this to what Benford’s law says:</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="probability-basic-definitions-and-rules.html#cb220-1" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="fu">c</span>((<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">1</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>), </span>
+<span id="cb220-2"><a href="probability-basic-definitions-and-rules.html#cb220-2" aria-hidden="true" tabindex="-1"></a>                   (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">7</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>),(<span class="dv">1</span><span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">9</span>)))</span>
+<span id="cb220-3"><a href="probability-basic-definitions-and-rules.html#cb220-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(benford) <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb220-4"><a href="probability-basic-definitions-and-rules.html#cb220-4" aria-hidden="true" tabindex="-1"></a>benford</span></code></pre></div>
+<pre><code>##          1          2          3          4          5          6          7 
+## 0.30103000 0.17609126 0.12493874 0.09691001 0.07918125 0.06694679 0.05799195 
+##          8          9 
+## 0.05115252 0.04575749</code></pre>
+<p>Isn’t this fascinating? This is surprisingly close. Let us try the same with the closing
+price of apple stock:</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="probability-basic-definitions-and-rules.html#cb222-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>leading_digit <span class="ot">&lt;-</span> <span class="fu">substr</span>(aapl_prices<span class="sc">$</span>close, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb222-2"><a href="probability-basic-definitions-and-rules.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(aapl_prices<span class="sc">$</span>leading_digit)<span class="sc">/</span><span class="fu">length</span>(aapl_prices<span class="sc">$</span>leading_digit)</span></code></pre></div>
+<pre><code>## 
+##          0          1          2          3          4          5          6 
+## 0.45599204 0.17279960 0.12618100 0.07222775 0.06215813 0.03679761 0.03194928 
+##          7          8          9 
+## 0.01864744 0.01131278 0.01193436</code></pre>
 </div>
 </div>
-<div id="project-2-should-we-trust-supervisory-bank-data" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> Project 2: Should we trust supervisory bank data?</h2>
+<div id="project-2-should-we-trust-european-supervisory-bank-data" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Project 2: Should we trust European supervisory bank data?</h2>
 
 </div>
 </div>
