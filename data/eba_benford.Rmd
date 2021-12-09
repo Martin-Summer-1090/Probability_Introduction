@@ -1,0 +1,49 @@
+---
+title: "EBA data and Bendofrd's law"
+output: html_notebook
+author: Martin Summer
+date: 9.1.2021
+---
+
+```{r}
+eba <- read.csv("https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv")
+View(eba)
+```
+
+Here is what you are asked to do: We look only at the actual exposure data, which is
+coded as all rows where Scenario is equal to 1. We look at the data broken down by Country, which
+means all rows where Country is not equal to 0. We want no portfolio break downs and look only
+at rows where Portfolio is equal to 0, we don't look at an exposure break down and thus set
+the variable Exposure to 0. We also set Status, IFRS9_Status, CR_guarantees and CR_exp_moratoria should also be set to zero. Construct a new dataframe, with these filtered data.
+
+```{r}
+eba_filtered <- eba[(eba$Scenario == 1 &
+                     eba$Country !=0 &
+                     eba$Portfolio %in% c(1,2) &
+                     eba$Exposure == 0 &
+                     eba$Status == 0 &
+                     eba$IFRS9_Stages %in% c(1,2,3) &
+                     eba$CR_guarantees == 0 &
+                     eba$CR_exp_moratoria == 0 &
+                     eba$Amount != 0), ] 
+                
+```
+
+```{r}
+eba_filtered$Amount <- as.numeric(eba_filtered$Amount)*10^6
+
+eba_filtered <- na.omit(eba_filtered)
+
+eba_filtered$Amount <- as.character(eba_filtered$Amount)
+```
+
+```{r}
+eba_filtered$LD <- substr(eba_filtered$Amount,1,1)
+```
+
+```{r}
+tab <- as.data.frame(table(eba_filtered$LD)/length(eba_filtered$LD))
+tab$Freq_Benf <- log10(1 + 1/as.numeric(tab$Var1))
+tab
+```
+

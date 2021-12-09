@@ -995,62 +995,127 @@ P(d) = \log_{10}\left(1+ \frac{1}{d}\right)
 \end{equation*}
 where $d \in \{1,\cdots, 9 \}$
 
+Let us look at how this distribution looks like. Let us build a data frame where we see the
+digits in one column and the Benford-Probabilities in the second one:
+```{r build benford frame}
+benford <- data.frame(Digit = 1:9)
+benford$Prob_Benford <- log10(1 + 1/benford$Digit)
+knitr::kable(benford)
+```
+
+
 Now here comes the really surprising fact. This law has been observed in credit card bills,
 stock market prices, in the market valuation of listed companies, in population data, 
 the length of rivers. 
 
 There are some requirements on these datasets: They should not have an arbitrary maximum or
-minimum for example. The numbers also must not be assigend, like grades of exams, assigned
+minimum for example. The numbers also must not be assigned, like grades of exams, assigned
 phone numbers or assigned identities.
 
-Now let's check this out. I have included a dataset from the US-census containing the
-size of the US-population at the level of counties. I have called this dataset
-`co-est2020-transformed.csv`.
+Now let us check this with a real data set. We choose a dataset of US-county population data.
+This give us an opportunity to show you a second way to read a csv file into R by giving
+the internet link to the file directly as a string to the `read.csv()` function. We do this
+with the population data and store the data in an object we call `population_data`.
+```{r us-population-data}
+population_data <-  read.csv("https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/counties/totals/co-est2020-alldata.csv")
+```
+So you, if you know the internet address of the file and the file name you can read data
+also directly from an url without first downloading them and then read it from your local copy.
 
-We read this dataset using the `read.csv` function. Remember that you need to give the
-appropriate path to where you have stored the file on you machine. So what you see in the
-following command applies to my specific setup. I read the data and store them in an object
-`us-pop` and look at the first 10 rows
-```{r}
-us_pop <- read.csv("data/co-est2020-transformed.csv")
-head(us_pop, n = 10)
+Now we want to use these data to check or illustrate Benford's law. Now you will encounter 
+something typical for real data situations. If you inspect the data, you will see that
+there is much more than we need. Let us therefore select the data we want to look at, using
+the R tools we learned in this lecture. We create a new data frame which contains only the
+variables `COUNTY `STNAME`, `CTYNAME` and `CENSUS2010POP`, and we discard all the other ones.
+```{r pop-us-red}
+pop_us <- data.frame(County_ID = population_data$COUNTY, State = population_data$STNAME, County = population_data$CTYNAME, Population = population_data$CENSUS2010POP)
+```
+This looks already pretty good, but we would like to have the data purely on county level. The
+current data set also contains State aggregates, which have `County_Id == 0`. There are
+alos a few counties which get value "X". We also want to filter out those. Let's use
+logical sub-setting to filter these data:
+```{r filter-aggregates}
+pop_us_filtered <- pop_us[((pop_us$County_ID != 0) & (pop_us$Population != "X")), ]
+```
+This will give us the pop_us data frame with all rows except those where the variable County_ID
+is equal to zero (which are the state aggregates).
+
+Now we extract the leading digits from the population numbers. Notice that
+in our data set the population numbers are stored as characters, as you can see
+from typing:
+```{r check type}
+typeof(pop_us_filtered$Population)
 ```
 
-Now we want to extract the leading digit. We use the R string function `substr()` for this. The
-function takes a string as an argument and returns a substring , given a start and a stop
-argument, which would in our case be 1, since we want to extract the first digit. Now if we
-give a number to the function, R will coerce the number to a character and then apply `substr`.
-Now let us do this and append the new leading digit column to our data frame and expect the
-new frame's first 10 rows
-```{r}
-us_pop$leading_digit <- substr(us_pop$Population, 1, 1)
-head(us_pop, n = 10)
+So we can use R's string functions. This is a vast area which could fill a lecture
+on it own. We just mention one of the many R-functions operationg on strings. 
+One way to implement selection of a leading digit is
+using one of R's string functions, `substr()`. You can give any string to this function and
+cut a substring, by specifiying where it should begin and where it should end. Now in our case
+the population number. Let us use this to add a new column of leading digits to the data frame.
+```{r pop-lead-digits}
+pop_us_filtered$LD <- substr(pop_us_filtered$Population, 1, 1)
 ```
-Let me explain what is going on. I first define a new column name `leading_digit`. Using the
-`$` operator, I can append the new object to the data frame `us_pop`. Now I apply the first
-digit extraction function to the entire Population column. Since `substr` is a function which
-operates on single numbers as well as on vectors this is very handy.
+Now we just need to tabulate the leading digits. This means, we count the frequency 
+of 1, 2 et. until 9 and divide by the total number of observations. This tabulation 
+functionality is implemented in R by its function `table`. So lets tabulate the
+respective column and divide by the total number of observations:
+```{r tabulate}
+emp_dist <- (table(pop_us_filtered$LD)/length(pop_us_filtered$LD))
+emp_dist
+```
+It would be nicer if we could show both the empirical frequencies and the bendford probabiliities
+in one dataframe. We first transform the emp_dist into a data frame and merge with the 
+`benford$Prob_Benford` vector. This can be done by using the R function `cbind()` which can merge
+two data framews
+```{r joint-df}
+df <- cbind(as.data.frame(emp_dist), benford$Prob_Benford)
+```
+Now lets give the new data frame nicer names using the name function and display the result
+in a nice table:
+```{r}
+names(df) <- c("Digit", "Emp_Freq", "Benf_Freq")
+knitr::kable(df)
+```
+The match is amazingly close. This is quite cool, isn't it ? 
 
-Now we can tabulate the results using the `table` function in R. This function will count the
-number of occurrence of each digit in our `leading_digit`column. Since we
-need proportions we divide by the number of observations. We make use here of R's
-componentwise computation mechanics. Let's do this now:
-```{r}
-table(us_pop$leading_digit)/length(us_pop$leading_digit)
-```
-Now let's compare this to what Benford's law says:
-```{r}
-benford <- log10(c((1 + 1/1), (1 + 1/2), (1 + 1/3), (1 + 1/4), (1 + 1/5), 
-                   (1 + 1/6), (1 + 1/7), (1 + 1/8),(1+ 1/9)))
-names(benford) <- as.character(1:9)
-benford
-```
+One application of this
+interesting regularity has been to screen data sets, for instance tax filings, to find
+evidence whether they might have been manipulated by looking for deviations from Benford's
+law. In the second project you are asked to do just that. Investigate the first digit 
+distribution in a real financial data-set and compare to Benford's law.
 
-Isn't this fascinating? This is surprisingly close. So the leading digits are indeed
-distributed as Benford's law claims - or at least very close to that - and not equally
-distributed as would perhaps be expected from intuition. Referecne to Berger and Hill.
+## Summary
 
 ## Project 2: Should we trust European supervisory bank data?
 
+The European Banking Authority EBA conducts a biannual stress testing excercise for the
+biggest European banks every two years. In the stress test bank exposure data are collected
+and then particular stress scenarios are applied to the reported data. The goal is to
+find out whether the banks would have enough capital to withstand an adverse scenario. EBA
+makes a huge effort to publish the data that are the base of the stress test on its web site:
+https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing
+
+In this project you are asked to use the knowledge you learned about 
+empirical probabilities, R and Benford's law to check whether the EBA stress testing
+data show the distribution of leading digits, you would expect from Benford's law.
+
+1. Go to the EBA website https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing
+and download the 
+file Credit Risk IRB (https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv).
+You can do so by downloading the file, storing it locally and then read it into R or you can
+read it directly from the web.
+2. We want to study the distribution of leading digits in the Amounts reported in the EBA
+file of credit risk exposures. Now the csv file contains many different data from different
+contexts. We need first to filter the data. Let me give you a guideline how to filter the data
+and ask you to implement this filtering using the R skills you have learned in this
+lecture. Here is what you are asked to do: Select all rows where Scenario is equal to 1. Note
+that the symbol you need in the R syntax for equal is `==`, the syntax is therefore 
+`Scenario == 1`. You might check out the R-help entry `Comparison` for further details. 
+We should select all rows where Country is not 0. For the variable Portfolio we have to use
+the match operator to require that Portfolio is in 1 or 2 (`Portfolio %in% c(1,2)`), for the
+IFRS9_Stages variable we have to require that it is in `c(1,2,3)`. Al other Variables Exposure, Status, CR_guarantees and CR_exp_moratoria are set to 0. Finally we only look at non zero Amounts.
+3. Select the leading digits of the amounts and compare them with the theoretical frequencies
+from Benford's law. Do the data look ok or suspicious?
 
 

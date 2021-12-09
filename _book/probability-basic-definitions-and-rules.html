@@ -801,7 +801,7 @@ when you display it but it is actually a double with class <code>POSIXct</code>,
 two classes):</p>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="probability-basic-definitions-and-rules.html#cb157-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb157-2"><a href="probability-basic-definitions-and-rules.html#cb157-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
-<pre><code>## [1] &quot;2021-12-09 00:01:07 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2021-12-09 20:20:17 CET&quot;</code></pre>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="probability-basic-definitions-and-rules.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;double&quot;</code></pre>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="probability-basic-definitions-and-rules.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
@@ -1164,87 +1164,209 @@ P(d) = \log_{10}\left(1+ \frac{1}{d}\right)
 where <span class="math inline">\(d \in \{1,\cdots, 9 \}\)</span>
 </dd>
 </dl>
+<p>Let us look at how this distribution looks like. Let us build a data frame where we see the
+digits in one column and the Benford-Probabilities in the second one:</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="probability-basic-definitions-and-rules.html#cb214-1" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Digit =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb214-2"><a href="probability-basic-definitions-and-rules.html#cb214-2" aria-hidden="true" tabindex="-1"></a>benford<span class="sc">$</span>Prob_Benford <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>benford<span class="sc">$</span>Digit)</span>
+<span id="cb214-3"><a href="probability-basic-definitions-and-rules.html#cb214-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(benford)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Digit</th>
+<th align="right">Prob_Benford</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">0.3010300</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">0.1760913</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">0.1249387</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0.0969100</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">0.0791812</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">0.0669468</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">0.0579919</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">0.0511525</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">0.0457575</td>
+</tr>
+</tbody>
+</table>
 <p>Now here comes the really surprising fact. This law has been observed in credit card bills,
 stock market prices, in the market valuation of listed companies, in population data,
 the length of rivers.</p>
 <p>There are some requirements on these datasets: They should not have an arbitrary maximum or
-minimum for example. The numbers also must not be assigend, like grades of exams, assigned
+minimum for example. The numbers also must not be assigned, like grades of exams, assigned
 phone numbers or assigned identities.</p>
-<p>Now let’s check this out. I have included a dataset from the US-census containing the
-size of the US-population at the level of counties. I have called this dataset
-<code>co-est2020-transformed.csv</code>.</p>
-<p>We read this dataset using the <code>read.csv</code> function. Remember that you need to give the
-appropriate path to where you have stored the file on you machine. So what you see in the
-following command applies to my specific setup. I read the data and store them in an object
-<code>us-pop</code> and look at the first 10 rows</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="probability-basic-definitions-and-rules.html#cb214-1" aria-hidden="true" tabindex="-1"></a>us_pop <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/co-est2020-transformed.csv&quot;</span>)</span>
-<span id="cb214-2"><a href="probability-basic-definitions-and-rules.html#cb214-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(us_pop, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##             County   State Population
-## 1   Autauga County Alabama      56145
-## 2   Baldwin County Alabama     229287
-## 3   Barbour County Alabama      24589
-## 4      Bibb County Alabama      22136
-## 5    Blount County Alabama      57879
-## 6   Bullock County Alabama       9976
-## 7    Butler County Alabama      19504
-## 8   Calhoun County Alabama     113469
-## 9  Chambers County Alabama      32865
-## 10 Cherokee County Alabama      26294</code></pre>
-<p>Now we want to extract the leading digit. We use the R string function <code>substr()</code> for this. The
-function takes a string as an argument and returns a substring , given a start and a stop
-argument, which would in our case be 1, since we want to extract the first digit. Now if we
-give a number to the function, R will coerce the number to a character and then apply <code>substr</code>.
-Now let us do this and append the new leading digit column to our data frame and expect the
-new frame’s first 10 rows</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="probability-basic-definitions-and-rules.html#cb216-1" aria-hidden="true" tabindex="-1"></a>us_pop<span class="sc">$</span>leading_digit <span class="ot">&lt;-</span> <span class="fu">substr</span>(us_pop<span class="sc">$</span>Population, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb216-2"><a href="probability-basic-definitions-and-rules.html#cb216-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(us_pop, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##             County   State Population leading_digit
-## 1   Autauga County Alabama      56145             5
-## 2   Baldwin County Alabama     229287             2
-## 3   Barbour County Alabama      24589             2
-## 4      Bibb County Alabama      22136             2
-## 5    Blount County Alabama      57879             5
-## 6   Bullock County Alabama       9976             9
-## 7    Butler County Alabama      19504             1
-## 8   Calhoun County Alabama     113469             1
-## 9  Chambers County Alabama      32865             3
-## 10 Cherokee County Alabama      26294             2</code></pre>
-<p>Let me explain what is going on. I first define a new column name <code>leading_digit</code>. Using the
-<code>$</code> operator, I can append the new object to the data frame <code>us_pop</code>. Now I apply the first
-digit extraction function to the entire Population column. Since <code>substr</code> is a function which
-operates on single numbers as well as on vectors this is very handy.</p>
-<p>Now we can tabulate the results using the <code>table</code> function in R. This function will count the
-number of occurrence of each digit in our <code>leading_digit</code>column. Since we
-need proportions we divide by the number of observations. We make use here of R’s
-componentwise computation mechanics. Let’s do this now:</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="probability-basic-definitions-and-rules.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(us_pop<span class="sc">$</span>leading_digit)<span class="sc">/</span><span class="fu">length</span>(us_pop<span class="sc">$</span>leading_digit)</span></code></pre></div>
+<p>Now let us check this with a real data set. We choose a dataset of US-county population data.
+This give us an opportunity to show you a second way to read a csv file into R by giving
+the internet link to the file directly as a string to the <code>read.csv()</code> function. We do this
+with the population data and store the data in an object we call <code>population_data</code>.</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="probability-basic-definitions-and-rules.html#cb215-1" aria-hidden="true" tabindex="-1"></a>population_data <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">&quot;https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/counties/totals/co-est2020-alldata.csv&quot;</span>)</span></code></pre></div>
+<p>So you, if you know the internet address of the file and the file name you can read data
+also directly from an url without first downloading them and then read it from your local copy.</p>
+<p>Now we want to use these data to check or illustrate Benford’s law. Now you will encounter
+something typical for real data situations. If you inspect the data, you will see that
+there is much more than we need. Let us therefore select the data we want to look at, using
+the R tools we learned in this lecture. We create a new data frame which contains only the
+variables <code>COUNTY</code>STNAME<code>,</code>CTYNAME<code>and</code>CENSUS2010POP`, and we discard all the other ones.</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="probability-basic-definitions-and-rules.html#cb216-1" aria-hidden="true" tabindex="-1"></a>pop_us <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">County_ID =</span> population_data<span class="sc">$</span>COUNTY, <span class="at">State =</span> population_data<span class="sc">$</span>STNAME, <span class="at">County =</span> population_data<span class="sc">$</span>CTYNAME, <span class="at">Population =</span> population_data<span class="sc">$</span>CENSUS2010POP)</span></code></pre></div>
+<p>This looks already pretty good, but we would like to have the data purely on county level. The
+current data set also contains State aggregates, which have <code>County_Id == 0</code>. There are
+alos a few counties which get value “X.” We also want to filter out those. Let’s use
+logical sub-setting to filter these data:</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="probability-basic-definitions-and-rules.html#cb217-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered <span class="ot">&lt;-</span> pop_us[((pop_us<span class="sc">$</span>County_ID <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (pop_us<span class="sc">$</span>Population <span class="sc">!=</span> <span class="st">&quot;X&quot;</span>)), ]</span></code></pre></div>
+<p>This will give us the pop_us data frame with all rows except those where the variable County_ID
+is equal to zero (which are the state aggregates).</p>
+<p>Now we extract the leading digits from the population numbers. Notice that
+in our data set the population numbers are stored as characters, as you can see
+from typing:</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="probability-basic-definitions-and-rules.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(pop_us_filtered<span class="sc">$</span>Population)</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>So we can use R’s string functions. This is a vast area which could fill a lecture
+on it own. We just mention one of the many R-functions operationg on strings.
+One way to implement selection of a leading digit is
+using one of R’s string functions, <code>substr()</code>. You can give any string to this function and
+cut a substring, by specifiying where it should begin and where it should end. Now in our case
+the population number. Let us use this to add a new column of leading digits to the data frame.</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="probability-basic-definitions-and-rules.html#cb220-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered<span class="sc">$</span>LD <span class="ot">&lt;-</span> <span class="fu">substr</span>(pop_us_filtered<span class="sc">$</span>Population, <span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre></div>
+<p>Now we just need to tabulate the leading digits. This means, we count the frequency
+of 1, 2 et. until 9 and divide by the total number of observations. This tabulation
+functionality is implemented in R by its function <code>table</code>. So lets tabulate the
+respective column and divide by the total number of observations:</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="probability-basic-definitions-and-rules.html#cb221-1" aria-hidden="true" tabindex="-1"></a>emp_dist <span class="ot">&lt;-</span> (<span class="fu">table</span>(pop_us_filtered<span class="sc">$</span>LD)<span class="sc">/</span><span class="fu">length</span>(pop_us_filtered<span class="sc">$</span>LD))</span>
+<span id="cb221-2"><a href="probability-basic-definitions-and-rules.html#cb221-2" aria-hidden="true" tabindex="-1"></a>emp_dist</span></code></pre></div>
 <pre><code>## 
 ##          1          2          3          4          5          6          7 
-## 0.30289532 0.18867324 0.11644925 0.09863188 0.07254216 0.06617881 0.05281578 
+## 0.30340656 0.18911175 0.11907036 0.09805794 0.06781280 0.06685769 0.05794333 
 ##          8          9 
-## 0.05090678 0.05090678</code></pre>
-<p>Now let’s compare this to what Benford’s law says:</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="probability-basic-definitions-and-rules.html#cb220-1" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="fu">c</span>((<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">1</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>), </span>
-<span id="cb220-2"><a href="probability-basic-definitions-and-rules.html#cb220-2" aria-hidden="true" tabindex="-1"></a>                   (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">7</span>), (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>),(<span class="dv">1</span><span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">9</span>)))</span>
-<span id="cb220-3"><a href="probability-basic-definitions-and-rules.html#cb220-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(benford) <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
-<span id="cb220-4"><a href="probability-basic-definitions-and-rules.html#cb220-4" aria-hidden="true" tabindex="-1"></a>benford</span></code></pre></div>
-<pre><code>##          1          2          3          4          5          6          7 
-## 0.30103000 0.17609126 0.12493874 0.09691001 0.07918125 0.06694679 0.05799195 
-##          8          9 
-## 0.05115252 0.04575749</code></pre>
-<p>Isn’t this fascinating? This is surprisingly close. Let us try the same with the closing
-price of apple stock:</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="probability-basic-definitions-and-rules.html#cb222-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>leading_digit <span class="ot">&lt;-</span> <span class="fu">substr</span>(aapl_prices<span class="sc">$</span>close, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb222-2"><a href="probability-basic-definitions-and-rules.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(aapl_prices<span class="sc">$</span>leading_digit)<span class="sc">/</span><span class="fu">length</span>(aapl_prices<span class="sc">$</span>leading_digit)</span></code></pre></div>
-<pre><code>## 
-##          0          1          2          3          4          5          6 
-## 0.45599204 0.17279960 0.12618100 0.07222775 0.06215813 0.03679761 0.03194928 
-##          7          8          9 
-## 0.01864744 0.01131278 0.01193436</code></pre>
+## 0.04839223 0.04934734</code></pre>
+<p>It would be nicer if we could show both the empirical frequencies and the bendford probabiliities
+in one dataframe. We first transform the emp_dist into a data frame and merge with the
+<code>benford$Prob_Benford</code> vector. This can be done by using the R function <code>cbind()</code> which can merge
+two data framews</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="probability-basic-definitions-and-rules.html#cb223-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(emp_dist), benford<span class="sc">$</span>Prob_Benford)</span></code></pre></div>
+<p>Now lets give the new data frame nicer names using the name function and display the result
+in a nice table:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="probability-basic-definitions-and-rules.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Digit&quot;</span>, <span class="st">&quot;Emp_Freq&quot;</span>, <span class="st">&quot;Benf_Freq&quot;</span>)</span>
+<span id="cb224-2"><a href="probability-basic-definitions-and-rules.html#cb224-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Digit</th>
+<th align="right">Emp_Freq</th>
+<th align="right">Benf_Freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">0.3034066</td>
+<td align="right">0.3010300</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="right">0.1891117</td>
+<td align="right">0.1760913</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="right">0.1190704</td>
+<td align="right">0.1249387</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="right">0.0980579</td>
+<td align="right">0.0969100</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="right">0.0678128</td>
+<td align="right">0.0791812</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="right">0.0668577</td>
+<td align="right">0.0669468</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="right">0.0579433</td>
+<td align="right">0.0579919</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="right">0.0483922</td>
+<td align="right">0.0511525</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="right">0.0493473</td>
+<td align="right">0.0457575</td>
+</tr>
+</tbody>
+</table>
+<p>The match is amazingly close. This is quite cool, isn’t it ?</p>
+<p>One application of this
+interesting regularity has been to screen data sets, for instance tax filings, to find
+evidence whether they might have been manipulated by looking for deviations from Benford’s
+law. In the second project you are asked to do just that. Investigate the first digit
+distribution in a real financial data-set and compare to Benford’s law.</p>
 </div>
 </div>
 <div id="project-2-should-we-trust-european-supervisory-bank-data" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> Project 2: Should we trust European supervisory bank data?</h2>
+<p>The European Banking Authority EBA conducts a biannual stress testing excercise for the
+biggest European banks every two years. In the stress test bank exposure data are collected
+and then particular stress scenarios are applied to the reported data. The goal is to
+find out whether the banks would have enough capital to withstand an adverse scenario. EBA
+makes a huge effort to publish the data that are the base of the stress test on its web site:
+<a href="https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing" class="uri">https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing</a></p>
+<p>In this project you are asked to use the knowledge you learned about
+empirical probabilities, R and Benford’s law to check whether the EBA stress testing
+data show the distribution of leading digits, you would expect from Benford’s law.</p>
+<ol style="list-style-type: decimal">
+<li>Go to the EBA website <a href="https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing" class="uri">https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing</a>
+and download the
+file Credit Risk IRB (<a href="https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv" class="uri">https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv</a>).
+You can do so by downloading the file, storing it locally and then read it into R or you can
+read it directly from the web.</li>
+<li>We want to study the distribution of leading digits in the Amounts reported in the EBA
+file of credit risk exposures. Now the csv file contains many different data from different
+contexts. We need first to filter the data. Let me give you a guideline how to filter the data
+and ask you to implement this filtering using the R skills you have learned in this
+lecture. Here is what you are asked to do: Select all rows where Scenario is equal to 1. Note
+that the symbol you need in the R syntax for equal is <code>==</code>, the syntax is therefore
+<code>Scenario == 1</code>. You might check out the R-help entry <code>Comparison</code> for further details.
+We should select all rows where Country is not 0. For the variable Portfolio we have to use
+the match operator to require that Portfolio is in 1 or 2 (<code>Portfolio %in% c(1,2)</code>), for the
+IFRS9_Stages variable we have to require that it is in <code>c(1,2,3)</code>. Al other Variables Exposure, Status, CR_guarantees and CR_exp_moratoria are set to 0. Finally we only look at non zero Amounts.</li>
+<li>Select the leading digits of the amounts and compare them with the theoretical frequencies
+from Benford’s law. Do the data look ok or suspicious?</li>
+</ol>
 
 </div>
 </div>

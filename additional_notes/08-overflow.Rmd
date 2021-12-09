@@ -620,3 +620,52 @@ as something like an Excel spreadsheet.
 Data frames group vectors together into a two dimensional table. Each vector becomes a column
 of this table. As a result each column can contain different types of data. The symbol
 column contains characters, the close column contains doubles for example.
+
+# lecture 2
+
+I have included a dataset from the US-census containing the
+size of the US-population at the level of counties. I have called this dataset
+`co-est2020-transformed.csv`.
+
+We read this dataset using the `read.csv` function. Remember that you need to give the
+appropriate path to where you have stored the file on you machine. So what you see in the
+following command applies to my specific setup. I read the data and store them in an object
+`us-pop` and look at the first 10 rows
+```{r}
+us_pop <- read.csv("data/co-est2020-transformed.csv")
+head(us_pop, n = 10)
+```
+
+Now we want to extract the leading digit. We use the R string function `substr()` for this. The
+function takes a string as an argument and returns a substring , given a start and a stop
+argument, which would in our case be 1, since we want to extract the first digit. Now if we
+give a number to the function, R will coerce the number to a character and then apply `substr`.
+Now let us do this and append the new leading digit column to our data frame and expect the
+new frame's first 10 rows
+```{r}
+us_pop$leading_digit <- substr(us_pop$Population, 1, 1)
+head(us_pop, n = 10)
+```
+Let me explain what is going on. I first define a new column name `leading_digit`. Using the
+`$` operator, I can append the new object to the data frame `us_pop`. Now I apply the first
+digit extraction function to the entire Population column. Since `substr` is a function which
+operates on single numbers as well as on vectors this is very handy.
+
+Now we can tabulate the results using the `table` function in R. This function will count the
+number of occurrence of each digit in our `leading_digit`column. Since we
+need proportions we divide by the number of observations. We make use here of R's
+componentwise computation mechanics. Let's do this now:
+```{r}
+table(us_pop$leading_digit)/length(us_pop$leading_digit)
+```
+Now let's compare this to what Benford's law says:
+```{r}
+benford <- log10(c((1 + 1/1), (1 + 1/2), (1 + 1/3), (1 + 1/4), (1 + 1/5), 
+                   (1 + 1/6), (1 + 1/7), (1 + 1/8),(1+ 1/9)))
+names(benford) <- as.character(1:9)
+benford
+```
+
+Isn't this fascinating? This is surprisingly close. So the leading digits are indeed
+distributed as Benford's law claims - or at least very close to that - and not equally
+distributed as would perhaps be expected from intuition. Referecne to Berger and Hill.
