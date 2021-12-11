@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-10" />
+<meta name="date" content="2021-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -197,11 +197,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>3</b> Conditional Probability</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="conditional-probability.html"><a href="conditional-probability.html#introdcution"><i class="fa fa-check"></i><b>3.1</b> Introdcution</a></li>
+<li class="chapter" data-level="3.1" data-path="conditional-probability.html"><a href="conditional-probability.html#contingency-tables"><i class="fa fa-check"></i><b>3.1</b> Contingency tables</a></li>
 <li class="chapter" data-level="3.2" data-path="conditional-probability.html"><a href="conditional-probability.html#marginal-joint-and-conditional-probability"><i class="fa fa-check"></i><b>3.2</b> Marginal, joint and conditional probability</a></li>
-<li class="chapter" data-level="3.3" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.3</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
-<li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.4</b> Bayes’ Rule</a></li>
-<li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>3.5</b> Project</a></li>
+<li class="chapter" data-level="3.3" data-path="conditional-probability.html"><a href="conditional-probability.html#the-multiplication-rule"><i class="fa fa-check"></i><b>3.3</b> The multiplication rule</a></li>
+<li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.4</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
+<li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.5</b> Bayes’ Rule</a></li>
+<li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>3.6</b> Project</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
 <ul>
@@ -248,8 +249,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="conditional-probability" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Conditional Probability</h1>
-<div id="introdcution" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Introdcution</h2>
+<div id="contingency-tables" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Contingency tables</h2>
 <p>We begin this lecture with a definition and an example. Here is the definition:</p>
 <dl>
 <dt>Contingency Table</dt>
@@ -264,51 +265,26 @@ will be the main contents of this lecture.</p>
 <p>Let us start with an example of a <strong>contingency table</strong> within the context
 of stock price moves, we discussed already to some
 degree in lecture 2. It gives me also an opportunity to point you to one
-powerful R package, which will allow you to access financial data, quite easily: The
-<code>tidyquant-package</code> (<a href="https://business-science.github.io/tidyquant/" class="uri">https://business-science.github.io/tidyquant/</a>).</p>
+powerful R package, which will allow you to access financial data, quite easily for
+yourself without me providing them to you with study material: The
+<code>tidyquant-package</code>. You can check out the packages’s home page with documentation and
+study material at: <a href="https://business-science.github.io/tidyquant/" class="uri">https://business-science.github.io/tidyquant/</a>.</p>
 <p>Remember from lecture 1 that we can install add-on packages for R, which extend the
 functionality of the system by new functions. A packages has to be installed first and then
-loaded into working memory. To install tidy-quant let us first use the install command:
+loaded into working memory. To install tidyquant let us first use the install command:
 <code>install.packages("tidyquant")</code>
 and then load the package by:</p>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="conditional-probability.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code></pre></div>
-<pre><code>## Loading required package: lubridate</code></pre>
-<pre><code>## 
-## Attaching package: &#39;lubridate&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     date, intersect, setdiff, union</code></pre>
-<pre><code>## Loading required package: PerformanceAnalytics</code></pre>
-<pre><code>## Loading required package: xts</code></pre>
-<pre><code>## Loading required package: zoo</code></pre>
-<pre><code>## 
-## Attaching package: &#39;zoo&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     as.Date, as.Date.numeric</code></pre>
-<pre><code>## 
-## Attaching package: &#39;PerformanceAnalytics&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:graphics&#39;:
-## 
-##     legend</code></pre>
-<pre><code>## Loading required package: quantmod</code></pre>
-<pre><code>## Loading required package: TTR</code></pre>
-<pre><code>## Registered S3 method overwritten by &#39;quantmod&#39;:
-##   method            from
-##   as.zoo.data.frame zoo</code></pre>
-<pre><code>## ══ Need to Learn tidyquant? ════════════════════════════════════════════════════
-## Business Science offers a 1-hour course - Learning Lab #9: Performance Analysis &amp; Portfolio Optimization with tidyquant!
-## &lt;/&gt; Learn more at: https://university.business-science.io/p/learning-labs-pro &lt;/&gt;</code></pre>
 <p>We do not go into the tidyquant package in any detail. If you are interested
 check out the github page cited above. For now we only show the
 use of one of its core functions which allows you to load financial data directly
 from the internet.</p>
 <p>This function is called <code>tq_get()</code>. Let’s see how it works. We first
 retrieve the S&amp;P500 stock market index. To do this we need to know the ticker symbol, which is
-<code>^GSPC</code>. This has to be passed to the <code>tq_get()</code> function and tha’s it. Let us save these
-data into an R object, which I call <code>sp500</code>and jook at the first entries</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="conditional-probability.html#cb240-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>)</span>
-<span id="cb240-2"><a href="conditional-probability.html#cb240-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<code>^GSPC</code>. This has to be passed to the <code>tq_get()</code> function and that’s it. Let us save these
+data into an R object, which I call <code>sp500</code>and look at the first entries</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="conditional-probability.html#cb226-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>)</span>
+<span id="cb226-2"><a href="conditional-probability.html#cb226-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 8
 ##   symbol date        open  high   low close     volume adjusted
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
@@ -320,7 +296,7 @@ data into an R object, which I call <code>sp500</code>and jook at the first entr
 <p>We see that the series starts March 2011.
 Now let’s retrieve the stock price data of
 Apple beginning at 2011-01-03, the same day as the index data.</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="conditional-probability.html#cb242-1" aria-hidden="true" tabindex="-1"></a>apple <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="conditional-probability.html#cb228-1" aria-hidden="true" tabindex="-1"></a>apple <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span></code></pre></div>
 <p>You can give a beginning date to the argument <code>from</code> in the <code>tq_get()</code> function (you can guess
 that you can also give an end data <code>to</code> as an argument to <code>tq_get</code>)</p>
 <p>For the contingency table we would like to count the number of days when the
@@ -334,12 +310,12 @@ could theoretically also not change at all).</p>
 you of the <code>diff()</code> function, we already used in lecture 2. It implements a method for
 computing differences in time series. Consider the following example: Say we have
 a vector of values like</p>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="conditional-probability.html#cb243-1" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="conditional-probability.html#cb229-1" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span></code></pre></div>
 <p>and we apply the <code>diff()</code>function we will get</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="conditional-probability.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(val)</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="conditional-probability.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(val)</span></code></pre></div>
 <pre><code>## [1]  2  3 -6  8  1</code></pre>
 <p>Now, of course by taking differences between 4 and 2, 7 and 4, 1 and 7, 9 and 1, ans 10 and 9 we
-have to drop the first observation and get a vector which is shorter than val by one component.
+have to drop the first observation and get a vector which is shorter than <code>val</code> by one component.
 We can
 produce a vector of equal length if we add as the first component the value NA, which is
 R’s symbol of “not available” or of a missing value. Indeed this makes sense because for the
@@ -353,74 +329,77 @@ column “changes” and compute the changes in the closing price by the <code>d
 Now, since we loose the first value here by taking the first difference, let us
 replace it by NA and from a new column of price differences with the first observation
 replace by NA. Thus we type:</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="conditional-probability.html#cb246-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(sp500<span class="sc">$</span>close))</span></code></pre></div>
-<p>Lets do the same for the Aoogle stock price.</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="conditional-probability.html#cb247-1" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(apple<span class="sc">$</span>close))</span></code></pre></div>
-<p>We want to count the up moves and the down moves. Since there are only these two outcomes
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="conditional-probability.html#cb232-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(sp500<span class="sc">$</span>close))</span></code></pre></div>
+<p>Lets do the same for the Apple stock price.</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="conditional-probability.html#cb233-1" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(apple<span class="sc">$</span>close))</span></code></pre></div>
+<p>Let me use this opportunity to introduce you to how R treats missing information. This is
+a situation you will encounter all over in applied work with data in gerneral and with
+financial data in particular.</p>
+<p>The <code>NA</code> character is a special symbol in R standing for “not available.” It can be used as
+a placeholder for missing information, just as we did before, where we inserted <code>NA</code> in the
+column of price changes for the first record, where we could no compute the difference, since
+we had no information on the price the day before our dta set starts. <code>NA</code> is treated by R
+exactly as you would expect that missing information should be treated. If oyu use it in
+arithmetic operations or in comparisons, you will be returned <code>NA</code>.</p>
+<p><code>NA</code> prevents oyu from mistakes made due to missing information. It can also
+create practical problems. If you would for instance try to compute the
+average price change of the apple
+stock price</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="conditional-probability.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes)</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<p>This is, of course, annoying. Just because there is one <code>NA</code> at the beginning of more than 2700
+records, you should still be able to compute the mean. You just need to drop the <code>NA</code>. R has
+an argument to most statistical functions, which allow you to drop the <code>NA</code> before you do the
+computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
+to do the computation:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="conditional-probability.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>## [1] 0.04806411</code></pre>
+<p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
+this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
+whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="conditional-probability.html#cb238-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">NA</span>)</span></code></pre></div>
+<p>and then apply:</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="conditional-probability.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(vec)</span></code></pre></div>
+<pre><code>## [1] FALSE  TRUE FALSE FALSE  TRUE</code></pre>
+<p>we get a vector of logical values. This vector would allow us then, by R’s subsetting rules, to
+select the non-NA values. We just tell R to select all elements from <code>vec</code> which are not <code>NA</code>:</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="conditional-probability.html#cb241-1" aria-hidden="true" tabindex="-1"></a>vec[<span class="sc">!</span><span class="fu">is.na</span>(vec)]</span></code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+<p>This end our short digression into the treatment of missing information in R.</p>
+<p>Let us now count the up moves and the down moves. Since there are only these two outcomes
 it is sufficient if we add a logical column to both dataframes, checking the condition that
-the change variable is larger than zero.</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="conditional-probability.html#cb248-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>up <span class="ot">&lt;-</span> (sp500<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb248-2"><a href="conditional-probability.html#cb248-2" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>up <span class="ot">&lt;-</span> (apple<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
-<p>We can now tabulate the joint up and down moves using the <code>table()</code>function</p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="conditional-probability.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up)</span></code></pre></div>
-<pre><code>##        
-##         FALSE TRUE
-##   FALSE   858  378
-##   TRUE    443 1073</code></pre>
-<p>Now this looks already good and like a contingency table. The problem is we do not see
-exactly what is what. So let is check: Using R’s coercion rules we can count these moves by applying the <code>sum()</code>function to each
-column. Since sum requires values of type double of integer, R will coerce <code>TRUE</code>to 1 and
-<code>FALSE</code>to zero. Note that, since the first value in each variable is NA we have to give the
-argument <code>na.rm</code>to the sum function.</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="conditional-probability.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sp500<span class="sc">$</span>up, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 1516</code></pre>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="conditional-probability.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(apple<span class="sc">$</span>up, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 1451</code></pre>
-<p>This says that sp500 moves up 1516 times and apple moves up 1451 times. This means sp500
-is in the rows and apple is in the columns in the output of the <code>table()</code>function. So let us
-write this down more neatly:</p>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th align="center">Apple-Down</th>
-<th align="center">Apple-Up</th>
-<th align="right">Total</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>SP500-Down</td>
-<td align="center">858</td>
-<td align="center">378</td>
-<td align="right">1236</td>
-</tr>
-<tr class="even">
-<td>SP500-Up</td>
-<td align="center">443</td>
-<td align="center">1073</td>
-<td align="right">1516</td>
-</tr>
-<tr class="odd">
-<td>Total</td>
-<td align="center">1301</td>
-<td align="center">1451</td>
-<td align="right">2752</td>
-</tr>
-</tbody>
-</table>
-<p>This table says that there are 1073 cases where the SP500 index and the Apple stock price move
-up together, there are 858 cases where they fall together and then there are 443 cases and
-378 cases abd 443 cases respectively where the variables move in opposite directions.</p>
+the change variable is larger than zero (note that with this test we automatically would
+count the possible cases where the stock price remains unchanged to the down movements).</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="conditional-probability.html#cb243-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>up <span class="ot">&lt;-</span> (sp500<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb243-2"><a href="conditional-probability.html#cb243-2" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>up <span class="ot">&lt;-</span> (apple<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
+<p>We can now tabulate the joint up and down moves using the <code>table()</code>function. We give the
+<code>dnn</code>argument to the function, sow we can see which are the dimensions in the table computation
+R is performing for us. We also add the marginal sums by giving the output of the
+<code>table</code>function to the <code>addmargins()</code> function of R:</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="conditional-probability.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
+<pre><code>##        Apple
+## SP500   FALSE TRUE  Sum
+##   FALSE   858  378 1236
+##   TRUE    443 1073 1516
+##   Sum    1301 1451 2752</code></pre>
+<p>From this table you can read the total number of cases where it is true that
+the SP500 index and the Apple stock price move
+up together, the number of cases when they fall together as well as
+the number of cases where they move in opposite directions. The last row and
+the last column contain the row and column sums of all these cases.</p>
+<p>So now we have used R to create a contingency table we can touch from our abstract
+definition we gave in the beginning. On the way you deepened and fortified your knowledge of
+R a bit further.</p>
 </div>
 <div id="marginal-joint-and-conditional-probability" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Marginal, joint and conditional probability</h2>
-<p>Marginal probabilty
-:The <strong>marginal probability</strong> is the unconditional probability on an event. This
+<dl>
+<dt>Marginal probability</dt>
+<dd>The <strong>marginal probability</strong> is the unconditional probability of an event. This
 probability is not conditioned on any other event. In terms of notation, we
 denote the marginal probabilities of two arbitrary events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> by
-<span class="math inline">\(P(A)\)</span> and <span class="math inline">\(P(B)\)</span> respectively.</p>
-<dl>
+<span class="math inline">\(P(A)\)</span> and <span class="math inline">\(P(B)\)</span> respectively.
+</dd>
 <dt>Joint probability</dt>
 <dd>The <strong>joint probability</strong> is the probability of simultaneous events. This is
 the probability of the intersection of two or more events. If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are
@@ -438,55 +417,50 @@ not the same.
 </dl>
 <p>The table of joint moves, we have computed before can help us to illustrate
 these concepts using the frequency interpretation of probability: We divide
-each entry in our table by the total number of cases</p>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th align="center">Apple -Down</th>
-<th align="center">Apple -Up</th>
-<th align="right">Total</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>SP500-Down</td>
-<td align="center">0.31</td>
-<td align="center">0.14</td>
-<td align="right">0.45</td>
-</tr>
-<tr class="even">
-<td>SP500-Up</td>
-<td align="center">0.16</td>
-<td align="center">0.39</td>
-<td align="right">0.55</td>
-</tr>
-<tr class="odd">
-<td>Total</td>
-<td align="center">0.47</td>
-<td align="center">0.53</td>
-<td align="right">1.00</td>
-</tr>
-</tbody>
-</table>
-<p>The <strong>marginal probability</strong> that the SP500 will make an Up move is
-<span class="math inline">\(P(\text{SP500-Up} \cap \text{Google-Down}) + P(\text{SP500-Up} \cap \text{Google-up}) = P(\text{SP500-Up})\)</span>, which is 0.55, given our table. It is the sum
+each entry in our table by the total number of cases. Of course this is so frequent
+a case in applied data analysis that R has a function for it, the <code>prop.table()</code> function:</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="conditional-probability.html#cb246-1" aria-hidden="true" tabindex="-1"></a>prop_table <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>))))</span>
+<span id="cb246-2"><a href="conditional-probability.html#cb246-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
+<pre><code>##        Apple
+## SP500       FALSE      TRUE       Sum
+##   FALSE 0.3117733 0.1373547 0.4491279
+##   TRUE  0.1609738 0.3898983 0.5508721
+##   Sum   0.4727471 0.5272529 1.0000000</code></pre>
+<p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
+<span class="math display">\[\begin{equation*}
+P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
+\end{equation*}\]</span>
+which is</p>
+<pre><code>## [1] 0.55</code></pre>
+<p>It is the sum
 of the two <strong>joint probabilities</strong> <span class="math inline">\(P(\text{SP500-Up} \cap \text{Apple-Down})\)</span> and
-<span class="math inline">\(P(\text{SP500-Up} \cap \text{Apple-Up})\)</span>. To compute the conditional probability
-that the stock price of Google will make an up move given that the SP500 makes an
+<span class="math inline">\(P(\text{SP500-Up} \cap \text{Apple-Up})\)</span>.</p>
+<p>To compute the conditional probability
+that the stock price of Apple will make an up move given that the SP500 makes an
 up move we have to compute <span class="math inline">\(P(\text{Apple-Up} | \text{SP500-Up})\)</span>. The probability
-that the Google price went up and the SP500 went up is <span class="math inline">\(P(\text{Apple-up} \cap \text{SP500-Up})\)</span>.
-But given I already know that by the condition SP500 went up, I am in the second line of
+that the Apple price went up and the SP500 went up is <span class="math inline">\(P(\text{Apple-up} \cap \text{SP500-Up})\)</span>.</p>
+<p>But given I already know that by the condition SP500 went up, I am in the second line of
 my table and we know that the first line, SP500 went down - is ruled out by the
-condition. We thus have now a <em>new sample space</em> and we must
-adjust the probabilities proportional
+condition.</p>
+<p>We thus have now a <em>new sample space</em> and we must
+adjust the probabilities proportionally
 to be consistent with the rules of probability. We therefore have to divide by
 <span class="math inline">\(P(\text{SP500-Up})\)</span> to get the formula
-<span class="math inline">\(P(\text{Apple-Up} | \text{SP500-Up}) = \frac{P(\text{Apple-up} \cap \text{SP500-Up})}{P(\text{SP500-Up})}\)</span> which is <span class="math inline">\(0.39/0.55\)</span> or <span class="math inline">\(0.71\)</span>.</p>
+<span class="math display">\[\begin{equation*}
+P(\text{Apple-Up} | \text{SP500-Up}) = \frac{P(\text{Apple-up} \cap \text{SP500-Up})}{P(\text{SP500-Up})}
+\end{equation*}\]</span>
+which is:</p>
+<pre><code>## [1] 0.71</code></pre>
 <p>To check whether we have made the correct re-normalisation you can ask yourself: Given the
-rules of probability, what is <span class="math inline">\(P(\text{Apple-Down} | \text{SP500-Up}))\)</span> ? It should be
-<span class="math inline">\(1 - 0.71\)</span> or 0.29. Applying the formula for conditional probability we would compute
-<span class="math inline">\(0.16/0.55\)</span> which is indeed 0.29.</p>
+rules of probability, what is <span class="math inline">\(P(\text{Apple-Down} | \text{SP500-Up}))\)</span> ? It should be 1 minus
+the conditional probability that it goes up given the sp500 index goes up, which is</p>
+<pre><code>## [1] 0.29</code></pre>
+<p>Applying the formula for conditional probability we would compute
+<span class="math display">\[\begin{equation*}
+P(\text{Apple-Down} | \text{SP500-Up}) = \frac{P(\text{Apple-Down} \cap \text{SP500-Up})}{P(\text{SP500-Up})}
+\end{equation*}\]</span>
+which is indeed</p>
+<pre><code>## [1] 0.29</code></pre>
 <p>Another way to think about this formula can perhaps help to foster our intuition if we
 look at this problem through the frequency interpretation of probability:</p>
 <p>We would like to
@@ -551,1564 +525,107 @@ went up.</p>
 the Google-Ups <strong>among the notebook lines</strong> where the SP500 has an Up move and divide by
 the number of these SP500-Up lines.</p>
 <p>Let’s do this in R. To create the notebook we make a data frame where one column is the Up column
-of the SP500 data and the second columns is the Up column of the Google data.</p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="conditional-probability.html#cb255-1" aria-hidden="true" tabindex="-1"></a>joint_ups <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">SP500Up =</span> sp500<span class="sc">$</span>up, <span class="at">AppleUp =</span> apple<span class="sc">$</span>up)</span></code></pre></div>
-<p>Now we apply what we h ave already learned about referencing values in a data frame in R to
-select all the number in our fictitious notebook where the SP500 moves Up:</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="conditional-probability.html#cb256-1" aria-hidden="true" tabindex="-1"></a>joint_ups[joint_ups<span class="sc">$</span>SP500Up <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span></code></pre></div>
-<pre><code>##      SP500Up AppleUp
-## NA        NA      NA
-## 3       TRUE    TRUE
-## 7       TRUE   FALSE
-## 8       TRUE    TRUE
-## 10      TRUE    TRUE
-## 11      TRUE   FALSE
-## 14      TRUE   FALSE
-## 15      TRUE    TRUE
-## 16      TRUE    TRUE
-## 17      TRUE    TRUE
-## 18      TRUE   FALSE
-## 20      TRUE    TRUE
-## 21      TRUE    TRUE
-## 23      TRUE   FALSE
-## 24      TRUE    TRUE
-## 25      TRUE    TRUE
-## 26      TRUE    TRUE
-## 28      TRUE   FALSE
-## 29      TRUE    TRUE
-## 30      TRUE    TRUE
-## 32      TRUE    TRUE
-## 33      TRUE   FALSE
-## 34      TRUE   FALSE
-## 38      TRUE    TRUE
-## 39      TRUE    TRUE
-## 41      TRUE    TRUE
-## 42      TRUE    TRUE
-## 45      TRUE    TRUE
-## 48      TRUE    TRUE
-## 52      TRUE    TRUE
-## 53      TRUE   FALSE
-## 54      TRUE    TRUE
-## 56      TRUE   FALSE
-## 57      TRUE    TRUE
-## 58      TRUE    TRUE
-## 60      TRUE    TRUE
-## 61      TRUE   FALSE
-## 63      TRUE   FALSE
-## 64      TRUE   FALSE
-## 66      TRUE   FALSE
-## 71      TRUE    TRUE
-## 72      TRUE   FALSE
-## 73      TRUE   FALSE
-## 75      TRUE    TRUE
-## 76      TRUE    TRUE
-## 77      TRUE    TRUE
-## 79      TRUE   FALSE
-## 80      TRUE   FALSE
-## 81      TRUE   FALSE
-## 82      TRUE    TRUE
-## 87      TRUE   FALSE
-## 88      TRUE    TRUE
-## 89      TRUE    TRUE
-## 91      TRUE   FALSE
-## 95      TRUE    TRUE
-## 96      TRUE    TRUE
-## 100     TRUE    TRUE
-## 101     TRUE   FALSE
-## 102     TRUE    TRUE
-## 103     TRUE    TRUE
-## 110     TRUE   FALSE
-## 112     TRUE    TRUE
-## 113     TRUE    TRUE
-## 115     TRUE   FALSE
-## 116     TRUE   FALSE
-## 117     TRUE   FALSE
-## 118     TRUE    TRUE
-## 122     TRUE    TRUE
-## 123     TRUE    TRUE
-## 124     TRUE   FALSE
-## 125     TRUE    TRUE
-## 126     TRUE    TRUE
-## 128     TRUE    TRUE
-## 129     TRUE    TRUE
-## 133     TRUE    TRUE
-## 135     TRUE    TRUE
-## 137     TRUE    TRUE
-## 139     TRUE    TRUE
-## 140     TRUE    TRUE
-## 148     TRUE    TRUE
-## 152     TRUE    TRUE
-## 154     TRUE    TRUE
-## 155     TRUE    TRUE
-## 156     TRUE    TRUE
-## 158     TRUE   FALSE
-## 161     TRUE    TRUE
-## 162     TRUE    TRUE
-## 163     TRUE    TRUE
-## 165     TRUE    TRUE
-## 166     TRUE    TRUE
-## 167     TRUE    TRUE
-## 168     TRUE   FALSE
-## 172     TRUE    TRUE
-## 175     TRUE    TRUE
-## 176     TRUE    TRUE
-## 177     TRUE    TRUE
-## 178     TRUE    TRUE
-## 179     TRUE    TRUE
-## 184     TRUE    TRUE
-## 185     TRUE   FALSE
-## 186     TRUE   FALSE
-## 188     TRUE   FALSE
-## 191     TRUE   FALSE
-## 192     TRUE    TRUE
-## 193     TRUE   FALSE
-## 195     TRUE    TRUE
-## 196     TRUE    TRUE
-## 197     TRUE    TRUE
-## 199     TRUE    TRUE
-## 201     TRUE    TRUE
-## 203     TRUE   FALSE
-## 204     TRUE   FALSE
-## 205     TRUE    TRUE
-## 207     TRUE    TRUE
-## 208     TRUE    TRUE
-## 209     TRUE    TRUE
-## 212     TRUE    TRUE
-## 213     TRUE    TRUE
-## 215     TRUE   FALSE
-## 216     TRUE    TRUE
-## 218     TRUE   FALSE
-## 219     TRUE   FALSE
-## 221     TRUE    TRUE
-## 229     TRUE    TRUE
-## 230     TRUE   FALSE
-## 231     TRUE    TRUE
-## 234     TRUE    TRUE
-## 235     TRUE   FALSE
-## 236     TRUE   FALSE
-## 238     TRUE    TRUE
-## 242     TRUE   FALSE
-## 243     TRUE    TRUE
-## 245     TRUE    TRUE
-## 246     TRUE    TRUE
-## 247     TRUE    TRUE
-## 248     TRUE    TRUE
-## 249     TRUE    TRUE
-## 251     TRUE    TRUE
-## 253     TRUE    TRUE
-## 254     TRUE    TRUE
-## 255     TRUE    TRUE
-## 257     TRUE   FALSE
-## 258     TRUE    TRUE
-## 259     TRUE   FALSE
-## 260     TRUE   FALSE
-## 262     TRUE    TRUE
-## 263     TRUE    TRUE
-## 264     TRUE   FALSE
-## 265     TRUE   FALSE
-## 266     TRUE    TRUE
-## 268     TRUE    TRUE
-## 273     TRUE   FALSE
-## 274     TRUE   FALSE
-## 275     TRUE    TRUE
-## 277     TRUE    TRUE
-## 278     TRUE    TRUE
-## 279     TRUE    TRUE
-## 281     TRUE    TRUE
-## 284     TRUE    TRUE
-## 285     TRUE   FALSE
-## 286     TRUE    TRUE
-## 288     TRUE    TRUE
-## 289     TRUE    TRUE
-## 290     TRUE    TRUE
-## 291     TRUE    TRUE
-## 293     TRUE    TRUE
-## 297     TRUE    TRUE
-## 298     TRUE    TRUE
-## 299     TRUE    TRUE
-## 300     TRUE    TRUE
-## 301     TRUE    TRUE
-## 303     TRUE   FALSE
-## 304     TRUE    TRUE
-## 305     TRUE    TRUE
-## 309     TRUE   FALSE
-## 310     TRUE    TRUE
-## 314     TRUE   FALSE
-## 315     TRUE    TRUE
-## 321     TRUE   FALSE
-## 322     TRUE   FALSE
-## 325     TRUE    TRUE
-## 328     TRUE   FALSE
-## 330     TRUE   FALSE
-## 331     TRUE    TRUE
-## 332     TRUE   FALSE
-## 333     TRUE   FALSE
-## 335     TRUE   FALSE
-## 339     TRUE    TRUE
-## 342     TRUE    TRUE
-## 349     TRUE    TRUE
-## 350     TRUE   FALSE
-## 351     TRUE    TRUE
-## 352     TRUE   FALSE
-## 354     TRUE    TRUE
-## 358     TRUE    TRUE
-## 359     TRUE   FALSE
-## 360     TRUE    TRUE
-## 362     TRUE    TRUE
-## 364     TRUE    TRUE
-## 366     TRUE   FALSE
-## 367     TRUE    TRUE
-## 368     TRUE    TRUE
-## 369     TRUE    TRUE
-## 372     TRUE    TRUE
-## 374     TRUE    TRUE
-## 375     TRUE    TRUE
-## 377     TRUE    TRUE
-## 378     TRUE    TRUE
-## 379     TRUE    TRUE
-## 386     TRUE    TRUE
-## 388     TRUE    TRUE
-## 389     TRUE   FALSE
-## 390     TRUE    TRUE
-## 395     TRUE   FALSE
-## 396     TRUE    TRUE
-## 401     TRUE    TRUE
-## 402     TRUE    TRUE
-## 403     TRUE   FALSE
-## 404     TRUE   FALSE
-## 405     TRUE    TRUE
-## 406     TRUE    TRUE
-## 409     TRUE   FALSE
-## 410     TRUE    TRUE
-## 411     TRUE    TRUE
-## 414     TRUE    TRUE
-## 416     TRUE    TRUE
-## 419     TRUE   FALSE
-## 421     TRUE    TRUE
-## 424     TRUE    TRUE
-## 425     TRUE    TRUE
-## 427     TRUE   FALSE
-## 428     TRUE    TRUE
-## 429     TRUE    TRUE
-## 430     TRUE    TRUE
-## 433     TRUE    TRUE
-## 439     TRUE    TRUE
-## 441     TRUE   FALSE
-## 442     TRUE    TRUE
-## 443     TRUE    TRUE
-## 444     TRUE   FALSE
-## 449     TRUE   FALSE
-## 451     TRUE    TRUE
-## 452     TRUE    TRUE
-## 453     TRUE   FALSE
-## 456     TRUE    TRUE
-## 459     TRUE   FALSE
-## 461     TRUE   FALSE
-## 462     TRUE    TRUE
-## 464     TRUE    TRUE
-## 465     TRUE   FALSE
-## 468     TRUE    TRUE
-## 469     TRUE   FALSE
-## 473     TRUE    TRUE
-## 474     TRUE    TRUE
-## 475     TRUE   FALSE
-## 476     TRUE    TRUE
-## 477     TRUE    TRUE
-## 480     TRUE   FALSE
-## 481     TRUE    TRUE
-## 482     TRUE   FALSE
-## 485     TRUE   FALSE
-## 486     TRUE    TRUE
-## 487     TRUE   FALSE
-## 488     TRUE   FALSE
-## 489     TRUE    TRUE
-## 490     TRUE   FALSE
-## 493     TRUE    TRUE
-## 494     TRUE    TRUE
-## 496     TRUE   FALSE
-## 502     TRUE    TRUE
-## 503     TRUE    TRUE
-## 505     TRUE   FALSE
-## 508     TRUE   FALSE
-## 509     TRUE    TRUE
-## 512     TRUE   FALSE
-## 513     TRUE    TRUE
-## 514     TRUE   FALSE
-## 515     TRUE   FALSE
-## 516     TRUE    TRUE
-## 517     TRUE    TRUE
-## 518     TRUE   FALSE
-## 519     TRUE   FALSE
-## 521     TRUE    TRUE
-## 524     TRUE   FALSE
-## 526     TRUE    TRUE
-## 527     TRUE   FALSE
-## 529     TRUE    TRUE
-## 531     TRUE   FALSE
-## 532     TRUE   FALSE
-## 533     TRUE   FALSE
-## 535     TRUE   FALSE
-## 538     TRUE    TRUE
-## 540     TRUE    TRUE
-## 541     TRUE   FALSE
-## 543     TRUE   FALSE
-## 544     TRUE   FALSE
-## 545     TRUE    TRUE
-## 546     TRUE   FALSE
-## 547     TRUE    TRUE
-## 548     TRUE    TRUE
-## 549     TRUE    TRUE
-## 551     TRUE   FALSE
-## 552     TRUE    TRUE
-## 556     TRUE   FALSE
-## 558     TRUE    TRUE
-## 560     TRUE   FALSE
-## 562     TRUE   FALSE
-## 564     TRUE    TRUE
-## 566     TRUE   FALSE
-## 568     TRUE    TRUE
-## 569     TRUE    TRUE
-## 570     TRUE    TRUE
-## 571     TRUE   FALSE
-## 574     TRUE    TRUE
-## 577     TRUE   FALSE
-## 578     TRUE    TRUE
-## 579     TRUE    TRUE
-## 580     TRUE   FALSE
-## 581     TRUE    TRUE
-## 583     TRUE    TRUE
-## 584     TRUE    TRUE
-## 586     TRUE    TRUE
-## 587     TRUE    TRUE
-## 588     TRUE    TRUE
-## 589     TRUE   FALSE
-## 590     TRUE    TRUE
-## 592     TRUE   FALSE
-## 593     TRUE    TRUE
-## 594     TRUE   FALSE
-## 595     TRUE   FALSE
-## 597     TRUE   FALSE
-## 599     TRUE   FALSE
-## 603     TRUE   FALSE
-## 605     TRUE    TRUE
-## 607     TRUE    TRUE
-## 610     TRUE   FALSE
-## 611     TRUE    TRUE
-## 615     TRUE    TRUE
-## 617     TRUE    TRUE
-## 618     TRUE   FALSE
-## 621     TRUE   FALSE
-## 623     TRUE    TRUE
-## 624     TRUE   FALSE
-## 625     TRUE   FALSE
-## 627     TRUE    TRUE
-## 629     TRUE    TRUE
-## 630     TRUE   FALSE
-## 631     TRUE   FALSE
-## 632     TRUE    TRUE
-## 633     TRUE   FALSE
-## 634     TRUE    TRUE
-## 635     TRUE   FALSE
-## 636     TRUE    TRUE
-## 638     TRUE    TRUE
-## 639     TRUE    TRUE
-## 640     TRUE   FALSE
-## 641     TRUE    TRUE
-## 644     TRUE   FALSE
-## 645     TRUE    TRUE
-## 647     TRUE    TRUE
-## 649     TRUE    TRUE
-## 650     TRUE    TRUE
-## 654     TRUE   FALSE
-## 657     TRUE    TRUE
-## 662     TRUE   FALSE
-## 664     TRUE    TRUE
-## 665     TRUE   FALSE
-## 668     TRUE    TRUE
-## 669     TRUE    TRUE
-## 671     TRUE    TRUE
-## 672     TRUE    TRUE
-## 673     TRUE   FALSE
-## 674     TRUE    TRUE
-## 675     TRUE    TRUE
-## 676     TRUE   FALSE
-## 677     TRUE   FALSE
-## 679     TRUE   FALSE
-## 680     TRUE   FALSE
-## 681     TRUE    TRUE
-## 682     TRUE    TRUE
-## 688     TRUE    TRUE
-## 691     TRUE    TRUE
-## 694     TRUE   FALSE
-## 697     TRUE    TRUE
-## 698     TRUE    TRUE
-## 699     TRUE    TRUE
-## 700     TRUE    TRUE
-## 702     TRUE    TRUE
-## 703     TRUE    TRUE
-## 704     TRUE    TRUE
-## 705     TRUE    TRUE
-## 706     TRUE   FALSE
-## 708     TRUE    TRUE
-## 709     TRUE   FALSE
-## 710     TRUE    TRUE
-## 711     TRUE   FALSE
-## 714     TRUE   FALSE
-## 715     TRUE    TRUE
-## 717     TRUE   FALSE
-## 719     TRUE    TRUE
-## 720     TRUE   FALSE
-## 722     TRUE    TRUE
-## 723     TRUE    TRUE
-## 724     TRUE   FALSE
-## 728     TRUE    TRUE
-## 729     TRUE   FALSE
-## 731     TRUE    TRUE
-## 732     TRUE    TRUE
-## 738     TRUE   FALSE
-## 739     TRUE    TRUE
-## 744     TRUE    TRUE
-## 746     TRUE   FALSE
-## 748     TRUE    TRUE
-## 749     TRUE    TRUE
-## 750     TRUE   FALSE
-## 751     TRUE   FALSE
-## 754     TRUE    TRUE
-## 758     TRUE   FALSE
-## 760     TRUE   FALSE
-## 761     TRUE   FALSE
-## 763     TRUE    TRUE
-## 764     TRUE    TRUE
-## 767     TRUE    TRUE
-## 768     TRUE    TRUE
-## 772     TRUE   FALSE
-## 774     TRUE   FALSE
-## 777     TRUE    TRUE
-## 779     TRUE   FALSE
-## 780     TRUE    TRUE
-## 781     TRUE    TRUE
-## 782     TRUE    TRUE
-## 784     TRUE    TRUE
-## 785     TRUE   FALSE
-## 786     TRUE    TRUE
-## 788     TRUE   FALSE
-## 790     TRUE    TRUE
-## 792     TRUE   FALSE
-## 793     TRUE    TRUE
-## 794     TRUE   FALSE
-## 796     TRUE    TRUE
-## 798     TRUE   FALSE
-## 799     TRUE   FALSE
-## 802     TRUE    TRUE
-## 805     TRUE    TRUE
-## 806     TRUE    TRUE
-## 808     TRUE   FALSE
-## 811     TRUE    TRUE
-## 814     TRUE   FALSE
-## 815     TRUE   FALSE
-## 816     TRUE    TRUE
-## 817     TRUE    TRUE
-## 821     TRUE   FALSE
-## 822     TRUE    TRUE
-## 825     TRUE    TRUE
-## 826     TRUE   FALSE
-## 827     TRUE    TRUE
-## 828     TRUE    TRUE
-## 829     TRUE    TRUE
-## 830     TRUE    TRUE
-## 832     TRUE    TRUE
-## 834     TRUE    TRUE
-## 835     TRUE   FALSE
-## 836     TRUE   FALSE
-## 839     TRUE    TRUE
-## 841     TRUE   FALSE
-## 843     TRUE   FALSE
-## 844     TRUE    TRUE
-## 845     TRUE    TRUE
-## 848     TRUE    TRUE
-## 849     TRUE    TRUE
-## 851     TRUE    TRUE
-## 852     TRUE    TRUE
-## 853     TRUE    TRUE
-## 854     TRUE    TRUE
-## 856     TRUE    TRUE
-## 857     TRUE   FALSE
-## 858     TRUE   FALSE
-## 860     TRUE    TRUE
-## 861     TRUE    TRUE
-## 862     TRUE   FALSE
-## 863     TRUE    TRUE
-## 867     TRUE   FALSE
-## 868     TRUE    TRUE
-## 869     TRUE   FALSE
-## 870     TRUE    TRUE
-## 871     TRUE   FALSE
-## 872     TRUE   FALSE
-## 875     TRUE    TRUE
-## 877     TRUE    TRUE
-## 879     TRUE    TRUE
-## 880     TRUE   FALSE
-## 881     TRUE    TRUE
-## 884     TRUE    TRUE
-## 886     TRUE    TRUE
-## 887     TRUE    TRUE
-## 889     TRUE   FALSE
-## 891     TRUE    TRUE
-## 893     TRUE    TRUE
-## 894     TRUE    TRUE
-## 895     TRUE   FALSE
-## 897     TRUE    TRUE
-## 899     TRUE   FALSE
-## 902     TRUE   FALSE
-## 904     TRUE   FALSE
-## 906     TRUE    TRUE
-## 907     TRUE    TRUE
-## 909     TRUE    TRUE
-## 910     TRUE    TRUE
-## 912     TRUE    TRUE
-## 913     TRUE    TRUE
-## 914     TRUE    TRUE
-## 915     TRUE    TRUE
-## 917     TRUE    TRUE
-## 918     TRUE   FALSE
-## 919     TRUE    TRUE
-## 921     TRUE    TRUE
-## 925     TRUE    TRUE
-## 928     TRUE    TRUE
-## 929     TRUE    TRUE
-## 932     TRUE   FALSE
-## 933     TRUE    TRUE
-## 934     TRUE    TRUE
-## 938     TRUE   FALSE
-## 940     TRUE    TRUE
-## 944     TRUE    TRUE
-## 945     TRUE   FALSE
-## 948     TRUE    TRUE
-## 952     TRUE   FALSE
-## 954     TRUE   FALSE
-## 955     TRUE    TRUE
-## 956     TRUE    TRUE
-## 957     TRUE    TRUE
-## 959     TRUE    TRUE
-## 960     TRUE    TRUE
-## 962     TRUE    TRUE
-## 964     TRUE   FALSE
-## 965     TRUE    TRUE
-## 968     TRUE    TRUE
-## 969     TRUE   FALSE
-## 970     TRUE    TRUE
-## 971     TRUE   FALSE
-## 972     TRUE    TRUE
-## 974     TRUE    TRUE
-## 975     TRUE    TRUE
-## 976     TRUE   FALSE
-## 977     TRUE    TRUE
-## 979     TRUE    TRUE
-## 980     TRUE    TRUE
-## 981     TRUE    TRUE
-## 983     TRUE    TRUE
-## 986     TRUE   FALSE
-## 987     TRUE    TRUE
-## 989     TRUE   FALSE
-## 993     TRUE   FALSE
-## 997     TRUE    TRUE
-## 998     TRUE    TRUE
-## 999     TRUE   FALSE
-## 1000    TRUE    TRUE
-## 1001    TRUE   FALSE
-## 1003    TRUE    TRUE
-## 1004    TRUE   FALSE
-## 1010    TRUE    TRUE
-## 1011    TRUE    TRUE
-## 1017    TRUE   FALSE
-## 1018    TRUE    TRUE
-## 1019    TRUE    TRUE
-## 1020    TRUE    TRUE
-## 1022    TRUE    TRUE
-## 1025    TRUE    TRUE
-## 1027    TRUE    TRUE
-## 1028    TRUE    TRUE
-## 1030    TRUE    TRUE
-## 1033    TRUE    TRUE
-## 1035    TRUE    TRUE
-## 1036    TRUE    TRUE
-## 1037    TRUE    TRUE
-## 1040    TRUE    TRUE
-## 1042    TRUE   FALSE
-## 1046    TRUE    TRUE
-## 1049    TRUE   FALSE
-## 1051    TRUE    TRUE
-## 1054    TRUE    TRUE
-## 1056    TRUE    TRUE
-## 1058    TRUE    TRUE
-## 1060    TRUE   FALSE
-## 1065    TRUE   FALSE
-## 1066    TRUE    TRUE
-## 1069    TRUE    TRUE
-## 1070    TRUE    TRUE
-## 1072    TRUE   FALSE
-## 1073    TRUE    TRUE
-## 1074    TRUE    TRUE
-## 1076    TRUE   FALSE
-## 1077    TRUE    TRUE
-## 1080    TRUE    TRUE
-## 1082    TRUE    TRUE
-## 1083    TRUE    TRUE
-## 1084    TRUE    TRUE
-## 1086    TRUE   FALSE
-## 1089    TRUE    TRUE
-## 1090    TRUE   FALSE
-## 1093    TRUE    TRUE
-## 1094    TRUE    TRUE
-## 1098    TRUE    TRUE
-## 1099    TRUE   FALSE
-## 1100    TRUE    TRUE
-## 1103    TRUE    TRUE
-## 1106    TRUE    TRUE
-## 1109    TRUE    TRUE
-## 1111    TRUE    TRUE
-## 1115    TRUE   FALSE
-## 1116    TRUE    TRUE
-## 1117    TRUE   FALSE
-## 1120    TRUE    TRUE
-## 1121    TRUE   FALSE
-## 1122    TRUE    TRUE
-## 1124    TRUE    TRUE
-## 1125    TRUE   FALSE
-## 1130    TRUE    TRUE
-## 1131    TRUE    TRUE
-## 1134    TRUE   FALSE
-## 1136    TRUE   FALSE
-## 1137    TRUE    TRUE
-## 1138    TRUE    TRUE
-## 1139    TRUE   FALSE
-## 1141    TRUE    TRUE
-## 1142    TRUE    TRUE
-## 1143    TRUE    TRUE
-## 1149    TRUE    TRUE
-## 1150    TRUE   FALSE
-## 1151    TRUE   FALSE
-## 1155    TRUE    TRUE
-## 1158    TRUE    TRUE
-## 1160    TRUE    TRUE
-## 1162    TRUE    TRUE
-## 1163    TRUE    TRUE
-## 1170    TRUE    TRUE
-## 1171    TRUE    TRUE
-## 1172    TRUE    TRUE
-## 1175    TRUE    TRUE
-## 1176    TRUE   FALSE
-## 1178    TRUE    TRUE
-## 1180    TRUE    TRUE
-## 1181    TRUE    TRUE
-## 1183    TRUE    TRUE
-## 1184    TRUE    TRUE
-## 1187    TRUE    TRUE
-## 1193    TRUE   FALSE
-## 1194    TRUE    TRUE
-## 1195    TRUE   FALSE
-## 1196    TRUE    TRUE
-## 1197    TRUE    TRUE
-## 1199    TRUE   FALSE
-## 1200    TRUE   FALSE
-## 1201    TRUE    TRUE
-## 1202    TRUE   FALSE
-## 1205    TRUE    TRUE
-## 1206    TRUE   FALSE
-## 1207    TRUE    TRUE
-## 1210    TRUE    TRUE
-## 1211    TRUE    TRUE
-## 1214    TRUE    TRUE
-## 1217    TRUE    TRUE
-## 1218    TRUE    TRUE
-## 1223    TRUE   FALSE
-## 1227    TRUE    TRUE
-## 1229    TRUE    TRUE
-## 1231    TRUE    TRUE
-## 1233    TRUE    TRUE
-## 1235    TRUE   FALSE
-## 1237    TRUE   FALSE
-## 1240    TRUE    TRUE
-## 1244    TRUE    TRUE
-## 1246    TRUE   FALSE
-## 1247    TRUE   FALSE
-## 1248    TRUE    TRUE
-## 1251    TRUE    TRUE
-## 1252    TRUE   FALSE
-## 1253    TRUE    TRUE
-## 1256    TRUE    TRUE
-## 1260    TRUE   FALSE
-## 1264    TRUE    TRUE
-## 1265    TRUE    TRUE
-## 1267    TRUE    TRUE
-## 1269    TRUE   FALSE
-## 1271    TRUE   FALSE
-## 1272    TRUE    TRUE
-## 1274    TRUE    TRUE
-## 1276    TRUE    TRUE
-## 1277    TRUE    TRUE
-## 1280    TRUE    TRUE
-## 1281    TRUE    TRUE
-## 1287    TRUE    TRUE
-## 1288    TRUE    TRUE
-## 1289    TRUE    TRUE
-## 1292    TRUE    TRUE
-## 1294    TRUE    TRUE
-## 1295    TRUE    TRUE
-## 1298    TRUE    TRUE
-## 1299    TRUE    TRUE
-## 1300    TRUE    TRUE
-## 1301    TRUE    TRUE
-## 1302    TRUE   FALSE
-## 1304    TRUE    TRUE
-## 1305    TRUE    TRUE
-## 1306    TRUE    TRUE
-## 1309    TRUE    TRUE
-## 1310    TRUE   FALSE
-## 1311    TRUE    TRUE
-## 1312    TRUE   FALSE
-## 1316    TRUE   FALSE
-## 1317    TRUE    TRUE
-## 1318    TRUE    TRUE
-## 1320    TRUE    TRUE
-## 1323    TRUE    TRUE
-## 1325    TRUE    TRUE
-## 1327    TRUE    TRUE
-## 1328    TRUE    TRUE
-## 1329    TRUE    TRUE
-## 1331    TRUE   FALSE
-## 1332    TRUE   FALSE
-## 1333    TRUE    TRUE
-## 1335    TRUE   FALSE
-## 1337    TRUE   FALSE
-## 1338    TRUE   FALSE
-## 1341    TRUE   FALSE
-## 1345    TRUE   FALSE
-## 1346    TRUE    TRUE
-## 1347    TRUE    TRUE
-## 1351    TRUE    TRUE
-## 1353    TRUE    TRUE
-## 1355    TRUE    TRUE
-## 1357    TRUE    TRUE
-## 1358    TRUE    TRUE
-## 1360    TRUE   FALSE
-## 1362    TRUE   FALSE
-## 1363    TRUE   FALSE
-## 1365    TRUE    TRUE
-## 1366    TRUE    TRUE
-## 1367    TRUE   FALSE
-## 1373    TRUE    TRUE
-## 1375    TRUE   FALSE
-## 1376    TRUE    TRUE
-## 1378    TRUE    TRUE
-## 1381    TRUE    TRUE
-## 1382    TRUE    TRUE
-## 1383    TRUE    TRUE
-## 1384    TRUE    TRUE
-## 1386    TRUE    TRUE
-## 1388    TRUE    TRUE
-## 1389    TRUE    TRUE
-## 1390    TRUE    TRUE
-## 1391    TRUE   FALSE
-## 1392    TRUE    TRUE
-## 1394    TRUE    TRUE
-## 1396    TRUE    TRUE
-## 1398    TRUE   FALSE
-## 1400    TRUE   FALSE
-## 1402    TRUE    TRUE
-## 1403    TRUE   FALSE
-## 1406    TRUE    TRUE
-## 1407    TRUE    TRUE
-## 1408    TRUE    TRUE
-## 1410    TRUE    TRUE
-## 1412    TRUE   FALSE
-## 1414    TRUE    TRUE
-## 1416    TRUE   FALSE
-## 1417    TRUE   FALSE
-## 1420    TRUE    TRUE
-## 1424    TRUE   FALSE
-## 1428    TRUE    TRUE
-## 1429    TRUE   FALSE
-## 1433    TRUE    TRUE
-## 1436    TRUE    TRUE
-## 1439    TRUE   FALSE
-## 1440    TRUE   FALSE
-## 1441    TRUE    TRUE
-## 1444    TRUE    TRUE
-## 1445    TRUE    TRUE
-## 1447    TRUE    TRUE
-## 1450    TRUE    TRUE
-## 1451    TRUE    TRUE
-## 1453    TRUE    TRUE
-## 1455    TRUE    TRUE
-## 1457    TRUE    TRUE
-## 1459    TRUE   FALSE
-## 1460    TRUE   FALSE
-## 1463    TRUE    TRUE
-## 1473    TRUE    TRUE
-## 1474    TRUE    TRUE
-## 1475    TRUE   FALSE
-## 1476    TRUE   FALSE
-## 1479    TRUE    TRUE
-## 1481    TRUE   FALSE
-## 1483    TRUE    TRUE
-## 1484    TRUE    TRUE
-## 1485    TRUE   FALSE
-## 1486    TRUE    TRUE
-## 1488    TRUE   FALSE
-## 1491    TRUE    TRUE
-## 1492    TRUE   FALSE
-## 1493    TRUE    TRUE
-## 1494    TRUE    TRUE
-## 1495    TRUE    TRUE
-## 1496    TRUE    TRUE
-## 1498    TRUE    TRUE
-## 1500    TRUE    TRUE
-## 1502    TRUE    TRUE
-## 1503    TRUE    TRUE
-## 1506    TRUE    TRUE
-## 1507    TRUE    TRUE
-## 1511    TRUE    TRUE
-## 1512    TRUE   FALSE
-## 1514    TRUE    TRUE
-## 1517    TRUE    TRUE
-## 1519    TRUE   FALSE
-## 1521    TRUE   FALSE
-## 1523    TRUE    TRUE
-## 1525    TRUE   FALSE
-## 1526    TRUE    TRUE
-## 1531    TRUE    TRUE
-## 1532    TRUE   FALSE
-## 1533    TRUE    TRUE
-## 1535    TRUE    TRUE
-## 1536    TRUE    TRUE
-## 1537    TRUE    TRUE
-## 1538    TRUE   FALSE
-## 1539    TRUE    TRUE
-## 1540    TRUE    TRUE
-## 1541    TRUE    TRUE
-## 1543    TRUE    TRUE
-## 1544    TRUE    TRUE
-## 1546    TRUE   FALSE
-## 1547    TRUE    TRUE
-## 1548    TRUE    TRUE
-## 1550    TRUE    TRUE
-## 1552    TRUE    TRUE
-## 1556    TRUE   FALSE
-## 1557    TRUE    TRUE
-## 1558    TRUE    TRUE
-## 1560    TRUE    TRUE
-## 1565    TRUE    TRUE
-## 1569    TRUE    TRUE
-## 1570    TRUE    TRUE
-## 1571    TRUE   FALSE
-## 1574    TRUE    TRUE
-## 1576    TRUE   FALSE
-## 1578    TRUE   FALSE
-## 1582    TRUE    TRUE
-## 1585    TRUE    TRUE
-## 1587    TRUE    TRUE
-## 1588    TRUE    TRUE
-## 1590    TRUE    TRUE
-## 1592    TRUE    TRUE
-## 1593    TRUE    TRUE
-## 1595    TRUE   FALSE
-## 1596    TRUE    TRUE
-## 1597    TRUE    TRUE
-## 1599    TRUE   FALSE
-## 1602    TRUE   FALSE
-## 1605    TRUE    TRUE
-## 1606    TRUE    TRUE
-## 1607    TRUE    TRUE
-## 1608    TRUE   FALSE
-## 1609    TRUE   FALSE
-## 1610    TRUE    TRUE
-## 1611    TRUE   FALSE
-## 1614    TRUE    TRUE
-## 1615    TRUE    TRUE
-## 1618    TRUE    TRUE
-## 1619    TRUE   FALSE
-## 1622    TRUE    TRUE
-## 1625    TRUE   FALSE
-## 1626    TRUE    TRUE
-## 1630    TRUE    TRUE
-## 1631    TRUE   FALSE
-## 1633    TRUE    TRUE
-## 1635    TRUE    TRUE
-## 1636    TRUE   FALSE
-## 1637    TRUE    TRUE
-## 1639    TRUE    TRUE
-## 1640    TRUE    TRUE
-## 1642    TRUE    TRUE
-## 1643    TRUE    TRUE
-## 1644    TRUE    TRUE
-## 1646    TRUE    TRUE
-## 1647    TRUE    TRUE
-## 1651    TRUE    TRUE
-## 1652    TRUE    TRUE
-## 1656    TRUE    TRUE
-## 1657    TRUE    TRUE
-## 1659    TRUE    TRUE
-## 1660    TRUE    TRUE
-## 1664    TRUE    TRUE
-## 1665    TRUE    TRUE
-## 1667    TRUE   FALSE
-## 1670    TRUE   FALSE
-## 1671    TRUE    TRUE
-## 1674    TRUE    TRUE
-## 1675    TRUE    TRUE
-## 1676    TRUE    TRUE
-## 1677    TRUE    TRUE
-## 1678    TRUE    TRUE
-## 1679    TRUE    TRUE
-## 1681    TRUE   FALSE
-## 1684    TRUE    TRUE
-## 1685    TRUE   FALSE
-## 1686    TRUE   FALSE
-## 1688    TRUE    TRUE
-## 1689    TRUE   FALSE
-## 1690    TRUE    TRUE
-## 1691    TRUE   FALSE
-## 1693    TRUE   FALSE
-## 1695    TRUE    TRUE
-## 1696    TRUE    TRUE
-## 1697    TRUE   FALSE
-## 1698    TRUE    TRUE
-## 1699    TRUE   FALSE
-## 1700    TRUE    TRUE
-## 1701    TRUE   FALSE
-## 1702    TRUE    TRUE
-## 1705    TRUE    TRUE
-## 1706    TRUE    TRUE
-## 1708    TRUE    TRUE
-## 1709    TRUE    TRUE
-## 1710    TRUE    TRUE
-## 1711    TRUE   FALSE
-## 1712    TRUE   FALSE
-## 1713    TRUE    TRUE
-## 1715    TRUE    TRUE
-## 1717    TRUE    TRUE
-## 1718    TRUE    TRUE
-## 1720    TRUE    TRUE
-## 1721    TRUE   FALSE
-## 1722    TRUE    TRUE
-## 1723    TRUE    TRUE
-## 1724    TRUE    TRUE
-## 1726    TRUE    TRUE
-## 1729    TRUE   FALSE
-## 1732    TRUE    TRUE
-## 1734    TRUE   FALSE
-## 1735    TRUE    TRUE
-## 1737    TRUE    TRUE
-## 1739    TRUE   FALSE
-## 1741    TRUE    TRUE
-## 1746    TRUE    TRUE
-## 1747    TRUE    TRUE
-## 1748    TRUE    TRUE
-## 1749    TRUE   FALSE
-## 1752    TRUE    TRUE
-## 1753    TRUE    TRUE
-## 1756    TRUE    TRUE
-## 1759    TRUE    TRUE
-## 1760    TRUE    TRUE
-## 1762    TRUE    TRUE
-## 1763    TRUE   FALSE
-## 1764    TRUE    TRUE
-## 1765    TRUE    TRUE
-## 1766    TRUE   FALSE
-## 1767    TRUE   FALSE
-## 1769    TRUE    TRUE
-## 1770    TRUE    TRUE
-## 1772    TRUE    TRUE
-## 1774    TRUE   FALSE
-## 1775    TRUE   FALSE
-## 1776    TRUE    TRUE
-## 1778    TRUE   FALSE
-## 1779    TRUE    TRUE
-## 1782    TRUE    TRUE
-## 1786    TRUE    TRUE
-## 1789    TRUE    TRUE
-## 1790    TRUE    TRUE
-## 1791    TRUE    TRUE
-## 1792    TRUE    TRUE
-## 1793    TRUE    TRUE
-## 1794    TRUE   FALSE
-## 1797    TRUE    TRUE
-## 1798    TRUE    TRUE
-## 1799    TRUE    TRUE
-## 1803    TRUE    TRUE
-## 1804    TRUE    TRUE
-## 1805    TRUE   FALSE
-## 1807    TRUE    TRUE
-## 1808    TRUE    TRUE
-## 1813    TRUE   FALSE
-## 1815    TRUE   FALSE
-## 1819    TRUE    TRUE
-## 1822    TRUE    TRUE
-## 1824    TRUE    TRUE
-## 1825    TRUE    TRUE
-## 1826    TRUE    TRUE
-## 1828    TRUE    TRUE
-## 1829    TRUE    TRUE
-## 1831    TRUE    TRUE
-## 1833    TRUE    TRUE
-## 1834    TRUE    TRUE
-## 1835    TRUE   FALSE
-## 1838    TRUE   FALSE
-## 1840    TRUE    TRUE
-## 1841    TRUE    TRUE
-## 1842    TRUE   FALSE
-## 1844    TRUE    TRUE
-## 1847    TRUE    TRUE
-## 1848    TRUE    TRUE
-## 1850    TRUE    TRUE
-## 1851    TRUE    TRUE
-## 1852    TRUE   FALSE
-## 1853    TRUE   FALSE
-## 1855    TRUE    TRUE
-## 1858    TRUE    TRUE
-## 1860    TRUE    TRUE
-## 1864    TRUE   FALSE
-## 1866    TRUE    TRUE
-## 1867    TRUE    TRUE
-## 1868    TRUE    TRUE
-## 1869    TRUE    TRUE
-## 1871    TRUE   FALSE
-## 1872    TRUE   FALSE
-## 1873    TRUE    TRUE
-## 1875    TRUE    TRUE
-## 1879    TRUE    TRUE
-## 1881    TRUE   FALSE
-## 1883    TRUE    TRUE
-## 1885    TRUE    TRUE
-## 1886    TRUE   FALSE
-## 1887    TRUE    TRUE
-## 1889    TRUE    TRUE
-## 1890    TRUE    TRUE
-## 1891    TRUE    TRUE
-## 1892    TRUE   FALSE
-## 1894    TRUE    TRUE
-## 1895    TRUE    TRUE
-## 1897    TRUE    TRUE
-## 1898    TRUE   FALSE
-## 1901    TRUE    TRUE
-## 1902    TRUE    TRUE
-## 1903    TRUE    TRUE
-## 1907    TRUE    TRUE
-## 1909    TRUE    TRUE
-## 1910    TRUE    TRUE
-## 1911    TRUE    TRUE
-## 1912    TRUE   FALSE
-## 1917    TRUE    TRUE
-## 1919    TRUE    TRUE
-## 1920    TRUE    TRUE
-## 1921    TRUE   FALSE
-## 1922    TRUE   FALSE
-## 1925    TRUE    TRUE
-## 1926    TRUE    TRUE
-## 1927    TRUE    TRUE
-## 1928    TRUE    TRUE
-## 1930    TRUE    TRUE
-## 1935    TRUE   FALSE
-## 1936    TRUE    TRUE
-## 1937    TRUE   FALSE
-## 1938    TRUE    TRUE
-## 1939    TRUE   FALSE
-## 1941    TRUE    TRUE
-## 1942    TRUE    TRUE
-## 1943    TRUE    TRUE
-## 1948    TRUE    TRUE
-## 1950    TRUE    TRUE
-## 1952    TRUE    TRUE
-## 1959    TRUE    TRUE
-## 1961    TRUE    TRUE
-## 1968    TRUE    TRUE
-## 1971    TRUE    TRUE
-## 1972    TRUE    TRUE
-## 1973    TRUE    TRUE
-## 1975    TRUE   FALSE
-## 1976    TRUE    TRUE
-## 1977    TRUE    TRUE
-## 1983    TRUE    TRUE
-## 1984    TRUE    TRUE
-## 1987    TRUE   FALSE
-## 1989    TRUE    TRUE
-## 1990    TRUE   FALSE
-## 1991    TRUE    TRUE
-## 1993    TRUE   FALSE
-## 1994    TRUE    TRUE
-## 1998    TRUE    TRUE
-## 2000    TRUE    TRUE
-## 2004    TRUE    TRUE
-## 2009    TRUE    TRUE
-## 2010    TRUE   FALSE
-## 2012    TRUE    TRUE
-## 2013    TRUE    TRUE
-## 2015    TRUE    TRUE
-## 2016    TRUE   FALSE
-## 2017    TRUE    TRUE
-## 2018    TRUE    TRUE
-## 2019    TRUE    TRUE
-## 2022    TRUE    TRUE
-## 2023    TRUE    TRUE
-## 2024    TRUE    TRUE
-## 2025    TRUE    TRUE
-## 2027    TRUE    TRUE
-## 2028    TRUE   FALSE
-## 2029    TRUE    TRUE
-## 2032    TRUE    TRUE
-## 2033    TRUE    TRUE
-## 2034    TRUE    TRUE
-## 2035    TRUE    TRUE
-## 2036    TRUE    TRUE
-## 2039    TRUE   FALSE
-## 2040    TRUE   FALSE
-## 2041    TRUE    TRUE
-## 2042    TRUE   FALSE
-## 2044    TRUE   FALSE
-## 2045    TRUE    TRUE
-## 2046    TRUE    TRUE
-## 2048    TRUE    TRUE
-## 2049    TRUE    TRUE
-## 2053    TRUE    TRUE
-## 2059    TRUE    TRUE
-## 2060    TRUE    TRUE
-## 2061    TRUE    TRUE
-## 2063    TRUE    TRUE
-## 2064    TRUE    TRUE
-## 2067    TRUE    TRUE
-## 2070    TRUE   FALSE
-## 2072    TRUE    TRUE
-## 2073    TRUE    TRUE
-## 2074    TRUE    TRUE
-## 2075    TRUE    TRUE
-## 2076    TRUE    TRUE
-## 2077    TRUE    TRUE
-## 2078    TRUE    TRUE
-## 2079    TRUE    TRUE
-## 2081    TRUE    TRUE
-## 2082    TRUE   FALSE
-## 2083    TRUE   FALSE
-## 2085    TRUE    TRUE
-## 2087    TRUE    TRUE
-## 2088    TRUE    TRUE
-## 2089    TRUE    TRUE
-## 2092    TRUE   FALSE
-## 2093    TRUE    TRUE
-## 2094    TRUE   FALSE
-## 2097    TRUE    TRUE
-## 2102    TRUE   FALSE
-## 2104    TRUE    TRUE
-## 2105    TRUE    TRUE
-## 2106    TRUE   FALSE
-## 2109    TRUE    TRUE
-## 2112    TRUE   FALSE
-## 2115    TRUE    TRUE
-## 2118    TRUE    TRUE
-## 2119    TRUE    TRUE
-## 2120    TRUE    TRUE
-## 2121    TRUE    TRUE
-## 2122    TRUE    TRUE
-## 2125    TRUE   FALSE
-## 2127    TRUE    TRUE
-## 2128    TRUE    TRUE
-## 2129    TRUE   FALSE
-## 2130    TRUE    TRUE
-## 2135    TRUE   FALSE
-## 2136    TRUE   FALSE
-## 2137    TRUE    TRUE
-## 2138    TRUE    TRUE
-## 2139    TRUE    TRUE
-## 2142    TRUE    TRUE
-## 2143    TRUE    TRUE
-## 2144    TRUE   FALSE
-## 2145    TRUE    TRUE
-## 2146    TRUE    TRUE
-## 2149    TRUE    TRUE
-## 2151    TRUE    TRUE
-## 2152    TRUE    TRUE
-## 2153    TRUE   FALSE
-## 2155    TRUE    TRUE
-## 2162    TRUE    TRUE
-## 2163    TRUE    TRUE
-## 2164    TRUE    TRUE
-## 2167    TRUE    TRUE
-## 2169    TRUE   FALSE
-## 2170    TRUE    TRUE
-## 2171    TRUE    TRUE
-## 2173    TRUE    TRUE
-## 2176    TRUE    TRUE
-## 2178    TRUE    TRUE
-## 2179    TRUE    TRUE
-## 2180    TRUE   FALSE
-## 2182    TRUE    TRUE
-## 2183    TRUE    TRUE
-## 2184    TRUE   FALSE
-## 2186    TRUE    TRUE
-## 2187    TRUE    TRUE
-## 2188    TRUE   FALSE
-## 2191    TRUE    TRUE
-## 2192    TRUE    TRUE
-## 2193    TRUE   FALSE
-## 2197    TRUE    TRUE
-## 2200    TRUE    TRUE
-## 2203    TRUE    TRUE
-## 2204    TRUE    TRUE
-## 2207    TRUE    TRUE
-## 2208    TRUE    TRUE
-## 2209    TRUE    TRUE
-## 2211    TRUE   FALSE
-## 2213    TRUE    TRUE
-## 2215    TRUE    TRUE
-## 2217    TRUE    TRUE
-## 2218    TRUE    TRUE
-## 2219    TRUE    TRUE
-## 2220    TRUE    TRUE
-## 2222    TRUE   FALSE
-## 2224    TRUE    TRUE
-## 2225    TRUE    TRUE
-## 2227    TRUE    TRUE
-## 2228    TRUE    TRUE
-## 2229    TRUE    TRUE
-## 2231    TRUE   FALSE
-## 2232    TRUE    TRUE
-## 2233    TRUE   FALSE
-## 2234    TRUE    TRUE
-## 2235    TRUE    TRUE
-## 2239    TRUE   FALSE
-## 2240    TRUE    TRUE
-## 2241    TRUE   FALSE
-## 2242    TRUE    TRUE
-## 2246    TRUE    TRUE
-## 2247    TRUE    TRUE
-## 2248    TRUE    TRUE
-## 2251    TRUE    TRUE
-## 2252    TRUE    TRUE
-## 2253    TRUE    TRUE
-## 2254    TRUE    TRUE
-## 2255    TRUE    TRUE
-## 2257    TRUE    TRUE
-## 2258    TRUE   FALSE
-## 2259    TRUE    TRUE
-## 2261    TRUE    TRUE
-## 2262    TRUE   FALSE
-## 2264    TRUE    TRUE
-## 2265    TRUE    TRUE
-## 2267    TRUE    TRUE
-## 2269    TRUE    TRUE
-## 2270    TRUE    TRUE
-## 2272    TRUE    TRUE
-## 2274    TRUE   FALSE
-## 2275    TRUE    TRUE
-## 2276    TRUE    TRUE
-## 2278    TRUE    TRUE
-## 2279    TRUE    TRUE
-## 2282    TRUE    TRUE
-## 2284    TRUE   FALSE
-## 2286    TRUE   FALSE
-## 2287    TRUE    TRUE
-## 2288    TRUE    TRUE
-## 2289    TRUE    TRUE
-## 2291    TRUE    TRUE
-## 2292    TRUE   FALSE
-## 2293    TRUE    TRUE
-## 2295    TRUE    TRUE
-## 2297    TRUE    TRUE
-## 2305    TRUE    TRUE
-## 2307    TRUE    TRUE
-## 2311    TRUE    TRUE
-## 2314    TRUE    TRUE
-## 2316    TRUE    TRUE
-## 2318    TRUE   FALSE
-## 2321    TRUE    TRUE
-## 2322    TRUE   FALSE
-## 2323    TRUE    TRUE
-## 2325    TRUE    TRUE
-## 2328    TRUE    TRUE
-## 2330    TRUE    TRUE
-## 2332    TRUE    TRUE
-## 2333    TRUE    TRUE
-## 2335    TRUE    TRUE
-## 2337    TRUE    TRUE
-## 2338    TRUE   FALSE
-## 2341    TRUE    TRUE
-## 2343    TRUE    TRUE
-## 2344    TRUE    TRUE
-## 2346    TRUE    TRUE
-## 2349    TRUE    TRUE
-## 2350    TRUE    TRUE
-## 2352    TRUE    TRUE
-## 2353    TRUE    TRUE
-## 2354    TRUE    TRUE
-## 2357    TRUE    TRUE
-## 2358    TRUE   FALSE
-## 2359    TRUE    TRUE
-## 2361    TRUE    TRUE
-## 2363    TRUE    TRUE
-## 2364    TRUE   FALSE
-## 2365    TRUE    TRUE
-## 2367    TRUE   FALSE
-## 2368    TRUE    TRUE
-## 2369    TRUE    TRUE
-## 2370    TRUE    TRUE
-## 2372    TRUE    TRUE
-## 2373    TRUE    TRUE
-## 2377    TRUE    TRUE
-## 2378    TRUE    TRUE
-## 2379    TRUE    TRUE
-## 2381    TRUE    TRUE
-## 2383    TRUE    TRUE
-## 2384    TRUE    TRUE
-## 2386    TRUE    TRUE
-## 2388    TRUE    TRUE
-## 2389    TRUE    TRUE
-## 2390    TRUE   FALSE
-## 2391    TRUE   FALSE
-## 2392    TRUE    TRUE
-## 2394    TRUE    TRUE
-## 2396    TRUE    TRUE
-## 2398    TRUE    TRUE
-## 2399    TRUE    TRUE
-## 2401    TRUE   FALSE
-## 2402    TRUE    TRUE
-## 2403    TRUE   FALSE
-## 2404    TRUE    TRUE
-## 2407    TRUE    TRUE
-## 2409    TRUE    TRUE
-## 2411    TRUE    TRUE
-## 2412    TRUE    TRUE
-## 2413    TRUE    TRUE
-## 2414    TRUE    TRUE
-## 2415    TRUE    TRUE
-## 2416    TRUE   FALSE
-## 2417    TRUE    TRUE
-## 2419    TRUE    TRUE
-## 2422    TRUE   FALSE
-## 2423    TRUE    TRUE
-## 2425    TRUE    TRUE
-## 2426    TRUE    TRUE
-## 2427    TRUE    TRUE
-## 2428    TRUE   FALSE
-## 2429    TRUE    TRUE
-## 2430    TRUE   FALSE
-## 2431    TRUE   FALSE
-## 2433    TRUE    TRUE
-## 2434    TRUE   FALSE
-## 2438    TRUE    TRUE
-## 2440    TRUE   FALSE
-## 2441    TRUE    TRUE
-## 2442    TRUE    TRUE
-## 2447    TRUE    TRUE
-## 2449    TRUE    TRUE
-## 2450    TRUE    TRUE
-## 2451    TRUE    TRUE
-## 2453    TRUE    TRUE
-## 2454    TRUE    TRUE
-## 2456    TRUE    TRUE
-## 2458    TRUE    TRUE
-## 2459    TRUE   FALSE
-## 2460    TRUE    TRUE
-## 2461    TRUE    TRUE
-## 2465    TRUE   FALSE
-## 2467    TRUE    TRUE
-## 2469    TRUE   FALSE
-## 2470    TRUE   FALSE
-## 2474    TRUE    TRUE
-## 2476    TRUE   FALSE
-## 2477    TRUE    TRUE
-## 2478    TRUE    TRUE
-## 2479    TRUE    TRUE
-## 2481    TRUE   FALSE
-## 2483    TRUE    TRUE
-## 2485    TRUE    TRUE
-## 2486    TRUE    TRUE
-## 2489    TRUE    TRUE
-## 2491    TRUE   FALSE
-## 2492    TRUE    TRUE
-## 2494    TRUE    TRUE
-## 2496    TRUE    TRUE
-## 2497    TRUE    TRUE
-## 2499    TRUE   FALSE
-## 2501    TRUE    TRUE
-## 2506    TRUE    TRUE
-## 2507    TRUE   FALSE
-## 2508    TRUE    TRUE
-## 2512    TRUE   FALSE
-## 2513    TRUE    TRUE
-## 2514    TRUE    TRUE
-## 2516    TRUE   FALSE
-## 2517    TRUE   FALSE
-## 2519    TRUE    TRUE
-## 2520    TRUE   FALSE
-## 2521    TRUE    TRUE
-## 2522    TRUE    TRUE
-## 2524    TRUE   FALSE
-## 2525    TRUE    TRUE
-## 2528    TRUE    TRUE
-## 2529    TRUE    TRUE
-## 2530    TRUE    TRUE
-## 2532    TRUE    TRUE
-## 2535    TRUE   FALSE
-## 2537    TRUE    TRUE
-## 2538    TRUE    TRUE
-## 2539    TRUE   FALSE
-## 2540    TRUE    TRUE
-## 2541    TRUE   FALSE
-## 2542    TRUE    TRUE
-## 2545    TRUE   FALSE
-## 2546    TRUE    TRUE
-## 2552    TRUE   FALSE
-## 2553    TRUE   FALSE
-## 2556    TRUE    TRUE
-## 2560    TRUE    TRUE
-## 2562    TRUE    TRUE
-## 2563    TRUE   FALSE
-## 2564    TRUE    TRUE
-## 2565    TRUE   FALSE
-## 2566    TRUE    TRUE
-## 2568    TRUE   FALSE
-## 2571    TRUE    TRUE
-## 2574    TRUE    TRUE
-## 2575    TRUE    TRUE
-## 2578    TRUE    TRUE
-## 2579    TRUE    TRUE
-## 2580    TRUE    TRUE
-## 2582    TRUE    TRUE
-## 2583    TRUE    TRUE
-## 2584    TRUE    TRUE
-## 2586    TRUE    TRUE
-## 2588    TRUE    TRUE
-## 2589    TRUE   FALSE
-## 2592    TRUE    TRUE
-## 2594    TRUE    TRUE
-## 2595    TRUE    TRUE
-## 2598    TRUE   FALSE
-## 2600    TRUE    TRUE
-## 2602    TRUE    TRUE
-## 2603    TRUE    TRUE
-## 2604    TRUE    TRUE
-## 2608    TRUE    TRUE
-## 2609    TRUE    TRUE
-## 2613    TRUE    TRUE
-## 2615    TRUE    TRUE
-## 2617    TRUE   FALSE
-## 2618    TRUE   FALSE
-## 2619    TRUE   FALSE
-## 2621    TRUE    TRUE
-## 2623    TRUE    TRUE
-## 2625    TRUE    TRUE
-## 2627    TRUE   FALSE
-## 2628    TRUE    TRUE
-## 2629    TRUE    TRUE
-## 2634    TRUE    TRUE
-## 2635    TRUE    TRUE
-## 2637    TRUE   FALSE
-## 2638    TRUE   FALSE
-## 2639    TRUE    TRUE
-## 2640    TRUE    TRUE
-## 2641    TRUE    TRUE
-## 2642    TRUE    TRUE
-## 2643    TRUE    TRUE
-## 2645    TRUE    TRUE
-## 2647    TRUE    TRUE
-## 2648    TRUE   FALSE
-## 2650    TRUE    TRUE
-## 2654    TRUE    TRUE
-## 2655    TRUE   FALSE
-## 2656    TRUE    TRUE
-## 2657    TRUE    TRUE
-## 2658    TRUE    TRUE
-## 2661    TRUE    TRUE
-## 2664    TRUE    TRUE
-## 2666    TRUE    TRUE
-## 2667    TRUE   FALSE
-## 2669    TRUE   FALSE
-## 2670    TRUE    TRUE
-## 2671    TRUE    TRUE
-## 2672    TRUE    TRUE
-## 2673    TRUE    TRUE
-## 2676    TRUE    TRUE
-## 2677    TRUE    TRUE
-## 2678    TRUE    TRUE
-## 2679    TRUE   FALSE
-## 2680    TRUE   FALSE
-## 2682    TRUE    TRUE
-## 2683    TRUE    TRUE
-## 2685    TRUE    TRUE
-## 2686    TRUE    TRUE
-## 2692    TRUE    TRUE
-## 2694    TRUE    TRUE
-## 2699    TRUE    TRUE
-## 2700    TRUE    TRUE
-## 2701    TRUE    TRUE
-## 2704    TRUE    TRUE
-## 2706    TRUE    TRUE
-## 2708    TRUE    TRUE
-## 2709    TRUE    TRUE
-## 2710    TRUE    TRUE
-## 2714    TRUE   FALSE
-## 2715    TRUE    TRUE
-## 2716    TRUE    TRUE
-## 2717    TRUE    TRUE
-## 2718    TRUE    TRUE
-## 2719    TRUE    TRUE
-## 2720    TRUE    TRUE
-## 2722    TRUE   FALSE
-## 2723    TRUE    TRUE
-## 2725    TRUE    TRUE
-## 2726    TRUE   FALSE
-## 2727    TRUE   FALSE
-## 2728    TRUE    TRUE
-## 2729    TRUE    TRUE
-## 2730    TRUE   FALSE
-## 2731    TRUE    TRUE
-## 2732    TRUE   FALSE
-## 2735    TRUE   FALSE
-## 2736    TRUE    TRUE
-## 2738    TRUE    TRUE
-## 2740    TRUE    TRUE
-## 2743    TRUE    TRUE
-## 2744    TRUE    TRUE
-## 2746    TRUE    TRUE
-## 2749    TRUE   FALSE
-## 2751    TRUE    TRUE
-## 2752    TRUE    TRUE
-## 2753    TRUE    TRUE
-## NA.1      NA      NA</code></pre>
-<p>To count the number of rows we can use the <code>dim()</code> function.</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="conditional-probability.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(joint_ups[joint_ups<span class="sc">$</span>SP500Up <span class="sc">==</span> <span class="cn">TRUE</span>, ])</span></code></pre></div>
-<pre><code>## [1] 1518    2</code></pre>
-<p>It says that the number of notebook lines where the SP500 makes an Up move are 1518. Since the
-first line is an NA we have to subtract this line, so we have 925 lines with actual Ups in the
-SP500.</p>
-<p>Now, let us count the Ups in the Google occurring simultaneously with the SP500 ups</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="conditional-probability.html#cb260-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
+of the SP500 data and the second columns is the Up column of the Apple data. We remove
+all <code>NA</code> in the data frame: This is achieved by applying the function <code>na.omit()</code>to the data
+frame. It will remove all <code>NA</code>.</p>
+<p>This provides a nice opportunity to introduce you to a very useful operator, which is
+included in base R and which is called the pipe. It is available, since R version 4.1.0 and
+it’s symbol is <code>|&gt;</code>. It allows you to make code in which several functions are nested
+more readable. The way it works is that you can use the pipe to send a line of code or the
+output of a fucntion as input to another function. In our case we would first create a data frame
+and then pipe the frame to <code>na.omit()</code> to finally save it in an object we call <code>joint_ups</code>:</p>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="conditional-probability.html#cb252-1" aria-hidden="true" tabindex="-1"></a>joint_ups <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">SP500Up =</span> sp500<span class="sc">$</span>up, <span class="at">AppleUp =</span> apple<span class="sc">$</span>up) <span class="sc">|</span><span class="er">&gt;</span></span>
+<span id="cb252-2"><a href="conditional-probability.html#cb252-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code></pre></div>
+<p>Before R 4.1.0 there was a pipe operator with this functionality available through the <code>magittr</code> package, where it had the symbol <code>%&gt;%</code>. When you work with R you will encounter this version of
+the pipe sooner or later.</p>
+<p>Now we apply what we have already learned about referencing values in a data frame in R to
+select all the row numbers in our fictitious notebook where the SP500 moves Up and look at the
+first rows:</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="conditional-probability.html#cb253-1" aria-hidden="true" tabindex="-1"></a>sel_joint <span class="ot">&lt;-</span> joint_ups[joint_ups<span class="sc">$</span>SP500Up <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span>
+<span id="cb253-2"><a href="conditional-probability.html#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sel_joint, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##    SP500Up AppleUp
+## 3     TRUE    TRUE
+## 7     TRUE   FALSE
+## 8     TRUE    TRUE
+## 10    TRUE    TRUE
+## 11    TRUE   FALSE</code></pre>
+<p>To count the number of rows we can use the <code>nrow()</code> function.</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="conditional-probability.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(sel_joint)</span></code></pre></div>
+<pre><code>## [1] 1516    2</code></pre>
+<p>It says that the number of notebook lines where the SP500 makes an Up move. The result
+should not surprise us, for we already derived it using the contingency table.</p>
+<p>Now, let us count the Ups in the Apple occurring simultaneously with the SP500 ups. Here we
+use the logical operator <code>&amp;</code> which is R’s syntax for the set symbol <span class="math inline">\(\cap\)</span>:</p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="conditional-probability.html#cb257-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
 <p>Now we can make use of R’s precedence rules to count the simultaneous up moves</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="conditional-probability.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="conditional-probability.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
 <pre><code>## [1] 1073</code></pre>
-<p>Now we compute <span class="math inline">\(702/926\)</span> which gives us 0.76 as we have already verified before.</p>
+<p>Now we compute the relative frequency of joint up moves among all the lines where
+the SP500 moves up, which is</p>
+<pre><code>## [1] 0.71</code></pre>
+<p>as we have indeed derived before using the contingency table.</p>
+<p>Visualize</p>
+<p>We now can give the</p>
+<dl>
+<dt>Formal definition of conditional probability</dt>
+<dd>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be given events. We define the <strong>conditional probability</strong> of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span>
+as
+<span class="math display">\[\begin{equation*}
+P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, B \neq 0
+\end{equation*}\]</span>
+</dd>
+</dl>
 <p>Note that for conditional probabilities we have for two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, that
-<span class="math inline">\(P(A|B) \neq P(B|A)\)</span>. To see this assume that <span class="math inline">\(P(A) \neq P(B)\)</span> and <span class="math inline">\(P(A) \neq 0\)</span> and
-<span class="math inline">\(P(B)\neq 0\)</span>. We then get:
-<span class="math inline">\(P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(B \cap A)}{P(B}\)</span>, since <span class="math inline">\(P(A \cap B) = P(B \cap A)\)</span>.
-It follows that <span class="math inline">\(\frac{P(B \cap A)}{P(B} \neq \frac{P(B \cap A)}{P(A} = P(B|A)\)</span>, since we
-has assumed that <span class="math inline">\(P(A) \neq P(B)\)</span>. Therefore <span class="math inline">\(P(A|B) \neq P(B|A)\)</span>.</p>
-<p>Try it with the stock price example above.</p>
-<p>The notion of conditional probability also gives us a new insight into the notion of
+<span class="math inline">\(P(A|B) \neq P(B|A)\)</span>.
+To see this assume that <span class="math inline">\(P(A) \neq P(B)\)</span> and <span class="math inline">\(P(A) \neq 0\)</span> and
+<span class="math inline">\(P(B)\neq 0\)</span>.</p>
+<p>We then get:
+<span class="math display">\[\begin{equation*}
+P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(B \cap A)}{P(B)}
+\end{equation*}\]</span>
+since <span class="math inline">\(P(A \cap B) = P(B \cap A)\)</span>.
+It follows that
+<span class="math display">\[\begin{equation*}
+\frac{P(B \cap A)}{P(B)} \neq \frac{P(B \cap A)}{P(A)} = P(B|A)
+\end{equation*}\]</span>
+since we
+have assumed that <span class="math inline">\(P(A) \neq P(B)\)</span>.
+Therefore <span class="math inline">\(P(A|B) \neq P(B|A)\)</span>.
+You can check this with the stock example, we discussed before.</p>
+</div>
+<div id="the-multiplication-rule" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> The multiplication rule</h2>
+<p>The following formula is often called the <strong>multiplication rule</strong> and is just a
+rewritten form of the definition of conditional probability.</p>
+<dl>
+<dt>Multiplication rule</dt>
+<dd>Given events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> it holds that
+<span class="math display">\[\begin{equation*}
+P(A \cap B) = P(A | B)\times P(B)
+\end{equation*}\]</span>
+</dd>
+</dl>
+<p>The multiplication rule can give us a deeper insight into the notion of
 independence, we discussed earlier. Remember that two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent
-if <span class="math inline">\(P(A \cap B) = P(B \cap A) = P(A) \cdot P(B)\)</span>. If we combine this rule with the
+if <span class="math inline">\(P(A \cap B) = P(B \cap A) = P(A) \times P(B)\)</span>.</p>
+<p>If we combine this rule with the
 concept of conditional probability, we see that if two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent, then
-<span class="math inline">\(P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A) \cdot P(B)}{P(B)} = P(A)\)</span> and
-<span class="math inline">\(P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \cdot P(B)}{P(A)} = P(B)\)</span>.</p>
+<span class="math display">\[\begin{equation*}
+P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A) \times P(B)}{P(B)} = P(A)
+\end{equation*}\]</span>
+and
+<span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \times P(B)}{P(A)} = P(B)
+\end{equation*}\]</span></p>
 <p>This formula says that if two events are independent the probability of <span class="math inline">\(A\)</span> is
 not influenced by the event <span class="math inline">\(B\)</span> occurring and the probability of event <span class="math inline">\(B\)</span> is not
 influenced by the event <span class="math inline">\(A\)</span> occurring.</p>
 </div>
-<div id="example-independence-and-the-financial-crisis-of-2007-2008" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Example: Independence and the Financial Crisis of 2007-2008</h2>
+<div id="example-independence-and-the-financial-crisis-of-2007-2008" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Example: Independence and the Financial Crisis of 2007-2008</h2>
 </div>
-<div id="bayes-rule" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Bayes’ Rule</h2>
+<div id="bayes-rule" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Bayes’ Rule</h2>
 <p>The definition of conditional probabilities has an important implication about the relation
 between the probabilities of events, which is known as <em>Bayes’ rule</em>. Lets say we have two
 events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, then we know from the definition of conditional probability that
@@ -2122,8 +639,8 @@ the event <span class="math inline">\(A\)</span> as data or information.
 ## R-Concepts</p>
 <p>Example structured finance and violations of independence</p>
 </div>
-<div id="project" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Project</h2>
+<div id="project" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Project</h2>
 
 </div>
 </div>
