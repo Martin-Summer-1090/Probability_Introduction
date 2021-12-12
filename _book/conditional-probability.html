@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-11" />
+<meta name="date" content="2021-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -200,9 +200,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="conditional-probability.html"><a href="conditional-probability.html#contingency-tables"><i class="fa fa-check"></i><b>3.1</b> Contingency tables</a></li>
 <li class="chapter" data-level="3.2" data-path="conditional-probability.html"><a href="conditional-probability.html#marginal-joint-and-conditional-probability"><i class="fa fa-check"></i><b>3.2</b> Marginal, joint and conditional probability</a></li>
 <li class="chapter" data-level="3.3" data-path="conditional-probability.html"><a href="conditional-probability.html#the-multiplication-rule"><i class="fa fa-check"></i><b>3.3</b> The multiplication rule</a></li>
-<li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.4</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
-<li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.5</b> Bayes’ Rule</a></li>
-<li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>3.6</b> Project</a></li>
+<li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>3.4</b> Law of total probability</a></li>
+<li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.5</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
+<li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.6</b> Bayes’ Rule</a></li>
+<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>3.7</b> Project</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
 <ul>
@@ -379,9 +380,9 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="conditional-probability.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   858  378 1236
-##   TRUE    443 1073 1516
-##   Sum    1301 1451 2752</code></pre>
+##   FALSE   859  378 1237
+##   TRUE    443 1074 1517
+##   Sum    1302 1452 2754</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -423,9 +424,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb246-2"><a href="conditional-probability.html#cb246-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3117733 0.1373547 0.4491279
-##   TRUE  0.1609738 0.3898983 0.5508721
-##   Sum   0.4727471 0.5272529 1.0000000</code></pre>
+##   FALSE 0.3119099 0.1372549 0.4491649
+##   TRUE  0.1608569 0.3899782 0.5508351
+##   Sum   0.4727669 0.5272331 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -551,7 +552,7 @@ first rows:</p>
 ## 11    TRUE   FALSE</code></pre>
 <p>To count the number of rows we can use the <code>nrow()</code> function.</p>
 <div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="conditional-probability.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(sel_joint)</span></code></pre></div>
-<pre><code>## [1] 1516    2</code></pre>
+<pre><code>## [1] 1517    2</code></pre>
 <p>It says that the number of notebook lines where the SP500 makes an Up move. The result
 should not surprise us, for we already derived it using the contingency table.</p>
 <p>Now, let us count the Ups in the Apple occurring simultaneously with the SP500 ups. Here we
@@ -559,12 +560,17 @@ use the logical operator <code>&amp;</code> which is R’s syntax for the set sy
 <div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="conditional-probability.html#cb257-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
 <p>Now we can make use of R’s precedence rules to count the simultaneous up moves</p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="conditional-probability.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
-<pre><code>## [1] 1073</code></pre>
+<pre><code>## [1] 1074</code></pre>
 <p>Now we compute the relative frequency of joint up moves among all the lines where
 the SP500 moves up, which is</p>
 <pre><code>## [1] 0.71</code></pre>
 <p>as we have indeed derived before using the contingency table.</p>
-<p>Visualize</p>
+<div class="figure" style="text-align: center"><span id="fig:cond-probability-visualized"></span>
+<img src="figures/cond_prob.png" alt="A Visualization of conditional probability" width="90%" />
+<p class="caption">
+Figure 3.1: A Visualization of conditional probability
+</p>
+</div>
 <p>We now can give the</p>
 <dl>
 <dt>Formal definition of conditional probability</dt>
@@ -621,11 +627,58 @@ P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \times P(B)}{P(A)} = P(B)
 not influenced by the event <span class="math inline">\(B\)</span> occurring and the probability of event <span class="math inline">\(B\)</span> is not
 influenced by the event <span class="math inline">\(A\)</span> occurring.</p>
 </div>
-<div id="example-independence-and-the-financial-crisis-of-2007-2008" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Example: Independence and the Financial Crisis of 2007-2008</h2>
+<div id="law-of-total-probability" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Law of total probability</h2>
 </div>
-<div id="bayes-rule" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Bayes’ Rule</h2>
+<div id="example-independence-and-the-financial-crisis-of-2007-2008" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Example: Independence and the Financial Crisis of 2007-2008</h2>
+<p>In this example, we will go back to the financial crisis of 2007-2008, in which the
+global financial system almost completely collapsed. While the history
+of the crisis as well as the institutional details of structured Finance are
+very complicated, a conceptual root problem of structured finance and the crisis
+has a lot to do with conditional probabilities. Let’s see why.</p>
+<p>To set the stage we need some background from Finance first. We begin with the
+definition of a <strong>bond</strong>.</p>
+<dl>
+<dt>Bond, face value, par value</dt>
+<dd>A <strong>bond</strong> is an obligation be a bond issuer to pay money to the bond-holder according
+to the rules specified at the time the bond is issued. Generally, a bond pays a specific amount,
+its <strong>face value</strong> or equivalently its <strong>par value</strong> at the date of maturity.
+</dd>
+</dl>
+<p>Bonds are the biggest and most liquid class of fixed-income securities and have tremendous
+practical importance as investment vehicles. The details are very involved and we ignore them
+here.</p>
+<p>Although bonds offer a fixed-income stream, they are subject to default, if the issuer has
+financial difficulties or gets into bankruptcy. So there is a certain credit risk in bonds.</p>
+<p>To characterize the nature of these risks bonds are usually <strong>rated</strong> by rating organisations. The
+two primary ratings are issued and published by Moody’s and Standard and Poor’s.</p>
+<p>Bonds that are either high or medium grade are considered to be <strong>investment grade</strong>. Bonds
+that are below the speculative category are often called <strong>junk bonds</strong>. The rating is
+usually based on a statistical analysis of various financial ratios of the issuer, such as
+leverage, debt to equity, cash fow to outstanding debt etc. Bonds with a lower rating
+will have a lower price than a comparable bond with a higher rating.</p>
+<p>The following table gives an overview of the two rating schemes:
+LUE p 52</p>
+<p>In the early 2000’s financial innovations came to the market that proposed the practice
+of <strong>pooling</strong> and <strong>tranching</strong> bonds to transform the risks of junk
+bonds in a way that some good risks. An important asset class created by these
+financial engineering techniques were <strong>mortgage backed securities</strong>.</p>
+<p>Let us explain the idea. Let’s imagine a bond that is issued today - at <span class="math inline">\(t = 0\)</span> and
+matures in a year from now, tomorrow, at <span class="math inline">\(t = 1\)</span>. It pays off <span class="math inline">\(1\)</span> euro at maturity, but
+there is a certain risk of a default, in which case it pays nothing or <span class="math inline">\(0\)</span>.</p>
+<p>You might imagine this bond as an event tree. Since it is a junk bond, this default happens
+with probability <span class="math inline">\(P(default) = 0.1\)</span>. You can think of this in terms of a simple event tree.</p>
+<p>Now imagine we have two such junk bonds. You might picture these two bonds in a tree as well
+to think about the possible joint outcomes and total payoffs from both of these instruments.</p>
+<p>tw stage tree</p>
+<p>Assume independence, show tree and show contingency table.</p>
+<p>Now comes the financial magic</p>
+<p>Use the tree representation again</p>
+<p>Then use dependence and show what is happening to investment grade</p>
+</div>
+<div id="bayes-rule" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Bayes’ Rule</h2>
 <p>The definition of conditional probabilities has an important implication about the relation
 between the probabilities of events, which is known as <em>Bayes’ rule</em>. Lets say we have two
 events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, then we know from the definition of conditional probability that
@@ -639,8 +692,8 @@ the event <span class="math inline">\(A\)</span> as data or information.
 ## R-Concepts</p>
 <p>Example structured finance and violations of independence</p>
 </div>
-<div id="project" class="section level2" number="3.6">
-<h2><span class="header-section-number">3.6</span> Project</h2>
+<div id="project" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Project</h2>
 
 </div>
 </div>

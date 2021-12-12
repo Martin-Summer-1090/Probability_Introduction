@@ -3,14 +3,35 @@
 \usepackage{pstricks, pstricks-add}
 
 
+
 \begin{document}
 	
-	\begin{pspicture}[showgrid = false](-2,-1)(8,8)
-	 
+	\begin{pspicture}(-1,-1)(11,8)
+	 %\psgrid
 	  
-	  \psaxes[Dy=4]{->}(0,0)(0,-0.25)(7,6)
+	  \psframe(0,2)(4,6)
+	  \psframe(7,3)(9,5)
+	
+	\psclip{\psframe[](4, 2)(0, 6)}
+	  \pscircle*[fillcolor = cyan, opacity = 0.3](0,3){3}
+	  \pscircle*[fillcolor = red, opacity = 0.3](2.4,4.4){1}
+	\endpsclip
 	
 	
+	\rput(0.6,5.4){\large{$B$}}
+	\rput(3,4.6){\large{$A$}}
+	
+	\rput(2.1,4.3){$A \cap B$}
+	
+	\rput(7.5, 4.5){DD}
+	\rput(8.5, 4.5){DU}
+	\rput(7.5, 3.5){UD}
+	\rput(8.5, 3.5){UU}
+	
+	\psframe*[fillstyle = solid, fillcolor = cyan, opacity = 0.3](7,3)(9,4)
+	\psframe*[fillstyle = solid, fillcolor = red, opacity = 0.2](8,3)(9,4)
+	
+	 
 	
 	\end{pspicture}
 	
