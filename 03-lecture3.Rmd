@@ -260,15 +260,16 @@ experiment 2752 times and keep a notebook where at every repetition we write dow
 number of the experiment, the outcome and then we note whether both Apple and the SP500
 went up.
 
-| notebook line | outcome             | SP500-Up and Google-Up ?|
+| notebook line | outcome             | SP500-Up and Apple-Up ?|
 |:-------------:|:-------------------:|:-----------------------:|
-|1              |SP500-Up, Google-Down| No                      |
-|2              |SP500-Down, Google-Up| No                      |
-|3              |SP500-Up, Google-Up  | Yes                     |
+|1              |SP500-Up, Apple-Down | No                      |
+|2              |SP500-Down, Apple-Up | No                      |
+|3              |SP500-Up, Apple-Down | No
+|4              |SP500-Up, Apple-Up   | Yes                     |
 |.              |.                    |.                        |
 |.              |.                    |.                        |
 |.              |.                    |.                        |
-|1699           |SP500-Up, Google-Up  |Yes                      |
+|2752           |SP500-Up, Apple-Up   |Yes                      |
 
 To get the conditional probability of a Apple-Up given an SP500-Up we have to count
 the Google-Ups **among the notebook lines** where the SP500 has an Up move and divide by
@@ -327,11 +328,18 @@ the SP500 moves up, which is
 round(sum(joint_ups$simultaneous)/dim(sel_joint)[1], 2)
 ```
 as we have indeed derived before using the contingency table.
-
-```{r cond-probability-visualized, out.width='90%', fig.align='center', fig.cap='A Visualization of conditional probability', echo = F}
+```{r cond-probability-visualized, out.width='90%', fig.align='center', fig.cap='A Visualization of conditional probability ', echo = F}
 knitr::include_graphics('figures/cond_prob.png')
-
 ```
+On the left you see the sample space symbolized as a square and the area of event $B$, SP500-up,
+is the proportion of the whole sample space taken up by this event, whereas event $A$, Apple-up 
+is the proportion of the *whole* sample space taken up by this event. When it is known 
+that $B$ has occurred, the sample space changes and the event that both, SP500-up and Apple-up
+is in the intersection of both areas and the conditional probability is the area of this
+intersection as a proportion of $B$. On the right you see a picture of our notebook metaphor using
+the same color codes. The conditional probability is the ratio of all violet stripes as a
+proportion of all blue stripes.
+
 We now can give the
 
 Formal definition of conditional probability
@@ -423,10 +431,23 @@ Bonds that are either high or medium grade are considered to be **investment gra
 that are below the speculative category are often called **junk bonds**. The rating is 
 usually based on a statistical analysis of various financial ratios of the issuer, such as 
 leverage, debt to equity, cash fow to outstanding debt etc. Bonds with a lower rating
-will have a lower price than a comparable bond with a higher rating.
+will have a higher probability of default and 
+a lower price than a comparable bond with a higher rating. The following table
+shows the rating schemes of Moody's and Standard and Poor's.
 
-The following table gives an overview of the two rating schemes:
-LUE p 52
+|                  |  Moody's| Standard & Poor's | 
+|:-----------------|--------:|------------------:|
+|High grade        | Aaa     | AAA               |
+|                  | Aa      | AA                |
+|Medium grade      | A       | A                 |
+|                  | Baa     | BBB               |
+| Speculative grade| Ba      | BB                |
+|                  | B       | B                 |
+| Default Danger   | Caa     | CCC               |
+|                  |Ca       | CC                |
+|                  |C        |C                  |
+|                  |         | D                 | 
+
 
 In the early 2000's financial innovations came to the market that proposed the practice 
 of **pooling** and **tranching** bonds to transform the risks of junk 
@@ -438,7 +459,11 @@ matures in a year from now, tomorrow, at $t = 1$. It pays off $1$ euro at maturi
 there is a certain risk of a default, in which case it pays nothing or $0$. 
 
 You might imagine this bond as an event tree. Since it is a junk bond, this default happens
-with probability $P(default) = 0.1$. You can think of this in terms of a simple event tree.
+with probability $P(\text{default}) = 0.1$. 
+```{r simple-tree, out.width='90%', fig.align='center', fig.cap='A simple event tree for a defaultable bond', echo = F}
+knitr::include_graphics('figures/simple_tree_one_bond.png')
+
+```
 
 
 

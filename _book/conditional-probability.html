@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-13" />
+<meta name="date" content="2021-12-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -354,7 +354,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="conditional-probability.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.04806411</code></pre>
+<pre><code>## [1] 0.05951711</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -380,9 +380,9 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="conditional-probability.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   859  378 1237
+##   FALSE   860  378 1238
 ##   TRUE    443 1074 1517
-##   Sum    1302 1452 2754</code></pre>
+##   Sum    1303 1452 2755</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -424,9 +424,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb246-2"><a href="conditional-probability.html#cb246-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3119099 0.1372549 0.4491649
-##   TRUE  0.1608569 0.3899782 0.5508351
-##   Sum   0.4727669 0.5272331 1.0000000</code></pre>
+##   FALSE 0.3121597 0.1372051 0.4493648
+##   TRUE  0.1607985 0.3898367 0.5506352
+##   Sum   0.4729583 0.5270417 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -481,30 +481,30 @@ went up.</p>
 <tr class="header">
 <th align="center">notebook line</th>
 <th align="center">outcome</th>
-<th align="center">SP500-Up and Google-Up ?</th>
+<th align="center">SP500-Up and Apple-Up ?</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="center">1</td>
-<td align="center">SP500-Up, Google-Down</td>
+<td align="center">SP500-Up, Apple-Down</td>
 <td align="center">No</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
-<td align="center">SP500-Down, Google-Up</td>
+<td align="center">SP500-Down, Apple-Up</td>
 <td align="center">No</td>
 </tr>
 <tr class="odd">
 <td align="center">3</td>
-<td align="center">SP500-Up, Google-Up</td>
+<td align="center">SP500-Up, Apple-Down</td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">SP500-Up, Apple-Up</td>
 <td align="center">Yes</td>
 </tr>
-<tr class="even">
-<td align="center">.</td>
-<td align="center">.</td>
-<td align="center">.</td>
-</tr>
 <tr class="odd">
 <td align="center">.</td>
 <td align="center">.</td>
@@ -516,8 +516,13 @@ went up.</p>
 <td align="center">.</td>
 </tr>
 <tr class="odd">
-<td align="center">1699</td>
-<td align="center">SP500-Up, Google-Up</td>
+<td align="center">.</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="even">
+<td align="center">2752</td>
+<td align="center">SP500-Up, Apple-Up</td>
 <td align="center">Yes</td>
 </tr>
 </tbody>
@@ -564,13 +569,21 @@ use the logical operator <code>&amp;</code> which is R’s syntax for the set sy
 <p>Now we compute the relative frequency of joint up moves among all the lines where
 the SP500 moves up, which is</p>
 <pre><code>## [1] 0.71</code></pre>
-<p>as we have indeed derived before using the contingency table.</p>
+as we have indeed derived before using the contingency table.
 <div class="figure" style="text-align: center"><span id="fig:cond-probability-visualized"></span>
-<img src="figures/cond_prob.png" alt="A Visualization of conditional probability" width="90%" />
+<img src="figures/cond_prob.png" alt="A Visualization of conditional probability " width="90%" />
 <p class="caption">
 Figure 3.1: A Visualization of conditional probability
 </p>
 </div>
+<p>On the left you see the sample space symbolized as a square and the area of event <span class="math inline">\(B\)</span>, SP500-up,
+is the proportion of the whole sample space taken up by this event, whereas event <span class="math inline">\(A\)</span>, Apple-up
+is the proportion of the <em>whole</em> sample space taken up by this event. When it is known
+that <span class="math inline">\(B\)</span> has occurred, the sample space changes and the event that both, SP500-up and Apple-up
+is in the intersection of both areas and the conditional probability is the area of this
+intersection as a proportion of <span class="math inline">\(B\)</span>. On the right you see a picture of our notebook metaphor using
+the same color codes. The conditional probability is the ratio of all violet stripes as a
+proportion of all blue stripes.</p>
 <p>We now can give the</p>
 <dl>
 <dt>Formal definition of conditional probability</dt>
@@ -657,9 +670,70 @@ two primary ratings are issued and published by Moody’s and Standard and Poor�
 that are below the speculative category are often called <strong>junk bonds</strong>. The rating is
 usually based on a statistical analysis of various financial ratios of the issuer, such as
 leverage, debt to equity, cash fow to outstanding debt etc. Bonds with a lower rating
-will have a lower price than a comparable bond with a higher rating.</p>
-<p>The following table gives an overview of the two rating schemes:
-LUE p 52</p>
+will have a higher probability of default and
+a lower price than a comparable bond with a higher rating. The following table
+shows the rating schemes of Moody’s and Standard and Poor’s.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Moody’s</th>
+<th align="right">Standard &amp; Poor’s</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">High grade</td>
+<td align="right">Aaa</td>
+<td align="right">AAA</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">Aa</td>
+<td align="right">AA</td>
+</tr>
+<tr class="odd">
+<td align="left">Medium grade</td>
+<td align="right">A</td>
+<td align="right">A</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">Baa</td>
+<td align="right">BBB</td>
+</tr>
+<tr class="odd">
+<td align="left">Speculative grade</td>
+<td align="right">Ba</td>
+<td align="right">BB</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">B</td>
+<td align="right">B</td>
+</tr>
+<tr class="odd">
+<td align="left">Default Danger</td>
+<td align="right">Caa</td>
+<td align="right">CCC</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">Ca</td>
+<td align="right">CC</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="right">C</td>
+<td align="right">C</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right"></td>
+<td align="right">D</td>
+</tr>
+</tbody>
+</table>
 <p>In the early 2000’s financial innovations came to the market that proposed the practice
 of <strong>pooling</strong> and <strong>tranching</strong> bonds to transform the risks of junk
 bonds in a way that some good risks. An important asset class created by these
@@ -667,8 +741,14 @@ financial engineering techniques were <strong>mortgage backed securities</strong
 <p>Let us explain the idea. Let’s imagine a bond that is issued today - at <span class="math inline">\(t = 0\)</span> and
 matures in a year from now, tomorrow, at <span class="math inline">\(t = 1\)</span>. It pays off <span class="math inline">\(1\)</span> euro at maturity, but
 there is a certain risk of a default, in which case it pays nothing or <span class="math inline">\(0\)</span>.</p>
-<p>You might imagine this bond as an event tree. Since it is a junk bond, this default happens
-with probability <span class="math inline">\(P(default) = 0.1\)</span>. You can think of this in terms of a simple event tree.</p>
+You might imagine this bond as an event tree. Since it is a junk bond, this default happens
+with probability <span class="math inline">\(P(\text{default}) = 0.1\)</span>.
+<div class="figure" style="text-align: center"><span id="fig:simple-tree"></span>
+<img src="figures/simple_tree_one_bond.png" alt="A simple event tree for a defaultable bond" width="90%" />
+<p class="caption">
+Figure 3.2: A simple event tree for a defaultable bond
+</p>
+</div>
 <p>Now imagine we have two such junk bonds. You might picture these two bonds in a tree as well
 to think about the possible joint outcomes and total payoffs from both of these instruments.</p>
 <p>tw stage tree</p>
