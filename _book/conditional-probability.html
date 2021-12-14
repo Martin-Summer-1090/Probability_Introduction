@@ -749,13 +749,127 @@ with probability <span class="math inline">\(P(\text{default}) = 0.1\)</span>.
 Figure 3.2: A simple event tree for a defaultable bond
 </p>
 </div>
-<p>Now imagine we have two such junk bonds. You might picture these two bonds in a tree as well
-to think about the possible joint outcomes and total payoffs from both of these instruments.</p>
-<p>tw stage tree</p>
-<p>Assume independence, show tree and show contingency table.</p>
-<p>Now comes the financial magic</p>
-<p>Use the tree representation again</p>
-<p>Then use dependence and show what is happening to investment grade</p>
+Lets assume now that we have two junk bonds of this kind. Now the sample space is bigger than
+before. Since we have two possible outcomes for each of two bonds, we are in a simiar
+situation as when we toss a fair coin twice. The sample space is now <span class="math inline">\({\cal S} = \{ B^1_D B^2_D, B^1_D B^2_N, B^1_N B^2_D, B^1_N B^2_N \}\)</span>. Let’s try to visualize this situation also in a tree.
+<div class="figure" style="text-align: center"><span id="fig:two-stage-tree"></span>
+<img src="figures/double_tree_two_bonds.png" alt="An event tree for two defaultable bond with independent defaut probabilities" width="90%" />
+<p class="caption">
+Figure 3.3: An event tree for two defaultable bond with independent defaut probabilities
+</p>
+</div>
+<p>The tree is interpreted as follows: Each dot is called a <strong>node</strong>. The tree is organized
+by levels, the top node or <strong>root</strong> being level 0. The next layer is layer 1 and so on.
+The tree might symbolize a sequence with one layer happening before the other, or here
+in our case a simultaneous event of two bonds reaching their state at <span class="math inline">\(t=1\)</span>.</p>
+<p>Probabilities are written along the edges of the tree. The probability of <span class="math inline">\(B^1_N\)</span> - the probability
+that the first bond dies not default - is <span class="math inline">\(\frac{9}{10}\)</span>. It is written on the edge from the root
+to the node labeled <span class="math inline">\(B^1_N\)</span>. At the next level we put the <strong>conditional</strong> probabilities. The
+edge from <span class="math inline">\(B^1_N\)</span> to <span class="math inline">\(B^2_N\)</span> is <span class="math inline">\(P(B^2_N\,|\, B^1_N)\)</span>. By the multiplication rule the
+probability of getting to any node is just the product of the probabilities along the edges.
+<span class="math display">\[\begin{equation*}
+P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N\,|\, B^1_N)
+\end{equation*}\]</span>
+Now if we assume that the risks are <strong>independent</strong> this would just be
+<span class="math display">\[\begin{equation*}
+P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N) = \frac{9}{10} \frac{9}{10} = \frac{81}{100}
+\end{equation*}\]</span>
+You can work out all the other probabilities now for yourself.
+At the end nodes of the tree, I have written the payoffs of the two bonds if we go along the
+edges of the particular path. The payoff of <span class="math inline">\(B^1\)</span> is above and the payoff of <span class="math inline">\(B^2\)</span> is written
+below. Belwo the dashed line I have written the <em>aggregate</em> payoff of both bonds or the sum
+of their individual payoffs.</p>
+<p>The law of total probability can also be illustrated nicely in this tree picture. For
+example <span class="math inline">\(P(B^2_D)\)</span> is just the sum of all probabilities of the paths, leading to <span class="math inline">\(B^2_D\)</span> which
+is given the current tree just
+<span class="math inline">\(\frac{9}{10} \frac{1}{10} + \frac{1}{10} \frac{1}{10} = \frac{1}{10}\)</span>.</p>
+<p>Some of you might have realized that the tree gives us an equivalent representation to what
+we would have got from a contingency table. To see this, look at:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right"><span class="math inline">\(B^2_D\)</span></th>
+<th align="right"><span class="math inline">\(B^2_N\)</span></th>
+<th align="right"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(B^1_D\)</span></td>
+<td align="right">1/100</td>
+<td align="right">9/100</td>
+<td align="right">1/10</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(B^1_N\)</span></td>
+<td align="right">9/100</td>
+<td align="right">81/100</td>
+<td align="right">9/10</td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="right">1/10</td>
+<td align="right">9/10</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+Now you need to be prepared for a piece of financial magic, which we perform by
+applying the concepts of <strong>pooling</strong> and <strong>tranching</strong>. We put the two (junk) bonds
+into a pool or a portfolio to create two new bonds out of them by contractually altering
+the payoff structure. Let us call these bonds <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span> for investment grade and junk.
+But how is this possible, can we really take two junk bonds as an input and rearrange
+their payoff to get an investment grade and something else? Here is how
+<div class="figure" style="text-align: center"><span id="fig:two-stage-tree-pooled"></span>
+<img src="figures/pool_and_tranch.png" alt="An event tree for two synthetic bonds built on the junk bonds $B^1$ and $B^2$ with independent defaut probabilities" width="90%" />
+<p class="caption">
+Figure 3.4: An event tree for two synthetic bonds built on the junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> with independent defaut probabilities
+</p>
+</div>
+<p>What we see here is a slightly modified tree for the two new bonds <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span>. The reading is
+now a bit complicated because <span class="math inline">\(I_D\)</span> means <span class="math inline">\(I\)</span> in the state where <span class="math inline">\(B^1\)</span> defaults etc. Note that
+below the dashed line you see that the sum of payoffs did no change. So when we pool the
+initital two junk bonds and tranch them into the two new payoff structures, we can fulfill
+all promises from the cash flow of the pool.</p>
+<p>Here is the magic: <span class="math inline">\(I\)</span> is a bond that pays on all states, except when both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> default.
+Under the assumption of independence, the probability of such a state occuring is just <span class="math inline">\(1/100\)</span>.
+Thus, given the independence assumption both Moody’s and Standard and Poor’s could now grade
+the new bond as investment grade. The other bond <span class="math inline">\(J\)</span> now never pays off except in the state where
+both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> would not default. It defaults, thus with probability <span class="math inline">\(99/100\)</span>. It has
+become toxic junk. Thus here we have the magic at work: We took junk plus
+junk and got investment grade and toxic junk. Now this game was played as a trillion dollar
+business, mainly with mortgages but also with other security classes, like car loans, studnet loans and credit card debt.
+Special investment vehicles
+sponsored by banks would pool and tranch the various asset classes,
+rating agencies would rate and investors hungry for safe
+investments would buy the synthetic investment grade bonds.</p>
+<p>But what would happen, if independence does <strong>not</strong> hold and our risks are *dependent** instead?
+Contemplating this possibility is not very far fetched. After all, if a bond issuer comes
+into difficulties to fulfill his promise it is perhaps because of an event affecting other bond
+holders as well, or the fact that he defaults creates problems for other bondholders
+who had relied
+on the promise of the bond issuer in trouble to make his contracted payments.</p>
+A situation like this could be captured perhaps by the following variation of our tree.
+<div class="figure" style="text-align: center"><span id="fig:dependent-risks"></span>
+<img src="figures/dependence.png" alt="An event tree for two synthetic bonds built on the junk bonds $B^1$ and $B^2$ with dependent defaut probabilities" width="90%" />
+<p class="caption">
+Figure 3.5: An event tree for two synthetic bonds built on the junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> with dependent defaut probabilities
+</p>
+</div>
+<p>Now this situation looks only slightly different. But now the risks are dependent. Note that the
+total probabilities of each outcome have stayed the same. For example the probability of
+<span class="math inline">\(B^1_D = \frac{6}{100} + \frac{4}{100} = \frac{1}{10}\)</span>, <span class="math inline">\(B^1_N = \frac{4}{100} + \frac{86}{100} = \frac{9}{10}\)</span>. You can work out the other probabilities yourself. But now the risks are
+dependent. Note that
+<span class="math display">\[\begin{equation*}
+P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N\,|\, B^1_N)
+\end{equation*}\]</span>
+Note that now, what was investment grade before is now from a rating viewpoint again junk,
+and we are back in the more intutitive world where jung plus junk is still junk. This truth
+was hammered home to a world falling prey to the biggest financial crisis since the great
+depression of the 1930ies. The carelessness with not sufficiently thinking about the
+justification for an undue and dangerous independence assumption is arguably one of the
+root causes of this disaster. But you know know better.</p>
 </div>
 <div id="bayes-rule" class="section level2" number="3.6">
 <h2><span class="header-section-number">3.6</span> Bayes’ Rule</h2>
