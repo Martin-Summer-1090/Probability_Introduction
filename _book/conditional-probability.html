@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-14" />
+<meta name="date" content="2021-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -203,7 +203,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>3.4</b> Law of total probability</a></li>
 <li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.5</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
 <li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.6</b> Bayes’ Rule</a></li>
-<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>3.7</b> Project</a></li>
+<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#example-profit-margins-bayes-rule-and-the-dangers-of-overconfidence"><i class="fa fa-check"></i><b>3.7</b> Example: Profit margins, Bayes’ rule and the dangers of overconfidence</a></li>
+<li class="chapter" data-level="3.8" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>3.8</b> Project</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
 <ul>
@@ -354,7 +355,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="conditional-probability.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.05951711</code></pre>
+<pre><code>## [1] 0.05898391</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -380,9 +381,9 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="conditional-probability.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   860  378 1238
+##   FALSE   861  378 1239
 ##   TRUE    443 1074 1517
-##   Sum    1303 1452 2755</code></pre>
+##   Sum    1304 1452 2756</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -424,9 +425,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb246-2"><a href="conditional-probability.html#cb246-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3121597 0.1372051 0.4493648
-##   TRUE  0.1607985 0.3898367 0.5506352
-##   Sum   0.4729583 0.5270417 1.0000000</code></pre>
+##   FALSE 0.3124093 0.1371553 0.4495646
+##   TRUE  0.1607402 0.3896952 0.5504354
+##   Sum   0.4731495 0.5268505 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -642,6 +643,70 @@ influenced by the event <span class="math inline">\(A\)</span> occurring.</p>
 </div>
 <div id="law-of-total-probability" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Law of total probability</h2>
+<p>The multiplication rule implies a further rule, which is often called the <strong>law of total probability</strong> in the literature. We state the law for a simple case for two disjoint
+events, which can be
+generalized in a straightforward way to <span class="math inline">\(N\)</span> disjoint events.</p>
+<dl>
+<dt>Law of total probability</dt>
+<dd>Suppose the sample space <span class="math inline">\({\cal S }\)</span> is divided into two disjoint events <span class="math inline">\(B_1\)</span> and <span class="math inline">\(B_2\)</span>,
+which cover the sample space then
+for any event <span class="math inline">\(A\)</span> we have
+<span class="math display">\[\begin{align}
+P(A)&amp;= P(A\cap B_1) + P(A\cap B_2)\\
+&amp;=P(A|B_1)P(B_1) + P(A|B_2)P(B_2)
+\end{align}\]</span>
+Such covers of disjoint sets are called a <strong>partition</strong> of the sample space. It can
+abstractly be visualized as
+follows:
+<div class="figure" style="text-align: center"><span id="fig:total-probability-visualized"></span>
+<img src="figures/total_probability.png" alt="A Visualization of total probability " width="90%" />
+<p class="caption">
+Figure 3.2: A Visualization of total probability
+</p>
+</div>
+Note that in this picture <span class="math inline">\(B_1 \cap B_2 = \emptyset\)</span> and <span class="math inline">\(B_1 \cup B_2 = {\cal S}\)</span>, hence <span class="math inline">\(B_1\)</span> and
+<span class="math inline">\(B_2\)</span> form a partition of the sample space. The probability of <span class="math inline">\(A\)</span>, the red set can then be
+determined by the law of total probability.
+</dd>
+</dl>
+<p>As an <strong>example</strong>, consider a stock analysis problem, where you learn that a company is planning
+to launch a new project that is likely to affect the companies stock price. There is a <span class="math inline">\(60 \%\)</span>
+probability that a project will be launched. If this happens there is <span class="math inline">\(75 \%\)</span> probability
+that the stock price will increase. In case the project is not launced this probability is
+only <span class="math inline">\(30 \%\)</span>.</p>
+<p>You might think of this situation in terms of a contingency table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Launch Project</th>
+<th align="right">Don’t Launch Project</th>
+<th align="right"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Stock price rise</td>
+<td align="right">0.45</td>
+<td align="right">0.12</td>
+<td align="right">0.57</td>
+</tr>
+<tr class="even">
+<td align="left">Stock price not rising</td>
+<td align="right">0.15</td>
+<td align="right">0.28</td>
+<td align="right">0.43</td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="right">0.6</td>
+<td align="right">0.4</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>Say we want to assess the probability that the stock price will rise, given these
+data. Then we can apply the law of total probability is: <span class="math inline">\(0.45 + 0.12 = 0.57\)</span>.</p>
 </div>
 <div id="example-independence-and-the-financial-crisis-of-2007-2008" class="section level2" number="3.5">
 <h2><span class="header-section-number">3.5</span> Example: Independence and the Financial Crisis of 2007-2008</h2>
@@ -746,7 +811,7 @@ with probability <span class="math inline">\(P(\text{default}) = 0.1\)</span>.
 <div class="figure" style="text-align: center"><span id="fig:simple-tree"></span>
 <img src="figures/simple_tree_one_bond.png" alt="A simple event tree for a defaultable bond" width="90%" />
 <p class="caption">
-Figure 3.2: A simple event tree for a defaultable bond
+Figure 3.3: A simple event tree for a defaultable bond
 </p>
 </div>
 Lets assume now that we have two junk bonds of this kind. Now the sample space is bigger than
@@ -755,7 +820,7 @@ situation as when we toss a fair coin twice. The sample space is now <span class
 <div class="figure" style="text-align: center"><span id="fig:two-stage-tree"></span>
 <img src="figures/double_tree_two_bonds.png" alt="An event tree for two defaultable bond with independent defaut probabilities" width="90%" />
 <p class="caption">
-Figure 3.3: An event tree for two defaultable bond with independent defaut probabilities
+Figure 3.4: An event tree for two defaultable bond with independent defaut probabilities
 </p>
 </div>
 <p>The tree is interpreted as follows: Each dot is called a <strong>node</strong>. The tree is organized
@@ -763,7 +828,7 @@ by levels, the top node or <strong>root</strong> being level 0. The next layer i
 The tree might symbolize a sequence with one layer happening before the other, or here
 in our case a simultaneous event of two bonds reaching their state at <span class="math inline">\(t=1\)</span>.</p>
 <p>Probabilities are written along the edges of the tree. The probability of <span class="math inline">\(B^1_N\)</span> - the probability
-that the first bond dies not default - is <span class="math inline">\(\frac{9}{10}\)</span>. It is written on the edge from the root
+that the first bond dies not default - is <span class="math inline">\(0.9\)</span>. It is written on the edge from the root
 to the node labeled <span class="math inline">\(B^1_N\)</span>. At the next level we put the <strong>conditional</strong> probabilities. The
 edge from <span class="math inline">\(B^1_N\)</span> to <span class="math inline">\(B^2_N\)</span> is <span class="math inline">\(P(B^2_N\,|\, B^1_N)\)</span>. By the multiplication rule the
 probability of getting to any node is just the product of the probabilities along the edges.
@@ -772,17 +837,19 @@ P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N\,|\, B^1_N)
 \end{equation*}\]</span>
 Now if we assume that the risks are <strong>independent</strong> this would just be
 <span class="math display">\[\begin{equation*}
-P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N) = \frac{9}{10} \frac{9}{10} = \frac{81}{100}
+P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N) = 0.9 \times 0.9 = 0.81
 \end{equation*}\]</span>
 You can work out all the other probabilities now for yourself.
-At the end nodes of the tree, I have written the payoffs of the two bonds if we go along the
-edges of the particular path. The payoff of <span class="math inline">\(B^1\)</span> is above and the payoff of <span class="math inline">\(B^2\)</span> is written
-below. Belwo the dashed line I have written the <em>aggregate</em> payoff of both bonds or the sum
-of their individual payoffs.</p>
+At the end nodes of the tree, I have written the event symbolized by the end node in
+set notation. Between the dashed lines you can read off the
+payoffs of the two bonds if we go along the
+edges of the particular path below the end nodes. The payoff of <span class="math inline">\(B^1\)</span> is written above
+the payoff of <span class="math inline">\(B^2\)</span>. Below the lower dashed line I have written the <em>aggregate</em> payoff
+of both bonds or the sum of their individual payoffs.</p>
 <p>The law of total probability can also be illustrated nicely in this tree picture. For
 example <span class="math inline">\(P(B^2_D)\)</span> is just the sum of all probabilities of the paths, leading to <span class="math inline">\(B^2_D\)</span> which
 is given the current tree just
-<span class="math inline">\(\frac{9}{10} \frac{1}{10} + \frac{1}{10} \frac{1}{10} = \frac{1}{10}\)</span>.</p>
+<span class="math inline">\(0.9 \times 0.1 + 0.1 \times 0.1 = 0.1\)</span>.</p>
 <p>Some of you might have realized that the tree gives us an equivalent representation to what
 we would have got from a contingency table. To see this, look at:</p>
 <table>
@@ -797,20 +864,20 @@ we would have got from a contingency table. To see this, look at:</p>
 <tbody>
 <tr class="odd">
 <td align="left"><span class="math inline">\(B^1_D\)</span></td>
-<td align="right">1/100</td>
-<td align="right">9/100</td>
-<td align="right">1/10</td>
+<td align="right">0.01</td>
+<td align="right">0.09</td>
+<td align="right">0.1</td>
 </tr>
 <tr class="even">
 <td align="left"><span class="math inline">\(B^1_N\)</span></td>
-<td align="right">9/100</td>
-<td align="right">81/100</td>
-<td align="right">9/10</td>
+<td align="right">0.09</td>
+<td align="right">0.81</td>
+<td align="right">0.9</td>
 </tr>
 <tr class="odd">
 <td align="left">Total</td>
-<td align="right">1/10</td>
-<td align="right">9/10</td>
+<td align="right">0.1</td>
+<td align="right">0.9</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -824,70 +891,86 @@ their payoff to get an investment grade and something else? Here is how
 <div class="figure" style="text-align: center"><span id="fig:two-stage-tree-pooled"></span>
 <img src="figures/pool_and_tranch.png" alt="An event tree for two synthetic bonds built on the junk bonds $B^1$ and $B^2$ with independent defaut probabilities" width="90%" />
 <p class="caption">
-Figure 3.4: An event tree for two synthetic bonds built on the junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> with independent defaut probabilities
+Figure 3.5: An event tree for two synthetic bonds built on the junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> with independent defaut probabilities
 </p>
 </div>
-<p>What we see here is a slightly modified tree for the two new bonds <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span>. The reading is
-now a bit complicated because <span class="math inline">\(I_D\)</span> means <span class="math inline">\(I\)</span> in the state where <span class="math inline">\(B^1\)</span> defaults etc. Note that
-below the dashed line you see that the sum of payoffs did no change. So when we pool the
-initital two junk bonds and tranch them into the two new payoff structures, we can fulfill
+<p>What we see here is a slightly modified tree for the two new bonds <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span>. Their payoff is
+engineered from the underlying jung bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span>. So <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span>V get different
+payoff profiles but in such a way that they can be funded from the aggregate cash fow of both
+of the junk bonds. Note that
+below the dashed line you see that the sum of payoffs did no change. So when we <em>pool</em> the
+initial two junk bonds and <em>tranch</em> them into the two new payoff structures, we can fulfill
 all promises from the cash flow of the pool.</p>
-<p>Here is the magic: <span class="math inline">\(I\)</span> is a bond that pays on all states, except when both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> default.
-Under the assumption of independence, the probability of such a state occuring is just <span class="math inline">\(1/100\)</span>.
+<p>Here is the magic: <span class="math inline">\(I\)</span> is a bond that pays in all states, except when both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> default.
+Under the assumption of independence, the probability of such a state occurring is just <span class="math inline">\(0.01\)</span>.
 Thus, given the independence assumption both Moody’s and Standard and Poor’s could now grade
 the new bond as investment grade. The other bond <span class="math inline">\(J\)</span> now never pays off except in the state where
-both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> would not default. It defaults, thus with probability <span class="math inline">\(99/100\)</span>. It has
-become toxic junk. Thus here we have the magic at work: We took junk plus
-junk and got investment grade and toxic junk. Now this game was played as a trillion dollar
-business, mainly with mortgages but also with other security classes, like car loans, studnet loans and credit card debt.
+both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> would both not default. It defaults, thus with probability <span class="math inline">\(0.99\)</span>. It has
+become toxic junk.</p>
+<p>Thus here we have the magic of structured finance at work: We took junk plus
+junk and got investment grade and toxic junk. Now, note that this is toy example. But
+essentially this is what has been used in real life situations at an enourmous scale.
+This repackaging game was played as a trillion dollar
+business, mainly with mortgages but also with other security classes, like
+car loans, student loans and credit card debt.
 Special investment vehicles
 sponsored by banks would pool and tranch the various asset classes,
-rating agencies would rate and investors hungry for safe
+rating agencies would rate them and investors hungry for safe
 investments would buy the synthetic investment grade bonds.</p>
 <p>But what would happen, if independence does <strong>not</strong> hold and our risks are *dependent** instead?
 Contemplating this possibility is not very far fetched. After all, if a bond issuer comes
 into difficulties to fulfill his promise it is perhaps because of an event affecting other bond
-holders as well, or the fact that he defaults creates problems for other bondholders
+holders as well, like a macroeconomic recession, a global crisis like the current pandemic
+or the fact that the defaults creates problems for other bondholders
 who had relied
 on the promise of the bond issuer in trouble to make his contracted payments.</p>
 A situation like this could be captured perhaps by the following variation of our tree.
 <div class="figure" style="text-align: center"><span id="fig:dependent-risks"></span>
 <img src="figures/dependence.png" alt="An event tree for two synthetic bonds built on the junk bonds $B^1$ and $B^2$ with dependent defaut probabilities" width="90%" />
 <p class="caption">
-Figure 3.5: An event tree for two synthetic bonds built on the junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> with dependent defaut probabilities
+Figure 3.6: An event tree for two synthetic bonds built on the junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> with dependent defaut probabilities
 </p>
 </div>
-<p>Now this situation looks only slightly different. But now the risks are dependent. Note that the
+<p>Now this situation looks only slightly different. Note that now the risks are <em>dependent</em>.
+Note also that the marginal distribution is stimm the same as before. The
 total probabilities of each outcome have stayed the same. For example the probability of
-<span class="math inline">\(B^1_D = \frac{6}{100} + \frac{4}{100} = \frac{1}{10}\)</span>, <span class="math inline">\(B^1_N = \frac{4}{100} + \frac{86}{100} = \frac{9}{10}\)</span>. You can work out the other probabilities yourself. But now the risks are
-dependent. Note that
+<span class="math inline">\(B^1_D = 0.04 + 0.06 = 0.1\)</span>, <span class="math inline">\(B^1_N = 0.86 + 0.04 = 0.9\)</span>.
+You can work out the conditional probabilities yourself using the tree and the
+multiplication rule:But now the risks are <em>dependent</em>. Note that
 <span class="math display">\[\begin{equation*}
-P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N\,|\, B^1_N)
+P(B^1_D \cap B^2_D) = P(B^1_D) \times P(B^2_D\,|\, B^1_D) = 0.06
 \end{equation*}\]</span>
-Note that now, what was investment grade before is now from a rating viewpoint again junk,
-and we are back in the more intutitive world where jung plus junk is still junk. This truth
+Note that now, what was investment grade before, is now – from a rating viewpoint – again junk,
+and we are back in the more intuitive world where junk plus junk is still junk.</p>
+<p>This truth
 was hammered home to a world falling prey to the biggest financial crisis since the great
-depression of the 1930ies. The carelessness with not sufficiently thinking about the
+depression of the 1930ies. The carelessness of not sufficiently thinking about the
 justification for an undue and dangerous independence assumption is arguably one of the
 root causes of this disaster. But you know know better.</p>
 </div>
 <div id="bayes-rule" class="section level2" number="3.6">
 <h2><span class="header-section-number">3.6</span> Bayes’ Rule</h2>
 <p>The definition of conditional probabilities has an important implication about the relation
-between the probabilities of events, which is known as <em>Bayes’ rule</em>. Lets say we have two
-events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, then we know from the definition of conditional probability that
-<span class="math inline">\(P(B|A) = \frac{P(B \cap A)}{P(A)}\)</span>. Since <span class="math inline">\(P(B \cap A) = P(A \cap B)\)</span> we have
-<span class="math inline">\(P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A \cap B)}{P(A)}\)</span> which is by definition
-equal to <span class="math inline">\(\frac{P(A|B) \cdot P(B)}{P(A}\)</span> provided that <span class="math inline">\(P(A) \neq 0\)</span>. The terminology
-calls <span class="math inline">\(P(B)\)</span> the <em>prior probability</em> of <span class="math inline">\(B\)</span> and <span class="math inline">\(P(B|A)\)</span> is called the <em>posterior probability</em>.</p>
-<p>One way to think about the relation
-<span class="math inline">\(P(B|A) = \frac{P(A|B) \cdot P(B)}{P(A}\)</span> is to think about the event <span class="math inline">\(B\)</span> as some hypothesis and
-the event <span class="math inline">\(A\)</span> as data or information.
-## R-Concepts</p>
-<p>Example structured finance and violations of independence</p>
+between the probabilities of events, which is known as <em>Bayes’ rule</em>.</p>
+<dl>
+<dt>Bayes’ rule</dt>
+<dd>For two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> Bayes’ rule or Bayes’ theorem says that
+<span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(A|B) P(B)}{P(A)}
+\end{equation*}\]</span>
+This formula follows directly from the multiplication rule and the symmetry of <span class="math inline">\(A\cap B\)</span>. Let
+me explain: The multiplication rule says <span class="math inline">\(P(B|A)P(A) = P(A \cap B) = P(A|B)P(B)\)</span>. Now if
+you divide by <span class="math inline">\(P(A)\)</span> you get Bayes’ rule.
+</dd>
+</dl>
+<p>explain significance for the problem of how to get from probabilities to frequencies.</p>
 </div>
-<div id="project" class="section level2" number="3.7">
-<h2><span class="header-section-number">3.7</span> Project</h2>
+<div id="example-profit-margins-bayes-rule-and-the-dangers-of-overconfidence" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Example: Profit margins, Bayes’ rule and the dangers of overconfidence</h2>
+<p>Use article from philosophical economics and weave with R.</p>
+</div>
+<div id="project" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Project</h2>
 
 </div>
 </div>

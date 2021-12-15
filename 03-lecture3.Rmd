@@ -399,7 +399,45 @@ influenced by the event $A$ occurring.
 
 ## Law of total probability
 
+The multiplication rule implies a further rule, which is often called the **law of total probability** in the literature. We state the law for a simple case for two disjoint
+events, which can be
+generalized in a straightforward way to $N$ disjoint events.
 
+Law of total probability
+: Suppose the sample space ${\cal S }$ is divided into two disjoint events $B_1$ and $B_2$, 
+which cover the sample space then
+for any event $A$ we have
+\begin{align}
+P(A)&= P(A\cap B_1) + P(A\cap B_2)\\
+    &=P(A|B_1)P(B_1) + P(A|B_2)P(B_2)
+\end{align}
+Such covers of disjoint sets are called a **partition** of the sample space. It can 
+abstractly be visualized as
+follows:
+```{r total-probability-visualized, out.width='90%', fig.align='center', fig.cap='A Visualization of total probability ', echo = F}
+knitr::include_graphics('figures/total_probability.png')
+
+```
+Note that in this picture $B_1 \cap B_2 = \emptyset$ and $B_1 \cup B_2 = {\cal S}$, hence $B_1$ and
+$B_2$ form a partition of the sample space. The probability of $A$, the red set can then be
+determined by the law of total probability.
+
+As an **example**, consider a stock analysis problem, where you learn that a company is planning
+to launch a new project that is likely to affect the companies stock price. There is a $60 \%$
+probability that a project will be launched. If this happens there is $75 \%$ probability
+that the stock price will increase. In case the project is not launced this probability is
+only $30 \%$.
+
+You might think of this situation in terms of a contingency table:
+
+|                       |  Launch Project| Don't Launch Project|        |
+|:----------------------|---------------:|--------------------:|-------:|
+|Stock price rise       |  0.45          | 0.12                |  0.57  |        
+|Stock price not rising |  0.15          | 0.28                |  0.43  |                 ´        
+|Total                  |  0.6           | 0.4                 |  1     |      
+
+Say we want to assess the probability that the stock price will rise, given these
+data. Then we can apply the law of total probability is: $0.45 + 0.12 = 0.57$.
 
 ## Example: Independence and the Financial Crisis of 2007-2008
 
@@ -478,7 +516,7 @@ The tree might symbolize a sequence with one layer happening before the other, o
 in our case a simultaneous event of two bonds reaching their state at $t=1$. 
 
 Probabilities are written along the edges of the tree. The probability of $B^1_N$ - the probability
-that the first bond dies not default - is $\frac{9}{10}$. It is written on the edge from the root
+that the first bond dies not default - is $0.9$. It is written on the edge from the root
 to the node labeled $B^1_N$. At the next level we put the **conditional** probabilities. The
 edge from $B^1_N$ to $B^2_N$ is $P(B^2_N\,|\, B^1_N)$. By the multiplication rule the
 probability of getting to any node is just the product of the probabilities along the edges.
@@ -487,27 +525,29 @@ P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N\,|\, B^1_N)
 \end{equation*}
 Now if we assume that the risks are **independent** this would just be
 \begin{equation*}
-P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N) = \frac{9}{10} \frac{9}{10} = \frac{81}{100}
+P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N) = 0.9 \times 0.9 = 0.81
 \end{equation*}
 You can work out all the other probabilities now for yourself.
-At the end nodes of the tree, I have written the payoffs of the two bonds if we go along the
-edges of the particular path. The payoff of $B^1$ is above and the payoff of $B^2$ is written
-below. Belwo the dashed line I have written the *aggregate* payoff of both bonds or the sum
-of their individual payoffs.
+At the end nodes of the tree, I have written the event symbolized by the end node in
+set notation. Between the dashed lines you can read off the 
+payoffs of the two bonds if we go along the
+edges of the particular path below the end nodes. The payoff of $B^1$ is written above 
+the payoff of $B^2$. Below the lower dashed line I have written the *aggregate* payoff 
+of both bonds or the sum of their individual payoffs.
 
 The law of total probability can also be illustrated nicely in this tree picture. For
 example $P(B^2_D)$ is just the sum of all probabilities of the paths, leading to $B^2_D$ which
 is given the current tree just 
-$\frac{9}{10} \frac{1}{10} + \frac{1}{10} \frac{1}{10} = \frac{1}{10}$.
+$0.9 \times 0.1  + 0.1 \times  0.1  = 0.1$.
 
 Some of you might have realized that the tree gives us an equivalent representation to what
 we would have got from a contingency table. To see this, look at:
 
 |                  |  $B^2_D$| $B^2_N$ | 
 |:-----------------|--------:|--------:|-----:|
-|$B^1_D$           | 1/100   | 9/100   |1/10          
-|$B^1_N$           | 9/100   | 81/100  |9/10          
-|Total             | 1/10    | 9/10    |  1         
+|$B^1_D$           | 0.01    | 0.09    |0.1          
+|$B^1_N$           | 0.09    | 0.81    |0.9          
+|Total             | 0.1     | 0.9     |  1         
 
 Now you need to be prepared for a piece of financial magic, which we perform by
 applying the concepts of **pooling** and **tranching**. We put the two (junk) bonds
@@ -519,29 +559,37 @@ their payoff to get an investment grade and something else? Here is how
 knitr::include_graphics('figures/pool_and_tranch.png')
 
 ```
-What we see here is a slightly modified tree for the two new bonds $I$ and $J$. The reading is
-now a bit complicated because $I_D$ means $I$ in the state where $B^1$ defaults etc. Note that
-below the dashed line you see that the sum of payoffs did no change. So when we pool the
-initital two junk bonds and tranch them into the two new payoff structures, we can fulfill
+What we see here is a slightly modified tree for the two new bonds $I$ and $J$. Their payoff is
+engineered from the underlying jung bonds $B^1$ and $B^2$. So $I$ and $J$V get different 
+payoff profiles but in such a way that they can be funded from the aggregate cash fow of both
+of the junk bonds. Note that
+below the dashed line you see that the sum of payoffs did no change. So when we *pool* the
+initial two junk bonds and *tranch* them into the two new payoff structures, we can fulfill
 all promises from the cash flow of the pool. 
 
-Here is the magic: $I$ is a bond that pays on all states, except when both $B^1$ and $B^2$ default.
-Under the assumption of independence, the probability of such a state occuring is just $1/100$. 
+Here is the magic: $I$ is a bond that pays in all states, except when both $B^1$ and $B^2$ default.
+Under the assumption of independence, the probability of such a state occurring is just $0.01$. 
 Thus, given the independence assumption both Moody's and Standard and Poor's could now grade 
 the new bond as investment grade. The other bond $J$ now never pays off except in the state where
-both $B^1$ and $B^2$ would not default. It defaults, thus with probability $99/100$. It has 
-become toxic junk. Thus here we have the magic at work: We took junk plus 
-junk and got investment grade and toxic junk. Now this game was played as a trillion dollar 
-business, mainly with mortgages but also with other security classes, like car loans, studnet loans and credit card debt. 
+both $B^1$ and $B^2$ would both not default. It defaults, thus with probability $0.99$. It has 
+become toxic junk. 
+
+Thus here we have the magic of structured finance at work: We took junk plus 
+junk and got investment grade and toxic junk. Now, note that this is toy example. But 
+essentially this is what has been used in real life situations at an enourmous scale. 
+This repackaging game was played as a trillion dollar 
+business, mainly with mortgages but also with other security classes, like 
+car loans, student loans and credit card debt. 
 Special investment vehicles
 sponsored by banks would pool and tranch the various asset classes, 
-rating agencies would rate and investors hungry for safe
+rating agencies would rate them and investors hungry for safe
 investments would buy the synthetic investment grade bonds.
 
 But what would happen, if independence does **not** hold and our risks are *dependent** instead? 
 Contemplating this possibility is not very far fetched. After all, if a bond issuer comes
 into difficulties to fulfill his promise it is perhaps because of an event affecting other bond
-holders as well, or the fact that he defaults creates problems for other bondholders 
+holders as well, like a macroeconomic recession, a global crisis like the current pandemic 
+or the fact that the defaults creates problems for other bondholders 
 who had relied
 on the promise of the bond issuer in trouble to make his contracted payments.
 
@@ -550,36 +598,42 @@ A situation like this could be captured perhaps by the following variation of ou
 knitr::include_graphics('figures/dependence.png')
 
 ```
-Now this situation looks only slightly different. But now the risks are dependent. Note that the
+Now this situation looks only slightly different. Note that now the risks are *dependent*. 
+Note also that the marginal distribution is stimm the same as before. The
 total probabilities of each outcome have stayed the same. For example the probability of
-$B^1_D = \frac{6}{100} + \frac{4}{100} = \frac{1}{10}$, $B^1_N = \frac{4}{100} + \frac{86}{100} = \frac{9}{10}$. You can work out the other probabilities yourself. But now the risks are
-dependent. Note that 
+$B^1_D = 0.04 + 0.06 = 0.1$, $B^1_N = 0.86 + 0.04 = 0.9$. 
+You can work out the conditional probabilities yourself using the tree and the
+multiplication rule:But now the risks are *dependent*. Note that 
 \begin{equation*}
-P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N\,|\, B^1_N)
+P(B^1_D \cap B^2_D) = P(B^1_D) \times P(B^2_D\,|\, B^1_D) = 0.06
 \end{equation*}
-Note that now, what was investment grade before is now from a rating viewpoint again junk,
-and we are back in the more intutitive world where jung plus junk is still junk. This truth
+Note that now, what was investment grade before, is now -- from a rating viewpoint -- again junk,
+and we are back in the more intuitive world where junk plus junk is still junk. 
+
+This truth
 was hammered home to a world falling prey to the biggest financial crisis since the great 
-depression of the 1930ies. The carelessness with not sufficiently thinking about the
+depression of the 1930ies. The carelessness of not sufficiently thinking about the
 justification for an undue and dangerous independence assumption is arguably one of the
 root causes of this disaster. But you know know better.
-
 
 ## Bayes' Rule
 
 The definition of conditional probabilities has an important implication about the relation
-between the probabilities of events, which is known as *Bayes' rule*. Lets say we have two
-events $A$ and $B$, then we know from the definition of conditional probability that
-$P(B|A) = \frac{P(B \cap A)}{P(A)}$. Since $P(B \cap A) = P(A \cap B)$ we have
-$P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A \cap B)}{P(A)}$ which is by definition
-equal to $\frac{P(A|B) \cdot P(B)}{P(A}$ provided that $P(A) \neq 0$. The terminology
-calls $P(B)$ the *prior probability* of $B$ and $P(B|A)$ is called the *posterior probability*.
+between the probabilities of events, which is known as *Bayes' rule*. 
 
-One way to think about the relation
-$P(B|A) = \frac{P(A|B) \cdot P(B)}{P(A}$ is to think about the event $B$ as some hypothesis and
-the event $A$ as data or information.
-## R-Concepts
+Bayes' rule
+: For two events $A$ and $B$ Bayes' rule or Bayes' theorem says that
+\begin{equation*}
+P(B|A) = \frac{P(A|B) P(B)}{P(A)}
+\end{equation*}
+This formula follows directly from the multiplication rule and the symmetry of $A\cap B$. Let
+me explain: The multiplication rule says $P(B|A)P(A) = P(A \cap B) = P(A|B)P(B)$. Now if
+you divide by $P(A)$ you get Bayes' rule.
 
-Example structured finance and violations of independence
+explain significance for the problem of how to get from probabilities to frequencies.
+
+## Example: Profit margins, Bayes' rule and the dangers of overconfidence
+
+Use article from philosophical economics and weave with R.
 
 ## Project
