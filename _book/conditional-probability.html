@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-15" />
+<meta name="date" content="2021-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -203,8 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>3.4</b> Law of total probability</a></li>
 <li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.5</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
 <li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.6</b> Bayes’ Rule</a></li>
-<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#example-profit-margins-bayes-rule-and-the-dangers-of-overconfidence"><i class="fa fa-check"></i><b>3.7</b> Example: Profit margins, Bayes’ rule and the dangers of overconfidence</a></li>
-<li class="chapter" data-level="3.8" data-path="conditional-probability.html"><a href="conditional-probability.html#project"><i class="fa fa-check"></i><b>3.8</b> Project</a></li>
+<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#project-3-the-importance-of-updating-in-investing"><i class="fa fa-check"></i><b>3.7</b> Project 3: The Importance of Updating in Investing</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
 <ul>
@@ -355,7 +354,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="conditional-probability.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.05898391</code></pre>
+<pre><code>## [1] 0.0607652</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -382,8 +381,8 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
 ##   FALSE   861  378 1239
-##   TRUE    443 1074 1517
-##   Sum    1304 1452 2756</code></pre>
+##   TRUE    443 1075 1518
+##   Sum    1304 1453 2757</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -425,9 +424,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb246-2"><a href="conditional-probability.html#cb246-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3124093 0.1371553 0.4495646
-##   TRUE  0.1607402 0.3896952 0.5504354
-##   Sum   0.4731495 0.5268505 1.0000000</code></pre>
+##   FALSE 0.3122960 0.1371055 0.4494015
+##   TRUE  0.1606819 0.3899166 0.5505985
+##   Sum   0.4729779 0.5270221 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -558,7 +557,7 @@ first rows:</p>
 ## 11    TRUE   FALSE</code></pre>
 <p>To count the number of rows we can use the <code>nrow()</code> function.</p>
 <div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="conditional-probability.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(sel_joint)</span></code></pre></div>
-<pre><code>## [1] 1517    2</code></pre>
+<pre><code>## [1] 1518    2</code></pre>
 <p>It says that the number of notebook lines where the SP500 makes an Up move. The result
 should not surprise us, for we already derived it using the contingency table.</p>
 <p>Now, let us count the Ups in the Apple occurring simultaneously with the SP500 ups. Here we
@@ -566,7 +565,7 @@ use the logical operator <code>&amp;</code> which is R’s syntax for the set sy
 <div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="conditional-probability.html#cb257-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
 <p>Now we can make use of R’s precedence rules to count the simultaneous up moves</p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="conditional-probability.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
-<pre><code>## [1] 1074</code></pre>
+<pre><code>## [1] 1075</code></pre>
 <p>Now we compute the relative frequency of joint up moves among all the lines where
 the SP500 moves up, which is</p>
 <pre><code>## [1] 0.71</code></pre>
@@ -963,14 +962,104 @@ me explain: The multiplication rule says <span class="math inline">\(P(B|A)P(A) 
 you divide by <span class="math inline">\(P(A)\)</span> you get Bayes’ rule.
 </dd>
 </dl>
-<p>explain significance for the problem of how to get from probabilities to frequencies.</p>
+<p>This is very important result and indeed belongs to the great ideas in probability but it
+is a bit difficult to grasp and memorize clearly. So let us try to make it a bit clearer.</p>
+<p>Think of <span class="math inline">\(B\)</span> as some hypothesis or some belief and of <span class="math inline">\(A\)</span> as some data or information obtained
+after having formed that hypothesis or belief. Bayes’ theorem tells you how to update or adjust
+the hypothesis or belief in the light of the data or the information that has been obtained.</p>
+Imagine a square of area 1. Inside the square is a circle <span class="math inline">\(B\)</span> with area <span class="math inline">\(P(B)\)</span>. Imagine you
+stand next to this square and look down on it form above. You have a single speck of sand on your
+finger and by accident it falls down on the square and lands somewhere inside it. The speck is
+so small that you can’t see where. It could be anywhere.
+<div class="figure" style="text-align: center"><span id="fig:where-is-the-speck"></span>
+<img src="figures/where_speck.png" alt="Where is the speck of sand?" width="90%" />
+<p class="caption">
+Figure 3.7: Where is the speck of sand?
+</p>
 </div>
-<div id="example-profit-margins-bayes-rule-and-the-dangers-of-overconfidence" class="section level2" number="3.7">
-<h2><span class="header-section-number">3.7</span> Example: Profit margins, Bayes’ rule and the dangers of overconfidence</h2>
-<p>Use article from philosophical economics and weave with R.</p>
+<p>We want to figure out the probability that the speck could be inside the circle <span class="math inline">\(B\)</span>? GIven that
+the speck landed somewhere on the square at random it should be the area of <span class="math inline">\(B\)</span> - <span class="math inline">\(P(B)\)</span> - divided
+by the area of the square - <span class="math inline">\(P{\cal S} = 1\)</span>, so the probability is simply <span class="math inline">\(P(B)\)</span>.</p>
+Now suppose somebody reveals to you the <strong>fact</strong> that the speck indeed landed somewhere inside
+another circle, inside the square. Let us call this circle <span class="math inline">\(A\)</span>, like in the following picture
+<div class="figure" style="text-align: center"><span id="fig:where-is-the-speck-now"></span>
+<img src="figures/speck_in_D.png" alt="In fact we learn that the speck is inside circle $A$" width="90%" />
+<p class="caption">
+Figure 3.8: In fact we learn that the speck is inside circle <span class="math inline">\(A\)</span>
+</p>
 </div>
-<div id="project" class="section level2" number="3.8">
-<h2><span class="header-section-number">3.8</span> Project</h2>
+<p>The question now becomes: Knowing that the speck is somewhere inside of circle <span class="math inline">\(D\)</span>, how does
+this fact change our estimate that it is in <span class="math inline">\(B\)</span>?. What is the probability that the speck is
+in <span class="math inline">\(B\)</span> given that we know it is somewhere inside <span class="math inline">\(A\)</span>? The way to express this value is <span class="math inline">\(P(B|A)\)</span>.</p>
+<p>Intuitively we can see that the value of <span class="math inline">\(P(B|A)\)</span> is the area of the overlap between circle <span class="math inline">\(B\)</span>
+and circle <span class="math inline">\(A\)</span>, which we label <span class="math inline">\(P(A \cap B)\)</span> divided by the area of <span class="math inline">\(A\)</span>, which is <span class="math inline">\(P(A)\)</span>. In
+a formal expression of this intuition we get a simple version of Bayes’ formula as
+<span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(A \cap B)}{P(A)}
+\end{equation*}\]</span>
+Now from the picture you can convince yourself that in the case where the overlap area between
+<span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is small, so <span class="math inline">\(P(A \cap B)\)</span> is much smaller than <span class="math inline">\(P(A)\)</span>, the probability of the speck
+being in <span class="math inline">\(B\)</span> given that we know it must be somewhere in <span class="math inline">\(A\)</span> is small. On the other hand, if the overlap area <span class="math inline">\(P(A \cap B)\)</span> is large relative to <span class="math inline">\(A\)</span> then the probability of the speck beeing in <span class="math inline">\(B\)</span>
+given that it is somewhere in <span class="math inline">\(A\)</span> is big.</p>
+<p>Now for quantitative applications it is useful to express <span class="math inline">\(P(B \cap A)\)</span> using the
+<em>multiplication rule</em> as <span class="math inline">\(P(A \cap B) = P(A |B) P(B)\)</span>. Substituting this expression in our
+simple version of Bayes’ formula we get
+<span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(A|B)P(B)}{P(A)}
+\end{equation*}\]</span></p>
+<p>In Bayesian applications the term <span class="math inline">\(P(B)\)</span> is called a <strong>prior probability</strong> or simply a prior. It
+is the initial probability that we assign to our hypothesis being true. Subsequently to that
+assignment we get evidence from data, with significance for the validity of this hypothesis.
+The term <span class="math inline">\(P(A | B)\)</span> is called the <strong>likelihood function</strong> and expresses how likely it is
+that we would receive the data assuming that the hypothesis holds. Updating a prior, means
+multiplying the prior probability with the likelyhood function. Dividing by <span class="math inline">\(P(A)\)</span> ensures
+that we have appropriately normalized the numbers, ensuring that a measur of 1 is obtwined accross
+the overall sample space.</p>
+<p>Now this story with the speck of sand falling on the square provides an intuitive illustration
+of how Bayesian updating works. We start with the hypothesis that the speck is located inside <span class="math inline">\(B\)</span>.
+We assign a prior <span class="math inline">\(P(B)\)</span> that this hypothesis is indeed true. Then it is revealed that the
+speck is in the second circle <span class="math inline">\(A\)</span>. This information obviously has implications for the
+hypothesis - it is relevant data. Upon receiving these data we update the probability that the
+hypothesis is true. Specifically we set it equal to the overlap between <span class="math inline">\(B\)</span> and <span class="math inline">\(A\)</span> divided
+by <span class="math inline">\(A\)</span>.</p>
+<p>In a broader context we need to understand that for any data we receive subsequent to a hypothesis
+we have formed, the hypothesis will exhibit some “overlap” with the data. This is the same
+as saying that the truth of the hypothesis will represent one possible pathway through which the
+data might have been obtained. To get an estimate for the probability that the
+hypothesis is true, given the data was obtained, we need to quantify how prevalent that
+pathway is relative to all possible pathways through which the data could have been
+obtained in principle, including alternative pathways that conflict
+with the hypothesis. This is exactly
+what Bayes’ theorem does.</p>
+<p>With this insight at hand it now becomes clear that Bayes’ theorem closes the
+gap that remained when we discussed the weak law of large numbers. Here it is shown
+what is necessary to make a valid inverse inference from frequency to chance. The key insight was
+to put probabilities on the chances and update them by conditioning on new data. This
+gives a judgement about chances, informed by frequency evidence.</p>
+</div>
+<div id="project-3-the-importance-of-updating-in-investing" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Project 3: The Importance of Updating in Investing</h2>
+<p>In this lecture, unlike in the last, we have introduced many new probability concepts but
+only a few new things from R. In this project we bring both together again in a context
+of an investment game.</p>
+<p>Suppose you compete with other people in an investment game. Each participant starts with
+1000 Euro. Rankings in this game will be determined based on how much every player is
+able to grow this money over the course of the game.</p>
+<p>Two types of coins are flipped in this game. Green coins and red coins. Green coins are
+designed such that they land heads with a probability of 0.7 and tails with 0.3. Ref coins
+are physically designed the opposite way, 0.3 chance of landing on heads 0.7 chance landing
+on tails.</p>
+<p>The game is divided into 20 separate rounds, each consisting of 50 coin flips. At the
+beginning of each round the game’s referee fills a large bucket with an
+unknown quantity or red and green coins. He then randomly draws a single coin
+from the bucket. He uses this coin for all 50 flips in that round making sure
+the color is hidden for you and all the other participants.</p>
+<p>Before each flip the referee auctions off ownership of the flip to the player
+who pays the highest price for it. Once the owner of the flip is set, the referee
+flips the coin. If it land heads it pays out 2 to the owner. If it lands tails the owner
+gets nothing.. After each round the referee reveals the result of the flip to
+the participants and opens bidding for the next flip.</p>
+<p>This procedure goes on until the end at which point final rankings are tallied and the associated monetary prizes and penalties are disbursed.</p>
 
 </div>
 </div>

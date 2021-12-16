@@ -630,10 +630,109 @@ This formula follows directly from the multiplication rule and the symmetry of $
 me explain: The multiplication rule says $P(B|A)P(A) = P(A \cap B) = P(A|B)P(B)$. Now if
 you divide by $P(A)$ you get Bayes' rule.
 
-explain significance for the problem of how to get from probabilities to frequencies.
+This is very important result and indeed belongs to the great ideas in probability but it
+is a bit difficult to grasp and memorize clearly. So let us try to make it a bit clearer.
 
-## Example: Profit margins, Bayes' rule and the dangers of overconfidence
+Think of $B$ as some hypothesis or some belief and of $A$ as some data or information obtained
+after having formed that hypothesis or belief. Bayes' theorem tells you how to update or adjust 
+the hypothesis or belief in the light of the data or the information that has been obtained.
 
-Use article from philosophical economics and weave with R.
+Imagine a square of area 1. Inside the square is a circle $B$ with area $P(B)$. Imagine you
+stand next to this square and look down on it form above. You have a single speck of sand on your
+finger and by accident it falls down on the square and lands somewhere inside it. The speck is
+so small that you can't see where. It could be anywhere.
+```{r where-is-the-speck, out.width='90%', fig.align='center', fig.cap='Where is the speck of sand?', echo = F}
+knitr::include_graphics('figures/where_speck.png')
+```
+We want to figure out the probability that the speck could be inside the circle $B$? GIven that
+the speck landed somewhere on the square at random it should be the area of $B$ - $P(B)$ - divided 
+by the area of the square - $P{\cal S} = 1$, so the probability is simply $P(B)$.
 
-## Project
+Now suppose somebody reveals to you the **fact** that the speck indeed landed somewhere inside
+another circle, inside the square. Let us call this circle $A$, like in the following picture
+```{r where-is-the-speck-now, out.width='90%', fig.align='center', fig.cap='In fact we learn that the speck is inside circle $A$', echo = F}
+knitr::include_graphics('figures/speck_in_D.png')
+```
+The question now becomes: Knowing that the speck is somewhere inside of circle $D$, how does
+this fact change our estimate that it is in $B$?. What is the probability that the speck is
+in $B$ given that we know it is somewhere inside $A$? The way to express this value is $P(B|A)$.
+
+Intuitively we can see that the value of $P(B|A)$ is the area of the overlap between circle $B$ 
+and circle $A$, which we label $P(A \cap B)$ divided by the area of $A$, which is $P(A)$. In 
+a formal expression of this intuition we get a simple version of Bayes' formula as
+\begin{equation*}
+P(B|A) = \frac{P(A \cap B)}{P(A)}
+\end{equation*}
+Now from the picture you can convince yourself that in the case where the overlap area between
+$A$ and $B$ is small, so $P(A \cap B)$ is much smaller than $P(A)$, the probability of the speck
+being in $B$ given that we know it must be somewhere in $A$ is small. On the other hand, if the overlap area $P(A \cap B)$ is large relative to $A$ then the probability of the speck beeing in $B$
+given that it is somewhere in $A$ is big. 
+
+Now for quantitative applications it is useful to express $P(B \cap A)$ using the
+*multiplication rule* as $P(A \cap B) = P(A |B) P(B)$. Substituting this expression in our
+simple version of Bayes' formula we get
+\begin{equation*}
+P(B|A) = \frac{P(A|B)P(B)}{P(A)}
+\end{equation*}
+
+In Bayesian applications the term $P(B)$ is called a **prior probability** or simply a prior. It 
+is the initial probability that we assign to our hypothesis being true. Subsequently to that
+assignment we get evidence from data, with significance for the validity of this hypothesis.
+The term $P(A | B)$ is called the **likelihood function** and expresses how likely it is
+that we would receive the data assuming that the hypothesis holds. Updating a prior, means
+multiplying the prior probability with the likelyhood function. Dividing by $P(A)$ ensures
+that we have appropriately normalized the numbers, ensuring that a measur of 1 is obtwined accross
+the overall sample space.
+
+Now this story with the speck of sand falling on the square provides an intuitive illustration
+of how Bayesian updating works. We start with the hypothesis that the speck is located inside $B$.
+We assign a prior $P(B)$ that this hypothesis is indeed true. Then it is revealed that the
+speck is in the second circle $A$. This information obviously has implications for the
+hypothesis - it is relevant data. Upon receiving these data we update the probability that the
+hypothesis is true. Specifically we set it equal to the overlap between $B$ and $A$ divided
+by $A$.
+
+In a broader context we need to understand that for any data we receive subsequent to a hypothesis 
+we have formed, the hypothesis will exhibit some "overlap" with the data. This is the same
+as saying that the truth of the hypothesis will represent one possible pathway through which the
+data might have been obtained. To get an estimate for the probability that the 
+hypothesis is true, given the data was obtained, we need to quantify how prevalent that
+pathway is relative to all possible pathways through which the data could have been 
+obtained in principle, including alternative pathways that conflict 
+with the hypothesis. This is exactly
+what Bayes' theorem does.
+
+With this insight at hand it now becomes clear that Bayes' theorem closes the
+gap that remained when we discussed the weak law of large numbers. Here it is shown
+what is necessary to make a valid inverse inference from frequency to chance. The key insight was
+to put probabilities on the chances and update them by conditioning on new data. This
+gives a judgement about chances, informed by frequency evidence.
+
+## Project 3: The Importance of Updating in Investing
+
+In this lecture, unlike in the last,  we have introduced many new probability concepts but
+only a few new things from R. In this project we bring both together again in a context
+of an investment game. 
+
+Suppose you compete with other people in an investment game. Each participant starts with
+1000 Euro. Rankings in this game will be determined based on how much every player is
+able to grow this money over the course of the game. 
+
+Two types of coins are flipped in this game. Green coins and red coins. Green coins are
+designed such that they land heads with a probability of 0.7 and tails with 0.3. Ref coins
+are physically designed the opposite way, 0.3 chance of landing on heads 0.7 chance landing
+on tails.
+
+The game is divided into 20 separate rounds, each consisting of 50 coin flips. At the
+beginning of each round the game's referee fills a large bucket with an 
+unknown quantity or red and green coins. He then randomly draws a single coin 
+from the bucket. He uses this coin for all 50 flips in that round making sure 
+the color is hidden for you and all the other participants.
+
+Before each flip the referee auctions off ownership of the flip to the player 
+who pays the highest price for it. Once the owner of the flip is set, the referee
+flips the coin. If it land heads it pays out 2 to the owner. If it lands tails the owner
+gets nothing.. After each round the referee reveals the result of the flip to
+the participants and opens bidding for the next flip. 
+
+This procedure goes on until the end at which point final rankings are tallied and the associated monetary prizes and penalties are disbursed.
