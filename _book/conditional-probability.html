@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -203,7 +203,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>3.4</b> Law of total probability</a></li>
 <li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.5</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
 <li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.6</b> Bayes’ Rule</a></li>
-<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#project-3-the-importance-of-updating-in-investing"><i class="fa fa-check"></i><b>3.7</b> Project 3: The Importance of Updating in Investing</a></li>
+<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#example-the-importance-of-updating-in-investing"><i class="fa fa-check"></i><b>3.7</b> Example The Importance of Updating in Investing</a></li>
+<li class="chapter" data-level="3.8" data-path="conditional-probability.html"><a href="conditional-probability.html#project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation"><i class="fa fa-check"></i><b>3.8</b> Project: Analyzing the performance of bidding strategies in the investment game using simulation</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
 <ul>
@@ -354,7 +355,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="conditional-probability.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.0607652</code></pre>
+<pre><code>## [1] 0.05776355</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -380,9 +381,9 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="conditional-probability.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   861  378 1239
+##   FALSE   863  378 1241
 ##   TRUE    443 1075 1518
-##   Sum    1304 1453 2757</code></pre>
+##   Sum    1306 1453 2759</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -424,9 +425,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb246-2"><a href="conditional-probability.html#cb246-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3122960 0.1371055 0.4494015
-##   TRUE  0.1606819 0.3899166 0.5505985
-##   Sum   0.4729779 0.5270221 1.0000000</code></pre>
+##   FALSE 0.3127945 0.1370062 0.4498007
+##   TRUE  0.1605654 0.3896339 0.5501993
+##   Sum   0.4733599 0.5266401 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -1037,16 +1038,15 @@ what is necessary to make a valid inverse inference from frequency to chance. Th
 to put probabilities on the chances and update them by conditioning on new data. This
 gives a judgement about chances, informed by frequency evidence.</p>
 </div>
-<div id="project-3-the-importance-of-updating-in-investing" class="section level2" number="3.7">
-<h2><span class="header-section-number">3.7</span> Project 3: The Importance of Updating in Investing</h2>
-<p>In this lecture, unlike in the last, we have introduced many new probability concepts but
-only a few new things from R. In this project we bring both together again in a context
-of an investment game.</p>
-<p>Suppose you compete with other people in an investment game. Each participant starts with
-1000 Euro. Rankings in this game will be determined based on how much every player is
-able to grow this money over the course of the game.</p>
-<p>Two types of coins are flipped in this game. Green coins and red coins. Green coins are
-designed such that they land heads with a probability of 0.7 and tails with 0.3. Ref coins
+<div id="example-the-importance-of-updating-in-investing" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Example The Importance of Updating in Investing</h2>
+<p>This was a bit much of probability. Lets test the significance of what we have learned in the
+context of finance and investment.</p>
+<p>In order to do that, suppose you participate in an investment game. You get a starting wealth of
+1000 Euro. You are judged at the end of the game by how much you have been
+able to grow this initial wealth.</p>
+<p>This is a game where two types of coins are flipped: Green coins and red coins. Green coins are
+designed such that they land heads with a probability of 0.7 and tails with 0.3. Red coins
 are physically designed the opposite way, 0.3 chance of landing on heads 0.7 chance landing
 on tails.</p>
 <p>The game is divided into 20 separate rounds, each consisting of 50 coin flips. At the
@@ -1057,9 +1057,99 @@ the color is hidden for you and all the other participants.</p>
 <p>Before each flip the referee auctions off ownership of the flip to the player
 who pays the highest price for it. Once the owner of the flip is set, the referee
 flips the coin. If it land heads it pays out 2 to the owner. If it lands tails the owner
-gets nothing.. After each round the referee reveals the result of the flip to
+gets nothing. After each round the referee reveals the result of the flip to
 the participants and opens bidding for the next flip.</p>
-<p>This procedure goes on until the end at which point final rankings are tallied and the associated monetary prizes and penalties are disbursed.</p>
+<p>This procedure goes on until the end at which point final rankings are
+tallied and the associated monetary prizes and penalties are disbursed.</p>
+<p>The key of performing well in this investment game is to make an accurate estimate of what
+a coin flip is worth. Suppose the referee is flipping a green coin. On a single flip the
+coin will land either heads or tails but over many flips it will land heads in about 70 %
+of the cases, in which you get 2 and 30 % of the cases in which you get nothing. Let’s use
+R to make a green coin and flip it, using the sample function:</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="conditional-probability.html#cb261-1" aria-hidden="true" tabindex="-1"></a>green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span></code></pre></div>
+<p>Now comes the function which actually implements the coin flip:</p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="conditional-probability.html#cb262-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb262-2"><a href="conditional-probability.html#cb262-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb262-3"><a href="conditional-probability.html#cb262-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Observe that we can implement the bias of this coin by specifying a probability distribution for
+heads and tails, by specifying the <code>prob</code> argument appropriately. When we did a coin flip earlier
+in our lecture we dropped this argument and R assumed then that we we will assume classical
+probability, in which case each outcome should get a probability 1/2.</p>
+<p>Now let’s do a round of 50 flips:</p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="conditional-probability.html#cb263-1" aria-hidden="true" tabindex="-1"></a>green_tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">flip_green_coin</span>())</span></code></pre></div>
+<p>Now lets compute the average payoff we would have got in this round. Let us
+select the <code>"H"</code> outcomes and calculate its length:</p>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="conditional-probability.html#cb264-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
+<span id="cb264-2"><a href="conditional-probability.html#cb264-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
+<pre><code>## [1] 73</code></pre>
+<p>This means we have 33 cases where we get 2 and 27 cases where we get 0. Thus on average
+we will get:</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="conditional-probability.html#cb266-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">72</span><span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 1.44</code></pre>
+<p>So if we payed 1.20 for that round we would make a profit of 0.24. We will discuss the theory
+behind this reasoning in more detail in the next lecture. This is called an expected value.</p>
+<p>You see the idea now. If the coin is green we should pay for the flip at most</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="conditional-probability.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<pre><code>## [1] 1.4</code></pre>
+<p>and if its red</p>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="conditional-probability.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.7</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<pre><code>## [1] 0.6</code></pre>
+<p>In the investment game, we do - however - not know whether the referee is using a red or a green
+coin. This we have to guess. Maybe we have some evidence we can use to inform such a guess. Assume
+for instance, we can count the coins in the bucket before the referee makes a draw. Lets
+assume we will find out that 9 out of 10 coins are green. So we could make the guess that the
+probability is 0.9 that the randomly draw coin is green. Now combining this belief with the
+physical properties of the coin we can make a second order estimate of the value:</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="conditional-probability.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.9</span><span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 1.32</code></pre>
+<p>Generally this estimate will be somewhere between 0.6 and 1.4 depending on our prior assessment.</p>
+<p>Now lets start the first round in our investment game. Assume you win the auction for the
+first flip with a bid of 1.20. The flip comes up tails and you loose. The next flip comes
+agin up tails and you loose again 1.20. Now eight more flips come and each time you
+are successful in winning the auction with a bid of 1.20. The results of the flips
+come back <code>TTHTTTTH</code>. After 10 flips there were two heads and 8 tails, leaving you
+with a cumulative loss of 8.</p>
+<p>Now you give yourself a pause to think about the situation: Is the coin in fact green?
+There are two possible outcomes, both
+unlikely:</p>
+<ol style="list-style-type: decimal">
+<li>The referee drew a red coin. Possible but unlikely, because you have investigated to bucket and found a ratio of 9 to 1 green over red coins.</li>
+<li>The referee drew a green coin but you were just unlucky. The coin should have landed 70 %
+on heads but it did so only 20 %. This is possible but also unlikely.</li>
+</ol>
+You now have to update your believes and weight both unlikely outcomes against each other.
+Let us draw a tree:
+<div class="figure" style="text-align: center"><span id="fig:red-coin-green-coin"></span>
+<img src="figures/red_coin_green_coin.png" alt="Weigthing the two possible unlikely outcomes" width="90%" />
+<p class="caption">
+Figure 3.9: Weigthing the two possible unlikely outcomes
+</p>
+</div>
+<p>In the figure, you see that I have connected the two nodes <span class="math inline">\(G \cap H\)</span> and <span class="math inline">\(R \cap H\)</span> bya dashed
+line and I did the same for <span class="math inline">\(G \cap T\)</span> and <span class="math inline">\(R \cap T\)</span>. This symbolizes the fact that
+the participant in the game can not see whether the coin is green or red. He only can see whether
+it comes up H or T. Thus the two nodes connected by the dahsed line are informationally
+indistinguishable for you as a participant.</p>
+<p>Now we use Bayes’ theorem to update our believes. Our hypothesis
+is that the coin is green, and
+what we know for fact is that the last flip ended in tails. This means we have to compute
+<span class="math display">\[\begin{align*}
+P(G | T) &amp;= \frac{P(T|G)P(G)}{P(T)} \\
+         &amp;= \frac{0.3 \times 0.9}{0.9\times 0.3 + 0.1 \times 0.7} \\
+         &amp;= 0.794
+\end{align*}\]</span>
+After the update, your believe that the coin is green is revised down from 0.9 to 0.8. As
+you gain new evidence you can update your believes again and so on. In this way you learn
+over time from the evidence. If you outperform your competitors in this, you will
+have an edge in the investment game. Note that any relevant information can help you
+in this updating process. You could for instance observe the bidding of other participants
+in the game.</p>
+<p>We will leave the discussion about investing and updating here. In the project for this
+lecture, I will ask you to use R to simulate the investment game and compare results when
+you do Bayesian updating to support your bidding compared with other strategies.</p>
+</div>
+<div id="project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Project: Analyzing the performance of bidding strategies in the investment game using simulation</h2>
 
 </div>
 </div>

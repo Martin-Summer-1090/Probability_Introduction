@@ -1,0 +1,76 @@
+---
+title: "Investment game: Project 3"
+output: html_notebook
+author: Martin Summer
+date: 17.12.2021
+---
+
+In this lecture, unlike in the last,  we have introduced many new probability concepts but
+only a few new things from R. In this project we bring both together again in a context
+of an investment game. 
+
+Suppose you participate in an investment game. You get a starting wealth of
+1000 Euro. You are judged at the end of the game by how much you have been
+able to grow this initial wealth.
+
+There is a referee in the game who can choose among two different coins
+which he may flip: Green coins and red coins. Green coins are
+physically designed such that they land heads with a probability of 0.7 and 
+tails with 0.3. Red coins
+are physically designed the opposite way, 0.3 chance of landing on heads 0.7 chance landing
+on tails.
+
+The game consists of 1000 coin flips. At the
+beginning of the game's referee fills a large bucket with a large number of coins, but
+it is unknown how many of them are green and how many are red.
+He then randomly draws a single coin 
+from the bucket. He uses this coin for all 50 flips in that round making sure 
+the color is hidden for you and all the other participants.
+
+Before each flip of the coin the ownership to the flip is auctioned off. 
+Once the owner of the flip is set, the referee
+flips the coin. If it land heads it pays out 2 to the owner. If it lands tails the owner
+gets nothing. After each round the referee reveals the result of the flip to
+the participants and opens bidding for the next flip.
+
+1. Assume that you know the color of the coin and  the information about its 
+probabilities of landing heads of tail: What is the maximum price you should 
+pay for the green coin and what is the
+maximum price you should pay for the red coin?
+
+Answer: Upon a single flip each coin will either pay 2 or 0. But over a number of
+50 flips the green coin will pay on average:
+```{r}
+0.7*2 + 0.3*0
+```
+and the red coin will pay on average:
+```{r}
+0.3*2 + 0.7*0
+```
+If you buy a green coin above 1.40 you will make a loss in the round, and if you buy a
+red coin above 0.6 you will also make a loss in the round.
+
+2. To get an accurate picture of what each flip is worth you need to find out whether the
+referee is using a red or a green coin. But this information is not available to you. But you
+might form a belief or assign an assumed probability, perhaps based on your counting of
+red and green coins in the bucket. Combining this probability with the probability of the
+coin landing heads or tails you can make an estimated of the worth of each flip. This estimate
+will be somewhere between the maximum value of a red and the maximum value of a 
+green coin, depending on how much weight you give to each color. Suppose now you have
+examined the bucket and found that 9 out of 10 coins in there were green. How much would
+you be willing to maximally pay given this assumption:
+
+Answer:
+
+```{r}
+0.9*0.7*2 + 0.1*0.3*2
+```
+
+3. Now assume you start with the belief of 90 % that the coin is green and the referee has in fact
+drawn a red coin. Create a simulation of the investment game, where the rounds are shown 
+in a data frame. Each row of the data frame shows one flip of the coin. The columns
+of the data frame should show the actual outcome of  the flip of a red coin, the cumulative
+sum of wins, the number of total flips, the probability of the outcome given 
+the assumption that the coin is green, the prior probability you have gained from examining the
+bucket, the complementary probability of the outcome given the assumption that the coin is green,
+and the complementary probability to the prior probability, 

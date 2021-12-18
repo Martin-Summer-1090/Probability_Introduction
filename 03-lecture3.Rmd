@@ -706,20 +706,19 @@ With this insight at hand it now becomes clear that Bayes' theorem closes the
 gap that remained when we discussed the weak law of large numbers. Here it is shown
 what is necessary to make a valid inverse inference from frequency to chance. The key insight was
 to put probabilities on the chances and update them by conditioning on new data. This
-gives a judgement about chances, informed by frequency evidence.
+gives a judgement about chances, informed by frequency evidence. 
 
-## Project 3: The Importance of Updating in Investing
+## Example The Importance of Updating in Investing
 
-In this lecture, unlike in the last,  we have introduced many new probability concepts but
-only a few new things from R. In this project we bring both together again in a context
-of an investment game. 
+This was a bit much of probability. Lets test the significance of what we have learned in the
+context of finance and investment. 
 
-Suppose you compete with other people in an investment game. Each participant starts with
-1000 Euro. Rankings in this game will be determined based on how much every player is
-able to grow this money over the course of the game. 
+In order to do that, suppose you participate in an investment game. You get a starting wealth of
+1000 Euro. You are judged at the end of the game by how much you have been
+able to grow this initial wealth.
 
-Two types of coins are flipped in this game. Green coins and red coins. Green coins are
-designed such that they land heads with a probability of 0.7 and tails with 0.3. Ref coins
+This is a game where two types of coins are flipped: Green coins and red coins. Green coins are
+designed such that they land heads with a probability of 0.7 and tails with 0.3. Red coins
 are physically designed the opposite way, 0.3 chance of landing on heads 0.7 chance landing
 on tails.
 
@@ -732,7 +731,112 @@ the color is hidden for you and all the other participants.
 Before each flip the referee auctions off ownership of the flip to the player 
 who pays the highest price for it. Once the owner of the flip is set, the referee
 flips the coin. If it land heads it pays out 2 to the owner. If it lands tails the owner
-gets nothing.. After each round the referee reveals the result of the flip to
+gets nothing. After each round the referee reveals the result of the flip to
 the participants and opens bidding for the next flip. 
 
-This procedure goes on until the end at which point final rankings are tallied and the associated monetary prizes and penalties are disbursed.
+This procedure goes on until the end at which point final rankings are 
+tallied and the associated monetary prizes and penalties are disbursed.
+
+The key of performing well in this investment game is to make an accurate estimate of what
+a coin flip is worth. Suppose the referee is flipping a green coin. On a single flip the
+coin will land either heads or tails but over many flips it will land heads in about 70 %
+of the cases, in which you get 2 and 30 % of the cases in which you get nothing. Let's use
+R to make a green coin and flip it, using the sample function:
+```{r make-green-coin}
+green_coin <- c("H", "T")
+```
+Now comes the function which actually implements the coin flip:
+```{r green-flip}
+flip_green_coin <- function(){
+  sample(green_coin, 1, replace = T, prob = c(0.7, 0.3))
+}
+```
+Observe that we can implement the bias of this coin by specifying a probability distribution for
+heads and tails, by specifying the `prob` argument appropriately. When we did a coin flip earlier
+in our lecture we dropped this argument and R assumed then that we we will assume classical
+probability, in which case each outcome should get a probability 1/2.
+
+Now let's do a round of 50 flips:
+```{r flipping-green-50}
+green_tosses <- replicate(100, flip_green_coin())
+```
+Now lets compute the average payoff we would have got in this round. Let us 
+select the `"H"` outcomes and calculate its length:
+```{r}
+sel_heads <- green_tosses[green_tosses == "H"]
+length(sel_heads)
+```
+This means we have 33 cases where we get 2 and 27 cases where we get 0. Thus on average
+we will get:
+```{r average-payoff-green-coin}
+(72/100)*2
+```
+So if we payed 1.20 for that round we would make a profit of 0.24. We will discuss the theory
+behind this reasoning in more detail in the next lecture. This is called an expected value.
+
+You see the idea now. If the coin is green we should pay for the flip at most
+```{r}
+0.7*2 + 0.3*0
+```
+and if its red
+```{r}
+0.3*2 + 0.7*0
+```
+In the investment game, we do - however - not know whether the referee is using a red or a green
+coin. This we have to guess. Maybe we have some evidence we can use to inform such a guess. Assume
+for instance, we can count the coins in the bucket before the referee makes a draw. Lets
+assume we will find out that 9 out of 10 coins are green. So we could make the guess that the
+probability is 0.9 that the randomly draw coin is green. Now combining this belief with the
+physical properties of the coin we can make a second order estimate of the value:
+```{r}
+0.9*0.7*2 + 0.1*0.3*2
+```
+Generally this estimate will be somewhere between 0.6 and 1.4 depending on our prior assessment.
+
+Now lets start the first round in our investment game. Assume you win the auction for the
+first flip with a bid of 1.20. The flip comes up tails and you loose. The next flip comes 
+agin up tails and you loose again 1.20. Now eight more flips come and each time you
+are successful in winning the auction with a bid of 1.20. The results of the flips
+come back `TTHTTTTH`. After 10 flips there were two heads and 8 tails, leaving you
+with a cumulative loss of 8.
+
+Now you give yourself a pause to think about the situation: Is the coin in fact green?
+There are two possible outcomes, both
+unlikely:
+
+1. The referee drew a red coin. Possible but unlikely, because you have investigated to bucket and found a ratio of 9 to 1 green over red coins.
+2. The referee drew a green coin but you were just unlucky. The coin should have landed 70 %
+on heads but it did so only 20 %. This is possible but also unlikely.
+
+You now have to update your believes and weight both unlikely outcomes against each other.
+Let us draw a tree:
+```{r red-coin-green-coin, out.width='90%', fig.align='center', fig.cap='Weigthing the two possible unlikely outcomes', echo = F}
+knitr::include_graphics('figures/red_coin_green_coin.png')
+```
+In the figure, you see that I have connected the two nodes $G \cap H$ and $R \cap H$ bya dashed 
+line and I did the same for $G \cap T$ and $R \cap T$. This symbolizes the fact that
+the participant in the game can not see whether the coin is green or red. He only can see whether 
+it comes up H or T. Thus the two nodes connected by the dahsed line are informationally
+indistinguishable for you as a participant.
+
+Now we use Bayes' theorem to update our believes. Our hypothesis 
+is that the coin is green, and
+what we know for fact is that the last flip ended in tails. This means we have to compute
+\begin{align*}
+P(G | T) &= \frac{P(T|G)P(G)}{P(T)} \\
+         &= \frac{0.3 \times 0.9}{0.9\times 0.3 + 0.1 \times 0.7} \\
+         &= 0.794
+\end{align*}
+After the update, your believe that the coin is green is revised down from 0.9 to 0.8. As
+you gain new evidence you can update your believes again and so on. In  this way you learn
+over time from the evidence. If you outperform your competitors in this, you will 
+have an edge in the investment game. Note that any relevant information can help you
+in this updating process. You could for instance observe the bidding of other participants
+in the game. 
+
+We will leave the discussion about investing and updating here. In the project for this
+lecture, I will ask you to use R to simulate the investment game and compare results when
+you do Bayesian updating to support your bidding compared with other strategies.
+
+## Project: Analyzing the performance of bidding strategies in the investment game using simulation
+
