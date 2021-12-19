@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2021-12-18" />
+<meta name="date" content="2021-12-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1042,17 +1042,19 @@ gives a judgement about chances, informed by frequency evidence.</p>
 <h2><span class="header-section-number">3.7</span> Example The Importance of Updating in Investing</h2>
 <p>This was a bit much of probability. Lets test the significance of what we have learned in the
 context of finance and investment.</p>
-<p>In order to do that, suppose you participate in an investment game. You get a starting wealth of
-1000 Euro. You are judged at the end of the game by how much you have been
+<p>In order to do that, suppose you participate in an investment game. You get some amount
+of starting wealth. In the game, you are judged at the end by how much were
 able to grow this initial wealth.</p>
 <p>This is a game where two types of coins are flipped: Green coins and red coins. Green coins are
 designed such that they land heads with a probability of 0.7 and tails with 0.3. Red coins
-are physically designed the opposite way, 0.3 chance of landing on heads 0.7 chance landing
+are physically designed the opposite way, with 0.3 chance of landing on heads and
+0.7 chance landing
 on tails.</p>
-<p>The game is divided into 20 separate rounds, each consisting of 50 coin flips. At the
+<p>The game is divided into 10 separate rounds, each consisting of 100 coin flips in each
+round. At the
 beginning of each round the game’s referee fills a large bucket with an
 unknown quantity or red and green coins. He then randomly draws a single coin
-from the bucket. He uses this coin for all 50 flips in that round making sure
+from the bucket. He uses this coin for all 100 flips in that round making sure
 the color is hidden for you and all the other participants.</p>
 <p>Before each flip the referee auctions off ownership of the flip to the player
 who pays the highest price for it. Once the owner of the flip is set, the referee
@@ -1065,55 +1067,63 @@ tallied and the associated monetary prizes and penalties are disbursed.</p>
 a coin flip is worth. Suppose the referee is flipping a green coin. On a single flip the
 coin will land either heads or tails but over many flips it will land heads in about 70 %
 of the cases, in which you get 2 and 30 % of the cases in which you get nothing. Let’s use
-R to make a green coin and flip it, using the sample function:</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="conditional-probability.html#cb261-1" aria-hidden="true" tabindex="-1"></a>green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span></code></pre></div>
-<p>Now comes the function which actually implements the coin flip:</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="conditional-probability.html#cb262-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb262-2"><a href="conditional-probability.html#cb262-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
-<span id="cb262-3"><a href="conditional-probability.html#cb262-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+R to make a green coin and flip it, using the sample function, as we did already in lecture 2:</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="conditional-probability.html#cb261-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb261-2"><a href="conditional-probability.html#cb261-2" aria-hidden="true" tabindex="-1"></a>  green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
+<span id="cb261-3"><a href="conditional-probability.html#cb261-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb261-4"><a href="conditional-probability.html#cb261-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Observe that we can implement the bias of this coin by specifying a probability distribution for
 heads and tails, by specifying the <code>prob</code> argument appropriately. When we did a coin flip earlier
 in our lecture we dropped this argument and R assumed then that we we will assume classical
 probability, in which case each outcome should get a probability 1/2.</p>
-<p>Now let’s do a round of 50 flips:</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="conditional-probability.html#cb263-1" aria-hidden="true" tabindex="-1"></a>green_tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">flip_green_coin</span>())</span></code></pre></div>
+<p>Now let’s do a round of 100 flips:</p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="conditional-probability.html#cb262-1" aria-hidden="true" tabindex="-1"></a>green_tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">flip_green_coin</span>())</span></code></pre></div>
 <p>Now lets compute the average payoff we would have got in this round. Let us
 select the <code>"H"</code> outcomes and calculate its length:</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="conditional-probability.html#cb264-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
-<span id="cb264-2"><a href="conditional-probability.html#cb264-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 73</code></pre>
-<p>This means we have 33 cases where we get 2 and 27 cases where we get 0. Thus on average
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="conditional-probability.html#cb263-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
+<span id="cb263-2"><a href="conditional-probability.html#cb263-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
+<pre><code>## [1] 61</code></pre>
+<p>This means we have 61 cases where we get 2 and 39
+cases where we get 0. Thus on average
 we will get:</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="conditional-probability.html#cb266-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">72</span><span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.44</code></pre>
-<p>So if we payed 1.20 for that round we would make a profit of 0.24. We will discuss the theory
-behind this reasoning in more detail in the next lecture. This is called an expected value.</p>
-<p>You see the idea now. If the coin is green we should pay for the flip at most</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="conditional-probability.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="conditional-probability.html#cb265-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 1.22</code></pre>
+<p>So if we payed 1.20 for that round we would make a profit of
+0.02. The reasoning behind this argument is that the payoff
+associated with a randomly flipped coin, which lands with 70 % chance on
+heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
+of flips it will come up heads approximately 7 out of 10 and thus will pay on average 0.7<em>2. This
+view of a random payoff associated with the coin is technically called a </em>random variable* and
+the average payoff over many rounds is technically called an <em>expected value</em>. These important
+notions of probability theory we will discuss more precisely in the next lecture, lecture 4.</p>
+<p>For now you see the idea now. If the coin is green we should pay for the flip at most</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="conditional-probability.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
 <pre><code>## [1] 1.4</code></pre>
 <p>and if its red</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="conditional-probability.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.7</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="conditional-probability.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.7</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
 <pre><code>## [1] 0.6</code></pre>
 <p>In the investment game, we do - however - not know whether the referee is using a red or a green
-coin. This we have to guess. Maybe we have some evidence we can use to inform such a guess. Assume
+coin. This we have to guess.</p>
+<p>Maybe we have some evidence we can use to inform such a guess. Assume
 for instance, we can count the coins in the bucket before the referee makes a draw. Lets
 assume we will find out that 9 out of 10 coins are green. So we could make the guess that the
-probability is 0.9 that the randomly draw coin is green. Now combining this belief with the
+probability is 0.9 that the randomly draw coin is green.</p>
+<p>Now combining this belief with the
 physical properties of the coin we can make a second order estimate of the value:</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="conditional-probability.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.9</span><span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="conditional-probability.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.9</span><span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 1.32</code></pre>
 <p>Generally this estimate will be somewhere between 0.6 and 1.4 depending on our prior assessment.</p>
 <p>Now lets start the first round in our investment game. Assume you win the auction for the
 first flip with a bid of 1.20. The flip comes up tails and you loose. The next flip comes
-agin up tails and you loose again 1.20. Now eight more flips come and each time you
+again up tails and you loose again 1.20. Now eight more flips come and each time you
 are successful in winning the auction with a bid of 1.20. The results of the flips
 come back <code>TTHTTTTH</code>. After 10 flips there were two heads and 8 tails, leaving you
 with a cumulative loss of 8.</p>
 <p>Now you give yourself a pause to think about the situation: Is the coin in fact green?
-There are two possible outcomes, both
-unlikely:</p>
+There are two possible outcomes, both unlikely:</p>
 <ol style="list-style-type: decimal">
-<li>The referee drew a red coin. Possible but unlikely, because you have investigated to bucket and found a ratio of 9 to 1 green over red coins.</li>
+<li>The referee drew a red coin. Possible but unlikely, because you have
+investigated to bucket and found a ratio of 9 to 1 green over red coins.</li>
 <li>The referee drew a green coin but you were just unlucky. The coin should have landed 70 %
 on heads but it did so only 20 %. This is possible but also unlikely.</li>
 </ol>
@@ -1125,11 +1135,11 @@ Let us draw a tree:
 Figure 3.9: Weigthing the two possible unlikely outcomes
 </p>
 </div>
-<p>In the figure, you see that I have connected the two nodes <span class="math inline">\(G \cap H\)</span> and <span class="math inline">\(R \cap H\)</span> bya dashed
+<p>In the figure, you see that I have connected the two nodes <span class="math inline">\(G \cap H\)</span> and <span class="math inline">\(R \cap H\)</span> by a dashed
 line and I did the same for <span class="math inline">\(G \cap T\)</span> and <span class="math inline">\(R \cap T\)</span>. This symbolizes the fact that
 the participant in the game can not see whether the coin is green or red. He only can see whether
-it comes up H or T. Thus the two nodes connected by the dahsed line are informationally
-indistinguishable for you as a participant.</p>
+it comes up H or T. Thus the two nodes connected by the dashed line are
+indistinguishable for you as a participant. You only observe the outcome <code>T</code>.</p>
 <p>Now we use Bayes’ theorem to update our believes. Our hypothesis
 is that the coin is green, and
 what we know for fact is that the last flip ended in tails. This means we have to compute
@@ -1143,13 +1153,529 @@ you gain new evidence you can update your believes again and so on. In this way 
 over time from the evidence. If you outperform your competitors in this, you will
 have an edge in the investment game. Note that any relevant information can help you
 in this updating process. You could for instance observe the bidding of other participants
-in the game.</p>
-<p>We will leave the discussion about investing and updating here. In the project for this
-lecture, I will ask you to use R to simulate the investment game and compare results when
-you do Bayesian updating to support your bidding compared with other strategies.</p>
+in the game or use other sources.</p>
+<p>Let’s use our knowledge of R to think about the next steps in the sequence of coin flips sticking
+to the assumptions of our hypothetical situation, that you have counted the coins in the
+bucket, found the ratio 9 to 1 of green coins but the referee drew in fact a red coin which he
+flips. You observe the outcome and update your priors in the light of this new evidence.</p>
+<p>Assume we have the following record. We see a data frame with the following sequence of draws by
+the referee:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="conditional-probability.html#cb273-1" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
+<p>Now lets add a column with the probability that the outcome occurs, given that our hypothesis that
+the coin is green is in fact true, i.e. we add <span class="math inline">\(P(T|G)\)</span> or <span class="math inline">\(P(H|G)\)</span> respectively.</p>
+<p>This is perhaps a bit complicated, because, say in line 1 we would know that <span class="math inline">\(P(T|G)\)</span> is 0.3, but
+then in line 2 this needs to be $P(T|G) <span class="math inline">\(P(T|G)\)</span> by the multiplaction rule and the
+assumption that the coin flips of the referee are independent. How could we implement this, given
+the T knowledge we have so far? Note that questions of this nature never have a unique answers,
+usually there are many ways to implement the same thing. So let me make a suggestion, which
+builds as much as possible on what we know already.</p>
+<p>First we add an indicator variable of type <code>logical</code>, which tells us whether it is true that the
+toss of the referee is a win or not and add this to our <code>game_record</code>data frame and call it <code>Win</code>:</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="conditional-probability.html#cb274-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span></span></code></pre></div>
+<p>Then we add a new column, recording the sum of wins up to each round. So for instance it would
+always be 0 in the first four rows but then is 1 after the first head occurs, then stays at 1 until
+the next head occurs when it jumps to 2 etc.</p>
+<p>We can uses the Win variable and R’s coercion rules to apply the <code>cumsum()</code>function of R, which takes cumulative sums. To see how it works, consider the vector:</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="conditional-probability.html#cb275-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>)</span></code></pre></div>
+<p>if you apply <code>cumsum()</code> to <code>v</code> R will coerce the <code>TRUE</code> components to a numeric 1 and the <code>FALSE</code> components to a numeric 0 and then apply the function, like this:</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="conditional-probability.html#cb276-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(v)</span></code></pre></div>
+<pre><code>## [1] 1 2 2 2 3 4 4 4 5</code></pre>
+<p>We add such a column to our data frame with a new varible <code>Sum_Wins</code>:</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="conditional-probability.html#cb278-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Sum_Wins <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(game_record<span class="sc">$</span>Win)</span></code></pre></div>
+<p>Now finally add a column which record the total number of flips and call it <code>Num_Flips</code>. This is
+easy:</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="conditional-probability.html#cb279-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Num_Flips <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span></code></pre></div>
+<p>Let’s have a look at our data frame construction so far:</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="conditional-probability.html#cb280-1" aria-hidden="true" tabindex="-1"></a>game_record</span></code></pre></div>
+<pre><code>##    Data   Win Sum_Wins Num_Flips
+## 1     T FALSE        0         1
+## 2     T FALSE        0         2
+## 3     T FALSE        0         3
+## 4     T FALSE        0         4
+## 5     H  TRUE        1         5
+## 6     T FALSE        1         6
+## 7     T FALSE        1         7
+## 8     T FALSE        1         8
+## 9     T FALSE        1         9
+## 10    H  TRUE        2        10
+## 11    T FALSE        2        11
+## 12    H  TRUE        3        12
+## 13    T FALSE        3        13
+## 14    H  TRUE        4        14
+## 15    H  TRUE        5        15
+## 16    T FALSE        5        16
+## 17    T FALSE        5        17
+## 18    H  TRUE        6        18
+## 19    T FALSE        6        19
+## 20    T FALSE        6        20
+## 21    T FALSE        6        21
+## 22    T FALSE        6        22
+## 23    H  TRUE        7        23
+## 24    T FALSE        7        24
+## 25    T FALSE        7        25
+## 26    H  TRUE        8        26
+## 27    H  TRUE        9        27
+## 28    H  TRUE       10        28
+## 29    T FALSE       10        29
+## 30    T FALSE       10        30</code></pre>
+<p>Now we need to add the relevant probabilities we need for updating believes in each round:
+The first column we need is <span class="math inline">\(P(\text{outcome}| G)\)</span>.</p>
+<p>The probability of
+successes after a given number
+of flips of a coin can be computed in R using the function <code>dbinom()</code>. We will learn more
+about this function in the next lecture, when be learn about the binomial distribution. This
+function takes three arguments. The first argument is a binary variable which is either a success
+of a failure. In Our case this would be the <code>Win</code> variable. The second argument
+is the number of flips, in our case the <code>Num_flips</code>argument and the last argument
+is the probability of success.
+Since we assume here that the coin is green this is 0.7. With this information and the
+<code>dbinom</code> function we can compute all the <span class="math inline">\(P(\text{outcome} | G)\)</span> probabilities and
+add this column to the
+frame.</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="conditional-probability.html#cb282-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POG <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.7</span>)</span></code></pre></div>
+<p>The next colum is our prior of <span class="math inline">\(P(G)\)</span> that the coin is indeed green. This is, as we have assumed
+0.9. So this is a column of 30 values each of which is 0.9. This can be done by using the
+<code>rep()</code> function.</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="conditional-probability.html#cb283-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PG <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.9</span>, <span class="dv">30</span>)</span></code></pre></div>
+<p>Now in the next column we compute the probabilities for <span class="math inline">\(P(\text{outcome} | R)\)</span>, the
+conditional probabilities of the outcome given the coin is red. We use again <code>dbinom()</code>but
+with the appropriately adjusted arguments:</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="conditional-probability.html#cb284-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)</span></code></pre></div>
+<p>Now we add the prior of the coin beein red <span class="math inline">\(P(R)\)</span> which is in our case 0.1:</p>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="conditional-probability.html#cb285-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">30</span>)</span></code></pre></div>
+<p>Now we have almost all the ingredients for computing a Bayesian update at every step. What we
+are still missing is the total probability of the outcome. Note that it can come from two
+sources, which we cannot distinguish just from observing the outcome. If
+you remember our discussion from before this should now look familiar to you:</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="conditional-probability.html#cb286-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span></code></pre></div>
+<p>Now we have all the ingredients to compute at every step the Bayesian update
+<span class="math inline">\(P(G | \text{outcome}\)</span> of our belief that
+the coin is green. We just have to apply the formula now:</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="conditional-probability.html#cb287-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span></code></pre></div>
+<p>Now let us add as a final columns the amount we should bid in each round given the updated
+believes.</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="conditional-probability.html#cb288-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<p>Let’s have a look at what we’ve got now</p>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="conditional-probability.html#cb289-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(game_record, <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Data</th>
+<th align="left">Win</th>
+<th align="right">Sum_Wins</th>
+<th align="right">Num_Flips</th>
+<th align="right">POG</th>
+<th align="right">PG</th>
+<th align="right">POR</th>
+<th align="right">PR</th>
+<th align="right">PO</th>
+<th align="right">PGO</th>
+<th align="right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.300</td>
+<td align="right">0.9</td>
+<td align="right">0.700</td>
+<td align="right">0.1</td>
+<td align="right">0.340</td>
+<td align="right">0.794</td>
+<td align="right">1.235</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0.090</td>
+<td align="right">0.9</td>
+<td align="right">0.490</td>
+<td align="right">0.1</td>
+<td align="right">0.130</td>
+<td align="right">0.623</td>
+<td align="right">1.098</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0.027</td>
+<td align="right">0.9</td>
+<td align="right">0.343</td>
+<td align="right">0.1</td>
+<td align="right">0.059</td>
+<td align="right">0.415</td>
+<td align="right">0.932</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0.008</td>
+<td align="right">0.9</td>
+<td align="right">0.240</td>
+<td align="right">0.1</td>
+<td align="right">0.031</td>
+<td align="right">0.233</td>
+<td align="right">0.786</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">0.028</td>
+<td align="right">0.9</td>
+<td align="right">0.360</td>
+<td align="right">0.1</td>
+<td align="right">0.062</td>
+<td align="right">0.415</td>
+<td align="right">0.932</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">0.001</td>
+<td align="right">0.9</td>
+<td align="right">0.118</td>
+<td align="right">0.1</td>
+<td align="right">0.012</td>
+<td align="right">0.053</td>
+<td align="right">0.642</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.082</td>
+<td align="right">0.1</td>
+<td align="right">0.008</td>
+<td align="right">0.023</td>
+<td align="right">0.619</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.058</td>
+<td align="right">0.1</td>
+<td align="right">0.006</td>
+<td align="right">0.010</td>
+<td align="right">0.608</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.040</td>
+<td align="right">0.1</td>
+<td align="right">0.004</td>
+<td align="right">0.004</td>
+<td align="right">0.603</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+<td align="right">10</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.121</td>
+<td align="right">0.1</td>
+<td align="right">0.012</td>
+<td align="right">0.010</td>
+<td align="right">0.608</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="right">11</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.020</td>
+<td align="right">0.1</td>
+<td align="right">0.002</td>
+<td align="right">0.001</td>
+<td align="right">0.601</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">3</td>
+<td align="right">12</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.071</td>
+<td align="right">0.1</td>
+<td align="right">0.007</td>
+<td align="right">0.002</td>
+<td align="right">0.602</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="right">13</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.010</td>
+<td align="right">0.1</td>
+<td align="right">0.001</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">4</td>
+<td align="right">14</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.041</td>
+<td align="right">0.1</td>
+<td align="right">0.004</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">5</td>
+<td align="right">15</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.031</td>
+<td align="right">0.1</td>
+<td align="right">0.003</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">5</td>
+<td align="right">16</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.003</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">5</td>
+<td align="right">17</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.002</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">6</td>
+<td align="right">18</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.013</td>
+<td align="right">0.1</td>
+<td align="right">0.001</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="right">19</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="right">20</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="right">21</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="right">22</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">7</td>
+<td align="right">23</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.003</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">7</td>
+<td align="right">24</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">7</td>
+<td align="right">25</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">8</td>
+<td align="right">26</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">9</td>
+<td align="right">27</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">28</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">10</td>
+<td align="right">29</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">10</td>
+<td align="right">30</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+</tbody>
+</table>
+<p>Now you see that already after the 9th round you have learned that in fact the coin is most
+probably not green, although you started with a high level of confidence.</p>
+<p>For a performance evaluation in an investment game we refer you to the project for this lecture.</p>
 </div>
 <div id="project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation" class="section level2" number="3.8">
 <h2><span class="header-section-number">3.8</span> Project: Analyzing the performance of bidding strategies in the investment game using simulation</h2>
+<p>In this project yo are going to build on our last example and convince yourself of the
+power of updating probabilities in investment decisions. We are in the
+investment game described in the lecture. Assume we play for three rounds, each round
+with 100 coin flips. The setup is as described.</p>
 
 </div>
 </div>

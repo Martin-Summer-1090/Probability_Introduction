@@ -713,19 +713,21 @@ gives a judgement about chances, informed by frequency evidence.
 This was a bit much of probability. Lets test the significance of what we have learned in the
 context of finance and investment. 
 
-In order to do that, suppose you participate in an investment game. You get a starting wealth of
-1000 Euro. You are judged at the end of the game by how much you have been
+In order to do that, suppose you participate in an investment game. You get some amount
+of starting wealth. In the game, you are judged at the end by how much were
 able to grow this initial wealth.
 
 This is a game where two types of coins are flipped: Green coins and red coins. Green coins are
 designed such that they land heads with a probability of 0.7 and tails with 0.3. Red coins
-are physically designed the opposite way, 0.3 chance of landing on heads 0.7 chance landing
+are physically designed the opposite way, with 0.3 chance of landing on heads and 
+0.7 chance landing
 on tails.
 
-The game is divided into 20 separate rounds, each consisting of 50 coin flips. At the
+The game is divided into 10 separate rounds, each consisting of 100 coin flips in each
+round. At the
 beginning of each round the game's referee fills a large bucket with an 
 unknown quantity or red and green coins. He then randomly draws a single coin 
-from the bucket. He uses this coin for all 50 flips in that round making sure 
+from the bucket. He uses this coin for all 100 flips in that round making sure 
 the color is hidden for you and all the other participants.
 
 Before each flip the referee auctions off ownership of the flip to the player 
@@ -741,13 +743,10 @@ The key of performing well in this investment game is to make an accurate estima
 a coin flip is worth. Suppose the referee is flipping a green coin. On a single flip the
 coin will land either heads or tails but over many flips it will land heads in about 70 %
 of the cases, in which you get 2 and 30 % of the cases in which you get nothing. Let's use
-R to make a green coin and flip it, using the sample function:
-```{r make-green-coin}
-green_coin <- c("H", "T")
-```
-Now comes the function which actually implements the coin flip:
+R to make a green coin and flip it, using the sample function, as we did already in lecture 2:
 ```{r green-flip}
 flip_green_coin <- function(){
+  green_coin <- c("H", "T")
   sample(green_coin, 1, replace = T, prob = c(0.7, 0.3))
 }
 ```
@@ -756,7 +755,7 @@ heads and tails, by specifying the `prob` argument appropriately. When we did a 
 in our lecture we dropped this argument and R assumed then that we we will assume classical
 probability, in which case each outcome should get a probability 1/2.
 
-Now let's do a round of 50 flips:
+Now let's do a round of 100 flips:
 ```{r flipping-green-50}
 green_tosses <- replicate(100, flip_green_coin())
 ```
@@ -766,15 +765,22 @@ select the `"H"` outcomes and calculate its length:
 sel_heads <- green_tosses[green_tosses == "H"]
 length(sel_heads)
 ```
-This means we have 33 cases where we get 2 and 27 cases where we get 0. Thus on average
+This means we have `r length(sel_heads)` cases where we get 2 and `r 100 - length(sel_heads)` 
+cases where we get 0. Thus on average
 we will get:
 ```{r average-payoff-green-coin}
-(72/100)*2
+(length(sel_heads)/100)*2
 ```
-So if we payed 1.20 for that round we would make a profit of 0.24. We will discuss the theory
-behind this reasoning in more detail in the next lecture. This is called an expected value.
+So if we payed 1.20 for that round we would make a profit of
+`r (length(sel_heads)/100)*2 -1.20`. The reasoning behind this argument is that the payoff
+associated with a randomly flipped coin, which lands with 70 % chance on 
+heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
+of flips it will come up heads approximately 7 out of 10 and thus will pay on average 0.7*2. This
+view of a random payoff associated with the coin is technically called a *random variable* and
+the average payoff over many rounds is technically called an *expected value*. These important
+notions of probability theory we will discuss more precisely in the next lecture, lecture 4.
 
-You see the idea now. If the coin is green we should pay for the flip at most
+For now you see the idea now. If the coin is green we should pay for the flip at most
 ```{r}
 0.7*2 + 0.3*0
 ```
@@ -783,10 +789,14 @@ and if its red
 0.3*2 + 0.7*0
 ```
 In the investment game, we do - however - not know whether the referee is using a red or a green
-coin. This we have to guess. Maybe we have some evidence we can use to inform such a guess. Assume
+coin. This we have to guess. 
+
+Maybe we have some evidence we can use to inform such a guess. Assume
 for instance, we can count the coins in the bucket before the referee makes a draw. Lets
 assume we will find out that 9 out of 10 coins are green. So we could make the guess that the
-probability is 0.9 that the randomly draw coin is green. Now combining this belief with the
+probability is 0.9 that the randomly draw coin is green. 
+
+Now combining this belief with the
 physical properties of the coin we can make a second order estimate of the value:
 ```{r}
 0.9*0.7*2 + 0.1*0.3*2
@@ -795,16 +805,16 @@ Generally this estimate will be somewhere between 0.6 and 1.4 depending on our p
 
 Now lets start the first round in our investment game. Assume you win the auction for the
 first flip with a bid of 1.20. The flip comes up tails and you loose. The next flip comes 
-agin up tails and you loose again 1.20. Now eight more flips come and each time you
+again up tails and you loose again 1.20. Now eight more flips come and each time you
 are successful in winning the auction with a bid of 1.20. The results of the flips
 come back `TTHTTTTH`. After 10 flips there were two heads and 8 tails, leaving you
 with a cumulative loss of 8.
 
 Now you give yourself a pause to think about the situation: Is the coin in fact green?
-There are two possible outcomes, both
-unlikely:
+There are two possible outcomes, both unlikely:
 
-1. The referee drew a red coin. Possible but unlikely, because you have investigated to bucket and found a ratio of 9 to 1 green over red coins.
+1. The referee drew a red coin. Possible but unlikely, because you have 
+investigated to bucket and found a ratio of 9 to 1 green over red coins.
 2. The referee drew a green coin but you were just unlucky. The coin should have landed 70 %
 on heads but it did so only 20 %. This is possible but also unlikely.
 
@@ -813,11 +823,11 @@ Let us draw a tree:
 ```{r red-coin-green-coin, out.width='90%', fig.align='center', fig.cap='Weigthing the two possible unlikely outcomes', echo = F}
 knitr::include_graphics('figures/red_coin_green_coin.png')
 ```
-In the figure, you see that I have connected the two nodes $G \cap H$ and $R \cap H$ bya dashed 
+In the figure, you see that I have connected the two nodes $G \cap H$ and $R \cap H$ by a dashed 
 line and I did the same for $G \cap T$ and $R \cap T$. This symbolizes the fact that
 the participant in the game can not see whether the coin is green or red. He only can see whether 
-it comes up H or T. Thus the two nodes connected by the dahsed line are informationally
-indistinguishable for you as a participant.
+it comes up H or T. Thus the two nodes connected by the dashed line are 
+indistinguishable for you as a participant. You only observe the outcome `T`.
 
 Now we use Bayes' theorem to update our believes. Our hypothesis 
 is that the coin is green, and
@@ -832,11 +842,122 @@ you gain new evidence you can update your believes again and so on. In  this way
 over time from the evidence. If you outperform your competitors in this, you will 
 have an edge in the investment game. Note that any relevant information can help you
 in this updating process. You could for instance observe the bidding of other participants
-in the game. 
+in the game or use other sources. 
 
-We will leave the discussion about investing and updating here. In the project for this
-lecture, I will ask you to use R to simulate the investment game and compare results when
-you do Bayesian updating to support your bidding compared with other strategies.
+Let's use our knowledge of R to think about the next steps in the sequence of coin flips sticking 
+to the assumptions of our hypothetical situation, that you have counted the coins in the
+bucket, found the ratio 9 to 1 of green coins but the referee drew in fact a red coin which he 
+flips. You observe the outcome and update your priors in the light of this new evidence.
+
+Assume we have the following record. We see a data frame with the following sequence of draws by
+the referee:
+```{r game-record}
+game_record <- data.frame(Data = c("T", "T", "T", "T", "H", "T", "T", "T", "T", "H", "T", "H", "T", "H", "H", "T", "T", "H", "T", "T", "T", "T", "H", "T", "T", "H", "H", "H", "T", "T"))
+```
+Now lets add a column with the probability that the outcome occurs, given that our hypothesis that
+the coin is green is in fact true, i.e. we add $P(T|G)$ or $P(H|G)$ respectively.
+
+This is perhaps a bit complicated, because, say in line 1 we would know that $P(T|G)$ is 0.3, but
+then in line 2 this needs to be $P(T|G) \times $P(T|G)$ by the multiplaction rule and the 
+assumption that the coin flips of the referee are independent. How could we implement this, given
+the T knowledge we have so far? Note that questions of this nature never have a unique answers,
+usually there are many ways to implement the same thing. So let me make a suggestion, which 
+builds as much as possible on what we know already.
+
+First we add an indicator variable of type `logical`, which tells us whether it is true that the
+toss of the referee is a win or not and add this to our `game_record`data frame and call it `Win`:
+```{r game-record-with-indicator}
+game_record$Win <- game_record$Data == "H"
+```
+Then we add a new column, recording the sum of wins up to each round. So for instance it would
+always be 0 in the first four rows but then is 1 after the first head occurs, then stays at 1 until
+the next head occurs when it jumps to 2 etc. 
+
+We can uses the Win variable and R's coercion rules to apply the `cumsum()`function of R, which takes cumulative sums. To see how it works, consider the vector:
+```{r example-cumsum}
+v <- c(TRUE,TRUE,FALSE,FALSE,TRUE,TRUE,FALSE,FALSE,TRUE)
+```
+if you apply `cumsum()` to `v` R will coerce the `TRUE` components to a numeric 1 and the `FALSE` components to a numeric 0 and then apply the function, like this:
+```{r example-apply-cumsum}
+cumsum(v)
+```
+We add such a column to our data frame with a new varible `Sum_Wins`:
+```{r add-sum-wins}
+game_record$Sum_Wins <- cumsum(game_record$Win)
+```
+Now finally add a column which record the total number of flips and call it `Num_Flips`. This is
+easy:
+```{r num-flips}
+game_record$Num_Flips <- 1:30
+```
+Let's have a look at our data frame construction so far:
+```{r part-df}
+game_record
+```
+Now we need to add the relevant probabilities we need for updating believes in each round:
+The first column we need is $P(\text{outcome}| G)$. 
+
+The probability of 
+successes after a given number
+of flips of a coin can be computed in R using the function `dbinom()`. We will learn more
+about this function in the next lecture, when be learn about the binomial distribution. This
+function takes three arguments. The first argument is a binary variable which is either a success
+of a failure. In Our case this would be the `Win` variable. The second argument 
+is the number of flips, in our case the `Num_flips`argument and the last argument 
+is the probability of success. 
+Since we assume here that the coin is green this is 0.7. With this information and the
+`dbinom` function we can compute all the $P(\text{outcome} | G)$ probabilities and 
+add this column to the
+frame.
+```{r binomials}
+game_record$POG <- dbinom(game_record$Win, game_record$Num_Flips, 0.7)
+```
+The next colum is our prior of $P(G)$ that the coin is indeed green. This is, as we have assumed
+0.9. So this is a column of 30 values each of which is 0.9. This can be done by using the 
+`rep()` function.
+```{r prior}
+game_record$PG <- rep(0.9, 30)
+```
+Now in the next column we compute the probabilities for $P(\text{outcome} | R)$, the 
+conditional probabilities of the outcome given the coin is red. We use again `dbinom()`but
+with the appropriately adjusted arguments:
+```{r cond-prob-red}
+game_record$POR <- dbinom(game_record$Win, game_record$Num_Flips, 0.3)
+```
+Now we add the prior of the coin beein red $P(R)$ which is in our case 0.1:
+```{r prior-red}
+game_record$PR <- rep(0.1,30)
+```
+Now we have almost all the ingredients for computing a Bayesian update at every step. What we
+are still missing is the total probability of the outcome. Note that it can come from two
+sources, which we cannot distinguish just from observing the outcome. If 
+you remember our discussion from before this should now look familiar to you:
+```{r tot-prob-out}
+game_record$PO <- game_record$POG*game_record$PG + game_record$POR*game_record$PR
+```
+Now we have all the ingredients to compute at every step the Bayesian update 
+$P(G | \text{outcome}$ of our belief that
+the coin is green. We just have to apply the formula now:
+```{r bayesian update}
+game_record$PGO <- game_record$POG*game_record$PG/game_record$PO
+```
+Now let us add as a final columns the amount we should bid in each round given the updated 
+believes.
+```{r updated-valuation}
+game_record$Value <- game_record$PGO*0.7*2 + (1-game_record$PGO)*0.3*2
+```
+Let's have a look at what we've got now
+```{r}
+knitr::kable(game_record, digits = 3)
+```
+Now you see that already after the 9th round you have learned that in fact the coin is most
+probably not green, although you started with a high level of confidence.
+
+For a performance evaluation in an investment game we refer you to the project for this lecture.
 
 ## Project: Analyzing the performance of bidding strategies in the investment game using simulation
 
+In this project yo are going to build on our last example and convince yourself of the
+power of updating probabilities in investment decisions. We are in the
+investment game described in the lecture. Assume we play for three rounds, each round
+with 100 coin flips. The setup is as described.
