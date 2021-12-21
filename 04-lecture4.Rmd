@@ -1,174 +1,306 @@
 # Random Variables
 
-We now come to an extension of the simple probability model which is very useful. Let ${\cal S}$ 
-be some finite set and $P(x)$ a probability on ${\cal S}$. A **random variable** is a 
+## Discrete Distributions
+
+We now come to an extension of the simple probability model 
+which is very useful. This is the concept of a random variable.
+We have implicitly already used this concept with our virtual
+dice and in our example and project on investing and updating believes.
+
+Let ${\cal S}$ 
+be some finite set - a sample space -  and $P(x)$ a 
+probability on ${\cal S}$. A **random variable** is a 
 function assigning numbers to points of ${\cal S}$.
-The notation ${\cal S}$ has been chosen deliberately to connect this lecture with the previous ones. A **random variable** is a function defined on  the sample space.
-
-The term random variable is slightly confusing, for what is really meant is something like a random function where the range is the sample space, i.e. the outcome of a random experiment, and 
-the image is the set of real numbers.
-
-It is a widely held convention in probability theory to denote random variables by capital letters, like $X$ and $Y$ and their values are denoted by $x$ and $y$ respectively.
-
-Let $X$ be a random variable and let $x_1, x_2, \dots , x_n$ denote the values it can assume. The
-aggregate of all sample points on which $X$ assumes the fixed value $X = x_j$ forms the event
-that $X = x_j$. Its probability is denoted by $P(X = x_j)$.
-
-When a random variable can only take finitely many or uncountably many values, i.e. when the 
-sample space contains only finitley many or uncountably many basic outcomes, we say that the
-random variable is *discrete*.
-
-The function $P(X = x_j) = p(x_j)$ for $j = 1, \cdots ,n$ is called 
-the **(probability) distribution** of the random variable $X$. This function completely 
-describes the probability properties of the random variable. Note that $p(x_j) \geq 0$ 
-and $\sum_{j=1}^n p(x_j) = 1$.
-
-The **cumulative distribution function** - abbreviated CDF - shows the probability that a 
-random variable $X$ take a value less than or equal to a given value $x$. It is usually denoted as $F(x) = P(x \leq x)$ where $-\infty < x < \infty$.
-
-We have actually already encountered a random variable in our very first lecture, where we discussed
-the six sided fair die. The random variable $X$ is the rolling of the die with the numbers of 
-spots being $x$. $X$ is actually a function on the space of basic outcomes $1, 2, 3, 4, 5, 6$. 
-Each of these outcomes has probability $1/6$, since the dice is fair.
-
-It is common to display the probabilities associated with a random variables, graphically as 
-a density ( a probability distribution).
-
-insert plot use R
-
-insert CDF for fair die use R
-
-Now consider two random variables $X$ and $Y$ instead of only one. Assume both random variables
-are functions on the same sample space ${\cal S}$ and denote the values which they respectively
-assume by $x_1,x_2, \cdots, x_n$ and $y_1, y_2, \cdots, y_m$. Let us denote the corresponding
-probability distributions $f(x_i), i = 1, \cdots, n$, by $f(x_1), f(x_2), \cdots, f(x_n)$ and
-$g(x_j), j = 1 \cdots m$ by $g(y_1), g(y_2), \cdots, g(y_m)$.
-The aggregate points which satisfy the condition $X = x_i$  and $Y=y_j$ are an event. Its
-probability is denoted by $P(X=x_i, Y=y_j) = p(x_i, y_j), \, i = 1 \cdots n, \, j = 1,\cdots m$
-and is called the **joint probability distribution**. Clearly we must have
-$p(x_i,y_j) \geq 0$ and $\sum_{i,j} p(x_i,y_j) = 1$.
-
-example 2 dice from before as tables, maybe a 3-D graph?
-
-Here we encounter again a concept we have already heard about in the context of conditional
-probability. For every fixed $i$, we have
-$p(x_i, y_1) + p(x_i, y_2) + \cdots + p(x_i, y_m) = P(X = x_i) = f(x_i)$ 
-and for evey fixed $j$ we have
-$p(x_1, y_j) + p(x_2, y_j) + \cdots p(x_n, y_j) = P(Y = y_j) = g(y_j)$
-
-This means that adding the probabilities of different rows and columns we obtain the probability
-distribution of $X$ and $Y$. They may be exhibited using our tables and they are called the
-**marginal distributions** which refers directly to the appearance in the  table.
-
-These notions carry over to more than two random variables. With the notation we have introduced
-so far we can also define the **conditional probability** of an event $Y = y_j$ given that
-$X = x_i$ (with $f(x_i) > 0$). This conditional probability is denoted as
-$P(y = y_j \, | X = x_i) = \frac{p(x_i,y_j)}{f(x_i)}$. Since this expression gives a number for
-every value of $X$ it is a function of $X$ and
-we call it the **conditional distribution of $Y$ for given $X$** denoted by $P(Y = y_j | X)$.
-The conditional probability $P(y = y_j \, | X = x_i)$ is in general different from $g(y_j)$. In
-this case the two random variables are stochastically dependent. If on the other hand
-$p(x_i,y_j)=f(x_i)g(y_j)$ for all combinations of $x_i,y_j$ then the events $X = x_i$ and $Y = y_j$
-are independent and we speak of independent random variables.
-
-Note that the joint distribution $x$ and $Y$ determines the distribution of $X$ and $Y$ but we cannot compute the distribution of $X$ and $Y$ from their marginal distributions. If two variables
-$X$ and $Y$ have the same distribution they may or may not be independent.
-
-Let us summarize the concepts we have learned in this section now in a formal definition (Feller p 217)
+The notation ${\cal S}$ has been chosen deliberately 
+to connect this lecture with the previous ones. So we get the following
+definition
 
 Random variable
-: A random variable $X$ is a function defined on a given sample space, mapping each sample point 
-into a real number
+: A **random variable** is a function defined on  the sample space.
+
+The term random variable might be slightly confusing, for what is 
+really meant is something like a random function where 
+the range is the sample space, i.e. the outcome of a 
+random experiment, and 
+the image is the set of real numbers.
+
+Think of the payoff promise in the investment game, we analyzed in
+lecture 3. The sample space for the flip of a coin is the set
+${\cal S}=\{H, T\}$. They payoff for a player who has won the
+auction for a flip is: 2, if the coin lands on heads, 0 if the coin
+lands on tails. This uncertain payoff promise can be
+formalized as a function from ${\cal S}$ to $\{2,0\}$, with the
+rule that H is mapped to 2 and T is mapped to 0.
+
+It is a widely held convention in probability theory to 
+denote random variables by capital letters, like $X$ and $Y$ 
+and their values are denoted by $x$ and $y$ respectively.
+
+Let $X$ be a random variable and let $x_1, x_2, \dots , x_n$ denote 
+the values it can assume. The
+aggregate of all sample points on which $X$ assumes the 
+fixed value $X = x_j$ forms the event
+that $X = x_j$. Its probability is denoted by $P(X = x_j)$.
+
+When a random variable can only take finitely many or 
+uncountably many values, i.e. when the 
+sample space contains only finitely many or uncountably 
+many basic outcomes, we say that the
+random variable is **discrete**.
 
 Probability distribution
-: The probability distribution of $X$ is a function $P(X = x_j) = p(x_j)$ for $j = 1, \cdots ,n$.
+: The function $P(X = x_j) = p(x_j)$ for $j = 1, \cdots ,n$ is called 
+the **(probability) distribution** of the random variable $X$. 
 
-Joint Distribution
-: If we have a finite set of random variables $X, Y, \cdots, Z$ defined on the same
-sample space, their joint distribution is given by the function 
-$P(X=x_i, Y = y_j, \cdots, Z=z_k) = p(x_i,y_j, \cdots, z_k)$. These variables are called
-**mutually independent** if
-$P(X=x_i, Y = y_j, \cdots, Z=z_k) = P(X = x_i)P(Y=y_j) \cdots P(Z=z_k)$
+This function completely 
+describes the probability properties of the random variable. 
+Note that $p(x_j) \geq 0$ and $\sum_{j=1}^n p(x_j) = 1$.
+
+A related concept is found in the follwing important definition
+
+Cumulative distribution
+: The **cumulative distribution function** - abbreviated CDF - shows 
+the probability that a 
+random variable $X$ take a value less than or equal to a given 
+value $x$. It is usually denoted as $F(x) = P(x \leq x)$ 
+where $-\infty < x < \infty$.
+
+We have actually already encountered a random variable in 
+our very first lecture, where we discussed
+the six sided fair die. The random variable $X$ is in this
+case a map (the identity map) from the six basic outcomes
+${\cal S}=\{1,2,3,4,5,6\}$ to the number of points
+$\{1,2,3,4,5\}$. If the die is fair, 
+each of these outcomes has probability $1/6$.
+
+It is common to display the probabilities associated 
+with a random variables, graphically as 
+a probability distribution.
+
+```{r pdf-die, out.width='90%', fig.align='center', fig.cap='The probability distribution of the random variable of rolling a six sided die', echo = F}
+knitr::include_graphics('figures/pdf_die.png')
+```
+The cumulative distribution function of this random variable can
+be visualized as a step function:
+```{r cdf-die, out.width='90%', fig.align='center', fig.cap='The cumulative distribution function of the random variable of rolling a six sided die', echo = F}
+knitr::include_graphics('figures/cdf_die.png')
+```
+
+The notion of a distribution can be generalized to more than one random variable. Consider
+two random variables $X$ and $Y$, defined on the same sample space ${\cal S}$. Denote the
+values they assume by $x_1, x_2, x_3, ..., x_n$ and $y_1, y_2, y_3, ..., y_m$ respectively. Let
+the corresponding distributions be $f(x_i)$ and $g(y_j)$.
+
+The aggregate points in which the two conditions $X = x_i$ and $Y = y_j$ are satisfied
+form an *event* whose probability is denoted by $P(X = x_i, Y = y_j$)
+
+Joint probability function
+: The function
+\begin{eqnarray*}
+P(X = x_i, Y = y_j) = p(x_i, y_j), \quad i = 1, \cdots, n \,\, j = 1, \cdots, m
+\end{eqnarray*}
+is called the **joint probability distribution of $X$ and $Y$.
+
+Note that we must have
+\begin{eqnarray*}
+p(x_i, y_j) &\geq& 0, \quad i = 1, \cdots, n \,\, j = 1, \cdots, m \\
+\sum_{i=1}^n \sum_{j = 1}^m p(x_i, x_j) &=& 1
+\end{eqnarray*}
+
+Moreover for every fixed $i$ and for every fixed $j$ we have:
+\begin{eqnarray*}
+p(x_i, y_1) + p(x_i, y_2) + \cdots + p(x_i, y_m)&=&P(X = x_i)&=&f(x_i)\\
+p(x_1, y_j) + p(x_2, y_j) + \cdots + p(x_n, y_j)&=&P(Y = y_j)&=&g(x_j)
+\end{eqnarray*}
+
+If you go back to lecture 3, where we discussed conditional probability, this 
+should look very familiar. These notions carry over to the concepts of random
+variables. With the notion of a joint probability we also get a notion of 
+conditional probability for random variables:
+
+Conditional probability
+: The **conditional probability** of the event $Y = y_j$ given that $X = x_i$ is
+\begin{equation*}
+P(Y = y_j | X = x_i) = \frac{p(x_i, y_l)}{f(x_i)}
+\end{equation*}
+where we need to require that $f(x_i) > 0$.
+
+With this definition, a number is associated with every value of $X$ and so conditional
+probability defines a function of $X$. This function is called the **conditional distribution**
+of $Y$ for *given* $X$.
+
+Mutually independent
+: Two random variables are called **mutually independent** if for any combination of values
+$x_1, ..., x_n$, $y_1, ..., y_m$
+\begin{equation*}
+P(X = x_i, Y = y_j) = P(X = x_i) P(Y = y_j)
 
 ## Expected value
 
 Sometimes the entire probability distribution is difficult to grasp at once. It is common to 
-describe probability distributions therefore by a summary measure. Amonng the typical summary
-measure the **expectation** or the **mean** is by far the most important one.
+describe probability distributions therefore by a summary measure. Among the typical summary
+measures the **expectation** or the **mean** is by far the most important one.
 
 Expected Value
-: The expected value $E[X]$ of a discrete random variable $X$ is the probability weighted sum of 
-all possible values: $E[X] = x_1p(x_1) + x_2 p(x_2) + \cdots + x_n p(x_n)$ for $n$ possible
-values of $x$.
+: The expected value $\mathrm{E}(X)$ of a discrete random variable $X$ 
+is the probability weighted sum of all its possible values:
+\begin{equation*}
+\mathrm{E}(X) = x_1p(x_1) + x_2 p(x_2) + \cdots + x_n p(x_n)
+\end{equation*}
+Note that in the definition we have covered the case where the number of possible outcomes
+is finite. In the other case where the number of possible outcomes is countably infinite we need 
+additional convergence conditions for the infinite series defined by the sum of the $x_i p(x_i)$.
+We ignore this case here.
 
-Examples: Find my simulations the following properties of expectations:
+The term expected value can be a bit misleading, for it might suggest that the expected value is 
+something we "expect" to occur. It is - to the contrary - pretty often unlikely and
+sometimes even impossible.
 
-expectations of functions of a random variable )log returns.
-linearity of expectation
-expectation of mutually independent variables is the product of expectations.
-conditional expectation is a new random variable
+As an example, remember our fair die. Its expected value is, if you apply the definition above:
+```{r exp_value_die}
+1*1/6+2*1/6+3*1/6+4*1/6+5*1/6+6*1/6
+```
+a value that will never actually come up.
 
-example: mean of a portfolio does not say anything about its risk
+### Properties of expected value
 
-## Measures of Dispersion
+**Property 1: Adding or subtracting a constant**:
+Let $X$ be a random variable and you add a constant $a$ then
+$\mathrm{E}(X \pm a) = \mathrm{E}(X) + a$
 
-To capture information about the risk of the investment we need something like a deviation from
-the mean or the variation of returns. If all historical returns are very close to the mean then
-it will be very likely that the realized returns will not be far away from the expected value and
-thus there will be not much risk. if, on the other hand, many of the historical returns are
-far away from the mean one could argue that it is likely that the investment will outperform or
-underperform the expected return. Measures of dispersion try to capture such variation in
-one single number.
+This is almost immediate from the definition, because you can split the probability weighted sum
+of $X + a$ into a probability weighted sum of $X$ plus a probability weighted sum of $a$. For
+the term involving $a$, you can factor out $a$ and since the probabilities sum to 1 we have the
+formula.
+
+**Property 2: Multiplying by a constant**: 
+If $X$ is a random variable and $a$ is a constant, then
+$\mathrm{E}(a X) = a \mathrm{E}(X)$.
+
+**Property 3: Transformation by a function**
+If $X$ is a random variable, then any function $f(x)$ defines a new random $f(X)$ and 
+\begin{equation*}
+\mathrm{E}(f(X)) = f(x_1) p(x_1) + f(x_2) p(x_2) + \cdots + f(x_n) p(x_n)
+\end{equation*}
+
+**Property 4: Linearity of expected value**
+if $X$ and $Y$ are random variables and $a$ and $b$ are constants, then
+\begin{equation*}
+\mathrm{E}(a X + b Y) = a \mathrm{E}(X) + b \mathrm{E}(Y)
+\end{equation*}
+
+To see this, we can write $\mathrm{E}(a X) + \mathrm{E}(b Y)$ by Property 2 as $a \mathrm{E}(X) + b \mathrm{E}(Y)$ which is
+by definition
+\begin{equation*}
+a \sum_{i=1}^n \sum_{j = 1}^m x_i p(x_i, y_j) + b \sum_{i=1}^n \sum_{j = 1}^m y_j p(x_i, y_j)
+\end{equation*}
+Rearranging gives:
+\begin{equation*}
+\sum_{i=1}^n \sum_{j = 1}^m (a x_i + b y_j) 
+\end{equation*}
+which is $\mathrm{E}(aX + bY)$.
+
+## Variation
+
+While the expected value of a random variable provides a very useful summary measure for
+a distribution, we typically also want information about the amount of variation of a
+a random variable. One such measure, which gives us a degree of possible deviation from the mean
+is the **variance**.
 
 Variance
-: The variance of a random variable $X$ is the expected value of the squared deviation
+: The **variance** of a random variable $X$ is the expected value of the squared deviation
 from the expected value of $X$ or
-$Var[X] = E[(X -E[X])^2]$
+$Var[X] = \mathrm{E}[(X -\mathrm{E}[X])^2]$
+
+Note that we cab simplify the expression for the variance as follows:
+\begin{align*}
+\mathrm{E}((X-\mathrm{E}(X)^2)) & = \mathrm{E}(X^2 - 2 X \mathrm{E}(X) + \mathrm{E}(X)^2) \\
+              & = \mathrm{E}(X^2) - 2 \mathrm{E}(X)\mathrm{E}(X) + \mathrm{E}(X)^2 \\
+              & = \mathrm{E}(X^2) - \mathrm{E}(X)^2
+\end{align*}
 
 In the case of a discrete random variable, the case we discuss in this lecture, we have
-$Var[X] = \sum_{i=1}^{n} (x_i - E[X]=^2 p(x_i))$. Note that the units of the variance are the
+$\mathrm{Var}(X) = \sum_{i=1}^{n} \left(x_i - \mathrm{E}(X) \right)^2 p(x_i))$. 
+
+Note that the units of the variance are the
 squared units of the random variable. This is often not very useful for interpretations. This
 leads us to the concept of a standard deviation:
 
 Standard Deviation
-: The standard deviation of a random variable $X$ is the suqare root of the variance of $X$,
-denoted $SD[X] = \sqrt{Var[X]}$.
+: The **standard deviation** of a random variable $X$ is the square root of the variance of $X$,
+denoted $\mathrm{SD}(X) = \sqrt{\mathrm{Var}(X)}$.
 
-By example: 
+Let's discuss a few properties of the variance.
 
-$Var[X + a] = Vat[X]$
-$Var[c X] = c^2 Var[X]$
-$Var[a+ c X] = c^2Var[X]$
+**Property 1**: If $X$ is a random variable and $c$ is a constant, then
+\begin{equation*}
+\mathrm{Var}(c X) = c^2 \mathrm{Var}(X)
+\end{equation*}
+You could try to prove this equation, just using the definition of variance and the 
+properties of expected value. We do not go into these details here but this
+property should make sense to you. If we multiply a random variable by say 3, its average
+squared distance from its mean should increase by a factor of 9.
 
-Assume we have two random variables $X$ and $Y$ then we define their as
+**Property 2**: If $X$ is a random variable and $d$ is a constant
+\begin{equation*}
+\mathrm{Var}(X + d) = \mathrm{Var}(X)
+\end{equation*}
+
+Shifting over a random variable by a constant does not alter the variance. This should make
+sense, since the variance of a constant must be 0. Why? Lets use the definition:
+\begin{equation*}
+\mathrm{Var}(d)= \mathrm{E}(d^2) - \mathrm{E}(d)^2 = d^2 - d^2 = 0
+\end{equation*}
+This should be clear, after all a constant never varies.
+
+Assume we have two random variables $X$ and $Y$ then we define their **covariance**
+as follows.
 
 Covariance
-: $Cov(X,Y) = E((X - E(X))(Y-E(Y)))$
+: The ++covariance** for two random variables $X$ and $Y$, is defined as
+\begin{equation*}
+\mathrm{Cov}(X,Y) = \mathrm{E}((X - \mathrm{E}(X))(Y-\mathrm{E}(Y)))
+\end{equation*}
 
-Note that $Cov(X,Y) = E(XY) - E(X)E(Y)$. If $X$ and $Y$ are independent, then $E(XY) = E(X)E(Y)$,
-hence if $X$ and $Y$ are independent, $Cov(X,Y) = 0$. Note, however, that the converse is not true.
+Note that $\mathrm{Cov}(X,Y) = \mathrm{E}(XY) - \mathrm{E}(X)\mathrm{E}(Y)$. 
+If $X$ and $Y$ are independent, then $\mathrm{E}(XY) = \mathrm{E}(X)\mathrm{E}(Y)$,
+hence if $X$ and $Y$ are independent, $\mathrm{Cov}(X,Y) = 0$. Note, however, 
+that the converse is not true.
 A covariance of 0 does **not** imply independence.
 
 The choice of an origin and unit of measurement of a random variable is to a large 
-degree arbitrary. It is thus ofetn most convenient to take the mean as the origin and the
+degree arbitrary. It is thus often most convenient to take the mean as the origin and the
 standard deviation as unit. Denote the mean of a random variable $X$ as $\mu$ and the variance as
 $\sigma^2$. In this case $X-\mu$ has mean zero and variance $\sigma^2$, and hence the variable
 $X^* = \frac{(X-\mu)}{\sigma}$ has mean 0 and variance 1. If we take the covariance
-of two such normalized random variables we get the so called **correlation coefficient** $\rho(X,Y)$.
+of two such normalized random variables we get the so 
+called **correlation coefficient** $\rho(X,Y)$.
 
 Correlation Coefficient
-: $\rho(X,Y) = Cov(X^*,Y^*) = \frac{Cov(X,Y)}{\sigma_x \sigma_y}$
+: The **correlation coefficient** of two random variables $X$ and $Y$ is defined as
+\begin{equation*}
+\rho(X,Y) = \mathrm{Cov}(X^*,Y^*) = \frac{\mathrm{Cov}(X,Y)}{\sigma_x \sigma_y}
+\end{equation*}
 
-The correlation coerfficient is thus just a way of writing the covariance.
+The correlation coefficient is thus just a particular way of writing the covariance.
 
-Discuss examples (a) and (b) in Feller p 236 as R examples to make the point that the covariance 
-is not a general measure of dependence but a measure of linear dependence.
+Now this was a bit of a large theory junk. It is time we get back to R and play around 
+with these concepts a bit. As a finance class you should be motivated to know these
+concepts well because they are a sort of cap-stone for investment science and portfolio
+management.
 
-## Example: Mean-variance portfolio theory
+Indeed random variables are the most important models in Finance. In the next example
+we will study the concepts of this section by putting them in a Finance context. In doing so
+we will also embark into a new territory of R. We will now also learn the basics of
+writing R programs using portfolio and investment theory as an example.
+
+## Random variables, expected value, variance and covariance: The cornerstone for modeling investments under uncertainty
 
 An important case where probability is applied in Finance is the problem that when you
 make an investment with a known initial outlay of capital the amount to be returned from the
-investment in the future is unknown. In the example we want to discuss now, we restrict
+investment in the future is unknown. 
+
+In the example we want to discuss now, we restrict
 attention to a class of these problems where we have only a single investment period: Money
 is invested at an initial time and a payoff is attained at the end of this period. Random
 variables are a concept that allows us to construct models for thinking about and analyzing the
@@ -178,6 +310,8 @@ this common class of investments as a simplification. For other situations the o
 model is sometimes a pretty good approximation. Think of a zero-coupon bond that will be
 held to maturity. Or think about an investment in a physical project that only will yield 
 a payoff when completed.
+
+### Asset Return
 
 Before we dive into the modelling of investment problems with uncertainty using probability and
 random variables as a tool, we need to introduce some financial concepts first: An 
@@ -209,15 +343,14 @@ feasible set
 feasible minimum variance set
 do this with real stock data
 
-## Binomial Distribution
+
+## The Binomial Distribution and models of asset price dynamics
 
 Explain Bernoulli trials
 Explain repeated Bernouli trials
 Show how these repeated Bernoulli trials or sums can be modeled by the binomial distribution
 use R for that
 Binomial
-
-## Example: Models of asset price dynamics
 
 Luenberger p 296 - 299 until
 

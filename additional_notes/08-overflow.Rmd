@@ -669,3 +669,177 @@ benford
 Isn't this fascinating? This is surprisingly close. So the leading digits are indeed
 distributed as Benford's law claims - or at least very close to that - and not equally
 distributed as would perhaps be expected from intuition. Referecne to Berger and Hill.
+
+
+### Illustrations in the context of investing
+
+Let us illustrate this property of expectations in the context of stock portfolios with
+random returns. Assume we hold a portfolio of stocks consisting of Apple and Amazon. Of
+course this is a toy portfolio for illustrating an idea, not a serious
+financial protfolio. We use the `tidyquant`package to retrieve the daily prices of these stocks
+and save them in an object, which we call `portfolio`. We look at the first 10 lines.
+```{r portfolio-data}
+portfolio  <- tq_get(c("AAPL", "AMZN"),
+                      get  = "stock.prices",
+                      from = "2011-01-03")
+head(portfolio, n = 10)
+```
+We see the format of the data. The individual stock data are stacked upon each other in a long
+data frame. 
+
+Before we get into the example, let us briefly introduce the financial concept of **returns**. An
+investment that can be bought and sold is called an **asset** in finance. If you buy the asset
+today and invest $X_0$, and sell it one year later and receive $X_1$, the **total return** $R$ is defined as
+\begin{equation*}
+R = \frac{X_1}{X_0}
+\end{equation*}
+The **rate of return** $r$ is
+\begin{equation*}
+r = \frac{X_1 - X_0}{X_0}
+\end{equation*}
+The two notions are related by
+\begin{equation*}
+R = 1 + r
+\end{equation*}
+and the equation for the rate of return can be rewritten as:
+\begin{equation*}
+X_1 = (1+r)X_0
+\end{equation*}
+Suppose now that you have $n$ different assets available. We can form out of them a
+*master asset* or a **portfolio** of these $n$ assets. We select amounts $X^i_0, \,\,i = 1 \cdots,n$, such that $\sum_{i=1}^n X^i_0 = X_0$, where $X^i_0$ represents the amount
+invested in asset $i$. The amounts invested can be expressed as fractions of total 
+investment. We thus write:
+\begin{equation*}
+X_0^i = w^i X_0
+\end{equation*}
+where $w^i$ is the **weight** or fraction of asset $i$. Clearly we have
+\begin{equation*}
+\sum_{i=1}^n w^i = 1
+\end{equation*}
+
+Let $R^i$ denote the total return of asset $i$. Then the amount of money generated at the end
+of the period by this asset is $R^i X^i_0 = R^i w^i X_0$. Hence we find that the overall total
+return of the portfolio is:
+\begin{align*}
+R &= \frac{\sum_{i=1}^n R^i w^i X_0}{X_0}\\
+  &= \sum_{i=1}^n w^i R^i
+\end{align*}
+Equivalently, since the sum of weights is 1, we have
+\begin{equation*}
+r = \sum_{i = 1}^n w^i r^i
+\end{equation*}
+
+Now with this short digression into financial terminology, the next step is that we
+could use the concept of a random variable to model the uncertainty of returns. In
+our data we have prices, not returns. Of course we also have no given probabilities
+for the returns to take certain values. We go later into how we could go about to model particular
+probability distributions. Lets make for the moment the unrealistic assumption, that all
+returns are equally likely with probability $1/\text{numbers of observations}$.
+
+Now we have first to transform the price data into returns. In order to do so, let us first
+select the columns we actually need: symbol, date and close and split the data frame
+into the two indovidual stock data:
+```{r select-columns}
+apple <- portfolio[portfolio$symbol == "AAPL"  , c("symbol", "date", "close")]
+amazon <- portfolio[portfolio$symbol == "AMZN"  , c("symbol", "date", "close")]
+```
+We can now build on previous knowledge to transform the daily closing prices into daily
+returns. We append the daily returns as an additional column to our data frames for apple 
+and amazon.
+```{r append-returns}
+apple$returns <- c(NA, diff(apple$close, lag = 1)/apple$close[-(length(apple$close))])
+amazon$returns <- c(NA, diff(amazon$close, lag = 1)/amazon$close[-(length(amazon$close))]) 
+```
+The R-syntax should be clear by now: We take first differences of the close price. Since this
+can't be done for all values but the first, the first observation is an `NA`. Since we divide
+each difference with the initial price according to the definition of the rate of return, 
+we need to drop the last observation in the closing price column. The last index we get by
+taking the `length()`of the closing price column and write a `-` before that.
+
+Now let us assume that in our portfolio we have invested 70 % of our wealth in Apple and 30 % in
+Amazon. We compute $E(0.7\,r^{\text{Apple}} + 0.3\, r^{\text{Amazon}})$. Under the 
+unrealistic toy assumption that 
+all returns are equally likely (1/2759) the expectedd value is the same as the arithmetic mean,
+so we compute (let#s not forget to remove the NA for the computation):
+```{r mean}
+mean(0.7*apple$returns + 0.3*amazon$returns, na.rm = T)
+```
+Now if we compute:
+```{r}
+0.7*mean(apple$returns, na.rm = T) + 0.3*mean(amazon$returns, na.rm = T)
+```
+we get exactly the same result, as we should by linearity of expectations.
+Note that this property can be generalized to the case of $n$ random variables. 
+
+**Property 3**: For any constant $b$, $E(b) = b$
+
+This property should be fairly obvious, since if every value in the weighted sum is a constant
+$b$ we have $E(b) = b p(b) + b p(b) + \cdots b p(b)$, you can pull out the constant from the sum, and since the probabilities must sum to 1 we have the result.
+
+For the next property, consider a function $g$ of $X$ and let $W = g(X)$. Then $W$ is a 
+random variable too.
+
+**Property 4**: Let $X$ be a random variable and $g$ be a function of $X$, then we have
+$E(g(X)) = \sum_{i=1}^n g(x_i) p(x_i)$
+
+This is a situation we encounter often with returns. In many finance applications researchers 
+work with logarithmic returns rather than with discrete returns we look at before.
+
+Suppose you have an initial investment $X_0$ but it grows exponentially over one time
+period at a rate $r$ then we have
+\begin{equation*}
+X_1 = X_0 \exp(r)
+\end{equation*}
+Then taking the natural logarithm on both sides, we get:
+\begin{equation*}
+\ln(X_1) = \ln(X_0) + r
+\end{equation*}
+Hence
+\begin{eqnarray*}
+r &=&\ln(X_1) - \ln(X_0)\\
+  &=&\ln \left( \frac{X_1}{X_0}\right)
+\end{eqnarray*}
+So by property 4 we can take expectations over log returns by a probability weighted sum
+of the log of returns. Pretty practical.
+
+Now let us show the last important property of expectation, which applies to **independent**
+random variables only.
+
+**Property 5**: If $X$ and $Y$ are independent then
+$E(X Y) = E(X) E(Y)$
+
+Let's check this for the example of two dice rolls. They are independent, because the
+probability of one die showing any number 1 to 6 is 1/6 no matter what the result of the
+other die shows. Let's create two dice, `die_1` and `die_2`:
+
+```{r two dice}
+die_1 <- 1:6
+die_2 <- 1:6
+```
+Now consider all the possible products of points. An R  function that can do this is the
+function `outer()`. For instance if you give the vector `1:9` as the two arguments to this
+function it will produce the multiplication table.
+```{r products-dice}
+outer(die_1, die_2)
+```
+Each outcome has probability $1/36$ because of independence. To compute the
+expected value we need to sort these outcomes, using the `table()`function
+```{r table-dice}
+table(outer(die_1,die_2))
+```
+To get the probability distribution we have to multiply these counts each with $1/36$ to compute
+the probability of every product that can occur. The outcomes themselves we extract from the object with the `names()`function and convert these characters into numerics
+```{r pd-dice}
+pd_outcomes <- table(outer(die_1,die_2))*(1/36)
+outcomes <- as.numeric(names(pd_outcomes))
+```
+We now take the component-wise product and sum the results to get the expected value of $XY$:
+```{r take-exp-val}
+sum(pd_outcomes*outcomes)
+```
+Now we have computed before the expectation of the single die-roll random variable as $3.5$. 
+According to property 5, this must then be $3.5 \times 3.5$ which is `r 3.5*3.5`, as
+we said it should.
+
+These properties are very important and are used over and over in applications of
+probability. So try to understand and memorize them as good as you can.
