@@ -296,12 +296,22 @@ writing R programs using portfolio and investment theory as an example.
 
 ## Random variables, expected value, variance and covariance: The cornerstone for modeling investments under uncertainty
 
-An important case where probability is applied in Finance is the problem that when you
+An important case where probability is applied in Finance is the problem of analyzing
+risky investment decisions: When you
 make an investment with a known initial outlay of capital the amount to be returned from the
-investment in the future is unknown. 
+investment in the future is unknown. In some cases, say when you invest in very liquid assets
+classes which are constantly traded on markets, like stocks and bonds, you might have an idea
+on the probability of certain return prospects for investment informed by past data. This
+case of *random returns* is one of the most intensively used applications of probability
+to Finance. Since random variables are the models of choice in this case, we study such an
+investment problem now.  
 
-In the example we want to discuss now, we restrict
-attention to a class of these problems where we have only a single investment period: Money
+It is at the same time an ideal examles to push the frontier of your knowledge of R, because we
+can discuss in this context how to write programs and run more complex simulations 
+than we did so far. 
+
+Let us focus first on a class of investment problems where we only have a single 
+investment period: Money
 is invested at an initial time and a payoff is attained at the end of this period. Random
 variables are a concept that allows us to construct models for thinking about and analyzing the
 uncertainty inherent in such practical situation. While the assumption of a single
@@ -311,27 +321,290 @@ model is sometimes a pretty good approximation. Think of a zero-coupon bond that
 held to maturity. Or think about an investment in a physical project that only will yield 
 a payoff when completed.
 
+These kinds of simplifications are - by the way - a cornerstone in modelling as well as in
+programming. We build solutions to complex problems by starting with a simple problem and then
+buid complexity step by step.
+
 ### Asset Return
 
 Before we dive into the modelling of investment problems with uncertainty using probability and
 random variables as a tool, we need to introduce some financial concepts first: An 
 investment instrument that can be bought and sold is called an **asset** in Finance. If $X_0$ is
 the amount invested today and $X_1$ is the amount received "tomorrow", say for example in a 
-year from now the **total return** is defined as the ratio of the amount received to 
+year from now, the **total return** is defined as the ratio of the amount received to 
 the amount invested or formally $R = \frac{X_1}{X_0}$. Often we simply use the term return.
 The **rate of return** is defined as the difference between the amount received and the amount
 invested in relation to the amount invested or $r = \frac{X_1-X_0}{X_0}$. Often people also 
 speak of return when they refer to the rate of return. Both notions are related by the
-equation $R = 1+r$ and the equation for the rate of return can be rewirtten as $X_1 = (1+r)X_0$. 
-This shows that the rate of return acts much like an interest rate.
+equation $R = 1+r$ and the equation for the rate of return can be rewritten as $X_1 = (1+r)X_0$. 
+This shows that the rate of return acts much like an *interest rate*.
 
 When an asset is initially acquired, its rate of return is uncertain. Modelling the rate of
 return as a random variable is one possibility to describe and analyze this situation of
-uncertain returns. In mean-variance portfolio analysis the uncertainty is summarized by
-the mean or expected value $E(r)$ of the rate of return and its variance $E((r-E(r)))$ and by
-its covariance with other assets. Thus we reduce the description of uncertainty to two
-summary measures of the distribution of the rate or return instead of working with the
-entire rate of return distribution.
+uncertain returns.
+
+## Random returns
+
+We are now going to build a model of random returns that we can use to simulate the payoff
+consequences of portfolio investment decisions as well as for giving a concrete context to the
+abstract notions we introduced before. This will show you their power as well as their practical
+relevance in Finance.
+
+How do actual returns look like? Let's go back to the example of the S&P 500 - a broad stock
+market index - we discussed before.
+```{r}
+sp500 <- tq_get("^GSPC", get = "stock.prices", from = "2011-01-03", to = "2021-12-22")
+head(sp500, n = 5)
+```
+Now let's use R to add a column with daily returns based on the variable `adjusted` the adjusted
+index value, which takes into account dividend payments and other things. Our knowldege of how
+to manipulate R objects by subsetting rules and the application of functions is already there
+from our lecture on conditional probability:
+
+We add a column of first differences $X_{t+1} - X_t$ for $t \in \{2, \cdots ,2762\}$. We have to 
+start at the second row because for the first observation we have no previous observation to 
+deduct. Thus when we add a new column to the data frame we need a column of
+equal length, so we put an `NA` in the beginning of the returns column. We then have to divide by $X_t$ for $t \in \{ 1,\cdots, 2761\}$ because for the last 
+observation we have no next observation to deduct the last one from and divide by it.
+
+Remember that we can refer to elements in an R object by indexing with numbers. If we apply
+the `length()`function to an object we get the number of components and thus the number of the
+last element in an object. This we drop. The first difference we already know how to deal with. So let's
+add returns
+```{r}
+sp500$returns <- c(NA, (diff(sp500$adjusted, lag = 1)/sp500$adjusted[-length(sp500$adjusted)]))
+```
+Now it is always a good idea when you write complex commands like this to check whether the code
+is doing what you want. The second and the first value of the `adjusted`variable is:
+`r sp500[2,"adjusted"]` and `r sp500[1,"adjusted"]`. Thus the return is 
+`r (sp500[2,"adjusted"] - sp500[1,"adjusted"])/sp500[1,"adjusted"]`. The first value in our returns
+variable is:
+```{r check-returns}
+sp500$returns[2]
+```
+This looks good. Now let us use our little graphical knowledge to look at the distribution of
+returns in our data using the `qplot`function. We drop the `NA` and :
+```{r return distr}
+qplot(sp500$returns[-1], binwidth=0.01)
+```
+This picture suggests that returns are pretty much distributed symmetrically around 0, and in
+very rare cases rise and drop a bit more than 5 % per day.
+
+Note that this is a histogram, which means that we binned the return data into buckets of 1 % and
+plotted it. It would be natural to assume a continuous sample space for modeling returns. We will
+discuss such models in the next lecture. 
+
+Here we take a choice where we model randomness using discrete random variables. We do so
+by combining two random devices, constructed as a *wheel of fortune*. Both kinds
+of wheels are useful for the study of investments. Our *wheel of fortune* looks like this:
+```{r wheel-of-fortune, out.width='90%', fig.align='center', fig.cap='A wheel of fortune. If the wheel stops at the segment under the marker your payoff is determined according to the rules of the game', echo = F}
+knitr::include_graphics('figures/wheel_of_fortune.png')
+```
+If you invest an amount of money in the wheel, your payoff will be determined according to the
+rules of the game depending which segment ends up under the marker (the triangle above the wheel).
+The wheel is constructed such that it stops at segment $N$ with probability $\frac{1}{2}$, it stops
+at $H$ with probability $\frac{1}{3}$ and at $L$ with probability $\frac{1}{6}$.
+
+There is another random device, before the wheel is spun, which is a coin, which is flipped and
+ends up on $B$ (for boom) with probability $\frac{3}{5}$ or $R$ (for recession) with
+probability $\frac{2}{5}$.
+
+This creates in total 6 outcomes ${\cal S} = \{BN, BH, BL, RN, RH, RL\}$ with probabilities
+$p(x) = \{0.3, 0.2, 0.1, 0.2, 0.13, 0.07\}$. 
+
+In this game you have some initial wealth, which you may invest into 3 alternative assets.
+They have a payoff-structure described in the following tables:
+
+If the coin lands on $B$:
+
+|Wheel | Asset 1 |Asset 2 | Asset 3|
+|:----:|:-------:|:------:|:------:|
+|H     |    1    |  10    |   6    |
+|N     |    1    |   6    |   5    | 
+|L     |    1    |   2    |   4    | 
+
+If the coin lands on $R$: 
+
+|Wheel | Asset 1 |Asset 2 | Asset 3|
+|:----:|:-------:|:------:|:------:|
+|H     |    1    |  5     |   3    |
+|N     |    1    |  3     |   2.5  | 
+|L     |    0    |  1     |   2    | 
+
+You can allocate your wealth between the three assets and have to pay the following prices
+per unit $q = \{0.93, 5.86, 4.625 \}$. You can not invest more than your initial wealth of
+1000. You can neither sell nor short sell any of the assets. 
+
+You may think of these assets as a bond an two stocks. Asset 1, the bond,
+pays a fixed amount in each
+state, except when things go very bad and it defaults and pays nothing. Asset 2 and Asset 3
+could be thought of as two stocks where Asset 2 has a higher variation in its payments across
+states. These are the rules of the game.
+
+Now here is the programming challenge we undertake in several steps: We build a function that
+randomly chooses an outcome according to the probabilities we have specified and then
+determine the payoff of each asset according to the rules of the game. When we are finished
+with this step it will look something like this: When you give your portfolio to the `outcome()`
+function you will get the state, the payoff of the different assets and the return.
+`outcome(portfolio)`
+
+The first step in this program, you already know from previous lectures. Let us call
+this function `get_state()`. We have to randomly draw a state by flipping the coin and 
+spinning the wheel, just as we rolled the dice in lecture 1:
+```{r get-state-function}
+get_state <- function(){
+
+  coin  <- c("B", "R") 
+wheel <- c("H", "N", "L")
+
+state <- c(sample(coin, size = 1, replace = T, prob = c(3/5, 2/5)), 
+           sample(wheel, size = 1, replace = T, prob = c(1/3, 1/2, 1/6))) |>
+  paste(collapse = "")
+
+return(state)
+}
+```
+In this program, we have created inside the function a coin and a wheel, determined a state vector
+by sampling form the coin and the wheel according to our probabilities and then concatenate the
+two draws - the two strings - by using the `paste()` function. Here we have used R's pipe
+operator `|>`, which channels the output of `c()` into the `paste()`function as an argument. Use 
+the help menu to check how it works in detail.
+
+We can now use `get_state`to flip the coin and spin the wheel to generate a state of the world:
+```{r use-get-state-function}
+get_state()
+```
+The monetary value of the outcome depends on the portfolio of assets you have chosen.
+We write a program to compute the payoff and save it as a function, so fir instance, if we get
+`payoff("RH", portfolio)` will output the payoffs and returns or the portfolio you have chosen.
+
+After that the full portfolio simulator will look something like this
+```
+outcome <- function(portfolio){
+  state <- get_state()
+  print(state)
+  payoff(state, portfolio)
+}
+```
+The `print()` function prints output to the console window, and allows us to display
+messages from within the body of a function.
+
+Note that in lecture 1 we showed and encouraged you to write all of your R 
+code in an R script, a text file where you can compose your code. This will become
+very important as you work through this part of lecture 4. Remember that you can
+open an R script in RStudio by going to the menu bar and clicking on File > New File > R Script.
+
+### A strategy for writing a program
+
+A coding task like writing a function to determine the random
+outcome of an investment decision is a complex task. Such a task can be
+tackled best, by using a fairly simple strategy:
+
+1. Break complex tasks into simple sub-tasks
+2. Use concrete examples for testing
+3. Describe your solution first in words or a picture before you convert it into code.
+
+A program is a step by step instruction to your computer to perform certain tasks. All instructions
+together will accomplish something sophisticated, but taken apart, each single 
+step will likely to be straightforward.
+
+Writing a program is easier when you break it into sub-tasks and work on them separately first.
+R programs contain typically two types of subtasks, sequential steps and parallel cases.
+
+The sequential steps we have already identified. We give the portfolio to the function, it
+draws a state, displays the result and then computes the portfolio payoff and the return.
+
+Parallel cases occur when there are groups of similar processes  within a task. Some tasks
+also require different algorithms for different kinds of input. If you can find these groups,
+you can work out the algorithms one at a time.
+
+For example, `payoff()` will need to compute the portfolio payoff and the return, depending
+on the state. In all cases in our example, though, the function will use the same
+algorithm.
+
+### if Statements
+
+When you have to link parallel cases together, the program faces a fork in its process whenever
+it has to choose between cases. If statements help the program to do so. 
+
+An if statememt in R tells R to do certain things for a particular case. The sytnax of
+telling R to do something if a case occurs is:
+```
+if (this) { 
+  that
+}
+```
+
+So an example in our case would be:
+
+```
+if (state == "BH"){
+  print("BH")
+}
+```
+The condition in an if statement must evaluate to a *single* `TRUE`of `FALSE`. If statements
+don't have to be limited to a single line of code. Between  the braces there can be 
+arbitrary lines.
+
+if statements tell R what to do if a condition is true. But you can also tell R what to do
+if a condition is false. A simple code example would be:
+```
+if (this){
+Plan A
+} else {
+Plan B
+}
+```
+If the case has more than two mutually exclusive cases, you can string multiple `if` and 
+`else` statements together by adding an if statement immediately after the else. R will 
+work then through if conditions until one evaluates to `TRUE` and then ignore the rest.
+
+Now this suggests to handle the cases of different states for the portfolio like this:
+```
+if (state == "BN"){
+  return <- sum(c(1/q1 -1 ,10/q2 -1 ,6/q3 -1 )*portfolio) 
+} else if (state == "BH"){
+  return <- sum(c(1/q1 -1 ,6/q2 -1 ,5/q3 -1 )*portfolio)
+} else if (state == "BL"){
+  return <- sum(c(1/q1 -1 ,2/q2 -1 ,4/q3 -1 )*portfolio)
+} else if (state == "RN"){
+  return <- sum(c(1/q1 -1 ,3/q2 -1 ,2.5/q3 -1 )*portfolio)
+} else if (state == "RH"){
+  return <- sum(c(0/q1 -1 ,1/q2 -1 , 2/q3 -1 )*portfolio)
+} else if (state == "RL"){
+  return <- sum(c(0/q1 -1 ,1/q2 -1 , 2/q3 -1 )*portfolio)
+}
+```
+While this method works, it is for various reasons not very elegant. 
+
+1. The first unsatisfactory
+thing here is that the payoff numbers are hard coded into the if statement. if we would like
+to consider other examples, or different payoff structures, we would have to rewrite the
+entire if statement. This is tedious and prone to mistakes. 
+2. The second not so elegant thing
+about this code chunk is that we need to compose a multiplication and an addition for 
+computing the payoff. It would be more efficient, if we could do this in a single operation.
+
+3. Finally the cascade of if else statements is quite unwieldy and difficult to read. 
+Maybe we can do better than that?
+
+One way to address concern 1 would be to define portfolio payoffs and portfolios outside of the
+function as abstract objects, so our function will work with any payoff structure. The 
+second concern can be addressed if we reveal the linear algebra nature of the problem and
+unleash R's power to deal with linear algebra problems. The adress of the third concern, will
+lead us towards the concept of lookup tables.
+
+The asset payoffs could be mathematically represented as a matrix, where the rows are the 
+states and the columns are the assets. We might also add an extra column with prices to
+our matrix, so we have all the data 
+
+
+How do we specify the portfolio? We have an initial wealth and the wealth is invested
+into the three assets. We do not say anything here how the allocation is decided but once
+a decision has been taken, the portfolio will be a vector of weights $(w^1, w^2, w^3)$ with
+$0 \leq w^i \leq 1$ for $i = 1,2,3$.
+
+
 
 load a portfolio of stocks
 compute returns

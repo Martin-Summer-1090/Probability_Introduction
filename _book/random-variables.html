@@ -218,8 +218,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.4.1" data-path="random-variables.html"><a href="random-variables.html#asset-return"><i class="fa fa-check"></i><b>4.4.1</b> Asset Return</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="random-variables.html"><a href="random-variables.html#the-binomial-distribution-and-models-of-asset-price-dynamics"><i class="fa fa-check"></i><b>4.5</b> The Binomial Distribution and models of asset price dynamics</a></li>
-<li class="chapter" data-level="4.6" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>4.6</b> Project: Credit risk model and independence based on Schönbucher</a></li>
+<li class="chapter" data-level="4.5" data-path="random-variables.html"><a href="random-variables.html#random-returns"><i class="fa fa-check"></i><b>4.5</b> Random returns</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="random-variables.html"><a href="random-variables.html#a-strategy-for-writing-a-program"><i class="fa fa-check"></i><b>4.5.1</b> A strategy for writing a program</a></li>
+<li class="chapter" data-level="4.5.2" data-path="random-variables.html"><a href="random-variables.html#if-statements"><i class="fa fa-check"></i><b>4.5.2</b> if Statements</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="random-variables.html"><a href="random-variables.html#the-binomial-distribution-and-models-of-asset-price-dynamics"><i class="fa fa-check"></i><b>4.6</b> The Binomial Distribution and models of asset price dynamics</a></li>
+<li class="chapter" data-level="4.7" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>4.7</b> Project: Credit risk model and independence based on Schönbucher</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>5</b> Continuous random variables</a>
 <ul>
@@ -543,11 +548,20 @@ writing R programs using portfolio and investment theory as an example.</p>
 </div>
 <div id="random-variables-expected-value-variance-and-covariance-the-cornerstone-for-modeling-investments-under-uncertainty" class="section level2" number="4.4">
 <h2><span class="header-section-number">4.4</span> Random variables, expected value, variance and covariance: The cornerstone for modeling investments under uncertainty</h2>
-<p>An important case where probability is applied in Finance is the problem that when you
+<p>An important case where probability is applied in Finance is the problem of analyzing
+risky investment decisions: When you
 make an investment with a known initial outlay of capital the amount to be returned from the
-investment in the future is unknown.</p>
-<p>In the example we want to discuss now, we restrict
-attention to a class of these problems where we have only a single investment period: Money
+investment in the future is unknown. In some cases, say when you invest in very liquid assets
+classes which are constantly traded on markets, like stocks and bonds, you might have an idea
+on the probability of certain return prospects for investment informed by past data. This
+case of <em>random returns</em> is one of the most intensively used applications of probability
+to Finance. Since random variables are the models of choice in this case, we study such an
+investment problem now.</p>
+<p>It is at the same time an ideal examles to push the frontier of your knowledge of R, because we
+can discuss in this context how to write programs and run more complex simulations
+than we did so far.</p>
+<p>Let us focus first on a class of investment problems where we only have a single
+investment period: Money
 is invested at an initial time and a payoff is attained at the end of this period. Random
 variables are a concept that allows us to construct models for thinking about and analyzing the
 uncertainty inherent in such practical situation. While the assumption of a single
@@ -556,26 +570,296 @@ this common class of investments as a simplification. For other situations the o
 model is sometimes a pretty good approximation. Think of a zero-coupon bond that will be
 held to maturity. Or think about an investment in a physical project that only will yield
 a payoff when completed.</p>
+<p>These kinds of simplifications are - by the way - a cornerstone in modelling as well as in
+programming. We build solutions to complex problems by starting with a simple problem and then
+buid complexity step by step.</p>
 <div id="asset-return" class="section level3" number="4.4.1">
 <h3><span class="header-section-number">4.4.1</span> Asset Return</h3>
 <p>Before we dive into the modelling of investment problems with uncertainty using probability and
 random variables as a tool, we need to introduce some financial concepts first: An
 investment instrument that can be bought and sold is called an <strong>asset</strong> in Finance. If <span class="math inline">\(X_0\)</span> is
 the amount invested today and <span class="math inline">\(X_1\)</span> is the amount received “tomorrow,” say for example in a
-year from now the <strong>total return</strong> is defined as the ratio of the amount received to
+year from now, the <strong>total return</strong> is defined as the ratio of the amount received to
 the amount invested or formally <span class="math inline">\(R = \frac{X_1}{X_0}\)</span>. Often we simply use the term return.
 The <strong>rate of return</strong> is defined as the difference between the amount received and the amount
 invested in relation to the amount invested or <span class="math inline">\(r = \frac{X_1-X_0}{X_0}\)</span>. Often people also
 speak of return when they refer to the rate of return. Both notions are related by the
-equation <span class="math inline">\(R = 1+r\)</span> and the equation for the rate of return can be rewirtten as <span class="math inline">\(X_1 = (1+r)X_0\)</span>.
-This shows that the rate of return acts much like an interest rate.</p>
+equation <span class="math inline">\(R = 1+r\)</span> and the equation for the rate of return can be rewritten as <span class="math inline">\(X_1 = (1+r)X_0\)</span>.
+This shows that the rate of return acts much like an <em>interest rate</em>.</p>
 <p>When an asset is initially acquired, its rate of return is uncertain. Modelling the rate of
 return as a random variable is one possibility to describe and analyze this situation of
-uncertain returns. In mean-variance portfolio analysis the uncertainty is summarized by
-the mean or expected value <span class="math inline">\(E(r)\)</span> of the rate of return and its variance <span class="math inline">\(E((r-E(r)))\)</span> and by
-its covariance with other assets. Thus we reduce the description of uncertainty to two
-summary measures of the distribution of the rate or return instead of working with the
-entire rate of return distribution.</p>
+uncertain returns.</p>
+</div>
+</div>
+<div id="random-returns" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Random returns</h2>
+<p>We are now going to build a model of random returns that we can use to simulate the payoff
+consequences of portfolio investment decisions as well as for giving a concrete context to the
+abstract notions we introduced before. This will show you their power as well as their practical
+relevance in Finance.</p>
+<p>How do actual returns look like? Let’s go back to the example of the S&amp;P 500 - a broad stock
+market index - we discussed before.</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="random-variables.html#cb291-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>, <span class="at">from =</span> <span class="st">&quot;2011-01-03&quot;</span>, <span class="at">to =</span> <span class="st">&quot;2021-12-22&quot;</span>)</span>
+<span id="cb291-2"><a href="random-variables.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 8
+##   symbol date        open  high   low close     volume adjusted
+##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1 ^GSPC  2011-01-03 1258. 1276. 1258. 1272. 4286670000    1272.
+## 2 ^GSPC  2011-01-04 1273. 1274. 1263. 1270. 4796420000    1270.
+## 3 ^GSPC  2011-01-05 1269. 1278. 1265. 1277. 4764920000    1277.
+## 4 ^GSPC  2011-01-06 1276. 1278. 1270. 1274. 4844100000    1274.
+## 5 ^GSPC  2011-01-07 1274. 1277. 1262. 1272. 4963110000    1272.</code></pre>
+<p>Now let’s use R to add a column with daily returns based on the variable <code>adjusted</code> the adjusted
+index value, which takes into account dividend payments and other things. Our knowldege of how
+to manipulate R objects by subsetting rules and the application of functions is already there
+from our lecture on conditional probability:</p>
+<p>We add a column of first differences <span class="math inline">\(X_{t+1} - X_t\)</span> for <span class="math inline">\(t \in \{2, \cdots ,2762\}\)</span>. We have to
+start at the second row because for the first observation we have no previous observation to
+deduct. Thus when we add a new column to the data frame we need a column of
+equal length, so we put an <code>NA</code> in the beginning of the returns column. We then have to divide by <span class="math inline">\(X_t\)</span> for <span class="math inline">\(t \in \{ 1,\cdots, 2761\}\)</span> because for the last
+observation we have no next observation to deduct the last one from and divide by it.</p>
+<p>Remember that we can refer to elements in an R object by indexing with numbers. If we apply
+the <code>length()</code>function to an object we get the number of components and thus the number of the
+last element in an object. This we drop. The first difference we already know how to deal with. So let’s
+add returns</p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="random-variables.html#cb293-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>returns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, (<span class="fu">diff</span>(sp500<span class="sc">$</span>adjusted, <span class="at">lag =</span> <span class="dv">1</span>)<span class="sc">/</span>sp500<span class="sc">$</span>adjusted[<span class="sc">-</span><span class="fu">length</span>(sp500<span class="sc">$</span>adjusted)]))</span></code></pre></div>
+<p>Now it is always a good idea when you write complex commands like this to check whether the code
+is doing what you want. The second and the first value of the <code>adjusted</code>variable is:
+1270.199951 and 1271.869995. Thus the return is
+-0.0013131. The first value in our returns
+variable is:</p>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="random-variables.html#cb294-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>returns[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] -0.001313062</code></pre>
+<p>This looks good. Now let us use our little graphical knowledge to look at the distribution of
+returns in our data using the <code>qplot</code>function. We drop the <code>NA</code> and :</p>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="random-variables.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(sp500<span class="sc">$</span>returns[<span class="sc">-</span><span class="dv">1</span>], <span class="at">binwidth=</span><span class="fl">0.01</span>)</span></code></pre></div>
+<p><img src="Probability_Introduction_files/figure-html/return%20distr-1.png" width="672" />
+This picture suggests that returns are pretty much distributed symmetrically around 0, and in
+very rare cases rise and drop a bit more than 5 % per day.</p>
+<p>Note that this is a histogram, which means that we binned the return data into buckets of 1 % and
+plotted it. It would be natural to assume a continuous sample space for modeling returns. We will
+discuss such models in the next lecture.</p>
+Here we take a choice where we model randomness using discrete random variables. We do so
+by combining two random devices, constructed as a <em>wheel of fortune</em>. Both kinds
+of wheels are useful for the study of investments. Our <em>wheel of fortune</em> looks like this:
+<div class="figure" style="text-align: center"><span id="fig:wheel-of-fortune"></span>
+<img src="figures/wheel_of_fortune.png" alt="A wheel of fortune. If the wheel stops at the segment under the marker your payoff is determined according to the rules of the game" width="90%" />
+<p class="caption">
+Figure 4.3: A wheel of fortune. If the wheel stops at the segment under the marker your payoff is determined according to the rules of the game
+</p>
+</div>
+<p>If you invest an amount of money in the wheel, your payoff will be determined according to the
+rules of the game depending which segment ends up under the marker (the triangle above the wheel).
+The wheel is constructed such that it stops at segment <span class="math inline">\(N\)</span> with probability <span class="math inline">\(\frac{1}{2}\)</span>, it stops
+at <span class="math inline">\(H\)</span> with probability <span class="math inline">\(\frac{1}{3}\)</span> and at <span class="math inline">\(L\)</span> with probability <span class="math inline">\(\frac{1}{6}\)</span>.</p>
+<p>There is another random device, before the wheel is spun, which is a coin, which is flipped and
+ends up on <span class="math inline">\(B\)</span> (for boom) with probability <span class="math inline">\(\frac{3}{5}\)</span> or <span class="math inline">\(R\)</span> (for recession) with
+probability <span class="math inline">\(\frac{2}{5}\)</span>.</p>
+<p>This creates in total 6 outcomes <span class="math inline">\({\cal S} = \{BN, BH, BL, RN, RH, RL\}\)</span> with probabilities
+<span class="math inline">\(p(x) = \{0.3, 0.2, 0.1, 0.2, 0.13, 0.07\}\)</span>.</p>
+<p>In this game you have some initial wealth, which you may invest into 3 alternative assets.
+They have a payoff-structure described in the following tables:</p>
+<p>If the coin lands on <span class="math inline">\(B\)</span>:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Wheel</th>
+<th align="center">Asset 1</th>
+<th align="center">Asset 2</th>
+<th align="center">Asset 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">H</td>
+<td align="center">1</td>
+<td align="center">10</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">N</td>
+<td align="center">1</td>
+<td align="center">6</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center">L</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">4</td>
+</tr>
+</tbody>
+</table>
+<p>If the coin lands on <span class="math inline">\(R\)</span>:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Wheel</th>
+<th align="center">Asset 1</th>
+<th align="center">Asset 2</th>
+<th align="center">Asset 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">H</td>
+<td align="center">1</td>
+<td align="center">5</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">N</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">2.5</td>
+</tr>
+<tr class="odd">
+<td align="center">L</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+</tbody>
+</table>
+<p>You can allocate your wealth between the three assets and have to pay the following prices
+per unit <span class="math inline">\(q = \{0.93, 5.86, 4.625 \}\)</span>. You can not invest more than your initial wealth of
+1000. You can neither sell nor short sell any of the assets.</p>
+<p>You may think of these assets as a bond an two stocks. Asset 1, the bond,
+pays a fixed amount in each
+state, except when things go very bad and it defaults and pays nothing. Asset 2 and Asset 3
+could be thought of as two stocks where Asset 2 has a higher variation in its payments across
+states. These are the rules of the game.</p>
+<p>Now here is the programming challenge we undertake in several steps: We build a function that
+randomly chooses an outcome according to the probabilities we have specified and then
+determine the payoff of each asset according to the rules of the game. When we are finished
+with this step it will look something like this: When you give your portfolio to the <code>outcome()</code>
+function you will get the state, the payoff of the different assets and the return.
+<code>outcome(portfolio)</code></p>
+<p>The first step in this program, you already know from previous lectures. Let us call
+this function <code>get_state()</code>. We have to randomly draw a state by flipping the coin and
+spinning the wheel, just as we rolled the dice in lecture 1:</p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="random-variables.html#cb297-1" aria-hidden="true" tabindex="-1"></a>get_state <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb297-2"><a href="random-variables.html#cb297-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-3"><a href="random-variables.html#cb297-3" aria-hidden="true" tabindex="-1"></a>  coin  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;R&quot;</span>) </span>
+<span id="cb297-4"><a href="random-variables.html#cb297-4" aria-hidden="true" tabindex="-1"></a>wheel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;N&quot;</span>, <span class="st">&quot;L&quot;</span>)</span>
+<span id="cb297-5"><a href="random-variables.html#cb297-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-6"><a href="random-variables.html#cb297-6" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>)), </span>
+<span id="cb297-7"><a href="random-variables.html#cb297-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">sample</span>(wheel, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>))) <span class="sc">|</span><span class="er">&gt;</span></span>
+<span id="cb297-8"><a href="random-variables.html#cb297-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb297-9"><a href="random-variables.html#cb297-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-10"><a href="random-variables.html#cb297-10" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(state)</span>
+<span id="cb297-11"><a href="random-variables.html#cb297-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>In this program, we have created inside the function a coin and a wheel, determined a state vector
+by sampling form the coin and the wheel according to our probabilities and then concatenate the
+two draws - the two strings - by using the <code>paste()</code> function. Here we have used R’s pipe
+operator <code>|&gt;</code>, which channels the output of <code>c()</code> into the <code>paste()</code>function as an argument. Use
+the help menu to check how it works in detail.</p>
+<p>We can now use <code>get_state</code>to flip the coin and spin the wheel to generate a state of the world:</p>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="random-variables.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_state</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;BN&quot;</code></pre>
+<p>The monetary value of the outcome depends on the portfolio of assets you have chosen.
+We write a program to compute the payoff and save it as a function, so fir instance, if we get
+<code>payoff("RH", portfolio)</code> will output the payoffs and returns or the portfolio you have chosen.</p>
+<p>After that the full portfolio simulator will look something like this</p>
+<pre><code>outcome &lt;- function(portfolio){
+  state &lt;- get_state()
+  print(state)
+  payoff(state, portfolio)
+}</code></pre>
+<p>The <code>print()</code> function prints output to the console window, and allows us to display
+messages from within the body of a function.</p>
+<p>Note that in lecture 1 we showed and encouraged you to write all of your R
+code in an R script, a text file where you can compose your code. This will become
+very important as you work through this part of lecture 4. Remember that you can
+open an R script in RStudio by going to the menu bar and clicking on File &gt; New File &gt; R Script.</p>
+<div id="a-strategy-for-writing-a-program" class="section level3" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> A strategy for writing a program</h3>
+<p>A coding task like writing a function to determine the random
+outcome of an investment decision is a complex task. Such a task can be
+tackled best, by using a fairly simple strategy:</p>
+<ol style="list-style-type: decimal">
+<li>Break complex tasks into simple sub-tasks</li>
+<li>Use concrete examples for testing</li>
+<li>Describe your solution first in words or a picture before you convert it into code.</li>
+</ol>
+<p>A program is a step by step instruction to your computer to perform certain tasks. All instructions
+together will accomplish something sophisticated, but taken apart, each single
+step will likely to be straightforward.</p>
+<p>Writing a program is easier when you break it into sub-tasks and work on them separately first.
+R programs contain typically two types of subtasks, sequential steps and parallel cases.</p>
+<p>The sequential steps we have already identified. We give the portfolio to the function, it
+draws a state, displays the result and then computes the portfolio payoff and the return.</p>
+<p>Parallel cases occur when there are groups of similar processes within a task. Some tasks
+also require different algorithms for different kinds of input. If you can find these groups,
+you can work out the algorithms one at a time.</p>
+<p>For example, <code>payoff()</code> will need to compute the portfolio payoff and the return, depending
+on the state. In all cases in our example, though, the function will use the same
+algorithm.</p>
+</div>
+<div id="if-statements" class="section level3" number="4.5.2">
+<h3><span class="header-section-number">4.5.2</span> if Statements</h3>
+<p>When you have to link parallel cases together, the program faces a fork in its process whenever
+it has to choose between cases. If statements help the program to do so.</p>
+<p>An if statememt in R tells R to do certain things for a particular case. The sytnax of
+telling R to do something if a case occurs is:</p>
+<pre><code>if (this) { 
+  that
+}</code></pre>
+<p>So an example in our case would be:</p>
+<pre><code>if (state == &quot;BH&quot;){
+  print(&quot;BH&quot;)
+}</code></pre>
+<p>The condition in an if statement must evaluate to a <em>single</em> <code>TRUE</code>of <code>FALSE</code>. If statements
+don’t have to be limited to a single line of code. Between the braces there can be
+arbitrary lines.</p>
+<p>if statements tell R what to do if a condition is true. But you can also tell R what to do
+if a condition is false. A simple code example would be:</p>
+<pre><code>if (this){
+Plan A
+} else {
+Plan B
+}</code></pre>
+<p>If the case has more than two mutually exclusive cases, you can string multiple <code>if</code> and
+<code>else</code> statements together by adding an if statement immediately after the else. R will
+work then through if conditions until one evaluates to <code>TRUE</code> and then ignore the rest.</p>
+<p>Now this suggests to handle the cases of different states for the portfolio like this:</p>
+<pre><code>if (state == &quot;BN&quot;){
+  return &lt;- sum(c(1/q1 -1 ,10/q2 -1 ,6/q3 -1 )*portfolio) 
+} else if (state == &quot;BH&quot;){
+  return &lt;- sum(c(1/q1 -1 ,6/q2 -1 ,5/q3 -1 )*portfolio)
+} else if (state == &quot;BL&quot;){
+  return &lt;- sum(c(1/q1 -1 ,2/q2 -1 ,4/q3 -1 )*portfolio)
+} else if (state == &quot;RN&quot;){
+  return &lt;- sum(c(1/q1 -1 ,3/q2 -1 ,2.5/q3 -1 )*portfolio)
+} else if (state == &quot;RH&quot;){
+  return &lt;- sum(c(0/q1 -1 ,1/q2 -1 , 2/q3 -1 )*portfolio)
+} else if (state == &quot;RL&quot;){
+  return &lt;- sum(c(0/q1 -1 ,1/q2 -1 , 2/q3 -1 )*portfolio)
+}</code></pre>
+<p>While this method works, it is for various reasons not very elegant.</p>
+<ol style="list-style-type: decimal">
+<li><p>The first unsatisfactory
+thing here is that the payoff numbers are hard coded into the if statement. if we would like
+to consider other examples, or different payoff structures, we would have to rewrite the
+entire if statement. This is tedious and prone to mistakes.</p></li>
+<li><p>The second not so elegant thing
+about this code chunk is that we need to compose a multiplication and an addition for
+computing the payoff. It would be more efficient, if we could do this in a single operation.</p></li>
+<li><p>Finally the cascade of if else statements is quite unwieldy and difficult to read.
+Maybe we can do better than that?</p></li>
+</ol>
+<p>One way to address concern 1 would be to define portfolio payoffs and portfolios outside of the
+function as abstract objects, so our function will work with any payoff structure. The
+second concern can be addressed if we reveal the linear algebra nature of the problem and
+unleash R’s power to deal with linear algebra problems. The adress of the third concern, will
+lead us towards the concept of lookup tables.</p>
+<p>The asset payoffs could be mathematically represented as a matrix, where the rows are the
+states and the columns are the assets. We might also add an extra column with prices to
+our matrix, so we have all the data</p>
+<p>How do we specify the portfolio? We have an initial wealth and the wealth is invested
+into the three assets. We do not say anything here how the allocation is decided but once
+a decision has been taken, the portfolio will be a vector of weights <span class="math inline">\((w^1, w^2, w^3)\)</span> with
+<span class="math inline">\(0 \leq w^i \leq 1\)</span> for <span class="math inline">\(i = 1,2,3\)</span>.</p>
 <p>load a portfolio of stocks
 compute returns
 create a vector of weights
@@ -587,8 +871,8 @@ feasible minimum variance set
 do this with real stock data</p>
 </div>
 </div>
-<div id="the-binomial-distribution-and-models-of-asset-price-dynamics" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> The Binomial Distribution and models of asset price dynamics</h2>
+<div id="the-binomial-distribution-and-models-of-asset-price-dynamics" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> The Binomial Distribution and models of asset price dynamics</h2>
 <p>Explain Bernoulli trials
 Explain repeated Bernouli trials
 Show how these repeated Bernoulli trials or sums can be modeled by the binomial distribution
@@ -596,8 +880,8 @@ use R for that
 Binomial</p>
 <p>Luenberger p 296 - 299 until</p>
 </div>
-<div id="project-credit-risk-model-and-independence-based-on-schönbucher" class="section level2" number="4.6">
-<h2><span class="header-section-number">4.6</span> Project: Credit risk model and independence based on Schönbucher</h2>
+<div id="project-credit-risk-model-and-independence-based-on-schönbucher" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Project: Credit risk model and independence based on Schönbucher</h2>
 <p>This can be constructed to apply the binomial distribution and discuss the
 importance of dependence. The modelling of dependence can be taken up in
 the last project</p>

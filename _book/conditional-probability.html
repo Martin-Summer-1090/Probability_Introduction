@@ -218,8 +218,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="4.4.1" data-path="random-variables.html"><a href="random-variables.html#asset-return"><i class="fa fa-check"></i><b>4.4.1</b> Asset Return</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="random-variables.html"><a href="random-variables.html#the-binomial-distribution-and-models-of-asset-price-dynamics"><i class="fa fa-check"></i><b>4.5</b> The Binomial Distribution and models of asset price dynamics</a></li>
-<li class="chapter" data-level="4.6" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>4.6</b> Project: Credit risk model and independence based on Schönbucher</a></li>
+<li class="chapter" data-level="4.5" data-path="random-variables.html"><a href="random-variables.html#random-returns"><i class="fa fa-check"></i><b>4.5</b> Random returns</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="random-variables.html"><a href="random-variables.html#a-strategy-for-writing-a-program"><i class="fa fa-check"></i><b>4.5.1</b> A strategy for writing a program</a></li>
+<li class="chapter" data-level="4.5.2" data-path="random-variables.html"><a href="random-variables.html#if-statements"><i class="fa fa-check"></i><b>4.5.2</b> if Statements</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="random-variables.html"><a href="random-variables.html#the-binomial-distribution-and-models-of-asset-price-dynamics"><i class="fa fa-check"></i><b>4.6</b> The Binomial Distribution and models of asset price dynamics</a></li>
+<li class="chapter" data-level="4.7" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>4.7</b> Project: Credit risk model and independence based on Schönbucher</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>5</b> Continuous random variables</a>
 <ul>
@@ -1087,14 +1092,14 @@ probability, in which case each outcome should get a probability 1/2.</p>
 select the <code>"H"</code> outcomes and calculate its length:</p>
 <div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="conditional-probability.html#cb262-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
 <span id="cb262-2"><a href="conditional-probability.html#cb262-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 69</code></pre>
-<p>This means we have 69 cases where we get 2 and 31
+<pre><code>## [1] 64</code></pre>
+<p>This means we have 64 cases where we get 2 and 36
 cases where we get 0. Thus on average
 we will get:</p>
 <div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="conditional-probability.html#cb264-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.38</code></pre>
+<pre><code>## [1] 1.28</code></pre>
 <p>So if we payed 1.20 for that round we would make a profit of
-0.18. The reasoning behind this argument is that the payoff
+0.08. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
 of flips it will come up heads approximately 7 out of 10 and thus will pay on average 0.7<em>2. This
