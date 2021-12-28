@@ -843,3 +843,112 @@ we said it should.
 
 These properties are very important and are used over and over in applications of
 probability. So try to understand and memorize them as good as you can.
+
+Now what is this good for? Assume we have an investment strategy, which tells us that we invest
+$1/4$ of our wealth in asset 1, and $3/8$ in asset 2 and 3.  
+Given we have an initial wealth of $1000$ this would
+mean we invest `1000/4` or `r 1000/4` in asset 1 and `r 3000/8` in asset 2 and 3.
+
+This is convenient, because we can now compute the total portfolio payoff by simple
+matrix multiplication in one operation. For those of you who have 
+forgotten how to multiply matrices or how to multiply matrices and vectors, look at this 
+visual explanation as a refresher.
+
+Suppose we have a $m \times n$ matrix $A$ and an $n \times 1$ column vector $p$. We would
+like to compute:
+\begin{equation*}
+A \cdot p
+\end{equation*}
+Let $A$ our asset matrix and $p$ our vector of portfolio weights, say $p = (1/4, 3/8, 3/8)$, then
+```{r matrix-multiplication, out.width='90%', fig.align='center', fig.cap='Multiplying a matrix with a column vector. Take the inner product (i.e. multiply components and add up) with each row of the matrix, ', echo = F}
+knitr::include_graphics('figures/matrix_multiplication.png')
+```
+
+The R operator of matrix multiplication is `%*%` implements this operation. Thus
+let us define:
+```{r portfolio-defined}
+portfolio <- c(1/4, 3/8, 3/8)*1000
+```
+Then we can compute the payoffs by:
+```{r portfolio-payoffs}
+payoff <- A%*% portfolio
+payoff
+```
+
+R has added up the total column payoffs and kept the row names.
+
+Now we have a strategy to compute portfolio returns in one go as well. Before we do that, let
+us make a simple observation about portfolio returns. Assume we have portfolio weights $w^i$. The
+fraction of total wealth invested in asset $i$ at $t=0$ can then be expressed as
+\begin{equation*}
+X_0^i = w^i X_0 \quad i = 1, \cdots, n$
+\end{equation*}
+Now let $R^i$ be the total return on asset $i$, then $R^i X_0^i = R^i w^i X_0$. The total
+amount received at the end of the period is the sum over all these individual amounts, hence
+the total return of the portfolio is
+\begin{equation*}
+R = \frac{\sum_{i=1}^n R^i w^i X_0}{X_0}
+\end{equation*}
+Equivalently, since $\sum_{i=1}^{n} w^i = 1$, we have
+\begin{equation*}
+r = \sum_{i=1}^n w^i r^i
+\end{equation*}
+
+### Properties of expected value
+
+**Property 1: Adding or subtracting a constant**:
+Let $X$ be a random variable and you add a constant $a$ then
+$\mathrm{E}(X \pm a) = \mathrm{E}(X) + a$
+
+This is almost immediate from the definition, because you can split the probability weighted sum
+of $X + a$ into a probability weighted sum of $X$ plus a probability weighted sum of $a$. For
+the term involving $a$, you can factor out $a$ and since the probabilities sum to 1 we have the
+formula.
+
+**Property 2: Multiplying by a constant**: 
+If $X$ is a random variable and $a$ is a constant, then
+$\mathrm{E}(a X) = a \mathrm{E}(X)$.
+
+**Property 3: Transformation by a function**
+If $X$ is a random variable, then any function $f(x)$ defines a new random $f(X)$ and 
+\begin{equation*}
+\mathrm{E}(f(X)) = f(x_1) p(x_1) + f(x_2) p(x_2) + \cdots + f(x_n) p(x_n)
+\end{equation*}
+
+**Property 4: Linearity of expected value**
+if $X$ and $Y$ are random variables and $a$ and $b$ are constants, then
+\begin{equation*}
+\mathrm{E}(a X + b Y) = a \mathrm{E}(X) + b \mathrm{E}(Y)
+\end{equation*}
+
+To see this, we can write $\mathrm{E}(a X) + \mathrm{E}(b Y)$ by Property 2 as $a \mathrm{E}(X) + b \mathrm{E}(Y)$ which is
+by definition
+\begin{equation*}
+a \sum_{i=1}^n \sum_{j = 1}^m x_i p(x_i, y_j) + b \sum_{i=1}^n \sum_{j = 1}^m y_j p(x_i, y_j)
+\end{equation*}
+Rearranging gives:
+\begin{equation*}
+\sum_{i=1}^n \sum_{j = 1}^m (a x_i + b y_j) 
+\end{equation*}
+which is $\mathrm{E}(aX + bY)$.
+
+**Property 1**: If $X$ is a random variable and $c$ is a constant, then
+\begin{equation*}
+\mathrm{Var}(c X) = c^2 \mathrm{Var}(X)
+\end{equation*}
+You could try to prove this equation, just using the definition of variance and the 
+properties of expected value. We do not go into these details here but this
+property should make sense to you. If we multiply a random variable by say 3, its average
+squared distance from its mean should increase by a factor of 9.
+
+**Property 2**: If $X$ is a random variable and $d$ is a constant
+\begin{equation*}
+\mathrm{Var}(X + d) = \mathrm{Var}(X)
+\end{equation*}
+
+Shifting over a random variable by a constant does not alter the variance. This should make
+sense, since the variance of a constant must be 0. Why? Lets use the definition:
+\begin{equation*}
+\mathrm{Var}(d)= \mathrm{E}(d^2) - \mathrm{E}(d)^2 = d^2 - d^2 = 0
+\end{equation*}
+This should be clear, after all a constant never varies.
