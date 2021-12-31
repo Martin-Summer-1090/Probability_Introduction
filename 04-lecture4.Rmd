@@ -912,9 +912,9 @@ Let us compare this result with the theoretical expected value.
 ```{r compare-to-theory}
 probabilities <- c(0.2, 0.1, 0.3, 0.13, 0.07, 0.2)
 
-e_1 <- (returns[, "asset_1"]*0.25)%*%probabilities
-e_2 <- (returns[, "asset_2"]*0.375)%*%probabilities
-e_3 <- (returns[, "asset_3"]*0.375)%*%probabilities
+e_1 <- sum(returns[, "asset_1"]*0.25*probabilities)
+e_2 <- sum(returns[, "asset_2"]*0.375*probabilities)
+e_3 <- sum(returns[, "asset_3"]*0.375*probabilities)
 
 round(c(e_1, e_2, e_3), 2)
 
@@ -1057,6 +1057,58 @@ Varportf |> round(4)
 
 ```
 
+It works great but this notation is pretty awkward. Here is how we can do better. With more than
+two random variables it is convenient to use linear algebra or matrix notation and to make
+use of R's capabilities to do do. 
+
+Let me give you a brief a reminder how this works. We let $x = (x_1, x_2, \cdots, x_n)$
+denote a vector of $n$ random variables. When $x$ is a column vector, then it's *transpose* is
+a row vector. The usual notation is $x^T$ for transposition. The covariance associated with
+a vector $x$
+is most conveniently written as a $m \times n$ matrix $C$ where $C_{ij} = cov(x_im )$. If $x$
+is rewarded as a column vector and $x^T$ as the corresponding row vector then $C$ can be 
+expressed as
+\begin{equation*}
+C = E\left( (x - E(x))(x-E(x))^T \right)
+\end{equation*}
+If $w$ is a vector of portfolio weights we can write the variance of the portfolio as
+\begin{equation*}
+w^T C w
+\end{equation*}
+If you multiply a matrix by a column vector, you have to take the inner-product of the vector
+with each row of the matrix, like this:
+```{r matrix-mult, out.width='90%', fig.align='center', fig.cap='When mutilpying a column vector with a matrix take the inner product of the vector with every row of the matrix. The result will be a column vector', echo = F}
+knitr::include_graphics('figures/matrix_multiplication.png')
+
+```
+Likewise if you multiply a row vector with a matrix, you have to (symmetrically) take the
+inner product of the row vector with each column of the matrix.
+
+Lets apply this for the example we wrote down very tediously before. To understand this
+example, you need to know that in R a vector is just a special matrix, with one column (or
+one row) and the operator for an inner product is `%*%`. This is important, because if you
+use the `*` operator R will take a component-wise instead of an inner product. Finally,
+the R-function for transpositions is `t()`. Armed with this knowledge lets redo the
+previous example:
+```{r covariance-matrix-example}
+
+# w^T%*%(Var(r^1)+Var(r^2)+Var(r^3))%*%w + w^T C w
+
+w1 <- unique(simulation_outcome$Weight_1)
+w2 <- unique(simulation_outcome$Weight_2)
+w3 <- unique(simulation_outcome$Weight_3)
+
+w <- matrix(c(w1,w2,w3), nrow = 3, ncol = 1)
+ 
+R <- cbind(simulation_outcome$Asset_1, simulation_outcome$Asset_2, simulation_outcome$Asset_3)
+
+Vp <- t(w)%*% cov(R)%*%w
+
+Vp |> round(4)
+ 
+```
+Much more elegant and less error prone, isn't it?
+
 Our portfolio seems to be a bad deal. Over the course of the holding period it had an average
 daily return of $-0.08$ with a standard deviation of `r round(sqrt(0.1061),2)`. 
 It has an negative return on average and it is pretty risky. 
@@ -1069,13 +1121,347 @@ Markowitz Model
 
 ## The Binomial Distribution and models of asset price dynamics
 
-Explain Bernoulli trials
-Explain repeated Bernouli trials
-Show how these repeated Bernoulli trials or sums can be modeled by the binomial distribution
-use R for that
-Binomial
+### The binomial distribution in applied computational Finance
 
-Luenberger p 296 - 299 until
+In the last section of this lecture we discuss one particular discrete distribution: The
+binomial distribution. This is a discrete distribution which is particularly important in
+applied work and it is the foundation of one of the most important models of asset
+price dynamics in applied work in Finance. With respect to R, the discussion of the binomial 
+distribution also provides an important lesson to us. The base version of R has implemented all
+random variables and their distributions in special functions. We learn how to use these
+functions. Their syntax is always the same, and thus, once you know one of them you also know
+the syntax for all the others.
+
+### Bernoulli random variables as a building block of the binomial distribution
+
+The sample space of a **Bernoulli experiment** has only two possible outcomes, often denoted as
+"success" and "failure": ${\cal S} = \{\text{success}, \text{failure} \}$. We have encountered 
+this random variable already in form of coin flips in lectures 2, 3 and 4. The flipping of
+a coin would be a typical Bernoulli experiment, where the appearnac of heads could be the
+success and tails the failure (or the other way round, this is a convention).
+
+Bernoulli random variable
+: The **bernoulli random variable** takes a value of 1 or 0. The probability of
+success is given $p$ and of failure $1-p$. The notation for a bernoulli random variable
+is $X \sim Ber(p)$. This means: $X$ is a random variable that has  bernoulli distribution with
+success probability $p$ (and thererfore failure probability $1-p$).
+
+The expected value of a bernoulli random variable $X$ is $E(X) = p$ and its 
+variance is $Var(X) = p (1-p)$. You may try to derive this statement from the definitions
+of expected value and variance we introduced in this lecture.
+
+Binomial random variable
+: The **binomial random variable** generalizes the idea of a Bernoulli random variable. A
+binomial random variable $X$ is the sum of $n$ independent and identically distributed
+bernoulli random variables. The random variable is defined by two parameters, the total
+number of trials $n$ and the probability of "success" $p$. It is useful for caclulating
+the probability of getting $k$ successes in $n$ trials. The notation is $X \sim Bin(n,p)$.
+
+The expected value of a binomial random variable $X$ is $E(X) = n\,p$ and its variance is
+$Var(X) = n\,p\,(1-p)$
+
+To develop a bit of intuition about bernoulli and binomial random variables, let us go
+back to our virtual die and consider rolling the die five times. The random variable $X$ we
+are interested in is the number of sixes occuring in these five rolls.
+
+We can figure out the probability that a six is shwon in all five rolls. We can use
+independence and the multiplication rule:
+
+\begin{equation*}
+P(X = 5) = \left( \frac{1}{6} \right)^5
+\end{equation*}
+
+```{r all-six}
+(1/6)^5
+```
+Likewise we can figure out the probability of no sixes
+
+\begin{equation*}
+P(X = 0) = \left( \frac{5}{6} \right)^5
+\end{equation*}
+
+```{r no-six}
+(5/6)^5
+```
+These cases were easy. But what about the probability of exactly one six? There are five outcomes
+with $X = 1$, since the six can occur at the first, the second and so until at the fifth roll. 
+Each of these cases has probability
+
+\begin{equation*}
+P(X = 1) = 5 \left( \frac{5}{6} \right)^4 \left( \frac{1}{6} \right)
+\end{equation*}
+```{r one-six}
+5*(5/6)^4*(1/6)
+
+```
+What about two sixes? You can figure out that there are 10 different ways to 
+get two sixes in five rolls. Generalizing this reasoning leads to a general formula 
+for the probability distribution function of a binomial random variable. If $X$ is
+a random variable representing the number of successes, then the probability of getting
+exactly $k$ successes is:
+
+\begin{equation*}
+P(X = k) = \binom{n}{k}\, p^k \, (1-p)^{(n-k)}
+\end{equation*}
+
+$\binom{n}{k}$ is the binomial coefficient and means $\frac{n !}{k! (n-k)!}$. You see that 
+the formulas become quickly quite complicated. But here we can reap the advantages of the
+computer. R has a syntax for all known random variables with a parametric distribution. The
+syntax is always the same. Let us introduce this syntax for the binomial distribution:
+
+1. `dbinom(x,n,p)` will return the probability that $X$ is equal to $x$ where $X \sim \textrm{Binom}(n,p)$. This is the distribution function for the binomial random variable.
+
+2. `pbinom(x,n,p)` will return the probability that $X$ is less or equal to $x$, where $X \sim \textrm{Binom}(n,p)$. This is the cumulative distribution function.
+
+3. `rbinom(N,n,p)` will return $N$ randomly generated values from a binomial random variable.
+
+4. `qbinom(r,n,p)` will return the smallest value $x$, such that $P(X \leq x) \geq r$ where
+$X \sim \textrm{Binom}(n,p)$. This is called a quantile function and we will learn about
+its meaning in the next lecture.
+
+Let us show an application case for these function from a context we already know. Let
+us take our dice rolling example. Let us take the example discussed before, the probability
+of seeing one six in five rolls of a dice. We solved such a problem by simulation in the
+previous lectures. We write a function replicate it many times and then plot the distribution
+we get in this way:
+```{r roll-die-five-times}
+roll_die_five <- function(){
+  
+  # create a six sided die
+  die <- 1:6
+  # roll the die five times
+  res <- sample(die,5, replace = TRUE)
+  #count the sixes
+  count <- sum((res == 6))
+}
+
+sim_rolls <- replicate(10^5, roll_die_five())
+```
+
+We can now plot a histogram of the outcomes:
+```{r hist-roll-five}
+qplot(sim_rolls, binwidth = 1)
+```
+We could do the same experiment now with only one line of code by using the `rbinom()` function.
+```{r sim-die-with-rbinom}
+sim_roll_with_rbinom <- rbinom(10^5,5,1/6)
+```
+Now let us compare the histogram:
+```{r compare-hist-roll-five}
+qplot(sim_roll_with_rbinom, binwidth = 1)
+```
+The probability to get 3 sixes according to the simulation (relative frequency) is:
+```{r 3-six-prob}
+sum(sim_rolls == 3)/length(sim_rolls)
+```
+This could be also be compute directly by `dbinom()`like this:
+```{r 3-six-prb-with-dbinom}
+dbinom(3, 5, 1/6)
+```
+I think you start getting the idea. We now know more functionality which can substitute for
+basic approaches we built ourselves from scratch already before. However, once you go to
+developing code for industrial strength simulations and more realistic real world applications,
+speed and performance will become essential. Using built in functions whenever possible will
+support this goal. We will talk a bit more systematically about efficient and fast computation
+in the next lecture.
+
+### Modeling asset price dynamics with binomial trees
+
+The investment problem we analyzed in this lecture has only one period. Most real world
+investment problems fluctuate and can be traded frequently. They pay dividends, face fluctuating
+interest rates and are subject to various other uncertainties over time. 
+
+The binomial distribution while conceptually very simple, allows to model asset 
+price fluctuations conveniently and realistically. In Finance there are two basic workhorse
+models to represent asset price dynamics: Binomial lattices and Ito processes. Both are
+rooted in probability but binomial lattices are conceptually simpler. Yet they form an
+excellent basis for computational work associated with investment problems.
+
+To define a binomial lattice model, a basic period of length has to be 
+established, such as a day or a week. According to the model, if the price is known
+at the beginning of a period, the price at the beginning of the next period is one of only
+two possible values. Usually these two possible values are defined as multiples of the price
+in the previous period, a multiple $u$ for up and a multiple $d$ for down. Both $u$ and $d$ are
+positive with $u > 1$ and usually $d < 1$.
+
+Hence, if the price at the beginning of the period is $S$, it will be either $uS$ or $dS$ at
+the next period. The probabilities of these outcomes are $p$ and $1-p$ respectively, for some
+$p$ with $0 < p < 1$. This model continues for many time steps. If the time step are short, 
+there are many possibilities for the price at the end of the process, even though the 
+possibilities at each time step are confined to only two.
+```{r binomial-lattice, out.width='90%', fig.align='center', fig.cap='A binomial lattice with three time steps', echo = F}
+knitr::include_graphics('figures/binomial_lattice.png')
+```
+To specify such a binomial lattice model, we must select values for $u$ and $d$ and the
+probability $p$. These should be chosen such as to reflect the true stochastic nature of the
+stock price as faithfully as possible.
+
+Since the model is multiplicative and $u > 0$ and $d > 0$, the price will never become 
+negative. Accordingly, we can define $\nu$ as the expected annual growth rate by
+\begin{equation*}
+\nu = E\left( \ln(S_T/S_0) \right)
+\end{equation*}
+where $S_0$ is the initial stock price and $S_T$ is the stock price after a year.
+
+Likewise we define $\sigma$ as the annual standard deviation of the growth rate
+\begin{equation*}
+\sigma^2 = Var\left( \ln(S_T/S_0) \right)
+\end{equation*}
+
+If we choose a period of $\Delta t$, which is small compared to 1, the parameters of the
+binomial lattice can be selected as
+\begin{eqnarray*}
+p&=&\frac{1}{2} + \frac{1}{2}\left(\frac{\nu}{\sigma} \right) \sqrt{\Delta t} \\
+u&=&\exp(\sigma \sqrt{\Delta t}) \\
+d&=&\exp(-\sigma \sqrt{\Delta t})
+\end{eqnarray*}
+We are not able to go into the details of why this works, we can claim here only that with this
+choice, the binomial model will closely match the value of $\nu$ and $\sigma$. The closeness of
+the match improves if $\Delta t$ is made smaller and smaller becoming exact as $\Delta t$ goes
+to zero.
+
+Now let us check this using our R-tools learned so far. Take again the S&P 500 as our test data
+set. Remember our SP500 data we used before:
+```{r remind-me-sp500-from-before}
+head(sp500, n=5)
+```
+We first need the annual returns. In order to do so we automatically extract the first price
+in each year. 
+
+This can be done in many ways. Here is a solution, that works:
+We first extract the year from the data column and add a new 
+variable to the sp500 data frame. For this we use a function from the
+lubridate package. This function is called `year()` and if
+applied to a date object extracts the year only. 
+Then we split the data frame according to the year using R's `slit()` function. This
+will create a list of data frames of daily records, where each list element contains
+the records of one year. We then write a little function, which takes a data frame as
+argument and selects the first row. Finally we apply this function to each element of the
+list using R's function `lapply()`. Finally we bind all observations
+together with the `do.call()` function. This is admittedly a piece of advanced
+R acrobatics, so if this sounds weird or difficult to comprehend, don't worry.
+```{r annual prices}
+
+# add a column with the year using year function from lubridate package
+sp500$year <- lubridate::year(sp500$date)
+# split dataframe according to year
+split_by_year <- split(sp500, sp500$year)
+# write a function selecting the first row of a given data frame
+sel <- function(x){x[1,]}
+# apply this function to each element of the list.
+aux <- lapply(split_by_year, sel)
+# recombine the list entries into a data frame but drop the returns column
+sp500_annual <- do.call(rbind, aux) |> subset(select = -returns)
+
+head(sp500_annual, n = 3)
+```
+
+Now we can compute annual log returns:
+```{r annual-log-returns}
+sp500_annual$returns <- c(NA, diff(log(sp500_annual$adjusted), lag = 1))
+```
+Now we are ready to compute $\nu$ and $\sigma^2$.
+```{r nu-and-sigma}
+nu <- mean(sp500_annual$returns, na.rm = T)
+sigma <- sqrt(var(sp500_annual$returns, na.rm = T))
+nu
+sigma
+```
+Now we wish to make a binomial price model of the sp500 based on these data for a daily period.
+Assume the year has 250 trading days. Then we get:
+```{r prarm-binom}
+u <- exp(sigma*sqrt(1/250))
+d <- exp(- sigma*sqrt(1/250))
+p <- 1/2*(1 +(nu/sigma)*sqrt(1/250))
+
+u
+d
+p
+```
+We can now generate a binomial tree by a function:
+```{r construct tree}
+binomial_tree <- function(S0, up, down, steps){
+  
+  # initialize tree as a matrix
+  
+  tree <- matrix(0, nrow = steps+1, ncol = steps + 1)
+  
+  # fill up tree in a double for-loop
+  
+  for(i in 1:(steps + 1)){
+    for(j in (1:i)){
+      
+      tree[i,j] <- S0*up^(j -1)*down^((i-1)-(j-1))
+      
+    }
+    
+  }
+
+  return(tree)  
+  
+}
+```
+Lets generate a tree with three steps:
+```{r test-tree}
+binomial_tree(S0=100, up = u, down = d, steps = 3)
+```
+How is this related to the binomial distribution? The random variable, which we are
+studying is a random variable $X$ with $P(X = u) = p$ and $P(X = d) = 1-p $. The stock price
+$S$ follows the process
+\begin{equation*}
+S_{n+1} = S_n X_{n+1} \quad \text{for}\,\, n \geq 0
+\end{equation*}
+Thus given the value of $S_n$
+\begin{equation*}
+S_{n+1} = 
+\begin{cases} 
+u\,S_n \, \mbox{with probability} \,\,p \\
+d\, S_n \, \mbox{with probability}\,\, (1-p)
+\end{cases}
+\mbox{for}\,\, n \geq 0
+\end{equation*}
+independent of the past. Thus in each  time period the stock price goes either up or down
+and the randomness comes from identical independently distributed bernoulli random variables.
+
+If we expand the recursion for the stock price we get
+\begin{equation*}
+S_n = S_0 \times X_1 \times \cdots \times X_n, \,\,\, n\geq 0
+\end{equation*}
+From this expansion we can conclude that for a given $n$
+\begin{equation*}
+S_n = u^i d^{(n-i)} S_0 \,\,\, \mbox{for some} \,\,\, i \in \{1, \cdots, n\}
+\end{equation*}
+meaning that the stock price went up $i$ times and down $(n-i)$ times with the
+corresponding probabilities determined by
+\begin{equation*}
+P(S_n = u^i d^{(n-i)} S_0) = \binom{n}{i}p^i\,(1-p)^{(n-i)},\,\,\, 0\leq i \leq n
+\end{equation*}
+
+Let us use these insights and what we learned about handling of binomial random variables in
+R by simulating an asset price process for the sp500 for a year - i.e. for 250 daily time steps
+and plot the probability mass function of the resulting price distribution.
+```{r simulate-price-distribution-sp500}
+# Simulate 250 time steps of the asset price process starting with S_0 = 100. 
+tree <- binomial_tree(S0=100, up = u, down = d, steps = 250) 
+# Select
+# the last row of the resulting matrix representing the final outcomes after 250 time steps.  
+outcomes <- (tree[dim(tree)[1], ])
+success <- 0:250
+
+# plot the probability distribution of outcomes
+
+plot(outcomes, dbinom(success, size = 250, prob = p), type = "h")
+abline(v=sum(outcomes*dbinom(success, size = 250, prob = p)),col="blue",lwd=3)
+abline(v = 110.6802, col = "red", lwd = 2)
+```
+The blue vertical line shows the expected value of the asset value after a year, given the
+simulated asset price process. The red line shows the expected value, of an asset multiplied
+by the expected annual return, we have extracted from the data and which we have used to
+calibrate our binomial pricing model.
+
+You will encounter this model of asset price dynamics often in your career in Finance, in 
+particular, when it comes to pricing derivatives.
+
 
 ## Project: Credit risk model and independence based on Schönbucher
 

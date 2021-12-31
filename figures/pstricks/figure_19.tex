@@ -1,0 +1,43 @@
+\documentclass{standalone}
+
+\usepackage{pstricks, pstricks-add, pst-func}
+
+
+\begin{document}
+	
+	
+	
+\psset{xunit=0.5cm,yunit=20cm,arrowscale=1.5}
+
+\begin{pspicture}(-2,-0.1)(21,0.24)
+\psChiIIDist[linewidth=1pt,nue=5]{0.01}{19.5}
+\psaxes[labels=none,ticks=none]{->}(20,0.2)
+\pscustom[fillstyle=solid,fillcolor=red!40]{%
+	\psChiIIDist[linewidth=1pt,nue=5]{3}{19.5}%
+	\psline(20,0)(3,0)}
+
+\psline(3,0.005)(3,-0.005)
+\psline(0,0)(0,-0.005)
+
+\rput(3,-0.02){$a$}
+\rput(0,-0.02){$0$}
+
+\rput(4.5,0.09){\tiny{$P(X > a) = $}}
+\rput(4.95,0.075){\tiny{$1 - P(X \leq a) =$}}
+\rput(5.1,0.05){\tiny{$1 - \int_0^a f(x) dx =$}}
+\rput(4.2,0.03){\tiny{$1 - F(a)$}}
+
+\rput(1.7,0.04){\tiny{$\int_0^a f(x) dx$}}
+\rput(1.7,0.02){\tiny{$= F(a)$}}
+
+\rput(20, -0.02){$x$}
+\rput(-1,0.2){$f(x)$}
+
+\end{pspicture}
+	
+		
+	
+
+	
+\end{document}
+
