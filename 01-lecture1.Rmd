@@ -1,4 +1,4 @@
-# First probability ideas and first steps in R
+# First probability ideas and first steps in R {#first-steps}
 
 If you chose to study Finance it should be natural for you to also study probability. 
 After all, Finance studies the allocation and pricing of money across time. You can
@@ -23,7 +23,7 @@ Jacob Bernoulli (1654 - 1705), Abraham de Moivre (1667 - 1754),
 Thomas Bayes (1701 - 1761) and Pierre Simon de Laplace (1749 - 1825).
 
 While people were aware of chance at all times, liked to gamble or even had a godess of chance
-like the Greeks it seems only later it occurred to people that something as elusive as uncertainty
+like the Greeks it seems only later it occurred to them that something as elusive as uncertainty
 or chance could perhaps be measured. This is the starting point for classical probability. 
 It is also a very good starting point to familiarize ourselves with some basic concepts and
 knowledge of R by building a simple chance game people apparently had enjoyed playing at
@@ -36,22 +36,21 @@ building of a die, which can be rolled on the computer is a simple but extremely
 example which can lead us straight both into probability and into R at the same time and
 get us started for actual probability applications in Finance.
 
-## Rolling a die: First Probability ideas.
+## Rolling a die: First Probability ideas. {#rolling-a-die}
 
 Lets start with a classic and old example of a probability model, which occupied the attention of
-Pascal and Fermat as well as their gambling friend the Chevalier de Mere: Rolling a six sided die. 
+Pascal and Fermat as well as their gambling friend the Chevalier de Méré: Rolling 
+a six sided die. 
 
-When you role a die or several dice like shown in the following picture, it is uncertain on which face it will finally end up after the throw.
-
+When you role a die or several dice like shown in the following picture \@ref(fig:dice), 
+it is uncertain on which face it will finally end up after the throw.
 ```{r dice, out.width='25%', fig.align='center', fig.cap='Rolling dice: An old game of chance', echo = F}
 knitr::include_graphics('figures/dice.jpg')
-
 ```
-
-What seems clear, though is that it will turn out that it is either one of 
+What seems clear though is, that it will turn out that it is either one of 
 the six possible faces of the die.
 
-### Random experiments, sample space, events
+### Random experiments, sample space, events {#random-experiments-sample-space-events}
 
 In the theory of probability a process leading to an uncertain outcome is called a
 **random experiment**. The example of throwing a die helps us to give a precise meaning
@@ -62,7 +61,8 @@ consider the (practically relevant cases) that it will land on one of the faces.
 The collection of all possible outcomes of a practical or conceptual random experiment is called
 in probability theory a **sample space**. While the sample space of throwing a die is an 
 idealization it is exactly this idealization which simplifies the theory without affecting
-its applicability. The basic outcomes in the random experiment of throwing a die are that the 
+its applicability. The **basic outcomes** in the random experiment of 
+throwing a die are that the 
 die lands such that the upward showing face shows a 1 a 2, 3, 4, 5 or a 6. In the theory
 the collection of basic outcomes is denoted as a set. Thus the sample space of throwing a die
 is given as the set ${\cal S} = \{1,2,3,4,5,6\}$.
@@ -81,6 +81,7 @@ appropriate sample space of this experiment, we can say that the price can not f
 treatment of stock prices, which we will discuss later in our course, it is for instance
 common to assume that the sample space of this random experiment is the entire interval of
 non-negative real numbers ${\cal S} = [0, \infty)$.
+
 Many of us would
 hesitate to claim that the price might rise without bound. Yet many models in applied
 Finance are based on such an assumption. The models allow arbitrary price hikes but with arbitrary
@@ -92,10 +93,11 @@ on a security price at $x$ it would be also awkward to assume that it is impossi
 could be just a cent higher, an assumption equally unappealing than assuming it can get in
 principle arbitrarily high.
 
-### Classical Probability: Measuring uncertainty
+### Classical Probability: Measuring uncertainty {#classical-probability}
 
 **Probability** is a measure of how likely an event of an experiment is. But how could we measure
-chance? Here is the first big idea of probability theory and how the originators thought about it.
+chance? Here is the first big idea of probability theory and how the originators 
+thought about it.^[In this discussion I use chapter 1 in @DiaconisSkyrms2019]
 How do you measure anything? If you think of length, for example, you take an arbitrary standard
 you agree on and then count. The originators of probability theory pursued the same idea with
 chance: To measure probability you choose equally probable cases and then count.
@@ -106,18 +108,20 @@ P(A) = \frac{\text{Number of cases where $A$ occurs}}{\text{Total number of case
 \end{equation}
 
 Thus, if we want to know the probability of the die ending up on a face such that an 
-even number is shown we have to compute according to this notion $3/6$ which is a
+even number is shown (2,4,6) we have to compute according to this notion $3/6$ (since
+the total number of cases are six basic outcomes) which is a
 chance of $50 \%$. 
 
 Note that this classical notion of probability has a few interesting consequences, which we
-will discuss in more detail later but which naturally flow from this basic idea of measuring
+will discuss in more detail later but which already now naturally flow from 
+this basic idea of measuring
 chance. 
 
 1. Probability is never negative.
 2. If an event $A$ occurs in all cases $P(A)=1$.
 3. If $A$ and $B$ never occur in the same case, then $P(A \,\text{or}\, B) = P(A) + P(B)$.
 
-In particular then the probability that an event does not occur is 1 less the probability
+In particular then the probability that an event does *not* occur is 1 less the probability
 that it occurs: $P(\text{not}\, A) = 1 - P(A)$.
 
 Let us interrupt here our discussion of 
@@ -129,21 +133,20 @@ computer. Since we will talk to the computer in R, it is now the right time
 to look at the die rolling example from the perspective of R and dive into
 some of its basic concepts.
 
-## Rolling a die on the computer: First steps in R
+## Rolling a die on the computer: First steps in R {#rolling-die-on-computer}
 
-### The R User Interface
+### The R User Interface {#r-interface}
 
 Before we can ask our tool to do anything for us, we need to know how to talk to
 it. In our case RStudio allows us to talk to our computer. It works like any other
-application. When you launch RStudio on your computer, you will see a screen looking like
+application. When you launch RStudio on your computer, in figure 
+\@ref(fig:rstudio-start-screen) you see a screen looking like
 this:
-
 ```{r rstudio-start-screen, out.width='90%', fig.align='center', fig.cap='The RStudio startup screen', echo = F}
 knitr::include_graphics('figures/Screenshot_RStudio.png')
 ```
-
 In this picture you see a screenshot of my RStudio screen. Interacting with the app is easy. You
-type commands via your keyboard at the prompt, which is the `>` symbol. You find this
+type commands via your keyboard at the **prompt**, which is the `>` symbol. You find this
 symbol in the RStudio pane called **Console**. You can see it in
 the left pane in  the screenshot. You send the command to the computer 
 by pressing enter. After you have pressed enter, RStudio 
@@ -153,12 +156,14 @@ a new prompt to enter new commands, like this:
 ```{r add-two-numbers}
 1+1
 ```
-Let me pause here to explain what you see here. First you see a light-gray box
-containing the command `1+1`. This is an instance of a so called code chunk. Moving the 
+Let me pause to explain what you see here in this code example. First you see a light-gray box
+containing the command `1+1`. This is an instance of a so called **code chunk**. Moving the 
 cursor to the right upper corner of the chunk, will display a copy icon and you can click
-this icon to copy the code, paste it at the prompt of your console and run it 
-in R studio, if you wish. In the code-chunk the prompt `>` is not displayed. This symbol of 
-the prompt is only shown in the Console.
+this icon to copy the code to the computer's clipboard and then paste 
+it at the prompt of your console (or for that matter
+anywhere else) and run it 
+in R studio, if you wish. In the code-chunk the R-prompt `>` is not displayed. This symbol of 
+the prompt is only shown in the Console itself.
 
 When the code is executed, you see the result in the second light-gray box, just below the first
 one. It starts with a double hash `##`, indicating that it shows
@@ -225,8 +230,8 @@ die on the computer
 using R. If you think of a physical die, the essential thing that matters are 
 the points on its
 six sides. If you throw the die it will usually land on one of these sides 
-and the side which is
-on the upper side of the die shows the number of points. 
+and the upward showing side of 
+the die shows the number of points. 
 The colon operator `:` gives us a way to
 create a group of numbers from 1 to 6. R gives us the result as a 
 one dimensional set of numbers.
@@ -249,7 +254,7 @@ of 10 points is the empty set $A = \emptyset$. The symbol $\emptyset$ comes from
 means the set containing no elements. This event can contain no elements because we can not get
 a score of 10 by rolling a six sided die.
 
-### Objects
+### Objects {#objects}
 
 You can save data in R by storing them in **objects**. 
 An object is a name, you can choose yourself to
@@ -266,7 +271,10 @@ will display the value you have assigned. A useful key combination for typing th
 operator ```<-``` is to use the key combination ```ALT _ ```. At the R prompt R will automatically
 print an assignment operator. 
 
-```{r}
+Now if you type the name of the object and press enter, R will display the value or
+values stored in it, like this:
+
+```{r display-value-of-object}
 point_six
 ```
 
@@ -286,11 +294,13 @@ typing the following command at the prompt. This command creates an object with 
 die <- 1:6
 ```
 
-```{r, out.width='90%', fig.align='center', fig.cap='The RStudio Environment pane keeps track of the objects you have created', echo = F}
+```{r rstudio-screen-with-command, out.width='90%', fig.align='center', fig.cap='The RStudio Environment pane keeps track of the objects you have created', echo = F}
 knitr::include_graphics('figures/screenwithobject.png')
 ```
 
-You can now see in the right upper Environment pane that R shows you that there is an 
+You can now see in the right upper Environment pane in 
+figure \@ref(fig:rstudio-screen-with-command)
+that R shows you that there is an 
 object with the
 name ```die``` that it consists of integers ```1,2,3,4,5 ```. As you create more 
 objects they will be
@@ -334,12 +344,12 @@ the use and the meaning of this notation in R.
 
 The element wise execution R usually uses also means that when you, for example type
 
-```{r}
+```{r elementwise-subtraction}
 die - 1
 ```
 R would subtract `1` from every component in the vector `die`. 
 
-Another specific behavior of R, you need to know about is called "recycling". If you give
+Another specific behavior of R, you need to know about is called **recycling**. If you give
 R two vectors of different length in an operation, R will repeat the shorter vector as long as
 it is of equal length with the longer one. For example, if you have:
 ```{r recycling}
@@ -357,14 +367,14 @@ die + 1:4
 
 While this might seem awkward to some of you, we will see that for data manipulation
 element-wise execution is often extremely useful. It allows to manipulate groups of values in 
-a systematic way.
+a systematic yet easy way.
 
-### Functions
+### Functions {#functions}
 
 R contains many **functions** which we can use to manipulate data and compute things. 
 The syntax for
 using a function is very simple: You type the function name and put the value of the function
-argument in parentheses. Here we use for illustrations the function of the square root 
+**argument** in parentheses. Here we use for illustrations the function of the square root 
 `sqrt()`:
 ```{r sqrt-function}
 sqrt(4)
@@ -373,7 +383,7 @@ or rounding a number:
 ```{r round-function}
 round(3.1415)
 ```
-The data you write in the parentheses are called the function arguments. 
+The data you write in the parentheses are called the **function arguments**. 
 Arguments can be all sorts of
 things: raw data, R objects, results from other functions. 
 
@@ -398,7 +408,9 @@ as arguments a vector names `x` and a number named `size`. `sample` will return
 sample(x = 1:4, size = 2)
 ```
 
-In this case `sample` has chosen `4,1` from the vector `x = (1,2,3,4)`. If we want
+In this case `sample` has chosen `4,1` from the vector `x = (1,2,3,4)` at random. 
+
+If we want
 to roll the die in our computer we can thus pass the die as an argument to `sample` and
 use the number `1` for the `size` argument. Lets do a few rolls with our die
 ```{r roll-die}
@@ -415,19 +427,21 @@ course.
 R functions can have many arguments, but they need to be separated by a comma.
 
 Every argument in every function has a name. We specify which data are assigned to the 
-arguments by setting the name equal to the data. Names help us to avoid passing the wrong
+arguments by setting a mathematical equal sign `=` between the name and 
+the data. Names help us to avoid passing the wrong
 data and thereby mixing up things or committing errors. But using names is not
 necessary. If we just wrote
 ```{r names-not-necessary}
 sample(die,1)
 ```
-R would also know what to do. It is not always clear which names to use for a function. If you are
+R would also know what to do. It is not always clear which names to use 
+for a function. If you are
 not sure, you can use the function `args()` to look it up. Here we take the 
 function `round`as one example.
-```{r}
+```{r example-args-function}
 args(round)
 ```
-Note that the ```digits``` argument in the `round` function is already set to `0`. Frequently
+Note that the `digits` argument in the `round` function is already set to `0`. Frequently
 R functions come with optional arguments. These arguments are optional because the come with a 
 default value, which is `0` in case of the round function. 
 
@@ -435,10 +449,11 @@ We recommend that you write out argument names as a rule. It gives clearer code 
 errors. If you don't write argument names, R matches your values to the arguments of the
 function by order.
 
-### Writing your own functions
+### Writing your own functions {#writing_your_own_functions}
 
 Now we are ready to write our own function to roll the die in our computer. Each function in R
-has the same elements: A *name*, a *function body* of code and a set of *arguments*. To write your
+has the same elements: A **name**, a **function body** of code and a set of **arguments**. 
+To write your
 own function, you have to write up all of these parts and save them in an R object. The syntax 
 is:
 
@@ -464,6 +479,10 @@ roll_die()
 roll_die()
 roll_die()
 ```
+Note that in our function `roll_die()` has no arguments, just the function body. This is
+perfectly legitimate in R. It is important that when we call the function we have to call it
+with the parenthesis like `roll_die()`. If we only call the name `roll_die`, R will display the
+code in the function body.
 
 A final remark in the `sample` function is in place here. If we look at the arguments of
 sample using the `args` function we see
@@ -488,21 +507,23 @@ both dies show the same value. To enable this behavior of the sample function, w
 change the default value of the `replace` argument to `TRUE`. Then R chooses a random draw
 from all of the six possible values for all dice rolled.
 
-Congratulations. You have written your first R function for conducting a simple random
-experiment. Think of the parentheses as a trigger that tells R to run the function. If
+Congratulations ! You have written your first R function for conducting a simple random
+experiment. Let me remind you once again: Think of the parentheses as a 
+trigger that tells R to run the function. If
 you omit the trigger R just prints the body of the function. When you run a function,
 all the code in the function body is executed and R returns the result of the last
 line of code. If the last line of code does not return a value neither will R.
 
-### Arguments
+### Arguments {#arguments}
 
 Imagine we remove the first line of code in our function body and changed the name
 die in the sample function to "ball".
 ```{r change-name}
 roll_die2 <- function(){sample(ball, size = 1)}
 ```
-If we call the function now, we will get an error. The function call `roll_die2()` will result in 
-the error message `Error in sample(ball, size = 1) : object 'ball' not found` (tri it!)
+If we call the function now, we will get an error. The function call `roll_die2()` will 
+result in 
+the error message `Error in sample(ball, size = 1) : object 'ball' not found` (try it!)
 
 We could supply ball when we call `roll_die2` if we make ball an argument of the
 function. Lets do this:
@@ -519,12 +540,12 @@ This could be avoided if we give the function a default argument
 roll_die2 <- function(ball= 1:6){sample(ball, size = 1)}
 ```
 Now if we type:
-```{r}
+```{r roll_die2}
 roll_die2()
 ```
 everything works, just as intended.
 
-### Scripts
+### Scripts {#scripts}
 
 So far we have worked by interacting with the console. But what if you want to edit
 your functions? It would be much easier, if you could use a draft of your code and
@@ -532,20 +553,25 @@ work form there. This can be done by using a **script**.
 
 You create a script by going to `File > New File > R script` in the menu bar of RStudio. Using
 scripts is the standard way to write code in R. It not only helps you to keep track of your code,
-save it and edit it later. It also makes your work *reproducible*. You can edit and proofread your
+save it and edit it later. 
+It also makes your work *reproducible*. You can edit and proofread your
 code and share it with others. To save your script go to `File > Save As ` in the
 menu bar.
 
-```{r, out.width='90%', fig.align='center', fig.cap='The RStudio Script', echo = F}
+```{r scriptscreen, out.width='90%', fig.align='center', fig.cap='The RStudio Script', echo = F}
 knitr::include_graphics('figures/scriptscreen.png')
 ```
 
-RStudio has many useful features to help you work with scripts. You can for instance automatically 
+RStudio has many useful features to help you work with scripts. 
+You can for instance automatically 
 execute a line in a code by using the run button. You can also execute sections of code or the
 entire script. The entire script is executed by running the Source button. For all these commands
 there are key short cuts which you will learn as you work more with RStudio and R.
 
-### Using packages and finding Help
+From now on you should write all your R-code for this course in scripts. Make a new folder
+for the scripts you write and store your R-code there from now on.
+
+### Using packages and finding Help {#packages_help}
 
 We have now a function which we can use to simulate the rolling of a die, `roll_die()`. If the 
 die is *fair* it should be the case  that if we roll  the die often, all numbers should occur
@@ -557,19 +583,27 @@ While R has many useful functions, one of the great powers is that R is constant
 by a huge community of users by providing packages. 
 
 Packages are add on functions, which will
-not be available when you install R. They need to be installed and loaded before you can use them.
+not be available when you install R. They need 
+to be installed and loaded before you can use them.
 Since packages are such a powerful tool in R we need to introduce what they are and how to use
 them in the beginning.
 
-### Packages
+### Packages {#packages}
 
 There are many visualization tools in R that come with the basic installation. Since the point
 we want to make here is about packages, we will use a visualization function which is part of 
-the package *ggplot2*, a very popular package for making all kinds of graphs. There are 
-many additional functions provided with this package. For the point we want to make here
-we will use just one of them, called `qplot` for quick plot.
+the add on package **ggplot2**, a very popular package for making all kinds of graphs. ggplot2
+is not part of the base-R distribution. It has to be therefore loaded before we can 
+use it.
 
-Since `qplot` is a function in the package *ggplot2*, we first need to install this package.
+There are 
+many additional functions provided with this package. Indeed you could
+run a whole course on just that ^[A very good starting point is for
+instance @Healy2018, in case you are interested. Also a good source is the
+first chapter in @WickhamGrolemund2017.] For the point we want to make here
+we will use just one of them, called `qplot()`, a shorthand for for quick plot.
+
+Since `qplot()` is a function in the package *ggplot2*, we first need to install this package.
 To install a package you need to be connected to the internet. If you have internet connection
 go to the command line and run at the command line:
 `install.packages("ggplot2")`.
@@ -589,7 +623,8 @@ to be loaded. This is done with the command `library`. To load the *ggplot2* pac
 ```{r load-packages}
 library("ggplot2")
 ```
-and hit the return key. Many things could be said about the R package system and you will learn it
+and hit the return key. Many things could be said about the R package system 
+and you will learn it
 in more detail as we go along in our course. For the moment the most important 
 thing to remember
 is that a package needs to be newly loaded whenever you want to use it in a new R session.
@@ -602,18 +637,27 @@ The number of times we want to repeat something is given as an argument
 to the `replicate` function.
 
 Now lets roll our die 100 times and save the result in an object we call `rolls`:
-```{r}
+```{r replicate-die-rolls}
 rolls <- replicate(100, roll_die())
 ```
 We now use the `qplot()`function from the *ggplot2* library to make a quick visualization, by
 typing the command `qplot(rolls)`. I include the resulting picture in the
 following figure
-```{r, out.width='90%', fig.align='center', fig.cap='Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 100 times', echo = F}
+```{r 100-rolls-of-a-fair-die, out.width='90%', fig.align='center', fig.cap='Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 100 times', echo = F}
 knitr::include_graphics('figures/100_rolls.png')
 ```
+If you try this and your picture looks a bit different from mine, don't worry. This is as things
+should be. I have stored the picture after one particular run of the replicate function and saved
+it in my figures folder to these lecture notes. Each time you run the replicate function anew
+a new random outcome is stored which will look not exactly the same as any other or course. This
+is what randomness does to the outcome of rolling a die.
 
-It looks like every value occurred roughly 16 times but there is still quite some variation. For instance,
-the value 3 seems to occur more than 20 times whereas the value 2 occurs less than 15 times. Maybe
+It looks like every value occurred roughly 16 times 
+but there is still quite some variation. For instance,
+the value 3 seems to occur more than 20 times whereas the value 2 
+occurs less than 15 times. 
+
+Maybe
 we have to give it another trial with more replications. With the computer we can do this with 
 a fingertip. Let us roll our die 10000 times and plot the result.
 ```
@@ -622,16 +666,21 @@ a fingertip. Let us roll our die 10000 times and plot the result.
 ```
 Now the picture looks better. 
 
-```{r, out.width='90%', fig.align='center', fig.cap='Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 10000 times', echo = F}
+```{r 1000-rolls-of-a-fair-die, out.width='90%', fig.align='center', fig.cap='Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 10000 times', echo = F}
 knitr::include_graphics('figures/10000_rolls.png')
 ```
-It seems that there is no significant visual evidence that our die is loaded.
+We will learn in our course why the picture get better as we
+increase the number of rolls of the die. For the moment, let us just state that
+at least for this case it seems that there is no significant visual evidence that our 
+virtual die is loaded.
 
-### Getting Help
+### Getting Help {#getting_help}
 
 We have now learned a tiny number of R functions and we have written one function 
 ourselves. We have
-learned how to make use of functions provided by packages. It would be 
+learned how to make use of functions provided by packages. 
+
+It would be 
 overwhelming to memorize and
 learn them all. In R, fortunately, every function 
 comes with a detailed documentation and with its own
@@ -639,13 +688,19 @@ help page. You need to learn how to use this source right from the beginning.
 
 To access the help page of a function you type the function name preceded by a 
 question mark at the prompt, like this
-```{r}
+```{r help-by-questionmark}
 ?sample
 ```
 
 Then, after you have pressed the return key, a help page is opened in the right 
 lower pane under the
-help tab. This help page has a particular structure that you will find for every other R function
+help tab as shown in \@ref(fig:helpinr)
+```{r helpinr, out.width='90%', fig.align='center', fig.cap='The Help-pane in RStudio', echo = F}
+knitr::include_graphics('figures/rhelp.png')
+
+```
+
+This help page has a particular structure that you will find for every other R function
 no matter whether it is provided by the base installation or by a package. In  the upper left
 corner you see the name of the function (`sample`) and in curly brackets next to it the term 
 `base`, which means that this is a function in the R base installation. Then you see a headline
@@ -701,14 +756,14 @@ we have a reference to related R functions under the field **See**. Finally ther
 **Examples**. This field contains example code that is guaranteed to work. It shows a 
 couple of different cases how you can use the function in practice.
 
-## Application: Coincidences and the Blockchain
+## Application: Coincidences and the Blockchain {#coincidences}
 
-### The birthday problem
+### The birthday problem {#birthday_problem}
 
 We learned now some basic notions of probability and of R with the example of the
 rolling of a fair die. It is really surprising what already can be done by just applying
 the simple ideas we have just learned. The application we want to show you now is
-known to probability theorists as the *birthday problem*. It originates in a piece
+known to probability theorists as the **birthday problem**. It originates in a piece
 of recreational maths and math-puzzles but it reaches out until cryptography, computer security
 and blockchain architecture. It also gives us an opportunity to apply some of our newly
 acquired R-knowledge.
@@ -719,7 +774,7 @@ we assume that birthdays on any day of the year are equiprobable and the birthda
 of the people in the room are independent. We have no twins for example. Perhaps some of
 you have already seen this problem before. If not, the result may surprise you. Even if
 you saw the birthday problem before, perhaps not many of you have seen the connection to the
-cryptography and the blockchain.
+cryptography and the blockchain.^[We follow here the discussion in @DiaconisSkyrms2019]
 
 First, observe that we took our assumptions such that we are in  the frame of classical
 probability like the originators of the field thought about it.
@@ -731,7 +786,8 @@ The *sample space* is the set of possible outcomes of the experiment. Assume we 
 people in the room. Since each person can have a birthday at any of the 365 days in the
 year (note that we assumed we exclude leap years) and we have $n$ people in the room, the
 possible basic outcomes are $365 \times 365 \times 365 \cdots 365$ taken $n$ times. This
-will produce a set with $365^{n}$ ordered $n-tuples$. This is the sample space of this
+will produce a set with $365^{n}$ ordered $n-tuples$ or sequences of birthdays. 
+This is the sample space of this
 experiment, written as ${\cal S} = \{x | x \in 365^n\}$ in set theoretic notation. It means
 the sample space is the set of all ordered $n-tuples$ from the Cartesian product $365^n$.
 
@@ -759,10 +815,10 @@ P(\text{at least two people share birthday}) =
 Now there is an additional thing we did not yet introduce and which we will learn 
 about in the next lecture. This refers to our assumption that the individual
 birthdays are independent. For the moment you need to take the
-following fact on faith: The probability of independent events is the probability
-of the product of these events.
+following fact on faith: The probability of independent events is the product of the
+probability these events.
 
-Now come the surprise for those of you who did not already see the birthday problem. Assume
+Now comes the surprise for those of you who did not already see the birthday problem. Assume
 the group size of people is 23. Let us compute the birthday coincidence probability. For this
 computation we make use of the R function `prod()` which takes a vector of numbers as input
 and computes their product. For $n=23$ we need the list of numbers from 365 to 343. Now we 
@@ -806,11 +862,11 @@ stick to the assumption that our year has 365 days (no leap years), and that all
 are equally likely, so we can sample from the list of days from 1 to 365 with the
 sample function which we have already encountered. 
 
-But this time we need 
+We need 
 to take care to set the `replace` argument
 in the sample function to the value `TRUE`. This is because we always draw for 
 every person in the
-room from the same list of values. if one birthday is drawn it is possible 
+room from the same list of values. If one birthday is drawn it is possible 
 in principle that later in the process the same birthday is drawn again. Before, when we worked
 with only one die we did not need to care whether sample drew with replacement or not.
 ```{r simulate-23-birthdays}
@@ -897,7 +953,7 @@ Pretty amazing! Before we got the exact value as `0.9703736`.
 But now let us stay still with the birthday problem but now get away from this playful
 application to something really serious: Cryptography.
 
-### Hash-functions and the blockchain
+### Hash-functions and the blockchain {#hashfunctions}
 
 The birthday problem is the canonical model for the probabilistic study
 of coincidences of all kinds.
@@ -905,7 +961,7 @@ A particular important application of this idea is in cryptography, and its
 concept of so called **hash-functions**.
 
 A hash-function maps a string of arbitrary but finite length to a fixed length string 
-of output. A
+of output.^[We have taken this discussion from https://brilliant.org/wiki/birthday-paradox/] A
 very frequently used hash-function in practice is the function SHA-256, which maps its input
 to a string of 256 bits^[A bit, short for binary digit, is defined as the most basic 
 unit of data in telecommunications and computing. Each bit is represented 
@@ -921,9 +977,11 @@ changing the output. So in our previous example, if you only deleted or added a 
 notes and hash-them again they would hash into a completely different 
 value than the previous version which 
 still was without this minor change.
-comparing the hash-values that something has changed.
+Comparing the hash-values would reveal immediately 
+that something has changed.
 
-The collision problem for hash-functions is formally equivalent to the birthday problem. The event
+The collision problem for hash-functions is formally equivalent 
+to the birthday problem. The event
 we are interested in is that *at least two input strings hash-to the same value*. Again it
 is easier to think about the complementary event that *all inputs hash to a different value*.
 
@@ -941,9 +999,11 @@ Note that this is a problem formally similar to the birthday problem. In the cry
 context we ask, how many values does a potential attacker have to hash through SHA-256 
 before the probability of a collision is larger than a certain threshold?
 
-The probability of no-collision ($nc$) with $n$ hashed-messages through a SHA-256 hash function is
+The probability of no-collision ($nc$) with $n$ hashed-messages 
+through a SHA-256 hash function is
 \begin{equation*}
-P_{nc}(n) = 1 \times \left(1 - \frac{1}{2^{256}}\right)\times \left(1 - \frac{2}{2^{256}}\right) \times \cdots \times \left(1 - \frac{(n-1)}{2^{256}}\right)
+P_{nc}(n) = 1 \times \left(1 - \frac{1}{2^{256}}\right)\times 
+\left(1 - \frac{2}{2^{256}}\right) \times \cdots \times \left(1 - \frac{(n-1)}{2^{256}}\right)
 \end{equation*}
 
 Now to do the estimation of the threshold we use an approximation, which works with 
@@ -970,23 +1030,28 @@ Thus to have a collision probability with $99.8%$ you need
 ```{r 99-percent-collision}
 sqrt(2*2^256*0.998)
 ```
-which is about $5*10^38$ hashes. To have a collision probability of $50 \%$ you need
+which is about $5*10^{38}$ hashes. To have a collision probability of $50 \%$ you need
 ```{r 50-percent-collision}
 sqrt(2^256)
 ```
-which amounts to $2^{128}$ hashes. This is, of course a really big number. Let's put this
+which amounts to $2^{128}$ hashes. This is, of course a **really** big number. 
+
+Let's put this
 into perspective: If a computer computes $10000$ hashes per second, it would take
-more than $10^27$ years to calculate $2^128$ hashes. Narrayanan et. al. formulate it like this: "*...if every computer ever made by humanity had been computing since the beginning of the universe, the odds that they would have found a collision by now are still infinitesimally small. So small that it it's far less than the odds that a meteor will land on your house.*". 
+more than $10^{27}$ years to compute $2^{128}$ hashes. @Narayananetal2016 formulate it like this: "*...if every computer ever made by humanity had been computing since the beginning of the universe, the odds that they would have found a collision by now are still infinitesimally small. So small that it it's far less than the odds that a meteor will land on your house.*". 
 
 ## Summary
 
 In this lecture we have taken a first step towards some very basic probability notions and some
 basic steps in R. Isn't it amazing how much territory we could cover with so few concepts? 
-You have learned about how to think in probability about collision probabilities and
+You have learned about how to think probabilistically about collision probabilities and
 how to solve for them analytically, by simulation and for large numbers by approximation. 
-We have convinced ourselves that the cryptographic Hash-function SHA-256, while it can
+
+We have convinced ourselves using this knowledge only and taking on faith that the
+probability of indepndent events is the product of their individual probabilities, 
+that the cryptographic Hash-function SHA-256, while it can
 produce collisions in theory, practically the number of hashes to make such a collision occur
-would be so large that for practical reasons we can be confident that hashing bit stringe with
+would be so large that we can be confident that hashing bit strings with
 SHA-256 gives us a unique fingerprint practically with certainty.
 
 These are the basic **probability concepts** we have covered in this lecture:
@@ -1024,10 +1089,15 @@ where you can apply the concepts we have learned in this lecture and thereby
 deepen your knowledge and anchor the newly learned concepts in your long term 
 memory.
 
-The first project is about one of the very few dice games offered at a Casino: Craps.
-In Craps people throw a pair of dice. We will come back to this game time and again
-during this course. In the first project we confine ourselves to model the throwing
-of two dice and summing up theory points on the computer. We try to find out the 
+The first project is about one of the very few dice games offered at a Casino: 
+Craps.^[ This will be
+the only project in this course where we do not go into a direct financial application. 
+Before we can do so, we need to build still a bit more knowledge of probability and
+skills in R.]
+In Craps people throw a pair of dice and bet on outcomes of these
+throws. In this project we practice our new knowledge by
+implementing the dice throws of craps and the automatic summation of points on the computer.
+We try to find out the 
 probability of the possible outcomes and check the fairness of the dice.
 
 1. Your first task in this project will be to write a function which allows you 
@@ -1053,3 +1123,4 @@ to be more advantageous than 9 and 12. "How
 can this be ?", the count asked Galileo Galilei (1564 - 1642) 
 who composed a short note to explain to the
 count what was going on. What might have been Galileo's reply?
+8. How much would you pay for a bet on the outcome that the sum is 2, 3 or 7 ? 

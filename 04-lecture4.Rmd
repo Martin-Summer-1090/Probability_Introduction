@@ -1109,6 +1109,8 @@ Vp |> round(4)
 ```
 Much more elegant and less error prone, isn't it?
 
+add expectation and variance of functions of a RV $X$.
+
 Our portfolio seems to be a bad deal. Over the course of the holding period it had an average
 daily return of $-0.08$ with a standard deviation of `r round(sqrt(0.1061),2)`. 
 It has an negative return on average and it is pretty risky. 
@@ -1465,6 +1467,68 @@ particular, when it comes to pricing derivatives.
 
 ## Project: Credit risk model and independence based on Schönbucher
 
-This can be constructed to apply the binomial distribution and discuss the
-importance of dependence. The modelling of dependence can be taken up in 
-the last project
+In this project you will study the probability of credit risk, the
+risk that one or more creditors in a portfolio of loans will
+default. We have already touched a bit of this problem in our
+discussion of the role of the assumptions about 
+dependence and independence of risks in structured finance. Clearly
+in banking, credit risk and its analysis is the 
+key issue, since banking is basically about borrowing and lending of
+money. In this project you will discover that the probability concepts
+we have covered in this lecture and in the previous lectures allow
+you to already go very far towards a deeper understanding of
+credit risk.
+
+1.  Let us now make use of your knowledge of R and probability to make a first step towards *modelling* credit default and portfolio losses. We will take a common and time proven strategy in problem solving, when we face a very complex and difficult situation like this. It is usually a good idea to think about a similar but simpler situation first, and then build from there. Let me help you with the simplification. Let us make
+the following assumptions. We fix a time horizon $T$, in credit risk this would be something like one year - for example -  and in addition we assume:
+  (a) that our portfolio consists of  $N$ *identical* borrowers. 
+  In credit risk 
+  lingo these borrowers are also often referred to as *obligors*.
+  (b) All obligors have an *exposure* of size $L$ 
+  (some Euro amount for instance) and when one
+  obligor defaults, your bank for which you risk 
+  manage the loan portfolio, will be able to recover 
+  a fraction $c$, called the *recovery rate*.
+  (c) All defaults over $T$ happen *independently* with the same
+  probability of default $p$. Already now we *know* that this is a simplification which puts us far away from reality. Still it is useful
+  for us to build a step by step understanding of the problem. The key point is not to forget about this simplification and how it can be 
+  dropped later when we can build already on some of our experience 
+  with the simpler problem. This is by the way quite a common and 
+  good strategy both to solve analytical as well as programming problems. Here we develop a bit of practice with this habit.
+
+Use R and your knowledge about the binomial distribution to formulate a model for a random variable $X$ describing
+the number of defaults that occur until $T$ and produce a plot of
+the probability distribution of losses from default assuming 
+a portfolio size $N$ of 100 and individual default probabilities
+$p = 5 \%$.
+
+2. Now let us think a bit what is needed, if we want to get away from our oversimplified framework we have so far and take a step towards
+more realism. For such reflections it is often a good idea to drop
+superfluous structure for the question at hand. This is also a time
+proven strategy in problem solving. Ask yourself, what is the minimal
+setup I need to make my point. This is a question of the right amount of simplifcation, where the goal is to be as simple as possible but not to oversimplify. Let me help you a bit with this tactics: Assume
+now you have only two instead of $N$ obligors in your portfolio. Let
+us call them borrower $A$ and borrower $B$. You 
+would like to think about the risk they could default on their
+obligations over a time horizon $T$, say 1 year from now. Your staff
+has produced intelligence from a detailed data analysis and
+has provided you with the the numbers $p_A$, the probability that
+the first borrower will default within the time horizon $T$ as well as
+$p_B$, the probability that the second borrower will default over
+the horizon $T$. Would it help you towards more realism, if you had this information?  Would it help you to find out
+  a) The probability that $A$ *and* $B$ will default 
+  before $T$, denoted $P_{AB}$ (joint probability of default). 
+  Note that this would entail the knowledge of the 
+  probability that $A$ defaults before $T$ *given* 
+  that $B$ has defaulted before $T$, or the 
+  probability that $B$ has defaults given that $A$ has defaulted. 
+  Let us denote these conditional probabilities by $p_{A|B}$ and
+  $p_{B|A}$.
+ b) The correlation coefficient $\rho_{AB}$ between the 
+ event that $A$ defaults and $B$ defaults.
+3. Going back to your credit risk model, what does it tell you
+about extreme cases? What is the probability that all $N$ obligors
+default? What is the probability that none defaults? Note that 
+these extreme situations are still compatible with the assumption that each obligor defaults with probability $5 \%$. Can you
+recover any information about the likelihood of joint defaults in 
+these two extreme situations?

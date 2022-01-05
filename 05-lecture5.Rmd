@@ -473,8 +473,85 @@ phenomena can even fail and fool smart people.
 
 ## More than one normal random variable
 
+We have already discussed a situation where we have more than one
+random variable simultaneously, the concept of covariance and correlation as well as the properties of expecation and variance when we combine several random variables and consider their sums or functions of them. In the case of the normal distribution we have
+an additional stronger property, which you should know about.
+
+Summation property of the normal distribution
+: If $X$ and $Y$ are jointly normally distributed random variables, 
+then all random variables of the form $a\, X + b\, Y$, where $a$ and
+$b$ are real numbers, are also normally distributed. This holds 
+also for sums of more than two normally distributed random variables.
+
+If we have a vector $x$ of $n$ jointly normally distributed random
+variables, their joint probability density is given by
+\begin{equation*}
+p(x) = \frac{1}{(2 \, \pi)^{\frac{n}{2}} |C|^{\frac{1}{2}}}\exp(-\frac{1}{2}((x - E(x)^T C^{-1}(x - E(x)))
+\end{equation*}
+In this formula $C$ denoted the variance-covariance function and $| |$
+denotes the determinant. Don't worry if you do not exactly know what 
+this is or if you find this formula daunting. We will not use
+it in this form but, if at all, rather through the 
+implemented R functions. But the formula is so important and 
+famous that you should have seen it at least once in your life.
+
 ## Binomial trees and the normal distribution: How to make your R code fast and efficient
 
+Here we discuss R, vectorization and speed
+
 ## Project: Portfolio credit risk with dependent defaults
+
+This last project will tie together most probability and R concepts
+we have learned in our course. The context that will help us to 
+do this is again credit risk and we will build on the project
+from lecture 4 on modelling credit risk.
+
+A model which is able to represent default correlation in a simple
+way is due to Vasicek 1997 and works as follows:
+
+Obligor value model
+: The ** simplified obligor value model** makes the following basic
+assumptions:
+1. Each obligor in the loan portfolio is characteized by the monetary
+value of assets. The value of assets of obligor $n$ at time $t$ is
+$V_n(t)$.
+2. It is assumed that the asset value at the time horizon $T$ has a normal distribution and the asset values are standardized, so t_hat $V_n(0)=0$ and $V_n(T) \sim N(0,1)$.
+3. Obligor $n$ defaults, if its firm value at the time horizon $T$, $V(T)$ falls below a prespecified barrier $K_n$, such that $V_n(T) \leq K_n$. The asset values of different obligors are *correlated* with each other. The variance covariance matrix of $V_1(T), V_2(T), \cdots, V_n(T)$ is denoted by $C$.
+4. You and your staff have jointly developed a model for the asset
+values of the different obligors. In this model the values of the
+assets of the obligors are driven by a common factor $Y$ which is
+a standard normally distributed random variable and an idiosyncratic
+factor $\epsilon_n$ which is for all obligors $n$ also 
+a standard normal random variable. Thus the total value follows
+\begin{equation*}
+V_n(T) = \sqrt{\rho}\, Y + \sqrt{1-\rho}\epsilon_n \quad \text{for all}\,\,\, n \leq N
+The parameter $\rho$ describes the correlation coefficient between
+the value of assets of any two obligors $n \neq m$ and its value is
+also provided to you be your staff. Now you make an additional important assumption which will allow you to leverage all your hard work from the
+previous project: Conditional on the realisation of the systematic factor $Y$, firm values and firm defaults ars **independent**.
+
+\end{equation*}
+
+Your staff has produced data analysis on the covariance matrix of
+obligors asset values and provides you with $C$. Furthermore it
+provides you with the default probabilities of each obligor $n$, given by $p_n$. Now you are going to analyze, contrary to the simplified
+model from before, a more realistic situation where defaults
+are no longer independent by using the model assumptions outlined
+above.
+
+1. Your first task is that you take the $p_n$ provided to you by
+your staff and calibrate the default barriers $K_n$ from these data.
+2. Conditional on $Y = y$, what is the probability of having $n$ defaults in terms of the formula for the probability distribution of
+a binomial random varible?
+3. Using the assumptions on the model for the firm value, can you
+figure out which expression you need to plug into `qnorm()` to
+get the probability of $p_n(y) = P(V_n(T) < K_n | Y = y)$?
+4. Please combine the answers to 2 and 3 to simulate and plot
+the loss distribution assuming for your given $\rho$.
+5. Plot distribution under higher and lower correlation as well as
+under $\rho = 0$.
+6. What is the $99\%$ Value at risk, given $\rho$ provided by your
+staff?
+
 
 Schönbucher continued.

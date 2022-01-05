@@ -40,7 +40,7 @@ retrieve the S&P500 stock market index. To do this we need to know the ticker sy
 `^GSPC`. This has to be passed to the `tq_get()` function and that's it. Let us save these 
 data into an R object, which I call `sp500`and look at the first entries
 ```{r load-sp-500}
-sp500 <- tq_get("^GSPC")
+sp500 <- tq_get("^GSPC", from = " 2011-01-03")
 head(sp500, n = 5)
 ```
 We see that the series starts March 2011.
@@ -155,7 +155,6 @@ R is performing for us. We also add the marginal sums by giving the output of th
 `table`function to the `addmargins()` function of R:
 ```{r table}
 addmargins(table(sp500$up, apple$up, dnn = c("SP500", "Apple")))
-
 ```
 From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move 
