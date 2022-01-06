@@ -1,0 +1,244 @@
+---
+title: 'Project 1: Craps, a casino dice game'
+author: "Martin Summer"
+date: "5.1.2022"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Project description
+
+The first project is about one of the very few dice games offered at a Casino: 
+Craps.^[ This will be
+the only project in this course where we do not go into a direct financial application. 
+Before we can do so, we need to build still a bit more knowledge of probability and
+skills in R.]
+
+In Craps people throw a pair of dice and bet on outcomes of these
+throws. In this project we practice our new knowledge by
+implementing the dice throws of craps and the automatic summation of points on the computer.
+We try to find out the 
+probability of the possible outcomes and check the fairness of the dice.
+
+1. Your first task in this project will be to write a function which allows you 
+to virtually throw a pair of dice and sum up the points shown after the throw.
+2. Simulate and plot the result of your simulation using `qplot()` with the `binwidth`
+argument set to 1.
+3. Are these dice fair? Why?
+4. Assume the dice were unfair in the following sense: Numbers 1,2,3,4 and 5 have a 
+probability of $1/8$ while the 6 has a probability of $3/8$. Study the help page of
+the `sample`function and find out how you could give these new probability weights
+to the function. If you redo your simulation analysis with the loaded dice, how does the
+picture change?
+5. Write a script for this random experiment.
+6. Now look at the random experiment of throwing two dice with the concepts from
+probability theory: What is the sample space of this experiment. What are the 
+probabilities of the basic outcomes? What is the probability of getting sum 7, what is
+the probability of getting sum 2?
+7. In the early 17th century the Grand Duke of Tuscany was puzzled because he thought that
+counting possible cases in a game where three dice are thrown seemed 
+to give the wrong answer. Counting combinations of numbers, 10 and 11 can be 
+made in 6 ways, as can 9 and 12", yet experienced dice players regard 10 and 11 
+to be more advantageous than 9 and 12. "How 
+can this be ?", the count asked Galileo Galilei (1564 - 1642) 
+who composed a short note to explain to the
+count what was going on. What might have been Galileo's reply?
+8. Imagine now that you are at the casino and you can spend 150 Euro
+for bets on single rolls of  the two dice. 
+Since you have figured out that 7 is the most
+likely outcome you would like to buy bets on 7. The casino
+offers you a bet for 0.15 cent, so you could make 1000 bets 
+on 7. Is this a good or a bad deal for you? Try to think about
+this problem in terms of a simulation.
+
+```
+1. Your first task in this project will be to write a function which allows you 
+to virtually throw a pair of dice and sum up the points shown after the throw. You should write this function as a script. A script can be created in R-Studio by clicking
+`File > new File > R Script`. Here is a suggestion how the code could look like. Note that
+a particular functionality can be implemented in several ways in R. So the "solution"
+presented here should be regarded as a suggestion only.
+
+```
+Here is one possible implementation. The lines starting with
+`#` are comments. You can read them when editing the function script
+but R will igore them when interpreting the function.
+
+```{r function to roll two dice and sum their points}
+roll <- function(){
+  
+  # create a die
+  
+  die <- 1:6
+  
+  # roll the dice by making use of sample. We roll two dice, therefore size has to be equal to 2
+  # note that we need to set replace to TRUE because both dice should be able to show all possible
+  # points
+  
+  dice <- sample(die, size = 2, replace = TRUE)
+  
+  # sum up the points of the two dice
+  
+  sum(dice)
+  
+}
+```
+
+```
+2. Simulate and plot the result of your simulation using `qplot()` with the `binwidth`
+argument set to 1.
+
+```
+
+```{r simulate and plot}
+
+rolls <- replicate(10000, roll())
+
+# load library ggplot2. Note: you can load ggplot2 only if you have installed the package first:
+# This can be done by typing install.packages(ggplot2) at the prompt of the R console or
+# use the RStudio menues in the lower right panel.
+
+library(ggplot2)
+
+qplot(rolls, binwidth = 1)
+
+```
+
+```
+3. Are these dice fair? Why?
+
+```
+
+We answer this question by considering the sample space of this random experiment first.
+There are in total $6 \times 6$ pairs, in total 36 ways to sum up points. Each pair
+has probability $1/36$ and since the multiple pairs do not occur in the same
+event the pair probabilities that lead to a particular sum can be added. The sample space
+${\cal S}$ can be visualized like this:
+
+| Probability         | Outcome              | Possibilities                      |
+|:-------------------:|:--------------------:|:-----------------------------------|
+|P(sum =  2)  = 1/36  | 2                    | (1,1)                              |
+|P(sum =  3)  = 2/36  | 3                    | (1,2),(2,1)                        |
+|P(sum =  4)  = 3/36  | 4                    | (1,3),(2,2),(3,1)                  |
+|P(sum =  5)  = 4/36  | 5                    | (1,4),(2,3),(3,2),(4,1)            |
+|P(sum =  6)  = 5/36  | 6                    | (1,5),(2,4),(3,3),(4,2),(5,1)      |
+|P(sum =  7)  = 6/36  | 7                    | (1,6),(2,5),(3,4),(4,3),(5,2),(6,1)|               |P(sum =  8)  = 5/36  | 8                    | (2,6),(3,5),(4,4),(5,3),(6,2)      |
+|P(sum =  9)  = 4/36  | 9                    | (3,6),(4,5),(5,4),(6,3)            |
+|P(sum = 10)  = 3/36  |10                    | (4,6),(5,5),(6,4)                  |
+|P(sum = 11)  = 2/36  |11                    | (5,6),(6,5)                        |
+|P(sum = 12)  = 1/36  |12                    | (6,6)                              | 
+
+The frequencies with wich the sums occur look very much like the theoretical probabilities
+for equally probable pairs. Our dice thus look as if they are fair.
+
+```
+4. Assume the dice were unfair in the following sense: Numbers 1,2,3,4 and 5 have a 
+probability of $1/8$ while the 6 has a probability of $3/8$. Study the help page of
+the `sample`function and find out how you could give these new probability weights
+to the function. If you redo your simulation analysis with the loaded dice, how does the
+picture change?
+
+```
+```{r biased-dice}
+roll_biased <- function(){
+  
+  # Construct die
+  die <- 1:6
+  
+  # Roll biased or laded die by specifying the probabilities such that there is relatively
+  # more mass on outcome 6.
+  dice <- sample(die, size = 2, replace = TRUE, prob = c(1/8, 1/8, 1/8, 1/8, 1/8, 3/8))
+  
+  sum(dice)
+}
+```
+
+```{r simulate-biased-die}
+rolls <- replicate(10000, roll_biased())
+
+qplot(rolls, binwidth = 1)
+```
+```
+5. Write a script for this random experiment.
+
+```
+
+We create a script with `File > new File > R script`and write the code for `roll_biased` into the script. That's it. 
+
+```
+6. Now look at the random experiment of throwing two dice with the concepts from
+probability theory: What is the sample space of this experiment. What are the 
+probabilities of the basic outcomes? What is the probability of getting sum 7, what is
+the probability of getting sum 2?
+
+```
+
+The sample space is:
+${\cal S} = \{ (1,1), (1,2), (1,3), (1,4), (1,5), (1,6), (2,6), (3,6), (4,6), (5,6), (6,6),
+(2,1), (2,2), (2,3), (2,4), (2,5), (3,5), (4,5), (5,5), (6,5), (3,1), (3,2), (3,3), (3,4), 
+(4,4), (5,4), (6,4), (4,1), (4,2), (4,3), (5,3), (6,3), (5,1), (5,2), (6,2), (6,1) \}$
+
+The probabilities of the basic outcomes are $1/36$. 
+
+The probability of getting the sum 7 is
+$6/36$ or $1/9$, 
+the probability of getting a 2 is $1/36$.
+
+```
+
+7. In the early 17th century the Grand Duke of Tuscany was puzzled because he thought that
+counting possible cases in a game where three dice are thrown seemed 
+to give the wrong answer. Counting combinations of numbers, 10 and 11 can be 
+made in 6 ways, as can 9 and 12", yet experienced dice players regard 10 and 11 
+to be more advantageous than 9 and 12. "How 
+can this be ?", the count asked Galileo Galilei (1564 - 1642) 
+who composed a short note to explain to the
+count what was going on. What might have been Galileo's reply?
+
+```
+
+Great count of Tuscany, you are counting the wrong thing. You count $(3,3,3)$ as one 
+possibility of making a $9$ and two $3$ and one $4$ as one possibility of making a $10$. But the
+latter covers three possibilities $(4,3,3), (3,4,3), (3,3,4)$. 
+For the former it is only $(3,3,3)$. You need to take into account permutations and
+combinations ans the puzzle disappears.
+
+```
+8. Imagine now that you are at the casino and you can spend 200 Euro
+for chips. Since you have figured out that 7 is the most
+likely outcome you would like to buy bets on 7. The casino
+offers you a bet for 20 cent. This means you pay 20 cents
+for each roll of the die and when 7 comes up you get 1 Euro, when
+another sum comes up you get nothing. With your budget
+you could make 1000 bets 
+on 7. Is this offer of the casion 
+a good or a bad deal for you? Try to think about
+this problem in terms of a simulation. 
+
+```
+With 15 cent per bet and a budget of 150 we can bet on 1000 rolls
+of the dice. 
+
+```{r simulate a craps bet}
+
+# simulate 1000 oucomes with fair dice
+
+rolls <- replicate(1000, roll())
+
+# count the rolls where the outcome is 7.For these rolls you get 1.
+# Since you pay 0.2 at each roll you spend your budget of 200
+# over the course of the rolls. Your profit or loss computes as
+
+sum(rolls == 7) - 200
+
+```
+No, you would end the game with a loss and pay 33 in addition to the
+200 out of your pocket to the Casino.
+
+If you made the same bet with a bet price of 10 cents you would get over a course of 1000 rounds.
+
+```{r cheaper ticket}
+sum(rolls == 7) - 100
+```
+
+
