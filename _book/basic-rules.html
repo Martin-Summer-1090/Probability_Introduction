@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-06" />
+<meta name="date" content="2022-01-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -207,15 +207,15 @@ div.csl-indent {
 <li class="chapter" data-level="2.3" data-path="basic-rules.html"><a href="basic-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>2.3</b> Basic rules of probability</a></li>
 <li class="chapter" data-level="2.4" data-path="basic-rules.html"><a href="basic-rules.html#frequency"><i class="fa fa-check"></i><b>2.4</b> Probability and Frequency</a></li>
 <li class="chapter" data-level="2.5" data-path="basic-rules.html"><a href="basic-rules.html#independence"><i class="fa fa-check"></i><b>2.5</b> Independence</a></li>
-<li class="chapter" data-level="2.6" data-path="basic-rules.html"><a href="basic-rules.html#some-more-concepts-from-r-reading-data-r-objects-subsetting-and-modifying-values"><i class="fa fa-check"></i><b>2.6</b> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</a>
+<li class="chapter" data-level="2.6" data-path="basic-rules.html"><a href="basic-rules.html#moreR"><i class="fa fa-check"></i><b>2.6</b> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</a>
 <ul>
-<li class="chapter" data-level="2.6.1" data-path="basic-rules.html"><a href="basic-rules.html#reading-data-in-r"><i class="fa fa-check"></i><b>2.6.1</b> Reading data in R</a></li>
-<li class="chapter" data-level="2.6.2" data-path="basic-rules.html"><a href="basic-rules.html#r-objects"><i class="fa fa-check"></i><b>2.6.2</b> R objects</a></li>
-<li class="chapter" data-level="2.6.3" data-path="basic-rules.html"><a href="basic-rules.html#example-will-the-stock-price-of-apple-move-up-or-down"><i class="fa fa-check"></i><b>2.6.3</b> Example: Will the stock price of Apple move up or down?</a></li>
-<li class="chapter" data-level="2.6.4" data-path="basic-rules.html"><a href="basic-rules.html#example-benfords-law-the-empirical-probabilities-of-leading-digits"><i class="fa fa-check"></i><b>2.6.4</b> Example: Benfords law: The empirical probabilities of leading digits</a></li>
+<li class="chapter" data-level="2.6.1" data-path="basic-rules.html"><a href="basic-rules.html#readingdata"><i class="fa fa-check"></i><b>2.6.1</b> Reading data in R</a></li>
+<li class="chapter" data-level="2.6.2" data-path="basic-rules.html"><a href="basic-rules.html#robjects"><i class="fa fa-check"></i><b>2.6.2</b> R objects</a></li>
+<li class="chapter" data-level="2.6.3" data-path="basic-rules.html"><a href="basic-rules.html#apple-up-down"><i class="fa fa-check"></i><b>2.6.3</b> Example: Will the stock price of Apple move up or down?</a></li>
+<li class="chapter" data-level="2.6.4" data-path="basic-rules.html"><a href="basic-rules.html#benford"><i class="fa fa-check"></i><b>2.6.4</b> Example: Benfords law: The empirical probabilities of leading digits</a></li>
 </ul></li>
-<li class="chapter" data-level="2.7" data-path="basic-rules.html"><a href="basic-rules.html#summary-1"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
-<li class="chapter" data-level="2.8" data-path="basic-rules.html"><a href="basic-rules.html#project-2-should-we-trust-european-supervisory-bank-data"><i class="fa fa-check"></i><b>2.8</b> Project 2: Should we trust European supervisory bank data?</a></li>
+<li class="chapter" data-level="2.7" data-path="basic-rules.html"><a href="basic-rules.html#summary-lecture-2"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
+<li class="chapter" data-level="2.8" data-path="basic-rules.html"><a href="basic-rules.html#project2"><i class="fa fa-check"></i><b>2.8</b> Project 2: Should we trust European supervisory bank data?</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>3</b> Conditional Probability</a>
 <ul>
@@ -349,14 +349,14 @@ precisely. In the theory of probability this measure is an abstract concept.</p>
 Thus when we
 talk about probability in a precise and meaningful sense we can only do so in relation to
 a given sample space or to a certain conceptual experiment.</p>
-<p>But before we go on let me clarify what we mean when we said that in the theory,
+<p>But before we go on let me clarify what we mean when we say that in the theory,
 probability is an abstract measure of uncertainty which we take as given.</p>
 </div>
 <div id="probability-theory-and-applications" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Probability in theory and applications of probability</h2>
 <p>Probabilities are expressed as numbers between 0 and 1. As mentioned by
-Feller (<span class="citation"><a href="#ref-Feller1968" role="doc-biblioref">Feller</a> (<a href="#ref-Feller1968" role="doc-biblioref">1968</a>)</span>) in his famous probability textbook, these numbers are of the same
-nature as distances in geometry. In the theory we assume they are given to us.</p>
+<span class="citation"><a href="#ref-Feller1968" role="doc-biblioref">Feller</a> (<a href="#ref-Feller1968" role="doc-biblioref">1968</a>)</span> in his famous probability textbook, these numbers are of the same
+nature as distances in geometry. In the theory we assume they are <em>given</em> to us.</p>
 <p>From the viewpoint of probability theory, we need not assume
 anything about how they are measured. In this sense probabilities in the
 theory of probability are an abstract measure of uncertainty.</p>
@@ -391,8 +391,12 @@ technical tools required there is no essential difference between the two cases.
 of probability in this lecture we consider mostly discrete sample spaces, however we will
 also discuss some basic non-discrete sample spaces later in the lectures. Now let us
 state more formally what we mean by probability.</p>
-<p>Given a (discrete) sample space <span class="math inline">\({\cal S}\)</span> the <strong>probability</strong> assigned to events in this sample
-space must always fulfill three rules:</p>
+<dl>
+<dt>Probability</dt>
+<dd>Given a (discrete) sample space <span class="math inline">\({\cal S}\)</span> the <strong>probability</strong> assigned to events in this sample
+space must always fulfill three rules:
+</dd>
+</dl>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(P({\cal S}) = 1\)</span>, where <span class="math inline">\({\cal S}\)</span> is the sample space.</li>
 <li>For any event <span class="math inline">\(A \in {\cal S}\)</span>, <span class="math inline">\(0 \leq P(A) \leq 1\)</span>. The probability of an event can never be
@@ -401,7 +405,7 @@ negative or larger than 1.</li>
 smaller or equal to the sum of the
 probability of these events looked at in isolation: <span class="math inline">\(P(A \cup B) \leq P(A) + P(B)\)</span>.</li>
 </ol>
-<p>Note that these three properties resulted naturally from the classic idea to make equi-probable
+<p>Note that these three properties resulted naturally from the classic idea to make equally probable
 cases and count. Property 3 looks slightly different but we will shortly see that it amounts to
 the same thing.</p>
 <p>In the theory of probability we use the language of sets and set theory to
@@ -478,7 +482,7 @@ sample space <span class="math inline">\({\cal S}\)</span>. Let us show <span cl
 Figure 2.3: The meaning of set intersection
 </p>
 </div>
-<p>This complement is the dice shown in the light yellow area, i.e. all the elements of <span class="math inline">\({\cal S}\)</span>
+<p>This complement is the dice shown in the light redish area, i.e. all the elements of <span class="math inline">\({\cal S}\)</span>
 which are not in <span class="math inline">\(A \cup B\)</span>.</p>
 <p>The R function for computing set complements is called <code>setdiff()</code>. You can try it with our
 example:</p>
@@ -573,16 +577,16 @@ tosses_100:</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="basic-rules.html#cb106-1" aria-hidden="true" tabindex="-1"></a>tosses_100 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">toss_coin</span>())</span></code></pre></div>
 <p>Lets look at the outcome of the 100 tosses graphically</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="basic-rules.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(tosses_100)</span></code></pre></div>
-<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<p><img src="Probability_Introduction_files/figure-html/plot-tosses-of-coin-100-1.png" width="672" />
 The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not
 exactly. Lets toss 1000 times and then look again.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="basic-rules.html#cb108-1" aria-hidden="true" tabindex="-1"></a>tosses_1000 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">toss_coin</span>())</span>
 <span id="cb108-2"><a href="basic-rules.html#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(tosses_1000)</span></code></pre></div>
-<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<p><img src="Probability_Introduction_files/figure-html/toss-coin.1000-1.png" width="672" />
 This looks already pretty good. Lets toss even more. Why not toss a million of times?</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="basic-rules.html#cb109-1" aria-hidden="true" tabindex="-1"></a>tosses_m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fu">toss_coin</span>())</span>
 <span id="cb109-2"><a href="basic-rules.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(tosses_m)</span></code></pre></div>
-<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<p><img src="Probability_Introduction_files/figure-html/toss-coin-one-million-1.png" width="672" />
 Now you see the idea of the frequency interpretation. The number of occurrences of H divided
 by the total number of tosses comes closer to the <span class="math inline">\(1/2\)</span> probability as we toss many
 times.</p>
@@ -632,12 +636,12 @@ both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)<
 </dl>
 <p>Keep it in mind, we will need it often in what is to follow.</p>
 </div>
-<div id="some-more-concepts-from-r-reading-data-r-objects-subsetting-and-modifying-values" class="section level2" number="2.6">
+<div id="moreR" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</h2>
 <p>But now enough of dices and coins. Let us try out and apply some of the new ideas we just have
 learned and use the opportunity to learn some more important R concepts in the context
 of an example with stock price data.</p>
-<div id="reading-data-in-r" class="section level3" number="2.6.1">
+<div id="readingdata" class="section level3" number="2.6.1">
 <h3><span class="header-section-number">2.6.1</span> Reading data in R</h3>
 <p>Before we can do anything with data, we need to learn how to load data into R and how
 to save then. We will discuss now how to do this with comma separated
@@ -666,6 +670,8 @@ R working directory, R provides the function <code>getwd()</code>. If I type thi
 <pre><code>## [1] &quot;/home/martinsummer/R/Probability_Introduction&quot;</code></pre>
 <p>the path of my project folder for this lecture notes. So if I type the string
 <code>"data/aapl_prices.csv"</code> this specifies the path relative to my working directory.</p>
+<p>If you read the file on your computer, you need to specify the path appropriately from where
+you are working in R at the moment to where you have stored the csv file.</p>
 <p>Now <code>read.csv()</code> has many additional arguments, which provide you with lots of
 flexibility. I encourage you to check it out and play with it using the help function and
 the examples given therein.</p>
@@ -691,38 +697,40 @@ for dividend and stock splits. Let’s not worry for the moment what the
 exact technical meaning of these financial terms is. Now we are ready to work with these
 data.</p>
 </div>
-<div id="r-objects" class="section level3" number="2.6.2">
+<div id="robjects" class="section level3" number="2.6.2">
 <h3><span class="header-section-number">2.6.2</span> R objects</h3>
 <p>The most simple type of R objects are <strong>atomic vectors</strong>. Most structures in R are built
 from atomic vectors. The stock data-file we have just loaded is an example of such
 a more complex structure built from atomic vectors. We have already encountered a few of
 those in our previous lecture.</p>
-<div id="atomic-vectors" class="section level4" number="2.6.2.1">
+<div id="atomic" class="section level4" number="2.6.2.1">
 <h4><span class="header-section-number">2.6.2.1</span> Atomic vectors</h4>
 <p>An atomic vector is just a simple vector of data. For example our die constructed
 in the first lecture is an instance of this.</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="basic-rules.html#cb115-1" aria-hidden="true" tabindex="-1"></a>die <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span></code></pre></div>
-<p>R has a function, which allows you to check whether an onject is an atomic vector or not.
-This function is called <code>is.vector)</code>. It takes the object name as an argument and returns <code>TRUE</code>
+<p>R has a function, which allows you to check whether an object is an atomic vector or not.
+This function is called <code>is.vector()</code>. It takes the object name as an argument and returns <code>TRUE</code>
 if the object is an atomic vector and <code>FALSE</code> if it is not. For example:</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="basic-rules.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.vector</span>(die)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>does indeed return <code>TRUE</code>.</p>
 <p>Each atomic vector stores values in a one-dimensional vector, and each atomic vector can
 only store one type of data. The length of the atomic vector can be determined by the
-function `length() This function takes an R object, which is an atomic vector, as an
+function <code>length()</code> This function takes an R object, which is an atomic vector, as an
 argument and returns the number of elements in this vector. Here is the example of the die</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="basic-rules.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(die)</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <p>which is 6 as it should be. An atomic vector could also have only one element, in which case
 <code>lenght()</code>would return 1.</p>
-<p>Now altogether R has implemented six basic types of atomic vectors:
-1. double
-2. integers
-3. characters
-4. logical
-5. complex
-6. raw</p>
+<p>Now altogether R has implemented six basic types of atomic vectors:</p>
+<ol style="list-style-type: decimal">
+<li><p>double</p></li>
+<li><p>integers</p></li>
+<li><p>characters</p></li>
+<li><p>logical</p></li>
+<li><p>complex</p></li>
+<li><p>raw</p></li>
+</ol>
 <p>We will not encounter complex and raw data-types in this course, so let us skip those and discuss
 only the first 4 types.</p>
 <p>If yo u go back to our stock data and look at the first three lines</p>
@@ -744,10 +752,9 @@ number as integers, you need to append the letter <code>L</code> to the number. 
 we would want to specifie the points shown on our die explicitly as integers, then we would type</p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="basic-rules.html#cb122-1" aria-hidden="true" tabindex="-1"></a>die_int <span class="ot">&lt;-</span> <span class="fu">c</span>(1L,2L,3L,4L,5L,6L)</span></code></pre></div>
 <p>Now R will save the die with integer values. Before, since we did not explicitly specify it,
-the values were stored as doubles. You can check this with the function <code>typeof()</code>:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="basic-rules.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die)</span></code></pre></div>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="basic-rules.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die_int)</span></code></pre></div>
+the values were stored probably as doubles. You can check the type always
+with the function <code>typeof()</code>:</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="basic-rules.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die_int)</span></code></pre></div>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
 <p>Now why should we care for distinguishing integers from doubles? This has to do with the
 way a computer does computations. Sometimes a difference in precision can have surprising effects.
@@ -756,10 +763,11 @@ allows for a very precise representation of numbers not all numbers can be exact
 with 64-bits. The famous candidates are <span class="math inline">\(\pi\)</span>, which has an infinite sequence of digits and must
 therefore be rounded by the computer. Usually the rounding error introduced into your
 computations will go unnoticed but sometimes surprises can occur. Take for instance:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="basic-rules.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="basic-rules.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 4.440892e-16</code></pre>
-<p>Why is that? The squre root of 2 can not be expresses precisely because, as already the old greeks
-knew, it is not a rational number. An voila, you have a small rounding error. Such errors
+<p>Why is that? The squre root of 2 can not be expresses precisely because, as already
+the old Greeks
+knew, it is not a rational number. And voila, you have a small rounding error. Such errors
 are called <em>floating point errors</em> in computer science lingo and computing with such numbers is
 called <em>floating-point-arithmetic</em>.</p>
 <p>With integers floating point errors are avoided, but for many applications this is not an
@@ -774,30 +782,30 @@ fair coin with the vector <code>c("H", "T")</code> with the string <code>"H"</co
 <code>"T"</code> for tail.</p>
 <p>Note that a string can be more than just letters. If you type, for instance the number <code>1</code> with
 quotation marks, like <code>"1"</code> R would interpret the value as a string not as a number. Sometimes
-one can get confused in R becuase both objects and characters appear as text in R code. Object
+one can get confused in R because both objects and characters appear as text in R code. Object
 names are without quotation marks strings alway are between quotation marks.</p>
 <p>The next data type in the list are: <strong>Logicals</strong>. Logical vectors store <code>TRUEs</code> and <code>FALSES</code>. They
 are extremely useful for doing comparisons and - as we will see shortly - also for
 subsetting.</p>
 <p>For example, if you type:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="basic-rules.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">&gt;</span> <span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="basic-rules.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">&gt;</span> <span class="dv">1</span></span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <p>R tells you that this statement is False.</p>
 <p>Whenever you type <code>TRUE</code> of <code>FALSE</code> without quotation marks, R will treat the
 input as logial data. For instance, the follwoing statement yields:</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="basic-rules.html#cb131-1" aria-hidden="true" tabindex="-1"></a>logic <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb131-2"><a href="basic-rules.html#cb131-2" aria-hidden="true" tabindex="-1"></a>logic</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="basic-rules.html#cb129-1" aria-hidden="true" tabindex="-1"></a>logic <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb129-2"><a href="basic-rules.html#cb129-2" aria-hidden="true" tabindex="-1"></a>logic</span></code></pre></div>
 <pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
 <p>You can check the type:</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="basic-rules.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(logic)</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="basic-rules.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(logic)</span></code></pre></div>
 <pre><code>## [1] &quot;logical&quot;</code></pre>
 <p>One important R-fact which you need to know about atomic vectors is that atomic vectors
 can have <strong>attributes</strong>. Attributes won’t affect the values of an object but can hold
 and store object metadata. Normally we do not look at these metadata, but many R functions
-check for attributes and then do special things with the obeject depnedning on these
+check for attributes and then do special things with the object dependning on these
 attributes.</p>
 <p>Attributes can be checked with the function <code>attributes()</code> using an R object as an argument.</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="basic-rules.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="basic-rules.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code></pre></div>
 <pre><code>## NULL</code></pre>
 <p>Since <code>die</code>has no attributes R returns <code>NULL</code>. This value is often returned by functions whose
 values are undefined.</p>
@@ -805,31 +813,31 @@ values are undefined.</p>
 Each of these attributes has its own helper function that you can use to give attributes to
 the object.</p>
 <p>When you look up the value for the die you will get</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="basic-rules.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die)</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="basic-rules.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die)</span></code></pre></div>
 <pre><code>## NULL</code></pre>
 <p>We see that our die object has no names, but we could assign some. For example:</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="basic-rules.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>, <span class="st">&quot;four&quot;</span>, <span class="st">&quot;five&quot;</span>, <span class="st">&quot;six&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="basic-rules.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>, <span class="st">&quot;four&quot;</span>, <span class="st">&quot;five&quot;</span>, <span class="st">&quot;six&quot;</span>)</span></code></pre></div>
 <p>Now the die has a name attribute:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="basic-rules.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="basic-rules.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code></pre></div>
 <pre><code>## $names
 ## [1] &quot;one&quot;   &quot;two&quot;   &quot;three&quot; &quot;four&quot;  &quot;five&quot;  &quot;six&quot;</code></pre>
 <p>Note that the values are not affected nor will the names be affected when the
 values are manipulated. For instance, if you type</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="basic-rules.html#cb142-1" aria-hidden="true" tabindex="-1"></a>die <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="basic-rules.html#cb140-1" aria-hidden="true" tabindex="-1"></a>die <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div>
 <pre><code>##   one   two three  four  five   six 
 ##     2     3     4     5     6     7</code></pre>
 <p>the names stay what they were and all values are increased by 1. To remove the names
 you can type:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="basic-rules.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="basic-rules.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
 <p>One very important attribute, we will encounter all the time is <strong>dimension</strong>, with the
 helper function <code>dim()</code>. For example we can look at our data object of stock prices
 to get:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="basic-rules.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="basic-rules.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] 8044    8</code></pre>
 <p>which returns two numbers, which mean that the object has 8044 rows and 8 columns.</p>
 <p>But with dim we can also transform our die into a matrix, with say two rows and three columns:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="basic-rules.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb147-2"><a href="basic-rules.html#cb147-2" aria-hidden="true" tabindex="-1"></a>die</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="basic-rules.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb145-2"><a href="basic-rules.html#cb145-2" aria-hidden="true" tabindex="-1"></a>die</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    3    5
 ## [2,]    2    4    6</code></pre>
@@ -838,24 +846,24 @@ be generalized to higher dimensional array structures.</p>
 <p>If you want to have more control on how R fills up the values, you can use a richer
 helper function, which gives you more control. For two dimensional data arrays this
 is provide by the function <code>matrix()</code>. Say you type</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="basic-rules.html#cb149-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(die, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb149-2"><a href="basic-rules.html#cb149-2" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="basic-rules.html#cb147-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(die, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb147-2"><a href="basic-rules.html#cb147-2" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    3    5
 ## [2,]    2    4    6</code></pre>
 <p>the matrix will be filled up by column. You can change that behavior by setting the <code>byrow</code>
 argument to <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="basic-rules.html#cb151-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(die, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb151-2"><a href="basic-rules.html#cb151-2" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="basic-rules.html#cb149-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(die, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb149-2"><a href="basic-rules.html#cb149-2" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    2    3
 ## [2,]    4    5    6</code></pre>
 <p>Notice that changing the dimensions of an object, will not change its type. But it will
-change the objetc#s **class* attribute:</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="basic-rules.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb153-2"><a href="basic-rules.html#cb153-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die)</span></code></pre></div>
+change the object’s <strong>class</strong> attribute:</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="basic-rules.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb151-2"><a href="basic-rules.html#cb151-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die)</span></code></pre></div>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="basic-rules.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(die)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="basic-rules.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(die)</span></code></pre></div>
 <pre><code>## [1] &quot;matrix&quot; &quot;array&quot;</code></pre>
 <p>A class in R is a special case of an atomic vector.</p>
 <p>With the attribute system R allows you to represent more data types. R uses, for example
@@ -865,27 +873,27 @@ example - represents as a type of this kind.</p>
 current time on your computer. It looks like a character string
 when you display it but it is actually a double with class <code>POSIXct</code>, <code>POSIXt</code> (it has
 two classes):</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="basic-rules.html#cb157-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb157-2"><a href="basic-rules.html#cb157-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
-<pre><code>## [1] &quot;2022-01-06 23:19:46 CET&quot;</code></pre>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="basic-rules.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="basic-rules.html#cb155-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb155-2"><a href="basic-rules.html#cb155-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
+<pre><code>## [1] &quot;2022-01-10 00:49:28 CET&quot;</code></pre>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="basic-rules.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;double&quot;</code></pre>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="basic-rules.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="basic-rules.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</code></pre>
 <p><code>POSIXct</code> is a widely used framework for representing dates and times. But we will skip the
 detail here.</p>
 <p>R stores categorical data, such as nationality, sex etc. by using <strong>factors</strong>. If
-you take for instance, sex, it can have only two values - make or female - and these
+you take for instance, sex, it can have only two values - male or female - and these
 values may have their idiosyncratic order, for example females go always first.
 To make a factor in R you have to pass an atomic vector to the <code>factor()</code> function.
-This function works by recoding the values in the vector as integers abd store the
-results in an integer vector. R also addas a <code>level</code> attribute which contains the set
+This function works by recoding the values in the vector as integers and store the
+results in an integer vector. R also adds a <code>level</code> attribute which contains the set
 of labels and their order and a class attribute that says the vector is
 a factor. Example:</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="basic-rules.html#cb163-1" aria-hidden="true" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;m&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="st">&quot;m&quot;</span>))</span>
-<span id="cb163-2"><a href="basic-rules.html#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(sex)</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="basic-rules.html#cb161-1" aria-hidden="true" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;m&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="st">&quot;m&quot;</span>))</span>
+<span id="cb161-2"><a href="basic-rules.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(sex)</span></code></pre></div>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="basic-rules.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(sex)</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="basic-rules.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(sex)</span></code></pre></div>
 <pre><code>## $levels
 ## [1] &quot;f&quot; &quot;m&quot;
 ## 
@@ -893,7 +901,7 @@ a factor. Example:</p>
 ## [1] &quot;factor&quot;</code></pre>
 <p>Factors can be confusing since they look like characters but behave like integers.</p>
 <p>Note that R will often try to convert character strings to factors when you load and create data.
-I recommend that you do not allwo R to make factors unless you explicitly ask for it. This
+I recommend that you do not allow R to make factors unless you explicitly ask for it. This
 can usually be controlled by an argument to whatever the data reader function is. For instance
 you can give the <code>read.csv()</code> function the argument <code>stringsAsFactors = FALSE</code>.</p>
 <p>R has an internal <strong>coercion</strong> behavior behavior for data types, which you should know
@@ -903,7 +911,7 @@ other component in this vector to a character string. If a vector only contains 
 and numbers, R will convert the logicals to numbers. In this case every <code>TRUE</code> becomes a 1 and
 every <code>FALSE</code> becomes a 0.</p>
 <p>R also uses the coercion rules, when we do math with logicals, like for example</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="basic-rules.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="basic-rules.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>))</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>What happens here is that R coerces the vector <code>c(TRUE, TRUE, FALSE, FALSE)</code> to the
 vector <code>c(1, 1, 0, 0)</code> and sums the components.</p>
@@ -913,10 +921,10 @@ values of different types, characters, dates and doubles. How does R achieve thi
 like atomic vectors, because the group data into a one-dimensional set. However, lists do
 no group together individual values. List group together R objects, such as atomic
 vectors or even other lists.</p>
-<p>For example, you can create a list, which cotians a numeric vector of length 31 in its
+<p>For example, you can create a list, which contains a numeric vector of length 31 in its
 first element, a character vector of length 1 in its second element and a new list of length 2 in its third. This is done by using the <code>list()</code>function of R, like this:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="basic-rules.html#cb169-1" aria-hidden="true" tabindex="-1"></a>list_example <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">100</span><span class="sc">:</span><span class="dv">130</span>, <span class="st">&quot;R&quot;</span>, <span class="fu">list</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
-<span id="cb169-2"><a href="basic-rules.html#cb169-2" aria-hidden="true" tabindex="-1"></a>list_example</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="basic-rules.html#cb167-1" aria-hidden="true" tabindex="-1"></a>list_example <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">100</span><span class="sc">:</span><span class="dv">130</span>, <span class="st">&quot;R&quot;</span>, <span class="fu">list</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb167-2"><a href="basic-rules.html#cb167-2" aria-hidden="true" tabindex="-1"></a>list_example</span></code></pre></div>
 <pre><code>## [[1]]
 ##  [1] 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118
 ## [20] 119 120 121 122 123 124 125 126 127 128 129 130
@@ -935,26 +943,25 @@ single bracketed indices tell you which sub-element of the list is being display
 100 is the first subelement of the first element in the list. “R” is the first subelement of the
 second list element.</p>
 <p><strong>Data Frames</strong> are the two dimensional version of a list. They are by far the most
-useful stroeage structure for data analysis. Indeed, our dataset on the Apple stock
+useful storeage structure for data analysis. Indeed, our dataset on the Apple stock
 price we have loaded before is an instance of a data frame. Data frames group vectors
 together in a two dimensional table. As a consequence each variable can, i.e. each column of the
 data frame can contain a different data type. Within a column, however, we can have only
 one data type.</p>
 <p>if you look at the type of a data frame, you will see that it is indeed a list and the class is
 a data frame.</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="basic-rules.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="basic-rules.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] &quot;list&quot;</code></pre>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="basic-rules.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="basic-rules.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
-<p>perhaps add a figure like grolemund fig 3-6</p>
 <p>Now armed with our new knowledge of R and probability lets ask a question to
 our new data set.</p>
 </div>
 </div>
-<div id="example-will-the-stock-price-of-apple-move-up-or-down" class="section level3" number="2.6.3">
+<div id="apple-up-down" class="section level3" number="2.6.3">
 <h3><span class="header-section-number">2.6.3</span> Example: Will the stock price of Apple move up or down?</h3>
 <p>Let us look at the first lines of our data once again:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="basic-rules.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="basic-rules.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##    symbol       date     open     high      low    close    volume adjusted
 ## 1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
 ## 2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
@@ -967,14 +974,14 @@ our new data set.</p>
 ## 9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
 ## 10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
 <p>Let us check what kind of object <code>aapl_prices</code> is.</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="basic-rules.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="basic-rules.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] &quot;list&quot;</code></pre>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="basic-rules.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="basic-rules.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <p>As expected the object is a list. The class shows that our
 object is a <code>data.frame</code>. Since the object is of class data-frame we can use the <code>dim</code>function
 to see the number of daily observations in our data set.</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="basic-rules.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="basic-rules.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] 8044    8</code></pre>
 <p>We see that our data store price information about 8044 trading days.</p>
 <p>We could now
@@ -997,12 +1004,12 @@ very simple. You can use:</p>
 <li>Names</li>
 </ol>
 <p>The simplest are <strong>positive integers</strong>. For example if you choose</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="basic-rules.html#cb183-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>,<span class="dv">6</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="basic-rules.html#cb181-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>,<span class="dv">6</span>]</span></code></pre></div>
 <pre><code>## [1] 0.332589</code></pre>
 <p>you see that the first value in the sixth column is selected. You thus get the first closing
 price of the Apple stock recorded in our dataset. You can extract more than one value, for instance
 by typing:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="basic-rules.html#cb185-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="basic-rules.html#cb183-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code></pre></div>
 <pre><code>##  [1] 0.332589 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036
 ##  [9] 0.308036 0.305804</code></pre>
 <p>which gives you the first 10 closing prices.</p>
@@ -1011,7 +1018,7 @@ things have to be kept in mind. In R indexing begins at 1. In some other program
 indexing begins at 0. The indexing convention in R is just like in linear algebra. The second
 thing to note is that if you select two or more columns from a data frame, R will return a new data
 frame, like in</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="basic-rules.html#cb187-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="basic-rules.html#cb185-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code></pre></div>
 <pre><code>##    symbol       date     open     high      low    close    volume adjusted
 ## 1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
 ## 2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
@@ -1024,12 +1031,12 @@ frame, like in</p>
 ## 9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
 ## 10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
 <p>However, if you select a single column, R will return a vector:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="basic-rules.html#cb189-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="basic-rules.html#cb187-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code></pre></div>
 <pre><code>##  [1] 0.332589 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036
 ##  [9] 0.308036 0.305804</code></pre>
-<p>If you prefer to get returned a data frame in this cane, you have to add the argument
+<p>If you prefer to get returned a data frame in this case, you have to add the argument
 <code>drop = FALSE</code>, like:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="basic-rules.html#cb191-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="basic-rules.html#cb189-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code></pre></div>
 <pre><code>##       close
 ## 1  0.332589
 ## 2  0.334821
@@ -1042,7 +1049,7 @@ frame, like in</p>
 ## 9  0.308036
 ## 10 0.305804</code></pre>
 <p><strong>Negative integers</strong> work exactly opposite to positive integers. If you type:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="basic-rules.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices[<span class="sc">-</span><span class="dv">1</span>,<span class="dv">6</span>], <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="basic-rules.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices[<span class="sc">-</span><span class="dv">1</span>,<span class="dv">6</span>], <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036 0.308036
 ##  [9] 0.305804 0.311384</code></pre>
 <p>R will return the sixth column of the data frame <em>except</em> the first row. We just display the
@@ -1050,30 +1057,30 @@ first 10 values.</p>
 <p>If you try to pair a negative and a positive integer in an index, R will return an error.
 However, you can us both negative and positive integers if you use them in <em>different</em>
 indices.</p>
-<p><strong>Zero</strong> is neither positive nor negative, If oyu use 0 as an index, R will return nothing
+<p><strong>Zero</strong> is neither positive nor negative, If you use 0 as an index, R will return nothing
 from a dimension with index 0. The following syntax for instance creates an empty object</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="basic-rules.html#cb195-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">0</span>,<span class="dv">0</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="basic-rules.html#cb193-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">0</span>,<span class="dv">0</span>]</span></code></pre></div>
 <pre><code>## data frame with 0 columns and 0 rows</code></pre>
 <p><strong>Blank spaces</strong> are used if you want to ask R to select <em>every</em> value in a dimension. So for
 instance, if you type:</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="basic-rules.html#cb197-1" aria-hidden="true" tabindex="-1"></a>sel <span class="ot">&lt;-</span> aapl_prices[ , <span class="dv">6</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="basic-rules.html#cb195-1" aria-hidden="true" tabindex="-1"></a>sel <span class="ot">&lt;-</span> aapl_prices[ , <span class="dv">6</span>]</span></code></pre></div>
 <p>R will select the entire column of closing prices. You can check that the length of this
 vector is</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="basic-rules.html#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="basic-rules.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel)</span></code></pre></div>
 <pre><code>## [1] 8044</code></pre>
 <p>as expected.</p>
 <p><strong>Logical Values</strong> can also be used for subsetting. If you type for instance</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="basic-rules.html#cb200-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="fu">c</span>(F,F,F,F,F,T,F,F)]</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="basic-rules.html#cb198-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="fu">c</span>(F,F,F,F,F,T,F,F)]</span></code></pre></div>
 <pre><code>## [1] 0.332589</code></pre>
 <p>R will select the first closing price. Note that here we used the R convention that <code>TRUE</code>and <code>T</code>
 as well as <code>FALSE</code>and <code>F</code> have an equivalent meaning.</p>
 <p>Finally, you can ask for the elements, you want by name. On our case, you could select the first
 closing price by</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="basic-rules.html#cb202-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">&quot;close&quot;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="basic-rules.html#cb200-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">&quot;close&quot;</span>]</span></code></pre></div>
 <pre><code>## [1] 0.332589</code></pre>
 <p>Finally, note that two types of object in R obey an optional second system of notation. You can
 extract values from data frames and lists with th <code>$</code>syntax. It works as follows: For example</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="basic-rules.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>close)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="basic-rules.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>close)</span></code></pre></div>
 <pre><code>## [1] 16.39576</code></pre>
 <p>would select the column of closing prices and compute their mean.</p>
 <p>Now lets try to solve the counting problem for our data set. To see whether the price went up
@@ -1083,16 +1090,20 @@ larger than zero. This we would have to do for every observation in the whole fr
 observation 2 of the close price until the end of the data frame, the other ranging from 1 to but the last
 element, then we subtract and write the result in a new object. Finally we inspect
 the first 10 elements of the result</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="basic-rules.html#cb206-1" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">2</span><span class="sc">:</span><span class="dv">8044</span>, <span class="st">&quot;close&quot;</span>]</span>
-<span id="cb206-2"><a href="basic-rules.html#cb206-2" aria-hidden="true" tabindex="-1"></a>aux_2 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8043</span> , <span class="st">&quot;close&quot;</span>]</span>
-<span id="cb206-3"><a href="basic-rules.html#cb206-3" aria-hidden="true" tabindex="-1"></a>diff_close <span class="ot">&lt;-</span> (aux_1 <span class="sc">-</span> aux_2)</span>
-<span id="cb206-4"><a href="basic-rules.html#cb206-4" aria-hidden="true" tabindex="-1"></a>diff_close[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="basic-rules.html#cb204-1" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">2</span><span class="sc">:</span><span class="dv">8044</span>, <span class="st">&quot;close&quot;</span>]</span>
+<span id="cb204-2"><a href="basic-rules.html#cb204-2" aria-hidden="true" tabindex="-1"></a>aux_2 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8043</span> , <span class="st">&quot;close&quot;</span>]</span>
+<span id="cb204-3"><a href="basic-rules.html#cb204-3" aria-hidden="true" tabindex="-1"></a>diff_close <span class="ot">&lt;-</span> (aux_1 <span class="sc">-</span> aux_2)</span>
+<span id="cb204-4"><a href="basic-rules.html#cb204-4" aria-hidden="true" tabindex="-1"></a>diff_close[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
 <pre><code>##  [1]  0.002232  0.001117  0.001116  0.002232 -0.003348 -0.014509 -0.013393
 ##  [8]  0.000000 -0.002232  0.005580</code></pre>
 <p>Now this works but it is not very elegant. Actually R has a built in function, called
-<code>diff() which will do the job for us. We can even append the result to the frame we have using the</code>$<code>notation as follows: Let us call the new variable</code>diff<code>. But now we have to be careful. Since we take first differences we will looe one observation. This will create a  mismatch in the dimenion of the dataframe. Since the data frame starts at some date (in our case 1990-01-02) we have no difference for the first observation. R's notation for a missing observation is</code>NA<code>. So we neet to put an</code>NA`ahead of our diff column:</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="basic-rules.html#cb208-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(aapl_prices<span class="sc">$</span>close, <span class="at">lag =</span> <span class="dv">1</span>))</span>
-<span id="cb208-2"><a href="basic-rules.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n=</span> <span class="dv">5</span>)</span></code></pre></div>
+<code>diff()</code> which will do the job for us. We can even append the result to the frame we have
+using the <code>$</code> notation as follows: Let us call the new variable <code>diff</code>. But now we have to
+be careful. Since we take first differences we will looe one observation. This will create a
+mismatch in the dimenion of the dataframe. Since the data frame starts at some date (in our case 1990-01-02) we have no difference for the first observation. R’s notation for a missing
+observation is <code>NA</code>. So we neet to put an <code>NA</code>ahead of our diff column:</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="basic-rules.html#cb206-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(aapl_prices<span class="sc">$</span>close, <span class="at">lag =</span> <span class="dv">1</span>))</span>
+<span id="cb206-2"><a href="basic-rules.html#cb206-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n=</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##   symbol       date     open     high      low    close    volume adjusted
 ## 1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
 ## 2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
@@ -1112,8 +1123,8 @@ in a very nice example. We can test conditions by logical operators. In our case
 to know whether the diff between two consecutive closing prices is positive. We add another
 column to the dataframe which will then contain <code>TRUE</code> or <code>FALSE</code>values, when the condition
 holds. To see what happens, let us do this and look at the first 5 rows of our new data frame:</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="basic-rules.html#cb210-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff_pos <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>diff <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb210-2"><a href="basic-rules.html#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="basic-rules.html#cb208-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff_pos <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>diff <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb208-2"><a href="basic-rules.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##    symbol       date     open     high      low    close    volume adjusted
 ## 1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
 ## 2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
@@ -1142,13 +1153,14 @@ among all our change observations.</p>
 <p>Now we can use the R coercion rules. If we apply the mean function to our <code>diff_pos</code> column
 we get the share of up moves, since R will coerce the <code>TRUE</code> values to 1 and the <code>FALSE</code> values
 to 0. This is a new opportunity to practice our newly acquired subsetting rules:</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="basic-rules.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="basic-rules.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> T)</span></code></pre></div>
 <pre><code>## [1] 0.5051598</code></pre>
 <p>We see that the result is that the stock price has moved up about half of the days and not up
 at the other days.</p>
-<p>Let me explain what is going on in the syntax of oru R statement. We selected the column
+<p>Let me explain what is going on in the syntax of our R statement. We selected the column
 from our data frame that contained the differences. Then we apply the <code>mean()</code> function to this
-column. But since the column contains one value which is <code>NA</code> the mean would return <code>NA</code> if we not
+column. But since the column contains one value which is <code>NA</code> the mean
+would return <code>NA</code> if we not
 correct for this fact. This is what the argument <code>na.rm = T</code> does. It tells R to first remove
 <code>NA</code> form the observations and then compute the mean.</p>
 <p>Now from a frequency point of view <span class="math inline">\(P(U) = 0.51\)</span> and <span class="math inline">\(P(D) = 0.49\)</span> accordingly.</p>
@@ -1179,17 +1191,19 @@ frequencies of up and down moves look similar to a random experiment of a few th
 of a fair coin. But can we learn anything from this? Are the up and down moves independent?
 Independence - of course - does not follow from the result we just got.</p>
 <p>The idea that stock prices may fluctuate randomly was first discussed systematically by
-Louis Bachelier (1870 - 1946), a french mathematician who studied stock orice movements
-mathematically. In 1965 the economist Paul Samuelson published an article with the title
-“Proof that properly anticipated prices fluctuate randomly.” He argues that randomness
+Louis Bachelier (1870 - 1946), a French mathematician who studied stock price movements
+mathematically. In 1965 the economist <span class="citation"><a href="#ref-Samuelson1965" role="doc-biblioref">Samuelson</a> (<a href="#ref-Samuelson1965" role="doc-biblioref">1965</a>)</span> published an article with the title
+“Proof that stock prices fluctuate randomly.”
+He argues in this paper that randomness
 comes about through the active participation of traders seeking to maximize their wealth.
 A huge army of investors would aggressively use the smallest informational advantage
 and in doing so, they incorporate the information into market prices, which
 quickly eliminates this profit
 opportunity.
-This lead to a cornerstone of modern Finance theory called the *random walk hypothesis" of
+This lead to a cornerstone of modern Finance theory called the <em>random walk hypothesis</em> of
 stock price fluctuations.</p>
-<p>If this theory was true, it would give an argument, why we might look at the up and down movements
+<p>If this theory was true, it would give an argument, why we might look at
+the up and down movements
 in the stock price of apple as if it was the outcome of tossing a fair coin. In this case
 the probability of an up or a down movement should be 1/2 and with the number of trials
 approaching infinity the frequency of ups and downs should approach this probability.</p>
@@ -1203,7 +1217,7 @@ situations where abstract theories, like the theory of probability, show a robus
 to real world phenomena. But the nature, the precise meaning and the robustness of this
 relation has to be investigated for each single case.</p>
 </div>
-<div id="example-benfords-law-the-empirical-probabilities-of-leading-digits" class="section level3" number="2.6.4">
+<div id="benford" class="section level3" number="2.6.4">
 <h3><span class="header-section-number">2.6.4</span> Example: Benfords law: The empirical probabilities of leading digits</h3>
 <p>Let us discuss last example in this lecture which will fortify both our
 probability knowledge as well as our newly gained R skills. It will also prepare
@@ -1232,9 +1246,9 @@ where <span class="math inline">\(d \in \{1,\cdots, 9 \}\)</span>
 </dl>
 <p>Let us look at how this distribution looks like. Let us build a data frame where we see the
 digits in one column and the Benford-Probabilities in the second one:</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="basic-rules.html#cb214-1" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Digit =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
-<span id="cb214-2"><a href="basic-rules.html#cb214-2" aria-hidden="true" tabindex="-1"></a>benford<span class="sc">$</span>Prob_Benford <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>benford<span class="sc">$</span>Digit)</span>
-<span id="cb214-3"><a href="basic-rules.html#cb214-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(benford)</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="basic-rules.html#cb212-1" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Digit =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb212-2"><a href="basic-rules.html#cb212-2" aria-hidden="true" tabindex="-1"></a>benford<span class="sc">$</span>Prob_Benford <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>benford<span class="sc">$</span>Digit)</span>
+<span id="cb212-3"><a href="basic-rules.html#cb212-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(benford)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1291,7 +1305,7 @@ phone numbers or assigned identities.</p>
 This give us an opportunity to show you a second way to read a csv file into R by giving
 the internet link to the file directly as a string to the <code>read.csv()</code> function. We do this
 with the population data and store the data in an object we call <code>population_data</code>.</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="basic-rules.html#cb215-1" aria-hidden="true" tabindex="-1"></a>population_data <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">&quot;https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/counties/totals/co-est2020-alldata.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="basic-rules.html#cb213-1" aria-hidden="true" tabindex="-1"></a>population_data <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">&quot;https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/counties/totals/co-est2020-alldata.csv&quot;</span>)</span></code></pre></div>
 <p>So you, if you know the internet address of the file and the file name you can read data
 also directly from an url without first downloading them and then read it from your local copy.</p>
 <p>Now we want to use these data to check or illustrate Benford’s law. Now you will encounter
@@ -1299,18 +1313,18 @@ something typical for real data situations. If you inspect the data, you will se
 there is much more than we need. Let us therefore select the data we want to look at, using
 the R tools we learned in this lecture. We create a new data frame which contains only the
 variables <code>COUNTY</code>STNAME<code>,</code>CTYNAME<code>and</code>CENSUS2010POP`, and we discard all the other ones.</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="basic-rules.html#cb216-1" aria-hidden="true" tabindex="-1"></a>pop_us <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">County_ID =</span> population_data<span class="sc">$</span>COUNTY, <span class="at">State =</span> population_data<span class="sc">$</span>STNAME, <span class="at">County =</span> population_data<span class="sc">$</span>CTYNAME, <span class="at">Population =</span> population_data<span class="sc">$</span>CENSUS2010POP)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="basic-rules.html#cb214-1" aria-hidden="true" tabindex="-1"></a>pop_us <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">County_ID =</span> population_data<span class="sc">$</span>COUNTY, <span class="at">State =</span> population_data<span class="sc">$</span>STNAME, <span class="at">County =</span> population_data<span class="sc">$</span>CTYNAME, <span class="at">Population =</span> population_data<span class="sc">$</span>CENSUS2010POP)</span></code></pre></div>
 <p>This looks already pretty good, but we would like to have the data purely on county level. The
 current data set also contains State aggregates, which have <code>County_Id == 0</code>. There are
-alos a few counties which get value “X.” We also want to filter out those. Let’s use
+also a few counties which get value “X.” We also want to filter out those. Let’s use
 logical sub-setting to filter these data:</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="basic-rules.html#cb217-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered <span class="ot">&lt;-</span> pop_us[((pop_us<span class="sc">$</span>County_ID <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (pop_us<span class="sc">$</span>Population <span class="sc">!=</span> <span class="st">&quot;X&quot;</span>)), ]</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="basic-rules.html#cb215-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered <span class="ot">&lt;-</span> pop_us[((pop_us<span class="sc">$</span>County_ID <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (pop_us<span class="sc">$</span>Population <span class="sc">!=</span> <span class="st">&quot;X&quot;</span>)), ]</span></code></pre></div>
 <p>This will give us the pop_us data frame with all rows except those where the variable County_ID
 is equal to zero (which are the state aggregates).</p>
 <p>Now we extract the leading digits from the population numbers. Notice that
 in our data set the population numbers are stored as characters, as you can see
 from typing:</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="basic-rules.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(pop_us_filtered<span class="sc">$</span>Population)</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="basic-rules.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(pop_us_filtered<span class="sc">$</span>Population)</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <p>So we can use R’s string functions. This is a vast area which could fill a lecture
 on it own. We just mention one of the many R-functions operationg on strings.
@@ -1318,13 +1332,13 @@ One way to implement selection of a leading digit is
 using one of R’s string functions, <code>substr()</code>. You can give any string to this function and
 cut a substring, by specifiying where it should begin and where it should end. Now in our case
 the population number. Let us use this to add a new column of leading digits to the data frame.</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="basic-rules.html#cb220-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered<span class="sc">$</span>LD <span class="ot">&lt;-</span> <span class="fu">substr</span>(pop_us_filtered<span class="sc">$</span>Population, <span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="basic-rules.html#cb218-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered<span class="sc">$</span>LD <span class="ot">&lt;-</span> <span class="fu">substr</span>(pop_us_filtered<span class="sc">$</span>Population, <span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre></div>
 <p>Now we just need to tabulate the leading digits. This means, we count the frequency
 of 1, 2 et. until 9 and divide by the total number of observations. This tabulation
 functionality is implemented in R by its function <code>table</code>. So lets tabulate the
 respective column and divide by the total number of observations:</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="basic-rules.html#cb221-1" aria-hidden="true" tabindex="-1"></a>emp_dist <span class="ot">&lt;-</span> (<span class="fu">table</span>(pop_us_filtered<span class="sc">$</span>LD)<span class="sc">/</span><span class="fu">length</span>(pop_us_filtered<span class="sc">$</span>LD))</span>
-<span id="cb221-2"><a href="basic-rules.html#cb221-2" aria-hidden="true" tabindex="-1"></a>emp_dist</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="basic-rules.html#cb219-1" aria-hidden="true" tabindex="-1"></a>emp_dist <span class="ot">&lt;-</span> (<span class="fu">table</span>(pop_us_filtered<span class="sc">$</span>LD)<span class="sc">/</span><span class="fu">length</span>(pop_us_filtered<span class="sc">$</span>LD))</span>
+<span id="cb219-2"><a href="basic-rules.html#cb219-2" aria-hidden="true" tabindex="-1"></a>emp_dist</span></code></pre></div>
 <pre><code>## 
 ##          1          2          3          4          5          6          7 
 ## 0.30340656 0.18911175 0.11907036 0.09805794 0.06781280 0.06685769 0.05794333 
@@ -1334,11 +1348,11 @@ respective column and divide by the total number of observations:</p>
 in one dataframe. We first transform the emp_dist into a data frame and merge with the
 <code>benford$Prob_Benford</code> vector. This can be done by using the R function <code>cbind()</code> which can merge
 two data framews</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="basic-rules.html#cb223-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(emp_dist), benford<span class="sc">$</span>Prob_Benford)</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="basic-rules.html#cb221-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(emp_dist), benford<span class="sc">$</span>Prob_Benford)</span></code></pre></div>
 <p>Now lets give the new data frame nicer names using the name function and display the result
 in a nice table:</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="basic-rules.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Digit&quot;</span>, <span class="st">&quot;Emp_Freq&quot;</span>, <span class="st">&quot;Benf_Freq&quot;</span>)</span>
-<span id="cb224-2"><a href="basic-rules.html#cb224-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="basic-rules.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Digit&quot;</span>, <span class="st">&quot;Emp_Freq&quot;</span>, <span class="st">&quot;Benf_Freq&quot;</span>)</span>
+<span id="cb222-2"><a href="basic-rules.html#cb222-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1400,15 +1414,50 @@ in a nice table:</p>
 interesting regularity has been to screen data sets, for instance tax filings, to find
 evidence whether they might have been manipulated by looking for deviations from Benford’s
 law. In the second project you are asked to do just that. Investigate the first digit
-distribution in a real financial data-set and compare to Benford’s law.</p>
+distribution in a real financial data-set and compare to Benford’s law. For those of you
+who got interested in this “magic” law, let me mention that there is a monograph length
+treatment in <span class="citation"><a href="#ref-BergerHill2015" role="doc-biblioref">Berger and Hill</a> (<a href="#ref-BergerHill2015" role="doc-biblioref">2015</a>)</span></p>
 </div>
 </div>
-<div id="summary-1" class="section level2" number="2.7">
+<div id="summary-lecture-2" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> Summary</h2>
+<p>In this lecture we have dived a bit deeper into probability. We made some of our
+introductory concepts more precise and more general and learned about the important
+concepts of independence and how probabilities and frequencies of events in series of
+identical independent experiments are and are not related. We also learned about
+tools to go back and forth between probability theory and data and encountered
+our first financial dataset, a data frame for the stock pirce of Apple.</p>
+<p>These are the <strong>probability concepts</strong> we have covered in this lecture:</p>
+<p>In this lecture we have given precise definitions of our basic concepts of <strong>sample space</strong>,
+<strong>basic outcome</strong>, <strong>events</strong> and <strong>probability</strong>. This time we gave an abstract definition
+of probability which shares the basic properties we required for classical probability. We
+explained what <strong>discrete probability</strong> means and explained how we can build events
+by set theoretic operations of <strong>union</strong>, <strong>intersection</strong>, <strong>complements</strong>. We have also
+explained the meaning of <strong>mutually exlusive</strong>. We have explained the notion of
+<strong>empirical probability</strong> or <strong>frequency probability</strong>. We have discussed the <strong>weak law of
+large numbers</strong> which establishes for a given probability the number of identical independent
+trials that are needed such that the relative frequency of an event falls within any
+given bound around this probability. While relative frequencies are not probabilities they
+approach given probabilities in the limit of a sequence of identical independent trials. We
+have finally learned about the definition of <strong>independence</strong> of events. If two events <span class="math inline">\(A\)</span> and
+<span class="math inline">\(B\)</span> are independent the probability that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> occur is the product of their individual
+probabilities.</p>
+<p>These are the <strong>R concepts</strong> covered in this lecture:
+We learned what <strong>R objects</strong> are and that R has <strong>six types of atomic vectors</strong>, namely
+<strong>double</strong>, <strong>integer</strong>, <strong>character</strong>, <strong>logical</strong>, <strong>complex</strong> and <strong>raw</strong>. We have learned
+how to <strong>subset R objects</strong> by positive integers, negative integers, zero, blank spaces, logicals
+and names.</p>
+<p>These are the <strong>applications</strong> we have covered in this lecture. <strong>Tossing a fair coin</strong> by
+simulation. <strong>reading data from a stored csv files</strong> and also
+<strong>reading a csv file directly from the internet</strong>. <strong>Using R’s subsetting functions</strong> to analyze
+up and down movements of <strong>stock price data</strong> and <strong>use empirical probabilities</strong> together
+with an
+independence assumption to compute the probability of certain sequences of up and down moves.
+<strong>Benford’s law</strong> of leading digits.</p>
 </div>
-<div id="project-2-should-we-trust-european-supervisory-bank-data" class="section level2" number="2.8">
+<div id="project2" class="section level2" number="2.8">
 <h2><span class="header-section-number">2.8</span> Project 2: Should we trust European supervisory bank data?</h2>
-<p>The European Banking Authority EBA conducts a biannual stress testing excercise for the
+<p>The European Banking Authority EBA conducts a biannual stress testing exercise for the
 biggest European banks every two years. In the stress test bank exposure data are collected
 and then particular stress scenarios are applied to the reported data. The goal is to
 find out whether the banks would have enough capital to withstand an adverse scenario. EBA
@@ -1432,7 +1481,9 @@ that the symbol you need in the R syntax for equal is <code>==</code>, the synta
 <code>Scenario == 1</code>. You might check out the R-help entry <code>Comparison</code> for further details.
 We should select all rows where Country is not 0. For the variable Portfolio we have to use
 the match operator to require that Portfolio is in 1 or 2 (<code>Portfolio %in% c(1,2)</code>), for the
-IFRS9_Stages variable we have to require that it is in <code>c(1,2,3)</code>. Al other Variables Exposure, Status, CR_guarantees and CR_exp_moratoria are set to 0. Finally we only look at non zero Amounts.</li>
+IFRS9_Stages variable we have to require that it is in <code>c(1,2,3)</code>.
+All other Variables Exposure, Status, CR_guarantees and CR_exp_moratoria
+are set to 0. Finally we only look at non zero Amounts.</li>
 <li>Select the leading digits of the amounts and compare them with the theoretical frequencies
 from Benford’s law. Do the data look ok or suspicious?</li>
 </ol>
@@ -1441,11 +1492,17 @@ from Benford’s law. Do the data look ok or suspicious?</li>
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-BergerHill2015" class="csl-entry">
+Berger, Arno, and Theodore Hill. 2015. <em>An Introduction to Benford’s Law</em>. Princeton University Press.
+</div>
 <div id="ref-DiaconisSkyrms2019" class="csl-entry">
 Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. Princeton University Press.
 </div>
 <div id="ref-Feller1968" class="csl-entry">
 Feller, William. 1968. <em>An Introduction to Probability Theory and Its Applications</em>. 3rd ed. Vol. 1. Wiley.
+</div>
+<div id="ref-Samuelson1965" class="csl-entry">
+Samuelson, Paul. 1965. <span>“Proof That Properly Anticipated Prices Fluctuate Randomly.”</span> <em>Industrial Management Review</em> 6.
 </div>
 </div>
             </section>

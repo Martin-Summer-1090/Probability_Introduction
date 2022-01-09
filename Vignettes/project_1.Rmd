@@ -13,7 +13,8 @@ The first project is about one of the very few dice games offered at a Casino:
 Craps.^[ This will be
 the only project in this course where we do not go into a direct financial application. 
 Before we can do so, we need to build still a bit more knowledge of probability and
-skills in R.]
+skills in R. However, as you will realize during the course, gambling and financial investments
+share more features than you might think.]
 
 In Craps people throw a pair of dice and bet on outcomes of these
 throws. In this project we practice our new knowledge by
@@ -24,7 +25,7 @@ probability of the possible outcomes and check the fairness of the dice.
 1. Your first task in this project will be to write a function which allows you 
 to virtually throw a pair of dice and sum up the points shown after the throw.
 2. Simulate and plot the result of your simulation using `qplot()` with the `binwidth`
-argument set to 1.
+argument set to 1. Use 10000 runs of your function for the simulation.
 3. Are these dice fair? Why?
 4. Assume the dice were unfair in the following sense: Numbers 1,2,3,4 and 5 have a 
 probability of $1/8$ while the 6 has a probability of $3/8$. Study the help page of
@@ -62,7 +63,7 @@ presented here should be regarded as a suggestion only.
 ```
 Here is one possible implementation. The lines starting with
 `#` are comments. You can read them when editing the function script
-but R will igore them when interpreting the function.
+but R will ignore them when interpreting the function.
 
 ```{r function to roll two dice and sum their points}
 roll <- function(){
@@ -86,7 +87,7 @@ roll <- function(){
 
 ```
 2. Simulate and plot the result of your simulation using `qplot()` with the `binwidth`
-argument set to 1.
+argument set to 1. Use 10000 runs of your function for the simulation.
 
 ```
 
@@ -128,7 +129,7 @@ ${\cal S}$ can be visualized like this:
 |P(sum = 11)  = 2/36  |11                    | (5,6),(6,5)                        |
 |P(sum = 12)  = 1/36  |12                    | (6,6)                              | 
 
-The frequencies with wich the sums occur look very much like the theoretical probabilities
+The frequencies with which the sums occur look very much like the theoretical probabilities
 for equally probable pairs. Our dice thus look as if they are fair.
 
 ```
@@ -213,7 +214,8 @@ another sum comes up you get nothing. With your budget
 you could make 1000 bets 
 on 7. Is this offer of the casion 
 a good or a bad deal for you? Try to think about
-this problem in terms of a simulation. 
+this problem in terms of a simulation.
+What is the maximum you would pay for this bet?
 
 ```
 With 15 cent per bet and a budget of 150 we can bet on 1000 rolls
@@ -232,13 +234,22 @@ rolls <- replicate(1000, roll())
 sum(rolls == 7) - 200
 
 ```
-No, you would end the game with a loss and pay 33 in addition to the
+No, you would end the game with a loss and pay in addition to the
 200 out of your pocket to the Casino.
 
-If you made the same bet with a bet price of 10 cents you would get over a course of 1000 rounds.
+The empirical frequency of sum 7 is
+
+```{r}
+sum(rolls == 7)/length(rolls)
+```
+Close to the theoretical probability of $1/6$.
+
+If you made the same bet with a bet price of 16 cents and played 1000 rounds, you would make
+in the same simulation:
 
 ```{r cheaper ticket}
-sum(rolls == 7) - 100
-```
 
+sum(rolls == 7) - 160
+```
+You would have made a profit.
 

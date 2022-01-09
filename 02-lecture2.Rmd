@@ -56,14 +56,14 @@ Thus when we
 talk about probability in a precise and meaningful sense we can only do so in relation to
 a given sample space or to a certain conceptual experiment.
 
-But before we go on let me clarify what we mean when we said that in the theory,
+But before we go on let me clarify what we mean when we say that in the theory,
 probability is an abstract measure of uncertainty which we take as given.
 
 ## Probability in theory and applications of probability {#probability-theory-and-applications}
 
 Probabilities are expressed as numbers between 0 and 1. As mentioned by
-Feller (@Feller1968) in his famous probability textbook, these numbers are of the same
-nature as distances in geometry. In the theory we assume they are given to us.
+@Feller1968 in his famous probability textbook, these numbers are of the same
+nature as distances in geometry. In the theory we assume they are *given* to us.
 
 From the viewpoint of probability theory, we need not assume
 anything about how they are measured. In this sense probabilities in the
@@ -104,7 +104,8 @@ of probability in this lecture we consider mostly discrete sample spaces, howeve
 also discuss some basic non-discrete sample spaces later in the lectures. Now let us
 state more formally what we mean by probability.
 
-Given a (discrete) sample space ${\cal S}$ the **probability** assigned to events in this sample
+Probability
+: Given a (discrete) sample space ${\cal S}$ the **probability** assigned to events in this sample
 space must always fulfill three rules:
 
 1. $P({\cal S}) = 1$, where ${\cal S}$ is the sample space.
@@ -114,7 +115,7 @@ negative or larger than 1.
 smaller or equal to the sum of the
 probability of these events looked at in isolation: $P(A \cup B) \leq P(A) + P(B)$.
 
-Note that these three properties resulted naturally from the classic idea to make equi-probable
+Note that these three properties resulted naturally from the classic idea to make equally probable
 cases and count. Property 3 looks slightly different but we will shortly see that it amounts to
 the same thing.
 
@@ -193,7 +194,7 @@ sample space ${\cal S}$. Let us show ${\cal S} \setminus (A \cup B)$.
 ```{r set-minus, out.width='80%', fig.align='center', fig.cap='The meaning of set intersection', echo = F}
 knitr::include_graphics('figures/set_minus.png')
 ```
-This complement is the dice shown in the light yellow area, i.e. all the elements of ${\cal S}$
+This complement is the dice shown in the light redish area, i.e. all the elements of ${\cal S}$
 which are not in $A \cup B$.
 
 The R function for computing set complements is called `setdiff()`. You can try it with our
@@ -298,7 +299,7 @@ a number `"1.23"` will be interpreted as a character string consisting of 1, ., 
 
 As in the case of the die we next write a function, so we can virtually toss the coin
 
-```{r}
+```{r toss-coin}
 toss_coin <- function(){coin <- c("H", "T")
 sample(coin, size = 1) }
 ```
@@ -307,25 +308,25 @@ Now lets toss this coin 100 times by using the `replicate` function and
 save the result in an object called
 tosses_100:
 
-```{r}
+```{r toss-coin-100}
 tosses_100 <- replicate(100, toss_coin())
 ```
 
 Lets look at the outcome of the 100 tosses graphically
 
-```{r}
+```{r plot-tosses-of-coin-100}
 qplot(tosses_100)
 ```
 The histogram shows that the occurrence of Heads and Tails are almost 50/50 but not
 exactly. Lets toss 1000 times and then look again.
 
-```{r}
+```{r toss-coin.1000}
 tosses_1000 <- replicate(1000, toss_coin())
 qplot(tosses_1000)
 ```
 This looks already pretty good. Lets toss even more. Why not toss a million of times?
 
-```{r}
+```{r toss-coin-one-million}
 tosses_m <- replicate(10^6, toss_coin())
 qplot(tosses_m)
 ```
@@ -381,13 +382,13 @@ $P(A \cap B) = P(A) \times P(B)$.
 
 Keep it in mind, we will need it often in what is to follow.
 
-## Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values
+## Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values {#moreR}
 
 But now enough of dices and coins. Let us try out and apply some of the new ideas we just have
 learned and use the opportunity to learn some more important R concepts in the context
 of an example with stock price data.
 
-### Reading data in R
+### Reading data in R {#readingdata}
 
 Before we can do anything with data, we need to learn how  to load data into R and how
 to save then. We will discuss now how to do this with comma separated
@@ -424,6 +425,9 @@ getwd()
 the path of my project folder for this lecture notes. So if I type the string
 `"data/aapl_prices.csv"` this specifies the path relative to my working directory.
 
+If you read the file on your computer, you need to specify the path appropriately from where
+you are working in R at the moment to where you have stored the csv file.
+
 Now `read.csv()` has many additional arguments, which provide you with lots of
 flexibility. I encourage you to check it out and play with it using the help function and
 the examples given therein.
@@ -441,22 +445,22 @@ for dividend and stock splits. Let's not worry for the moment what the
 exact technical meaning of these financial terms is. Now we are ready to work with these
 data.
 
-### R objects
+### R objects {#robjects}
 
 The most simple type of R objects are **atomic vectors**. Most structures in R are built
 from atomic vectors. The stock data-file we have just loaded is an example of such 
 a more complex structure built from atomic vectors. We have already encountered a few of
 those in our previous lecture.
 
-#### Atomic vectors
+#### Atomic vectors {#atomic}
 
 An atomic vector is just a simple vector of data. For example our die constructed
 in the first lecture is an instance of this.
 ```{r create-die-again}
 die <- 1:6
 ```
-R has a function, which allows you to check whether an onject is an atomic vector or not.
-This function is called `is.vector)`. It takes the object name as an argument and returns `TRUE`
+R has a function, which allows you to check whether an object is an atomic vector or not.
+This function is called `is.vector()`. It takes the object name as an argument and returns `TRUE`
 if the object is an atomic vector and `FALSE` if it is not. For example:
 ```{r check-atomic}
 is.vector(die)
@@ -465,7 +469,7 @@ does indeed return `TRUE`.
 
 Each atomic vector stores values in a one-dimensional vector, and each atomic vector can
 only store one type of data. The length of the atomic vector can be determined by the
-function `length() This function takes an R object, which is an atomic vector, as an
+function `length()` This function takes an R object, which is an atomic vector, as an
 argument and returns the number of elements in this vector. Here is the example of the die
 ```{r vector-length}
 length(die)
@@ -474,11 +478,17 @@ which is 6 as it should be. An atomic vector could also have only one element, i
 `lenght()`would return 1.
 
 Now altogether R has implemented six basic types of atomic vectors:
+
 1. double
+
 2. integers
+
 3. characters
+
 4. logical
+
 5. complex
+
 6. raw
 
 We will not encounter complex and raw data-types in this course, so let us skip those and discuss
@@ -504,9 +514,9 @@ we would want to specifie the points shown on our die explicitly as integers, th
 die_int <- c(1L,2L,3L,4L,5L,6L)
 ```
 Now R will save the die with integer values. Before, since we did not explicitly specify it, 
-the values were stored as doubles. You can check this with the function `typeof()`:
+the values were stored probably as doubles. You can check the type always 
+with the function `typeof()`:
 ```{r check-type}
-typeof(die)
 typeof(die_int)
 ```
 Now why should we care for distinguishing integers from doubles? This has to do with the
@@ -516,11 +526,12 @@ allows for a very precise representation of numbers not all numbers can be exact
 with 64-bits. The famous candidates are $\pi$, which has an infinite sequence of digits and must
 therefore be rounded by the computer. Usually the rounding error introduced into your
 computations will go unnoticed but sometimes surprises can occur. Take for instance:
-```{r}
+```{r sqrt-4-minus-2}
 sqrt(2)^2 - 2
 ```
-Why is that? The squre root of 2 can not be expresses precisely because, as already the old greeks
-knew, it is not a rational number. An voila, you have a small rounding error. Such errors
+Why is that? The squre root of 2 can not be expresses precisely because, as already 
+the old Greeks
+knew, it is not a rational number. And voila, you have a small rounding error. Such errors
 are called *floating point errors* in computer science lingo and computing with such numbers is
 called *floating-point-arithmetic*. 
 
@@ -538,7 +549,7 @@ fair coin with the vector `c("H", "T")` with the string `"H"` for head and the s
 
 Note that a string can be more than just letters. If you type, for instance the number `1` with
 quotation marks, like `"1"` R would interpret the value as a string not as a number. Sometimes
-one can get confused in R becuase both objects and characters appear as text in R code. Object
+one can get confused in R because both objects and characters appear as text in R code. Object
 names are without quotation marks strings alway are between quotation marks.
 
 The next data type in the list are: **Logicals**. Logical vectors store `TRUEs` and `FALSES`. They
@@ -553,7 +564,7 @@ R tells you that this statement is False.
 
 Whenever you type `TRUE` of `FALSE` without quotation marks, R will treat the
 input as logial data. For instance, the follwoing statement yields:
-```{r ligical-inputs}
+```{r logical-inputs}
 logic <- c(TRUE, FALSE, TRUE)
 logic
 ```
@@ -565,7 +576,7 @@ typeof(logic)
 One important R-fact which you need to know about atomic vectors is that atomic vectors
 can have **attributes**. Attributes won't affect the values of an object but can hold
 and store object metadata. Normally we do not look at these metadata, but many R functions
-check for attributes and then do special things with the obeject depnedning on these 
+check for attributes and then do special things with the object dependning on these 
 attributes.
 
 Attributes can be checked with the function `attributes()` using an R object as an argument.
@@ -627,13 +638,13 @@ m
 ```
 the matrix will be filled up by column. You can change that behavior by setting the `byrow` 
 argument to `TRUE`.
-```{r}
+```{r construct-matrix-with-byrow-true}
 m <- matrix(die, nrow = 2, byrow = TRUE)
 m
 ```
 
 Notice that changing the dimensions of an object, will not change its type. But it will
-change the objetc#s **class* attribute:
+change the object's **class** attribute:
 ```{r class-attribute-behavior}
 dim(die) <- c(2,3)
 typeof(die)
@@ -659,11 +670,11 @@ class(now)
 detail here.
 
 R stores categorical data, such as nationality, sex etc. by using **factors**. If
-you take for instance, sex, it can have only two values - make or female - and these
+you take for instance, sex, it can have only two values - male or female - and these
 values may have their idiosyncratic order, for example females go always first.
 To make a factor in R you have to pass an atomic vector to the `factor()` function.
-This function works by recoding the values in the vector as integers abd store the 
-results in an integer vector. R also addas a `level` attribute which contains the set
+This function works by recoding the values in the vector as integers and store the 
+results in an integer vector. R also adds a `level` attribute which contains the set
 of labels and their order and a class attribute that says the vector is
 a factor. Example:
 ```{r sex-factor}
@@ -674,7 +685,7 @@ attributes(sex)
 Factors can be confusing since they look like characters but behave like integers.
 
 Note that R will often try to convert character strings to factors when you load and create data.
-I recommend that you do not allwo R to make factors unless you explicitly ask for it. This
+I recommend that you do not allow R to make factors unless you explicitly ask for it. This
 can usually be controlled by an argument to whatever the data reader function is. For instance
 you can give the `read.csv()` function the argument `stringsAsFactors = FALSE`. 
 
@@ -701,7 +712,7 @@ like atomic vectors, because the group data into a one-dimensional set. However,
 no group together individual values. List group together R objects, such as atomic
 vectors or even other lists. 
 
-For example, you can create a list, which cotians a numeric vector of length 31 in its
+For example, you can create a list, which contains a numeric vector of length 31 in its
 first element, a character vector of length 1 in its second element and a new list of length 2 in its third. This is done by using the `list()`function of R, like this:
 ```{r create-list}
 list_example <- list(100:130, "R", list(TRUE, FALSE))
@@ -713,7 +724,7 @@ single bracketed indices tell you which sub-element of the list is being display
 second list element.
 
 **Data Frames** are the two dimensional version of a list. They are by far the most
-useful stroeage structure for data analysis. Indeed, our dataset on the Apple stock
+useful storeage structure for data analysis. Indeed, our dataset on the Apple stock
 price we have loaded before is an instance of a data frame. Data frames group vectors
 together in a two dimensional table. As a consequence each variable can, i.e. each column of the
 data frame can contain a different data type. Within a column, however, we can have only
@@ -726,12 +737,10 @@ typeof(aapl_prices)
 class(aapl_prices)
 ```
 
-perhaps add a figure like grolemund fig 3-6
-
 Now armed with our new knowledge of R and probability lets ask a question to
 our new data set.
 
-### Example: Will the stock price of Apple move up or down?
+### Example: Will the stock price of Apple move up or down? {#apple-up-down}
 
 Let us look at the first lines of our data once again:
 ```{r fist-lines-again}
@@ -778,7 +787,7 @@ aapl_prices[1,6]
 you see that the first value in the sixth column is selected. You thus get the first closing
 price of the Apple stock recorded in our dataset. You can extract more than one value, for instance
 by typing:
-```{r}
+```{r selection-from-apple}
 aapl_prices[1:10, 6]
 ```
 which gives you the first 10 closing prices.
@@ -795,7 +804,7 @@ However, if you select a single column, R will return a vector:
 ```{r select-single-column}
 aapl_prices[1:10, 6]
 ```
-If you prefer to get returned a data frame in this cane, you have to add the argument
+If you prefer to get returned a data frame in this case, you have to add the argument
 `drop = FALSE`, like:
 ```{r drop-false}
 aapl_prices[1:10, 6, drop = FALSE]
@@ -812,7 +821,7 @@ If you try to pair a negative and a positive integer in an index, R will return 
 However, you can us both negative and positive integers if you use them in *different*
 indices.
 
-**Zero** is neither positive nor negative, If oyu use 0 as an index, R will return nothing
+**Zero** is neither positive nor negative, If you use 0 as an index, R will return nothing
 from a dimension with index 0. The following syntax for instance creates an empty object
 ```{r empty-object}
 aapl_prices[0,0]
@@ -865,7 +874,7 @@ diff_close <- (aux_1 - aux_2)
 diff_close[1:10]
 ```
 Now this works but it is not very elegant. Actually R has a built in function, called
-`diff() which will do the job for us. We can even append the result to the frame we have
+`diff()` which will do the job for us. We can even append the result to the frame we have
 using the `$` notation as follows: Let us call the new variable `diff`. But now we have to
 be careful. Since we take first differences we will looe one observation. This will create a 
 mismatch in the dimenion of the dataframe. Since the data frame starts at some date (in our case 1990-01-02) we have no difference for the first observation. R's notation for a missing
@@ -899,9 +908,10 @@ mean(aapl_prices$diff_pos, na.rm = T)
 We see that the result is that the stock price has moved up about half of the days and not up 
 at the other days.
 
-Let me explain what is going on in the syntax of oru R statement. We selected the column
+Let me explain what is going on in the syntax of our R statement. We selected the column
 from our data frame that contained the differences. Then we apply the `mean()` function to this
-column. But since the column contains one value which is `NA` the mean would return `NA` if we not
+column. But since the column contains one value which is `NA` the mean 
+would return `NA` if we not
 correct for this fact. This is what the argument `na.rm = T ` does. It tells R to first remove
 `NA` form the observations and then compute the mean.
 
@@ -940,18 +950,20 @@ of a fair coin. But can we learn anything from this? Are the up and down moves i
 Independence - of course - does not follow from the result we just got.
 
 The idea that stock prices may fluctuate randomly was first discussed systematically by
-Louis Bachelier (1870 - 1946), a french mathematician who studied stock orice movements
-mathematically. In 1965 the economist Paul Samuelson published an article with the title
-"Proof that properly anticipated prices fluctuate randomly". He argues that randomness
+Louis Bachelier (1870 - 1946), a French mathematician who studied stock price movements
+mathematically. In 1965 the economist @Samuelson1965 published an article with the title
+"Proof that stock prices fluctuate randomly". 
+He argues in this paper that randomness
 comes about through the active participation of traders seeking to maximize their wealth. 
 A huge army of investors would aggressively use the smallest informational advantage 
 and in doing so, they incorporate the information into market prices, which 
 quickly eliminates this profit
 opportunity. 
-This lead to a cornerstone of modern Finance theory called the *random walk hypothesis" of 
+This lead to a cornerstone of modern Finance theory called the *random walk hypothesis* of 
 stock price fluctuations.
 
-If this theory was true, it would give an argument, why we might look at the up and down movements
+If this theory was true, it would give an argument, why we might look at 
+the up and down movements
 in the stock price of apple as if it was the outcome of tossing a fair coin. In this case
 the probability of an up or a down movement should be 1/2 and with the number of trials
 approaching infinity the frequency of ups and downs should approach this probability.
@@ -967,7 +979,7 @@ situations where abstract theories, like the theory of probability, show a robus
 to real world phenomena. But the nature, the precise meaning and the robustness of this
 relation has to be investigated for each single case.
 
-### Example: Benfords law: The empirical probabilities of leading digits
+### Example: Benfords law: The empirical probabilities of leading digits {#benford}
 
 Let us discuss last example in this lecture which will fortify both our
 probability knowledge as well as our newly gained R skills. It will also prepare
@@ -1033,7 +1045,7 @@ pop_us <- data.frame(County_ID = population_data$COUNTY, State = population_data
 ```
 This looks already pretty good, but we would like to have the data purely on county level. The
 current data set also contains State aggregates, which have `County_Id == 0`. There are
-alos a few counties which get value "X". We also want to filter out those. Let's use
+also a few counties which get value "X". We also want to filter out those. Let's use
 logical sub-setting to filter these data:
 ```{r filter-aggregates}
 pop_us_filtered <- pop_us[((pop_us$County_ID != 0) & (pop_us$Population != "X")), ]
@@ -1074,7 +1086,7 @@ df <- cbind(as.data.frame(emp_dist), benford$Prob_Benford)
 ```
 Now lets give the new data frame nicer names using the name function and display the result
 in a nice table:
-```{r}
+```{r name-data-frame}
 names(df) <- c("Digit", "Emp_Freq", "Benf_Freq")
 knitr::kable(df)
 ```
@@ -1084,13 +1096,53 @@ One application of this
 interesting regularity has been to screen data sets, for instance tax filings, to find
 evidence whether they might have been manipulated by looking for deviations from Benford's
 law. In the second project you are asked to do just that. Investigate the first digit 
-distribution in a real financial data-set and compare to Benford's law.
+distribution in a real financial data-set and compare to Benford's law. For those of you
+who got interested in this "magic" law, let me mention that there is a monograph length
+treatment in @BergerHill2015
 
-## Summary
+## Summary {#summary-lecture-2}
 
-## Project 2: Should we trust European supervisory bank data?
+In this lecture we have dived a bit deeper into probability. We made some of our
+introductory concepts more precise and more general and learned about the important
+concepts of independence and how probabilities and frequencies of events in series of
+identical independent experiments are and are not related. We also learned about 
+tools to go back and forth between probability theory and data and encountered 
+our first financial dataset, a data frame for the stock pirce of Apple.
 
-The European Banking Authority EBA conducts a biannual stress testing excercise for the
+These are the **probability concepts** we have covered in this lecture:
+
+In this lecture we have given precise definitions of our basic concepts of **sample space**,
+**basic outcome**, **events** and **probability**. This time we gave an abstract definition
+of probability which shares the basic properties we required for classical probability. We
+explained what **discrete probability** means and explained how we can build events
+by set theoretic operations of **union**, **intersection**, **complements**. We have also 
+explained the meaning of **mutually exlusive**. We have explained the notion of
+**empirical probability** or **frequency probability**. We have discussed the **weak law of 
+large numbers** which establishes for a given probability the number of identical independent
+trials that are needed such that the relative frequency of an event falls within any
+given bound around this probability. While relative frequencies are not probabilities they
+approach given probabilities in the limit of a sequence of identical independent trials. We
+have finally learned about the definition of **independence** of events. If two events $A$ and
+$B$ are independent the probability that $A$ and $B$ occur is the product of their individual
+probabilities.
+
+These are the **R concepts** covered in this lecture:
+We learned what **R objects** are and that R has **six types of atomic vectors**, namely
+**double**, **integer**, **character**, **logical**, **complex** and **raw**. We have learned
+how to **subset R objects** by positive integers, negative integers, zero, blank spaces, logicals
+and names.
+
+These are the **applications** we have covered in this lecture. **Tossing a fair coin** by
+simulation. **reading data from a stored csv files** and also 
+**reading a csv file directly from the internet**. **Using R's subsetting functions** to analyze
+up and down movements of **stock price data** and **use empirical probabilities** together 
+with an
+independence assumption to compute the probability of certain sequences of up and down moves.
+**Benford's law** of leading digits.
+
+## Project 2: Should we trust European supervisory bank data? { #project2}
+
+The European Banking Authority EBA conducts a biannual stress testing exercise for the
 biggest European banks every two years. In the stress test bank exposure data are collected
 and then particular stress scenarios are applied to the reported data. The goal is to
 find out whether the banks would have enough capital to withstand an adverse scenario. EBA
@@ -1115,7 +1167,9 @@ that the symbol you need in the R syntax for equal is `==`, the syntax is theref
 `Scenario == 1`. You might check out the R-help entry `Comparison` for further details. 
 We should select all rows where Country is not 0. For the variable Portfolio we have to use
 the match operator to require that Portfolio is in 1 or 2 (`Portfolio %in% c(1,2)`), for the
-IFRS9_Stages variable we have to require that it is in `c(1,2,3)`. Al other Variables Exposure, Status, CR_guarantees and CR_exp_moratoria are set to 0. Finally we only look at non zero Amounts.
+IFRS9_Stages variable we have to require that it is in `c(1,2,3)`. 
+All other Variables Exposure, Status, CR_guarantees and CR_exp_moratoria 
+are set to 0. Finally we only look at non zero Amounts.
 3. Select the leading digits of the amounts and compare them with the theoretical frequencies
 from Benford's law. Do the data look ok or suspicious?
 
