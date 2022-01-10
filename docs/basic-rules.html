@@ -875,7 +875,7 @@ when you display it but it is actually a double with class <code>POSIXct</code>,
 two classes):</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="basic-rules.html#cb155-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb155-2"><a href="basic-rules.html#cb155-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
-<pre><code>## [1] &quot;2022-01-10 18:44:59 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2022-01-10 23:35:39 CET&quot;</code></pre>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="basic-rules.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;double&quot;</code></pre>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="basic-rules.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
@@ -1467,25 +1467,53 @@ makes a huge effort to publish the data that are the base of the stress test on 
 empirical probabilities, R and Benford’s law to check whether the EBA stress testing
 data show the distribution of leading digits, you would expect from Benford’s law.</p>
 <ol style="list-style-type: decimal">
-<li>Go to the EBA website <a href="https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing" class="uri">https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing</a>
+<li><p>Go to the EBA website <a href="https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing" class="uri">https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing</a>
 and download the
 file Credit Risk IRB (<a href="https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv" class="uri">https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv</a>).
 You can do so by downloading the file, storing it locally and then read it into R or you can
-read it directly from the web.</li>
-<li>We want to study the distribution of leading digits in the Amounts reported in the EBA
-file of credit risk exposures. Now the csv file contains many different data from different
-contexts. We need first to filter the data. Let me give you a guideline how to filter the data
-and ask you to implement this filtering using the R skills you have learned in this
-lecture. Here is what you are asked to do: Select all rows where Scenario is equal to 1. Note
+read it directly from the web.</p></li>
+<li><p>We want to study the distribution of leading digits in the Amounts reported in the EBA
+file of credit risk exposures. Now the csv file contains many different data that all somehow
+belong to the EBA stress test. We would not like to check all data but only
+exposure data. We need first to filter the data to make sure we have a meaningful collection
+of exposure data for all the banks. The description of the data and the data dimensions is
+in the files <code>Metadata_TR.xlsx</code> and <code>Data_Dictionary.xlsx</code>. You are welcome to study these
+data in detail. It will probably need more time than you have available. They are also quite
+complicated. Since the aim of this project is not directly to understand the eba-data but to
+work with your R-concepts and probability concepts, let me guide you here how to filter
+these data in 10 sequential steps. Note that this sequencing is for didactical reasons
+only and for the
+purpose not to loose oversight. With routine and experience all these steps can be done in
+one go as well:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Extract all variables names, using the <code>names()</code>function.</li>
+<li>Select all rows where the Scenario variable has value 1. Note
 that the symbol you need in the R syntax for equal is <code>==</code>, the syntax is therefore
-<code>Scenario == 1</code>. You might check out the R-help entry <code>Comparison</code> for further details.
-We should select all rows where Country is not 0. For the variable Portfolio we have to use
-the match operator to require that Portfolio is in 1 or 2 (<code>Portfolio %in% c(1,2)</code>), for the
-IFRS9_Stages variable we have to require that it is in <code>c(1,2,3)</code>.
-All other Variables Exposure, Status, CR_guarantees and CR_exp_moratoria
-are set to 0. Finally we only look at non zero Amounts.</li>
-<li>Select the leading digits of the amounts and compare them with the theoretical frequencies
-from Benford’s law. Do the data look ok or suspicious?</li>
+<code>Scenario == 1</code>. You might check out the R-help entry <code>Comparison</code> for further details.</li>
+<li>From the resulting data-frame select all rows where the Country variable is not equal to 0. (hint: The not equal operator in the R syntax is <code>!=</code>). If you look into the Metadata-File
+you will see that 0 are all the aggregate exposures not broken down by country. Excluding
+these will give us country exposures.</li>
+<li>From the resulting data frame select all rows where the Portfolio variable has value 1 or 2.These codes describe the accounting rules under which the exposure values are reported,
+internal rating based (IRB) or standard approach (SA). As a hint you can use R’s subset
+operator <code>%in%</code> here so <code>Portfolio %in% c(1,2)</code> written with the approprate subsetting rule
+will select all rows where the Porfolio variable has value 1 or 2.</li>
+<li>From the resulting data frame choose all the rows where the Exposure variable is not 0.This
+gives again disaggregated numbers.</li>
+<li>From the resulting data frame choose all the rows where the Status variable has value 0.</li>
+<li>From the resulting data frame choose all the rows where the IFRS9_Stages variable has value 1,2, or 3.</li>
+<li>From the resulting data frame choose all the rows where the CR_guarantees variable is 0</li>
+<li>From the resulting data frame choose all the rows where the CR_exp_moratoria variable is 0.</li>
+<li>From the resulting data frame, drop all rows where the Amount variable is 0.</li>
+</ol></li>
+<li><p>Check the type of the Amount variable.</p></li>
+<li><p>Transform the Amount variable to type <code>numeric()</code></p></li>
+<li><p>Check for NA in the Amount variable in the resulting data frame and if you find any, remove them.</p></li>
+<li><p>Change the Amount variable from the actual unit of Million Euros to the unit of 1 Euro 1 Euro and throw
+away data smaller than 1 after this transformation.</p></li>
+<li><p>Select the leading digits from the Amount variable, using R’s string functions and add a
+variable with name LD to your data frame.</p></li>
+<li><p>Compare the empirical frequencies in the data with the theoretical frequencies
+from Benford’s law by creating an appropriate data frame. Do the data look ok or suspicious?</p></li>
 </ol>
 
 </div>

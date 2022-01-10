@@ -54,9 +54,20 @@ one go as well:
    (i) From the resulting data frame choose all the rows where the CR_exp_moratoria variable is 0.
    (j) From the resulting data frame, drop all rows where the Amount variable is 0.
 
+3. Check the type of the Amount variable.
 
-3. Select the leading digits of the amounts and compare them with the theoretical frequencies
-from Benford's law. Do the data look ok or suspicious?
+4. Transform the Amount variable to type `numeric()`
+
+5. Check for NA in the Amount variable in the resulting data frame and if you find any, remove them. 
+
+6. Change the Amount variable from the actual unit of Million Euros to the unit of 1 Euro 1 Euro and throw
+away data smaller than 1 after this transformation. 
+
+7. Select the leading digits from the Amount variable, using R's string functions and add a
+variable with name LD to your data frame. 
+
+8. Compare the empirical frequencies in the data with the theoretical frequencies
+from Benford's law by creating an appropriate data frame. Do the data look ok or suspicious?
 
 ```
 1. Go to the EBA website https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing
@@ -105,7 +116,7 @@ eba_data <- eba_data[eba_data$Scenario == 1, ]
 ```
 
 Explanation: Since our object name is `eba_data` we subset it by `eba_data[, ]$. The
-first slot adresses rows the scond slot addresses columns. We want to say: Take those rows
+first slot addresses rows the second slot addresses columns. We want to say: Take those rows
 where the column Scenario tales value 1. The column scenario is `eba_data$Scenario`. The
 filter condition is thus written in the row slot. The column slot is left blank because we
 want to have records for each variable. Note that without warning R has created here a new
@@ -190,3 +201,111 @@ This results in a new data frame with dimension:
 dim(eba_data)
 ```
 
+```
+3. Check the type of the Amount variable.
+
+```
+```{r check-type-of-Amount}
+typeof(eba_data$Amount)
+```
+
+Explanation: `typeof(eba_data$Amount)` checks the type of the variable and returns the actual
+type. We have reported amounts as strings of characters not as numerics in the data so far.
+
+
+```
+4. Transform the Amount variable to type `numeric()`
+```
+```{r change-type-of-Amount}
+eba_data$Amount <- as.numeric(eba_data$Amount)
+```
+
+```
+5. Check for NA in the Amount variable in the resulting data frame and if you find any, remove them. 
+```
+
+```{r type Amount}
+sum(is.na(eba_data$Amount))
+```
+
+Explanation: `is.na(eba_data$Amount)` returns a logical vector which is `TRUE` at the components 
+where the Amount variable has value `NA`and `FALSE`otherwise. Applying `sum()` to this vector
+coerces `TRUE`to 1 and `FALSE`to 0. If 0 there is no `NA` otherwise we have some, in particular we
+have 5763 instances of `NA`. This comes from the fact that some components in Amount contained
+the character `.` which returns `NA`if `as.numeric()`is applied to it. This seems clear, since
+after all `.` is a string which corresponds to no number.
+
+```{r remove-na-from-amount}
+eba_data <- na.omit(eba_data)
+```
+
+
+```
+6. Change the Amount variable from the actual unit of Million Euros to the unit of 1 Euro and throw
+away data smaller than 1 after this transformation.
+
+```
+```{r change-units-amount}
+eba_data$Amount <- eba_data$Amount*10^6
+```
+
+Explanation: If an amount is expressed in units of one million, one million Euro appears as 1. If
+we multiply by 10^6 this is expressed as 1 000 000. We transform the Amount variable in this way
+and overwrite the old variable by the values with the new units.
+
+```{r larger-than-0}
+eba_data <- eba_data[eba_data$Amount >= 1, ]
+```
+
+Explanation: We identify the values larger than 1 by logical subsetting of the Amount variable and
+select all these values from the data frame by selecting all rows where the Amount variable is
+larger than 1. 
+``` 
+7. Select the leading digits from the Amount variable, using R's string functions and add a
+variable with name LD to your data frame. 
+
+```
+
+```{r select-leading digit}
+eba_data$LD <- as.character(eba_data$Amount) |>
+   substr(1,1)
+```
+
+Explanation: We can extract the leading digit from a string of characters `x` by applying
+the `substr()` function, with arguments `1,1` to `x`. To operate with this logic on Amount, we have
+to transform the type of Amount back to character first. We then use the R-pipe to apply 
+substr to this new variables. The syntax is 
+equivalent to `substr(as.character(eba_data$Amount),1,1)`
+
+```
+8. Compare the empirical frequencies in the data with the theoretical frequencies
+from Benford's law. Do the data look ok or suspicious?
+```
+
+```{r compare-data}
+comptable <- as.data.frame(table(eba_data$LD)/length(eba_data$LD))
+names(comptable) <- c("Digit", "Freq")
+```
+
+Explanation: We tabulate the LD data using the R function `table()`. We divide each count by
+the number of observations using the `length()`function to get proportions. The output of this
+operation is then forced into a data frame and saved in the variable `comptable` we assign the 
+names `Digit`and `Freq` to the variables.
+
+```{r add-benford-frequencies}
+comptable$Freq_Benf <- log10(1 + 1/as.numeric(comptable$Digit))
+```
+
+Explanation: We add a new variable to our data frame using the formula for Benfords law for
+the distribution of digits $\{1,2,3,4,5,6,7,8,9\}$. Since we do a computation 
+with logs and division we have to be careful to change the type of our character numbers which are
+expressed as strings to numerical types first.
+
+```{r display}
+comptable
+```
+The digit distribution matches up very well. So from the perspective of Benford's law about
+the distribution of leading digits the EBA exposure data from the one data file we inspected
+here look perfectly ok and seem not to be cooked up in any way. Note that this does not mean
+that there are no problems in these data. This analysis jsut provides some first order
+evidence that the data seem not to be obviously manipulated or forged.

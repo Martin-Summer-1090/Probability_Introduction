@@ -1158,19 +1158,52 @@ and download the
 file Credit Risk IRB (https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv).
 You can do so by downloading the file, storing it locally and then read it into R or you can
 read it directly from the web.
+
 2. We want to study the distribution of leading digits in the Amounts reported in the EBA
-file of credit risk exposures. Now the csv file contains many different data from different
-contexts. We need first to filter the data. Let me give you a guideline how to filter the data
-and ask you to implement this filtering using the R skills you have learned in this
-lecture. Here is what you are asked to do: Select all rows where Scenario is equal to 1. Note
-that the symbol you need in the R syntax for equal is `==`, the syntax is therefore 
-`Scenario == 1`. You might check out the R-help entry `Comparison` for further details. 
-We should select all rows where Country is not 0. For the variable Portfolio we have to use
-the match operator to require that Portfolio is in 1 or 2 (`Portfolio %in% c(1,2)`), for the
-IFRS9_Stages variable we have to require that it is in `c(1,2,3)`. 
-All other Variables Exposure, Status, CR_guarantees and CR_exp_moratoria 
-are set to 0. Finally we only look at non zero Amounts.
-3. Select the leading digits of the amounts and compare them with the theoretical frequencies
-from Benford's law. Do the data look ok or suspicious?
+file of credit risk exposures. Now the csv file contains many different data that all somehow
+belong to the EBA stress test. We would not like to check all data but only
+exposure data. We need first to filter the data to make sure we have a meaningful collection
+of exposure data for all the banks. The description of the data and the data dimensions is 
+in the files `Metadata_TR.xlsx` and `Data_Dictionary.xlsx`. You are welcome to study these
+data in detail. It will probably need more time than you have available. They are also quite
+complicated. Since the aim of this project is not directly to understand the eba-data but to
+work with your R-concepts and probability concepts, let me guide you here how to filter 
+these data in 10 sequential steps. Note that this sequencing is for didactical reasons 
+only and for the 
+purpose not to loose oversight. With routine and experience all these steps can be done in
+one go as well:
+   (a) Extract all variables names, using the `names()`function.
+   (b) Select all rows where the Scenario variable has value 1. Note
+       that the symbol you need in the R syntax for equal is `==`, the syntax is therefore 
+       `Scenario == 1`. You might check out the R-help entry `Comparison` for further details.
+   (c) From the resulting data-frame select all rows where the Country variable is not equal to 0.        (hint: The not equal operator in the R syntax is `!=`). If you look into the Metadata-File
+       you will see that 0 are all the aggregate exposures not broken down by country. Excluding 
+       these will give us country exposures.
+   (d) From the resulting data frame select all rows where the Portfolio variable has value 1 or         2.These codes describe the accounting rules under which the exposure values are reported, 
+       internal rating based (IRB) or standard approach (SA). As a hint you can use R's subset
+       operator `%in%` here so `Portfolio %in% c(1,2)` written with the approprate subsetting rule
+       will select all rows where the Porfolio variable has value 1 or 2.
+   (e) From the resulting data frame choose all the rows where the Exposure variable is not 0.This
+       gives again disaggregated numbers.
+   (f) From the resulting data frame choose all the rows where the Status variable has value 0.
+   (g) From the resulting data frame choose all the rows where the IFRS9_Stages variable has value        1,2, or 3.
+   (h) From the resulting data frame choose all the rows where the CR_guarantees variable is 0
+   (i) From the resulting data frame choose all the rows where the CR_exp_moratoria variable is 0.
+   (j) From the resulting data frame, drop all rows where the Amount variable is 0.
+
+3. Check the type of the Amount variable.
+
+4. Transform the Amount variable to type `numeric()`
+
+5. Check for NA in the Amount variable in the resulting data frame and if you find any, remove them. 
+
+6. Change the Amount variable from the actual unit of Million Euros to the unit of 1 Euro 1 Euro and throw
+away data smaller than 1 after this transformation. 
+
+7. Select the leading digits from the Amount variable, using R's string functions and add a
+variable with name LD to your data frame. 
+
+8. Compare the empirical frequencies in the data with the theoretical frequencies
+from Benford's law by creating an appropriate data frame. Do the data look ok or suspicious?
 
 
