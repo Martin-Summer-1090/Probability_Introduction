@@ -273,6 +273,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="6.1" data-path="appendix.html"><a href="appendix.html#asset-price-models-and-asset-price-data-what-you-need-to-keep-in-mind."><i class="fa fa-check"></i><b>6.1</b> Asset price models and asset price data: What you need to keep in mind.</a></li>
 <li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#further-reading"><i class="fa fa-check"></i><b>6.2</b> Further Reading</a></li>
+<li class="chapter" data-level="6.3" data-path="appendix.html"><a href="appendix.html#worked-solutions-for-projects"><i class="fa fa-check"></i><b>6.3</b> Worked Solutions for Projects</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -640,7 +641,7 @@ we can roll our die on the computer and conduct actual random experiments.</p>
 as arguments a vector names <code>x</code> and a number named <code>size</code>. <code>sample</code> will return
 <code>size</code> elements randomly chosen from the vector <code>x</code>. Lets say:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="first-steps.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] 1 4</code></pre>
+<pre><code>## [1] 4 2</code></pre>
 <p>In this case <code>sample</code> has chosen <code>4,1</code> from the vector <code>x = (1,2,3,4)</code> at random.</p>
 <p>If we want
 to roll the die in our computer we can thus pass the die as an argument to <code>sample</code> and
@@ -648,11 +649,11 @@ use the number <code>1</code> for the <code>size</code> argument. Lets do a few 
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="first-steps.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="first-steps.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="first-steps.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="first-steps.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="first-steps.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
+<pre><code>## [1] 5</code></pre>
 <p>These are the random outcomes of our consecutive rolls. It is as if we had thrown an
 actual die but in this case we have done the same thing on the computer. Isn’t it cool that
 this is possible at all? The <code>sample()</code> function will remain our good friend throughout this
@@ -664,7 +665,7 @@ the data. Names help us to avoid passing the wrong
 data and thereby mixing up things or committing errors. But using names is not
 necessary. If we just wrote</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="first-steps.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(die,<span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 4</code></pre>
 <p>R would also know what to do. It is not always clear which names to use
 for a function. If you are
 not sure, you can use the function <code>args()</code> to look it up. Here we take the
@@ -696,15 +697,15 @@ have to write the actual code within the braces <code>{}</code>.</p>
 <span id="cb51-2"><a href="first-steps.html#cb51-2" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">sample</span>(die, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now we can roll our die for a few times to show how the function works</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="first-steps.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
+<pre><code>## [1] 1</code></pre>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="first-steps.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="first-steps.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="first-steps.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="first-steps.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="first-steps.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="first-steps.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
 <p>Note that in our function <code>roll_die()</code> has no arguments, just the function body. This is
 perfectly legitimate in R. It is important that when we call the function we have to call it
 with the parenthesis like <code>roll_die()</code>. If we only call the name <code>roll_die</code>, R will display the
@@ -749,13 +750,13 @@ function. Lets do this:</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="first-steps.html#cb65-1" aria-hidden="true" tabindex="-1"></a>roll_die2 <span class="ot">&lt;-</span> <span class="cf">function</span>(ball){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now the function will work as long as we supply <code>ball</code> when we call the function.</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="first-steps.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die2</span>(<span class="at">ball =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code></pre></div>
-<pre><code>## [1] 6</code></pre>
+<pre><code>## [1] 2</code></pre>
 <p>Note that we still get an error, if we forget to supply ball argument.
 This could be avoided if we give the function a default argument</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="first-steps.html#cb68-1" aria-hidden="true" tabindex="-1"></a>roll_die2 <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ball=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now if we type:</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="first-steps.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die2</span>()</span></code></pre></div>
-<pre><code>## [1] 3</code></pre>
+<pre><code>## [1] 4</code></pre>
 <p>everything works, just as intended.</p>
 </div>
 <div id="scripts" class="section level3" number="1.2.6">
@@ -1086,7 +1087,7 @@ at the moment.</p>
 <p>In the numerator I ask R to count the number of 0s (no birthday collisions) in the object
 <code>simprobs_23</code> and then I divide it by 10000, just as in the definition of relative frequency probability. Then I compute 1 minus this relative frequency</p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="first-steps.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_23[simprobs_23 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">10000</span></span></code></pre></div>
-<pre><code>## [1] 0.506</code></pre>
+<pre><code>## [1] 0.5071</code></pre>
 <p>Voila, this is pretty good, isn’t it? Remember that the analytical solution we just got a bit
 earlier was <code>0.5072972</code></p>
 <p>Isn’t this cool? Instead of using formal reasoning we built a random experiment on the
@@ -1100,7 +1101,7 @@ stitch all steps together.</p>
 <span id="cb89-4"><a href="first-steps.html#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb89-5"><a href="first-steps.html#cb89-5" aria-hidden="true" tabindex="-1"></a>simprobs_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100000</span>, <span class="fu">sim_50</span>())</span>
 <span id="cb89-6"><a href="first-steps.html#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_50[simprobs_50 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">100000</span></span></code></pre></div>
-<pre><code>## [1] 0.97043</code></pre>
+<pre><code>## [1] 0.9709</code></pre>
 <p>Pretty amazing! Before we got the exact value as <code>0.9703736</code>.</p>
 <p>But now let us stay still with the birthday problem but now get away from this playful
 application to something really serious: Cryptography.</p>
