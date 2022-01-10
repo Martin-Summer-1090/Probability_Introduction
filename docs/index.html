@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>An Introduction to Probability</title>
+  <meta name="description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="An Introduction to Probability" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="An Introduction to Probability" />
+  
+  <meta name="twitter:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Martin Summer" />
+
+
+<meta name="date" content="2022-01-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="first-steps.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/box.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">An Introduction to Probability Theory</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-are-these-lecture-notes-about"><i class="fa fa-check"></i>What are these lecture notes about</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#downloading-and-installing-r"><i class="fa fa-check"></i>Downloading and installing R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#downloading-and-installing-rstudio"><i class="fa fa-check"></i>Downloading and installing RStudio</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-notes"><i class="fa fa-check"></i>Structure of the Notes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#references"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="first-steps.html"><a href="first-steps.html"><i class="fa fa-check"></i><b>1</b> First probability ideas and first steps in R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="first-steps.html"><a href="first-steps.html#rolling-a-die"><i class="fa fa-check"></i><b>1.1</b> Rolling a die: First Probability ideas.</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="first-steps.html"><a href="first-steps.html#random-experiments-sample-space-events"><i class="fa fa-check"></i><b>1.1.1</b> Random experiments, sample space, events</a></li>
+<li class="chapter" data-level="1.1.2" data-path="first-steps.html"><a href="first-steps.html#the-role-and-nature-of-idealizations-in-applications"><i class="fa fa-check"></i><b>1.1.2</b> The role and nature of idealizations in applications</a></li>
+<li class="chapter" data-level="1.1.3" data-path="first-steps.html"><a href="first-steps.html#classical-probability"><i class="fa fa-check"></i><b>1.1.3</b> Classical Probability: Measuring uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="first-steps.html"><a href="first-steps.html#rolling-die-on-computer"><i class="fa fa-check"></i><b>1.2</b> Rolling a die on the computer: First steps in R</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="first-steps.html"><a href="first-steps.html#r-interface"><i class="fa fa-check"></i><b>1.2.1</b> The R User Interface</a></li>
+<li class="chapter" data-level="1.2.2" data-path="first-steps.html"><a href="first-steps.html#objects"><i class="fa fa-check"></i><b>1.2.2</b> Objects</a></li>
+<li class="chapter" data-level="1.2.3" data-path="first-steps.html"><a href="first-steps.html#functions"><i class="fa fa-check"></i><b>1.2.3</b> Functions</a></li>
+<li class="chapter" data-level="1.2.4" data-path="first-steps.html"><a href="first-steps.html#writing_your_own_functions"><i class="fa fa-check"></i><b>1.2.4</b> Writing your own functions</a></li>
+<li class="chapter" data-level="1.2.5" data-path="first-steps.html"><a href="first-steps.html#arguments"><i class="fa fa-check"></i><b>1.2.5</b> Arguments</a></li>
+<li class="chapter" data-level="1.2.6" data-path="first-steps.html"><a href="first-steps.html#scripts"><i class="fa fa-check"></i><b>1.2.6</b> Scripts</a></li>
+<li class="chapter" data-level="1.2.7" data-path="first-steps.html"><a href="first-steps.html#packages_help"><i class="fa fa-check"></i><b>1.2.7</b> Using packages and finding Help</a></li>
+<li class="chapter" data-level="1.2.8" data-path="first-steps.html"><a href="first-steps.html#packages"><i class="fa fa-check"></i><b>1.2.8</b> Packages</a></li>
+<li class="chapter" data-level="1.2.9" data-path="first-steps.html"><a href="first-steps.html#getting_help"><i class="fa fa-check"></i><b>1.2.9</b> Getting Help</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="first-steps.html"><a href="first-steps.html#coincidences"><i class="fa fa-check"></i><b>1.3</b> Application: Coincidences and the Blockchain</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="first-steps.html"><a href="first-steps.html#birthday_problem"><i class="fa fa-check"></i><b>1.3.1</b> The birthday problem</a></li>
+<li class="chapter" data-level="1.3.2" data-path="first-steps.html"><a href="first-steps.html#an-r-function-to-compute-birthday-probabilities"><i class="fa fa-check"></i><b>1.3.2</b> An R function to compute birthday probabilities</a></li>
+<li class="chapter" data-level="1.3.3" data-path="first-steps.html"><a href="first-steps.html#determining-birthday-collisions-by-simulation"><i class="fa fa-check"></i><b>1.3.3</b> Determining birthday collisions by simulation</a></li>
+<li class="chapter" data-level="1.3.4" data-path="first-steps.html"><a href="first-steps.html#hashfunctions"><i class="fa fa-check"></i><b>1.3.4</b> Hash-functions and the blockchain</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="first-steps.html"><a href="first-steps.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
+<li class="chapter" data-level="1.5" data-path="first-steps.html"><a href="first-steps.html#project-1-craps-a-casion-dice-game."><i class="fa fa-check"></i><b>1.5</b> Project 1: Craps: A casion dice game.</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-rules.html"><a href="basic-rules.html"><i class="fa fa-check"></i><b>2</b> Probability: Basic Definitions and Rules</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basic-rules.html"><a href="basic-rules.html#terminology"><i class="fa fa-check"></i><b>2.1</b> Terminology</a></li>
+<li class="chapter" data-level="2.2" data-path="basic-rules.html"><a href="basic-rules.html#probability-theory-and-applications"><i class="fa fa-check"></i><b>2.2</b> Probability in theory and applications of probability</a></li>
+<li class="chapter" data-level="2.3" data-path="basic-rules.html"><a href="basic-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>2.3</b> Basic rules of probability</a></li>
+<li class="chapter" data-level="2.4" data-path="basic-rules.html"><a href="basic-rules.html#frequency"><i class="fa fa-check"></i><b>2.4</b> Probability and Frequency</a></li>
+<li class="chapter" data-level="2.5" data-path="basic-rules.html"><a href="basic-rules.html#independence"><i class="fa fa-check"></i><b>2.5</b> Independence</a></li>
+<li class="chapter" data-level="2.6" data-path="basic-rules.html"><a href="basic-rules.html#moreR"><i class="fa fa-check"></i><b>2.6</b> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="basic-rules.html"><a href="basic-rules.html#readingdata"><i class="fa fa-check"></i><b>2.6.1</b> Reading data in R</a></li>
+<li class="chapter" data-level="2.6.2" data-path="basic-rules.html"><a href="basic-rules.html#robjects"><i class="fa fa-check"></i><b>2.6.2</b> R objects</a></li>
+<li class="chapter" data-level="2.6.3" data-path="basic-rules.html"><a href="basic-rules.html#apple-up-down"><i class="fa fa-check"></i><b>2.6.3</b> Example: Will the stock price of Apple move up or down?</a></li>
+<li class="chapter" data-level="2.6.4" data-path="basic-rules.html"><a href="basic-rules.html#benford"><i class="fa fa-check"></i><b>2.6.4</b> Example: Benfords law: The empirical probabilities of leading digits</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="basic-rules.html"><a href="basic-rules.html#summary-lecture-2"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
+<li class="chapter" data-level="2.8" data-path="basic-rules.html"><a href="basic-rules.html#project2"><i class="fa fa-check"></i><b>2.8</b> Project 2: Should we trust European supervisory bank data?</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>3</b> Conditional Probability</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="conditional-probability.html"><a href="conditional-probability.html#contingency-tables"><i class="fa fa-check"></i><b>3.1</b> Contingency tables</a></li>
+<li class="chapter" data-level="3.2" data-path="conditional-probability.html"><a href="conditional-probability.html#marginal-joint-and-conditional-probability"><i class="fa fa-check"></i><b>3.2</b> Marginal, joint and conditional probability</a></li>
+<li class="chapter" data-level="3.3" data-path="conditional-probability.html"><a href="conditional-probability.html#the-multiplication-rule"><i class="fa fa-check"></i><b>3.3</b> The multiplication rule</a></li>
+<li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>3.4</b> Law of total probability</a></li>
+<li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.5</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
+<li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.6</b> Bayes’ Rule</a></li>
+<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#example-the-importance-of-updating-in-investing"><i class="fa fa-check"></i><b>3.7</b> Example The Importance of Updating in Investing</a></li>
+<li class="chapter" data-level="3.8" data-path="conditional-probability.html"><a href="conditional-probability.html#project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation"><i class="fa fa-check"></i><b>3.8</b> Project: Analyzing the performance of bidding strategies in the investment game using simulation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="random-variables.html"><a href="random-variables.html#discrete-distributions"><i class="fa fa-check"></i><b>4.1</b> Discrete Distributions</a></li>
+<li class="chapter" data-level="4.2" data-path="random-variables.html"><a href="random-variables.html#expected-value"><i class="fa fa-check"></i><b>4.2</b> Expected value</a></li>
+<li class="chapter" data-level="4.3" data-path="random-variables.html"><a href="random-variables.html#variation"><i class="fa fa-check"></i><b>4.3</b> Variation</a></li>
+<li class="chapter" data-level="4.4" data-path="random-variables.html"><a href="random-variables.html#random-variables-the-cornerstone-for-modeling-investments-under-uncertainty"><i class="fa fa-check"></i><b>4.4</b> Random variables: The cornerstone for modeling investments under uncertainty</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="random-variables.html"><a href="random-variables.html#asset-return"><i class="fa fa-check"></i><b>4.4.1</b> Asset return</a></li>
+<li class="chapter" data-level="4.4.2" data-path="random-variables.html"><a href="random-variables.html#random-asset-returns"><i class="fa fa-check"></i><b>4.4.2</b> Random asset returns</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="random-variables.html"><a href="random-variables.html#modelling-random-asset-returns-first-steps-in-r-programing"><i class="fa fa-check"></i><b>4.5</b> Modelling random asset returns: First steps in R programing</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="random-variables.html"><a href="random-variables.html#a-strategy-for-writing-a-program"><i class="fa fa-check"></i><b>4.5.1</b> A strategy for writing a program</a></li>
+<li class="chapter" data-level="4.5.2" data-path="random-variables.html"><a href="random-variables.html#if-statements-and-if-else-statements"><i class="fa fa-check"></i><b>4.5.2</b> if Statements and if-else Statements</a></li>
+<li class="chapter" data-level="4.5.3" data-path="random-variables.html"><a href="random-variables.html#portfolios-and-linear-algebra"><i class="fa fa-check"></i><b>4.5.3</b> Portfolios and linear algebra</a></li>
+<li class="chapter" data-level="4.5.4" data-path="random-variables.html"><a href="random-variables.html#lookup-tables"><i class="fa fa-check"></i><b>4.5.4</b> Lookup Tables</a></li>
+<li class="chapter" data-level="4.5.5" data-path="random-variables.html"><a href="random-variables.html#writing-the-outcome-program"><i class="fa fa-check"></i><b>4.5.5</b> Writing the outcome program</a></li>
+<li class="chapter" data-level="4.5.6" data-path="random-variables.html"><a href="random-variables.html#for-loops"><i class="fa fa-check"></i><b>4.5.6</b> for Loops</a></li>
+<li class="chapter" data-level="4.5.7" data-path="random-variables.html"><a href="random-variables.html#portfolio-expected-return-and-variance"><i class="fa fa-check"></i><b>4.5.7</b> Portfolio expected Return and Variance</a></li>
+<li class="chapter" data-level="4.5.8" data-path="random-variables.html"><a href="random-variables.html#properties-of-expected-returns-and-portfolio-expected-return"><i class="fa fa-check"></i><b>4.5.8</b> Properties of expected returns and portfolio expected return</a></li>
+<li class="chapter" data-level="4.5.9" data-path="random-variables.html"><a href="random-variables.html#properties-of-variance-and-portfolio-variance"><i class="fa fa-check"></i><b>4.5.9</b> Properties of variance and portfolio variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="random-variables.html"><a href="random-variables.html#the-binomial-distribution-and-models-of-asset-price-dynamics"><i class="fa fa-check"></i><b>4.6</b> The Binomial Distribution and models of asset price dynamics</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="random-variables.html"><a href="random-variables.html#the-binomial-distribution-in-applied-computational-finance"><i class="fa fa-check"></i><b>4.6.1</b> The binomial distribution in applied computational Finance</a></li>
+<li class="chapter" data-level="4.6.2" data-path="random-variables.html"><a href="random-variables.html#bernoulli-random-variables-as-a-building-block-of-the-binomial-distribution"><i class="fa fa-check"></i><b>4.6.2</b> Bernoulli random variables as a building block of the binomial distribution</a></li>
+<li class="chapter" data-level="4.6.3" data-path="random-variables.html"><a href="random-variables.html#modeling-asset-price-dynamics-with-binomial-trees"><i class="fa fa-check"></i><b>4.6.3</b> Modeling asset price dynamics with binomial trees</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>4.7</b> Project: Credit risk model and independence based on Schönbucher</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>5</b> Continuous random variables</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#continuous-random-variables-and-probability"><i class="fa fa-check"></i><b>5.1</b> Continuous random variables and probability</a></li>
+<li class="chapter" data-level="5.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>5.2</b> Normal Distribution</a></li>
+<li class="chapter" data-level="5.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#inverse-normal-and-quantiles"><i class="fa fa-check"></i><b>5.3</b> Inverse Normal and Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#example-value-at-risk-and-the-problem-of-fat-tails"><i class="fa fa-check"></i><b>5.4</b> Example Value at Risk and the problem of fat tails</a></li>
+<li class="chapter" data-level="5.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#more-than-one-normal-random-variable"><i class="fa fa-check"></i><b>5.5</b> More than one normal random variable</a></li>
+<li class="chapter" data-level="5.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#binomial-trees-and-the-normal-distribution-how-to-make-your-r-code-fast-and-efficient"><i class="fa fa-check"></i><b>5.6</b> Binomial trees and the normal distribution: How to make your R code fast and efficient</a></li>
+<li class="chapter" data-level="5.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#project-portfolio-credit-risk-with-dependent-defaults"><i class="fa fa-check"></i><b>5.7</b> Project: Portfolio credit risk with dependent defaults</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="6" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>6</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="appendix.html"><a href="appendix.html#asset-price-models-and-asset-price-data-what-you-need-to-keep-in-mind."><i class="fa fa-check"></i><b>6.1</b> Asset price models and asset price data: What you need to keep in mind.</a></li>
+<li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#further-reading"><i class="fa fa-check"></i><b>6.2</b> Further Reading</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">An Introduction to Probability</h1>
+<h2 class="subtitle"><em>With Applications to Computational Finance using R</em></h2>
+<p class="author"><em>Martin Summer</em></p>
+<p class="date" style="margin-top: 1.5em;"><em>2022-01-10</em></p>
+</div>
+<div id="preface" class="section level1 unnumbered">
+<h1>Preface</h1>
+<blockquote>
+<p>“What I hear, I forget; What I see, I remember; What I do, I understand”</p>
+<footer>
+— Confucius, 551-479 BC
+</footer>
+</blockquote>
+<div id="what-are-these-lecture-notes-about" class="section level2 unnumbered">
+<h2>What are these lecture notes about</h2>
+<p>These lecture notes support the course <strong>An Introduction to Probability - with Applications to Computational Finance using R</strong>.
+Our lectures are going to teach you basic concepts of probability every finance
+practitioner needs to know and be familiar with. Because you will need
+probability as a tool for thinking about and solving finance problems with
+computational methods, we will use computational finance as the context within
+which we develop the concepts and ideas of probability. But we will also
+make much use of the computer in this course: Our approach to teaching you
+basic concepts of probability is based on understanding concepts by building
+them with your own hands.</p>
+<p>But how can we build abstract concepts such as probability, random phenomena and chance by
+our own hands?
+While probability is a mathematical theory, it gains practical value and an intuitive meaning in
+connection with real or conceptual experiments such as, the future change in a stock price
+index, the future value of a portfolio of securities, the chance that a creditor is not going
+to be able to pay back your loan.</p>
+<p>Many of these experiments we can nowadays simulate on the computer. We
+can can construct, build and simulate a huge variety of random phenomena. We can - for instance -
+implement models of random fluctuations of asset prices. We can model financial risks
+and contemplate possible future scenarios through simulation.</p>
+<p>The arrival of the computer has been indeed a sea change for the mathematics of probability
+because it allows both reflecting about probability through theorems and proofs as well as
+by making use of computer simulation.
+We can approach our understanding of abstract concepts
+by building them with our own hands on the computer. This is the approach to teaching you
+probability in this course.</p>
+<p>It is, however important to always keep in mind that the
+real world is different from the theory world as well as from
+the simulated world. The real world is both richer
+and more complex than both theory and simulation. It may contain features which need to be be
+taken into account for the
+explanation of phenomena which are absent in theory or in
+the simulation. We will try our best to develop
+your feeling for the difference, between theoretical concepts, simulations and applications as well
+as for the interdependence of these three areas.</p>
+<p>There are many ways to build virtual objects and to run simulations to manipulate
+them. For this we will need a programming language. The language we choose for this
+course is R and the integrated development environment RStudio. This is one of the main
+languages used in data analysis, statistics and data science and is widely used in industry and
+academia. It will be our tool to do probability in this course.</p>
+</div>
+<div id="downloading-and-installing-r" class="section level2 unnumbered">
+<h2>Downloading and installing R</h2>
+<p>So lets start by downloading and installing R first. R is an open source project maintained
+by an international team of developers. The software is made available through a website called
+the comprehensive R archive network (<a href="http://cran.r-project.org" class="uri">http://cran.r-project.org</a>).</p>
+<p>At the top of this website, in a box named “Download and install R” you will find three
+links for downloading R. Choose the link that describes your operating system, Windows, Mac or
+Linux. These links will lead you to the necessary information you need to install a current
+version of R. The easiest install option is to install R from precompiled binaries. There is also
+the option to built R from source on all operating systems if you have the tools and the
+expertise to do so. R also comes both in a 32-bit and a 64-bit version. It does not make
+a substantial difference which version you use. 64-bit versions
+can handle larger files and data sets with fewer memory management problems.</p>
+</div>
+<div id="downloading-and-installing-rstudio" class="section level2 unnumbered">
+<h2>Downloading and installing RStudio</h2>
+<p>RStudio is an application that helps you write and develop R code. It makes using
+R much easier for you than using it in isolation. The interface of RStudio looks the
+same across all operating systems.</p>
+<p>You can download RStudio for free from <a href="https://www.rstudio.com/products/rstudio/" class="uri">https://www.rstudio.com/products/rstudio/</a>.
+Select the box RStudio Desktop and follow the download instructions. RStudio Desktop is free.
+Note that you need to have a version of R installed to use RStudio.</p>
+<p>If you have successfully installed R and RStudio, we are ready to start.</p>
+</div>
+<div id="prerequisites" class="section level2 unnumbered">
+<h2>Prerequisites</h2>
+<p>This course is built as an intuitive and elementary introduction to the field. No knowledge
+of probability or R is assumed and all concepts are built from scratch. You should be able to study for this course by relying on the slides
+and these lecture notes only without having to consult a textbook
+or further literature.</p>
+<p>Many of you will
+have heard or studied probability at some stage in college or at university. I hope the
+course will appeal to the newcomers as well as to the experienced. While it should allow the first
+group to quickly learn some of the most important concepts and raise your curiosity and
+excitement about a field of knowledge which is both beautiful and immensely practical, I hope it
+will open a new perspective for the more experienced among you and thus help deepening
+your understanding of concepts you might already have heard elsewhere.</p>
+<p>The lectures develop probability concepts and R concepts in
+parallel. This follows the idea underlying this course to develop
+your knowledge of probability concepts by building them on the
+computer yourself and play with them. In this way we hope to build
+your R skills more thoroughly because they appear in a natural
+context and that this context also reinforces your understanding
+of probability.</p>
+</div>
+<div id="structure-of-the-notes" class="section level2 unnumbered">
+<h2>Structure of the Notes</h2>
+<p>The notes are structured into five main chapters. The idea is to cover
+each main chapter topic in one of the five double units allocated to
+this course.</p>
+<p>Each of the main chapters or lectures are followed by a so called
+<em>project</em>. The projects are meant to be worked on by you in the
+assigned groups between the lectures and should help you
+to practice and to deepen what you have learned. We will discuss
+the project questions at the end of each lecture. We will also
+distribute a worked problem after you have worked on it yourself.</p>
+<p>We begin the first lecture, <strong>lecture 1</strong> by discussing
+some of the main basic
+probability fundamentals by putting them in their historical context
+where the first ideas appear of how you could measure something such
+elusive as <em>chance</em> at all. Surprisingly these first simple ideas
+are already very rich and lead us quite far into the field and its
+problems.</p>
+<p>In this lecture we will also give a first panoramic run
+down of what you can do with R. In this lecture the first
+application will be a simple game of chance, the rolling of a dice.
+This is the only
+non directly finance related example discussed at length in this
+course but as we go along you will recognize that dice games
+and investment problems, for example, are not all that far apart
+really, at least with respect to their probabilistic structure and
+how you can model it.</p>
+<p>But even the very basic ideas of probability and R enable us, already
+at this early stage, to take on a serious real world
+problem as well. In fact, we can already at this early stage
+study and understand problems of the chance of coincidences. This
+class of problems is at the heart of the science of constructing
+cryptographically safe
+finger prints, so called hash-functions, which are at the heart of
+crypto-currencies such as Bitcoin.</p>
+<p>The first project will deal
+with a classical dice game, which you can also play at the casino,
+the game of <em>craps</em>. While a toy game, it has much parallels with
+investment problems and builds the first skills that will later
+help you in analyzing investment problems.</p>
+<p><strong>Lecture 2</strong> will introduce the first basic ideas a bit more
+formally and also generalize them. In particular it explains the
+basic ideas of how probability and frequencies of chance events are related.
+We will discuss the power as well as
+the limits of these ideas for applied work in probability.</p>
+<p>In this lecture we will explain in detail how you can
+use R to read, store and manipulate data. We also
+start working with stock market data and randomly fluctuating
+asset prices and discuss how we can deepen our understanding of them
+using probability and R.</p>
+<p>Project 2 will help you to train and practice your
+understanding of data manipulation in R by analyzing a real world
+supervisory data set from the European Banking
+Authority EBA. We will
+use a really cool empirical probability pattern on the empirical frequency of leading
+digits - Benford’s law -
+for checking whether
+the data could be trusted or do look fishy on purely probabilistic
+grounds.</p>
+<p>In <strong>Lecture 3</strong> we will learn about the key concept of conditional
+probability. This lecture contains lots of concepts but it is also
+of key importance for understanding many problems in Finance and
+the management of financial risks. We will explain how the
+misunderstanding or perhaps willful ignorance of the concept of
+<em>dependence</em> is at the root of the big financial crisis of 2007-2008.
+We will also learn, how updating your probability assessments in the light of
+new data is important for
+investment decisions.</p>
+<p>On top of this directly practical
+considerations, we will also learn how this particular problem of
+updating probability assessments in the light of new information helps
+us close a conceptual gap in the pure frequency interpretations of
+probability.</p>
+<p>In terms of R this lecture gives you a bit of a break
+in the sense that it applies what we have learned before and
+thereby reinforces what we have already learned. It will introduce
+some useful techniques and functions along the way.</p>
+<p>In project 3 you will
+deepen your understanding of how probability updating works and how
+its sound understanding can make a real difference for the
+success of investment decisions.</p>
+<p><strong>Lecture 4</strong> will introduce you more precisely to the key
+probabilistic model of random returns and other random phenomena
+in Finance: The concept of a random variable and the concepts of
+expected value, variance, standard deviation,
+covariance and correlation. We will discuss at length the modelling
+of random returns and learn about the basic workhorse model of asset
+price dynamics, the binomial lattice.</p>
+<p>This discussion gives us also
+the appropriate context to discuss how to write programs in R and
+some of the principles and constructions that are most useful for
+this task.</p>
+<p>In the project for lecture 4 you will learn about how you
+can apply the ideas of random variables and the binomial distribution
+to deepen your understanding of credit risk.</p>
+<p>The final <strong>Lecture 5</strong> discusses the concept of continuous random
+variables, which is very important for a large body of applied work. You will
+be introduced to the normal distribution and its power and limits
+for modelling random returns and financial risks.</p>
+<p>In terms of R this
+lecture will provide a good context for discussing what matters when
+you want to make your R code fast and efficient.</p>
+<p>The last project will
+then allow us to connect all the concepts of the five lectures with
+the project following lecture 4 to get a somewhat realistic and
+practically useful model for analyzing and managing credit risk.</p>
+</div>
+<div id="acknowledgements" class="section level2 unnumbered">
+<h2>Acknowledgements</h2>
+<p>I would like to thank my friend and colleague Branko Urošević that he
+entrusted me to develop this course for his new and innovative program
+in computational finance.</p>
+<p>I am very grateful for the opportunity to make a contribution to this
+effort and for all the encouragement, support and advice I got from
+him for this project. Of course he bears no responsibility whatsoever for
+any shortcomings of these lecture notes.</p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<p>When you teach such a fundamental field as probability theory and its
+applications in Finance you teach from a core knowledge that has
+been built by many pioneers, experts and other teachers in this area.
+In this sense nothing contained in this course is original work. The
+only contribution a teacher can make is the way how the material is
+presented and combined. In this sense these lecture notes are nothing but
+a collection of well known and time tested material as well as an
+experiment in yet one more, hopefully innovative exposition.</p>
+<p>But even in this field I have copied and recycled a lot
+from the teaching materials and collective wisdom of
+other colleagues whose examples and problems I found particularly
+helpful. Without any claim to completeness let me briefly go through
+the sources I have relied on most strongly when developing this course.</p>
+<p>With respect to probability theory two sources have influenced me
+most and I have followed their example extensively in this course:
+William Fellers “An introduction to probability
+theory and its applications volume 1.” which first appeared in 1957.
+(<span class="citation"><a href="#ref-Feller1968" role="doc-biblioref">Feller</a> (<a href="#ref-Feller1968" role="doc-biblioref">1968</a>)</span>). While really old
+by now it is still in my view one of the most outstanding
+reference with respect to exposition and clarity of explanation as well as
+an inspiring source of enthusiasm for the subject. I just would like to mention as an
+aside that Feller (born Vilibald Srećko Feller) was a Croatian emigrant to
+first Germany and then the US in the 1930ies. You might claim him as a citizen of Croatia,
+former Yugoslavia or even Austria, since when he was born in 1906, what is now
+Croatia was still a part of the Austrian-Hungarian empire.</p>
+<p>My second most important
+source for this course in terms of probability was
+Karl Schmedder’s course “An intuitive introduction to
+probabiliy,” which Karl developed for the online platform
+Coursera. I consider this course an outstanding didactical
+achievement and masterpiece. If you find this lectures fun, I can only
+encourage you to also do the course on Coursera, when you find time. It is
+for a reason that Karl’s course is the mostly viewed
+Coursera course from Switzerand.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>In terms of R and R
+programming I have followed and copied a lot from Garett
+Grolemund’s excellent book “Hands on programming with R.”(<span class="citation"><a href="#ref-Grolemund2014" role="doc-biblioref">Grolemund</a> (<a href="#ref-Grolemund2014" role="doc-biblioref">2014</a>)</span>) I
+encourage you to study this book. From it I have not
+only learned about one of the most excellent explanations of R concepts but also
+the insight that these concepts are best explained within a very
+concrete and non trivial application context rather than in a
+patchy series of toy examples. The dice example in
+lecture 1 is directly from Garett’s book, the
+rest is adaptions and transfers to
+a Finance context. Garrett’s book has some really
+fun gambling applications as the context for using
+and explaining R concepts.</p>
+<p>With respect to Finance
+and investments I have relied on the excellent
+book by David Luenberger, “Investment Science.” (<span class="citation"><a href="#ref-Luenberger2009" role="doc-biblioref">Luenberger</a> (<a href="#ref-Luenberger2009" role="doc-biblioref">2009</a>)</span>) If you
+can get a hold of this fantastic work, I can only encourage you to get one
+and have it on your shelf. It is a role model of
+clarity of exposition and has much more to offer
+than we can cover in this book.</p>
+<p>Finally with
+respect to the history and the interpretations of
+probability, I have learned the most form the
+excellent book “10 great ideas about chance,” by Persi
+Diaconis and Brian Skyrms. (<span class="citation"><a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">Diaconis and Skyrms</a> (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span>) If you find probability
+interesting or even fascinating I encourage you
+to read this book at some stage, if you find time. It is full
+of highly interesting philosophical, mathematical, historical and fun
+facts and ideas about this very rich subject.</p>
+<p>But now, lets get straight down to the matter at hand.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-DiaconisSkyrms2019" class="csl-entry">
+Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. Princeton University Press.
+</div>
+<div id="ref-Feller1968" class="csl-entry">
+Feller, William. 1968. <em>An Introduction to Probability Theory and Its Applications</em>. 3rd ed. Vol. 1. Wiley.
+</div>
+<div id="ref-Grolemund2014" class="csl-entry">
+Grolemund, Garrett. 2014. <em>Hands on Programming with <span>R</span></em>. O’Reilly. <a href="https://rstudio-education.github.io/hopr/">https://rstudio-education.github.io/hopr/</a>.
+</div>
+<div id="ref-Luenberger2009" class="csl-entry">
+Luenberger, David. 2009. <em>Investment Science</em>. Oxford University Press.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>See <a href="https://www.coursera.org/learn/introductiontoprobability" class="uri">https://www.coursera.org/learn/introductiontoprobability</a><a href="index.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="first-steps.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

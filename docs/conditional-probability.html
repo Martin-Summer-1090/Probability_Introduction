@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Conditional Probability | An Introduction to Probability</title>
+  <meta name="description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Conditional Probability | An Introduction to Probability" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Conditional Probability | An Introduction to Probability" />
+  
+  <meta name="twitter:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Martin Summer" />
+
+
+<meta name="date" content="2022-01-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="basic-rules.html"/>
+<link rel="next" href="random-variables.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/box.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">An Introduction to Probability Theory</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-are-these-lecture-notes-about"><i class="fa fa-check"></i>What are these lecture notes about</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#downloading-and-installing-r"><i class="fa fa-check"></i>Downloading and installing R</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#downloading-and-installing-rstudio"><i class="fa fa-check"></i>Downloading and installing RStudio</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-notes"><i class="fa fa-check"></i>Structure of the Notes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#references"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="first-steps.html"><a href="first-steps.html"><i class="fa fa-check"></i><b>1</b> First probability ideas and first steps in R</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="first-steps.html"><a href="first-steps.html#rolling-a-die"><i class="fa fa-check"></i><b>1.1</b> Rolling a die: First Probability ideas.</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="first-steps.html"><a href="first-steps.html#random-experiments-sample-space-events"><i class="fa fa-check"></i><b>1.1.1</b> Random experiments, sample space, events</a></li>
+<li class="chapter" data-level="1.1.2" data-path="first-steps.html"><a href="first-steps.html#the-role-and-nature-of-idealizations-in-applications"><i class="fa fa-check"></i><b>1.1.2</b> The role and nature of idealizations in applications</a></li>
+<li class="chapter" data-level="1.1.3" data-path="first-steps.html"><a href="first-steps.html#classical-probability"><i class="fa fa-check"></i><b>1.1.3</b> Classical Probability: Measuring uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="first-steps.html"><a href="first-steps.html#rolling-die-on-computer"><i class="fa fa-check"></i><b>1.2</b> Rolling a die on the computer: First steps in R</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="first-steps.html"><a href="first-steps.html#r-interface"><i class="fa fa-check"></i><b>1.2.1</b> The R User Interface</a></li>
+<li class="chapter" data-level="1.2.2" data-path="first-steps.html"><a href="first-steps.html#objects"><i class="fa fa-check"></i><b>1.2.2</b> Objects</a></li>
+<li class="chapter" data-level="1.2.3" data-path="first-steps.html"><a href="first-steps.html#functions"><i class="fa fa-check"></i><b>1.2.3</b> Functions</a></li>
+<li class="chapter" data-level="1.2.4" data-path="first-steps.html"><a href="first-steps.html#writing_your_own_functions"><i class="fa fa-check"></i><b>1.2.4</b> Writing your own functions</a></li>
+<li class="chapter" data-level="1.2.5" data-path="first-steps.html"><a href="first-steps.html#arguments"><i class="fa fa-check"></i><b>1.2.5</b> Arguments</a></li>
+<li class="chapter" data-level="1.2.6" data-path="first-steps.html"><a href="first-steps.html#scripts"><i class="fa fa-check"></i><b>1.2.6</b> Scripts</a></li>
+<li class="chapter" data-level="1.2.7" data-path="first-steps.html"><a href="first-steps.html#packages_help"><i class="fa fa-check"></i><b>1.2.7</b> Using packages and finding Help</a></li>
+<li class="chapter" data-level="1.2.8" data-path="first-steps.html"><a href="first-steps.html#packages"><i class="fa fa-check"></i><b>1.2.8</b> Packages</a></li>
+<li class="chapter" data-level="1.2.9" data-path="first-steps.html"><a href="first-steps.html#getting_help"><i class="fa fa-check"></i><b>1.2.9</b> Getting Help</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="first-steps.html"><a href="first-steps.html#coincidences"><i class="fa fa-check"></i><b>1.3</b> Application: Coincidences and the Blockchain</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="first-steps.html"><a href="first-steps.html#birthday_problem"><i class="fa fa-check"></i><b>1.3.1</b> The birthday problem</a></li>
+<li class="chapter" data-level="1.3.2" data-path="first-steps.html"><a href="first-steps.html#an-r-function-to-compute-birthday-probabilities"><i class="fa fa-check"></i><b>1.3.2</b> An R function to compute birthday probabilities</a></li>
+<li class="chapter" data-level="1.3.3" data-path="first-steps.html"><a href="first-steps.html#determining-birthday-collisions-by-simulation"><i class="fa fa-check"></i><b>1.3.3</b> Determining birthday collisions by simulation</a></li>
+<li class="chapter" data-level="1.3.4" data-path="first-steps.html"><a href="first-steps.html#hashfunctions"><i class="fa fa-check"></i><b>1.3.4</b> Hash-functions and the blockchain</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="first-steps.html"><a href="first-steps.html#summary"><i class="fa fa-check"></i><b>1.4</b> Summary</a></li>
+<li class="chapter" data-level="1.5" data-path="first-steps.html"><a href="first-steps.html#project-1-craps-a-casion-dice-game."><i class="fa fa-check"></i><b>1.5</b> Project 1: Craps: A casion dice game.</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-rules.html"><a href="basic-rules.html"><i class="fa fa-check"></i><b>2</b> Probability: Basic Definitions and Rules</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basic-rules.html"><a href="basic-rules.html#terminology"><i class="fa fa-check"></i><b>2.1</b> Terminology</a></li>
+<li class="chapter" data-level="2.2" data-path="basic-rules.html"><a href="basic-rules.html#probability-theory-and-applications"><i class="fa fa-check"></i><b>2.2</b> Probability in theory and applications of probability</a></li>
+<li class="chapter" data-level="2.3" data-path="basic-rules.html"><a href="basic-rules.html#basic-rules-of-probability"><i class="fa fa-check"></i><b>2.3</b> Basic rules of probability</a></li>
+<li class="chapter" data-level="2.4" data-path="basic-rules.html"><a href="basic-rules.html#frequency"><i class="fa fa-check"></i><b>2.4</b> Probability and Frequency</a></li>
+<li class="chapter" data-level="2.5" data-path="basic-rules.html"><a href="basic-rules.html#independence"><i class="fa fa-check"></i><b>2.5</b> Independence</a></li>
+<li class="chapter" data-level="2.6" data-path="basic-rules.html"><a href="basic-rules.html#moreR"><i class="fa fa-check"></i><b>2.6</b> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="basic-rules.html"><a href="basic-rules.html#readingdata"><i class="fa fa-check"></i><b>2.6.1</b> Reading data in R</a></li>
+<li class="chapter" data-level="2.6.2" data-path="basic-rules.html"><a href="basic-rules.html#robjects"><i class="fa fa-check"></i><b>2.6.2</b> R objects</a></li>
+<li class="chapter" data-level="2.6.3" data-path="basic-rules.html"><a href="basic-rules.html#apple-up-down"><i class="fa fa-check"></i><b>2.6.3</b> Example: Will the stock price of Apple move up or down?</a></li>
+<li class="chapter" data-level="2.6.4" data-path="basic-rules.html"><a href="basic-rules.html#benford"><i class="fa fa-check"></i><b>2.6.4</b> Example: Benfords law: The empirical probabilities of leading digits</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="basic-rules.html"><a href="basic-rules.html#summary-lecture-2"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
+<li class="chapter" data-level="2.8" data-path="basic-rules.html"><a href="basic-rules.html#project2"><i class="fa fa-check"></i><b>2.8</b> Project 2: Should we trust European supervisory bank data?</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>3</b> Conditional Probability</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="conditional-probability.html"><a href="conditional-probability.html#contingency-tables"><i class="fa fa-check"></i><b>3.1</b> Contingency tables</a></li>
+<li class="chapter" data-level="3.2" data-path="conditional-probability.html"><a href="conditional-probability.html#marginal-joint-and-conditional-probability"><i class="fa fa-check"></i><b>3.2</b> Marginal, joint and conditional probability</a></li>
+<li class="chapter" data-level="3.3" data-path="conditional-probability.html"><a href="conditional-probability.html#the-multiplication-rule"><i class="fa fa-check"></i><b>3.3</b> The multiplication rule</a></li>
+<li class="chapter" data-level="3.4" data-path="conditional-probability.html"><a href="conditional-probability.html#law-of-total-probability"><i class="fa fa-check"></i><b>3.4</b> Law of total probability</a></li>
+<li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.5</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
+<li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.6</b> Bayes’ Rule</a></li>
+<li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#example-the-importance-of-updating-in-investing"><i class="fa fa-check"></i><b>3.7</b> Example The Importance of Updating in Investing</a></li>
+<li class="chapter" data-level="3.8" data-path="conditional-probability.html"><a href="conditional-probability.html#project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation"><i class="fa fa-check"></i><b>3.8</b> Project: Analyzing the performance of bidding strategies in the investment game using simulation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="random-variables.html"><a href="random-variables.html#discrete-distributions"><i class="fa fa-check"></i><b>4.1</b> Discrete Distributions</a></li>
+<li class="chapter" data-level="4.2" data-path="random-variables.html"><a href="random-variables.html#expected-value"><i class="fa fa-check"></i><b>4.2</b> Expected value</a></li>
+<li class="chapter" data-level="4.3" data-path="random-variables.html"><a href="random-variables.html#variation"><i class="fa fa-check"></i><b>4.3</b> Variation</a></li>
+<li class="chapter" data-level="4.4" data-path="random-variables.html"><a href="random-variables.html#random-variables-the-cornerstone-for-modeling-investments-under-uncertainty"><i class="fa fa-check"></i><b>4.4</b> Random variables: The cornerstone for modeling investments under uncertainty</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="random-variables.html"><a href="random-variables.html#asset-return"><i class="fa fa-check"></i><b>4.4.1</b> Asset return</a></li>
+<li class="chapter" data-level="4.4.2" data-path="random-variables.html"><a href="random-variables.html#random-asset-returns"><i class="fa fa-check"></i><b>4.4.2</b> Random asset returns</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="random-variables.html"><a href="random-variables.html#modelling-random-asset-returns-first-steps-in-r-programing"><i class="fa fa-check"></i><b>4.5</b> Modelling random asset returns: First steps in R programing</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="random-variables.html"><a href="random-variables.html#a-strategy-for-writing-a-program"><i class="fa fa-check"></i><b>4.5.1</b> A strategy for writing a program</a></li>
+<li class="chapter" data-level="4.5.2" data-path="random-variables.html"><a href="random-variables.html#if-statements-and-if-else-statements"><i class="fa fa-check"></i><b>4.5.2</b> if Statements and if-else Statements</a></li>
+<li class="chapter" data-level="4.5.3" data-path="random-variables.html"><a href="random-variables.html#portfolios-and-linear-algebra"><i class="fa fa-check"></i><b>4.5.3</b> Portfolios and linear algebra</a></li>
+<li class="chapter" data-level="4.5.4" data-path="random-variables.html"><a href="random-variables.html#lookup-tables"><i class="fa fa-check"></i><b>4.5.4</b> Lookup Tables</a></li>
+<li class="chapter" data-level="4.5.5" data-path="random-variables.html"><a href="random-variables.html#writing-the-outcome-program"><i class="fa fa-check"></i><b>4.5.5</b> Writing the outcome program</a></li>
+<li class="chapter" data-level="4.5.6" data-path="random-variables.html"><a href="random-variables.html#for-loops"><i class="fa fa-check"></i><b>4.5.6</b> for Loops</a></li>
+<li class="chapter" data-level="4.5.7" data-path="random-variables.html"><a href="random-variables.html#portfolio-expected-return-and-variance"><i class="fa fa-check"></i><b>4.5.7</b> Portfolio expected Return and Variance</a></li>
+<li class="chapter" data-level="4.5.8" data-path="random-variables.html"><a href="random-variables.html#properties-of-expected-returns-and-portfolio-expected-return"><i class="fa fa-check"></i><b>4.5.8</b> Properties of expected returns and portfolio expected return</a></li>
+<li class="chapter" data-level="4.5.9" data-path="random-variables.html"><a href="random-variables.html#properties-of-variance-and-portfolio-variance"><i class="fa fa-check"></i><b>4.5.9</b> Properties of variance and portfolio variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="random-variables.html"><a href="random-variables.html#the-binomial-distribution-and-models-of-asset-price-dynamics"><i class="fa fa-check"></i><b>4.6</b> The Binomial Distribution and models of asset price dynamics</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="random-variables.html"><a href="random-variables.html#the-binomial-distribution-in-applied-computational-finance"><i class="fa fa-check"></i><b>4.6.1</b> The binomial distribution in applied computational Finance</a></li>
+<li class="chapter" data-level="4.6.2" data-path="random-variables.html"><a href="random-variables.html#bernoulli-random-variables-as-a-building-block-of-the-binomial-distribution"><i class="fa fa-check"></i><b>4.6.2</b> Bernoulli random variables as a building block of the binomial distribution</a></li>
+<li class="chapter" data-level="4.6.3" data-path="random-variables.html"><a href="random-variables.html#modeling-asset-price-dynamics-with-binomial-trees"><i class="fa fa-check"></i><b>4.6.3</b> Modeling asset price dynamics with binomial trees</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>4.7</b> Project: Credit risk model and independence based on Schönbucher</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>5</b> Continuous random variables</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#continuous-random-variables-and-probability"><i class="fa fa-check"></i><b>5.1</b> Continuous random variables and probability</a></li>
+<li class="chapter" data-level="5.2" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#normal-distribution"><i class="fa fa-check"></i><b>5.2</b> Normal Distribution</a></li>
+<li class="chapter" data-level="5.3" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#inverse-normal-and-quantiles"><i class="fa fa-check"></i><b>5.3</b> Inverse Normal and Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#example-value-at-risk-and-the-problem-of-fat-tails"><i class="fa fa-check"></i><b>5.4</b> Example Value at Risk and the problem of fat tails</a></li>
+<li class="chapter" data-level="5.5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#more-than-one-normal-random-variable"><i class="fa fa-check"></i><b>5.5</b> More than one normal random variable</a></li>
+<li class="chapter" data-level="5.6" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#binomial-trees-and-the-normal-distribution-how-to-make-your-r-code-fast-and-efficient"><i class="fa fa-check"></i><b>5.6</b> Binomial trees and the normal distribution: How to make your R code fast and efficient</a></li>
+<li class="chapter" data-level="5.7" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html#project-portfolio-credit-risk-with-dependent-defaults"><i class="fa fa-check"></i><b>5.7</b> Project: Portfolio credit risk with dependent defaults</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="6" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>6</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="appendix.html"><a href="appendix.html#asset-price-models-and-asset-price-data-what-you-need-to-keep-in-mind."><i class="fa fa-check"></i><b>6.1</b> Asset price models and asset price data: What you need to keep in mind.</a></li>
+<li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#further-reading"><i class="fa fa-check"></i><b>6.2</b> Further Reading</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Introduction to Probability</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="conditional-probability" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Conditional Probability</h1>
+<div id="contingency-tables" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Contingency tables</h2>
+<p>We begin this lecture with a definition and an example. Here is the definition:</p>
+<dl>
+<dt>Contingency Table</dt>
+<dd>A contingency table shows counts of cases on one categorical variable contingent
+on the value of another for every combination of both variables.
+</dd>
+</dl>
+<p>Contingency tables are useful for calculating <strong>conditional probabilities</strong> as they
+contain all the necessary ingredients for the computation. The concept of
+conditional probability and its applications
+will be the main contents of this lecture.</p>
+<p>Let us start with an example of a <strong>contingency table</strong> within the context
+of stock price moves, we discussed already to some
+degree in lecture 2. It gives me also an opportunity to point you to one
+powerful R package, which will allow you to access financial data, quite easily for
+yourself without me providing them to you with study material: The
+<code>tidyquant-package</code>. You can check out the packages’s home page with documentation and
+study material at: <a href="https://business-science.github.io/tidyquant/" class="uri">https://business-science.github.io/tidyquant/</a>.</p>
+<p>Remember from lecture 1 that we can install add-on packages for R, which extend the
+functionality of the system by new functions. A packages has to be installed first and then
+loaded into working memory. To install tidyquant let us first use the install command:
+<code>install.packages("tidyquant")</code>
+and then load the package by <code>library(tidyquant)</code>:</p>
+<p>We do not go into the tidyquant package in any detail. If you are interested
+check out the github page cited above. For now we only show the
+use of one of its core functions which allows you to load financial data directly
+from the internet.</p>
+<p>This function is called <code>tq_get()</code>. Let’s see how it works. We first
+retrieve the S&amp;P500 stock market index. To do this we need to know the ticker symbol, which is
+<code>^GSPC</code>. This has to be passed to the <code>tq_get()</code> function and that’s it. Let us save these
+data into an R object, which I call <code>sp500</code>and look at the first entries</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="conditional-probability.html#cb223-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span>
+<span id="cb223-2"><a href="conditional-probability.html#cb223-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 8
+##   symbol date        open  high   low close     volume adjusted
+##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1 ^GSPC  2011-01-03 1258. 1276. 1258. 1272. 4286670000    1272.
+## 2 ^GSPC  2011-01-04 1273. 1274. 1263. 1270. 4796420000    1270.
+## 3 ^GSPC  2011-01-05 1269. 1278. 1265. 1277. 4764920000    1277.
+## 4 ^GSPC  2011-01-06 1276. 1278. 1270. 1274. 4844100000    1274.
+## 5 ^GSPC  2011-01-07 1274. 1277. 1262. 1272. 4963110000    1272.</code></pre>
+<p>We see that the series starts March 2011.
+Now let’s retrieve the stock price data of
+Apple beginning at 2011-01-03, the same day as the index data.</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="conditional-probability.html#cb225-1" aria-hidden="true" tabindex="-1"></a>apple <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span></code></pre></div>
+<p>You can give a beginning date to the argument <code>from</code> in the <code>tq_get()</code> function (you can guess
+that you can also give an end data <code>to</code> as an argument to <code>tq_get</code>)</p>
+<p>For the contingency table we would like to count the number of days when the
+S&amp;P was moving up from one day to the next and how often it was moving down. We would
+like to do the same with the Apple stock price.</p>
+<p>One way to see whether the price moved up or down from one day to the next is to
+compute the daily price differences in the closing price. When this difference is
+positive the price made an up movement, when it is negative, it made a down movement (it
+could theoretically also not change at all).</p>
+<p>There are many ways to implement such a computation in R. Let me remind
+you of the <code>diff()</code> function, we already used in lecture 2. It implements a method for
+computing differences in time series. Consider the following example: Say we have
+a vector of values like</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="conditional-probability.html#cb226-1" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span></code></pre></div>
+<p>and we apply the <code>diff()</code>function we will get</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="conditional-probability.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(val)</span></code></pre></div>
+<pre><code>## [1]  2  3 -6  8  1</code></pre>
+<p>Now, of course by taking differences between 4 and 2, 7 and 4, 1 and 7, 9 and 1, ans 10 and 9 we
+have to drop the first observation and get a vector which is shorter than <code>val</code> by one component.
+We can
+produce a vector of equal length if we add as the first component the value NA, which is
+R’s symbol of “not available” or of a missing value. Indeed this makes sense because for the
+first date if you want we have no value for the change (since we cut off there and don’t know
+the value from the day before).</p>
+<p>Now let us apply this reasoning to the Standard and Poors 500: The data of the index are in a
+data frame. We can add a column to this data frame by the $ symbol followed by the
+column name. This
+symbol will append a new column with the name we write after $. Let us call this new
+column “changes” and compute the changes in the closing price by the <code>diff()</code>function.
+Now, since we loose the first value here by taking the first difference, let us
+replace it by NA and from a new column of price differences with the first observation
+replace by NA. Thus we type:</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="conditional-probability.html#cb229-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(sp500<span class="sc">$</span>close))</span></code></pre></div>
+<p>Lets do the same for the Apple stock price.</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="conditional-probability.html#cb230-1" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(apple<span class="sc">$</span>close))</span></code></pre></div>
+<p>Let me use this opportunity to introduce you to how R treats missing information. This is
+a situation you will encounter all over in applied work with data in gerneral and with
+financial data in particular.</p>
+<p>The <code>NA</code> character is a special symbol in R standing for “not available.” It can be used as
+a placeholder for missing information, just as we did before, where we inserted <code>NA</code> in the
+column of price changes for the first record, where we could no compute the difference, since
+we had no information on the price the day before our dta set starts. <code>NA</code> is treated by R
+exactly as you would expect that missing information should be treated. If oyu use it in
+arithmetic operations or in comparisons, you will be returned <code>NA</code>.</p>
+<p><code>NA</code> prevents oyu from mistakes made due to missing information. It can also
+create practical problems. If you would for instance try to compute the
+average price change of the apple
+stock price</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="conditional-probability.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes)</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<p>This is, of course, annoying. Just because there is one <code>NA</code> at the beginning of more than 2700
+records, you should still be able to compute the mean. You just need to drop the <code>NA</code>. R has
+an argument to most statistical functions, which allow you to drop the <code>NA</code> before you do the
+computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
+to do the computation:</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="conditional-probability.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>## [1] 0.05784336</code></pre>
+<p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
+this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
+whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="conditional-probability.html#cb235-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">NA</span>)</span></code></pre></div>
+<p>and then apply:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="conditional-probability.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(vec)</span></code></pre></div>
+<pre><code>## [1] FALSE  TRUE FALSE FALSE  TRUE</code></pre>
+<p>we get a vector of logical values. This vector would allow us then, by R’s subsetting rules, to
+select the non-NA values. We just tell R to select all elements from <code>vec</code> which are not <code>NA</code>:</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="conditional-probability.html#cb238-1" aria-hidden="true" tabindex="-1"></a>vec[<span class="sc">!</span><span class="fu">is.na</span>(vec)]</span></code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+<p>This end our short digression into the treatment of missing information in R.</p>
+<p>Let us now count the up moves and the down moves. Since there are only these two outcomes
+it is sufficient if we add a logical column to both dataframes, checking the condition that
+the change variable is larger than zero (note that with this test we automatically would
+count the possible cases where the stock price remains unchanged to the down movements).</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="conditional-probability.html#cb240-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>up <span class="ot">&lt;-</span> (sp500<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb240-2"><a href="conditional-probability.html#cb240-2" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>up <span class="ot">&lt;-</span> (apple<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
+<p>We can now tabulate the joint up and down moves using the <code>table()</code>function. We give the
+<code>dnn</code>argument to the function, sow we can see which are the dimensions in the table computation
+R is performing for us. We also add the marginal sums by giving the output of the
+<code>table</code>function to the <code>addmargins()</code> function of R:</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="conditional-probability.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
+<pre><code>##        Apple
+## SP500   FALSE TRUE  Sum
+##   FALSE   870  379 1249
+##   TRUE    443 1081 1524
+##   Sum    1313 1460 2773</code></pre>
+<p>From this table you can read the total number of cases where it is true that
+the SP500 index and the Apple stock price move
+up together, the number of cases when they fall together as well as
+the number of cases where they move in opposite directions. The last row and
+the last column contain the row and column sums of all these cases.</p>
+<p>So now we have used R to create a contingency table we can touch from our abstract
+definition we gave in the beginning. On the way you deepened and fortified your knowledge of
+R a bit further.</p>
+</div>
+<div id="marginal-joint-and-conditional-probability" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Marginal, joint and conditional probability</h2>
+<dl>
+<dt>Marginal probability</dt>
+<dd>The <strong>marginal probability</strong> is the unconditional probability of an event. This
+probability is not conditioned on any other event. In terms of notation, we
+denote the marginal probabilities of two arbitrary events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> by
+<span class="math inline">\(P(A)\)</span> and <span class="math inline">\(P(B)\)</span> respectively.
+</dd>
+<dt>Joint probability</dt>
+<dd>The <strong>joint probability</strong> is the probability of simultaneous events. This is
+the probability of the intersection of two or more events. If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are
+arbitrary events, we write <span class="math inline">\(P(A \cap B)\)</span>.
+</dd>
+<dt>Conditional probability</dt>
+<dd>The <strong>conditional probability</strong> is the probability of an event <em>given</em> that some other
+event has occurred. The information from the event that has occurred can influence
+the probability of the original event. The following notation is used for
+conditional probabilities: For two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the conditional probability of
+<span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span> is denoted by <span class="math inline">\(P(A\,|\,B)\)</span> and the conditional probability of <span class="math inline">\(B\)</span> given
+<span class="math inline">\(A\)</span> is denoted as <span class="math inline">\(P(B\, |\, A)\)</span>. In general these two conditional probabilities are
+not the same.
+</dd>
+</dl>
+<p>The table of joint moves, we have computed before can help us to illustrate
+these concepts using the frequency interpretation of probability: We divide
+each entry in our table by the total number of cases. Of course this is so frequent
+a case in applied data analysis that R has a function for it, the <code>prop.table()</code> function:</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="conditional-probability.html#cb243-1" aria-hidden="true" tabindex="-1"></a>prop_table <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>))))</span>
+<span id="cb243-2"><a href="conditional-probability.html#cb243-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
+<pre><code>##        Apple
+## SP500       FALSE      TRUE       Sum
+##   FALSE 0.3137396 0.1366751 0.4504147
+##   TRUE  0.1597548 0.3898305 0.5495853
+##   Sum   0.4734944 0.5265056 1.0000000</code></pre>
+<p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
+<span class="math display">\[\begin{equation*}
+P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
+\end{equation*}\]</span>
+which is</p>
+<pre><code>## [1] 0.55</code></pre>
+<p>It is the sum
+of the two <strong>joint probabilities</strong> <span class="math inline">\(P(\text{SP500-Up} \cap \text{Apple-Down})\)</span> and
+<span class="math inline">\(P(\text{SP500-Up} \cap \text{Apple-Up})\)</span>.</p>
+<p>To compute the conditional probability
+that the stock price of Apple will make an up move given that the SP500 makes an
+up move we have to compute <span class="math inline">\(P(\text{Apple-Up} | \text{SP500-Up})\)</span>. The probability
+that the Apple price went up and the SP500 went up is <span class="math inline">\(P(\text{Apple-up} \cap \text{SP500-Up})\)</span>.</p>
+<p>But given I already know that by the condition SP500 went up, I am in the second line of
+my table and we know that the first line, SP500 went down - is ruled out by the
+condition.</p>
+<p>We thus have now a <em>new sample space</em> and we must
+adjust the probabilities proportionally
+to be consistent with the rules of probability. We therefore have to divide by
+<span class="math inline">\(P(\text{SP500-Up})\)</span> to get the formula
+<span class="math display">\[\begin{equation*}
+P(\text{Apple-Up} | \text{SP500-Up}) = \frac{P(\text{Apple-up} \cap \text{SP500-Up})}{P(\text{SP500-Up})}
+\end{equation*}\]</span>
+which is:</p>
+<pre><code>## [1] 0.71</code></pre>
+<p>To check whether we have made the correct re-normalisation you can ask yourself: Given the
+rules of probability, what is <span class="math inline">\(P(\text{Apple-Down} | \text{SP500-Up}))\)</span> ? It should be 1 minus
+the conditional probability that it goes up given the sp500 index goes up, which is</p>
+<pre><code>## [1] 0.29</code></pre>
+<p>Applying the formula for conditional probability we would compute
+<span class="math display">\[\begin{equation*}
+P(\text{Apple-Down} | \text{SP500-Up}) = \frac{P(\text{Apple-Down} \cap \text{SP500-Up})}{P(\text{SP500-Up})}
+\end{equation*}\]</span>
+which is indeed</p>
+<pre><code>## [1] 0.29</code></pre>
+<p>Another way to think about this formula can perhaps help to foster our intuition if we
+look at this problem through the frequency interpretation of probability:</p>
+<p>We would like to
+find the conditional probability that Apple makes an up move given that
+SP500 makes an up move. Suppose the daily price moves are a conceptual
+random experiment with the outcomes that the
+price can either move up or down and we have two prices SP500 and Apple, so our
+sample space has four possible outcomes:
+<span class="math inline">\({\cal S} = \{ UU, UD, DU, DD \}\)</span> where the first character if it is U means SP500-Up
+and the second if it is U means Apple-Up and so on for all possible combinations.
+We repeat this
+experiment 2752 times and keep a notebook where at every repetition we write down the
+number of the experiment, the outcome and then we note whether both Apple and the SP500
+went up.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">notebook line</th>
+<th align="center">outcome</th>
+<th align="center">SP500-Up and Apple-Up ?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">SP500-Up, Apple-Down</td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">SP500-Down, Apple-Up</td>
+<td align="center">No</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">SP500-Up, Apple-Down</td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">SP500-Up, Apple-Up</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="odd">
+<td align="center">.</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="even">
+<td align="center">.</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="odd">
+<td align="center">.</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="even">
+<td align="center">2752</td>
+<td align="center">SP500-Up, Apple-Up</td>
+<td align="center">Yes</td>
+</tr>
+</tbody>
+</table>
+<p>To get the conditional probability of a Apple-Up given an SP500-Up we have to count
+the Google-Ups <strong>among the notebook lines</strong> where the SP500 has an Up move and divide by
+the number of these SP500-Up lines.</p>
+<p>Let’s do this in R. To create the notebook we make a data frame where one column is the Up column
+of the SP500 data and the second columns is the Up column of the Apple data. We remove
+all <code>NA</code> in the data frame: This is achieved by applying the function <code>na.omit()</code>to the data
+frame. It will remove all <code>NA</code>.</p>
+<p>This provides a nice opportunity to introduce you to a very useful operator, which is
+included in base R and which is called the pipe. It is available, since R version 4.1.0 and
+it’s symbol is <code>|&gt;</code>. It allows you to make code in which several functions are nested
+more readable. The way it works is that you can use the pipe to send a line of code or the
+output of a fucntion as input to another function. In our case we would first create a data frame
+and then pipe the frame to <code>na.omit()</code> to finally save it in an object we call <code>joint_ups</code>:</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="conditional-probability.html#cb249-1" aria-hidden="true" tabindex="-1"></a>joint_ups <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">SP500Up =</span> sp500<span class="sc">$</span>up, <span class="at">AppleUp =</span> apple<span class="sc">$</span>up) <span class="sc">|</span><span class="er">&gt;</span></span>
+<span id="cb249-2"><a href="conditional-probability.html#cb249-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code></pre></div>
+<p>Before R 4.1.0 there was a pipe operator with this functionality available through the <code>magittr</code> package, where it had the symbol <code>%&gt;%</code>. When you work with R you will encounter this version of
+the pipe sooner or later.</p>
+<p>Now we apply what we have already learned about referencing values in a data frame in R to
+select all the row numbers in our fictitious notebook where the SP500 moves Up and look at the
+first rows:</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="conditional-probability.html#cb250-1" aria-hidden="true" tabindex="-1"></a>sel_joint <span class="ot">&lt;-</span> joint_ups[joint_ups<span class="sc">$</span>SP500Up <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span>
+<span id="cb250-2"><a href="conditional-probability.html#cb250-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sel_joint, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##    SP500Up AppleUp
+## 3     TRUE    TRUE
+## 7     TRUE   FALSE
+## 8     TRUE    TRUE
+## 10    TRUE    TRUE
+## 11    TRUE   FALSE</code></pre>
+<p>To count the number of rows we can use the <code>nrow()</code> function.</p>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="conditional-probability.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(sel_joint)</span></code></pre></div>
+<pre><code>## [1] 1524    2</code></pre>
+<p>It says that the number of notebook lines where the SP500 makes an Up move. The result
+should not surprise us, for we already derived it using the contingency table.</p>
+<p>Now, let us count the Ups in the Apple occurring simultaneously with the SP500 ups. Here we
+use the logical operator <code>&amp;</code> which is R’s syntax for the set symbol <span class="math inline">\(\cap\)</span>:</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="conditional-probability.html#cb254-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
+<p>Now we can make use of R’s precedence rules to count the simultaneous up moves</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="conditional-probability.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
+<pre><code>## [1] 1081</code></pre>
+<p>Now we compute the relative frequency of joint up moves among all the lines where
+the SP500 moves up, which is</p>
+<pre><code>## [1] 0.71</code></pre>
+as we have indeed derived before using the contingency table.
+<div class="figure" style="text-align: center"><span id="fig:cond-probability-visualized"></span>
+<img src="figures/cond_prob.png" alt="A Visualization of conditional probability " width="90%" />
+<p class="caption">
+Figure 3.1: A Visualization of conditional probability
+</p>
+</div>
+<p>On the left you see the sample space symbolized as a square and the area of event <span class="math inline">\(B\)</span>, SP500-up,
+is the proportion of the whole sample space taken up by this event, whereas event <span class="math inline">\(A\)</span>, Apple-up
+is the proportion of the <em>whole</em> sample space taken up by this event. When it is known
+that <span class="math inline">\(B\)</span> has occurred, the sample space changes and the event that both, SP500-up and Apple-up
+is in the intersection of both areas and the conditional probability is the area of this
+intersection as a proportion of <span class="math inline">\(B\)</span>. On the right you see a picture of our notebook metaphor using
+the same color codes. The conditional probability is the ratio of all violet stripes as a
+proportion of all blue stripes.</p>
+<p>We now can give the</p>
+<dl>
+<dt>Formal definition of conditional probability</dt>
+<dd>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be given events. We define the <strong>conditional probability</strong> of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span>
+as
+<span class="math display">\[\begin{equation*}
+P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, B \neq 0
+\end{equation*}\]</span>
+</dd>
+</dl>
+<p>Note that for conditional probabilities we have for two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, that
+<span class="math inline">\(P(A|B) \neq P(B|A)\)</span>.
+To see this assume that <span class="math inline">\(P(A) \neq P(B)\)</span> and <span class="math inline">\(P(A) \neq 0\)</span> and
+<span class="math inline">\(P(B)\neq 0\)</span>.</p>
+<p>We then get:
+<span class="math display">\[\begin{equation*}
+P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(B \cap A)}{P(B)}
+\end{equation*}\]</span>
+since <span class="math inline">\(P(A \cap B) = P(B \cap A)\)</span>.
+It follows that
+<span class="math display">\[\begin{equation*}
+\frac{P(B \cap A)}{P(B)} \neq \frac{P(B \cap A)}{P(A)} = P(B|A)
+\end{equation*}\]</span>
+since we
+have assumed that <span class="math inline">\(P(A) \neq P(B)\)</span>.
+Therefore <span class="math inline">\(P(A|B) \neq P(B|A)\)</span>.
+You can check this with the stock example, we discussed before.</p>
+</div>
+<div id="the-multiplication-rule" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> The multiplication rule</h2>
+<p>The following formula is often called the <strong>multiplication rule</strong> and is just a
+rewritten form of the definition of conditional probability.</p>
+<dl>
+<dt>Multiplication rule</dt>
+<dd>Given events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> it holds that
+<span class="math display">\[\begin{equation*}
+P(A \cap B) = P(A | B)\times P(B)
+\end{equation*}\]</span>
+</dd>
+</dl>
+<p>The multiplication rule can give us a deeper insight into the notion of
+independence, we discussed earlier. Remember that two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent
+if <span class="math inline">\(P(A \cap B) = P(B \cap A) = P(A) \times P(B)\)</span>.</p>
+<p>If we combine this rule with the
+concept of conditional probability, we see that if two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent, then
+<span class="math display">\[\begin{equation*}
+P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A) \times P(B)}{P(B)} = P(A)
+\end{equation*}\]</span>
+and
+<span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \times P(B)}{P(A)} = P(B)
+\end{equation*}\]</span></p>
+<p>This formula says that if two events are independent the probability of <span class="math inline">\(A\)</span> is
+not influenced by the event <span class="math inline">\(B\)</span> occurring and the probability of event <span class="math inline">\(B\)</span> is not
+influenced by the event <span class="math inline">\(A\)</span> occurring.</p>
+</div>
+<div id="law-of-total-probability" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Law of total probability</h2>
+<p>The multiplication rule implies a further rule, which is often called the <strong>law of total probability</strong> in the literature. We state the law for a simple case for two disjoint
+events, which can be
+generalized in a straightforward way to <span class="math inline">\(N\)</span> disjoint events.</p>
+<dl>
+<dt>Law of total probability</dt>
+<dd>Suppose the sample space <span class="math inline">\({\cal S }\)</span> is divided into two disjoint events <span class="math inline">\(B_1\)</span> and <span class="math inline">\(B_2\)</span>,
+which cover the sample space then
+for any event <span class="math inline">\(A\)</span> we have
+<span class="math display">\[\begin{align}
+P(A)&amp;= P(A\cap B_1) + P(A\cap B_2)\\
+&amp;=P(A|B_1)P(B_1) + P(A|B_2)P(B_2)
+\end{align}\]</span>
+Such covers of disjoint sets are called a <strong>partition</strong> of the sample space. It can
+abstractly be visualized as
+follows:
+<div class="figure" style="text-align: center"><span id="fig:total-probability-visualized"></span>
+<img src="figures/total_probability.png" alt="A Visualization of total probability " width="90%" />
+<p class="caption">
+Figure 3.2: A Visualization of total probability
+</p>
+</div>
+Note that in this picture <span class="math inline">\(B_1 \cap B_2 = \emptyset\)</span> and <span class="math inline">\(B_1 \cup B_2 = {\cal S}\)</span>, hence <span class="math inline">\(B_1\)</span> and
+<span class="math inline">\(B_2\)</span> form a partition of the sample space. The probability of <span class="math inline">\(A\)</span>, the red set can then be
+determined by the law of total probability.
+</dd>
+</dl>
+<p>As an <strong>example</strong>, consider a stock analysis problem, where you learn that a company is planning
+to launch a new project that is likely to affect the companies stock price. There is a <span class="math inline">\(60 \%\)</span>
+probability that a project will be launched. If this happens there is <span class="math inline">\(75 \%\)</span> probability
+that the stock price will increase. In case the project is not launced this probability is
+only <span class="math inline">\(30 \%\)</span>.</p>
+<p>You might think of this situation in terms of a contingency table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Launch Project</th>
+<th align="right">Don’t Launch Project</th>
+<th align="right"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Stock price rise</td>
+<td align="right">0.45</td>
+<td align="right">0.12</td>
+<td align="right">0.57</td>
+</tr>
+<tr class="even">
+<td align="left">Stock price not rising</td>
+<td align="right">0.15</td>
+<td align="right">0.28</td>
+<td align="right">0.43</td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="right">0.6</td>
+<td align="right">0.4</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>Say we want to assess the probability that the stock price will rise, given these
+data. Then we can apply the law of total probability is: <span class="math inline">\(0.45 + 0.12 = 0.57\)</span>.</p>
+</div>
+<div id="example-independence-and-the-financial-crisis-of-2007-2008" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Example: Independence and the Financial Crisis of 2007-2008</h2>
+<p>In this example, we will go back to the financial crisis of 2007-2008, in which the
+global financial system almost completely collapsed. While the history
+of the crisis as well as the institutional details of structured Finance are
+very complicated, a conceptual root problem of structured finance and the crisis
+has a lot to do with conditional probabilities. Let’s see why.</p>
+<p>To set the stage we need some background from Finance first. We begin with the
+definition of a <strong>bond</strong>.</p>
+<dl>
+<dt>Bond, face value, par value</dt>
+<dd>A <strong>bond</strong> is an obligation be a bond issuer to pay money to the bond-holder according
+to the rules specified at the time the bond is issued. Generally, a bond pays a specific amount,
+its <strong>face value</strong> or equivalently its <strong>par value</strong> at the date of maturity.
+</dd>
+</dl>
+<p>Bonds are the biggest and most liquid class of fixed-income securities and have tremendous
+practical importance as investment vehicles. The details are very involved and we ignore them
+here.</p>
+<p>Although bonds offer a fixed-income stream, they are subject to default, if the issuer has
+financial difficulties or gets into bankruptcy. So there is a certain credit risk in bonds.</p>
+<p>To characterize the nature of these risks bonds are usually <strong>rated</strong> by rating organisations. The
+two primary ratings are issued and published by Moody’s and Standard and Poor’s.</p>
+<p>Bonds that are either high or medium grade are considered to be <strong>investment grade</strong>. Bonds
+that are below the speculative category are often called <strong>junk bonds</strong>. The rating is
+usually based on a statistical analysis of various financial ratios of the issuer, such as
+leverage, debt to equity, cash fow to outstanding debt etc. Bonds with a lower rating
+will have a higher probability of default and
+a lower price than a comparable bond with a higher rating. The following table
+shows the rating schemes of Moody’s and Standard and Poor’s.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Moody’s</th>
+<th align="right">Standard &amp; Poor’s</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">High grade</td>
+<td align="right">Aaa</td>
+<td align="right">AAA</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">Aa</td>
+<td align="right">AA</td>
+</tr>
+<tr class="odd">
+<td align="left">Medium grade</td>
+<td align="right">A</td>
+<td align="right">A</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">Baa</td>
+<td align="right">BBB</td>
+</tr>
+<tr class="odd">
+<td align="left">Speculative grade</td>
+<td align="right">Ba</td>
+<td align="right">BB</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">B</td>
+<td align="right">B</td>
+</tr>
+<tr class="odd">
+<td align="left">Default Danger</td>
+<td align="right">Caa</td>
+<td align="right">CCC</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right">Ca</td>
+<td align="right">CC</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="right">C</td>
+<td align="right">C</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="right"></td>
+<td align="right">D</td>
+</tr>
+</tbody>
+</table>
+<p>In the early 2000’s financial innovations came to the market that proposed the practice
+of <strong>pooling</strong> and <strong>tranching</strong> bonds to transform the risks of junk
+bonds in a way that some good risks. An important asset class created by these
+financial engineering techniques were <strong>mortgage backed securities</strong>.</p>
+<p>Let us explain the idea. Let’s imagine a bond that is issued today - at <span class="math inline">\(t = 0\)</span> and
+matures in a year from now, tomorrow, at <span class="math inline">\(t = 1\)</span>. It pays off <span class="math inline">\(1\)</span> euro at maturity, but
+there is a certain risk of a default, in which case it pays nothing or <span class="math inline">\(0\)</span>.</p>
+You might imagine this bond as an event tree. Since it is a junk bond, this default happens
+with probability <span class="math inline">\(P(\text{default}) = 0.1\)</span>.
+<div class="figure" style="text-align: center"><span id="fig:simple-tree"></span>
+<img src="figures/simple_tree_one_bond.png" alt="A simple event tree for a defaultable bond" width="90%" />
+<p class="caption">
+Figure 3.3: A simple event tree for a defaultable bond
+</p>
+</div>
+Lets assume now that we have two junk bonds of this kind. Now the sample space is bigger than
+before. Since we have two possible outcomes for each of two bonds, we are in a simiar
+situation as when we toss a fair coin twice. The sample space is now <span class="math inline">\({\cal S} = \{ B^1_D B^2_D, B^1_D B^2_N, B^1_N B^2_D, B^1_N B^2_N \}\)</span>. Let’s try to visualize this situation also in a tree.
+<div class="figure" style="text-align: center"><span id="fig:two-stage-tree"></span>
+<img src="figures/double_tree_two_bonds.png" alt="An event tree for two defaultable bond with independent defaut probabilities" width="90%" />
+<p class="caption">
+Figure 3.4: An event tree for two defaultable bond with independent defaut probabilities
+</p>
+</div>
+<p>The tree is interpreted as follows: Each dot is called a <strong>node</strong>. The tree is organized
+by levels, the top node or <strong>root</strong> being level 0. The next layer is layer 1 and so on.
+The tree might symbolize a sequence with one layer happening before the other, or here
+in our case a simultaneous event of two bonds reaching their state at <span class="math inline">\(t=1\)</span>.</p>
+<p>Probabilities are written along the edges of the tree. The probability of <span class="math inline">\(B^1_N\)</span> - the probability
+that the first bond dies not default - is <span class="math inline">\(0.9\)</span>. It is written on the edge from the root
+to the node labeled <span class="math inline">\(B^1_N\)</span>. At the next level we put the <strong>conditional</strong> probabilities. The
+edge from <span class="math inline">\(B^1_N\)</span> to <span class="math inline">\(B^2_N\)</span> is <span class="math inline">\(P(B^2_N\,|\, B^1_N)\)</span>. By the multiplication rule the
+probability of getting to any node is just the product of the probabilities along the edges.
+<span class="math display">\[\begin{equation*}
+P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N\,|\, B^1_N)
+\end{equation*}\]</span>
+Now if we assume that the risks are <strong>independent</strong> this would just be
+<span class="math display">\[\begin{equation*}
+P(B^1_N \cap B^2_N) = P(B^1_N) \times P(B^2_N) = 0.9 \times 0.9 = 0.81
+\end{equation*}\]</span>
+You can work out all the other probabilities now for yourself.
+At the end nodes of the tree, I have written the event symbolized by the end node in
+set notation. Between the dashed lines you can read off the
+payoffs of the two bonds if we go along the
+edges of the particular path below the end nodes. The payoff of <span class="math inline">\(B^1\)</span> is written above
+the payoff of <span class="math inline">\(B^2\)</span>. Below the lower dashed line I have written the <em>aggregate</em> payoff
+of both bonds or the sum of their individual payoffs.</p>
+<p>The law of total probability can also be illustrated nicely in this tree picture. For
+example <span class="math inline">\(P(B^2_D)\)</span> is just the sum of all probabilities of the paths, leading to <span class="math inline">\(B^2_D\)</span> which
+is given the current tree just
+<span class="math inline">\(0.9 \times 0.1 + 0.1 \times 0.1 = 0.1\)</span>.</p>
+<p>Some of you might have realized that the tree gives us an equivalent representation to what
+we would have got from a contingency table. To see this, look at:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right"><span class="math inline">\(B^2_D\)</span></th>
+<th align="right"><span class="math inline">\(B^2_N\)</span></th>
+<th align="right"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(B^1_D\)</span></td>
+<td align="right">0.01</td>
+<td align="right">0.09</td>
+<td align="right">0.1</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(B^1_N\)</span></td>
+<td align="right">0.09</td>
+<td align="right">0.81</td>
+<td align="right">0.9</td>
+</tr>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="right">0.1</td>
+<td align="right">0.9</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+Now you need to be prepared for a piece of financial magic, which we perform by
+applying the concepts of <strong>pooling</strong> and <strong>tranching</strong>. We put the two (junk) bonds
+into a pool or a portfolio to create two new bonds out of them by contractually altering
+the payoff structure. Let us call these bonds <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span> for investment grade and junk.
+But how is this possible, can we really take two junk bonds as an input and rearrange
+their payoff to get an investment grade and something else? Here is how
+<div class="figure" style="text-align: center"><span id="fig:two-stage-tree-pooled"></span>
+<img src="figures/pool_and_tranch.png" alt="An event tree for two synthetic bonds built on the junk bonds $B^1$ and $B^2$ with independent defaut probabilities" width="90%" />
+<p class="caption">
+Figure 3.5: An event tree for two synthetic bonds built on the junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> with independent defaut probabilities
+</p>
+</div>
+<p>What we see here is a slightly modified tree for the two new bonds <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span>. Their payoff is
+engineered from the underlying jung bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span>. So <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span>V get different
+payoff profiles but in such a way that they can be funded from the aggregate cash fow of both
+of the junk bonds. Note that
+below the dashed line you see that the sum of payoffs did no change. So when we <em>pool</em> the
+initial two junk bonds and <em>tranch</em> them into the two new payoff structures, we can fulfill
+all promises from the cash flow of the pool.</p>
+<p>Here is the magic: <span class="math inline">\(I\)</span> is a bond that pays in all states, except when both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> default.
+Under the assumption of independence, the probability of such a state occurring is just <span class="math inline">\(0.01\)</span>.
+Thus, given the independence assumption both Moody’s and Standard and Poor’s could now grade
+the new bond as investment grade. The other bond <span class="math inline">\(J\)</span> now never pays off except in the state where
+both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> would both not default. It defaults, thus with probability <span class="math inline">\(0.99\)</span>. It has
+become toxic junk.</p>
+<p>Thus here we have the magic of structured finance at work: We took junk plus
+junk and got investment grade and toxic junk. Now, note that this is toy example. But
+essentially this is what has been used in real life situations at an enourmous scale.
+This repackaging game was played as a trillion dollar
+business, mainly with mortgages but also with other security classes, like
+car loans, student loans and credit card debt.
+Special investment vehicles
+sponsored by banks would pool and tranch the various asset classes,
+rating agencies would rate them and investors hungry for safe
+investments would buy the synthetic investment grade bonds.</p>
+<p>But what would happen, if independence does <strong>not</strong> hold and our risks are *dependent** instead?
+Contemplating this possibility is not very far fetched. After all, if a bond issuer comes
+into difficulties to fulfill his promise it is perhaps because of an event affecting other bond
+holders as well, like a macroeconomic recession, a global crisis like the current pandemic
+or the fact that the defaults creates problems for other bondholders
+who had relied
+on the promise of the bond issuer in trouble to make his contracted payments.</p>
+A situation like this could be captured perhaps by the following variation of our tree.
+<div class="figure" style="text-align: center"><span id="fig:dependent-risks"></span>
+<img src="figures/dependence.png" alt="An event tree for two synthetic bonds built on the junk bonds $B^1$ and $B^2$ with dependent defaut probabilities" width="90%" />
+<p class="caption">
+Figure 3.6: An event tree for two synthetic bonds built on the junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span> with dependent defaut probabilities
+</p>
+</div>
+<p>Now this situation looks only slightly different. Note that now the risks are <em>dependent</em>.
+Note also that the marginal distribution is stimm the same as before. The
+total probabilities of each outcome have stayed the same. For example the probability of
+<span class="math inline">\(B^1_D = 0.04 + 0.06 = 0.1\)</span>, <span class="math inline">\(B^1_N = 0.86 + 0.04 = 0.9\)</span>.
+You can work out the conditional probabilities yourself using the tree and the
+multiplication rule:But now the risks are <em>dependent</em>. Note that
+<span class="math display">\[\begin{equation*}
+P(B^1_D \cap B^2_D) = P(B^1_D) \times P(B^2_D\,|\, B^1_D) = 0.06
+\end{equation*}\]</span>
+Note that now, what was investment grade before, is now – from a rating viewpoint – again junk,
+and we are back in the more intuitive world where junk plus junk is still junk.</p>
+<p>This truth
+was hammered home to a world falling prey to the biggest financial crisis since the great
+depression of the 1930ies. The carelessness of not sufficiently thinking about the
+justification for an undue and dangerous independence assumption is arguably one of the
+root causes of this disaster. But you know know better.</p>
+</div>
+<div id="bayes-rule" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Bayes’ Rule</h2>
+<p>The definition of conditional probabilities has an important implication about the relation
+between the probabilities of events, which is known as <em>Bayes’ rule</em>.</p>
+<dl>
+<dt>Bayes’ rule</dt>
+<dd>For two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> Bayes’ rule or Bayes’ theorem says that
+<span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(A|B) P(B)}{P(A)}
+\end{equation*}\]</span>
+This formula follows directly from the multiplication rule and the symmetry of <span class="math inline">\(A\cap B\)</span>. Let
+me explain: The multiplication rule says <span class="math inline">\(P(B|A)P(A) = P(A \cap B) = P(A|B)P(B)\)</span>. Now if
+you divide by <span class="math inline">\(P(A)\)</span> you get Bayes’ rule.
+</dd>
+</dl>
+<p>This is very important result and indeed belongs to the great ideas in probability but it
+is a bit difficult to grasp and memorize clearly. So let us try to make it a bit clearer.</p>
+<p>Think of <span class="math inline">\(B\)</span> as some hypothesis or some belief and of <span class="math inline">\(A\)</span> as some data or information obtained
+after having formed that hypothesis or belief. Bayes’ theorem tells you how to update or adjust
+the hypothesis or belief in the light of the data or the information that has been obtained.</p>
+Imagine a square of area 1. Inside the square is a circle <span class="math inline">\(B\)</span> with area <span class="math inline">\(P(B)\)</span>. Imagine you
+stand next to this square and look down on it form above. You have a single speck of sand on your
+finger and by accident it falls down on the square and lands somewhere inside it. The speck is
+so small that you can’t see where. It could be anywhere.
+<div class="figure" style="text-align: center"><span id="fig:where-is-the-speck"></span>
+<img src="figures/where_speck.png" alt="Where is the speck of sand?" width="90%" />
+<p class="caption">
+Figure 3.7: Where is the speck of sand?
+</p>
+</div>
+<p>We want to figure out the probability that the speck could be inside the circle <span class="math inline">\(B\)</span>? GIven that
+the speck landed somewhere on the square at random it should be the area of <span class="math inline">\(B\)</span> - <span class="math inline">\(P(B)\)</span> - divided
+by the area of the square - <span class="math inline">\(P{\cal S} = 1\)</span>, so the probability is simply <span class="math inline">\(P(B)\)</span>.</p>
+Now suppose somebody reveals to you the <strong>fact</strong> that the speck indeed landed somewhere inside
+another circle, inside the square. Let us call this circle <span class="math inline">\(A\)</span>, like in the following picture
+<div class="figure" style="text-align: center"><span id="fig:where-is-the-speck-now"></span>
+<img src="figures/speck_in_D.png" alt="In fact we learn that the speck is inside circle $A$" width="90%" />
+<p class="caption">
+Figure 3.8: In fact we learn that the speck is inside circle <span class="math inline">\(A\)</span>
+</p>
+</div>
+<p>The question now becomes: Knowing that the speck is somewhere inside of circle <span class="math inline">\(D\)</span>, how does
+this fact change our estimate that it is in <span class="math inline">\(B\)</span>?. What is the probability that the speck is
+in <span class="math inline">\(B\)</span> given that we know it is somewhere inside <span class="math inline">\(A\)</span>? The way to express this value is <span class="math inline">\(P(B|A)\)</span>.</p>
+<p>Intuitively we can see that the value of <span class="math inline">\(P(B|A)\)</span> is the area of the overlap between circle <span class="math inline">\(B\)</span>
+and circle <span class="math inline">\(A\)</span>, which we label <span class="math inline">\(P(A \cap B)\)</span> divided by the area of <span class="math inline">\(A\)</span>, which is <span class="math inline">\(P(A)\)</span>. In
+a formal expression of this intuition we get a simple version of Bayes’ formula as
+<span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(A \cap B)}{P(A)}
+\end{equation*}\]</span>
+Now from the picture you can convince yourself that in the case where the overlap area between
+<span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is small, so <span class="math inline">\(P(A \cap B)\)</span> is much smaller than <span class="math inline">\(P(A)\)</span>, the probability of the speck
+being in <span class="math inline">\(B\)</span> given that we know it must be somewhere in <span class="math inline">\(A\)</span> is small. On the other hand, if the overlap area <span class="math inline">\(P(A \cap B)\)</span> is large relative to <span class="math inline">\(A\)</span> then the probability of the speck beeing in <span class="math inline">\(B\)</span>
+given that it is somewhere in <span class="math inline">\(A\)</span> is big.</p>
+<p>Now for quantitative applications it is useful to express <span class="math inline">\(P(B \cap A)\)</span> using the
+<em>multiplication rule</em> as <span class="math inline">\(P(A \cap B) = P(A |B) P(B)\)</span>. Substituting this expression in our
+simple version of Bayes’ formula we get
+<span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(A|B)P(B)}{P(A)}
+\end{equation*}\]</span></p>
+<p>In Bayesian applications the term <span class="math inline">\(P(B)\)</span> is called a <strong>prior probability</strong> or simply a prior. It
+is the initial probability that we assign to our hypothesis being true. Subsequently to that
+assignment we get evidence from data, with significance for the validity of this hypothesis.
+The term <span class="math inline">\(P(A | B)\)</span> is called the <strong>likelihood function</strong> and expresses how likely it is
+that we would receive the data assuming that the hypothesis holds. Updating a prior, means
+multiplying the prior probability with the likelyhood function. Dividing by <span class="math inline">\(P(A)\)</span> ensures
+that we have appropriately normalized the numbers, ensuring that a measur of 1 is obtwined accross
+the overall sample space.</p>
+<p>Now this story with the speck of sand falling on the square provides an intuitive illustration
+of how Bayesian updating works. We start with the hypothesis that the speck is located inside <span class="math inline">\(B\)</span>.
+We assign a prior <span class="math inline">\(P(B)\)</span> that this hypothesis is indeed true. Then it is revealed that the
+speck is in the second circle <span class="math inline">\(A\)</span>. This information obviously has implications for the
+hypothesis - it is relevant data. Upon receiving these data we update the probability that the
+hypothesis is true. Specifically we set it equal to the overlap between <span class="math inline">\(B\)</span> and <span class="math inline">\(A\)</span> divided
+by <span class="math inline">\(A\)</span>.</p>
+<p>In a broader context we need to understand that for any data we receive subsequent to a hypothesis
+we have formed, the hypothesis will exhibit some “overlap” with the data. This is the same
+as saying that the truth of the hypothesis will represent one possible pathway through which the
+data might have been obtained. To get an estimate for the probability that the
+hypothesis is true, given the data was obtained, we need to quantify how prevalent that
+pathway is relative to all possible pathways through which the data could have been
+obtained in principle, including alternative pathways that conflict
+with the hypothesis. This is exactly
+what Bayes’ theorem does.</p>
+<p>With this insight at hand it now becomes clear that Bayes’ theorem closes the
+gap that remained when we discussed the weak law of large numbers. Here it is shown
+what is necessary to make a valid inverse inference from frequency to chance. The key insight was
+to put probabilities on the chances and update them by conditioning on new data. This
+gives a judgement about chances, informed by frequency evidence.</p>
+</div>
+<div id="example-the-importance-of-updating-in-investing" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Example The Importance of Updating in Investing</h2>
+<p>This was a bit much of probability. Lets test the significance of what we have learned in the
+context of finance and investment.</p>
+<p>In order to do that, suppose you participate in an investment game. You get some amount
+of starting wealth. In the game, you are judged at the end by how much were
+able to grow this initial wealth.</p>
+<p>This is a game where two types of coins are flipped: Green coins and red coins. Green coins are
+designed such that they land heads with a probability of 0.7 and tails with 0.3. Red coins
+are physically designed the opposite way, with 0.3 chance of landing on heads and
+0.7 chance landing
+on tails.</p>
+<p>The game is divided into 10 separate rounds, each consisting of 100 coin flips in each
+round. At the
+beginning of each round the game’s referee fills a large bucket with an
+unknown quantity or red and green coins. He then randomly draws a single coin
+from the bucket. He uses this coin for all 100 flips in that round making sure
+the color is hidden for you and all the other participants.</p>
+<p>Before each flip the referee auctions off ownership of the flip to the player
+who pays the highest price for it. Once the owner of the flip is set, the referee
+flips the coin. If it land heads it pays out 2 to the owner. If it lands tails the owner
+gets nothing. After each round the referee reveals the result of the flip to
+the participants and opens bidding for the next flip.</p>
+<p>This procedure goes on until the end at which point final rankings are
+tallied and the associated monetary prizes and penalties are disbursed.</p>
+<p>The key of performing well in this investment game is to make an accurate estimate of what
+a coin flip is worth. Suppose the referee is flipping a green coin. On a single flip the
+coin will land either heads or tails but over many flips it will land heads in about 70 %
+of the cases, in which you get 2 and 30 % of the cases in which you get nothing. Let’s use
+R to make a green coin and flip it, using the sample function, as we did already in lecture 2:</p>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="conditional-probability.html#cb258-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb258-2"><a href="conditional-probability.html#cb258-2" aria-hidden="true" tabindex="-1"></a>  green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
+<span id="cb258-3"><a href="conditional-probability.html#cb258-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb258-4"><a href="conditional-probability.html#cb258-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Observe that we can implement the bias of this coin by specifying a probability distribution for
+heads and tails, by specifying the <code>prob</code> argument appropriately. When we did a coin flip earlier
+in our lecture we dropped this argument and R assumed then that we we will assume classical
+probability, in which case each outcome should get a probability 1/2.</p>
+<p>Now let’s do a round of 100 flips:</p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="conditional-probability.html#cb259-1" aria-hidden="true" tabindex="-1"></a>green_tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">flip_green_coin</span>())</span></code></pre></div>
+<p>Now lets compute the average payoff we would have got in this round. Let us
+select the <code>"H"</code> outcomes and calculate its length:</p>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="conditional-probability.html#cb260-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
+<span id="cb260-2"><a href="conditional-probability.html#cb260-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
+<pre><code>## [1] 69</code></pre>
+<p>This means we have 69 cases where we get 2 and 31
+cases where we get 0. Thus on average
+we will get:</p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="conditional-probability.html#cb262-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 1.38</code></pre>
+<p>So if we payed 1.20 for that round we would make a profit of
+0.18. The reasoning behind this argument is that the payoff
+associated with a randomly flipped coin, which lands with 70 % chance on
+heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
+of flips it will come up heads approximately 7 out of 10 and thus will pay on average 0.7<em>2. This
+view of a random payoff associated with the coin is technically called a </em>random variable* and
+the average payoff over many rounds is technically called an <em>expected value</em>. These important
+notions of probability theory we will discuss more precisely in the next lecture, lecture 4.</p>
+<p>For now you see the idea now. If the coin is green we should pay for the flip at most</p>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="conditional-probability.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<pre><code>## [1] 1.4</code></pre>
+<p>and if its red</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="conditional-probability.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.7</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<pre><code>## [1] 0.6</code></pre>
+<p>In the investment game, we do - however - not know whether the referee is using a red or a green
+coin. This we have to guess.</p>
+<p>Maybe we have some evidence we can use to inform such a guess. Assume
+for instance, we can count the coins in the bucket before the referee makes a draw. Lets
+assume we will find out that 9 out of 10 coins are green. So we could make the guess that the
+probability is 0.9 that the randomly draw coin is green.</p>
+<p>Now combining this belief with the
+physical properties of the coin we can make a second order estimate of the value:</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="conditional-probability.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.9</span><span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 1.32</code></pre>
+<p>Generally this estimate will be somewhere between 0.6 and 1.4 depending on our prior assessment.</p>
+<p>Now lets start the first round in our investment game. Assume you win the auction for the
+first flip with a bid of 1.20. The flip comes up tails and you loose. The next flip comes
+again up tails and you loose again 1.20. Now eight more flips come and each time you
+are successful in winning the auction with a bid of 1.20. The results of the flips
+come back <code>TTHTTTTH</code>. After 10 flips there were two heads and 8 tails, leaving you
+with a cumulative loss of 8.</p>
+<p>Now you give yourself a pause to think about the situation: Is the coin in fact green?
+There are two possible outcomes, both unlikely:</p>
+<ol style="list-style-type: decimal">
+<li>The referee drew a red coin. Possible but unlikely, because you have
+investigated to bucket and found a ratio of 9 to 1 green over red coins.</li>
+<li>The referee drew a green coin but you were just unlucky. The coin should have landed 70 %
+on heads but it did so only 20 %. This is possible but also unlikely.</li>
+</ol>
+You now have to update your believes and weight both unlikely outcomes against each other.
+Let us draw a tree:
+<div class="figure" style="text-align: center"><span id="fig:red-coin-green-coin"></span>
+<img src="figures/red_coin_green_coin.png" alt="Weigthing the two possible unlikely outcomes" width="90%" />
+<p class="caption">
+Figure 3.9: Weigthing the two possible unlikely outcomes
+</p>
+</div>
+<p>In the figure, you see that I have connected the two nodes <span class="math inline">\(G \cap H\)</span> and <span class="math inline">\(R \cap H\)</span> by a dashed
+line and I did the same for <span class="math inline">\(G \cap T\)</span> and <span class="math inline">\(R \cap T\)</span>. This symbolizes the fact that
+the participant in the game can not see whether the coin is green or red. He only can see whether
+it comes up H or T. Thus the two nodes connected by the dashed line are
+indistinguishable for you as a participant. You only observe the outcome <code>T</code>.</p>
+<p>Now we use Bayes’ theorem to update our believes. Our hypothesis
+is that the coin is green, and
+what we know for fact is that the last flip ended in tails. This means we have to compute
+<span class="math display">\[\begin{align*}
+P(G | T) &amp;= \frac{P(T|G)P(G)}{P(T)} \\
+         &amp;= \frac{0.3 \times 0.9}{0.9\times 0.3 + 0.1 \times 0.7} \\
+         &amp;= 0.794
+\end{align*}\]</span>
+After the update, your believe that the coin is green is revised down from 0.9 to 0.8. As
+you gain new evidence you can update your believes again and so on. In this way you learn
+over time from the evidence. If you outperform your competitors in this, you will
+have an edge in the investment game. Note that any relevant information can help you
+in this updating process. You could for instance observe the bidding of other participants
+in the game or use other sources.</p>
+<p>Let’s use our knowledge of R to think about the next steps in the sequence of coin flips sticking
+to the assumptions of our hypothetical situation, that you have counted the coins in the
+bucket, found the ratio 9 to 1 of green coins but the referee drew in fact a red coin which he
+flips. You observe the outcome and update your priors in the light of this new evidence.</p>
+<p>Assume we have the following record. We see a data frame with the following sequence of draws by
+the referee:</p>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="conditional-probability.html#cb270-1" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
+<p>Now lets add a column with the probability that the outcome occurs, given that our hypothesis that
+the coin is green is in fact true, i.e. we add <span class="math inline">\(P(T|G)\)</span> or <span class="math inline">\(P(H|G)\)</span> respectively.</p>
+<p>This is perhaps a bit complicated, because, say in line 1 we would know that <span class="math inline">\(P(T|G)\)</span> is 0.3, but
+then in line 2 this needs to be $P(T|G) <span class="math inline">\(P(T|G)\)</span> by the multiplaction rule and the
+assumption that the coin flips of the referee are independent. How could we implement this, given
+the T knowledge we have so far? Note that questions of this nature never have a unique answers,
+usually there are many ways to implement the same thing. So let me make a suggestion, which
+builds as much as possible on what we know already.</p>
+<p>First we add an indicator variable of type <code>logical</code>, which tells us whether it is true that the
+toss of the referee is a win or not and add this to our <code>game_record</code>data frame and call it <code>Win</code>:</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="conditional-probability.html#cb271-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span></span></code></pre></div>
+<p>Then we add a new column, recording the sum of wins up to each round. So for instance it would
+always be 0 in the first four rows but then is 1 after the first head occurs, then stays at 1 until
+the next head occurs when it jumps to 2 etc.</p>
+<p>We can uses the Win variable and R’s coercion rules to apply the <code>cumsum()</code>function of R, which takes cumulative sums. To see how it works, consider the vector:</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="conditional-probability.html#cb272-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>)</span></code></pre></div>
+<p>if you apply <code>cumsum()</code> to <code>v</code> R will coerce the <code>TRUE</code> components to a numeric 1 and the <code>FALSE</code> components to a numeric 0 and then apply the function, like this:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="conditional-probability.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(v)</span></code></pre></div>
+<pre><code>## [1] 1 2 2 2 3 4 4 4 5</code></pre>
+<p>We add such a column to our data frame with a new varible <code>Sum_Wins</code>:</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="conditional-probability.html#cb275-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Sum_Wins <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(game_record<span class="sc">$</span>Win)</span></code></pre></div>
+<p>Now finally add a column which record the total number of flips and call it <code>Num_Flips</code>. This is
+easy:</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="conditional-probability.html#cb276-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Num_Flips <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span></code></pre></div>
+<p>Let’s have a look at our data frame construction so far:</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="conditional-probability.html#cb277-1" aria-hidden="true" tabindex="-1"></a>game_record</span></code></pre></div>
+<pre><code>##    Data   Win Sum_Wins Num_Flips
+## 1     T FALSE        0         1
+## 2     T FALSE        0         2
+## 3     T FALSE        0         3
+## 4     T FALSE        0         4
+## 5     H  TRUE        1         5
+## 6     T FALSE        1         6
+## 7     T FALSE        1         7
+## 8     T FALSE        1         8
+## 9     T FALSE        1         9
+## 10    H  TRUE        2        10
+## 11    T FALSE        2        11
+## 12    H  TRUE        3        12
+## 13    T FALSE        3        13
+## 14    H  TRUE        4        14
+## 15    H  TRUE        5        15
+## 16    T FALSE        5        16
+## 17    T FALSE        5        17
+## 18    H  TRUE        6        18
+## 19    T FALSE        6        19
+## 20    T FALSE        6        20
+## 21    T FALSE        6        21
+## 22    T FALSE        6        22
+## 23    H  TRUE        7        23
+## 24    T FALSE        7        24
+## 25    T FALSE        7        25
+## 26    H  TRUE        8        26
+## 27    H  TRUE        9        27
+## 28    H  TRUE       10        28
+## 29    T FALSE       10        29
+## 30    T FALSE       10        30</code></pre>
+<p>Now we need to add the relevant probabilities we need for updating believes in each round:
+The first column we need is <span class="math inline">\(P(\text{outcome}| G)\)</span>.</p>
+<p>The probability of
+successes after a given number
+of flips of a coin can be computed in R using the function <code>dbinom()</code>. We will learn more
+about this function in the next lecture, when be learn about the binomial distribution. This
+function takes three arguments. The first argument is a binary variable which is either a success
+of a failure. In Our case this would be the <code>Win</code> variable. The second argument
+is the number of flips, in our case the <code>Num_flips</code>argument and the last argument
+is the probability of success.
+Since we assume here that the coin is green this is 0.7. With this information and the
+<code>dbinom</code> function we can compute all the <span class="math inline">\(P(\text{outcome} | G)\)</span> probabilities and
+add this column to the
+frame.</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="conditional-probability.html#cb279-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POG <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.7</span>)</span></code></pre></div>
+<p>The next colum is our prior of <span class="math inline">\(P(G)\)</span> that the coin is indeed green. This is, as we have assumed
+0.9. So this is a column of 30 values each of which is 0.9. This can be done by using the
+<code>rep()</code> function.</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="conditional-probability.html#cb280-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PG <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.9</span>, <span class="dv">30</span>)</span></code></pre></div>
+<p>Now in the next column we compute the probabilities for <span class="math inline">\(P(\text{outcome} | R)\)</span>, the
+conditional probabilities of the outcome given the coin is red. We use again <code>dbinom()</code>but
+with the appropriately adjusted arguments:</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="conditional-probability.html#cb281-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)</span></code></pre></div>
+<p>Now we add the prior of the coin beein red <span class="math inline">\(P(R)\)</span> which is in our case 0.1:</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="conditional-probability.html#cb282-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">30</span>)</span></code></pre></div>
+<p>Now we have almost all the ingredients for computing a Bayesian update at every step. What we
+are still missing is the total probability of the outcome. Note that it can come from two
+sources, which we cannot distinguish just from observing the outcome. If
+you remember our discussion from before this should now look familiar to you:</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="conditional-probability.html#cb283-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span></code></pre></div>
+<p>Now we have all the ingredients to compute at every step the Bayesian update
+<span class="math inline">\(P(G | \text{outcome}\)</span> of our belief that
+the coin is green. We just have to apply the formula now:</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="conditional-probability.html#cb284-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span></code></pre></div>
+<p>Now let us add as a final columns the amount we should bid in each round given the updated
+believes.</p>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="conditional-probability.html#cb285-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<p>Let’s have a look at what we’ve got now</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="conditional-probability.html#cb286-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(game_record, <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Data</th>
+<th align="left">Win</th>
+<th align="right">Sum_Wins</th>
+<th align="right">Num_Flips</th>
+<th align="right">POG</th>
+<th align="right">PG</th>
+<th align="right">POR</th>
+<th align="right">PR</th>
+<th align="right">PO</th>
+<th align="right">PGO</th>
+<th align="right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.300</td>
+<td align="right">0.9</td>
+<td align="right">0.700</td>
+<td align="right">0.1</td>
+<td align="right">0.340</td>
+<td align="right">0.794</td>
+<td align="right">1.235</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0.090</td>
+<td align="right">0.9</td>
+<td align="right">0.490</td>
+<td align="right">0.1</td>
+<td align="right">0.130</td>
+<td align="right">0.623</td>
+<td align="right">1.098</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0.027</td>
+<td align="right">0.9</td>
+<td align="right">0.343</td>
+<td align="right">0.1</td>
+<td align="right">0.059</td>
+<td align="right">0.415</td>
+<td align="right">0.932</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0.008</td>
+<td align="right">0.9</td>
+<td align="right">0.240</td>
+<td align="right">0.1</td>
+<td align="right">0.031</td>
+<td align="right">0.233</td>
+<td align="right">0.786</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">0.028</td>
+<td align="right">0.9</td>
+<td align="right">0.360</td>
+<td align="right">0.1</td>
+<td align="right">0.062</td>
+<td align="right">0.415</td>
+<td align="right">0.932</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">0.001</td>
+<td align="right">0.9</td>
+<td align="right">0.118</td>
+<td align="right">0.1</td>
+<td align="right">0.012</td>
+<td align="right">0.053</td>
+<td align="right">0.642</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.082</td>
+<td align="right">0.1</td>
+<td align="right">0.008</td>
+<td align="right">0.023</td>
+<td align="right">0.619</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">8</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.058</td>
+<td align="right">0.1</td>
+<td align="right">0.006</td>
+<td align="right">0.010</td>
+<td align="right">0.608</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.040</td>
+<td align="right">0.1</td>
+<td align="right">0.004</td>
+<td align="right">0.004</td>
+<td align="right">0.603</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+<td align="right">10</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.121</td>
+<td align="right">0.1</td>
+<td align="right">0.012</td>
+<td align="right">0.010</td>
+<td align="right">0.608</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="right">11</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.020</td>
+<td align="right">0.1</td>
+<td align="right">0.002</td>
+<td align="right">0.001</td>
+<td align="right">0.601</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">3</td>
+<td align="right">12</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.071</td>
+<td align="right">0.1</td>
+<td align="right">0.007</td>
+<td align="right">0.002</td>
+<td align="right">0.602</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="right">13</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.010</td>
+<td align="right">0.1</td>
+<td align="right">0.001</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">4</td>
+<td align="right">14</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.041</td>
+<td align="right">0.1</td>
+<td align="right">0.004</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">5</td>
+<td align="right">15</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.031</td>
+<td align="right">0.1</td>
+<td align="right">0.003</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">5</td>
+<td align="right">16</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.003</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">5</td>
+<td align="right">17</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.002</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">6</td>
+<td align="right">18</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.013</td>
+<td align="right">0.1</td>
+<td align="right">0.001</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="right">19</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="right">20</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="right">21</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="right">22</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">7</td>
+<td align="right">23</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.003</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">7</td>
+<td align="right">24</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">7</td>
+<td align="right">25</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">8</td>
+<td align="right">26</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">9</td>
+<td align="right">27</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">TRUE</td>
+<td align="right">10</td>
+<td align="right">28</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.001</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="odd">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">10</td>
+<td align="right">29</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">FALSE</td>
+<td align="right">10</td>
+<td align="right">30</td>
+<td align="right">0.000</td>
+<td align="right">0.9</td>
+<td align="right">0.000</td>
+<td align="right">0.1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.600</td>
+</tr>
+</tbody>
+</table>
+<p>Now you see that already after the 9th round you have learned that in fact the coin is most
+probably not green, although you started with a high level of confidence.</p>
+<p>For a performance evaluation in an investment game we refer you to the project for this lecture.</p>
+</div>
+<div id="project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Project: Analyzing the performance of bidding strategies in the investment game using simulation</h2>
+<p>In this project yo are going to build on our last example and convince yourself of the
+power of updating probabilities in investment decisions. We are in the
+investment game described in the lecture. Assume we play for three rounds, each round
+with 100 coin flips. The setup is as described.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="basic-rules.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="random-variables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
