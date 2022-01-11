@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-10" />
+<meta name="date" content="2022-01-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -256,7 +256,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.6.2" data-path="random-variables.html"><a href="random-variables.html#bernoulli-random-variables-as-a-building-block-of-the-binomial-distribution"><i class="fa fa-check"></i><b>4.6.2</b> Bernoulli random variables as a building block of the binomial distribution</a></li>
 <li class="chapter" data-level="4.6.3" data-path="random-variables.html"><a href="random-variables.html#modeling-asset-price-dynamics-with-binomial-trees"><i class="fa fa-check"></i><b>4.6.3</b> Modeling asset price dynamics with binomial trees</a></li>
 </ul></li>
-<li class="chapter" data-level="4.7" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence-based-on-schönbucher"><i class="fa fa-check"></i><b>4.7</b> Project: Credit risk model and independence based on Schönbucher</a></li>
+<li class="chapter" data-level="4.7" data-path="random-variables.html"><a href="random-variables.html#project-credit-risk-model-and-independence"><i class="fa fa-check"></i><b>4.7</b> Project: Credit risk model and independence</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="continuous-random-variables.html"><a href="continuous-random-variables.html"><i class="fa fa-check"></i><b>5</b> Continuous random variables</a>
 <ul>
@@ -400,7 +400,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="conditional-probability.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.05784336</code></pre>
+<pre><code>## [1] 0.05782972</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -426,9 +426,9 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="conditional-probability.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   870  379 1249
+##   FALSE   870  380 1250
 ##   TRUE    443 1081 1524
-##   Sum    1313 1460 2773</code></pre>
+##   Sum    1313 1461 2774</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -470,9 +470,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb243-2"><a href="conditional-probability.html#cb243-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3137396 0.1366751 0.4504147
-##   TRUE  0.1597548 0.3898305 0.5495853
-##   Sum   0.4734944 0.5265056 1.0000000</code></pre>
+##   FALSE 0.3136265 0.1369863 0.4506128
+##   TRUE  0.1596972 0.3896900 0.5493872
+##   Sum   0.4733237 0.5266763 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -1127,14 +1127,14 @@ probability, in which case each outcome should get a probability 1/2.</p>
 select the <code>"H"</code> outcomes and calculate its length:</p>
 <div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="conditional-probability.html#cb260-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
 <span id="cb260-2"><a href="conditional-probability.html#cb260-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 80</code></pre>
-<p>This means we have 80 cases where we get 2 and 20
+<pre><code>## [1] 70</code></pre>
+<p>This means we have 70 cases where we get 2 and 30
 cases where we get 0. Thus on average
 we will get:</p>
 <div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="conditional-probability.html#cb262-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.6</code></pre>
+<pre><code>## [1] 1.4</code></pre>
 <p>So if we payed 1.20 for that round we would make a profit of
-0.4. The reasoning behind this argument is that the payoff
+0.2. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
 of flips it will come up heads approximately 7 out of 10 and thus will pay on average 0.7<em>2. This
