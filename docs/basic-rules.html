@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-14" />
+<meta name="date" content="2022-01-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -318,7 +318,7 @@ probability theory.</p>
 <p>Let us wrap up the definitions we have already discussed:</p>
 <dl>
 <dt>Random Experiment</dt>
-<dd>When we use the term (random) <em>experiment</em> we mean a process leading to an uncertain
+<dd>When we use the term (random) <strong>experiment</strong> we mean a process leading to an uncertain
 outcome.
 </dd>
 </dl>
@@ -335,19 +335,23 @@ in many applications in Finance we usually agree that
 <em>up</em> and <em>down</em> are the only possible outcomes of this experiment.</p>
 <dl>
 <dt>Sample space</dt>
-<dd>The collection of all possible outcomes of an experiment is called the <em>sample space</em>.
+<dd>The collection of all possible outcomes of an experiment is called the <strong>sample space</strong>.
 </dd>
 <dt>Basic outcome, event, simple event</dt>
-<dd>When we talk of a <em>basic outcome</em> we mean the possible outcome of a random experiment.
-An <em>event</em> is a subset of basic outcomes. Any event which consists of a
-single outcome in the sample space is called a <em>simple event</em>.
+<dd>When we talk of a <strong>basic outcome</strong> we mean the possible outcome of a random experiment.
+An <strong>event</strong> is a subset of basic outcomes. Any event which consists of a
+single outcome in the sample space is called a <strong>simple event</strong>.
 </dd>
 </dl>
 <p>In the first lecture we learned about two approaches to measure probability. But the
 theory of probability actually does not depend on how we measure it
 precisely. In the theory of probability this measure is an abstract concept.</p>
-<p><strong>Probability</strong> is a measure of how likely an event of an experiment is.
-Thus when we
+<dl>
+<dt>Probability</dt>
+<dd><strong>Probability</strong> is a measure of how likely an event of an experiment is.
+</dd>
+</dl>
+<p>Thus when we
 talk about probability in a precise and meaningful sense we can only do so in relation to
 a given sample space or to a certain conceptual experiment.</p>
 <p>But before we go on let me clarify what we mean when we say that in the theory,
@@ -478,9 +482,9 @@ of all elements that are in <span class="math inline">\(B\)</span> but not in <s
 Lets say we want to get the complement, or the set difference of <span class="math inline">\(A \cup B\)</span> with respect to the
 sample space <span class="math inline">\({\cal S}\)</span>. Let us show <span class="math inline">\({\cal S} \setminus (A \cup B)\)</span>.
 <div class="figure" style="text-align: center"><span id="fig:set-minus"></span>
-<img src="figures/set_minus.png" alt="The meaning of set intersection" width="80%" />
+<img src="figures/set_minus.png" alt="The meaning of complement" width="80%" />
 <p class="caption">
-Figure 2.3: The meaning of set intersection
+Figure 2.3: The meaning of complement
 </p>
 </div>
 <p>This complement is the dice shown in the light redish area, i.e. all the elements of <span class="math inline">\({\cal S}\)</span>
@@ -556,10 +560,7 @@ application attempts.</p>
 frequency and probability.</p>
 <p>Let us look closer on how this connection looks like, more precisely without going into
 a technical discussion. The insight that Bernoulli proved in his law of large numbers, which is
-today referred to as the weak law of large numbers is the following: <em>With arbitrary
-high probability the relative frequency of Heads appearing in a repeated throw of a fair coin can
-be made approximate the probability of heads as closely as you wish by choosing a long enough
-series of (independent) trials</em>.</p>
+today referred to as the weak law of large numbers is the following: <em>the probability of the relative frequency of Heads appearing in a repeated throw of a fair coin can be made approximate the probability of heads as closely as you wish by choosing a long enough series of (independent) trials</em>.</p>
 <p>We can use what we know about R to think about this argument in a hands on way:
 We proceed by analogy to our approach of rolling a die. Let us
 therefore create a virtual coin first.</p>
@@ -619,12 +620,12 @@ of independence. Let us more precisely explain what is meant by this. We have im
 used this concept before.
 Let us go back to our fair die and ask another probability question about the
 potential outcomes of rolling the die: What is the probability that a fair six sided die
-will roll a 5 and then a 6? We need to calculate is actually the probability of
+will roll a 5 and then a 6? We need to calculate the probability of
 the event that the dice shows first 5 and then 6, i.e. we need to compute
 <span class="math inline">\(P(5 \cap 6)\)</span>. The probabilities in each roll of the die do not depend on what the
 die showed before. The probability of any number showing up in the roll of the first die will
-be <span class="math inline">\(1/6\)</span> and sow will be the probability of any number showing up in the roll of the
-second die not matter what happened with the first die. In such a case we can multiply
+be <span class="math inline">\(1/6\)</span> and so will be the probability of any number showing up in the roll of the
+second die no matter what happened with the first die. In such a case we can multiply
 the individual probabilities to get the probability of the event.
 <span class="math inline">\(P(5 \cap 6) = P(5) \cdot P(6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}\)</span>.</p>
 <p>Indeed we have the following definition:</p>
@@ -645,7 +646,7 @@ of an example with stock price data.</p>
 <div id="readingdata" class="section level3" number="2.6.1">
 <h3><span class="header-section-number">2.6.1</span> Reading data in R</h3>
 <p>Before we can do anything with data, we need to learn how to load data into R and how
-to save then. We will discuss now how to do this with comma separated
+to save them. We will discuss now how to do this with comma separated
 text files. R provides packages for reading and writing from almost any other format, like
 Excel, STATA, SAS or MATLAB. In all those cases the same principles apply as in the csv case.</p>
 <p>I have prepared a data-file recording daily information on the stock
@@ -700,7 +701,7 @@ data.</p>
 </div>
 <div id="robjects" class="section level3" number="2.6.2">
 <h3><span class="header-section-number">2.6.2</span> R objects</h3>
-<p>The most simple type of R objects are <strong>atomic vectors</strong>. Most structures in R are built
+<p>The most basic type of R objects are <strong>atomic vectors</strong>. Most structures in R are built
 from atomic vectors. The stock data-file we have just loaded is an example of such
 a more complex structure built from atomic vectors. We have already encountered a few of
 those in our previous lecture.</p>
@@ -766,7 +767,7 @@ therefore be rounded by the computer. Usually the rounding error introduced into
 computations will go unnoticed but sometimes surprises can occur. Take for instance:</p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="basic-rules.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 4.440892e-16</code></pre>
-<p>Why is that? The squre root of 2 can not be expresses precisely because, as already
+<p>Why is that? The square root of 2 can not be expresses precisely because, as already
 the old Greeks
 knew, it is not a rational number. And voila, you have a small rounding error. Such errors
 are called <em>floating point errors</em> in computer science lingo and computing with such numbers is
@@ -784,7 +785,7 @@ fair coin with the vector <code>c("H", "T")</code> with the string <code>"H"</co
 <p>Note that a string can be more than just letters. If you type, for instance the number <code>1</code> with
 quotation marks, like <code>"1"</code> R would interpret the value as a string not as a number. Sometimes
 one can get confused in R because both objects and characters appear as text in R code. Object
-names are without quotation marks strings alway are between quotation marks.</p>
+names are without quotation marks strings always are between quotation marks.</p>
 <p>The next data type in the list are: <strong>Logicals</strong>. Logical vectors store <code>TRUEs</code> and <code>FALSES</code>. They
 are extremely useful for doing comparisons and - as we will see shortly - also for
 subsetting.</p>
@@ -793,7 +794,7 @@ subsetting.</p>
 <pre><code>## [1] FALSE</code></pre>
 <p>R tells you that this statement is False.</p>
 <p>Whenever you type <code>TRUE</code> of <code>FALSE</code> without quotation marks, R will treat the
-input as logial data. For instance, the follwoing statement yields:</p>
+input as logical data. For instance, the following statement yields:</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="basic-rules.html#cb129-1" aria-hidden="true" tabindex="-1"></a>logic <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
 <span id="cb129-2"><a href="basic-rules.html#cb129-2" aria-hidden="true" tabindex="-1"></a>logic</span></code></pre></div>
 <pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
@@ -803,7 +804,7 @@ input as logial data. For instance, the follwoing statement yields:</p>
 <p>One important R-fact which you need to know about atomic vectors is that atomic vectors
 can have <strong>attributes</strong>. Attributes won’t affect the values of an object but can hold
 and store object metadata. Normally we do not look at these metadata, but many R functions
-check for attributes and then do special things with the object dependning on these
+check for attributes and then do special things with the object depending on these
 attributes.</p>
 <p>Attributes can be checked with the function <code>attributes()</code> using an R object as an argument.</p>
 <div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="basic-rules.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code></pre></div>
@@ -876,16 +877,16 @@ when you display it but it is actually a double with class <code>POSIXct</code>,
 two classes):</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="basic-rules.html#cb155-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb155-2"><a href="basic-rules.html#cb155-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
-<pre><code>## [1] &quot;2022-01-14 21:06:46 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2022-01-19 00:04:07 CET&quot;</code></pre>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="basic-rules.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;double&quot;</code></pre>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="basic-rules.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</code></pre>
 <p><code>POSIXct</code> is a widely used framework for representing dates and times. But we will skip the
-detail here.</p>
+details here.</p>
 <p>R stores categorical data, such as nationality, sex etc. by using <strong>factors</strong>. If
 you take for instance, sex, it can have only two values - male or female - and these
-values may have their idiosyncratic order, for example females go always first.
+values may have their idiosyncratic order, for example that females go always first.
 To make a factor in R you have to pass an atomic vector to the <code>factor()</code> function.
 This function works by recoding the values in the vector as integers and store the
 results in an integer vector. R also adds a <code>level</code> attribute which contains the set
@@ -905,10 +906,10 @@ a factor. Example:</p>
 I recommend that you do not allow R to make factors unless you explicitly ask for it. This
 can usually be controlled by an argument to whatever the data reader function is. For instance
 you can give the <code>read.csv()</code> function the argument <code>stringsAsFactors = FALSE</code>.</p>
-<p>R has an internal <strong>coercion</strong> behavior behavior for data types, which you should know
-about of you work with R. With this knowledge you can do many useful things.</p>
+<p>R has an internal <strong>coercion</strong> behavior for data types, which you should know
+about if you work with R. With this knowledge you can do many useful things.</p>
 <p>If a character string is present in an atomic vector, R will automatically convert every
-other component in this vector to a character string. If a vector only contains only logicals
+other component in this vector to a character string. If a vector contains only logicals
 and numbers, R will convert the logicals to numbers. In this case every <code>TRUE</code> becomes a 1 and
 every <code>FALSE</code> becomes a 0.</p>
 <p>R also uses the coercion rules, when we do math with logicals, like for example</p>
@@ -918,7 +919,7 @@ every <code>FALSE</code> becomes a 0.</p>
 vector <code>c(1, 1, 0, 0)</code> and sums the components.</p>
 <p>Going back to our data set on the apple stock price, we see that this dataset stores
 values of different types, characters, dates and doubles. How does R achieve this?</p>
-<p>The answer is that this is achvieved by a data structure called a <strong>list</strong>. List are
+<p>The answer is that this is achieved by a data structure called a <strong>list</strong>. List are
 like atomic vectors, because the group data into a one-dimensional set. However, lists do
 no group together individual values. List group together R objects, such as atomic
 vectors or even other lists.</p>
@@ -944,7 +945,7 @@ single bracketed indices tell you which sub-element of the list is being display
 100 is the first subelement of the first element in the list. “R” is the first subelement of the
 second list element.</p>
 <p><strong>Data Frames</strong> are the two dimensional version of a list. They are by far the most
-useful storeage structure for data analysis. Indeed, our dataset on the Apple stock
+useful storage structure for data analysis. Indeed, our dataset on the Apple stock
 price we have loaded before is an instance of a data frame. Data frames group vectors
 together in a two dimensional table. As a consequence each variable can, i.e. each column of the
 data frame can contain a different data type. Within a column, however, we can have only
@@ -980,7 +981,7 @@ our new data set.</p>
 <div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="basic-rules.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <p>As expected the object is a list. The class shows that our
-object is a <code>data.frame</code>. Since the object is of class data-frame we can use the <code>dim</code>function
+object is a <code>data.frame</code>. Since the object is of class data-frame we can use the <code>dim</code> function
 to see the number of daily observations in our data set.</p>
 <div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="basic-rules.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code></pre></div>
 <pre><code>## [1] 8044    8</code></pre>
@@ -1056,7 +1057,7 @@ frame, like in</p>
 <p>R will return the sixth column of the data frame <em>except</em> the first row. We just display the
 first 10 values.</p>
 <p>If you try to pair a negative and a positive integer in an index, R will return an error.
-However, you can us both negative and positive integers if you use them in <em>different</em>
+However, you can use both negative and positive integers if you use them in <em>different</em>
 indices.</p>
 <p><strong>Zero</strong> is neither positive nor negative, If you use 0 as an index, R will return nothing
 from a dimension with index 0. The following syntax for instance creates an empty object</p>
@@ -1231,7 +1232,7 @@ first digit in 7829. If the number is 10892, it would be 1, if it is 4 it would 
 <p>Now we could ask the following question: let’s look at datasets we can find in real life, any
 datasets. How often in these datasets is the leading digit a 1, a 2, etc. or a 9? You might
 think that they all occur with about the same frequency. Indeed, what would be special
-about any particual digit? So in this case each number would occur with probability
+about any particular digit? So in this case each number would occur with probability
 <span class="math inline">\(1/9\)</span> or with a frequency of about <span class="math inline">\(11 \%\)</span>.</p>
 <p>But here is an interesting fact: They occur with unequal frequency. They are actually quite
 unequal and follow a peculiar logarithmic pattern; you can give a formula for the
@@ -1313,7 +1314,7 @@ also directly from an url without first downloading them and then read it from y
 something typical for real data situations. If you inspect the data, you will see that
 there is much more than we need. Let us therefore select the data we want to look at, using
 the R tools we learned in this lecture. We create a new data frame which contains only the
-variables <code>COUNTY</code>STNAME<code>,</code>CTYNAME<code>and</code>CENSUS2010POP`, and we discard all the other ones.</p>
+variables <code>COUNTY</code> <code>STNAME</code>, <code>CTYNAME</code> and <code>CENSUS2010POP</code>, and we discard all the other ones.</p>
 <div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="basic-rules.html#cb214-1" aria-hidden="true" tabindex="-1"></a>pop_us <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">County_ID =</span> population_data<span class="sc">$</span>COUNTY, <span class="at">State =</span> population_data<span class="sc">$</span>STNAME, <span class="at">County =</span> population_data<span class="sc">$</span>CTYNAME, <span class="at">Population =</span> population_data<span class="sc">$</span>CENSUS2010POP)</span></code></pre></div>
 <p>This looks already pretty good, but we would like to have the data purely on county level. The
 current data set also contains State aggregates, which have <code>County_Id == 0</code>. There are
@@ -1328,10 +1329,10 @@ from typing:</p>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="basic-rules.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(pop_us_filtered<span class="sc">$</span>Population)</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <p>So we can use R’s string functions. This is a vast area which could fill a lecture
-on it own. We just mention one of the many R-functions operationg on strings.
+on it own. We just mention one of the many R-functions operating on strings.
 One way to implement selection of a leading digit is
 using one of R’s string functions, <code>substr()</code>. You can give any string to this function and
-cut a substring, by specifiying where it should begin and where it should end. Now in our case
+cut a substring, by specifying where it should begin and where it should end. Now in our case
 the population number. Let us use this to add a new column of leading digits to the data frame.</p>
 <div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="basic-rules.html#cb218-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered<span class="sc">$</span>LD <span class="ot">&lt;-</span> <span class="fu">substr</span>(pop_us_filtered<span class="sc">$</span>Population, <span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre></div>
 <p>Now we just need to tabulate the leading digits. This means, we count the frequency

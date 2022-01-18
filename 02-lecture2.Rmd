@@ -24,7 +24,7 @@ probability theory.
 Let us wrap up the definitions we have already discussed:
 
 Random Experiment
-: When we use the term (random) *experiment* we mean a process leading to an uncertain
+: When we use the term (random) **experiment** we mean a process leading to an uncertain
 outcome.
 
 To make this notion precise and useful we need to agree what we mean by
@@ -40,18 +40,20 @@ in many applications in Finance we usually agree that
 *up* and *down* are the only possible outcomes of this experiment.
 
 Sample space
-: The collection of all possible outcomes of an experiment is called the *sample space*.
+: The collection of all possible outcomes of an experiment is called the **sample space**.
 
 Basic outcome, event, simple event
-: When we talk of a *basic outcome* we mean the possible outcome of a random experiment.
-An *event* is a subset of basic outcomes. Any event which consists of a
-single outcome in  the sample space is called a *simple event*.
+: When we talk of a **basic outcome** we mean the possible outcome of a random experiment.
+An **event** is a subset of basic outcomes. Any event which consists of a
+single outcome in  the sample space is called a **simple event**.
 
 In the first lecture we learned about two approaches to measure probability. But the
 theory of probability actually does not depend on how we measure it
 precisely. In the theory of probability this measure is an abstract concept.
 
-**Probability** is a measure of how likely an event of an experiment is.
+Probability
+: **Probability** is a measure of how likely an event of an experiment is.
+
 Thus when we
 talk about probability in a precise and meaningful sense we can only do so in relation to
 a given sample space or to a certain conceptual experiment.
@@ -191,7 +193,7 @@ of all elements that are in $B$ but not in $A$. Set difference is written as $A 
 
 Lets say we want to get the complement, or the set difference of $A \cup B$ with respect to the
 sample space ${\cal S}$. Let us show ${\cal S} \setminus (A \cup B)$.
-```{r set-minus, out.width='80%', fig.align='center', fig.cap='The meaning of set intersection', echo = F}
+```{r set-minus, out.width='80%', fig.align='center', fig.cap='The meaning of complement', echo = F}
 knitr::include_graphics('figures/set_minus.png')
 ```
 This complement is the dice shown in the light redish area, i.e. all the elements of ${\cal S}$
@@ -280,10 +282,7 @@ frequency and probability.
 
 Let us look closer on how this connection looks like, more precisely without going into
 a technical discussion. The insight that Bernoulli proved in his law of large numbers, which is
-today referred to as the weak law of large numbers is the following: *With arbitrary 
-high probability the relative frequency of Heads appearing in a repeated throw of a fair coin can
-be made approximate the probability of heads as closely as you wish by choosing a long enough
-series of (independent) trials*.
+today referred to as the weak law of large numbers is the following: *the probability of the relative frequency of Heads appearing in a repeated throw of a fair coin can be made approximate the probability of heads as closely as you wish by choosing a long enough series of (independent) trials*.
 
 We can use what we know about R to think about this argument in a hands on way:
 We proceed by analogy to our approach of rolling a die. Let us
@@ -364,12 +363,12 @@ of independence. Let us more precisely explain what is meant by this. We have im
 used this concept before.
 Let us go back to our fair die and ask another probability question about the
 potential outcomes of rolling the die: What is the probability that a fair six sided die
-will roll a 5 and then a 6? We need to calculate is actually the probability of
+will roll a 5 and then a 6? We need to calculate the probability of
 the event that the dice shows first 5 and then 6, i.e. we need to compute
 $P(5 \cap 6)$. The probabilities in each roll of the die do not depend on what the
 die showed before. The probability of any number showing up in the roll of the first die will
-be $1/6$ and sow will be the probability of any number showing up in the roll of the 
-second die not matter what happened with the first die. In such a case we can multiply
+be $1/6$ and so will be the probability of any number showing up in the roll of the 
+second die no matter what happened with the first die. In such a case we can multiply
 the individual probabilities to get the probability of the event.
 $P(5 \cap 6) = P(5) \cdot P(6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}$.
 
@@ -391,7 +390,7 @@ of an example with stock price data.
 ### Reading data in R {#readingdata}
 
 Before we can do anything with data, we need to learn how  to load data into R and how
-to save then. We will discuss now how to do this with comma separated
+to save them. We will discuss now how to do this with comma separated
 text files. R provides packages for reading and writing from almost any other format, like
 Excel, STATA, SAS or MATLAB. In all those cases the same principles apply as in the csv case.
 
@@ -447,7 +446,7 @@ data.
 
 ### R objects {#robjects}
 
-The most simple type of R objects are **atomic vectors**. Most structures in R are built
+The most basic type of R objects are **atomic vectors**. Most structures in R are built
 from atomic vectors. The stock data-file we have just loaded is an example of such 
 a more complex structure built from atomic vectors. We have already encountered a few of
 those in our previous lecture.
@@ -529,7 +528,7 @@ computations will go unnoticed but sometimes surprises can occur. Take for insta
 ```{r sqrt-4-minus-2}
 sqrt(2)^2 - 2
 ```
-Why is that? The squre root of 2 can not be expresses precisely because, as already 
+Why is that? The square root of 2 can not be expresses precisely because, as already 
 the old Greeks
 knew, it is not a rational number. And voila, you have a small rounding error. Such errors
 are called *floating point errors* in computer science lingo and computing with such numbers is
@@ -550,7 +549,7 @@ fair coin with the vector `c("H", "T")` with the string `"H"` for head and the s
 Note that a string can be more than just letters. If you type, for instance the number `1` with
 quotation marks, like `"1"` R would interpret the value as a string not as a number. Sometimes
 one can get confused in R because both objects and characters appear as text in R code. Object
-names are without quotation marks strings alway are between quotation marks.
+names are without quotation marks strings always are between quotation marks.
 
 The next data type in the list are: **Logicals**. Logical vectors store `TRUEs` and `FALSES`. They
 are extremely useful for doing comparisons and - as we will see shortly - also for
@@ -563,7 +562,7 @@ For example, if you type:
 R tells you that this statement is False. 
 
 Whenever you type `TRUE` of `FALSE` without quotation marks, R will treat the
-input as logial data. For instance, the follwoing statement yields:
+input as logical data. For instance, the following statement yields:
 ```{r logical-inputs}
 logic <- c(TRUE, FALSE, TRUE)
 logic
@@ -576,7 +575,7 @@ typeof(logic)
 One important R-fact which you need to know about atomic vectors is that atomic vectors
 can have **attributes**. Attributes won't affect the values of an object but can hold
 and store object metadata. Normally we do not look at these metadata, but many R functions
-check for attributes and then do special things with the object dependning on these 
+check for attributes and then do special things with the object depending on these 
 attributes.
 
 Attributes can be checked with the function `attributes()` using an R object as an argument.
@@ -667,11 +666,11 @@ typeof(now)
 class(now)
 ```
 `POSIXct` is a widely used framework for representing dates and times. But we will skip the
-detail here.
+details here.
 
 R stores categorical data, such as nationality, sex etc. by using **factors**. If
 you take for instance, sex, it can have only two values - male or female - and these
-values may have their idiosyncratic order, for example females go always first.
+values may have their idiosyncratic order, for example that females go always first.
 To make a factor in R you have to pass an atomic vector to the `factor()` function.
 This function works by recoding the values in the vector as integers and store the 
 results in an integer vector. R also adds a `level` attribute which contains the set
@@ -689,11 +688,11 @@ I recommend that you do not allow R to make factors unless you explicitly ask fo
 can usually be controlled by an argument to whatever the data reader function is. For instance
 you can give the `read.csv()` function the argument `stringsAsFactors = FALSE`. 
 
-R has an internal **coercion** behavior behavior for data types, which you should know
-about of you work with R. With this knowledge you can do many useful things.
+R has an internal **coercion** behavior for data types, which you should know
+about if you work with R. With this knowledge you can do many useful things.
 
 If a character string is present in an atomic vector, R will automatically convert every
-other component in this vector to a character string. If a vector only contains only logicals 
+other component in this vector to a character string. If a vector contains only logicals 
 and numbers, R will convert the logicals to numbers. In this case every `TRUE` becomes a 1 and
 every `FALSE` becomes a 0.
 
@@ -707,7 +706,7 @@ vector `c(1, 1, 0, 0)` and sums the components.
 Going back to our data set on the apple stock price, we see that this dataset stores 
 values of different types, characters, dates and doubles. How does R achieve this?
 
-The answer is that this is achvieved by a data structure called a **list**. List are
+The answer is that this is achieved by a data structure called a **list**. List are
 like atomic vectors, because the group data into a one-dimensional set. However, lists do
 no group together individual values. List group together R objects, such as atomic
 vectors or even other lists. 
@@ -724,7 +723,7 @@ single bracketed indices tell you which sub-element of the list is being display
 second list element.
 
 **Data Frames** are the two dimensional version of a list. They are by far the most
-useful storeage structure for data analysis. Indeed, our dataset on the Apple stock
+useful storage structure for data analysis. Indeed, our dataset on the Apple stock
 price we have loaded before is an instance of a data frame. Data frames group vectors
 together in a two dimensional table. As a consequence each variable can, i.e. each column of the
 data frame can contain a different data type. Within a column, however, we can have only
@@ -752,7 +751,7 @@ typeof(aapl_prices)
 class(aapl_prices)
 ```
 As expected the object is a list. The class shows that our
-object is a `data.frame`. Since the object is of class data-frame we can use the `dim`function
+object is a `data.frame`. Since the object is of class data-frame we can use the `dim` function
 to see the number of daily observations in our data set.
 ```{r dim-aapl}
 dim(aapl_prices)
@@ -818,7 +817,7 @@ R will return the sixth column of the data frame *except* the first row. We just
 first 10 values.
 
 If you try to pair a negative and a positive integer in an index, R will return an error.
-However, you can us both negative and positive integers if you use them in *different*
+However, you can use both negative and positive integers if you use them in *different*
 indices.
 
 **Zero** is neither positive nor negative, If you use 0 as an index, R will return nothing
@@ -994,7 +993,7 @@ first digit in 7829. If the number is 10892, it would be 1, if it is 4 it would 
 Now we could ask the following question: let's look at datasets we can find in real life, any
 datasets. How often in these datasets is the leading digit a 1, a 2, etc. or a 9? You might
 think that they all occur with about the same frequency. Indeed, what would be special 
-about any particual digit? So in this case each number would occur with probability
+about any particular digit? So in this case each number would occur with probability
 $1/9$ or with a frequency of about $11 \%$.
 
 But here is an interesting fact: They occur with unequal frequency. They are actually quite
@@ -1039,7 +1038,7 @@ Now we want to use these data to check or illustrate Benford's law. Now you will
 something typical for real data situations. If you inspect the data, you will see that
 there is much more than we need. Let us therefore select the data we want to look at, using
 the R tools we learned in this lecture. We create a new data frame which contains only the
-variables `COUNTY `STNAME`, `CTYNAME` and `CENSUS2010POP`, and we discard all the other ones.
+variables `COUNTY` `STNAME`, `CTYNAME` and `CENSUS2010POP`, and we discard all the other ones.
 ```{r pop-us-red}
 pop_us <- data.frame(County_ID = population_data$COUNTY, State = population_data$STNAME, County = population_data$CTYNAME, Population = population_data$CENSUS2010POP)
 ```
@@ -1061,10 +1060,10 @@ typeof(pop_us_filtered$Population)
 ```
 
 So we can use R's string functions. This is a vast area which could fill a lecture
-on it own. We just mention one of the many R-functions operationg on strings. 
+on it own. We just mention one of the many R-functions operating on strings. 
 One way to implement selection of a leading digit is
 using one of R's string functions, `substr()`. You can give any string to this function and
-cut a substring, by specifiying where it should begin and where it should end. Now in our case
+cut a substring, by specifying where it should begin and where it should end. Now in our case
 the population number. Let us use this to add a new column of leading digits to the data frame.
 ```{r pop-lead-digits}
 pop_us_filtered$LD <- substr(pop_us_filtered$Population, 1, 1)
