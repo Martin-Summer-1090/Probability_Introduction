@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-19" />
+<meta name="date" content="2022-01-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -877,7 +877,7 @@ when you display it but it is actually a double with class <code>POSIXct</code>,
 two classes):</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="basic-rules.html#cb155-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb155-2"><a href="basic-rules.html#cb155-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
-<pre><code>## [1] &quot;2022-01-19 00:04:07 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2022-01-20 19:24:17 CET&quot;</code></pre>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="basic-rules.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div>
 <pre><code>## [1] &quot;double&quot;</code></pre>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="basic-rules.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
@@ -1182,12 +1182,12 @@ relative frequency this amounts to <span class="math inline">\(0.51^5\)</span>, 
 <p>“What is the probability that the stock price will decrease either on Monday,
 Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?”</p>
 <p>The probability that the <span class="math inline">\(D\)</span> movement happens, say on a Monday, is
-<span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span> or <span class="math inline">\(0.51*0.49^4\)</span> which is <span class="math inline">\(0.029\)</span>.
+<span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span> or <span class="math inline">\(0.49*0.51^4\)</span> which is <span class="math inline">\(0.033\)</span>.
 We have in total five mutually exclusive scenarios:
 <span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap D \cap U \cap U \cap U)\)</span>,
 <span class="math inline">\(P(U \cap U \cap D \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap U \cap D \cap U)\)</span>,
-<span class="math inline">\(P(U \cap U \cap U \cap U \cap D)\)</span>. Thus we have <span class="math inline">\(0.029 + 0.029 + 0.029 + 0.029 + 0.029\)</span>
-as the final probability of this event, which is <span class="math inline">\(0.145\)</span>.</p>
+<span class="math inline">\(P(U \cap U \cap U \cap U \cap D)\)</span>. Thus we have <span class="math inline">\(0.033 + 0.033 + 0.033 + 0.033 + 0.033\)</span>
+as the final probability of this event, which is <span class="math inline">\(0.132\)</span>.</p>
 <p>Is this analysis any good? How could we possibly judge this? Interestingly the relative
 frequencies of up and down moves look similar to a random experiment of a few thousand tosses
 of a fair coin. But can we learn anything from this? Are the up and down moves independent?
@@ -1210,7 +1210,8 @@ in the stock price of apple as if it was the outcome of tossing a fair coin. In 
 the probability of an up or a down movement should be 1/2 and with the number of trials
 approaching infinity the frequency of ups and downs should approach this probability.</p>
 <p>The literature on stock price fluctuations which came later, however, presented evidence that
-stock prices are predictable to a certain degree and do not fluctuate randomly. In this
+stock prices are predictable to a certain degree and do not fluctuate randomly. A good
+reference summarizing this evidence is <span class="citation"><a href="#ref-LoMacKinlay1999" role="doc-biblioref">Lo and MacKinlay</a> (<a href="#ref-LoMacKinlay1999" role="doc-biblioref">2019</a>)</span> In this
 case our approach would perhaps produce a misleading answer.</p>
 <p>We cannot give a clear cut answer here. The point of this brief discussion is that you
 just cannot apply a theoretical machinery mechanically without giving it further thought and
@@ -1531,6 +1532,9 @@ Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. P
 </div>
 <div id="ref-Feller1968" class="csl-entry">
 Feller, William. 1968. <em>An Introduction to Probability Theory and Its Applications</em>. 3rd ed. Vol. 1. Wiley.
+</div>
+<div id="ref-LoMacKinlay1999" class="csl-entry">
+Lo, Andrew, and Craig MacKinlay. 2019. <em>A Non-Random Walk down Wallstreet</em>. Princeton University Press.
 </div>
 <div id="ref-Samuelson1965" class="csl-entry">
 Samuelson, Paul. 1965. <span>“Proof That Properly Anticipated Prices Fluctuate Randomly.”</span> <em>Industrial Management Review</em> 6.
