@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-20" />
+<meta name="date" content="2022-01-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -344,17 +344,17 @@ a continuous random variable means.</p>
 <p>In order to do this let us think of a continuous random variable which can take any
 value in the interval <span class="math inline">\([0,1]\)</span>. We can generate such numbers very easily in R using the
 function <code>runif()</code>. Let’s create 10 such numbers:</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="continuous-random-variables.html#cb417-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>##  [1] 0.8997718 0.9135329 0.7118185 0.7370736 0.9239187 0.1894081 0.1635663
-##  [8] 0.9249555 0.7224892 0.4322832</code></pre>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="continuous-random-variables.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.1257424 0.3808853 0.3402897 0.4327145 0.9624956 0.5329785 0.2443896
+##  [8] 0.7724164 0.9692859 0.4942629</code></pre>
 <p>Now you could ask: What is the probability that this random variable takes a particular value of,
 say <span class="math inline">\(0.4848450\)</span>, one value in our list? We could try simulation.
 Let’s simulate one million such uniformly distributed
 random numbers in <span class="math inline">\({\cal S}=[0,1]\)</span> and compute the relative frequency with
 which <span class="math inline">\(0.4848450\)</span> occurs.</p>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="continuous-random-variables.html#cb419-1" aria-hidden="true" tabindex="-1"></a>uniform_rv <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb419-2"><a href="continuous-random-variables.html#cb419-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb419-3"><a href="continuous-random-variables.html#cb419-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(uniform_rv <span class="sc">==</span> <span class="fl">0.4848450</span>)<span class="sc">/</span><span class="fu">length</span>(uniform_rv)</span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="continuous-random-variables.html#cb420-1" aria-hidden="true" tabindex="-1"></a>uniform_rv <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb420-2"><a href="continuous-random-variables.html#cb420-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb420-3"><a href="continuous-random-variables.html#cb420-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(uniform_rv <span class="sc">==</span> <span class="fl">0.4848450</span>)<span class="sc">/</span><span class="fu">length</span>(uniform_rv)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p>It is zero! Here this is literally zero. Even in <span class="math inline">\(10^6\)</span> draws the random number generator
 of R drew 10 different numbers at each of the one million draws. The probability of hitting
@@ -370,11 +370,11 @@ in the case of a continuous random variable we can no longer talk about individu
 <p>Now let us think about a different question. What is the probability that the uniformly
 distributed random variable <span class="math inline">\(X \sim U[0,1]\)</span> comes
 up with a value between <span class="math inline">\(0\)</span> and <span class="math inline">\(1/4\)</span>? Lets check with our simulated numbers:</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="continuous-random-variables.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">0</span> <span class="sc">&lt;=</span> uniform_rv <span class="sc">&amp;</span> uniform_rv <span class="sc">&lt;=</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)<span class="sc">/</span><span class="fu">length</span>(uniform_rv)</span></code></pre></div>
-<pre><code>## [1] 0.250665</code></pre>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="continuous-random-variables.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">0</span> <span class="sc">&lt;=</span> uniform_rv <span class="sc">&amp;</span> uniform_rv <span class="sc">&lt;=</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)<span class="sc">/</span><span class="fu">length</span>(uniform_rv)</span></code></pre></div>
+<pre><code>## [1] 0.249449</code></pre>
 <p>It says 25 %, as we expect from a uniformly distributed probabilities. Let’s try R’s cumulative
 distribution function, or <span class="math inline">\(P(X \leq 1/4)\)</span> for the uniform distribution on <span class="math inline">\({\cal S}=[0,1]\)</span>:</p>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="continuous-random-variables.html#cb423-1" aria-hidden="true" tabindex="-1"></a><span class="fu">punif</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="continuous-random-variables.html#cb424-1" aria-hidden="true" tabindex="-1"></a><span class="fu">punif</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>## [1] 0.25</code></pre>
 So as soon as we have range, we can talk about positive probabilities. But this is the <em>big
 change</em> from discrete to continuous random variables. Whereas in the discrete case we had points
@@ -473,12 +473,12 @@ daily returns ans <em>assume</em> that these returns are random returns from a n
 have already computed the returns in a previous lecture and added them to our data frame.</p>
 <p>The normal distribution has two parameters, the mean <span class="math inline">\(\mu\)</span> and the variance <span class="math inline">\(\sigma\)</span>. We compute
 these values for the daily returns in our data.</p>
-<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="continuous-random-variables.html#cb425-1" aria-hidden="true" tabindex="-1"></a>mean_ret_sp500 <span class="ot">&lt;-</span> <span class="fu">mean</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T)</span>
-<span id="cb425-2"><a href="continuous-random-variables.html#cb425-2" aria-hidden="true" tabindex="-1"></a>sigma_ret_sp500 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T))</span>
-<span id="cb425-3"><a href="continuous-random-variables.html#cb425-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb425-4"><a href="continuous-random-variables.html#cb425-4" aria-hidden="true" tabindex="-1"></a>mean_ret_sp500</span></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="continuous-random-variables.html#cb426-1" aria-hidden="true" tabindex="-1"></a>mean_ret_sp500 <span class="ot">&lt;-</span> <span class="fu">mean</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T)</span>
+<span id="cb426-2"><a href="continuous-random-variables.html#cb426-2" aria-hidden="true" tabindex="-1"></a>sigma_ret_sp500 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T))</span>
+<span id="cb426-3"><a href="continuous-random-variables.html#cb426-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb426-4"><a href="continuous-random-variables.html#cb426-4" aria-hidden="true" tabindex="-1"></a>mean_ret_sp500</span></code></pre></div>
 <pre><code>## [1] 0.0005279295</code></pre>
-<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="continuous-random-variables.html#cb427-1" aria-hidden="true" tabindex="-1"></a>sigma_ret_sp500</span></code></pre></div>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="continuous-random-variables.html#cb428-1" aria-hidden="true" tabindex="-1"></a>sigma_ret_sp500</span></code></pre></div>
 <pre><code>## [1] 0.01077717</code></pre>
 <p>We see that the mean is at about 0 and the standard deviation is about <span class="math inline">\(1 \%\)</span>. Let us use this
 model to compute the probability that the daily stays within the bounds of plus or minus <span class="math inline">\(1 \%\)</span>
@@ -486,8 +486,8 @@ from the mean. Theoretically this can be computed by <span class="math inline">\
 of the normal distribution. Now if you look at the formula for the normal distribution, this
 would amount to handle quite a daunting integration exercise. But here we can use the built
 in R-functions, with the syntax we already know from the binomial distribution.</p>
-<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="continuous-random-variables.html#cb429-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(mean_ret_sp500 <span class="sc">+</span> sigma_ret_sp500, <span class="at">mean =</span> mean_ret_sp500, sigma_ret_sp500) <span class="sc">-</span></span>
-<span id="cb429-2"><a href="continuous-random-variables.html#cb429-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(mean_ret_sp500 <span class="sc">-</span> sigma_ret_sp500, <span class="at">mean =</span> mean_ret_sp500, sigma_ret_sp500)</span></code></pre></div>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="continuous-random-variables.html#cb430-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(mean_ret_sp500 <span class="sc">+</span> sigma_ret_sp500, <span class="at">mean =</span> mean_ret_sp500, sigma_ret_sp500) <span class="sc">-</span></span>
+<span id="cb430-2"><a href="continuous-random-variables.html#cb430-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(mean_ret_sp500 <span class="sc">-</span> sigma_ret_sp500, <span class="at">mean =</span> mean_ret_sp500, sigma_ret_sp500)</span></code></pre></div>
 <pre><code>## [1] 0.6826895</code></pre>
 <p>This actually a general property of a normal distribution. For a normally distributed random
 variable <span class="math inline">\(68 \%\)</span> of the probability mass lies in the interval <span class="math inline">\([\mu - \sigma, \mu + \sigma]\)</span>.
@@ -498,15 +498,15 @@ sp500 returns, defined as:
 <span class="math display">\[\begin{equation*}
 \frac{X - \mu}{\sigma}
 \end{equation*}\]</span></p>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="continuous-random-variables.html#cb431-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) <span class="sc">-</span></span>
-<span id="cb431-2"><a href="continuous-random-variables.html#cb431-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="continuous-random-variables.html#cb432-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) <span class="sc">-</span></span>
+<span id="cb432-2"><a href="continuous-random-variables.html#cb432-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 0.6826895</code></pre>
 <p>Exactly the same result. This means that this is a property of the normal distribution, which is
 independent in which unit we measure the random variable. The standardization has no
 influence on the distribution. It is a simple change of units.</p>
 <p>Finally, let us check how good the normal random variable catches the empirical return
 distribution we see in the data.</p>
-<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="continuous-random-variables.html#cb433-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sp500<span class="sc">$</span>returns <span class="sc">&gt;=</span> (mean_ret_sp500 <span class="sc">-</span> sigma_ret_sp500) <span class="sc">&amp;</span> sp500<span class="sc">$</span>returns <span class="sc">&lt;=</span> (mean_ret_sp500 <span class="sc">+</span> sigma_ret_sp500), <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="fu">length</span>(sp500<span class="sc">$</span>returns)</span></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="continuous-random-variables.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sp500<span class="sc">$</span>returns <span class="sc">&gt;=</span> (mean_ret_sp500 <span class="sc">-</span> sigma_ret_sp500) <span class="sc">&amp;</span> sp500<span class="sc">$</span>returns <span class="sc">&lt;=</span> (mean_ret_sp500 <span class="sc">+</span> sigma_ret_sp500), <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="fu">length</span>(sp500<span class="sc">$</span>returns)</span></code></pre></div>
 <pre><code>## [1] 0.8091962</code></pre>
 <p>Not quite. This is by the way typical for return distributions of daily stock returns. Empirical
 return distributions of daily returns are often slightly smaller near the mean and larger at
@@ -514,24 +514,24 @@ the extreme values, as a normal distribution with the same mean and standard dev
 is usually referred to as <strong>fat tails</strong>, a property which becomes quite important when we consider
 extreme risks. Let us contrast the empirical and the theoretical distribution with the same
 mean and standard deviation in the case of the sp500 daily returns.</p>
-<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="continuous-random-variables.html#cb435-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T), <span class="fu">max</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T), <span class="at">length.out =</span> <span class="dv">50</span>)</span>
-<span id="cb435-2"><a href="continuous-random-variables.html#cb435-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb435-3"><a href="continuous-random-variables.html#cb435-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sp500<span class="sc">$</span>returns, <span class="at">freq =</span> F, <span class="at">breaks =</span> y, <span class="at">main =</span> <span class="st">&quot;Histogram of S&amp;P500 daily returns with normal curve&quot;</span>)</span>
-<span id="cb435-4"><a href="continuous-random-variables.html#cb435-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb435-5"><a href="continuous-random-variables.html#cb435-5" aria-hidden="true" tabindex="-1"></a>fun <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y, <span class="at">mean =</span> mean_ret_sp500, <span class="at">sd =</span> sigma_ret_sp500) </span>
-<span id="cb435-6"><a href="continuous-random-variables.html#cb435-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y,fun,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="continuous-random-variables.html#cb436-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T), <span class="fu">max</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T), <span class="at">length.out =</span> <span class="dv">50</span>)</span>
+<span id="cb436-2"><a href="continuous-random-variables.html#cb436-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb436-3"><a href="continuous-random-variables.html#cb436-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sp500<span class="sc">$</span>returns, <span class="at">freq =</span> F, <span class="at">breaks =</span> y, <span class="at">main =</span> <span class="st">&quot;Histogram of S&amp;P500 daily returns with normal curve&quot;</span>)</span>
+<span id="cb436-4"><a href="continuous-random-variables.html#cb436-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb436-5"><a href="continuous-random-variables.html#cb436-5" aria-hidden="true" tabindex="-1"></a>fun <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y, <span class="at">mean =</span> mean_ret_sp500, <span class="at">sd =</span> sigma_ret_sp500) </span>
+<span id="cb436-6"><a href="continuous-random-variables.html#cb436-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y,fun,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/empirical-return-distribution-with-normal-overlay-1.png" width="672" />
 The property of the empirical distribution being smaller near the mean is quite clearly visible
 in our data. The higher mass at the tails is not so clearly visible from this picture, but let us
 zoom in to the negative tail and look a bit from closer:</p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="continuous-random-variables.html#cb436-1" aria-hidden="true" tabindex="-1"></a>sp500_returns_zoom <span class="ot">&lt;-</span> sp500<span class="sc">$</span>returns[sp500<span class="sc">$</span>returns <span class="sc">&gt;=</span> <span class="sc">-</span> <span class="fl">0.06</span> <span class="sc">&amp;</span> sp500<span class="sc">$</span>returns <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.02</span>]</span>
-<span id="cb436-2"><a href="continuous-random-variables.html#cb436-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb436-3"><a href="continuous-random-variables.html#cb436-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.06</span>, <span class="sc">-</span><span class="fl">0.02</span>, <span class="at">length.out =</span> <span class="dv">20</span>)</span>
-<span id="cb436-4"><a href="continuous-random-variables.html#cb436-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb436-5"><a href="continuous-random-variables.html#cb436-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sp500_returns_zoom, <span class="at">freq =</span> F, <span class="at">breaks =</span> y, <span class="at">main =</span> <span class="st">&quot;Zoom of S&amp;P500 daily returns with normal curve to lower tail&quot;</span>)</span>
-<span id="cb436-6"><a href="continuous-random-variables.html#cb436-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb436-7"><a href="continuous-random-variables.html#cb436-7" aria-hidden="true" tabindex="-1"></a>fun <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(z, <span class="at">mean =</span> mean_ret_sp500, <span class="at">sd =</span> sigma_ret_sp500) </span>
-<span id="cb436-8"><a href="continuous-random-variables.html#cb436-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(z,fun,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="continuous-random-variables.html#cb437-1" aria-hidden="true" tabindex="-1"></a>sp500_returns_zoom <span class="ot">&lt;-</span> sp500<span class="sc">$</span>returns[sp500<span class="sc">$</span>returns <span class="sc">&gt;=</span> <span class="sc">-</span> <span class="fl">0.06</span> <span class="sc">&amp;</span> sp500<span class="sc">$</span>returns <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.02</span>]</span>
+<span id="cb437-2"><a href="continuous-random-variables.html#cb437-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb437-3"><a href="continuous-random-variables.html#cb437-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.06</span>, <span class="sc">-</span><span class="fl">0.02</span>, <span class="at">length.out =</span> <span class="dv">20</span>)</span>
+<span id="cb437-4"><a href="continuous-random-variables.html#cb437-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb437-5"><a href="continuous-random-variables.html#cb437-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sp500_returns_zoom, <span class="at">freq =</span> F, <span class="at">breaks =</span> y, <span class="at">main =</span> <span class="st">&quot;Zoom of S&amp;P500 daily returns with normal curve to lower tail&quot;</span>)</span>
+<span id="cb437-6"><a href="continuous-random-variables.html#cb437-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb437-7"><a href="continuous-random-variables.html#cb437-7" aria-hidden="true" tabindex="-1"></a>fun <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(z, <span class="at">mean =</span> mean_ret_sp500, <span class="at">sd =</span> sigma_ret_sp500) </span>
+<span id="cb437-8"><a href="continuous-random-variables.html#cb437-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(z,fun,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/zooming-in-1.png" width="672" />
 In the zoom you can see very clearly that there is much more mass in the tail than we would
 expect under a normal distribution?</p>
@@ -570,7 +570,7 @@ make this probability of exceeding such a wipe out threshold very small.</p>
 <p>The functions that provide the necessary computation in R has the syntax <code>qnorm()</code> for the
 normal distribution. It is similar for other models, like in the binomial model from the last
 lecture, where the syntax would be <code>qbinom()</code>.</p>
-<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="continuous-random-variables.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.01</span>, <span class="at">mean =</span> mean_ret_sp500, <span class="at">sd =</span> sigma_ret_sp500)</span></code></pre></div>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="continuous-random-variables.html#cb438-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.01</span>, <span class="at">mean =</span> mean_ret_sp500, <span class="at">sd =</span> sigma_ret_sp500)</span></code></pre></div>
 <pre><code>## [1] -0.02454351</code></pre>
 <p>This function solves for the problem. What is the threshold <span class="math inline">\(x\)</span> such that
 <span class="math display">\[\begin{equation*}
@@ -606,38 +606,38 @@ would like to know whether your value at risk is such that you would be able
 to cover a severe portfolio loss, given your equity of 10 Million.</p>
 <p>Let us use the same approach, which we used in the last lecture to extract the
 weekly prices from the sp500 daily data and compute the weeky log returns.</p>
-<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="continuous-random-variables.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a column with the year using year function from lubridate package</span></span>
-<span id="cb439-2"><a href="continuous-random-variables.html#cb439-2" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>week <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">week</span>(sp500<span class="sc">$</span>date)</span>
-<span id="cb439-3"><a href="continuous-random-variables.html#cb439-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split dataframe according to year</span></span>
-<span id="cb439-4"><a href="continuous-random-variables.html#cb439-4" aria-hidden="true" tabindex="-1"></a>split_by_week <span class="ot">&lt;-</span> <span class="fu">split</span>(sp500, sp500<span class="sc">$</span>week)</span>
-<span id="cb439-5"><a href="continuous-random-variables.html#cb439-5" aria-hidden="true" tabindex="-1"></a><span class="co"># write a function selecting the first row of a given data frame</span></span>
-<span id="cb439-6"><a href="continuous-random-variables.html#cb439-6" aria-hidden="true" tabindex="-1"></a>selw <span class="ot">&lt;-</span> <span class="cf">function</span>(x){x[<span class="dv">1</span>,]}</span>
-<span id="cb439-7"><a href="continuous-random-variables.html#cb439-7" aria-hidden="true" tabindex="-1"></a><span class="co"># apply this function to each element of the list.</span></span>
-<span id="cb439-8"><a href="continuous-random-variables.html#cb439-8" aria-hidden="true" tabindex="-1"></a>auxw <span class="ot">&lt;-</span> <span class="fu">lapply</span>(split_by_week, selw)</span>
-<span id="cb439-9"><a href="continuous-random-variables.html#cb439-9" aria-hidden="true" tabindex="-1"></a><span class="co"># recombine the list entries into a data frame but drop the returns column</span></span>
-<span id="cb439-10"><a href="continuous-random-variables.html#cb439-10" aria-hidden="true" tabindex="-1"></a>sp500_weekly <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, auxw) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">subset</span>(<span class="at">select =</span> <span class="sc">-</span>returns)</span>
-<span id="cb439-11"><a href="continuous-random-variables.html#cb439-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb439-12"><a href="continuous-random-variables.html#cb439-12" aria-hidden="true" tabindex="-1"></a><span class="co"># compute weekly log-returns and add to data frame</span></span>
-<span id="cb439-13"><a href="continuous-random-variables.html#cb439-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb439-14"><a href="continuous-random-variables.html#cb439-14" aria-hidden="true" tabindex="-1"></a>sp500_weekly<span class="sc">$</span>log_returns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(sp500_weekly<span class="sc">$</span>adjusted), <span class="at">lag =</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="continuous-random-variables.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a column with the year using year function from lubridate package</span></span>
+<span id="cb440-2"><a href="continuous-random-variables.html#cb440-2" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>week <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">week</span>(sp500<span class="sc">$</span>date)</span>
+<span id="cb440-3"><a href="continuous-random-variables.html#cb440-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split dataframe according to year</span></span>
+<span id="cb440-4"><a href="continuous-random-variables.html#cb440-4" aria-hidden="true" tabindex="-1"></a>split_by_week <span class="ot">&lt;-</span> <span class="fu">split</span>(sp500, sp500<span class="sc">$</span>week)</span>
+<span id="cb440-5"><a href="continuous-random-variables.html#cb440-5" aria-hidden="true" tabindex="-1"></a><span class="co"># write a function selecting the first row of a given data frame</span></span>
+<span id="cb440-6"><a href="continuous-random-variables.html#cb440-6" aria-hidden="true" tabindex="-1"></a>selw <span class="ot">&lt;-</span> <span class="cf">function</span>(x){x[<span class="dv">1</span>,]}</span>
+<span id="cb440-7"><a href="continuous-random-variables.html#cb440-7" aria-hidden="true" tabindex="-1"></a><span class="co"># apply this function to each element of the list.</span></span>
+<span id="cb440-8"><a href="continuous-random-variables.html#cb440-8" aria-hidden="true" tabindex="-1"></a>auxw <span class="ot">&lt;-</span> <span class="fu">lapply</span>(split_by_week, selw)</span>
+<span id="cb440-9"><a href="continuous-random-variables.html#cb440-9" aria-hidden="true" tabindex="-1"></a><span class="co"># recombine the list entries into a data frame but drop the returns column</span></span>
+<span id="cb440-10"><a href="continuous-random-variables.html#cb440-10" aria-hidden="true" tabindex="-1"></a>sp500_weekly <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, auxw) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">subset</span>(<span class="at">select =</span> <span class="sc">-</span>returns)</span>
+<span id="cb440-11"><a href="continuous-random-variables.html#cb440-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb440-12"><a href="continuous-random-variables.html#cb440-12" aria-hidden="true" tabindex="-1"></a><span class="co"># compute weekly log-returns and add to data frame</span></span>
+<span id="cb440-13"><a href="continuous-random-variables.html#cb440-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb440-14"><a href="continuous-random-variables.html#cb440-14" aria-hidden="true" tabindex="-1"></a>sp500_weekly<span class="sc">$</span>log_returns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(sp500_weekly<span class="sc">$</span>adjusted), <span class="at">lag =</span> <span class="dv">1</span>))</span></code></pre></div>
 <p>Suppose you decided to consider as a model for this risk situation a normally distributed
 random variable, <span class="math inline">\(X \sim N(\mu,\sigma)\)</span> which is supposed to represent the random return of your
 sp500 portfolio over the coming week. You want to estimate your <span class="math inline">\(95 %\)</span> value at risk as well
 as you <span class="math inline">\(99 \%\)</span> value at risk from this model.</p>
 <p>In order to do so we must first estimate our mean (log) returns and their standard deviation from
 the data.</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="continuous-random-variables.html#cb440-1" aria-hidden="true" tabindex="-1"></a>muw <span class="ot">&lt;-</span> <span class="fu">mean</span>(sp500_weekly<span class="sc">$</span>log_returns, <span class="at">na.rm =</span> T)</span>
-<span id="cb440-2"><a href="continuous-random-variables.html#cb440-2" aria-hidden="true" tabindex="-1"></a>sdw <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(sp500_weekly<span class="sc">$</span>log_returns, <span class="at">na.rm =</span> T))</span>
-<span id="cb440-3"><a href="continuous-random-variables.html#cb440-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb440-4"><a href="continuous-random-variables.html#cb440-4" aria-hidden="true" tabindex="-1"></a>muw</span></code></pre></div>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="continuous-random-variables.html#cb441-1" aria-hidden="true" tabindex="-1"></a>muw <span class="ot">&lt;-</span> <span class="fu">mean</span>(sp500_weekly<span class="sc">$</span>log_returns, <span class="at">na.rm =</span> T)</span>
+<span id="cb441-2"><a href="continuous-random-variables.html#cb441-2" aria-hidden="true" tabindex="-1"></a>sdw <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(sp500_weekly<span class="sc">$</span>log_returns, <span class="at">na.rm =</span> T))</span>
+<span id="cb441-3"><a href="continuous-random-variables.html#cb441-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb441-4"><a href="continuous-random-variables.html#cb441-4" aria-hidden="true" tabindex="-1"></a>muw</span></code></pre></div>
 <pre><code>## [1] 0.002202274</code></pre>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="continuous-random-variables.html#cb442-1" aria-hidden="true" tabindex="-1"></a>sdw</span></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="continuous-random-variables.html#cb443-1" aria-hidden="true" tabindex="-1"></a>sdw</span></code></pre></div>
 <pre><code>## [1] 0.04059169</code></pre>
 <p>Using the functionality of R this becomes a one-liner, or actually two one liners because
 you are interested in the <span class="math inline">\(95 \%\)</span> var as well as in the <span class="math inline">\(99 \%\)</span> var.</p>
-<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="continuous-random-variables.html#cb444-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>, <span class="at">mean =</span> muw, <span class="at">sd =</span> sdw)</span></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="continuous-random-variables.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>, <span class="at">mean =</span> muw, <span class="at">sd =</span> sdw)</span></code></pre></div>
 <pre><code>## [1] -0.06456511</code></pre>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="continuous-random-variables.html#cb446-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.01</span>, <span class="at">mean =</span> muw, <span class="at">sd =</span> sdw)</span></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="continuous-random-variables.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.01</span>, <span class="at">mean =</span> muw, <span class="at">sd =</span> sdw)</span></code></pre></div>
 <pre><code>## [1] -0.09222811</code></pre>
 <p>The annual <span class="math inline">\(95 \%\)</span> value at risk is thus <span class="math inline">\(6\,465\,511\)</span> and the <span class="math inline">\(99 \%\)</span> Value at risk is
 <span class="math inline">\(9\, 222\, 811\)</span> Euro. In both cases your equity will protect you from a wipe out. In the
@@ -651,24 +651,24 @@ risk will this most likely underestimate the actual risk.</p>
 <p>So why don’t we look at the actual data to get a valdiation. With the small and one dimensional
 data set this can be done quite easily.</p>
 <p>We first have to sort the weekly log returns in ascending order:</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="continuous-random-variables.html#cb448-1" aria-hidden="true" tabindex="-1"></a>sorted_returns <span class="ot">&lt;-</span> <span class="fu">sort</span>(sp500_weekly<span class="sc">$</span>log_returns)</span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="continuous-random-variables.html#cb449-1" aria-hidden="true" tabindex="-1"></a>sorted_returns <span class="ot">&lt;-</span> <span class="fu">sort</span>(sp500_weekly<span class="sc">$</span>log_returns)</span></code></pre></div>
 <p>The empirical cumulative distribution function at those observations takes values</p>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="continuous-random-variables.html#cb449-1" aria-hidden="true" tabindex="-1"></a>ecdf <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sorted_returns)<span class="sc">/</span><span class="fu">length</span>(sorted_returns)</span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="continuous-random-variables.html#cb450-1" aria-hidden="true" tabindex="-1"></a>ecdf <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sorted_returns)<span class="sc">/</span><span class="fu">length</span>(sorted_returns)</span></code></pre></div>
 <p>Now let us sketch the ECDF for the 95 % Value at risk:</p>
-<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="continuous-random-variables.html#cb450-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sorted_returns, ecdf, <span class="at">type =</span> <span class="st">&quot;s&quot;</span>)</span>
-<span id="cb450-2"><a href="continuous-random-variables.html#cb450-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.05</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="continuous-random-variables.html#cb451-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sorted_returns, ecdf, <span class="at">type =</span> <span class="st">&quot;s&quot;</span>)</span>
+<span id="cb451-2"><a href="continuous-random-variables.html#cb451-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.05</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/sketch-of-ECDF-for-95-1.png" width="672" />
 And here for the 99 % value at risk</p>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="continuous-random-variables.html#cb451-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sorted_returns, ecdf, <span class="at">type =</span> <span class="st">&quot;s&quot;</span>)</span>
-<span id="cb451-2"><a href="continuous-random-variables.html#cb451-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.01</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="continuous-random-variables.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sorted_returns, ecdf, <span class="at">type =</span> <span class="st">&quot;s&quot;</span>)</span>
+<span id="cb452-2"><a href="continuous-random-variables.html#cb452-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.01</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/sketch-of-ECDF-for-99-1.png" width="672" />
 For the 95 % quantile we look sort of ok. There is an intersection with the CDF at a log return
 of about <span class="math inline">\(-0.06\)</span>. For the 99 % quantile we can’t tell from the graph, we might as will be
 off by quite a far margin.</p>
 <p>To check this, let us look at the first value of <code>sorted_returns</code> such that <span class="math inline">\(P(\text{sorted_returns}) &gt; 0.05\)</span> or <span class="math inline">\(P(\text{sorted_returns}) &gt; 0.01\)</span></p>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="continuous-random-variables.html#cb452-1" aria-hidden="true" tabindex="-1"></a>sorted_returns[<span class="fu">which</span>(ecdf <span class="sc">&gt;=</span> <span class="fl">0.05</span>)[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="continuous-random-variables.html#cb453-1" aria-hidden="true" tabindex="-1"></a>sorted_returns[<span class="fu">which</span>(ecdf <span class="sc">&gt;=</span> <span class="fl">0.05</span>)[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>## [1] -0.05634992</code></pre>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="continuous-random-variables.html#cb454-1" aria-hidden="true" tabindex="-1"></a>sorted_returns[<span class="fu">which</span>(ecdf <span class="sc">&gt;=</span> <span class="fl">0.01</span>)[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="continuous-random-variables.html#cb455-1" aria-hidden="true" tabindex="-1"></a>sorted_returns[<span class="fu">which</span>(ecdf <span class="sc">&gt;=</span> <span class="fl">0.01</span>)[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>## [1] -0.1394209</code></pre>
 <p>So actually for the 99 % our model has underestimated the Var substantially by about 5 Million.
 With a worst case loss of 14 Million our equity would have been wiped out.</p>
@@ -695,25 +695,25 @@ lie roughly.
 <p>The QQ-plot does basically in a different way what we tried to figure out by using the empirical
 CDF. Let us do this for our return data.</p>
 <p>Lets take the weekly log return data <code>sp500_weekly$log_returns</code> as our example data:</p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="continuous-random-variables.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many data points are in sp500_weekly$log_returns removing NA</span></span>
-<span id="cb456-2"><a href="continuous-random-variables.html#cb456-2" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">na.omit</span>(sp500_weekly<span class="sc">$</span>log_returns))</span>
-<span id="cb456-3"><a href="continuous-random-variables.html#cb456-3" aria-hidden="true" tabindex="-1"></a><span class="co"># draw nobs normally distributed random variables with muw and sdw</span></span>
-<span id="cb456-4"><a href="continuous-random-variables.html#cb456-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nobs, <span class="at">mean =</span> muw, <span class="at">sd =</span> sdw)</span>
-<span id="cb456-5"><a href="continuous-random-variables.html#cb456-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp500_weekly<span class="sc">$</span>log_returns)</span>
-<span id="cb456-6"><a href="continuous-random-variables.html#cb456-6" aria-hidden="true" tabindex="-1"></a><span class="co"># normal QQ-plot</span></span>
-<span id="cb456-7"><a href="continuous-random-variables.html#cb456-7" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(x, y, <span class="at">xlab =</span> <span class="st">&quot;Normal Distribution&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Weekly log returns&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Q-Q Plot&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="continuous-random-variables.html#cb457-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many data points are in sp500_weekly$log_returns removing NA</span></span>
+<span id="cb457-2"><a href="continuous-random-variables.html#cb457-2" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">na.omit</span>(sp500_weekly<span class="sc">$</span>log_returns))</span>
+<span id="cb457-3"><a href="continuous-random-variables.html#cb457-3" aria-hidden="true" tabindex="-1"></a><span class="co"># draw nobs normally distributed random variables with muw and sdw</span></span>
+<span id="cb457-4"><a href="continuous-random-variables.html#cb457-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nobs, <span class="at">mean =</span> muw, <span class="at">sd =</span> sdw)</span>
+<span id="cb457-5"><a href="continuous-random-variables.html#cb457-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp500_weekly<span class="sc">$</span>log_returns)</span>
+<span id="cb457-6"><a href="continuous-random-variables.html#cb457-6" aria-hidden="true" tabindex="-1"></a><span class="co"># normal QQ-plot</span></span>
+<span id="cb457-7"><a href="continuous-random-variables.html#cb457-7" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(x, y, <span class="at">xlab =</span> <span class="st">&quot;Normal Distribution&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Weekly log returns&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Q-Q Plot&quot;</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/qq-plot-weekly-1.png" width="672" />
 You can get some evidence here that the empirical distribution agrees quite well at the center but
 it seems to do less so at the tails, where the empirical distribution deviates, something we
 have already observed before.</p>
 <p>We can also have alook at the QQ-plot of our daily returns data where we have more observations.</p>
-<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="continuous-random-variables.html#cb457-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many data points are in sp500_weekly$log_returns removing NA</span></span>
-<span id="cb457-2"><a href="continuous-random-variables.html#cb457-2" aria-hidden="true" tabindex="-1"></a>nobsd <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">na.omit</span>(sp500<span class="sc">$</span>returns))</span>
-<span id="cb457-3"><a href="continuous-random-variables.html#cb457-3" aria-hidden="true" tabindex="-1"></a><span class="co"># draw nobs normally distributed random variables with muw and sdw</span></span>
-<span id="cb457-4"><a href="continuous-random-variables.html#cb457-4" aria-hidden="true" tabindex="-1"></a>xd <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nobsd, <span class="at">mean =</span> <span class="fu">mean</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T), <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T)))</span>
-<span id="cb457-5"><a href="continuous-random-variables.html#cb457-5" aria-hidden="true" tabindex="-1"></a>yd <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp500<span class="sc">$</span>returns)</span>
-<span id="cb457-6"><a href="continuous-random-variables.html#cb457-6" aria-hidden="true" tabindex="-1"></a><span class="co"># normal QQ-plot</span></span>
-<span id="cb457-7"><a href="continuous-random-variables.html#cb457-7" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(xd, yd, <span class="at">xlab =</span> <span class="st">&quot;Normal Distribution&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Daily returns&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Q-Q Plot&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="continuous-random-variables.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many data points are in sp500_weekly$log_returns removing NA</span></span>
+<span id="cb458-2"><a href="continuous-random-variables.html#cb458-2" aria-hidden="true" tabindex="-1"></a>nobsd <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">na.omit</span>(sp500<span class="sc">$</span>returns))</span>
+<span id="cb458-3"><a href="continuous-random-variables.html#cb458-3" aria-hidden="true" tabindex="-1"></a><span class="co"># draw nobs normally distributed random variables with muw and sdw</span></span>
+<span id="cb458-4"><a href="continuous-random-variables.html#cb458-4" aria-hidden="true" tabindex="-1"></a>xd <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nobsd, <span class="at">mean =</span> <span class="fu">mean</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T), <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(sp500<span class="sc">$</span>returns, <span class="at">na.rm =</span> T)))</span>
+<span id="cb458-5"><a href="continuous-random-variables.html#cb458-5" aria-hidden="true" tabindex="-1"></a>yd <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sp500<span class="sc">$</span>returns)</span>
+<span id="cb458-6"><a href="continuous-random-variables.html#cb458-6" aria-hidden="true" tabindex="-1"></a><span class="co"># normal QQ-plot</span></span>
+<span id="cb458-7"><a href="continuous-random-variables.html#cb458-7" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(xd, yd, <span class="at">xlab =</span> <span class="st">&quot;Normal Distribution&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Daily returns&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Q-Q Plot&quot;</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/qq-plot-daily-1.png" width="672" />
 Here you see the same thing. The normal distribution seems to be a bad model for looking at the
 tails and thus a poor guide for assessing extreme risks.</p>

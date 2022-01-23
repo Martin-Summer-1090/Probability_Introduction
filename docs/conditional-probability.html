@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-20" />
+<meta name="date" content="2022-01-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -314,8 +314,8 @@ contain all the necessary ingredients for the computation. The concept of
 conditional probability and its applications
 will be the main contents of this lecture.</p>
 <p>Let us start with an example of a <strong>contingency table</strong> within the context
-of stock price moves, we discussed already to some
-degree in lecture 2. It gives me also an opportunity to point you to one
+of stock price moves, we discussed already in lecture 2.
+It gives me also an opportunity to point you to one
 powerful R package, which will allow you to access financial data, quite easily for
 yourself without me providing them to you with study material: The
 <code>tidyquant-package</code>. You can check out the packages’s home page with documentation and
@@ -343,9 +343,11 @@ data into an R object, which I call <code>sp500</code>and look at the first entr
 ## 3 ^GSPC  2011-01-05 1269. 1278. 1265. 1277. 4764920000    1277.
 ## 4 ^GSPC  2011-01-06 1276. 1278. 1270. 1274. 4844100000    1274.
 ## 5 ^GSPC  2011-01-07 1274. 1277. 1262. 1272. 4963110000    1272.</code></pre>
-<p>We see that the series starts March 2011.
+<p>We see that the series starts at the first of March 2011 and contains daily observations of
+various variables.
 Now let’s retrieve the stock price data of
-Apple beginning at 2011-01-03, the same day as the index data.</p>
+Apple beginning at 2011-01-03, the same day as the index data. We know from the
+last lecture that the ticker symbol for Apple os <code>AAPL</code>. This means we can use the command:</p>
 <div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="conditional-probability.html#cb241-1" aria-hidden="true" tabindex="-1"></a>apple <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span></code></pre></div>
 <p>You can give a beginning date to the argument <code>from</code> in the <code>tq_get()</code> function (you can guess
 that you can also give an end data <code>to</code> as an argument to <code>tq_get</code>)</p>
@@ -382,16 +384,20 @@ replace by NA. Thus we type:</p>
 <div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="conditional-probability.html#cb245-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(sp500<span class="sc">$</span>close))</span></code></pre></div>
 <p>Lets do the same for the Apple stock price.</p>
 <div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="conditional-probability.html#cb246-1" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(apple<span class="sc">$</span>close))</span></code></pre></div>
+<p>Note that I did not specify the <code>lag</code> argument in the <code>diff()</code>function. This i can do
+because the <code>lag</code>argument is set to a value of 1 by default, and this is the value I
+just need now, because we are looking for daily changes.</p>
 <p>Let me use this opportunity to introduce you to how R treats missing information. This is
 a situation you will encounter all over in applied work with data in gerneral and with
 financial data in particular.</p>
-<p>The <code>NA</code> character is a special symbol in R standing for “not available.” It can be used as
+<p><code>NA</code> in R is an indicator for missing values. It is formally a logical
+constant of length 1 and means “not available.” It can be used as
 a placeholder for missing information, just as we did before, where we inserted <code>NA</code> in the
 column of price changes for the first record, where we could no compute the difference, since
 we had no information on the price the day before our dta set starts. <code>NA</code> is treated by R
-exactly as you would expect that missing information should be treated. If oyu use it in
+exactly as you would expect that missing information should be treated. If you use it in
 arithmetic operations or in comparisons, you will be returned <code>NA</code>.</p>
-<p><code>NA</code> prevents oyu from mistakes made due to missing information. It can also
+<p><code>NA</code> prevents you from mistakes made due to missing information. It can also
 create practical problems. If you would for instance try to compute the
 average price change of the apple
 stock price</p>
@@ -403,7 +409,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="conditional-probability.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.05556102</code></pre>
+<pre><code>## [1] 0.05414797</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -415,29 +421,31 @@ whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
 select the non-NA values. We just tell R to select all elements from <code>vec</code> which are not <code>NA</code>:</p>
 <div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="conditional-probability.html#cb254-1" aria-hidden="true" tabindex="-1"></a>vec[<span class="sc">!</span><span class="fu">is.na</span>(vec)]</span></code></pre></div>
 <pre><code>## [1] 1 2 3</code></pre>
-<p>This end our short digression into the treatment of missing information in R.</p>
-<p>Let us now count the up moves and the down moves. Since there are only these two outcomes
+<p>This end our short digression into the treatment of missing information in R.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
+<p>Let us now count the up moves and the down moves in the index and in the
+Apple stock. Since there are only these two outcomes
 it is sufficient if we add a logical column to both dataframes, checking the condition that
 the change variable is larger than zero (note that with this test we automatically would
 count the possible cases where the stock price remains unchanged to the down movements).</p>
 <div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="conditional-probability.html#cb256-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>up <span class="ot">&lt;-</span> (sp500<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
 <span id="cb256-2"><a href="conditional-probability.html#cb256-2" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>up <span class="ot">&lt;-</span> (apple<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
-<p>We can now tabulate the joint up and down moves using the <code>table()</code>function. We give the
-<code>dnn</code>argument to the function, sow we can see which are the dimensions in the table computation
+<p>We can now tabulate the joint up and down moves using the <code>table()</code> function. We give the
+<code>dnn</code> argument to the function, so we can see which are the dimensions in the table computation
 R is performing for us. We also add the marginal sums by giving the output of the
-<code>table</code>function to the <code>addmargins()</code> function of R:</p>
+<code>table</code> function to the <code>addmargins()</code> function of R:</p>
 <div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="conditional-probability.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   873  380 1253
+##   FALSE   875  380 1255
 ##   TRUE    443 1084 1527
-##   Sum    1316 1464 2780</code></pre>
+##   Sum    1318 1464 2782</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
 the number of cases where they move in opposite directions. The last row and
 the last column contain the row and column sums of all these cases.</p>
-<p>So now we have used R to create a contingency table we can touch from our abstract
+<p>So now we have used R to create a contingency table we can create ourselves concrete
+manifestations of the abstract
 definition we gave in the beginning. On the way you deepened and fortified your knowledge of
 R a bit further.</p>
 </div>
@@ -453,7 +461,7 @@ denote the marginal probabilities of two arbitrary events <span class="math inli
 <dt>Joint probability</dt>
 <dd>The <strong>joint probability</strong> is the probability of simultaneous events. This is
 the probability of the intersection of two or more events. If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are
-arbitrary events, we write <span class="math inline">\(P(A \cap B)\)</span>.
+arbitrary events, we write <span class="math inline">\(P(A \cap B)\)</span> for the joint probability of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.
 </dd>
 <dt>Conditional probability</dt>
 <dd>The <strong>conditional probability</strong> is the probability of an event <em>given</em> that some other
@@ -469,13 +477,17 @@ not the same.
 these concepts using the frequency interpretation of probability: We divide
 each entry in our table by the total number of cases. Of course this is so frequent
 a case in applied data analysis that R has a function for it, the <code>prop.table()</code> function:</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="conditional-probability.html#cb259-1" aria-hidden="true" tabindex="-1"></a>prop_table <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>))))</span>
-<span id="cb259-2"><a href="conditional-probability.html#cb259-2" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="conditional-probability.html#cb259-1" aria-hidden="true" tabindex="-1"></a>prop_table <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(</span>
+<span id="cb259-2"><a href="conditional-probability.html#cb259-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>(</span>
+<span id="cb259-3"><a href="conditional-probability.html#cb259-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>))</span>
+<span id="cb259-4"><a href="conditional-probability.html#cb259-4" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb259-5"><a href="conditional-probability.html#cb259-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb259-6"><a href="conditional-probability.html#cb259-6" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3140288 0.1366906 0.4507194
-##   TRUE  0.1593525 0.3899281 0.5492806
-##   Sum   0.4733813 0.5266187 1.0000000</code></pre>
+##   FALSE 0.3145219 0.1365924 0.4511143
+##   TRUE  0.1592380 0.3896477 0.5488857
+##   Sum   0.4737599 0.5262401 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -577,11 +589,11 @@ went up.</p>
 </tbody>
 </table>
 <p>To get the conditional probability of a Apple-Up given an SP500-Up we have to count
-the Google-Ups <strong>among the notebook lines</strong> where the SP500 has an Up move and divide by
+the Apple-Ups <strong>among the notebook lines</strong> where the SP500 has an Up move and divide by
 the number of these SP500-Up lines.</p>
 <p>Let’s do this in R. To create the notebook we make a data frame where one column is the Up column
 of the SP500 data and the second columns is the Up column of the Apple data. We remove
-all <code>NA</code> in the data frame: This is achieved by applying the function <code>na.omit()</code>to the data
+all <code>NA</code> in the data frame: This is achieved by applying the function <code>na.omit()</code> to the data
 frame. It will remove all <code>NA</code>.</p>
 <p>This provides a nice opportunity to introduce you to a very useful operator, which is
 included in base R and which is called the pipe. It is available, since R version 4.1.0 and
@@ -605,20 +617,23 @@ first rows:</p>
 ## 10    TRUE    TRUE
 ## 11    TRUE   FALSE</code></pre>
 <p>To count the number of rows we can use the <code>nrow()</code> function.</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="conditional-probability.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(sel_joint)</span></code></pre></div>
-<pre><code>## [1] 1527    2</code></pre>
-<p>It says that the number of notebook lines where the SP500 makes an Up move. The result
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="conditional-probability.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(sel_joint)</span></code></pre></div>
+<pre><code>## [1] 1527</code></pre>
+<p>It says that the number of notebook lines where the SP500 makes an Up move is</p>
+<pre><code>## [1] 1527</code></pre>
+<p>The result
 should not surprise us, for we already derived it using the contingency table.</p>
-<p>Now, let us count the Ups in the Apple occurring simultaneously with the SP500 ups. Here we
+<p>Now, let us count the Ups in the Apple price occurring simultaneously with the SP500 ups. Here we
 use the logical operator <code>&amp;</code> which is R’s syntax for the set symbol <span class="math inline">\(\cap\)</span>:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="conditional-probability.html#cb270-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="conditional-probability.html#cb271-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
 <p>Now we can make use of R’s precedence rules to count the simultaneous up moves</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="conditional-probability.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="conditional-probability.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
 <pre><code>## [1] 1084</code></pre>
 <p>Now we compute the relative frequency of joint up moves among all the lines where
 the SP500 moves up, which is</p>
 <pre><code>## [1] 0.71</code></pre>
-as we have indeed derived before using the contingency table.
+<p>as we have indeed derived before using the contingency table.</p>
+Let us finally use a picture to explain the concept graphically once again.
 <div class="figure" style="text-align: center"><span id="fig:cond-probability-visualized"></span>
 <img src="figures/cond_prob.png" alt="A Visualization of conditional probability " width="90%" />
 <p class="caption">
@@ -639,7 +654,7 @@ proportion of all blue stripes.</p>
 <dd>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be given events. We define the <strong>conditional probability</strong> of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span>
 as
 <span class="math display">\[\begin{equation*}
-P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, B \neq 0
+P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 \end{equation*}\]</span>
 </dd>
 </dl>
@@ -762,12 +777,13 @@ data. Then we can apply the law of total probability is: <span class="math inlin
 global financial system almost completely collapsed. While the history
 of the crisis as well as the institutional details of structured Finance are
 very complicated, a conceptual root problem of structured finance and the crisis
-has a lot to do with conditional probabilities. Let’s see why.</p>
+has a lot to do with the proper conceptual understanding of the
+concept of conditional probabilities and independence. Let’s see why.</p>
 <p>To set the stage we need some background from Finance first. We begin with the
 definition of a <strong>bond</strong>.</p>
 <dl>
 <dt>Bond, face value, par value</dt>
-<dd>A <strong>bond</strong> is an obligation be a bond issuer to pay money to the bond-holder according
+<dd>A <strong>bond</strong> is an obligation by a bond issuer to pay money to the bond-holder according
 to the rules specified at the time the bond is issued. Generally, a bond pays a specific amount,
 its <strong>face value</strong> or equivalently its <strong>par value</strong> at the date of maturity.
 </dd>
@@ -782,7 +798,7 @@ two primary ratings are issued and published by Moody’s and Standard and Poor�
 <p>Bonds that are either high or medium grade are considered to be <strong>investment grade</strong>. Bonds
 that are below the speculative category are often called <strong>junk bonds</strong>. The rating is
 usually based on a statistical analysis of various financial ratios of the issuer, such as
-leverage, debt to equity, cash fow to outstanding debt etc. Bonds with a lower rating
+leverage, debt to equity, cash flow to outstanding debt etc. Bonds with a lower rating
 will have a higher probability of default and
 a lower price than a comparable bond with a higher rating. The following table
 shows the rating schemes of Moody’s and Standard and Poor’s.</p>
@@ -849,9 +865,10 @@ shows the rating schemes of Moody’s and Standard and Poor’s.</p>
 </table>
 <p>In the early 2000’s financial innovations came to the market that proposed the practice
 of <strong>pooling</strong> and <strong>tranching</strong> bonds to transform the risks of junk
-bonds in a way that some good risks. An important asset class created by these
+bonds in a way that some good risk bonds as well as some even
+more risky junk bonds are created by the process. An important asset class created by these
 financial engineering techniques were <strong>mortgage backed securities</strong>.</p>
-<p>Let us explain the idea. Let’s imagine a bond that is issued today - at <span class="math inline">\(t = 0\)</span> and
+<p>Let us explain the idea. Let’s imagine a bond that is issued today - at <span class="math inline">\(t = 0\)</span> - and
 matures in a year from now, tomorrow, at <span class="math inline">\(t = 1\)</span>. It pays off <span class="math inline">\(1\)</span> euro at maturity, but
 there is a certain risk of a default, in which case it pays nothing or <span class="math inline">\(0\)</span>.</p>
 You might imagine this bond as an event tree. Since it is a junk bond, this default happens
@@ -943,8 +960,8 @@ Figure 3.5: An event tree for two synthetic bonds built on the junk bonds <span 
 </p>
 </div>
 <p>What we see here is a slightly modified tree for the two new bonds <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span>. Their payoff is
-engineered from the underlying jung bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span>. So <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span>V get different
-payoff profiles but in such a way that they can be funded from the aggregate cash fow of both
+engineered from the underlying junk bonds <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^2\)</span>. So <span class="math inline">\(I\)</span> and <span class="math inline">\(J\)</span> get different
+payoff profiles but in such a way that they can be funded from the aggregate cash flow of both
 of the junk bonds. Note that
 below the dashed line you see that the sum of payoffs did no change. So when we <em>pool</em> the
 initial two junk bonds and <em>tranch</em> them into the two new payoff structures, we can fulfill
@@ -965,11 +982,11 @@ Special investment vehicles
 sponsored by banks would pool and tranch the various asset classes,
 rating agencies would rate them and investors hungry for safe
 investments would buy the synthetic investment grade bonds.</p>
-<p>But what would happen, if independence does <strong>not</strong> hold and our risks are *dependent** instead?
+<p>But what would happen, if independence does <strong>not</strong> hold and our risks are <strong>dependent</strong> instead?
 Contemplating this possibility is not very far fetched. After all, if a bond issuer comes
 into difficulties to fulfill his promise it is perhaps because of an event affecting other bond
 holders as well, like a macroeconomic recession, a global crisis like the current pandemic
-or the fact that the defaults creates problems for other bondholders
+or the fact that the default creates problems for other bondholders
 who had relied
 on the promise of the bond issuer in trouble to make his contracted payments.</p>
 A situation like this could be captured perhaps by the following variation of our tree.
@@ -980,11 +997,14 @@ Figure 3.6: An event tree for two synthetic bonds built on the junk bonds <span 
 </p>
 </div>
 <p>Now this situation looks only slightly different. Note that now the risks are <em>dependent</em>.
-Note also that the marginal distribution is stimm the same as before. The
+Note also that the marginal distribution is still the same as before. The
 total probabilities of each outcome have stayed the same. For example the probability of
-<span class="math inline">\(B^1_D = 0.04 + 0.06 = 0.1\)</span>, <span class="math inline">\(B^1_N = 0.86 + 0.04 = 0.9\)</span>.
+<span class="math display">\[\begin{eqnarray*}
+B^1_D &amp;=&amp; 0.1 \times 0.4 + 0.1 \times  0.6  &amp;=&amp; 0.04  + 0.06  &amp;=&amp; 0.1\\ 
+B^1_N &amp;=&amp; 0.9 \times 0.96 + 0.9 \times 0.04 &amp;=&amp; 0.864 + 0.036 &amp;=&amp; 0.9
+\end{eqnarray*}\]</span>
 You can work out the conditional probabilities yourself using the tree and the
-multiplication rule:But now the risks are <em>dependent</em>. Note that
+multiplication rule: But now the risks are <em>dependent</em>. Note that
 <span class="math display">\[\begin{equation*}
 P(B^1_D \cap B^2_D) = P(B^1_D) \times P(B^2_D\,|\, B^1_D) = 0.06
 \end{equation*}\]</span>
@@ -994,7 +1014,10 @@ and we are back in the more intuitive world where junk plus junk is still junk.<
 was hammered home to a world falling prey to the biggest financial crisis since the great
 depression of the 1930ies. The carelessness of not sufficiently thinking about the
 justification for an undue and dangerous independence assumption is arguably one of the
-root causes of this disaster. But you know know better.</p>
+root causes of this disaster. But you know now better.</p>
+<p>If you are interested there is lots of good literature on this crisis. A frequently
+cited and very accessible discussion is <span class="citation"><a href="#ref-CovalJurekStafford2009" role="doc-biblioref">Coval, Jurek, and Stafford</a> (<a href="#ref-CovalJurekStafford2009" role="doc-biblioref">2009</a>)</span>. An entertaining but very
+insightful account is <span class="citation"><a href="#ref-Lewis2011" role="doc-biblioref">Lewis</a> (<a href="#ref-Lewis2011" role="doc-biblioref">2011</a>)</span>. A magisterial geopolitical account of this crisis and its repercussions is <span class="citation"><a href="#ref-Tooze2018" role="doc-biblioref">Tooze</a> (<a href="#ref-Tooze2018" role="doc-biblioref">2018</a>)</span>.</p>
 </div>
 <div id="bayes-rule" class="section level2" number="3.6">
 <h2><span class="header-section-number">3.6</span> Bayes’ Rule</h2>
@@ -1011,7 +1034,7 @@ me explain: The multiplication rule says <span class="math inline">\(P(B|A)P(A) 
 you divide by <span class="math inline">\(P(A)\)</span> you get Bayes’ rule.
 </dd>
 </dl>
-<p>This is very important result and indeed belongs to the great ideas in probability but it
+<p>This is a very important result and indeed belongs to the great ideas in probability but it
 is a bit difficult to grasp and memorize clearly. So let us try to make it a bit clearer.</p>
 <p>Think of <span class="math inline">\(B\)</span> as some hypothesis or some belief and of <span class="math inline">\(A\)</span> as some data or information obtained
 after having formed that hypothesis or belief. Bayes’ theorem tells you how to update or adjust
@@ -1019,28 +1042,28 @@ the hypothesis or belief in the light of the data or the information that has be
 Imagine a square of area 1. Inside the square is a circle <span class="math inline">\(B\)</span> with area <span class="math inline">\(P(B)\)</span>. Imagine you
 stand next to this square and look down on it form above. You have a single speck of sand on your
 finger and by accident it falls down on the square and lands somewhere inside it. The speck is
-so small that you can’t see where. It could be anywhere.
+so small that you can’t see where. It could be anywhere.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>
 <div class="figure" style="text-align: center"><span id="fig:where-is-the-speck"></span>
-<img src="figures/where_speck.png" alt="Where is the speck of sand?" width="90%" />
+<img src="figures/where_speck.png" alt="Where is the speck of sand?" width="50%" />
 <p class="caption">
 Figure 3.7: Where is the speck of sand?
 </p>
 </div>
-<p>We want to figure out the probability that the speck could be inside the circle <span class="math inline">\(B\)</span>? GIven that
+<p>We want to figure out the probability that the speck could be inside the circle <span class="math inline">\(B\)</span>. Given that
 the speck landed somewhere on the square at random it should be the area of <span class="math inline">\(B\)</span> - <span class="math inline">\(P(B)\)</span> - divided
 by the area of the square - <span class="math inline">\(P{\cal S} = 1\)</span>, so the probability is simply <span class="math inline">\(P(B)\)</span>.</p>
 Now suppose somebody reveals to you the <strong>fact</strong> that the speck indeed landed somewhere inside
 another circle, inside the square. Let us call this circle <span class="math inline">\(A\)</span>, like in the following picture
 <div class="figure" style="text-align: center"><span id="fig:where-is-the-speck-now"></span>
-<img src="figures/speck_in_D.png" alt="In fact we learn that the speck is inside circle $A$" width="90%" />
+<img src="figures/speck_in_D.png" alt="In fact we learn that the speck is inside circle $A$" width="50%" />
 <p class="caption">
 Figure 3.8: In fact we learn that the speck is inside circle <span class="math inline">\(A\)</span>
 </p>
 </div>
-<p>The question now becomes: Knowing that the speck is somewhere inside of circle <span class="math inline">\(D\)</span>, how does
-this fact change our estimate that it is in <span class="math inline">\(B\)</span>?. What is the probability that the speck is
+<p>The question now becomes: Knowing that the speck is somewhere inside of circle <span class="math inline">\(A\)</span>, how does
+this fact change our estimate that it is in <span class="math inline">\(B\)</span>? What is the probability that the speck is
 in <span class="math inline">\(B\)</span> given that we know it is somewhere inside <span class="math inline">\(A\)</span>? The way to express this value is <span class="math inline">\(P(B|A)\)</span>.</p>
-<p>Intuitively we can see that the value of <span class="math inline">\(P(B|A)\)</span> is the area of the overlap between circle <span class="math inline">\(B\)</span>
+Intuitively we can see that the value of <span class="math inline">\(P(B|A)\)</span> is the area of the overlap between circle <span class="math inline">\(B\)</span>
 and circle <span class="math inline">\(A\)</span>, which we label <span class="math inline">\(P(A \cap B)\)</span> divided by the area of <span class="math inline">\(A\)</span>, which is <span class="math inline">\(P(A)\)</span>. In
 a formal expression of this intuition we get a simple version of Bayes’ formula as
 <span class="math display">\[\begin{equation*}
@@ -1048,8 +1071,21 @@ P(B|A) = \frac{P(A \cap B)}{P(A)}
 \end{equation*}\]</span>
 Now from the picture you can convince yourself that in the case where the overlap area between
 <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> is small, so <span class="math inline">\(P(A \cap B)\)</span> is much smaller than <span class="math inline">\(P(A)\)</span>, the probability of the speck
-being in <span class="math inline">\(B\)</span> given that we know it must be somewhere in <span class="math inline">\(A\)</span> is small. On the other hand, if the overlap area <span class="math inline">\(P(A \cap B)\)</span> is large relative to <span class="math inline">\(A\)</span> then the probability of the speck beeing in <span class="math inline">\(B\)</span>
+being in <span class="math inline">\(B\)</span> given that we know it must be somewhere in <span class="math inline">\(A\)</span> is small.
+<div class="figure" style="text-align: center"><span id="fig:where-is-the-speck-now-small-overlap"></span>
+<img src="figures/small_overlap.png" alt="In fact we learn that the speck is inside circle $A$ but the overlap is small" width="50%" />
+<p class="caption">
+Figure 3.9: In fact we learn that the speck is inside circle <span class="math inline">\(A\)</span> but the overlap is small
+</p>
+</div>
+<p>On the other hand, if the overlap area <span class="math inline">\(P(A \cap B)\)</span> is large relative to <span class="math inline">\(A\)</span> then the probability of the speck being in <span class="math inline">\(B\)</span>
 given that it is somewhere in <span class="math inline">\(A\)</span> is big.</p>
+<div class="figure" style="text-align: center"><span id="fig:where-is-the-speck-now-big-overlap"></span>
+<img src="figures/big_overlap.png" alt="In fact we learn that the speck is inside circle $A$ but the overlap is big" width="50%" />
+<p class="caption">
+Figure 3.10: In fact we learn that the speck is inside circle <span class="math inline">\(A\)</span> but the overlap is big
+</p>
+</div>
 <p>Now for quantitative applications it is useful to express <span class="math inline">\(P(B \cap A)\)</span> using the
 <em>multiplication rule</em> as <span class="math inline">\(P(A \cap B) = P(A |B) P(B)\)</span>. Substituting this expression in our
 simple version of Bayes’ formula we get
@@ -1061,8 +1097,9 @@ is the initial probability that we assign to our hypothesis being true. Subseque
 assignment we get evidence from data, with significance for the validity of this hypothesis.
 The term <span class="math inline">\(P(A | B)\)</span> is called the <strong>likelihood function</strong> and expresses how likely it is
 that we would receive the data assuming that the hypothesis holds. Updating a prior, means
-multiplying the prior probability with the likelyhood function. Dividing by <span class="math inline">\(P(A)\)</span> ensures
-that we have appropriately normalized the numbers, ensuring that a measur of 1 is obtwined accross
+multiplying the prior probability with the likelihood function. Dividing by <span class="math inline">\(P(A)\)</span> ensures
+that we have appropriately normalized the numbers, ensuring that a measure
+of 1 is obtained accross
 the overall sample space.</p>
 <p>Now this story with the speck of sand falling on the square provides an intuitive illustration
 of how Bayesian updating works. We start with the hypothesis that the speck is located inside <span class="math inline">\(B\)</span>.
@@ -1071,7 +1108,8 @@ speck is in the second circle <span class="math inline">\(A\)</span>. This infor
 hypothesis - it is relevant data. Upon receiving these data we update the probability that the
 hypothesis is true. Specifically we set it equal to the overlap between <span class="math inline">\(B\)</span> and <span class="math inline">\(A\)</span> divided
 by <span class="math inline">\(A\)</span>.</p>
-<p>In a broader context we need to understand that for any data we receive subsequent to a hypothesis
+<p>In a broader context we need to understand that for any data we receive
+subsequent to a hypothesis
 we have formed, the hypothesis will exhibit some “overlap” with the data. This is the same
 as saying that the truth of the hypothesis will represent one possible pathway through which the
 data might have been obtained. To get an estimate for the probability that the
@@ -1085,6 +1123,25 @@ gap that remained when we discussed the weak law of large numbers. Here it is sh
 what is necessary to make a valid inverse inference from frequency to chance. The key insight was
 to put probabilities on the chances and update them by conditioning on new data. This
 gives a judgement about chances, informed by frequency evidence.</p>
+<p>But what are priors, where do they come from and why can we treat them like probabilities?
+The answer to these questions could fill a series of lectures on their own. Let me just give
+an ultra brief and very high level sketch and direct you to the literature for further reading.
+We have learned in this lecture about the first notions of probability - classical
+probability - obtained from the consideration of equally likely cases.
+We have learned about empirical, or
+frequency based probabilities. Here we finally encounter a third category, subjective
+probabilities. But how can we know whether subjective probabilities fulfill the rules of
+probability? It is not enough that these beliefs are between 0 and 1 they also have to
+obey additivity of disjoint events.</p>
+<p>Now one of the big ideas in probability, originating
+with the British polymath Frank Ramsey (1903 - 1913) and developed by others like
+Bruno de Finetti (1906 - 1985), Oskar Morgenstern (1902 - 1977) and
+John von Neumann (1903 - 1957) as well as
+Jimmie Savage (1917 - 1971) is that if these beliefs are coherent in a sense to be made
+precise then these beliefs <strong>are</strong> - in a mathematical
+sense - probabilities. See <span class="citation"><a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">Diaconis and Skyrms</a> (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span> for an excellent discussion. There is a large
+literature originating from Kahneman and Tversky (see <span class="citation"><a href="#ref-Kahneman2013" role="doc-biblioref">Kahnemann</a> (<a href="#ref-Kahneman2013" role="doc-biblioref">2013</a>)</span>), also discussed in <span class="citation"><a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">Diaconis and Skyrms</a> (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span>, which
+has shown that actual human beings often violate these coherence conditions in practice.</p>
 </div>
 <div id="example-the-importance-of-updating-in-investing" class="section level2" number="3.7">
 <h2><span class="header-section-number">3.7</span> Example The Importance of Updating in Investing</h2>
@@ -1116,28 +1173,28 @@ a coin flip is worth. Suppose the referee is flipping a green coin. On a single 
 coin will land either heads or tails but over many flips it will land heads in about 70 %
 of the cases, in which you get 2 and 30 % of the cases in which you get nothing. Let’s use
 R to make a green coin and flip it, using the sample function, as we did already in lecture 2:</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="conditional-probability.html#cb274-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb274-2"><a href="conditional-probability.html#cb274-2" aria-hidden="true" tabindex="-1"></a>  green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
-<span id="cb274-3"><a href="conditional-probability.html#cb274-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
-<span id="cb274-4"><a href="conditional-probability.html#cb274-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="conditional-probability.html#cb275-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb275-2"><a href="conditional-probability.html#cb275-2" aria-hidden="true" tabindex="-1"></a>  green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
+<span id="cb275-3"><a href="conditional-probability.html#cb275-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb275-4"><a href="conditional-probability.html#cb275-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Observe that we can implement the bias of this coin by specifying a probability distribution for
 heads and tails, by specifying the <code>prob</code> argument appropriately. When we did a coin flip earlier
 in our lecture we dropped this argument and R assumed then that we we will assume classical
 probability, in which case each outcome should get a probability 1/2.</p>
 <p>Now let’s do a round of 100 flips:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="conditional-probability.html#cb275-1" aria-hidden="true" tabindex="-1"></a>green_tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">flip_green_coin</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="conditional-probability.html#cb276-1" aria-hidden="true" tabindex="-1"></a>green_tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">flip_green_coin</span>())</span></code></pre></div>
 <p>Now lets compute the average payoff we would have got in this round. Let us
 select the <code>"H"</code> outcomes and calculate its length:</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="conditional-probability.html#cb276-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
-<span id="cb276-2"><a href="conditional-probability.html#cb276-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 69</code></pre>
-<p>This means we have 69 cases where we get 2 and 31
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="conditional-probability.html#cb277-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
+<span id="cb277-2"><a href="conditional-probability.html#cb277-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
+<pre><code>## [1] 72</code></pre>
+<p>This means we have 72 cases where we get 2 and 28
 cases where we get 0. Thus on average
 we will get:</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="conditional-probability.html#cb278-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.38</code></pre>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="conditional-probability.html#cb279-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 1.44</code></pre>
 <p>So if we payed 1.20 for that round we would make a profit of
-0.18. The reasoning behind this argument is that the payoff
+0.24. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
 of flips it will come up heads approximately 7 out of 10 and thus will pay on average 0.7<em>2. This
@@ -1145,10 +1202,10 @@ view of a random payoff associated with the coin is technically called a </em>ra
 the average payoff over many rounds is technically called an <em>expected value</em>. These important
 notions of probability theory we will discuss more precisely in the next lecture, lecture 4.</p>
 <p>For now you see the idea now. If the coin is green we should pay for the flip at most</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="conditional-probability.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="conditional-probability.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
 <pre><code>## [1] 1.4</code></pre>
 <p>and if its red</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="conditional-probability.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.7</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="conditional-probability.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.7</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
 <pre><code>## [1] 0.6</code></pre>
 <p>In the investment game, we do - however - not know whether the referee is using a red or a green
 coin. This we have to guess.</p>
@@ -1158,7 +1215,7 @@ assume we will find out that 9 out of 10 coins are green. So we could make the g
 probability is 0.9 that the randomly draw coin is green.</p>
 <p>Now combining this belief with the
 physical properties of the coin we can make a second order estimate of the value:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="conditional-probability.html#cb284-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.9</span><span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="conditional-probability.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.9</span><span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 1.32</code></pre>
 <p>Generally this estimate will be somewhere between 0.6 and 1.4 depending on our prior assessment.</p>
 <p>Now lets start the first round in our investment game. Assume you win the auction for the
@@ -1180,7 +1237,7 @@ Let us draw a tree:
 <div class="figure" style="text-align: center"><span id="fig:red-coin-green-coin"></span>
 <img src="figures/red_coin_green_coin.png" alt="Weigthing the two possible unlikely outcomes" width="90%" />
 <p class="caption">
-Figure 3.9: Weigthing the two possible unlikely outcomes
+Figure 3.11: Weigthing the two possible unlikely outcomes
 </p>
 </div>
 <p>In the figure, you see that I have connected the two nodes <span class="math inline">\(G \cap H\)</span> and <span class="math inline">\(R \cap H\)</span> by a dashed
@@ -1208,7 +1265,7 @@ bucket, found the ratio 9 to 1 of green coins but the referee drew in fact a red
 flips. You observe the outcome and update your priors in the light of this new evidence.</p>
 <p>Assume we have the following record. We see a data frame with the following sequence of draws by
 the referee:</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="conditional-probability.html#cb286-1" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="conditional-probability.html#cb287-1" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
 <p>Now lets add a column with the probability that the outcome occurs, given that our hypothesis that
 the coin is green is in fact true, i.e. we add <span class="math inline">\(P(T|G)\)</span> or <span class="math inline">\(P(H|G)\)</span> respectively.</p>
 <p>This is perhaps a bit complicated, because, say in line 1 we would know that <span class="math inline">\(P(T|G)\)</span> is 0.3, but
@@ -1219,22 +1276,22 @@ usually there are many ways to implement the same thing. So let me make a sugges
 builds as much as possible on what we know already.</p>
 <p>First we add an indicator variable of type <code>logical</code>, which tells us whether it is true that the
 toss of the referee is a win or not and add this to our <code>game_record</code>data frame and call it <code>Win</code>:</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="conditional-probability.html#cb287-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="conditional-probability.html#cb288-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span></span></code></pre></div>
 <p>Then we add a new column, recording the sum of wins up to each round. So for instance it would
 always be 0 in the first four rows but then is 1 after the first head occurs, then stays at 1 until
 the next head occurs when it jumps to 2 etc.</p>
 <p>We can uses the Win variable and R’s coercion rules to apply the <code>cumsum()</code>function of R, which takes cumulative sums. To see how it works, consider the vector:</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="conditional-probability.html#cb288-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="conditional-probability.html#cb289-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>)</span></code></pre></div>
 <p>if you apply <code>cumsum()</code> to <code>v</code> R will coerce the <code>TRUE</code> components to a numeric 1 and the <code>FALSE</code> components to a numeric 0 and then apply the function, like this:</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="conditional-probability.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(v)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="conditional-probability.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(v)</span></code></pre></div>
 <pre><code>## [1] 1 2 2 2 3 4 4 4 5</code></pre>
 <p>We add such a column to our data frame with a new varible <code>Sum_Wins</code>:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="conditional-probability.html#cb291-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Sum_Wins <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(game_record<span class="sc">$</span>Win)</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="conditional-probability.html#cb292-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Sum_Wins <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(game_record<span class="sc">$</span>Win)</span></code></pre></div>
 <p>Now finally add a column which record the total number of flips and call it <code>Num_Flips</code>. This is
 easy:</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="conditional-probability.html#cb292-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Num_Flips <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="conditional-probability.html#cb293-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Num_Flips <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span></code></pre></div>
 <p>Let’s have a look at our data frame construction so far:</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="conditional-probability.html#cb293-1" aria-hidden="true" tabindex="-1"></a>game_record</span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="conditional-probability.html#cb294-1" aria-hidden="true" tabindex="-1"></a>game_record</span></code></pre></div>
 <pre><code>##    Data   Win Sum_Wins Num_Flips
 ## 1     T FALSE        0         1
 ## 2     T FALSE        0         2
@@ -1280,31 +1337,31 @@ Since we assume here that the coin is green this is 0.7. With this information a
 <code>dbinom</code> function we can compute all the <span class="math inline">\(P(\text{outcome} | G)\)</span> probabilities and
 add this column to the
 frame.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="conditional-probability.html#cb295-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POG <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.7</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="conditional-probability.html#cb296-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POG <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.7</span>)</span></code></pre></div>
 <p>The next colum is our prior of <span class="math inline">\(P(G)\)</span> that the coin is indeed green. This is, as we have assumed
 0.9. So this is a column of 30 values each of which is 0.9. This can be done by using the
 <code>rep()</code> function.</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="conditional-probability.html#cb296-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PG <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.9</span>, <span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="conditional-probability.html#cb297-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PG <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.9</span>, <span class="dv">30</span>)</span></code></pre></div>
 <p>Now in the next column we compute the probabilities for <span class="math inline">\(P(\text{outcome} | R)\)</span>, the
 conditional probabilities of the outcome given the coin is red. We use again <code>dbinom()</code>but
 with the appropriately adjusted arguments:</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="conditional-probability.html#cb297-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="conditional-probability.html#cb298-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)</span></code></pre></div>
 <p>Now we add the prior of the coin beein red <span class="math inline">\(P(R)\)</span> which is in our case 0.1:</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="conditional-probability.html#cb298-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="conditional-probability.html#cb299-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">30</span>)</span></code></pre></div>
 <p>Now we have almost all the ingredients for computing a Bayesian update at every step. What we
 are still missing is the total probability of the outcome. Note that it can come from two
 sources, which we cannot distinguish just from observing the outcome. If
 you remember our discussion from before this should now look familiar to you:</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="conditional-probability.html#cb299-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="conditional-probability.html#cb300-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span></code></pre></div>
 <p>Now we have all the ingredients to compute at every step the Bayesian update
 <span class="math inline">\(P(G | \text{outcome}\)</span> of our belief that
 the coin is green. We just have to apply the formula now:</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="conditional-probability.html#cb300-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="conditional-probability.html#cb301-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span></code></pre></div>
 <p>Now let us add as a final columns the amount we should bid in each round given the updated
 believes.</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="conditional-probability.html#cb301-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="conditional-probability.html#cb302-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
 <p>Let’s have a look at what we’ve got now</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="conditional-probability.html#cb302-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(game_record, <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="conditional-probability.html#cb303-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(game_record, <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1720,12 +1777,43 @@ probably not green, although you started with a high level of confidence.</p>
 </div>
 <div id="project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation" class="section level2" number="3.8">
 <h2><span class="header-section-number">3.8</span> Project: Analyzing the performance of bidding strategies in the investment game using simulation</h2>
-<p>In this project yo are going to build on our last example and convince yourself of the
-power of updating probabilities in investment decisions. We are in the
-investment game described in the lecture. Assume we play for three rounds, each round
-with 100 coin flips. The setup is as described.</p>
+<p>To be added</p>
 
 </div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-CovalJurekStafford2009" class="csl-entry">
+Coval, Joshua, Jakub Jurek, and Erik Stafford. 2009. <span>“The Economics of Structured Finance.”</span> <em>Journal of Economic Perspectives</em> 3 (1). <a href="http://pubs.aeaweb.org/doi/pdfplus/10.1257/jep.23.1.3">http://pubs.aeaweb.org/doi/pdfplus/10.1257/jep.23.1.3</a>.
+</div>
+<div id="ref-DiaconisSkyrms2019" class="csl-entry">
+Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. Princeton University Press.
+</div>
+<div id="ref-Kahneman2013" class="csl-entry">
+Kahnemann, Daniel. 2013. <em>Thinking Fast and Slow</em>. Farrar, Strauss Giroux.
+</div>
+<div id="ref-Lewis2011" class="csl-entry">
+Lewis, Michael. 2011. <em>The Big Short. Inside the Doomsday Machine</em>. Norton.
+</div>
+<div id="ref-Tooze2018" class="csl-entry">
+Tooze, Adam. 2018. <em>Crashed. How a Decade of Financial Crisis Changed the World</em>. Viking.
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="8">
+<li id="fn8"><p>For numerical
+vectors R also has the symbol NaN. NaN stands for Not A Number and is a logical
+vector of a length 1 and applies to numerical values, as well as real and
+imaginary parts of complex values, but not to values of integer vector. NaN is a reserved word.
+These symbols have to be distinguished from NULL, which is an object and is returned
+when an expression or function results in an undefined value. In R
+language, NULL (capital letters) is a reserved word and can also be the
+product of importing data with unknown data type.<a href="conditional-probability.html#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>The following discussion is taken from
+the excellent internet article <em>Profit margins, Bayes’ rule and the danger of overconfidence</em>,
+available at <a href="http://www.philosophicaleconomics.com/2017/09/pmbtdo/" class="uri">http://www.philosophicaleconomics.com/2017/09/pmbtdo/</a><a href="conditional-probability.html#fnref9" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 

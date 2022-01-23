@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-20" />
+<meta name="date" content="2022-01-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -459,7 +459,7 @@ We ignore this case here.
 something we “expect” to occur. It is - to the contrary - pretty often unlikely and
 sometimes even impossible.</p>
 <p>As an example, remember our fair die. Its expected value is, if you apply the definition above:</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="random-variables.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">2</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">3</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">4</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">5</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">6</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span></span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="random-variables.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">2</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">3</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">4</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">5</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span><span class="sc">+</span><span class="dv">6</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span></span></code></pre></div>
 <pre><code>## [1] 3.5</code></pre>
 <p>a value that will never actually come up.</p>
 <p>We will discuss the specific properties of expected value within an extended example a bit later
@@ -602,8 +602,8 @@ abstract notions we introduced before. This will show you their power as well as
 relevance in Finance.</p>
 <p>How do actual returns look like? Let’s go back to the example of the S&amp;P 500 - a broad stock
 market index - we discussed before.</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="random-variables.html#cb305-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>, <span class="at">from =</span> <span class="st">&quot;2011-01-03&quot;</span>, <span class="at">to =</span> <span class="st">&quot;2021-12-22&quot;</span>)</span>
-<span id="cb305-2"><a href="random-variables.html#cb305-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="random-variables.html#cb306-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>, <span class="at">from =</span> <span class="st">&quot;2011-01-03&quot;</span>, <span class="at">to =</span> <span class="st">&quot;2021-12-22&quot;</span>)</span>
+<span id="cb306-2"><a href="random-variables.html#cb306-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 8
 ##   symbol date        open  high   low close     volume adjusted
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
@@ -625,18 +625,18 @@ observation we have no next observation to deduct the last one from and divide b
 the <code>length()</code>function to an object we get the number of components and thus the number of the
 last element in an object. This we drop. The first difference we already know how to deal with. So let’s
 add returns</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="random-variables.html#cb307-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>returns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, (<span class="fu">diff</span>(sp500<span class="sc">$</span>adjusted, <span class="at">lag =</span> <span class="dv">1</span>)<span class="sc">/</span>sp500<span class="sc">$</span>adjusted[<span class="sc">-</span><span class="fu">length</span>(sp500<span class="sc">$</span>adjusted)]))</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="random-variables.html#cb308-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>returns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, (<span class="fu">diff</span>(sp500<span class="sc">$</span>adjusted, <span class="at">lag =</span> <span class="dv">1</span>)<span class="sc">/</span>sp500<span class="sc">$</span>adjusted[<span class="sc">-</span><span class="fu">length</span>(sp500<span class="sc">$</span>adjusted)]))</span></code></pre></div>
 <p>Now it is always a good idea when you write complex commands like this to check whether the code
 is doing what you want. The second and the first value of the <code>adjusted</code>variable is:
 1270.199951 and 1271.869995. Thus the return is
 -0.0013131. The first value in our returns
 variable is:</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="random-variables.html#cb308-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>returns[<span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="random-variables.html#cb309-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>returns[<span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] -0.001313062</code></pre>
 <p>This looks good. Now let us use our little graphical knowledge to look at the distribution of
 returns in our data using the <code>hist()</code>function from base R and using the option <code>freq = TRUE</code> to
 get empirical frequencies. We drop the <code>NA</code> and :</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="random-variables.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sp500<span class="sc">$</span>returns[<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="random-variables.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sp500<span class="sc">$</span>returns[<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/return%20distr-1.png" width="672" />
 This picture suggests that (daily) returns are pretty much distributed
 symmetrically around 0, and in
@@ -743,25 +743,25 @@ function you will get the state, the payoff of the different assets and the retu
 <p>The first step in this program, you already know from previous lectures. Let us call
 this function <code>get_state()</code>. We have to randomly draw a state by flipping the coin and
 spinning the wheel, just as we rolled the dice in lecture 1:</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="random-variables.html#cb311-1" aria-hidden="true" tabindex="-1"></a>get_state <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb311-2"><a href="random-variables.html#cb311-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-3"><a href="random-variables.html#cb311-3" aria-hidden="true" tabindex="-1"></a>  coin  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;R&quot;</span>) </span>
-<span id="cb311-4"><a href="random-variables.html#cb311-4" aria-hidden="true" tabindex="-1"></a>wheel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;L&quot;</span>, <span class="st">&quot;N&quot;</span>)</span>
-<span id="cb311-5"><a href="random-variables.html#cb311-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-6"><a href="random-variables.html#cb311-6" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>)), </span>
-<span id="cb311-7"><a href="random-variables.html#cb311-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">sample</span>(wheel, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">|</span><span class="er">&gt;</span></span>
-<span id="cb311-8"><a href="random-variables.html#cb311-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb311-9"><a href="random-variables.html#cb311-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-10"><a href="random-variables.html#cb311-10" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(state)</span>
-<span id="cb311-11"><a href="random-variables.html#cb311-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="random-variables.html#cb312-1" aria-hidden="true" tabindex="-1"></a>get_state <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb312-2"><a href="random-variables.html#cb312-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-3"><a href="random-variables.html#cb312-3" aria-hidden="true" tabindex="-1"></a>  coin  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;R&quot;</span>) </span>
+<span id="cb312-4"><a href="random-variables.html#cb312-4" aria-hidden="true" tabindex="-1"></a>wheel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;L&quot;</span>, <span class="st">&quot;N&quot;</span>)</span>
+<span id="cb312-5"><a href="random-variables.html#cb312-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-6"><a href="random-variables.html#cb312-6" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>)), </span>
+<span id="cb312-7"><a href="random-variables.html#cb312-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">sample</span>(wheel, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">|</span><span class="er">&gt;</span></span>
+<span id="cb312-8"><a href="random-variables.html#cb312-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb312-9"><a href="random-variables.html#cb312-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-10"><a href="random-variables.html#cb312-10" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(state)</span>
+<span id="cb312-11"><a href="random-variables.html#cb312-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>In this program, we have created inside the function a coin and a wheel, determined a state vector
 by sampling form the coin and the wheel according to our probabilities and then concatenate the
 two draws - the two strings - by using the <code>paste()</code> function. Here we have used R’s pipe
 operator <code>|&gt;</code>, which channels the output of <code>c()</code> into the <code>paste()</code>function as an argument. Use
 the help menu to check how it works in detail.</p>
 <p>We can now use <code>get_state</code>to flip the coin and spin the wheel to generate a state of the world:</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="random-variables.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_state</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;BN&quot;</code></pre>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="random-variables.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_state</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;BH&quot;</code></pre>
 <p>The monetary value of the outcome depends on the portfolio of assets you have chosen.
 We write a program to compute the payoff and save it as a function, so for instance, if we get
 <code>payoff("RH", portfolio)</code> will output the payoffs and returns or the portfolio you have chosen.</p>
@@ -899,8 +899,8 @@ outcome in the state space and a column for each asset.</p>
 <p>If you still remember what we discussed in lecture 2, you know that we can store objects in R
 as a matrix. We do this by telling R that we now specify a matrix and tell the column and row
 numbers to R and show the <span class="math inline">\(A_B\)</span> matrix to see what we get</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="random-variables.html#cb319-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="fl">2.5</span>), <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb319-2"><a href="random-variables.html#cb319-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="random-variables.html#cb320-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="fl">2.5</span>), <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb320-2"><a href="random-variables.html#cb320-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1   10  6.0
 ## [2,]    1    2  4.0
@@ -920,9 +920,9 @@ an object of class <code>matrix</code>can have row and column names as attribute
 appropriate functions. This names our rows and columns but otherwise leaves the mathematical
 properties of <span class="math inline">\(A\)</span> untouched. We can do matrix computations with it like we had no
 names. Let’s do this and see what we get by inspecting <span class="math inline">\(A\)</span> again</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="random-variables.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(A) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;asset_1&quot;</span>, <span class="st">&quot;asset_2&quot;</span>, <span class="st">&quot;asset_3&quot;</span>)</span>
-<span id="cb321-2"><a href="random-variables.html#cb321-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(A) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;BH&quot;</span>, <span class="st">&quot;BL&quot;</span>, <span class="st">&quot;BN&quot;</span>, <span class="st">&quot;RH&quot;</span>, <span class="st">&quot;RL&quot;</span>, <span class="st">&quot;RN&quot;</span>)</span>
-<span id="cb321-3"><a href="random-variables.html#cb321-3" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="random-variables.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(A) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;asset_1&quot;</span>, <span class="st">&quot;asset_2&quot;</span>, <span class="st">&quot;asset_3&quot;</span>)</span>
+<span id="cb322-2"><a href="random-variables.html#cb322-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(A) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;BH&quot;</span>, <span class="st">&quot;BL&quot;</span>, <span class="st">&quot;BN&quot;</span>, <span class="st">&quot;RH&quot;</span>, <span class="st">&quot;RL&quot;</span>, <span class="st">&quot;RN&quot;</span>)</span>
+<span id="cb322-3"><a href="random-variables.html#cb322-3" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
 <pre><code>##    asset_1 asset_2 asset_3
 ## BH       1      10     6.0
 ## BL       1       2     4.0
@@ -935,20 +935,20 @@ our asset payoffs. Our prices are
 <span class="math inline">\(q = \{0.93, 5.86, 4.625 \}\)</span>.</p>
 <p>Now with this approach we can now address point 1. and 2: With this construction we could write
 our payoff function maybe like this. It turns our asset-payoffs into returns:</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="random-variables.html#cb323-1" aria-hidden="true" tabindex="-1"></a>asset_returns <span class="ot">&lt;-</span> <span class="cf">function</span>(assets, prices){</span>
-<span id="cb323-2"><a href="random-variables.html#cb323-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb323-3"><a href="random-variables.html#cb323-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># construct auxiliary matrix by stacking the price vector to get a matrix with similar</span></span>
-<span id="cb323-4"><a href="random-variables.html#cb323-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dimensions as assets</span></span>
-<span id="cb323-5"><a href="random-variables.html#cb323-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb323-6"><a href="random-variables.html#cb323-6" aria-hidden="true" tabindex="-1"></a>    aux <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(prices, <span class="fu">dim</span>(assets)[<span class="dv">1</span>]), <span class="at">nrow =</span> <span class="fu">dim</span>(assets)[<span class="dv">1</span>], <span class="at">ncol =</span> <span class="fu">dim</span>(assets)[<span class="dv">2</span>], <span class="at">byrow =</span> T)</span>
-<span id="cb323-7"><a href="random-variables.html#cb323-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb323-8"><a href="random-variables.html#cb323-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute return rates by component wise division of assets with aux and deduct 1 from each</span></span>
-<span id="cb323-9"><a href="random-variables.html#cb323-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># component</span></span>
-<span id="cb323-10"><a href="random-variables.html#cb323-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb323-11"><a href="random-variables.html#cb323-11" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span>   (assets<span class="sc">/</span>aux) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb323-12"><a href="random-variables.html#cb323-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb323-13"><a href="random-variables.html#cb323-13" aria-hidden="true" tabindex="-1"></a>  r</span>
-<span id="cb323-14"><a href="random-variables.html#cb323-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="random-variables.html#cb324-1" aria-hidden="true" tabindex="-1"></a>asset_returns <span class="ot">&lt;-</span> <span class="cf">function</span>(assets, prices){</span>
+<span id="cb324-2"><a href="random-variables.html#cb324-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb324-3"><a href="random-variables.html#cb324-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># construct auxiliary matrix by stacking the price vector to get a matrix with similar</span></span>
+<span id="cb324-4"><a href="random-variables.html#cb324-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dimensions as assets</span></span>
+<span id="cb324-5"><a href="random-variables.html#cb324-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb324-6"><a href="random-variables.html#cb324-6" aria-hidden="true" tabindex="-1"></a>    aux <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(prices, <span class="fu">dim</span>(assets)[<span class="dv">1</span>]), <span class="at">nrow =</span> <span class="fu">dim</span>(assets)[<span class="dv">1</span>], <span class="at">ncol =</span> <span class="fu">dim</span>(assets)[<span class="dv">2</span>], <span class="at">byrow =</span> T)</span>
+<span id="cb324-7"><a href="random-variables.html#cb324-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb324-8"><a href="random-variables.html#cb324-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute return rates by component wise division of assets with aux and deduct 1 from each</span></span>
+<span id="cb324-9"><a href="random-variables.html#cb324-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># component</span></span>
+<span id="cb324-10"><a href="random-variables.html#cb324-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb324-11"><a href="random-variables.html#cb324-11" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span>   (assets<span class="sc">/</span>aux) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb324-12"><a href="random-variables.html#cb324-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb324-13"><a href="random-variables.html#cb324-13" aria-hidden="true" tabindex="-1"></a>  r</span>
+<span id="cb324-14"><a href="random-variables.html#cb324-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let us go through this function step by step: The <em>arguments</em> are the payoff matrix and the
 asset prices. Then we create an object inside the
 function, we call aux (an abbreviation for <em>auxialliary</em>). To compute returns
@@ -973,10 +973,10 @@ understand anymore what you were doing. Comments help you to avoid such confusio
 escape character for comments is <code>#</code>. Every line beginning with this symbol will be understood to
 contain comments by R and is not going to be processed by the function.</p>
 <p>Let us test this function on our data:</p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="random-variables.html#cb324-1" aria-hidden="true" tabindex="-1"></a>assets <span class="ot">&lt;-</span> A</span>
-<span id="cb324-2"><a href="random-variables.html#cb324-2" aria-hidden="true" tabindex="-1"></a>prices <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.93</span>, <span class="fl">5.86</span>, <span class="fl">4.625</span>)</span>
-<span id="cb324-3"><a href="random-variables.html#cb324-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb324-4"><a href="random-variables.html#cb324-4" aria-hidden="true" tabindex="-1"></a><span class="fu">asset_returns</span>(assets, prices)</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="random-variables.html#cb325-1" aria-hidden="true" tabindex="-1"></a>assets <span class="ot">&lt;-</span> A</span>
+<span id="cb325-2"><a href="random-variables.html#cb325-2" aria-hidden="true" tabindex="-1"></a>prices <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.93</span>, <span class="fl">5.86</span>, <span class="fl">4.625</span>)</span>
+<span id="cb325-3"><a href="random-variables.html#cb325-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb325-4"><a href="random-variables.html#cb325-4" aria-hidden="true" tabindex="-1"></a><span class="fu">asset_returns</span>(assets, prices)</span></code></pre></div>
 <pre><code>##        asset_1     asset_2     asset_3
 ## BH  0.07526882  0.70648464  0.29729730
 ## BL  0.07526882 -0.65870307 -0.13513514
@@ -989,8 +989,8 @@ contain comments by R and is not going to be processed by the function.</p>
 <h3><span class="header-section-number">4.5.4</span> Lookup Tables</h3>
 <p>Often the simplest way to do something in R involves subsetting. Our function gives us a column
 vector with rownames for the returns in each basic outcome of our random experiment.</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="random-variables.html#cb326-1" aria-hidden="true" tabindex="-1"></a>returns <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(assets, prices)</span>
-<span id="cb326-2"><a href="random-variables.html#cb326-2" aria-hidden="true" tabindex="-1"></a>returns</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="random-variables.html#cb327-1" aria-hidden="true" tabindex="-1"></a>returns <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(assets, prices)</span>
+<span id="cb327-2"><a href="random-variables.html#cb327-2" aria-hidden="true" tabindex="-1"></a>returns</span></code></pre></div>
 <pre><code>##        asset_1     asset_2     asset_3
 ## BH  0.07526882  0.70648464  0.29729730
 ## BL  0.07526882 -0.65870307 -0.13513514
@@ -999,18 +999,18 @@ vector with rownames for the returns in each basic outcome of our random experim
 ## RL -1.00000000 -0.82935154 -0.56756757
 ## RN  0.07526882 -0.48805461 -0.45945946</code></pre>
 <p>If we know, for instance, that the state is <span class="math inline">\(BH\)</span> we can extract the state by</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="random-variables.html#cb328-1" aria-hidden="true" tabindex="-1"></a>returns[<span class="st">&quot;BH&quot;</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="random-variables.html#cb329-1" aria-hidden="true" tabindex="-1"></a>returns[<span class="st">&quot;BH&quot;</span>, ]</span></code></pre></div>
 <pre><code>##    asset_1    asset_2    asset_3 
 ## 0.07526882 0.70648464 0.29729730</code></pre>
 <p>This opens an option to avoid the complicated if tree. Assume a state is chosen by our
 <code>get_state()</code> function.</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="random-variables.html#cb330-1" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> <span class="fu">get_state</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="random-variables.html#cb331-1" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> <span class="fu">get_state</span>()</span></code></pre></div>
 <p>Then we can compute the portfolio return for this state by subsetting:</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="random-variables.html#cb331-1" aria-hidden="true" tabindex="-1"></a>returns[state, ]</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="random-variables.html#cb332-1" aria-hidden="true" tabindex="-1"></a>returns[state, ]</span></code></pre></div>
 <pre><code>##     asset_1     asset_2     asset_3 
-##  0.07526882 -0.48805461 -0.45945946</code></pre>
+##  0.07526882 -0.65870307 -0.13513514</code></pre>
 <p>The vector of row names</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="random-variables.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(A)</span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="random-variables.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(A)</span></code></pre></div>
 <pre><code>## [1] &quot;BH&quot; &quot;BL&quot; &quot;BN&quot; &quot;RH&quot; &quot;RL&quot; &quot;RN&quot;</code></pre>
 <p>functions as a so called lookup table. It is a complete list of the possible states. R can refer
 to this state by subsetting and choose the right row. In the end we want to keep just the return
@@ -1027,33 +1027,33 @@ a vector showing the state and the asset returns computed by a function
 payoff(state, portfolio)
 }</code></pre>
 <p>We have broken this down to sub-tasks which we now weave together:</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="random-variables.html#cb336-1" aria-hidden="true" tabindex="-1"></a>ret <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(assets, prices)</span>
-<span id="cb336-2"><a href="random-variables.html#cb336-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb336-3"><a href="random-variables.html#cb336-3" aria-hidden="true" tabindex="-1"></a>outcome <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">returns =</span> ret){</span>
-<span id="cb336-4"><a href="random-variables.html#cb336-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb336-5"><a href="random-variables.html#cb336-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Draw a state by flipping the coin and spinning the wheel</span></span>
-<span id="cb336-6"><a href="random-variables.html#cb336-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb336-7"><a href="random-variables.html#cb336-7" aria-hidden="true" tabindex="-1"></a>  state <span class="ot">&lt;-</span> <span class="fu">get_state</span>()</span>
-<span id="cb336-8"><a href="random-variables.html#cb336-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb336-9"><a href="random-variables.html#cb336-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select the returns for this state and strip off names</span></span>
-<span id="cb336-10"><a href="random-variables.html#cb336-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb336-11"><a href="random-variables.html#cb336-11" aria-hidden="true" tabindex="-1"></a>  return <span class="ot">&lt;-</span> <span class="fu">unname</span>(ret[state, ])</span>
-<span id="cb336-12"><a href="random-variables.html#cb336-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb336-13"><a href="random-variables.html#cb336-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pack result into a data frame</span></span>
-<span id="cb336-14"><a href="random-variables.html#cb336-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb336-15"><a href="random-variables.html#cb336-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">State =</span> state, <span class="at">Asset_1 =</span> return[<span class="dv">1</span>], <span class="at">Asset_2 =</span> return[<span class="dv">2</span>], <span class="at">Asset_3 =</span> return[<span class="dv">3</span>], <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb336-16"><a href="random-variables.html#cb336-16" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb336-17"><a href="random-variables.html#cb336-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb336-18"><a href="random-variables.html#cb336-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="random-variables.html#cb337-1" aria-hidden="true" tabindex="-1"></a>ret <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(assets, prices)</span>
+<span id="cb337-2"><a href="random-variables.html#cb337-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb337-3"><a href="random-variables.html#cb337-3" aria-hidden="true" tabindex="-1"></a>outcome <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">returns =</span> ret){</span>
+<span id="cb337-4"><a href="random-variables.html#cb337-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb337-5"><a href="random-variables.html#cb337-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Draw a state by flipping the coin and spinning the wheel</span></span>
+<span id="cb337-6"><a href="random-variables.html#cb337-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb337-7"><a href="random-variables.html#cb337-7" aria-hidden="true" tabindex="-1"></a>  state <span class="ot">&lt;-</span> <span class="fu">get_state</span>()</span>
+<span id="cb337-8"><a href="random-variables.html#cb337-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb337-9"><a href="random-variables.html#cb337-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select the returns for this state and strip off names</span></span>
+<span id="cb337-10"><a href="random-variables.html#cb337-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb337-11"><a href="random-variables.html#cb337-11" aria-hidden="true" tabindex="-1"></a>  return <span class="ot">&lt;-</span> <span class="fu">unname</span>(ret[state, ])</span>
+<span id="cb337-12"><a href="random-variables.html#cb337-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb337-13"><a href="random-variables.html#cb337-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pack result into a data frame</span></span>
+<span id="cb337-14"><a href="random-variables.html#cb337-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb337-15"><a href="random-variables.html#cb337-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">State =</span> state, <span class="at">Asset_1 =</span> return[<span class="dv">1</span>], <span class="at">Asset_2 =</span> return[<span class="dv">2</span>], <span class="at">Asset_3 =</span> return[<span class="dv">3</span>], <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb337-16"><a href="random-variables.html#cb337-16" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb337-17"><a href="random-variables.html#cb337-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb337-18"><a href="random-variables.html#cb337-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let us test this function using the values we have already specified:</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="random-variables.html#cb337-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> A</span>
-<span id="cb337-2"><a href="random-variables.html#cb337-2" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.93</span>, <span class="fl">5.86</span>, <span class="fl">4.625</span>)</span>
-<span id="cb337-3"><a href="random-variables.html#cb337-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb337-4"><a href="random-variables.html#cb337-4" aria-hidden="true" tabindex="-1"></a>ret <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(<span class="at">assets =</span> a, <span class="at">prices =</span> pr)</span>
-<span id="cb337-5"><a href="random-variables.html#cb337-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb337-6"><a href="random-variables.html#cb337-6" aria-hidden="true" tabindex="-1"></a><span class="fu">outcome</span>(<span class="at">returns =</span> ret)</span></code></pre></div>
-<pre><code>##   State    Asset_1    Asset_2    Asset_3
-## 1    BL 0.07526882 -0.6587031 -0.1351351</code></pre>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="random-variables.html#cb338-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> A</span>
+<span id="cb338-2"><a href="random-variables.html#cb338-2" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.93</span>, <span class="fl">5.86</span>, <span class="fl">4.625</span>)</span>
+<span id="cb338-3"><a href="random-variables.html#cb338-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb338-4"><a href="random-variables.html#cb338-4" aria-hidden="true" tabindex="-1"></a>ret <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(<span class="at">assets =</span> a, <span class="at">prices =</span> pr)</span>
+<span id="cb338-5"><a href="random-variables.html#cb338-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb338-6"><a href="random-variables.html#cb338-6" aria-hidden="true" tabindex="-1"></a><span class="fu">outcome</span>(<span class="at">returns =</span> ret)</span></code></pre></div>
+<pre><code>##   State    Asset_1   Asset_2   Asset_3
+## 1    BH 0.07526882 0.7064846 0.2972973</code></pre>
 <p>This does not look so bad, but what can we do with this? Well now we are in the position to
 study a particular portfolio through simulation. We can play with the coin and the wheel random
 mechanism to see what it does to our asset returns and to our portfolio returns. We can study
@@ -1071,9 +1071,9 @@ looks like this:</p>
 for loop will run the code that appears between the braces once for each member of <code>that</code>.</p>
 <p>For example, the for loop below runs <code>print("one run")</code> once for each element in the vector
 of character strings:</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="random-variables.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (value <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;My&quot;</span>, <span class="st">&quot;first&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;loop&quot;</span>)){</span>
-<span id="cb340-2"><a href="random-variables.html#cb340-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;one run&quot;</span>)</span>
-<span id="cb340-3"><a href="random-variables.html#cb340-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="random-variables.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (value <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;My&quot;</span>, <span class="st">&quot;first&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;loop&quot;</span>)){</span>
+<span id="cb341-2"><a href="random-variables.html#cb341-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;one run&quot;</span>)</span>
+<span id="cb341-3"><a href="random-variables.html#cb341-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;one run&quot;
 ## [1] &quot;one run&quot;
 ## [1] &quot;one run&quot;
@@ -1086,9 +1086,9 @@ that you run the loop on. <code>for</code> starts with the first element and the
 element to <code>value</code>on each run of the for loop, until all of the elements have been assigned to
 <code>value</code>. For example, the for loop below will run <code>print(value)</code> four times and will print
 out one element of <code>c("My", "second", "for", "loop")</code>each time:</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="random-variables.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (value <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;My&quot;</span>, <span class="st">&quot;second&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;loop&quot;</span>)){</span>
-<span id="cb342-2"><a href="random-variables.html#cb342-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(value)</span>
-<span id="cb342-3"><a href="random-variables.html#cb342-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="random-variables.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (value <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;My&quot;</span>, <span class="st">&quot;second&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;loop&quot;</span>)){</span>
+<span id="cb343-2"><a href="random-variables.html#cb343-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(value)</span>
+<span id="cb343-3"><a href="random-variables.html#cb343-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;My&quot;
 ## [1] &quot;second&quot;
 ## [1] &quot;for&quot;
@@ -1099,22 +1099,22 @@ name <code>value</code>. Any other name will do as well.</p>
 the value of the last element in the set. Usually a for loop won’t return anything, unless
 you save its own output as it runs. The examples before appeared to return something becuase we
 called the <code>print()</code> function at every call. if we typed for example:</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="random-variables.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;My&quot;</span>, <span class="st">&quot;third&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;loop&quot;</span>)){</span>
-<span id="cb344-2"><a href="random-variables.html#cb344-2" aria-hidden="true" tabindex="-1"></a>  value</span>
-<span id="cb344-3"><a href="random-variables.html#cb344-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="random-variables.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;My&quot;</span>, <span class="st">&quot;third&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;loop&quot;</span>)){</span>
+<span id="cb345-2"><a href="random-variables.html#cb345-2" aria-hidden="true" tabindex="-1"></a>  value</span>
+<span id="cb345-3"><a href="random-variables.html#cb345-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>we get no output. To get an output you must fill either a vector or a list, which will then
 contain the output of every iteration in the for loop.</p>
 <p>Let’s see how this works in the next example:</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="random-variables.html#cb345-1" aria-hidden="true" tabindex="-1"></a>chars <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;character&quot;</span>, <span class="at">length =</span> <span class="dv">4</span>)</span>
-<span id="cb345-2"><a href="random-variables.html#cb345-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb345-3"><a href="random-variables.html#cb345-3" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;My&quot;</span>, <span class="st">&quot;forth&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;loop&quot;</span>)</span>
-<span id="cb345-4"><a href="random-variables.html#cb345-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb345-5"><a href="random-variables.html#cb345-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>){</span>
-<span id="cb345-6"><a href="random-variables.html#cb345-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb345-7"><a href="random-variables.html#cb345-7" aria-hidden="true" tabindex="-1"></a>chars[i] <span class="ot">&lt;-</span> words[i]</span>
-<span id="cb345-8"><a href="random-variables.html#cb345-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb345-9"><a href="random-variables.html#cb345-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb345-10"><a href="random-variables.html#cb345-10" aria-hidden="true" tabindex="-1"></a>chars</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="random-variables.html#cb346-1" aria-hidden="true" tabindex="-1"></a>chars <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;character&quot;</span>, <span class="at">length =</span> <span class="dv">4</span>)</span>
+<span id="cb346-2"><a href="random-variables.html#cb346-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb346-3"><a href="random-variables.html#cb346-3" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;My&quot;</span>, <span class="st">&quot;forth&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;loop&quot;</span>)</span>
+<span id="cb346-4"><a href="random-variables.html#cb346-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb346-5"><a href="random-variables.html#cb346-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb346-6"><a href="random-variables.html#cb346-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb346-7"><a href="random-variables.html#cb346-7" aria-hidden="true" tabindex="-1"></a>chars[i] <span class="ot">&lt;-</span> words[i]</span>
+<span id="cb346-8"><a href="random-variables.html#cb346-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb346-9"><a href="random-variables.html#cb346-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb346-10"><a href="random-variables.html#cb346-10" aria-hidden="true" tabindex="-1"></a>chars</span></code></pre></div>
 <pre><code>## [1] &quot;My&quot;    &quot;forth&quot; &quot;for&quot;   &quot;loop&quot;</code></pre>
 <p>What is going on here? We have first preallocated a vector of type character with length 4. The
 vector does not yet contain anything. Then we declared the four words we are going to use in our
@@ -1129,35 +1129,35 @@ simulation approach by writing a for loop and by using our outcome function. Our
 horizon for computing returns is one day. So let us look at the expected daily return over a period
 similar to our SP500 data. This comprised 2762 trading days. So let’s write a for loop with length
 2762 and show the states and the asset returns on each day.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="random-variables.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preallocate a list in which we then can store the values of the for loop</span></span>
-<span id="cb347-2"><a href="random-variables.html#cb347-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb347-3"><a href="random-variables.html#cb347-3" aria-hidden="true" tabindex="-1"></a>simulated_returns <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;list&quot;</span>, <span class="at">length =</span> <span class="dv">2762</span>)</span>
-<span id="cb347-4"><a href="random-variables.html#cb347-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb347-5"><a href="random-variables.html#cb347-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform payoffs into returns</span></span>
-<span id="cb347-6"><a href="random-variables.html#cb347-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb347-7"><a href="random-variables.html#cb347-7" aria-hidden="true" tabindex="-1"></a>returns <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(<span class="at">assets =</span> A, <span class="at">prices =</span> prices)</span>
-<span id="cb347-8"><a href="random-variables.html#cb347-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb347-9"><a href="random-variables.html#cb347-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute 250 random outcomes and random returns</span></span>
-<span id="cb347-10"><a href="random-variables.html#cb347-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb347-11"><a href="random-variables.html#cb347-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2762</span>){</span>
-<span id="cb347-12"><a href="random-variables.html#cb347-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb347-13"><a href="random-variables.html#cb347-13" aria-hidden="true" tabindex="-1"></a>simulated_returns[[i]]  <span class="ot">&lt;-</span> <span class="fu">outcome</span>(returns)</span>
-<span id="cb347-14"><a href="random-variables.html#cb347-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb347-15"><a href="random-variables.html#cb347-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="random-variables.html#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preallocate a list in which we then can store the values of the for loop</span></span>
+<span id="cb348-2"><a href="random-variables.html#cb348-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb348-3"><a href="random-variables.html#cb348-3" aria-hidden="true" tabindex="-1"></a>simulated_returns <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;list&quot;</span>, <span class="at">length =</span> <span class="dv">2762</span>)</span>
+<span id="cb348-4"><a href="random-variables.html#cb348-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb348-5"><a href="random-variables.html#cb348-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform payoffs into returns</span></span>
+<span id="cb348-6"><a href="random-variables.html#cb348-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb348-7"><a href="random-variables.html#cb348-7" aria-hidden="true" tabindex="-1"></a>returns <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(<span class="at">assets =</span> A, <span class="at">prices =</span> prices)</span>
+<span id="cb348-8"><a href="random-variables.html#cb348-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb348-9"><a href="random-variables.html#cb348-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute 250 random outcomes and random returns</span></span>
+<span id="cb348-10"><a href="random-variables.html#cb348-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb348-11"><a href="random-variables.html#cb348-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2762</span>){</span>
+<span id="cb348-12"><a href="random-variables.html#cb348-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb348-13"><a href="random-variables.html#cb348-13" aria-hidden="true" tabindex="-1"></a>simulated_returns[[i]]  <span class="ot">&lt;-</span> <span class="fu">outcome</span>(returns)</span>
+<span id="cb348-14"><a href="random-variables.html#cb348-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb348-15"><a href="random-variables.html#cb348-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now let’s inspect the output of this run by looking at the first element:</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="random-variables.html#cb348-1" aria-hidden="true" tabindex="-1"></a>simulated_returns[[<span class="dv">1</span>]]</span></code></pre></div>
-<pre><code>##   State    Asset_1    Asset_2    Asset_3
-## 1    BN 0.07526882 0.02389078 0.08108108</code></pre>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="random-variables.html#cb349-1" aria-hidden="true" tabindex="-1"></a>simulated_returns[[<span class="dv">1</span>]]</span></code></pre></div>
+<pre><code>##   State    Asset_1   Asset_2   Asset_3
+## 1    BH 0.07526882 0.7064846 0.2972973</code></pre>
 <p>This looks good. We now have a list with 250 data-frames all with the same variables. What we would
 like to have instead is one single data frame. Here is a way how to merge them:</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="random-variables.html#cb350-1" aria-hidden="true" tabindex="-1"></a>simulation_outcome <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, simulated_returns)</span>
-<span id="cb350-2"><a href="random-variables.html#cb350-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulation_outcome, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="random-variables.html#cb351-1" aria-hidden="true" tabindex="-1"></a>simulation_outcome <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, simulated_returns)</span>
+<span id="cb351-2"><a href="random-variables.html#cb351-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulation_outcome, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##   State     Asset_1     Asset_2     Asset_3
-## 1    BN  0.07526882  0.02389078  0.08108108
-## 2    RH  0.07526882 -0.14675768 -0.35135135
-## 3    BL  0.07526882 -0.65870307 -0.13513514
-## 4    RL -1.00000000 -0.82935154 -0.56756757
-## 5    BH  0.07526882  0.70648464  0.29729730</code></pre>
+## 1    BH  0.07526882  0.70648464  0.29729730
+## 2    BN  0.07526882  0.02389078  0.08108108
+## 3    RL -1.00000000 -0.82935154 -0.56756757
+## 4    BN  0.07526882  0.02389078  0.08108108
+## 5    RH  0.07526882 -0.14675768 -0.35135135</code></pre>
 <p>Let me explain. Dataframes with the same variables can be merged by the function <code>rbind()</code>. This
 can be applied to an arbitrary (finite) number of dataframes. <code>do.call()</code> is a function which is
 applied to a list. Its first argument is a function (what should be done), the second argument
@@ -1166,11 +1166,11 @@ data frames stored in our list together in one single frame.</p>
 <p>Now let us examine our simulated output a bit further. First let us check whether the
 relative frequencies of states are near the values of the probabilities with which they
 should occur given our coin and wheel random device:</p>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="random-variables.html#cb352-1" aria-hidden="true" tabindex="-1"></a>rel_freq_states <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(simulation_outcome<span class="sc">$</span>State))</span>
-<span id="cb352-2"><a href="random-variables.html#cb352-2" aria-hidden="true" tabindex="-1"></a>rel_freq_states</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="random-variables.html#cb353-1" aria-hidden="true" tabindex="-1"></a>rel_freq_states <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(simulation_outcome<span class="sc">$</span>State))</span>
+<span id="cb353-2"><a href="random-variables.html#cb353-2" aria-hidden="true" tabindex="-1"></a>rel_freq_states</span></code></pre></div>
 <pre><code>## 
 ##         BH         BL         BN         RH         RL         RN 
-## 0.20926865 0.09992759 0.28855902 0.13830558 0.07096307 0.19297610</code></pre>
+## 0.20492397 0.10572049 0.30485156 0.13432295 0.06444605 0.18573497</code></pre>
 <p>Remember from before that our theoretical probability distribution was given by
 <span class="math display">\[\begin{eqnarray*}
 {\cal S} &amp;=&amp; \{BH, BL, BN, RH, RL, RN\} \\
@@ -1185,31 +1185,31 @@ average of a random variable in a series of
 a repeated random experiment. Let us check this for our data but using the portfolio weights. We
 add the weights for each asset and then compute <span class="math inline">\(E(w^1 r^1), E(w^2 r^2), E(w^3 r^3)\)</span> from our
 data and compare to the theoretical expected value according to our definition.</p>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="random-variables.html#cb354-1" aria-hidden="true" tabindex="-1"></a>simulation_outcome<span class="sc">$</span>Weight_1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span></span>
-<span id="cb354-2"><a href="random-variables.html#cb354-2" aria-hidden="true" tabindex="-1"></a>simulation_outcome<span class="sc">$</span>Weight_2 <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span></span>
-<span id="cb354-3"><a href="random-variables.html#cb354-3" aria-hidden="true" tabindex="-1"></a>simulation_outcome<span class="sc">$</span>Weight_3 <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span></span>
-<span id="cb354-4"><a href="random-variables.html#cb354-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb354-5"><a href="random-variables.html#cb354-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulation_outcome, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="random-variables.html#cb355-1" aria-hidden="true" tabindex="-1"></a>simulation_outcome<span class="sc">$</span>Weight_1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span></span>
+<span id="cb355-2"><a href="random-variables.html#cb355-2" aria-hidden="true" tabindex="-1"></a>simulation_outcome<span class="sc">$</span>Weight_2 <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span></span>
+<span id="cb355-3"><a href="random-variables.html#cb355-3" aria-hidden="true" tabindex="-1"></a>simulation_outcome<span class="sc">$</span>Weight_3 <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span></span>
+<span id="cb355-4"><a href="random-variables.html#cb355-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb355-5"><a href="random-variables.html#cb355-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulation_outcome, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##   State     Asset_1     Asset_2     Asset_3 Weight_1 Weight_2 Weight_3
-## 1    BN  0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
-## 2    RH  0.07526882 -0.14675768 -0.35135135     0.25    0.375    0.375
-## 3    BL  0.07526882 -0.65870307 -0.13513514     0.25    0.375    0.375
-## 4    RL -1.00000000 -0.82935154 -0.56756757     0.25    0.375    0.375
-## 5    BH  0.07526882  0.70648464  0.29729730     0.25    0.375    0.375</code></pre>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="random-variables.html#cb356-1" aria-hidden="true" tabindex="-1"></a>E_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1)</span>
-<span id="cb356-2"><a href="random-variables.html#cb356-2" aria-hidden="true" tabindex="-1"></a>E_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_2)</span>
-<span id="cb356-3"><a href="random-variables.html#cb356-3" aria-hidden="true" tabindex="-1"></a>E_3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_3)</span>
-<span id="cb356-4"><a href="random-variables.html#cb356-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb356-5"><a href="random-variables.html#cb356-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(E_1, E_2, E_3), <span class="dv">2</span>)</span></code></pre></div>
+## 1    BH  0.07526882  0.70648464  0.29729730     0.25    0.375    0.375
+## 2    BN  0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
+## 3    RL -1.00000000 -0.82935154 -0.56756757     0.25    0.375    0.375
+## 4    BN  0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
+## 5    RH  0.07526882 -0.14675768 -0.35135135     0.25    0.375    0.375</code></pre>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="random-variables.html#cb357-1" aria-hidden="true" tabindex="-1"></a>E_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1)</span>
+<span id="cb357-2"><a href="random-variables.html#cb357-2" aria-hidden="true" tabindex="-1"></a>E_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_2)</span>
+<span id="cb357-3"><a href="random-variables.html#cb357-3" aria-hidden="true" tabindex="-1"></a>E_3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_3)</span>
+<span id="cb357-4"><a href="random-variables.html#cb357-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb357-5"><a href="random-variables.html#cb357-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(E_1, E_2, E_3), <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1]  0.00 -0.03 -0.04</code></pre>
 <p>Let us compare this result with the theoretical expected value.</p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="random-variables.html#cb358-1" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.13</span>, <span class="fl">0.07</span>, <span class="fl">0.2</span>)</span>
-<span id="cb358-2"><a href="random-variables.html#cb358-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb358-3"><a href="random-variables.html#cb358-3" aria-hidden="true" tabindex="-1"></a>e_1 <span class="ot">&lt;-</span> <span class="fu">sum</span>(returns[, <span class="st">&quot;asset_1&quot;</span>]<span class="sc">*</span><span class="fl">0.25</span><span class="sc">*</span>probabilities)</span>
-<span id="cb358-4"><a href="random-variables.html#cb358-4" aria-hidden="true" tabindex="-1"></a>e_2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(returns[, <span class="st">&quot;asset_2&quot;</span>]<span class="sc">*</span><span class="fl">0.375</span><span class="sc">*</span>probabilities)</span>
-<span id="cb358-5"><a href="random-variables.html#cb358-5" aria-hidden="true" tabindex="-1"></a>e_3 <span class="ot">&lt;-</span> <span class="fu">sum</span>(returns[, <span class="st">&quot;asset_3&quot;</span>]<span class="sc">*</span><span class="fl">0.375</span><span class="sc">*</span>probabilities)</span>
-<span id="cb358-6"><a href="random-variables.html#cb358-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb358-7"><a href="random-variables.html#cb358-7" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(e_1, e_2, e_3), <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="random-variables.html#cb359-1" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.13</span>, <span class="fl">0.07</span>, <span class="fl">0.2</span>)</span>
+<span id="cb359-2"><a href="random-variables.html#cb359-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb359-3"><a href="random-variables.html#cb359-3" aria-hidden="true" tabindex="-1"></a>e_1 <span class="ot">&lt;-</span> <span class="fu">sum</span>(returns[, <span class="st">&quot;asset_1&quot;</span>]<span class="sc">*</span><span class="fl">0.25</span><span class="sc">*</span>probabilities)</span>
+<span id="cb359-4"><a href="random-variables.html#cb359-4" aria-hidden="true" tabindex="-1"></a>e_2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(returns[, <span class="st">&quot;asset_2&quot;</span>]<span class="sc">*</span><span class="fl">0.375</span><span class="sc">*</span>probabilities)</span>
+<span id="cb359-5"><a href="random-variables.html#cb359-5" aria-hidden="true" tabindex="-1"></a>e_3 <span class="ot">&lt;-</span> <span class="fu">sum</span>(returns[, <span class="st">&quot;asset_3&quot;</span>]<span class="sc">*</span><span class="fl">0.375</span><span class="sc">*</span>probabilities)</span>
+<span id="cb359-6"><a href="random-variables.html#cb359-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb359-7"><a href="random-variables.html#cb359-7" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(e_1, e_2, e_3), <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1]  0.00 -0.03 -0.04</code></pre>
 <p>This looks good. Now Let us take this opportunity to establish a few properties of expected
 value. These properties are very important and you will need it over and over in applied
@@ -1225,11 +1225,11 @@ E(a\,X + b\,Y) = a\,E(X) + b\, E(Y)
 for any real values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
 <p>Now look at this property from the viewpoint of our data frame. If we computed the
 empirical expected value by:</p>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="random-variables.html#cb360-1" aria-hidden="true" tabindex="-1"></a>E_1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1)<span class="sc">*</span><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1)</span>
-<span id="cb360-2"><a href="random-variables.html#cb360-2" aria-hidden="true" tabindex="-1"></a>E_2 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_2)<span class="sc">*</span><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_2)</span>
-<span id="cb360-3"><a href="random-variables.html#cb360-3" aria-hidden="true" tabindex="-1"></a>E_3 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_3)<span class="sc">*</span><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_3)</span>
-<span id="cb360-4"><a href="random-variables.html#cb360-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb360-5"><a href="random-variables.html#cb360-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(E_1, E_2, E_3), <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="random-variables.html#cb361-1" aria-hidden="true" tabindex="-1"></a>E_1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1)<span class="sc">*</span><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1)</span>
+<span id="cb361-2"><a href="random-variables.html#cb361-2" aria-hidden="true" tabindex="-1"></a>E_2 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_2)<span class="sc">*</span><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_2)</span>
+<span id="cb361-3"><a href="random-variables.html#cb361-3" aria-hidden="true" tabindex="-1"></a>E_3 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_3)<span class="sc">*</span><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_3)</span>
+<span id="cb361-4"><a href="random-variables.html#cb361-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb361-5"><a href="random-variables.html#cb361-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(E_1, E_2, E_3), <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1]  0.00 -0.03 -0.04</code></pre>
 <p>We get exactly the same value. Note that I have used the function <code>unique()</code>here. This is because
 if <code>simulation_outcome$Weight_1</code> is taken out of the mean function it is a <span class="math inline">\(2762 \times 1\)</span> vector
@@ -1241,14 +1241,14 @@ take the roles of weights.</p>
 data frame. Clearly, if you take a weighted sum over rows and then average accross this sum
 it is the same as if you take a weighted average across each column and then sum up. Let’s
 do it with our data frame:</p>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="random-variables.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version 1: Take expected return of each asset and then compute weighted average: </span></span>
-<span id="cb362-2"><a href="random-variables.html#cb362-2" aria-hidden="true" tabindex="-1"></a><span class="co"># w^1 E(r^1) + w^2 E(r^2) + w^3 E(r^3)</span></span>
-<span id="cb362-3"><a href="random-variables.html#cb362-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(E_1 <span class="sc">+</span> E_2 <span class="sc">+</span> E_3, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="random-variables.html#cb363-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version 1: Take expected return of each asset and then compute weighted average: </span></span>
+<span id="cb363-2"><a href="random-variables.html#cb363-2" aria-hidden="true" tabindex="-1"></a><span class="co"># w^1 E(r^1) + w^2 E(r^2) + w^3 E(r^3)</span></span>
+<span id="cb363-3"><a href="random-variables.html#cb363-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(E_1 <span class="sc">+</span> E_2 <span class="sc">+</span> E_3, <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] -0.07</code></pre>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="random-variables.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version 2: Compute E(w^1 r^1 + w^2 r^2 + w^3 r^3)</span></span>
-<span id="cb364-2"><a href="random-variables.html#cb364-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb364-3"><a href="random-variables.html#cb364-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Weight_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_2 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">|</span><span class="er">&gt;</span></span>
-<span id="cb364-4"><a href="random-variables.html#cb364-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="random-variables.html#cb365-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version 2: Compute E(w^1 r^1 + w^2 r^2 + w^3 r^3)</span></span>
+<span id="cb365-2"><a href="random-variables.html#cb365-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb365-3"><a href="random-variables.html#cb365-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Weight_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_2 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">|</span><span class="er">&gt;</span></span>
+<span id="cb365-4"><a href="random-variables.html#cb365-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] -0.07</code></pre>
 <p>Finally, note that the expected value of a constant is the value of the constant:</p>
 <p><strong>Property 3</strong>: For a constant <span class="math inline">\(a\)</span>, <span class="math inline">\(E(a) = a\)</span>.</p>
@@ -1261,14 +1261,14 @@ do it with our data frame:</p>
 Var(X) = E(X^2) - (E(X))^2
 \end{equation*}\]</span></p>
 <p>Let us check this with the random returns of asset 1:</p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="random-variables.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variance of returns rounded to two digits:</span></span>
-<span id="cb366-2"><a href="random-variables.html#cb366-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb366-3"><a href="random-variables.html#cb366-3" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] 0.08</code></pre>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="random-variables.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variance computed by applying Property 1:</span></span>
-<span id="cb368-2"><a href="random-variables.html#cb368-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb368-3"><a href="random-variables.html#cb368-3" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] 0.08</code></pre>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="random-variables.html#cb367-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variance of returns rounded to two digits:</span></span>
+<span id="cb367-2"><a href="random-variables.html#cb367-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb367-3"><a href="random-variables.html#cb367-3" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.07</code></pre>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="random-variables.html#cb369-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variance computed by applying Property 1:</span></span>
+<span id="cb369-2"><a href="random-variables.html#cb369-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb369-3"><a href="random-variables.html#cb369-3" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.07</code></pre>
 <p><strong>Property 2</strong> If <span class="math inline">\(X\)</span> is a random variable and <span class="math inline">\(a\)</span> is a real number we have
 <span class="math display">\[\begin{equation*}
 Var(a\,X) = a^2 Var(X)
@@ -1276,25 +1276,25 @@ Var(a\,X) = a^2 Var(X)
 <p>This says intuitively that if you multiply a random variable by, say 5, then its average squared
 distance from the mean should increase by a factor of 25. Let us check this again with our
 data frame for asset 1:</p>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="random-variables.html#cb370-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(w^1*r^1)</span></span>
-<span id="cb370-2"><a href="random-variables.html#cb370-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0048</code></pre>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="random-variables.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (w^1)^2 Var(r^1)</span></span>
-<span id="cb372-2"><a href="random-variables.html#cb372-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb372-3"><a href="random-variables.html#cb372-3" aria-hidden="true" tabindex="-1"></a>((<span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1))<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0048</code></pre>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="random-variables.html#cb371-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(w^1*r^1)</span></span>
+<span id="cb371-2"><a href="random-variables.html#cb371-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 0.0044</code></pre>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="random-variables.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (w^1)^2 Var(r^1)</span></span>
+<span id="cb373-2"><a href="random-variables.html#cb373-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb373-3"><a href="random-variables.html#cb373-3" aria-hidden="true" tabindex="-1"></a>((<span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1))<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 0.0044</code></pre>
 <p><strong>Property 3</strong> If <span class="math inline">\(X\)</span> is a random variable and <span class="math inline">\(a\)</span> is a constant then
 <span class="math display">\[\begin{equation*}
 Var(X + a) = Var(X)
 \end{equation*}\]</span>
 This should also be intuitive, because a constant has no variation so it should not contribute to
 the variance of a random variable. Let us check this again with our data frame:</p>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="random-variables.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(r^1 + 1000)</span></span>
-<span id="cb374-2"><a href="random-variables.html#cb374-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> <span class="dv">1000</span>)</span></code></pre></div>
-<pre><code>## [1] 0.07625297</code></pre>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="random-variables.html#cb376-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(r^1)</span></span>
-<span id="cb376-2"><a href="random-variables.html#cb376-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)</span></code></pre></div>
-<pre><code>## [1] 0.07625297</code></pre>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="random-variables.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(r^1 + 1000)</span></span>
+<span id="cb375-2"><a href="random-variables.html#cb375-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>## [1] 0.06973592</code></pre>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="random-variables.html#cb377-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(r^1)</span></span>
+<span id="cb377-2"><a href="random-variables.html#cb377-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)</span></code></pre></div>
+<pre><code>## [1] 0.06973592</code></pre>
 <p>Finally we have a very important property of variance which is particularly relevant in the
 context of portfolios.</p>
 <p><strong>Property 4</strong> If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are random variables and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are real numbers
@@ -1309,24 +1309,24 @@ In this case the formula in property 4 becomes:
 Var(\sum_i w^i\,r^i) = \sum_{i=1}^n (w^i)^2 Var(r^i) +  \sum_{i \neq j } w^i w^j Cov(r^i, r^j)
 \end{equation*}\]</span>
 Le us check this formula again with our data frame:</p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="random-variables.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(\sum_i w^i\,r^i)</span></span>
-<span id="cb378-2"><a href="random-variables.html#cb378-2" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> simulation_outcome<span class="sc">$</span>Weight_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_2 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_3</span>
-<span id="cb378-3"><a href="random-variables.html#cb378-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb378-4"><a href="random-variables.html#cb378-4" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(aux_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.1046</code></pre>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="random-variables.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="co"># \sum_{i=1}^n (w^i)^2 Var(r^i) +  \sum_{i \neq j } w^i w^j Cov(r^i, r^j)</span></span>
-<span id="cb380-2"><a href="random-variables.html#cb380-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb380-3"><a href="random-variables.html#cb380-3" aria-hidden="true" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1)</span>
-<span id="cb380-4"><a href="random-variables.html#cb380-4" aria-hidden="true" tabindex="-1"></a>w2 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_2)</span>
-<span id="cb380-5"><a href="random-variables.html#cb380-5" aria-hidden="true" tabindex="-1"></a>w3 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_3)</span>
-<span id="cb380-6"><a href="random-variables.html#cb380-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb380-7"><a href="random-variables.html#cb380-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb380-8"><a href="random-variables.html#cb380-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb380-9"><a href="random-variables.html#cb380-9" aria-hidden="true" tabindex="-1"></a>Varportf <span class="ot">&lt;-</span> w1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1) <span class="sc">+</span> w2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w3<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w1<span class="sc">*</span>w2<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1,simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w1<span class="sc">*</span>w3<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w2<span class="sc">*</span>w1<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w2<span class="sc">*</span>w3<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w3<span class="sc">*</span>w1<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span></span>
-<span id="cb380-10"><a href="random-variables.html#cb380-10" aria-hidden="true" tabindex="-1"></a>w3<span class="sc">*</span>w2<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3)</span>
-<span id="cb380-11"><a href="random-variables.html#cb380-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb380-12"><a href="random-variables.html#cb380-12" aria-hidden="true" tabindex="-1"></a>Varportf <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.1046</code></pre>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="random-variables.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(\sum_i w^i\,r^i)</span></span>
+<span id="cb379-2"><a href="random-variables.html#cb379-2" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> simulation_outcome<span class="sc">$</span>Weight_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_2 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_3</span>
+<span id="cb379-3"><a href="random-variables.html#cb379-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb379-4"><a href="random-variables.html#cb379-4" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(aux_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1004</code></pre>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="random-variables.html#cb381-1" aria-hidden="true" tabindex="-1"></a><span class="co"># \sum_{i=1}^n (w^i)^2 Var(r^i) +  \sum_{i \neq j } w^i w^j Cov(r^i, r^j)</span></span>
+<span id="cb381-2"><a href="random-variables.html#cb381-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb381-3"><a href="random-variables.html#cb381-3" aria-hidden="true" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1)</span>
+<span id="cb381-4"><a href="random-variables.html#cb381-4" aria-hidden="true" tabindex="-1"></a>w2 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_2)</span>
+<span id="cb381-5"><a href="random-variables.html#cb381-5" aria-hidden="true" tabindex="-1"></a>w3 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_3)</span>
+<span id="cb381-6"><a href="random-variables.html#cb381-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb381-7"><a href="random-variables.html#cb381-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb381-8"><a href="random-variables.html#cb381-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb381-9"><a href="random-variables.html#cb381-9" aria-hidden="true" tabindex="-1"></a>Varportf <span class="ot">&lt;-</span> w1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1) <span class="sc">+</span> w2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w3<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w1<span class="sc">*</span>w2<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1,simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w1<span class="sc">*</span>w3<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w2<span class="sc">*</span>w1<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w2<span class="sc">*</span>w3<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w3<span class="sc">*</span>w1<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span></span>
+<span id="cb381-10"><a href="random-variables.html#cb381-10" aria-hidden="true" tabindex="-1"></a>w3<span class="sc">*</span>w2<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3)</span>
+<span id="cb381-11"><a href="random-variables.html#cb381-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb381-12"><a href="random-variables.html#cb381-12" aria-hidden="true" tabindex="-1"></a>Varportf <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1004</code></pre>
 <p>It works great but this notation is pretty awkward. Here is how we can do better. With more than
 two random variables it is convenient to use linear algebra or matrix notation and to make
 use of R’s capabilities to do do.</p>
@@ -1360,21 +1360,21 @@ one row) and the operator for an inner product is <code>%*%</code>. This is impo
 use the <code>*</code> operator R will take a component-wise instead of an inner product. Finally,
 the R-function for transpositions is <code>t()</code>. Armed with this knowledge lets redo the
 previous example:</p>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="random-variables.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="co"># w^T%*%(Var(r^1)+Var(r^2)+Var(r^3))%*%w + w^T C w</span></span>
-<span id="cb382-2"><a href="random-variables.html#cb382-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb382-3"><a href="random-variables.html#cb382-3" aria-hidden="true" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1)</span>
-<span id="cb382-4"><a href="random-variables.html#cb382-4" aria-hidden="true" tabindex="-1"></a>w2 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_2)</span>
-<span id="cb382-5"><a href="random-variables.html#cb382-5" aria-hidden="true" tabindex="-1"></a>w3 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_3)</span>
-<span id="cb382-6"><a href="random-variables.html#cb382-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb382-7"><a href="random-variables.html#cb382-7" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(w1,w2,w3), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb382-8"><a href="random-variables.html#cb382-8" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb382-9"><a href="random-variables.html#cb382-9" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">cbind</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3)</span>
-<span id="cb382-10"><a href="random-variables.html#cb382-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb382-11"><a href="random-variables.html#cb382-11" aria-hidden="true" tabindex="-1"></a>Vp <span class="ot">&lt;-</span> <span class="fu">t</span>(w)<span class="sc">%*%</span> <span class="fu">cov</span>(R)<span class="sc">%*%</span>w</span>
-<span id="cb382-12"><a href="random-variables.html#cb382-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb382-13"><a href="random-variables.html#cb382-13" aria-hidden="true" tabindex="-1"></a>Vp <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="random-variables.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="co"># w^T%*%(Var(r^1)+Var(r^2)+Var(r^3))%*%w + w^T C w</span></span>
+<span id="cb383-2"><a href="random-variables.html#cb383-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb383-3"><a href="random-variables.html#cb383-3" aria-hidden="true" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1)</span>
+<span id="cb383-4"><a href="random-variables.html#cb383-4" aria-hidden="true" tabindex="-1"></a>w2 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_2)</span>
+<span id="cb383-5"><a href="random-variables.html#cb383-5" aria-hidden="true" tabindex="-1"></a>w3 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_3)</span>
+<span id="cb383-6"><a href="random-variables.html#cb383-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb383-7"><a href="random-variables.html#cb383-7" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(w1,w2,w3), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb383-8"><a href="random-variables.html#cb383-8" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb383-9"><a href="random-variables.html#cb383-9" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">cbind</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3)</span>
+<span id="cb383-10"><a href="random-variables.html#cb383-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb383-11"><a href="random-variables.html#cb383-11" aria-hidden="true" tabindex="-1"></a>Vp <span class="ot">&lt;-</span> <span class="fu">t</span>(w)<span class="sc">%*%</span> <span class="fu">cov</span>(R)<span class="sc">%*%</span>w</span>
+<span id="cb383-12"><a href="random-variables.html#cb383-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb383-13"><a href="random-variables.html#cb383-13" aria-hidden="true" tabindex="-1"></a>Vp <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##        [,1]
-## [1,] 0.1046</code></pre>
+## [1,] 0.1004</code></pre>
 <p>Much more elegant and less error prone, isn’t it?</p>
 <p>add expectation and variance of functions of a RV <span class="math inline">\(X\)</span>.</p>
 <p>Our portfolio seems to be a bad deal. Over the course of the holding period it had an average
@@ -1437,13 +1437,13 @@ independence and the multiplication rule:</p>
 <p><span class="math display">\[\begin{equation*}
 P(X = 5) = \left( \frac{1}{6} \right)^5
 \end{equation*}\]</span></p>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="random-variables.html#cb384-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">5</span></span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="random-variables.html#cb385-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">5</span></span></code></pre></div>
 <pre><code>## [1] 0.0001286008</code></pre>
 <p>Likewise we can figure out the probability of no sixes</p>
 <p><span class="math display">\[\begin{equation*}
 P(X = 0) = \left( \frac{5}{6} \right)^5
 \end{equation*}\]</span></p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="random-variables.html#cb386-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">5</span></span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="random-variables.html#cb387-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">5</span></span></code></pre></div>
 <pre><code>## [1] 0.4018776</code></pre>
 <p>These cases were easy. But what about the probability of exactly one six? There are five outcomes
 with <span class="math inline">\(X = 1\)</span>, since the six can occur at the first, the second and so until at the fifth roll.
@@ -1451,7 +1451,7 @@ Each of these cases has probability</p>
 <p><span class="math display">\[\begin{equation*}
 P(X = 1) = 5 \left( \frac{5}{6} \right)^4 \left( \frac{1}{6} \right)
 \end{equation*}\]</span></p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="random-variables.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="sc">*</span>(<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">4</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="random-variables.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="sc">*</span>(<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">4</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div>
 <pre><code>## [1] 0.4018776</code></pre>
 <p>What about two sixes? You can figure out that there are 10 different ways to
 get two sixes in five rolls. Generalizing this reasoning leads to a general formula
@@ -1478,30 +1478,30 @@ us take our dice rolling example. Let us take the example discussed before, the 
 of seeing one six in five rolls of a dice. We solved such a problem by simulation in the
 previous lectures. We write a function replicate it many times and then plot the distribution
 we get in this way:</p>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="random-variables.html#cb390-1" aria-hidden="true" tabindex="-1"></a>roll_die_five <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb390-2"><a href="random-variables.html#cb390-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb390-3"><a href="random-variables.html#cb390-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create a six sided die</span></span>
-<span id="cb390-4"><a href="random-variables.html#cb390-4" aria-hidden="true" tabindex="-1"></a>  die <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
-<span id="cb390-5"><a href="random-variables.html#cb390-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># roll the die five times</span></span>
-<span id="cb390-6"><a href="random-variables.html#cb390-6" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">sample</span>(die,<span class="dv">5</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb390-7"><a href="random-variables.html#cb390-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#count the sixes</span></span>
-<span id="cb390-8"><a href="random-variables.html#cb390-8" aria-hidden="true" tabindex="-1"></a>  count <span class="ot">&lt;-</span> <span class="fu">sum</span>((res <span class="sc">==</span> <span class="dv">6</span>))</span>
-<span id="cb390-9"><a href="random-variables.html#cb390-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb390-10"><a href="random-variables.html#cb390-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb390-11"><a href="random-variables.html#cb390-11" aria-hidden="true" tabindex="-1"></a>sim_rolls <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>, <span class="fu">roll_die_five</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="random-variables.html#cb391-1" aria-hidden="true" tabindex="-1"></a>roll_die_five <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb391-2"><a href="random-variables.html#cb391-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb391-3"><a href="random-variables.html#cb391-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create a six sided die</span></span>
+<span id="cb391-4"><a href="random-variables.html#cb391-4" aria-hidden="true" tabindex="-1"></a>  die <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb391-5"><a href="random-variables.html#cb391-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># roll the die five times</span></span>
+<span id="cb391-6"><a href="random-variables.html#cb391-6" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">sample</span>(die,<span class="dv">5</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb391-7"><a href="random-variables.html#cb391-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#count the sixes</span></span>
+<span id="cb391-8"><a href="random-variables.html#cb391-8" aria-hidden="true" tabindex="-1"></a>  count <span class="ot">&lt;-</span> <span class="fu">sum</span>((res <span class="sc">==</span> <span class="dv">6</span>))</span>
+<span id="cb391-9"><a href="random-variables.html#cb391-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb391-10"><a href="random-variables.html#cb391-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb391-11"><a href="random-variables.html#cb391-11" aria-hidden="true" tabindex="-1"></a>sim_rolls <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>, <span class="fu">roll_die_five</span>())</span></code></pre></div>
 <p>We can now plot a histogram of the outcomes:</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="random-variables.html#cb391-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(sim_rolls, <span class="at">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="random-variables.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(sim_rolls, <span class="at">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/hist-roll-five-1.png" width="672" />
 We could do the same experiment now with only one line of code by using the <code>rbinom()</code> function.</p>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="random-variables.html#cb392-1" aria-hidden="true" tabindex="-1"></a>sim_roll_with_rbinom <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="random-variables.html#cb393-1" aria-hidden="true" tabindex="-1"></a>sim_roll_with_rbinom <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div>
 <p>Now let us compare the histogram:</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="random-variables.html#cb393-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(sim_roll_with_rbinom, <span class="at">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="random-variables.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(sim_roll_with_rbinom, <span class="at">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/compare-hist-roll-five-1.png" width="672" />
 The probability to get 3 sixes according to the simulation (relative frequency) is:</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="random-variables.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sim_rolls <span class="sc">==</span> <span class="dv">3</span>)<span class="sc">/</span><span class="fu">length</span>(sim_rolls)</span></code></pre></div>
-<pre><code>## [1] 0.03217</code></pre>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="random-variables.html#cb395-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sim_rolls <span class="sc">==</span> <span class="dv">3</span>)<span class="sc">/</span><span class="fu">length</span>(sim_rolls)</span></code></pre></div>
+<pre><code>## [1] 0.0313</code></pre>
 <p>This could be also be compute directly by <code>dbinom()</code>like this:</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="random-variables.html#cb396-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="random-variables.html#cb397-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div>
 <pre><code>## [1] 0.03215021</code></pre>
 <p>I think you start getting the idea. We now know more functionality which can substitute for
 basic approaches we built ourselves from scratch already before. However, once you go to
@@ -1563,7 +1563,7 @@ the match improves if <span class="math inline">\(\Delta t\)</span> is made smal
 to zero.</p>
 <p>Now let us check this using our R-tools learned so far. Take again the S&amp;P 500 as our test data
 set. Remember our SP500 data we used before:</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="random-variables.html#cb398-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="random-variables.html#cb399-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 9
 ##   symbol date        open  high   low close     volume adjusted  returns
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
@@ -1586,18 +1586,18 @@ argument and selects the first row. Finally we apply this function to each eleme
 list using R’s function <code>lapply()</code>. Finally we bind all observations
 together with the <code>do.call()</code> function. This is admittedly a piece of advanced
 R acrobatics, so if this sounds weird or difficult to comprehend, don’t worry.</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="random-variables.html#cb400-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a column with the year using year function from lubridate package</span></span>
-<span id="cb400-2"><a href="random-variables.html#cb400-2" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>year <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">year</span>(sp500<span class="sc">$</span>date)</span>
-<span id="cb400-3"><a href="random-variables.html#cb400-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split dataframe according to year</span></span>
-<span id="cb400-4"><a href="random-variables.html#cb400-4" aria-hidden="true" tabindex="-1"></a>split_by_year <span class="ot">&lt;-</span> <span class="fu">split</span>(sp500, sp500<span class="sc">$</span>year)</span>
-<span id="cb400-5"><a href="random-variables.html#cb400-5" aria-hidden="true" tabindex="-1"></a><span class="co"># write a function selecting the first row of a given data frame</span></span>
-<span id="cb400-6"><a href="random-variables.html#cb400-6" aria-hidden="true" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="cf">function</span>(x){x[<span class="dv">1</span>,]}</span>
-<span id="cb400-7"><a href="random-variables.html#cb400-7" aria-hidden="true" tabindex="-1"></a><span class="co"># apply this function to each element of the list.</span></span>
-<span id="cb400-8"><a href="random-variables.html#cb400-8" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">lapply</span>(split_by_year, sel)</span>
-<span id="cb400-9"><a href="random-variables.html#cb400-9" aria-hidden="true" tabindex="-1"></a><span class="co"># recombine the list entries into a data frame but drop the returns column</span></span>
-<span id="cb400-10"><a href="random-variables.html#cb400-10" aria-hidden="true" tabindex="-1"></a>sp500_annual <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, aux) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">subset</span>(<span class="at">select =</span> <span class="sc">-</span>returns)</span>
-<span id="cb400-11"><a href="random-variables.html#cb400-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb400-12"><a href="random-variables.html#cb400-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500_annual, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="random-variables.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a column with the year using year function from lubridate package</span></span>
+<span id="cb401-2"><a href="random-variables.html#cb401-2" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>year <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">year</span>(sp500<span class="sc">$</span>date)</span>
+<span id="cb401-3"><a href="random-variables.html#cb401-3" aria-hidden="true" tabindex="-1"></a><span class="co"># split dataframe according to year</span></span>
+<span id="cb401-4"><a href="random-variables.html#cb401-4" aria-hidden="true" tabindex="-1"></a>split_by_year <span class="ot">&lt;-</span> <span class="fu">split</span>(sp500, sp500<span class="sc">$</span>year)</span>
+<span id="cb401-5"><a href="random-variables.html#cb401-5" aria-hidden="true" tabindex="-1"></a><span class="co"># write a function selecting the first row of a given data frame</span></span>
+<span id="cb401-6"><a href="random-variables.html#cb401-6" aria-hidden="true" tabindex="-1"></a>sel <span class="ot">&lt;-</span> <span class="cf">function</span>(x){x[<span class="dv">1</span>,]}</span>
+<span id="cb401-7"><a href="random-variables.html#cb401-7" aria-hidden="true" tabindex="-1"></a><span class="co"># apply this function to each element of the list.</span></span>
+<span id="cb401-8"><a href="random-variables.html#cb401-8" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">lapply</span>(split_by_year, sel)</span>
+<span id="cb401-9"><a href="random-variables.html#cb401-9" aria-hidden="true" tabindex="-1"></a><span class="co"># recombine the list entries into a data frame but drop the returns column</span></span>
+<span id="cb401-10"><a href="random-variables.html#cb401-10" aria-hidden="true" tabindex="-1"></a>sp500_annual <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, aux) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">subset</span>(<span class="at">select =</span> <span class="sc">-</span>returns)</span>
+<span id="cb401-11"><a href="random-variables.html#cb401-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb401-12"><a href="random-variables.html#cb401-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500_annual, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 9
 ##   symbol date        open  high   low close     volume adjusted  year
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
@@ -1605,49 +1605,49 @@ R acrobatics, so if this sounds weird or difficult to comprehend, don’t worry.
 ## 2 ^GSPC  2012-01-03 1259. 1285. 1259. 1277. 3943710000    1277.  2012
 ## 3 ^GSPC  2013-01-02 1426. 1462. 1426. 1462. 4202600000    1462.  2013</code></pre>
 <p>Now we can compute annual log returns:</p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="random-variables.html#cb402-1" aria-hidden="true" tabindex="-1"></a>sp500_annual<span class="sc">$</span>returns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(sp500_annual<span class="sc">$</span>adjusted), <span class="at">lag =</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="random-variables.html#cb403-1" aria-hidden="true" tabindex="-1"></a>sp500_annual<span class="sc">$</span>returns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(<span class="fu">log</span>(sp500_annual<span class="sc">$</span>adjusted), <span class="at">lag =</span> <span class="dv">1</span>))</span></code></pre></div>
 <p>Now we are ready to compute <span class="math inline">\(\nu\)</span> and <span class="math inline">\(\sigma^2\)</span>.</p>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="random-variables.html#cb403-1" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">&lt;-</span> <span class="fu">mean</span>(sp500_annual<span class="sc">$</span>returns, <span class="at">na.rm =</span> T)</span>
-<span id="cb403-2"><a href="random-variables.html#cb403-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(sp500_annual<span class="sc">$</span>returns, <span class="at">na.rm =</span> T))</span>
-<span id="cb403-3"><a href="random-variables.html#cb403-3" aria-hidden="true" tabindex="-1"></a>nu</span></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="random-variables.html#cb404-1" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">&lt;-</span> <span class="fu">mean</span>(sp500_annual<span class="sc">$</span>returns, <span class="at">na.rm =</span> T)</span>
+<span id="cb404-2"><a href="random-variables.html#cb404-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(sp500_annual<span class="sc">$</span>returns, <span class="at">na.rm =</span> T))</span>
+<span id="cb404-3"><a href="random-variables.html#cb404-3" aria-hidden="true" tabindex="-1"></a>nu</span></code></pre></div>
 <pre><code>## [1] 0.106802</code></pre>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="random-variables.html#cb405-1" aria-hidden="true" tabindex="-1"></a>sigma</span></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="random-variables.html#cb406-1" aria-hidden="true" tabindex="-1"></a>sigma</span></code></pre></div>
 <pre><code>## [1] 0.1070446</code></pre>
 <p>Now we wish to make a binomial price model of the sp500 based on these data for a daily period.
 Assume the year has 250 trading days. Then we get:</p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="random-variables.html#cb407-1" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">exp</span>(sigma<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">250</span>))</span>
-<span id="cb407-2"><a href="random-variables.html#cb407-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span> sigma<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">250</span>))</span>
-<span id="cb407-3"><a href="random-variables.html#cb407-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">+</span>(nu<span class="sc">/</span>sigma)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">250</span>))</span>
-<span id="cb407-4"><a href="random-variables.html#cb407-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb407-5"><a href="random-variables.html#cb407-5" aria-hidden="true" tabindex="-1"></a>u</span></code></pre></div>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="random-variables.html#cb408-1" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">exp</span>(sigma<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">250</span>))</span>
+<span id="cb408-2"><a href="random-variables.html#cb408-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span> sigma<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">250</span>))</span>
+<span id="cb408-3"><a href="random-variables.html#cb408-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">+</span>(nu<span class="sc">/</span>sigma)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">250</span>))</span>
+<span id="cb408-4"><a href="random-variables.html#cb408-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb408-5"><a href="random-variables.html#cb408-5" aria-hidden="true" tabindex="-1"></a>u</span></code></pre></div>
 <pre><code>## [1] 1.006793</code></pre>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="random-variables.html#cb409-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="random-variables.html#cb410-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.9932528</code></pre>
-<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="random-variables.html#cb411-1" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="random-variables.html#cb412-1" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
 <pre><code>## [1] 0.5315511</code></pre>
 <p>We can now generate a binomial tree by a function:</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="random-variables.html#cb413-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, up, down, steps){</span>
-<span id="cb413-2"><a href="random-variables.html#cb413-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb413-3"><a href="random-variables.html#cb413-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># initialize tree as a matrix</span></span>
-<span id="cb413-4"><a href="random-variables.html#cb413-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb413-5"><a href="random-variables.html#cb413-5" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> steps<span class="sc">+</span><span class="dv">1</span>, <span class="at">ncol =</span> steps <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb413-6"><a href="random-variables.html#cb413-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb413-7"><a href="random-variables.html#cb413-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fill up tree in a double for-loop</span></span>
-<span id="cb413-8"><a href="random-variables.html#cb413-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb413-9"><a href="random-variables.html#cb413-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(steps <span class="sc">+</span> <span class="dv">1</span>)){</span>
-<span id="cb413-10"><a href="random-variables.html#cb413-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>i)){</span>
-<span id="cb413-11"><a href="random-variables.html#cb413-11" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb413-12"><a href="random-variables.html#cb413-12" aria-hidden="true" tabindex="-1"></a>      tree[i,j] <span class="ot">&lt;-</span> S0<span class="sc">*</span>up<span class="sc">^</span>(j <span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span>down<span class="sc">^</span>((i<span class="dv">-1</span>)<span class="sc">-</span>(j<span class="dv">-1</span>))</span>
-<span id="cb413-13"><a href="random-variables.html#cb413-13" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb413-14"><a href="random-variables.html#cb413-14" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb413-15"><a href="random-variables.html#cb413-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb413-16"><a href="random-variables.html#cb413-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb413-17"><a href="random-variables.html#cb413-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb413-18"><a href="random-variables.html#cb413-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tree)  </span>
-<span id="cb413-19"><a href="random-variables.html#cb413-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb413-20"><a href="random-variables.html#cb413-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="random-variables.html#cb414-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, up, down, steps){</span>
+<span id="cb414-2"><a href="random-variables.html#cb414-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb414-3"><a href="random-variables.html#cb414-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># initialize tree as a matrix</span></span>
+<span id="cb414-4"><a href="random-variables.html#cb414-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb414-5"><a href="random-variables.html#cb414-5" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> steps<span class="sc">+</span><span class="dv">1</span>, <span class="at">ncol =</span> steps <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb414-6"><a href="random-variables.html#cb414-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb414-7"><a href="random-variables.html#cb414-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fill up tree in a double for-loop</span></span>
+<span id="cb414-8"><a href="random-variables.html#cb414-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb414-9"><a href="random-variables.html#cb414-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(steps <span class="sc">+</span> <span class="dv">1</span>)){</span>
+<span id="cb414-10"><a href="random-variables.html#cb414-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> (<span class="dv">1</span><span class="sc">:</span>i)){</span>
+<span id="cb414-11"><a href="random-variables.html#cb414-11" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb414-12"><a href="random-variables.html#cb414-12" aria-hidden="true" tabindex="-1"></a>      tree[i,j] <span class="ot">&lt;-</span> S0<span class="sc">*</span>up<span class="sc">^</span>(j <span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span>down<span class="sc">^</span>((i<span class="dv">-1</span>)<span class="sc">-</span>(j<span class="dv">-1</span>))</span>
+<span id="cb414-13"><a href="random-variables.html#cb414-13" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb414-14"><a href="random-variables.html#cb414-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb414-15"><a href="random-variables.html#cb414-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb414-16"><a href="random-variables.html#cb414-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb414-17"><a href="random-variables.html#cb414-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-18"><a href="random-variables.html#cb414-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tree)  </span>
+<span id="cb414-19"><a href="random-variables.html#cb414-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb414-20"><a href="random-variables.html#cb414-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Lets generate a tree with three steps:</p>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="random-variables.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binomial_tree</span>(<span class="at">S0=</span><span class="dv">100</span>, <span class="at">up =</span> u, <span class="at">down =</span> d, <span class="at">steps =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="random-variables.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binomial_tree</span>(<span class="at">S0=</span><span class="dv">100</span>, <span class="at">up =</span> u, <span class="at">down =</span> d, <span class="at">steps =</span> <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##           [,1]      [,2]     [,3]     [,4]
 ## [1,] 100.00000   0.00000   0.0000   0.0000
 ## [2,]  99.32528 100.67931   0.0000   0.0000
@@ -1686,18 +1686,18 @@ P(S_n = u^i d^{(n-i)} S_0) = \binom{n}{i}p^i\,(1-p)^{(n-i)},\,\,\, 0\leq i \leq 
 <p>Let us use these insights and what we learned about handling of binomial random variables in
 R by simulating an asset price process for the sp500 for a year - i.e. for 250 daily time steps
 and plot the probability mass function of the resulting price distribution.</p>
-<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="random-variables.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate 250 time steps of the asset price process starting with S_0 = 100. </span></span>
-<span id="cb416-2"><a href="random-variables.html#cb416-2" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">binomial_tree</span>(<span class="at">S0=</span><span class="dv">100</span>, <span class="at">up =</span> u, <span class="at">down =</span> d, <span class="at">steps =</span> <span class="dv">250</span>) </span>
-<span id="cb416-3"><a href="random-variables.html#cb416-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select</span></span>
-<span id="cb416-4"><a href="random-variables.html#cb416-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the last row of the resulting matrix representing the final outcomes after 250 time steps.  </span></span>
-<span id="cb416-5"><a href="random-variables.html#cb416-5" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> (tree[<span class="fu">dim</span>(tree)[<span class="dv">1</span>], ])</span>
-<span id="cb416-6"><a href="random-variables.html#cb416-6" aria-hidden="true" tabindex="-1"></a>success <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">250</span></span>
-<span id="cb416-7"><a href="random-variables.html#cb416-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb416-8"><a href="random-variables.html#cb416-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the probability distribution of outcomes</span></span>
-<span id="cb416-9"><a href="random-variables.html#cb416-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb416-10"><a href="random-variables.html#cb416-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(outcomes, <span class="fu">dbinom</span>(success, <span class="at">size =</span> <span class="dv">250</span>, <span class="at">prob =</span> p), <span class="at">type =</span> <span class="st">&quot;h&quot;</span>)</span>
-<span id="cb416-11"><a href="random-variables.html#cb416-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">sum</span>(outcomes<span class="sc">*</span><span class="fu">dbinom</span>(success, <span class="at">size =</span> <span class="dv">250</span>, <span class="at">prob =</span> p)),<span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span>
-<span id="cb416-12"><a href="random-variables.html#cb416-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">110.6802</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="random-variables.html#cb417-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate 250 time steps of the asset price process starting with S_0 = 100. </span></span>
+<span id="cb417-2"><a href="random-variables.html#cb417-2" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">binomial_tree</span>(<span class="at">S0=</span><span class="dv">100</span>, <span class="at">up =</span> u, <span class="at">down =</span> d, <span class="at">steps =</span> <span class="dv">250</span>) </span>
+<span id="cb417-3"><a href="random-variables.html#cb417-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select</span></span>
+<span id="cb417-4"><a href="random-variables.html#cb417-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the last row of the resulting matrix representing the final outcomes after 250 time steps.  </span></span>
+<span id="cb417-5"><a href="random-variables.html#cb417-5" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> (tree[<span class="fu">dim</span>(tree)[<span class="dv">1</span>], ])</span>
+<span id="cb417-6"><a href="random-variables.html#cb417-6" aria-hidden="true" tabindex="-1"></a>success <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">250</span></span>
+<span id="cb417-7"><a href="random-variables.html#cb417-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb417-8"><a href="random-variables.html#cb417-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the probability distribution of outcomes</span></span>
+<span id="cb417-9"><a href="random-variables.html#cb417-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb417-10"><a href="random-variables.html#cb417-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(outcomes, <span class="fu">dbinom</span>(success, <span class="at">size =</span> <span class="dv">250</span>, <span class="at">prob =</span> p), <span class="at">type =</span> <span class="st">&quot;h&quot;</span>)</span>
+<span id="cb417-11"><a href="random-variables.html#cb417-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">sum</span>(outcomes<span class="sc">*</span><span class="fu">dbinom</span>(success, <span class="at">size =</span> <span class="dv">250</span>, <span class="at">prob =</span> p)),<span class="at">col=</span><span class="st">&quot;blue&quot;</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb417-12"><a href="random-variables.html#cb417-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">110.6802</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Probability_Introduction_files/figure-html/simulate-price-distribution-sp500-1.png" width="672" />
 The blue vertical line shows the expected value of the asset value after a year, given the
 simulated asset price process. The red line shows the expected value, of an asset multiplied

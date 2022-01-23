@@ -14,8 +14,8 @@ conditional probability and its applications
 will be the main contents of this lecture.
 
 Let us start with an example of a **contingency table** within the context
-of stock price moves, we discussed already to some
-degree in lecture 2. It gives me also an opportunity to point you to one
+of stock price moves, we discussed already in lecture 2. 
+It gives me also an opportunity to point you to one
 powerful R package, which will allow you to access financial data, quite easily for
 yourself without me providing them to you with study material: The
 `tidyquant-package`. You can check out the packages's home page with documentation and
@@ -43,9 +43,11 @@ data into an R object, which I call `sp500`and look at the first entries
 sp500 <- tq_get("^GSPC", from = " 2011-01-03")
 head(sp500, n = 5)
 ```
-We see that the series starts March 2011.
+We see that the series starts at the first of March 2011 and contains daily observations of 
+various variables.
 Now let's retrieve the stock price data of 
-Apple beginning at 2011-01-03, the same day as the index data.
+Apple beginning at 2011-01-03, the same day as the index data. We know from the
+last lecture that the ticker symbol for Apple os `AAPL`. This means we can use the command:
 ```{r read-others}
 apple <- tq_get("AAPL", from = " 2011-01-03")
 ```
@@ -97,19 +99,23 @@ Lets do the same for the Apple stock price.
 ```{r}
 apple$changes <- c(NA, diff(apple$close))
 ```
+Note that I did not specify the `lag` argument in the `diff()`function. This i can do
+because the `lag`argument is set to a value of 1 by default, and this is the value I
+just need now, because we are looking for daily changes.
 
 Let me use this opportunity to introduce you to how R treats missing information. This is
 a situation you will encounter all over in applied work with data in gerneral and with 
 financial data in particular.
 
-The `NA` character is a special symbol in R standing for "not available". It can be used as
+`NA` in R is an indicator for missing values. It is formally a logical 
+constant of length 1 and means "not available". It can be used as
 a placeholder for missing information, just as we did before, where we inserted `NA` in the 
 column of price changes for the first record, where we could no compute the difference, since
 we had no information on the price the day before our dta set starts. `NA` is treated by R
-exactly as you would expect that missing information should be treated. If oyu use it in
+exactly as you would expect that missing information should be treated. If you use it in
 arithmetic operations or in comparisons, you will be returned `NA`. 
 
-`NA` prevents oyu from mistakes made due to missing information. It can also 
+`NA` prevents you from mistakes made due to missing information. It can also 
 create practical problems. If you would for instance try to compute the 
 average price change of the apple
 stock price
@@ -139,9 +145,17 @@ select the non-NA values. We just tell R to select all elements from `vec` which
 ```{r subset-logical-vec}
 vec[!is.na(vec)]
 ```
-This end our short digression into the treatment of missing information in R.
+This end our short digression into the treatment of missing information in R.^[For numerical
+vectors R also has the symbol NaN. NaN stands for Not A Number and is a logical 
+vector of a length 1 and applies to numerical values, as well as real and 
+imaginary parts of complex values, but not to values of integer vector. NaN is a reserved word.
+These symbols have to be distinguished from NULL, which is an object and is returned 
+when an expression or function results in an undefined value. In R 
+language, NULL (capital letters) is a reserved word and can also be the 
+product of importing data with unknown data type.]
 
-Let us now count the up moves and the down moves. Since there are only these two outcomes
+Let us now count the up moves and the down moves in the index and in the
+Apple stock. Since there are only these two outcomes
 it is sufficient if we add a logical column to both dataframes, checking the condition that
 the change variable is larger than zero (note that with this test we automatically would
 count the possible cases where the stock price remains unchanged to the down movements).
@@ -149,10 +163,10 @@ count the possible cases where the stock price remains unchanged to the down mov
 sp500$up <- (sp500$changes > 0)
 apple$up <- (apple$changes > 0)
 ```
-We can now tabulate the joint up and down moves using the `table()`function. We give the
-`dnn`argument to the function, sow we can see which are the dimensions in the table computation
+We can now tabulate the joint up and down moves using the `table()` function. We give the
+`dnn` argument to the function, so we can see which are the dimensions in the table computation
 R is performing for us. We also add the marginal sums by giving the output of the
-`table`function to the `addmargins()` function of R:
+`table` function to the `addmargins()` function of R:
 ```{r table}
 addmargins(table(sp500$up, apple$up, dnn = c("SP500", "Apple")))
 ```
@@ -162,7 +176,8 @@ up together, the number of cases when they fall together as well as
 the number of cases where they move in opposite directions. The last row and 
 the last column contain the row and column sums of all these cases.
 
-So now we have used R to create a contingency table we can touch from our abstract
+So now we have used R to create a contingency table we can create ourselves concrete
+manifestations of the abstract
 definition we gave in the beginning. On the way you deepened and fortified your knowledge of 
 R a bit further.
 
@@ -177,7 +192,7 @@ $P(A)$ and $P(B)$ respectively.
 Joint probability
 : The **joint probability** is the probability of simultaneous events. This is
 the probability of the intersection of two or more events. If $A$ and $B$ are
-arbitrary events, we write $P(A \cap B)$.
+arbitrary events, we write $P(A \cap B)$ for the joint probability of $A$ and $B$.
 
 Conditional probability
 : The **conditional probability** is the probability of an event *given* that some other
@@ -193,7 +208,11 @@ these concepts using the frequency interpretation of probability: We divide
 each entry in our table by the total number of cases. Of course this is so frequent
 a case in applied data analysis that R has a function for it, the `prop.table()` function:
 ```{r prop-table}
-prop_table <- addmargins(prop.table(table(sp500$up, apple$up, dnn = c("SP500", "Apple"))))
+prop_table <- addmargins(
+  prop.table(
+    table(sp500$up, apple$up, dnn = c("SP500", "Apple"))
+    )
+  )
 prop_table
 ```
 The **marginal probability** that the SP500 will make an Up move is:
@@ -271,12 +290,12 @@ went up.
 |2752           |SP500-Up, Apple-Up   |Yes                      |
 
 To get the conditional probability of a Apple-Up given an SP500-Up we have to count
-the Google-Ups **among the notebook lines** where the SP500 has an Up move and divide by
+the Apple-Ups **among the notebook lines** where the SP500 has an Up move and divide by
 the number of these SP500-Up lines.
 
 Let's do this in R. To create the notebook we make a data frame where one column is the Up column
 of the SP500 data and the second columns is the Up column of the Apple data. We remove
-all `NA` in the data frame: This is achieved by applying the function `na.omit()`to the data
+all `NA` in the data frame: This is achieved by applying the function `na.omit()` to the data
 frame. It will remove all `NA`.
 
 This provides a nice opportunity to introduce you to a very useful operator, which is
@@ -302,13 +321,18 @@ head(sel_joint, n = 5)
 ```
 To count the number of rows we can use the `nrow()` function.
 ```{r count-rows-joint}
-dim(sel_joint)
+nrow(sel_joint)
 ```
 
-It says that the number of notebook lines where the SP500 makes an Up move. The result
+It says that the number of notebook lines where the SP500 makes an Up move is
+```{r exemplify-rjoint-number, echo = F}
+nrow(sel_joint)
+```
+The result
 should not surprise us, for we already derived it using the contingency table.
 
-Now, let us count the Ups in the Apple occurring simultaneously with the SP500 ups. Here we
+
+Now, let us count the Ups in the Apple price occurring simultaneously with the SP500 ups. Here we
 use the logical operator `&` which is R's syntax for the set symbol $\cap$:
 
 ```{r}
@@ -327,6 +351,8 @@ the SP500 moves up, which is
 round(sum(joint_ups$simultaneous)/dim(sel_joint)[1], 2)
 ```
 as we have indeed derived before using the contingency table.
+
+Let us finally use a picture to explain the concept graphically once again.
 ```{r cond-probability-visualized, out.width='90%', fig.align='center', fig.cap='A Visualization of conditional probability ', echo = F}
 knitr::include_graphics('figures/cond_prob.png')
 ```
@@ -345,7 +371,7 @@ Formal definition of conditional probability
 : Let $A$ and $B$ be given events. We define the **conditional probability** of $A$ given $B$
 as
 \begin{equation*}
-P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, B \neq 0
+P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 \end{equation*}
 
 Note that for conditional probabilities we have for two events $A$ and $B$, that
@@ -444,13 +470,14 @@ In this example, we will go back to the financial crisis of 2007-2008, in which 
 global financial system almost completely collapsed. While the history 
 of the crisis as well as the institutional details of structured Finance are
 very complicated, a conceptual root problem of structured finance and the crisis
-has a lot to do with conditional probabilities. Let's see why.
+has a lot to do with the proper conceptual understanding of the
+concept of conditional probabilities and independence. Let's see why.
 
 To set the stage we need some background from Finance first. We begin with the
 definition of a **bond**.
 
 Bond, face value, par value
-: A **bond** is an obligation be a bond issuer to pay money to the bond-holder according
+: A **bond** is an obligation by a bond issuer to pay money to the bond-holder according
 to the rules specified at the time the bond is issued. Generally, a bond pays a specific amount,
 its **face value** or equivalently its **par value** at the date of maturity.
 
@@ -467,7 +494,7 @@ two primary ratings are issued and published by Moody's and Standard and Poor's.
 Bonds that are either high or medium grade are considered to be **investment grade**. Bonds
 that are below the speculative category are often called **junk bonds**. The rating is 
 usually based on a statistical analysis of various financial ratios of the issuer, such as 
-leverage, debt to equity, cash fow to outstanding debt etc. Bonds with a lower rating
+leverage, debt to equity, cash flow to outstanding debt etc. Bonds with a lower rating
 will have a higher probability of default and 
 a lower price than a comparable bond with a higher rating. The following table
 shows the rating schemes of Moody's and Standard and Poor's.
@@ -488,10 +515,11 @@ shows the rating schemes of Moody's and Standard and Poor's.
 
 In the early 2000's financial innovations came to the market that proposed the practice 
 of **pooling** and **tranching** bonds to transform the risks of junk 
-bonds in a way that some good risks. An important asset class created by these
+bonds in a way that some good risk bonds as well as some even
+more risky junk bonds are created by the process. An important asset class created by these
 financial engineering techniques were **mortgage backed securities**.
 
-Let us explain the idea. Let's imagine a bond that is issued today - at $t = 0$ and
+Let us explain the idea. Let's imagine a bond that is issued today - at $t = 0$ - and
 matures in a year from now, tomorrow, at $t = 1$. It pays off $1$ euro at maturity, but
 there is a certain risk of a default, in which case it pays nothing or $0$. 
 
@@ -559,8 +587,8 @@ knitr::include_graphics('figures/pool_and_tranch.png')
 
 ```
 What we see here is a slightly modified tree for the two new bonds $I$ and $J$. Their payoff is
-engineered from the underlying jung bonds $B^1$ and $B^2$. So $I$ and $J$V get different 
-payoff profiles but in such a way that they can be funded from the aggregate cash fow of both
+engineered from the underlying junk bonds $B^1$ and $B^2$. So $I$ and $J$ get different 
+payoff profiles but in such a way that they can be funded from the aggregate cash flow of both
 of the junk bonds. Note that
 below the dashed line you see that the sum of payoffs did no change. So when we *pool* the
 initial two junk bonds and *tranch* them into the two new payoff structures, we can fulfill
@@ -584,11 +612,11 @@ sponsored by banks would pool and tranch the various asset classes,
 rating agencies would rate them and investors hungry for safe
 investments would buy the synthetic investment grade bonds.
 
-But what would happen, if independence does **not** hold and our risks are *dependent** instead? 
+But what would happen, if independence does **not** hold and our risks are **dependent** instead? 
 Contemplating this possibility is not very far fetched. After all, if a bond issuer comes
 into difficulties to fulfill his promise it is perhaps because of an event affecting other bond
 holders as well, like a macroeconomic recession, a global crisis like the current pandemic 
-or the fact that the defaults creates problems for other bondholders 
+or the fact that the default creates problems for other bondholders 
 who had relied
 on the promise of the bond issuer in trouble to make his contracted payments.
 
@@ -598,11 +626,14 @@ knitr::include_graphics('figures/dependence.png')
 
 ```
 Now this situation looks only slightly different. Note that now the risks are *dependent*. 
-Note also that the marginal distribution is stimm the same as before. The
+Note also that the marginal distribution is still the same as before. The
 total probabilities of each outcome have stayed the same. For example the probability of
-$B^1_D = 0.04 + 0.06 = 0.1$, $B^1_N = 0.86 + 0.04 = 0.9$. 
+\begin{eqnarray*}
+B^1_D &=& 0.1 \times 0.4 + 0.1 \times  0.6  &=& 0.04  + 0.06  &=& 0.1\\ 
+B^1_N &=& 0.9 \times 0.96 + 0.9 \times 0.04 &=& 0.864 + 0.036 &=& 0.9
+\end{eqnarray*}
 You can work out the conditional probabilities yourself using the tree and the
-multiplication rule:But now the risks are *dependent*. Note that 
+multiplication rule: But now the risks are *dependent*. Note that 
 \begin{equation*}
 P(B^1_D \cap B^2_D) = P(B^1_D) \times P(B^2_D\,|\, B^1_D) = 0.06
 \end{equation*}
@@ -613,7 +644,11 @@ This truth
 was hammered home to a world falling prey to the biggest financial crisis since the great 
 depression of the 1930ies. The carelessness of not sufficiently thinking about the
 justification for an undue and dangerous independence assumption is arguably one of the
-root causes of this disaster. But you know know better.
+root causes of this disaster. But you know now better. 
+
+If you are interested there is lots of good literature on this crisis. A frequently
+cited and very accessible discussion is @CovalJurekStafford2009. An entertaining but very
+insightful account is @Lewis2011. A magisterial geopolitical account of this crisis and its repercussions is @Tooze2018.
 
 ## Bayes' Rule
 
@@ -629,7 +664,7 @@ This formula follows directly from the multiplication rule and the symmetry of $
 me explain: The multiplication rule says $P(B|A)P(A) = P(A \cap B) = P(A|B)P(B)$. Now if
 you divide by $P(A)$ you get Bayes' rule.
 
-This is very important result and indeed belongs to the great ideas in probability but it
+This is a very important result and indeed belongs to the great ideas in probability but it
 is a bit difficult to grasp and memorize clearly. So let us try to make it a bit clearer.
 
 Think of $B$ as some hypothesis or some belief and of $A$ as some data or information obtained
@@ -639,21 +674,23 @@ the hypothesis or belief in the light of the data or the information that has be
 Imagine a square of area 1. Inside the square is a circle $B$ with area $P(B)$. Imagine you
 stand next to this square and look down on it form above. You have a single speck of sand on your
 finger and by accident it falls down on the square and lands somewhere inside it. The speck is
-so small that you can't see where. It could be anywhere.
-```{r where-is-the-speck, out.width='90%', fig.align='center', fig.cap='Where is the speck of sand?', echo = F}
+so small that you can't see where. It could be anywhere.^[The following discussion is taken from
+the excellent internet article *Profit margins, Bayes' rule and the danger of overconfidence*,
+available at http://www.philosophicaleconomics.com/2017/09/pmbtdo/]
+```{r where-is-the-speck, out.width='50%', fig.align='center', fig.cap='Where is the speck of sand?', echo = F}
 knitr::include_graphics('figures/where_speck.png')
 ```
-We want to figure out the probability that the speck could be inside the circle $B$? GIven that
+We want to figure out the probability that the speck could be inside the circle $B$. Given that
 the speck landed somewhere on the square at random it should be the area of $B$ - $P(B)$ - divided 
 by the area of the square - $P{\cal S} = 1$, so the probability is simply $P(B)$.
 
 Now suppose somebody reveals to you the **fact** that the speck indeed landed somewhere inside
 another circle, inside the square. Let us call this circle $A$, like in the following picture
-```{r where-is-the-speck-now, out.width='90%', fig.align='center', fig.cap='In fact we learn that the speck is inside circle $A$', echo = F}
+```{r where-is-the-speck-now, out.width='50%', fig.align='center', fig.cap='In fact we learn that the speck is inside circle $A$', echo = F}
 knitr::include_graphics('figures/speck_in_D.png')
 ```
-The question now becomes: Knowing that the speck is somewhere inside of circle $D$, how does
-this fact change our estimate that it is in $B$?. What is the probability that the speck is
+The question now becomes: Knowing that the speck is somewhere inside of circle $A$, how does
+this fact change our estimate that it is in $B$? What is the probability that the speck is
 in $B$ given that we know it is somewhere inside $A$? The way to express this value is $P(B|A)$.
 
 Intuitively we can see that the value of $P(B|A)$ is the area of the overlap between circle $B$ 
@@ -664,8 +701,18 @@ P(B|A) = \frac{P(A \cap B)}{P(A)}
 \end{equation*}
 Now from the picture you can convince yourself that in the case where the overlap area between
 $A$ and $B$ is small, so $P(A \cap B)$ is much smaller than $P(A)$, the probability of the speck
-being in $B$ given that we know it must be somewhere in $A$ is small. On the other hand, if the overlap area $P(A \cap B)$ is large relative to $A$ then the probability of the speck beeing in $B$
-given that it is somewhere in $A$ is big. 
+being in $B$ given that we know it must be somewhere in $A$ is small. 
+```{r where-is-the-speck-now-small-overlap, out.width='50%', fig.align='center', fig.cap='In fact we learn that the speck is inside circle $A$ but the overlap is small', echo = F}
+knitr::include_graphics('figures/small_overlap.png')
+
+```
+On the other hand, if the overlap area $P(A \cap B)$ is large relative to $A$ then the probability of the speck being in $B$
+given that it is somewhere in $A$ is big.
+
+```{r where-is-the-speck-now-big-overlap, out.width='50%', fig.align='center', fig.cap='In fact we learn that the speck is inside circle $A$ but the overlap is big', echo = F}
+knitr::include_graphics('figures/big_overlap.png')
+```
+
 
 Now for quantitative applications it is useful to express $P(B \cap A)$ using the
 *multiplication rule* as $P(A \cap B) = P(A |B) P(B)$. Substituting this expression in our
@@ -679,8 +726,9 @@ is the initial probability that we assign to our hypothesis being true. Subseque
 assignment we get evidence from data, with significance for the validity of this hypothesis.
 The term $P(A | B)$ is called the **likelihood function** and expresses how likely it is
 that we would receive the data assuming that the hypothesis holds. Updating a prior, means
-multiplying the prior probability with the likelyhood function. Dividing by $P(A)$ ensures
-that we have appropriately normalized the numbers, ensuring that a measur of 1 is obtwined accross
+multiplying the prior probability with the likelihood function. Dividing by $P(A)$ ensures
+that we have appropriately normalized the numbers, ensuring that a measure 
+of 1 is obtained accross
 the overall sample space.
 
 Now this story with the speck of sand falling on the square provides an intuitive illustration
@@ -691,7 +739,8 @@ hypothesis - it is relevant data. Upon receiving these data we update the probab
 hypothesis is true. Specifically we set it equal to the overlap between $B$ and $A$ divided
 by $A$.
 
-In a broader context we need to understand that for any data we receive subsequent to a hypothesis 
+In a broader context we need to understand that for any data we receive 
+subsequent to a hypothesis 
 we have formed, the hypothesis will exhibit some "overlap" with the data. This is the same
 as saying that the truth of the hypothesis will represent one possible pathway through which the
 data might have been obtained. To get an estimate for the probability that the 
@@ -705,7 +754,28 @@ With this insight at hand it now becomes clear that Bayes' theorem closes the
 gap that remained when we discussed the weak law of large numbers. Here it is shown
 what is necessary to make a valid inverse inference from frequency to chance. The key insight was
 to put probabilities on the chances and update them by conditioning on new data. This
-gives a judgement about chances, informed by frequency evidence. 
+gives a judgement about chances, informed by frequency evidence.
+
+But what are priors, where do they come from and why can we treat them like probabilities?
+The answer to these questions could fill a series of lectures on their own. Let me just give
+an ultra brief and very high level sketch and direct you to the literature for further reading.
+We have learned in this lecture about the first notions of probability - classical 
+probability - obtained from the consideration of equally likely cases. 
+We have learned about empirical, or
+frequency based probabilities. Here we finally encounter a third category, subjective 
+probabilities. But how can we know whether subjective probabilities fulfill the rules of 
+probability? It is not enough that these beliefs are between 0 and 1 they also have to 
+obey additivity of disjoint events. 
+
+Now one of the big ideas in probability, originating
+with the British polymath Frank Ramsey (1903 - 1913) and developed by others like 
+Bruno de Finetti (1906 - 1985), Oskar Morgenstern (1902 - 1977) and 
+John von Neumann (1903 - 1957) as well as 
+Jimmie Savage (1917 - 1971) is that if these beliefs are coherent in a sense to be made
+precise then these beliefs **are** - in a mathematical 
+sense - probabilities. See @DiaconisSkyrms2019 for an excellent discussion. There is a large
+literature originating from Kahneman and Tversky (see @Kahneman2013), also discussed in @DiaconisSkyrms2019,  which
+has shown that actual human beings often violate these coherence conditions in practice. 
 
 ## Example The Importance of Updating in Investing
 
@@ -956,7 +1026,4 @@ For a performance evaluation in an investment game we refer you to the project f
 
 ## Project: Analyzing the performance of bidding strategies in the investment game using simulation
 
-In this project yo are going to build on our last example and convince yourself of the
-power of updating probabilities in investment decisions. We are in the
-investment game described in the lecture. Assume we play for three rounds, each round
-with 100 coin flips. The setup is as described.
+To be added
