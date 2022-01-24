@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-23" />
+<meta name="date" content="2022-01-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,7 +229,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.5" data-path="conditional-probability.html"><a href="conditional-probability.html#example-independence-and-the-financial-crisis-of-2007-2008"><i class="fa fa-check"></i><b>3.5</b> Example: Independence and the Financial Crisis of 2007-2008</a></li>
 <li class="chapter" data-level="3.6" data-path="conditional-probability.html"><a href="conditional-probability.html#bayes-rule"><i class="fa fa-check"></i><b>3.6</b> Bayes’ Rule</a></li>
 <li class="chapter" data-level="3.7" data-path="conditional-probability.html"><a href="conditional-probability.html#example-the-importance-of-updating-in-investing"><i class="fa fa-check"></i><b>3.7</b> Example The Importance of Updating in Investing</a></li>
-<li class="chapter" data-level="3.8" data-path="conditional-probability.html"><a href="conditional-probability.html#project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation"><i class="fa fa-check"></i><b>3.8</b> Project: Analyzing the performance of bidding strategies in the investment game using simulation</a></li>
+<li class="chapter" data-level="3.8" data-path="conditional-probability.html"><a href="conditional-probability.html#project-studying-the-investment-game-a-bit-further"><i class="fa fa-check"></i><b>3.8</b> Project: Studying the investment game a bit further</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>4</b> Random Variables</a>
 <ul>
@@ -1171,7 +1171,7 @@ tallied and the associated monetary prizes and penalties are disbursed.</p>
 <p>The key of performing well in this investment game is to make an accurate estimate of what
 a coin flip is worth. Suppose the referee is flipping a green coin. On a single flip the
 coin will land either heads or tails but over many flips it will land heads in about 70 %
-of the cases, in which you get 2 and 30 % of the cases in which you get nothing. Let’s use
+of the cases, in which you get 2 and 30 % of the cases in which you get nothing.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> Let’s use
 R to make a green coin and flip it, using the sample function, as we did already in lecture 2:</p>
 <div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="conditional-probability.html#cb275-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
 <span id="cb275-2"><a href="conditional-probability.html#cb275-2" aria-hidden="true" tabindex="-1"></a>  green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
@@ -1187,21 +1187,22 @@ probability, in which case each outcome should get a probability 1/2.</p>
 select the <code>"H"</code> outcomes and calculate its length:</p>
 <div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="conditional-probability.html#cb277-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
 <span id="cb277-2"><a href="conditional-probability.html#cb277-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 72</code></pre>
-<p>This means we have 72 cases where we get 2 and 28
+<pre><code>## [1] 62</code></pre>
+<p>This means we have 62 cases where we get 2 and 38
 cases where we get 0. Thus on average
 we will get:</p>
 <div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="conditional-probability.html#cb279-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.44</code></pre>
+<pre><code>## [1] 1.24</code></pre>
 <p>So if we payed 1.20 for that round we would make a profit of
-0.24. The reasoning behind this argument is that the payoff
+0.04. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
-of flips it will come up heads approximately 7 out of 10 and thus will pay on average 0.7<em>2. This
-view of a random payoff associated with the coin is technically called a </em>random variable* and
+of flips it will come up heads approximately 7 out of 10 and thus will pay on
+average <span class="math inline">\(0.7 \times 2\)</span>. This
+view of a random payoff associated with the coin is technically called a <em>random variable</em> and
 the average payoff over many rounds is technically called an <em>expected value</em>. These important
 notions of probability theory we will discuss more precisely in the next lecture, lecture 4.</p>
-<p>For now you see the idea now. If the coin is green we should pay for the flip at most</p>
+<p>For now you see the idea. If the coin is green we should pay for the flip at most</p>
 <div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="conditional-probability.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
 <pre><code>## [1] 1.4</code></pre>
 <p>and if its red</p>
@@ -1265,18 +1266,23 @@ bucket, found the ratio 9 to 1 of green coins but the referee drew in fact a red
 flips. You observe the outcome and update your priors in the light of this new evidence.</p>
 <p>Assume we have the following record. We see a data frame with the following sequence of draws by
 the referee:</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="conditional-probability.html#cb287-1" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="conditional-probability.html#cb287-1" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, </span>
+<span id="cb287-2"><a href="conditional-probability.html#cb287-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb287-3"><a href="conditional-probability.html#cb287-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb287-4"><a href="conditional-probability.html#cb287-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb287-5"><a href="conditional-probability.html#cb287-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
 <p>Now lets add a column with the probability that the outcome occurs, given that our hypothesis that
 the coin is green is in fact true, i.e. we add <span class="math inline">\(P(T|G)\)</span> or <span class="math inline">\(P(H|G)\)</span> respectively.</p>
 <p>This is perhaps a bit complicated, because, say in line 1 we would know that <span class="math inline">\(P(T|G)\)</span> is 0.3, but
-then in line 2 this needs to be $P(T|G) <span class="math inline">\(P(T|G)\)</span> by the multiplaction rule and the
-assumption that the coin flips of the referee are independent. How could we implement this, given
+then in line 2 this needs to be <span class="math inline">\(P(T|G) \times P(T|G)\)</span> by the multiplication rule and the
+assumption that the coin flips of the referee are independent.</p>
+<p>How could we implement this, given
 the T knowledge we have so far? Note that questions of this nature never have a unique answers,
 usually there are many ways to implement the same thing. So let me make a suggestion, which
 builds as much as possible on what we know already.</p>
 <p>First we add an indicator variable of type <code>logical</code>, which tells us whether it is true that the
 toss of the referee is a win or not and add this to our <code>game_record</code>data frame and call it <code>Win</code>:</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="conditional-probability.html#cb288-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="conditional-probability.html#cb288-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> (game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span>)</span></code></pre></div>
 <p>Then we add a new column, recording the sum of wins up to each round. So for instance it would
 always be 0 in the first four rows but then is 1 after the first head occurs, then stays at 1 until
 the next head occurs when it jumps to 2 etc.</p>
@@ -1354,14 +1360,13 @@ sources, which we cannot distinguish just from observing the outcome. If
 you remember our discussion from before this should now look familiar to you:</p>
 <div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="conditional-probability.html#cb300-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span></code></pre></div>
 <p>Now we have all the ingredients to compute at every step the Bayesian update
-<span class="math inline">\(P(G | \text{outcome}\)</span> of our belief that
+<span class="math inline">\(P(G | \text{outcome})\)</span> of our belief that
 the coin is green. We just have to apply the formula now:</p>
 <div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="conditional-probability.html#cb301-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span></code></pre></div>
 <p>Now let us add as a final columns the amount we should bid in each round given the updated
 believes.</p>
 <div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="conditional-probability.html#cb302-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<p>Let’s have a look at what we’ve got now</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="conditional-probability.html#cb303-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(game_record, <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p>Let’s have a look at what we’ve got now:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1773,11 +1778,38 @@ believes.</p>
 </table>
 <p>Now you see that already after the 9th round you have learned that in fact the coin is most
 probably not green, although you started with a high level of confidence.</p>
-<p>For a performance evaluation in an investment game we refer you to the project for this lecture.</p>
+<p>In summary the rounds of this game can be best played as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>Assign a prior probability to the hypothesis that the referee has used a green (or red)
+coin and use this probability to compute the worth of each flip. For assigning a good prior
+we need information. This information can be got in many ways.</p></li>
+<li><p>Update that probability as rounds go on using Bayes’ rule.</p></li>
+</ol>
+<p>If you do better in these two points than your competitors then over many rounds and many
+flips you will earn more than they earn. The same is true, of course, also in actual investing.</p>
 </div>
-<div id="project-analyzing-the-performance-of-bidding-strategies-in-the-investment-game-using-simulation" class="section level2" number="3.8">
-<h2><span class="header-section-number">3.8</span> Project: Analyzing the performance of bidding strategies in the investment game using simulation</h2>
-<p>To be added</p>
+<div id="project-studying-the-investment-game-a-bit-further" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Project: Studying the investment game a bit further</h2>
+<p>In this project we stay within the frame and the rules of the investment game
+discussed in the lecture but we investigate the game a bit in more detail.</p>
+<ol style="list-style-type: decimal">
+<li>Suppose we are in a new round and a red coin is actually used. But you think initially it is
+green. Assuming you prior beliefs are
+<ol style="list-style-type: lower-roman">
+<li>0.5 (no idea)</li>
+<li>0.9 (likely green),</li>
+<li>0.99 (very likely green)</li>
+<li>0.999 (almost surely green).</li>
+</ol></li>
+</ol>
+<p>What will be the estimates of
+the coin value in these different cases?.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>By how many flips will you get to the correct estimate of 0.6 for each given
+prior?</p></li>
+<li><p>How will the estimates of the worth of each flip develop if the green coin is used for each
+of the previous priors?</p></li>
+</ol>
 
 </div>
 </div>
@@ -1813,6 +1845,9 @@ product of importing data with unknown data type.<a href="conditional-probabilit
 <li id="fn9"><p>The following discussion is taken from
 the excellent internet article <em>Profit margins, Bayes’ rule and the danger of overconfidence</em>,
 available at <a href="http://www.philosophicaleconomics.com/2017/09/pmbtdo/" class="uri">http://www.philosophicaleconomics.com/2017/09/pmbtdo/</a><a href="conditional-probability.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p>If you
+think back on Project 1 where we analyzed the game of Craps this was a similar situation. There
+a 7 occurred in about 6/36 of all cases.<a href="conditional-probability.html#fnref10" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

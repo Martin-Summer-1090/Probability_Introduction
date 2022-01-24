@@ -811,7 +811,9 @@ tallied and the associated monetary prizes and penalties are disbursed.
 The key of performing well in this investment game is to make an accurate estimate of what
 a coin flip is worth. Suppose the referee is flipping a green coin. On a single flip the
 coin will land either heads or tails but over many flips it will land heads in about 70 %
-of the cases, in which you get 2 and 30 % of the cases in which you get nothing. Let's use
+of the cases, in which you get 2 and 30 % of the cases in which you get nothing.^[If you
+think back on Project 1 where we analyzed the game of Craps this was a similar situation. There
+a 7 occurred in about 6/36 of all cases.] Let's use
 R to make a green coin and flip it, using the sample function, as we did already in lecture 2:
 ```{r green-flip}
 flip_green_coin <- function(){
@@ -844,17 +846,18 @@ So if we payed 1.20 for that round we would make a profit of
 `r (length(sel_heads)/100)*2 -1.20`. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on 
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
-of flips it will come up heads approximately 7 out of 10 and thus will pay on average 0.7*2. This
+of flips it will come up heads approximately 7 out of 10 and thus will pay on 
+average $0.7 \times 2$. This
 view of a random payoff associated with the coin is technically called a *random variable* and
 the average payoff over many rounds is technically called an *expected value*. These important
 notions of probability theory we will discuss more precisely in the next lecture, lecture 4.
 
-For now you see the idea now. If the coin is green we should pay for the flip at most
-```{r}
+For now you see the idea. If the coin is green we should pay for the flip at most
+```{r expected-payoff-green-coin}
 0.7*2 + 0.3*0
 ```
 and if its red
-```{r}
+```{r expected-payoff-red-coin}
 0.3*2 + 0.7*0
 ```
 In the investment game, we do - however - not know whether the referee is using a red or a green
@@ -921,14 +924,20 @@ flips. You observe the outcome and update your priors in the light of this new e
 Assume we have the following record. We see a data frame with the following sequence of draws by
 the referee:
 ```{r game-record}
-game_record <- data.frame(Data = c("T", "T", "T", "T", "H", "T", "T", "T", "T", "H", "T", "H", "T", "H", "H", "T", "T", "H", "T", "T", "T", "T", "H", "T", "T", "H", "H", "H", "T", "T"))
+game_record <- data.frame(Data = c("T", "T", "T", "T", "H", 
+                                   "T", "T", "T", "T", "H", "T", 
+                                   "H", "T", "H", "H", "T", "T", 
+                                   "H", "T", "T", "T", "T", "H", "T", 
+                                   "T", "H", "H", "H", "T", "T"))
 ```
 Now lets add a column with the probability that the outcome occurs, given that our hypothesis that
 the coin is green is in fact true, i.e. we add $P(T|G)$ or $P(H|G)$ respectively.
 
 This is perhaps a bit complicated, because, say in line 1 we would know that $P(T|G)$ is 0.3, but
-then in line 2 this needs to be $P(T|G) \times $P(T|G)$ by the multiplaction rule and the 
-assumption that the coin flips of the referee are independent. How could we implement this, given
+then in line 2 this needs to be $P(T|G) \times P(T|G)$ by the multiplication rule and the 
+assumption that the coin flips of the referee are independent. 
+
+How could we implement this, given
 the T knowledge we have so far? Note that questions of this nature never have a unique answers,
 usually there are many ways to implement the same thing. So let me make a suggestion, which 
 builds as much as possible on what we know already.
@@ -936,7 +945,7 @@ builds as much as possible on what we know already.
 First we add an indicator variable of type `logical`, which tells us whether it is true that the
 toss of the referee is a win or not and add this to our `game_record`data frame and call it `Win`:
 ```{r game-record-with-indicator}
-game_record$Win <- game_record$Data == "H"
+game_record$Win <- (game_record$Data == "H")
 ```
 Then we add a new column, recording the sum of wins up to each round. So for instance it would
 always be 0 in the first four rows but then is 1 after the first head occurs, then stays at 1 until
@@ -1005,7 +1014,7 @@ you remember our discussion from before this should now look familiar to you:
 game_record$PO <- game_record$POG*game_record$PG + game_record$POR*game_record$PR
 ```
 Now we have all the ingredients to compute at every step the Bayesian update 
-$P(G | \text{outcome}$ of our belief that
+$P(G | \text{outcome})$ of our belief that
 the coin is green. We just have to apply the formula now:
 ```{r bayesian update}
 game_record$PGO <- game_record$POG*game_record$PG/game_record$PO
@@ -1015,15 +1024,43 @@ believes.
 ```{r updated-valuation}
 game_record$Value <- game_record$PGO*0.7*2 + (1-game_record$PGO)*0.3*2
 ```
-Let's have a look at what we've got now
-```{r}
-knitr::kable(game_record, digits = 3)
+Let's have a look at what we've got now:
+```{r tabulation-of-values, echo = F}
+
+knitr::kable(game_record, digits = 3) 
 ```
 Now you see that already after the 9th round you have learned that in fact the coin is most
 probably not green, although you started with a high level of confidence.
 
-For a performance evaluation in an investment game we refer you to the project for this lecture.
+In summary the rounds of this game can be best played as follows:
 
-## Project: Analyzing the performance of bidding strategies in the investment game using simulation
+1. Assign a prior probability to the hypothesis that the referee has used a green (or red)
+coin and use this probability to compute the worth of each flip. For assigning a good prior
+we need information. This information can be got in many ways.
 
-To be added
+2. Update that probability as rounds go on using Bayes' rule. 
+
+If you do better in these two points than your competitors then over many rounds and many
+flips you will earn more than they earn. The same is true, of course, also in actual investing.
+
+## Project: Studying the investment game a bit further
+
+In this project we stay within the frame and the rules of the investment game 
+discussed in the lecture but we investigate the game a bit in more detail. 
+
+1. Suppose we are in a new round and a red coin is actually used. But you think initially it is
+green. Assuming you prior beliefs are 
+   i) 0.5 (no idea)
+   ii) 0.9 (likely green), 
+   iii) 0.99 (very likely green)
+   iv) 0.999 (almost surely green). 
+
+What will be the estimates of 
+the coin value in these different cases?. 
+
+2. By how many flips will you get to the correct estimate of 0.6 for each given
+prior?
+
+3. How will the estimates of the worth of each flip develop if the green coin is used for each
+of the previous priors?
+
