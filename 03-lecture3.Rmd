@@ -58,7 +58,8 @@ For the contingency table we would like to count the number of days when the
 S&P was moving up from one day to the next and how often it was moving down. We would
 like to do the same with the Apple stock price.
 
-One way to see whether the price moved up or down from one day to the next is to
+As discussed in lecture 2, one way to see whether the price 
+moved up or down from one day to the next is to
 compute the daily price differences in  the closing price. When this difference is
 positive the price made an up movement, when it is negative, it made a down movement (it
 could theoretically also not change at all).
@@ -104,14 +105,14 @@ because the `lag`argument is set to a value of 1 by default, and this is the val
 just need now, because we are looking for daily changes.
 
 Let me use this opportunity to introduce you to how R treats missing information. This is
-a situation you will encounter all over in applied work with data in gerneral and with 
+a situation you will encounter all over in applied work with data in general and with 
 financial data in particular.
 
 `NA` in R is an indicator for missing values. It is formally a logical 
 constant of length 1 and means "not available". It can be used as
 a placeholder for missing information, just as we did before, where we inserted `NA` in the 
 column of price changes for the first record, where we could no compute the difference, since
-we had no information on the price the day before our dta set starts. `NA` is treated by R
+we had no information on the price the day before our data set starts. `NA` is treated by R
 exactly as you would expect that missing information should be treated. If you use it in
 arithmetic operations or in comparisons, you will be returned `NA`. 
 
@@ -159,7 +160,7 @@ Apple stock. Since there are only these two outcomes
 it is sufficient if we add a logical column to both dataframes, checking the condition that
 the change variable is larger than zero (note that with this test we automatically would
 count the possible cases where the stock price remains unchanged to the down movements).
-```{r}
+```{r joint-ups}
 sp500$up <- (sp500$changes > 0)
 apple$up <- (apple$changes > 0)
 ```
@@ -339,7 +340,7 @@ use the logical operator `&` which is R's syntax for the set symbol $\cap$:
 joint_ups$simultaneous = (joint_ups$SP500Up & joint_ups$AppleUp)
 ```
 
-Now we can make use of R's precedence rules to count the simultaneous up moves
+Now we can make use of R's coercion rules to count the simultaneous up moves
 
 ```{r}
 sum(joint_ups$simultaneous)
@@ -530,7 +531,7 @@ knitr::include_graphics('figures/simple_tree_one_bond.png')
 
 ```
 Lets assume now that we have two junk bonds of this kind. Now the sample space is bigger than
-before. Since we have two possible outcomes for each of two bonds, we are in a simiar 
+before. Since we have two possible outcomes for each of two bonds, we are in a similar 
 situation as when we toss a fair coin twice. The sample space is now ${\cal S} = \{ B^1_D B^2_D,
 B^1_D B^2_N, B^1_N B^2_D, B^1_N B^2_N \}$. Let's try to visualize this situation also in a tree.
 ```{r two-stage-tree, out.width='90%', fig.align='center', fig.cap='An event tree for two defaultable bond with independent defaut probabilities', echo = F}
@@ -603,7 +604,7 @@ become toxic junk.
 
 Thus here we have the magic of structured finance at work: We took junk plus 
 junk and got investment grade and toxic junk. Now, note that this is toy example. But 
-essentially this is what has been used in real life situations at an enourmous scale. 
+essentially this is what has been used in real life situations at an enormous scale. 
 This repackaging game was played as a trillion dollar 
 business, mainly with mortgages but also with other security classes, like 
 car loans, student loans and credit card debt. 

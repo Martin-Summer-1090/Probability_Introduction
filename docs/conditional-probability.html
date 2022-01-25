@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-24" />
+<meta name="date" content="2022-01-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -354,7 +354,8 @@ that you can also give an end data <code>to</code> as an argument to <code>tq_ge
 <p>For the contingency table we would like to count the number of days when the
 S&amp;P was moving up from one day to the next and how often it was moving down. We would
 like to do the same with the Apple stock price.</p>
-<p>One way to see whether the price moved up or down from one day to the next is to
+<p>As discussed in lecture 2, one way to see whether the price
+moved up or down from one day to the next is to
 compute the daily price differences in the closing price. When this difference is
 positive the price made an up movement, when it is negative, it made a down movement (it
 could theoretically also not change at all).</p>
@@ -388,13 +389,13 @@ replace by NA. Thus we type:</p>
 because the <code>lag</code>argument is set to a value of 1 by default, and this is the value I
 just need now, because we are looking for daily changes.</p>
 <p>Let me use this opportunity to introduce you to how R treats missing information. This is
-a situation you will encounter all over in applied work with data in gerneral and with
+a situation you will encounter all over in applied work with data in general and with
 financial data in particular.</p>
 <p><code>NA</code> in R is an indicator for missing values. It is formally a logical
 constant of length 1 and means “not available.” It can be used as
 a placeholder for missing information, just as we did before, where we inserted <code>NA</code> in the
 column of price changes for the first record, where we could no compute the difference, since
-we had no information on the price the day before our dta set starts. <code>NA</code> is treated by R
+we had no information on the price the day before our data set starts. <code>NA</code> is treated by R
 exactly as you would expect that missing information should be treated. If you use it in
 arithmetic operations or in comparisons, you will be returned <code>NA</code>.</p>
 <p><code>NA</code> prevents you from mistakes made due to missing information. It can also
@@ -409,7 +410,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="conditional-probability.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.05414797</code></pre>
+<pre><code>## [1] 0.05384464</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -437,8 +438,8 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
 ##   FALSE   875  380 1255
-##   TRUE    443 1084 1527
-##   Sum    1318 1464 2782</code></pre>
+##   TRUE    444 1084 1528
+##   Sum    1319 1464 2783</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -485,9 +486,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb259-6"><a href="conditional-probability.html#cb259-6" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3145219 0.1365924 0.4511143
-##   TRUE  0.1592380 0.3896477 0.5488857
-##   Sum   0.4737599 0.5262401 1.0000000</code></pre>
+##   FALSE 0.3144089 0.1365433 0.4509522
+##   TRUE  0.1595401 0.3895077 0.5490478
+##   Sum   0.4739490 0.5260510 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -618,15 +619,15 @@ first rows:</p>
 ## 11    TRUE   FALSE</code></pre>
 <p>To count the number of rows we can use the <code>nrow()</code> function.</p>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="conditional-probability.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(sel_joint)</span></code></pre></div>
-<pre><code>## [1] 1527</code></pre>
+<pre><code>## [1] 1528</code></pre>
 <p>It says that the number of notebook lines where the SP500 makes an Up move is</p>
-<pre><code>## [1] 1527</code></pre>
+<pre><code>## [1] 1528</code></pre>
 <p>The result
 should not surprise us, for we already derived it using the contingency table.</p>
 <p>Now, let us count the Ups in the Apple price occurring simultaneously with the SP500 ups. Here we
 use the logical operator <code>&amp;</code> which is R’s syntax for the set symbol <span class="math inline">\(\cap\)</span>:</p>
 <div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="conditional-probability.html#cb271-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
-<p>Now we can make use of R’s precedence rules to count the simultaneous up moves</p>
+<p>Now we can make use of R’s coercion rules to count the simultaneous up moves</p>
 <div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="conditional-probability.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
 <pre><code>## [1] 1084</code></pre>
 <p>Now we compute the relative frequency of joint up moves among all the lines where
@@ -880,7 +881,7 @@ Figure 3.3: A simple event tree for a defaultable bond
 </p>
 </div>
 Lets assume now that we have two junk bonds of this kind. Now the sample space is bigger than
-before. Since we have two possible outcomes for each of two bonds, we are in a simiar
+before. Since we have two possible outcomes for each of two bonds, we are in a similar
 situation as when we toss a fair coin twice. The sample space is now <span class="math inline">\({\cal S} = \{ B^1_D B^2_D, B^1_D B^2_N, B^1_N B^2_D, B^1_N B^2_N \}\)</span>. Let’s try to visualize this situation also in a tree.
 <div class="figure" style="text-align: center"><span id="fig:two-stage-tree"></span>
 <img src="figures/double_tree_two_bonds.png" alt="An event tree for two defaultable bond with independent defaut probabilities" width="90%" />
@@ -974,7 +975,7 @@ both <span class="math inline">\(B^1\)</span> and <span class="math inline">\(B^
 become toxic junk.</p>
 <p>Thus here we have the magic of structured finance at work: We took junk plus
 junk and got investment grade and toxic junk. Now, note that this is toy example. But
-essentially this is what has been used in real life situations at an enourmous scale.
+essentially this is what has been used in real life situations at an enormous scale.
 This repackaging game was played as a trillion dollar
 business, mainly with mortgages but also with other security classes, like
 car loans, student loans and credit card debt.
@@ -1187,14 +1188,14 @@ probability, in which case each outcome should get a probability 1/2.</p>
 select the <code>"H"</code> outcomes and calculate its length:</p>
 <div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="conditional-probability.html#cb277-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
 <span id="cb277-2"><a href="conditional-probability.html#cb277-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 62</code></pre>
-<p>This means we have 62 cases where we get 2 and 38
+<pre><code>## [1] 67</code></pre>
+<p>This means we have 67 cases where we get 2 and 33
 cases where we get 0. Thus on average
 we will get:</p>
 <div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="conditional-probability.html#cb279-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.24</code></pre>
+<pre><code>## [1] 1.34</code></pre>
 <p>So if we payed 1.20 for that round we would make a profit of
-0.04. The reasoning behind this argument is that the payoff
+0.14. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
 of flips it will come up heads approximately 7 out of 10 and thus will pay on
