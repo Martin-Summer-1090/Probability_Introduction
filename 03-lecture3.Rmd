@@ -682,8 +682,9 @@ available at http://www.philosophicaleconomics.com/2017/09/pmbtdo/]
 knitr::include_graphics('figures/where_speck.png')
 ```
 We want to figure out the probability that the speck could be inside the circle $B$. Given that
-the speck landed somewhere on the square at random it should be the area of $B$ - $P(B)$ - divided 
-by the area of the square - $P{\cal S} = 1$, so the probability is simply $P(B)$.
+the speck landed somewhere on the square at random it should be the area of $B$ - $P(B)$ - 
+divided 
+by the area of the square - $P({\cal S}) = 1$, so the probability is simply $P(B)$.
 
 Now suppose somebody reveals to you the **fact** that the speck indeed landed somewhere inside
 another circle, inside the square. Let us call this circle $A$, like in the following picture
@@ -729,7 +730,7 @@ The term $P(A | B)$ is called the **likelihood function** and expresses how like
 that we would receive the data assuming that the hypothesis holds. Updating a prior, means
 multiplying the prior probability with the likelihood function. Dividing by $P(A)$ ensures
 that we have appropriately normalized the numbers, ensuring that a measure 
-of 1 is obtained accross
+of 1 is obtained across
 the overall sample space.
 
 Now this story with the speck of sand falling on the square provides an intuitive illustration
@@ -1003,7 +1004,7 @@ with the appropriately adjusted arguments:
 ```{r cond-prob-red}
 game_record$POR <- dbinom(game_record$Win, game_record$Num_Flips, 0.3)
 ```
-Now we add the prior of the coin beein red $P(R)$ which is in our case 0.1:
+Now we add the prior of the coin being red $P(R)$ which is in our case 0.1:
 ```{r prior-red}
 game_record$PR <- rep(0.1,30)
 ```
@@ -1060,8 +1061,8 @@ What will be the estimates of
 the coin value in these different cases?. 
 
 2. By how many flips will you get to the correct estimate of 0.6 for each given
-prior?
+prior? Try to visualize the situation.
 
 3. How will the estimates of the worth of each flip develop if the green coin is used for each
-of the previous priors?
+of the previous priors? Try to visualize the situation.
 

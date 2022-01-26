@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-25" />
+<meta name="date" content="2022-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -410,7 +410,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="conditional-probability.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.05384464</code></pre>
+<pre><code>## [1] 0.05316438</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -437,9 +437,9 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="conditional-probability.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   875  380 1255
+##   FALSE   876  380 1256
 ##   TRUE    444 1084 1528
-##   Sum    1319 1464 2783</code></pre>
+##   Sum    1320 1464 2784</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -486,9 +486,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb259-6"><a href="conditional-probability.html#cb259-6" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3144089 0.1365433 0.4509522
-##   TRUE  0.1595401 0.3895077 0.5490478
-##   Sum   0.4739490 0.5260510 1.0000000</code></pre>
+##   FALSE 0.3146552 0.1364943 0.4511494
+##   TRUE  0.1594828 0.3893678 0.5488506
+##   Sum   0.4741379 0.5258621 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -1051,8 +1051,9 @@ Figure 3.7: Where is the speck of sand?
 </p>
 </div>
 <p>We want to figure out the probability that the speck could be inside the circle <span class="math inline">\(B\)</span>. Given that
-the speck landed somewhere on the square at random it should be the area of <span class="math inline">\(B\)</span> - <span class="math inline">\(P(B)\)</span> - divided
-by the area of the square - <span class="math inline">\(P{\cal S} = 1\)</span>, so the probability is simply <span class="math inline">\(P(B)\)</span>.</p>
+the speck landed somewhere on the square at random it should be the area of <span class="math inline">\(B\)</span> - <span class="math inline">\(P(B)\)</span> -
+divided
+by the area of the square - <span class="math inline">\(P({\cal S}) = 1\)</span>, so the probability is simply <span class="math inline">\(P(B)\)</span>.</p>
 Now suppose somebody reveals to you the <strong>fact</strong> that the speck indeed landed somewhere inside
 another circle, inside the square. Let us call this circle <span class="math inline">\(A\)</span>, like in the following picture
 <div class="figure" style="text-align: center"><span id="fig:where-is-the-speck-now"></span>
@@ -1100,7 +1101,7 @@ The term <span class="math inline">\(P(A | B)\)</span> is called the <strong>lik
 that we would receive the data assuming that the hypothesis holds. Updating a prior, means
 multiplying the prior probability with the likelihood function. Dividing by <span class="math inline">\(P(A)\)</span> ensures
 that we have appropriately normalized the numbers, ensuring that a measure
-of 1 is obtained accross
+of 1 is obtained across
 the overall sample space.</p>
 <p>Now this story with the speck of sand falling on the square provides an intuitive illustration
 of how Bayesian updating works. We start with the hypothesis that the speck is located inside <span class="math inline">\(B\)</span>.
@@ -1188,14 +1189,14 @@ probability, in which case each outcome should get a probability 1/2.</p>
 select the <code>"H"</code> outcomes and calculate its length:</p>
 <div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="conditional-probability.html#cb277-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
 <span id="cb277-2"><a href="conditional-probability.html#cb277-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 67</code></pre>
-<p>This means we have 67 cases where we get 2 and 33
+<pre><code>## [1] 73</code></pre>
+<p>This means we have 73 cases where we get 2 and 27
 cases where we get 0. Thus on average
 we will get:</p>
 <div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="conditional-probability.html#cb279-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.34</code></pre>
+<pre><code>## [1] 1.46</code></pre>
 <p>So if we payed 1.20 for that round we would make a profit of
-0.14. The reasoning behind this argument is that the payoff
+0.26. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
 of flips it will come up heads approximately 7 out of 10 and thus will pay on
@@ -1353,7 +1354,7 @@ frame.</p>
 conditional probabilities of the outcome given the coin is red. We use again <code>dbinom()</code>but
 with the appropriately adjusted arguments:</p>
 <div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="conditional-probability.html#cb298-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Win, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)</span></code></pre></div>
-<p>Now we add the prior of the coin beein red <span class="math inline">\(P(R)\)</span> which is in our case 0.1:</p>
+<p>Now we add the prior of the coin being red <span class="math inline">\(P(R)\)</span> which is in our case 0.1:</p>
 <div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="conditional-probability.html#cb299-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">30</span>)</span></code></pre></div>
 <p>Now we have almost all the ingredients for computing a Bayesian update at every step. What we
 are still missing is the total probability of the outcome. Note that it can come from two
@@ -1807,9 +1808,9 @@ green. Assuming you prior beliefs are
 the coin value in these different cases?.</p>
 <ol start="2" style="list-style-type: decimal">
 <li><p>By how many flips will you get to the correct estimate of 0.6 for each given
-prior?</p></li>
+prior? Try to visualize the situation.</p></li>
 <li><p>How will the estimates of the worth of each flip develop if the green coin is used for each
-of the previous priors?</p></li>
+of the previous priors? Try to visualize the situation.</p></li>
 </ol>
 
 </div>
