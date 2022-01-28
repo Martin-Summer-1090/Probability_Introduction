@@ -344,8 +344,8 @@ a continuous random variable means.</p>
 value in the interval <span class="math inline">\([0,1]\)</span>. We can generate such numbers very easily in R using the
 function <code>runif()</code>. Let’s create 10 such numbers:</p>
 <div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="continuous-random-variables.html#cb465-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>##  [1] 0.8815916 0.6906999 0.3899873 0.9012388 0.1125936 0.1192329 0.0433549
-##  [8] 0.3388719 0.7011684 0.2405480</code></pre>
+<pre><code>##  [1] 0.14880797 0.80141256 0.48737181 0.86022311 0.05296415 0.47156192
+##  [7] 0.70286004 0.37980803 0.48943025 0.55080555</code></pre>
 <p>Now you could ask: What is the probability that this random variable takes a particular value of,
 say <span class="math inline">\(0.4848450\)</span>, one value in our list? We could try simulation.
 Let’s simulate one million such uniformly distributed
@@ -370,7 +370,7 @@ in the case of a continuous random variable we can no longer talk about individu
 distributed random variable <span class="math inline">\(X \sim U[0,1]\)</span> comes
 up with a value between <span class="math inline">\(0\)</span> and <span class="math inline">\(1/4\)</span>? Lets check with our simulated numbers:</p>
 <div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="continuous-random-variables.html#cb469-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">0</span> <span class="sc">&lt;=</span> uniform_rv <span class="sc">&amp;</span> uniform_rv <span class="sc">&lt;=</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)<span class="sc">/</span><span class="fu">length</span>(uniform_rv)</span></code></pre></div>
-<pre><code>## [1] 0.250068</code></pre>
+<pre><code>## [1] 0.250532</code></pre>
 <p>It says 25 %, as we expect from a uniformly distributed probabilities. Let’s try R’s cumulative
 distribution function, or <span class="math inline">\(P(X \leq 1/4)\)</span> for the uniform distribution on <span class="math inline">\({\cal S}=[0,1]\)</span>:</p>
 <div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="continuous-random-variables.html#cb471-1" aria-hidden="true" tabindex="-1"></a><span class="fu">punif</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div>

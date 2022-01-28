@@ -990,7 +990,7 @@ Since we assume here that the coin is green this is 0.7. With this information a
 add this column to the
 frame.
 ```{r binomials}
-game_record$POG <- dbinom(game_record$Win, game_record$Num_Flips, 0.7)
+game_record$POG <- dbinom(game_record$Sum_Wins, game_record$Num_Flips, 0.7)
 ```
 The next colum is our prior of $P(G)$ that the coin is indeed green. This is, as we have assumed
 0.9. So this is a column of 30 values each of which is 0.9. This can be done by using the 
@@ -1002,7 +1002,7 @@ Now in the next column we compute the probabilities for $P(\text{outcome} | R)$,
 conditional probabilities of the outcome given the coin is red. We use again `dbinom()`but
 with the appropriately adjusted arguments:
 ```{r cond-prob-red}
-game_record$POR <- dbinom(game_record$Win, game_record$Num_Flips, 0.3)
+game_record$POR <- dbinom(game_record$Sum_Wins, game_record$Num_Flips, 0.3)
 ```
 Now we add the prior of the coin being red $P(R)$ which is in our case 0.1:
 ```{r prior-red}

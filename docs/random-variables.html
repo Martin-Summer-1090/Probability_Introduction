@@ -1020,7 +1020,7 @@ operator <code>|&gt;</code>, which channels the output of <code>c()</code> into 
 the help menu to check how it works in detail.</p>
 <p>We can now use <code>get_state</code>to flip the coin and spin the wheel to generate a state of the world:</p>
 <div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="random-variables.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_state</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;BH&quot;</code></pre>
+<pre><code>## [1] &quot;BN&quot;</code></pre>
 <p>The monetary value of the outcome depends on the portfolio of assets you have chosen.
 We write a program to compute the payoff and save it as a function, so for instance, if we get
 <code>payoff("RH", portfolio)</code> will output the payoffs and returns or the portfolio you have chosen.</p>
@@ -1268,7 +1268,7 @@ vector with rownames for the returns in each basic outcome of our random experim
 <p>Then we can compute the portfolio return for this state by subsetting:</p>
 <div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="random-variables.html#cb379-1" aria-hidden="true" tabindex="-1"></a>returns[state, ]</span></code></pre></div>
 <pre><code>##    asset_1    asset_2    asset_3 
-## 0.07526882 0.02389078 0.08108108</code></pre>
+## 0.07526882 0.70648464 0.29729730</code></pre>
 <p>The vector of row names</p>
 <div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="random-variables.html#cb381-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(A)</span></code></pre></div>
 <pre><code>## [1] &quot;BH&quot; &quot;BL&quot; &quot;BN&quot; &quot;RH&quot; &quot;RL&quot; &quot;RN&quot;</code></pre>
@@ -1315,7 +1315,7 @@ payoff(state, portfolio)
 <span id="cb385-5"><a href="random-variables.html#cb385-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb385-6"><a href="random-variables.html#cb385-6" aria-hidden="true" tabindex="-1"></a><span class="fu">outcome</span>(<span class="at">returns =</span> ret)</span></code></pre></div>
 <pre><code>##   State    Asset_1    Asset_2    Asset_3
-## 1    BN 0.07526882 0.02389078 0.08108108</code></pre>
+## 1    RN 0.07526882 -0.4880546 -0.4594595</code></pre>
 <p>This does not look so bad, but what can we do with this? Well now we are in the position to
 study a particular portfolio through simulation. We can play with the coin and the wheel random
 mechanism to see what it does to our asset returns and to our portfolio returns. We can study
@@ -1409,16 +1409,16 @@ similar to our SP500 data. This comprised 2762 trading days. So let’s write a 
 <p>Now let’s inspect the output of this run by looking at the first element:</p>
 <div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="random-variables.html#cb396-1" aria-hidden="true" tabindex="-1"></a>simulated_returns[[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>##   State    Asset_1    Asset_2    Asset_3
-## 1    BL 0.07526882 -0.6587031 -0.1351351</code></pre>
+## 1    BN 0.07526882 0.02389078 0.08108108</code></pre>
 <p>This looks good. We now have a list with 250 data-frames all with the same variables. What we would
 like to have instead is one single data frame. Here is a way how to merge them:</p>
 <div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="random-variables.html#cb398-1" aria-hidden="true" tabindex="-1"></a>simulation_outcome <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, simulated_returns)</span>
 <span id="cb398-2"><a href="random-variables.html#cb398-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulation_outcome, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##   State    Asset_1     Asset_2     Asset_3
-## 1    BL 0.07526882 -0.65870307 -0.13513514
-## 2    BN 0.07526882  0.02389078  0.08108108
-## 3    RN 0.07526882 -0.48805461 -0.45945946
-## 4    BN 0.07526882  0.02389078  0.08108108
+## 1    BN 0.07526882  0.02389078  0.08108108
+## 2    BH 0.07526882  0.70648464  0.29729730
+## 3    RH 0.07526882 -0.14675768 -0.35135135
+## 4    BH 0.07526882  0.70648464  0.29729730
 ## 5    BH 0.07526882  0.70648464  0.29729730</code></pre>
 <p>Let me explain. Dataframes with the same variables can be merged by the function <code>rbind()</code>. This
 can be applied to an arbitrary (finite) number of dataframes. <code>do.call()</code> is a function which is
@@ -1432,7 +1432,7 @@ should occur given our coin and wheel random device:</p>
 <span id="cb400-2"><a href="random-variables.html#cb400-2" aria-hidden="true" tabindex="-1"></a>rel_freq_states</span></code></pre></div>
 <pre><code>## 
 ##         BH         BL         BN         RH         RL         RN 
-## 0.18718320 0.10861694 0.31245474 0.14011586 0.06335988 0.18826937</code></pre>
+## 0.20238957 0.09304852 0.30992035 0.13178856 0.06698045 0.19587256</code></pre>
 <p>Remember from before that our theoretical probability distribution was given by
 <span class="math display">\[\begin{eqnarray*}
 {\cal S} &amp;=&amp; \{BH, BL, BN, RH, RL, RN\} \\
@@ -1453,17 +1453,17 @@ data and compare to the theoretical expected value according to our definition.<
 <span id="cb402-4"><a href="random-variables.html#cb402-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb402-5"><a href="random-variables.html#cb402-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulation_outcome, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##   State    Asset_1     Asset_2     Asset_3 Weight_1 Weight_2 Weight_3
-## 1    BL 0.07526882 -0.65870307 -0.13513514     0.25    0.375    0.375
-## 2    BN 0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
-## 3    RN 0.07526882 -0.48805461 -0.45945946     0.25    0.375    0.375
-## 4    BN 0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
+## 1    BN 0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
+## 2    BH 0.07526882  0.70648464  0.29729730     0.25    0.375    0.375
+## 3    RH 0.07526882 -0.14675768 -0.35135135     0.25    0.375    0.375
+## 4    BH 0.07526882  0.70648464  0.29729730     0.25    0.375    0.375
 ## 5    BH 0.07526882  0.70648464  0.29729730     0.25    0.375    0.375</code></pre>
 <div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="random-variables.html#cb404-1" aria-hidden="true" tabindex="-1"></a>E_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1)</span>
 <span id="cb404-2"><a href="random-variables.html#cb404-2" aria-hidden="true" tabindex="-1"></a>E_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_2)</span>
 <span id="cb404-3"><a href="random-variables.html#cb404-3" aria-hidden="true" tabindex="-1"></a>E_3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_3)</span>
 <span id="cb404-4"><a href="random-variables.html#cb404-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb404-5"><a href="random-variables.html#cb404-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(E_1, E_2, E_3), <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1]  0.00 -0.04 -0.04</code></pre>
+<pre><code>## [1]  0.00 -0.03 -0.04</code></pre>
 <p>Let us compare this result with the theoretical expected value.</p>
 <div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="random-variables.html#cb406-1" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.13</span>, <span class="fl">0.07</span>, <span class="fl">0.2</span>)</span>
 <span id="cb406-2"><a href="random-variables.html#cb406-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1492,7 +1492,7 @@ empirical expected value by:</p>
 <span id="cb408-3"><a href="random-variables.html#cb408-3" aria-hidden="true" tabindex="-1"></a>E_3 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_3)<span class="sc">*</span><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_3)</span>
 <span id="cb408-4"><a href="random-variables.html#cb408-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb408-5"><a href="random-variables.html#cb408-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(E_1, E_2, E_3), <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1]  0.00 -0.04 -0.04</code></pre>
+<pre><code>## [1]  0.00 -0.03 -0.04</code></pre>
 <p>We get exactly the same value. Note that I have used the function <code>unique()</code>here. This is because
 if <code>simulation_outcome$Weight_1</code> is taken out of the mean function it is a <span class="math inline">\(2762 \times 1\)</span> vector
 containing the same weight value for every daily observation. Unique reduces this column to a
@@ -1540,11 +1540,11 @@ distance from the mean should increase by a factor of 25. Let us check this agai
 data frame for asset 1:</p>
 <div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="random-variables.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(w^1*r^1)</span></span>
 <span id="cb418-2"><a href="random-variables.html#cb418-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0043</code></pre>
+<pre><code>## [1] 0.0045</code></pre>
 <div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="random-variables.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (w^1)^2 Var(r^1)</span></span>
 <span id="cb420-2"><a href="random-variables.html#cb420-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb420-3"><a href="random-variables.html#cb420-3" aria-hidden="true" tabindex="-1"></a>((<span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1))<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0043</code></pre>
+<pre><code>## [1] 0.0045</code></pre>
 <p><strong>Property 3</strong> If <span class="math inline">\(X\)</span> is a random variable and <span class="math inline">\(a\)</span> is a constant then
 <span class="math display">\[\begin{equation*}
 Var(X + a) = Var(X)
@@ -1553,10 +1553,10 @@ This should also be intuitive, because a constant has no variation so it should 
 the variance of a random variable. Let us check this again with our data frame:</p>
 <div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="random-variables.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(r^1 + 1000)</span></span>
 <span id="cb422-2"><a href="random-variables.html#cb422-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> <span class="dv">1000</span>)</span></code></pre></div>
-<pre><code>## [1] 0.06864019</code></pre>
+<pre><code>## [1] 0.072282</code></pre>
 <div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="random-variables.html#cb424-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(r^1)</span></span>
 <span id="cb424-2"><a href="random-variables.html#cb424-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)</span></code></pre></div>
-<pre><code>## [1] 0.06864019</code></pre>
+<pre><code>## [1] 0.072282</code></pre>
 <p>Finally we have a very important property of variance which is particularly relevant in the
 context of portfolios.</p>
 <p><strong>Property 4</strong> If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are random variables and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are real numbers
@@ -1575,7 +1575,7 @@ Le us check this formula again with our data frame:</p>
 <span id="cb426-2"><a href="random-variables.html#cb426-2" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> simulation_outcome<span class="sc">$</span>Weight_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_2 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_3</span>
 <span id="cb426-3"><a href="random-variables.html#cb426-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb426-4"><a href="random-variables.html#cb426-4" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(aux_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0965</code></pre>
+<pre><code>## [1] 0.1013</code></pre>
 <div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="random-variables.html#cb428-1" aria-hidden="true" tabindex="-1"></a><span class="co"># \sum_{i=1}^n (w^i)^2 Var(r^i) +  \sum_{i \neq j } w^i w^j Cov(r^i, r^j)</span></span>
 <span id="cb428-2"><a href="random-variables.html#cb428-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb428-3"><a href="random-variables.html#cb428-3" aria-hidden="true" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1)</span>
@@ -1588,7 +1588,7 @@ Le us check this formula again with our data frame:</p>
 <span id="cb428-10"><a href="random-variables.html#cb428-10" aria-hidden="true" tabindex="-1"></a>w3<span class="sc">*</span>w2<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3)</span>
 <span id="cb428-11"><a href="random-variables.html#cb428-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb428-12"><a href="random-variables.html#cb428-12" aria-hidden="true" tabindex="-1"></a>Varportf <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0965</code></pre>
+<pre><code>## [1] 0.1013</code></pre>
 <p>It works great but this notation is pretty awkward. Here is how we can do better. With more than
 two random variables it is convenient to use linear algebra or matrix notation and to make
 use of R’s capabilities to do do.</p>
@@ -1638,7 +1638,7 @@ previous example:</p>
 <span id="cb430-14"><a href="random-variables.html#cb430-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb430-15"><a href="random-variables.html#cb430-15" aria-hidden="true" tabindex="-1"></a>Vp <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##        [,1]
-## [1,] 0.0965</code></pre>
+## [1,] 0.1013</code></pre>
 <p>Much more elegant and less error prone, isn’t it?</p>
 <p>add expectation and variance of functions of a RV <span class="math inline">\(X\)</span>.</p>
 <p>Our portfolio seems to be a bad deal. Over the course of the holding period it had an average
@@ -1763,7 +1763,7 @@ We could do the same experiment now with only one line of code by using the <cod
 <p><img src="Probability_Introduction_files/figure-html/compare-hist-roll-five-1.png" width="672" />
 The probability to get 3 sixes according to the simulation (relative frequency) is:</p>
 <div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="random-variables.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sim_rolls <span class="sc">==</span> <span class="dv">3</span>)<span class="sc">/</span><span class="fu">length</span>(sim_rolls)</span></code></pre></div>
-<pre><code>## [1] 0.03199</code></pre>
+<pre><code>## [1] 0.0325</code></pre>
 <p>This could be also be compute directly by <code>dbinom()</code>like this:</p>
 <div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="random-variables.html#cb444-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div>
 <pre><code>## [1] 0.03215021</code></pre>
@@ -1843,7 +1843,7 @@ We first extract the year from the data column and add a new
 variable to the sp500 data frame. For this we use a function from the
 lubridate package. This function is called <code>year()</code> and if
 applied to a date object extracts the year only.
-Then we split the data frame according to the year using R’s <code>slit()</code> function. This
+Then we split the data frame according to the year using R’s <code>split()</code> function. This
 will create a list of data frames of daily records, where each list element contains
 the records of one year. We then write a little function, which takes a data frame as
 argument and selects the first row. Finally we apply this function to each element of the
