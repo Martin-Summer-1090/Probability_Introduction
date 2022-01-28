@@ -20,9 +20,9 @@ Random variable
 
 The term random variable might be slightly confusing, for what is 
 really meant is something like a random function where 
-the range is the sample space, i.e. the outcome of a 
+the domain is the sample space, i.e. the outcome of a 
 random experiment, and 
-the image is the set of real numbers.
+the range is the set of real numbers.
 
 Think of the payoff promise in the investment game, we analyzed in
 lecture 3. The sample space for the flip of a coin is the set
@@ -62,7 +62,7 @@ Cumulative distribution
 : The **cumulative distribution function** - abbreviated CDF - shows 
 the probability that a 
 random variable $X$ take a value less than or equal to a given 
-value $x$. It is usually denoted as $F(x) = P(x \leq x)$ 
+value $x$. It is usually denoted as $F(x) = P(X \leq x)$ 
 where $-\infty < x < \infty$.
 
 We have actually already encountered a random variable in 
@@ -72,6 +72,15 @@ case a map (the identity map) from the six basic outcomes
 ${\cal S}=\{1,2,3,4,5,6\}$ to the number of points
 $\{1,2,3,4,5\}$. If the die is fair, 
 each of these outcomes has probability $1/6$.
+
+In the game of craps in project 1 the random variable $X$ was the sum of the
+points shown on the two dice. We said that the
+aggregate of all sample points on which $X$ assumes the 
+fixed value $X = x_j$ forms the event
+that $X = x_j$. In the game of craps for instance the set 
+$\{(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)\}$ is the set of all
+sample points where the value of $X$ is 7. This is an event the probability
+of which is $6/36$ or $1/6$.
 
 It is common to display the probabilities associated 
 with a random variables, graphically as 
@@ -121,7 +130,7 @@ conditional probability for random variables:
 Conditional probability
 : The **conditional probability** of the event $Y = y_j$ given that $X = x_i$ is
 \begin{equation*}
-P(Y = y_j | X = x_i) = \frac{p(x_i, y_l)}{f(x_i)}
+P(Y = y_j | X = x_i) = \frac{p(x_i, y_j)}{f(x_i)}
 \end{equation*}
 where we need to require that $f(x_i) > 0$.
 
@@ -176,7 +185,9 @@ is the **variance**.
 Variance
 : The **variance** of a random variable $X$ is the expected value of the squared deviation
 from the expected value of $X$ or
-$Var[X] = \mathrm{E}[(X -\mathrm{E}[X])^2]$
+\begin{equation*}
+Var[X] = \mathrm{E}[(X -\mathrm{E}[X])^2]
+\end{equation*}
 
 Note that we cab simplify the expression for the variance as follows:
 \begin{align*}
@@ -206,7 +217,7 @@ Assume we have two random variables $X$ and $Y$ then we define their **covarianc
 as follows.
 
 Covariance
-: The ++covariance** for two random variables $X$ and $Y$, is defined as
+: The **covariance** for two random variables $X$ and $Y$, is defined as
 \begin{equation*}
 \mathrm{Cov}(X,Y) = \mathrm{E}((X - \mathrm{E}(X))(Y-\mathrm{E}(Y)))
 \end{equation*}
@@ -216,6 +227,32 @@ If $X$ and $Y$ are independent, then $\mathrm{E}(XY) = \mathrm{E}(X)\mathrm{E}(Y
 hence if $X$ and $Y$ are independent, $\mathrm{Cov}(X,Y) = 0$. Note, however, 
 that the converse is not true.
 A covariance of 0 does **not** imply independence.
+
+Let me illustrate this important point with the example of a variation
+of the game of craps in project 1.
+Let $X$ the random variable showing the sum points on the two dice and - for the
+sake of this example $Y$ the random variable
+showing the difference between the points on the two dice. The points on the 
+individual dice ( the $\{1,2,3,4,5,6\}$) can be themselves be understood as random
+variables $U$ and $V$. Then $\mathrm(E)(XY) = \mathrm(E)\left( (U+V)(U-V) \right)$. This is
+$\mathrm(E)(U^2) - \mathrm(E)(V^2) = 3.5 - 3.5 = 0$. Note also that $\mathrm(E)(Y) = 0$,
+hence $\mathrm(Cov)(X,Y) = 0$. But when you go through the point combinations in this situation
+in project 1, you will realize that $X$ and $Y$ are either both odd or both even. Thus they
+are dependent. For those of you who can not see this, they can convince themselves by a
+little piece of R code:
+
+```{r check-example-cov-dependenc}
+
+U <- 1:6
+V <- 1:6
+
+df <- expand.grid(U = U, V = V)
+df$"U+V" <- df$U + df$V
+df$"U-V" <- df$U - df$V
+
+knitr::kable(df)
+```
+
 
 The choice of an origin and unit of measurement of a random variable is to a large 
 degree arbitrary. It is thus often most convenient to take the mean as the origin and the
@@ -231,14 +268,15 @@ Correlation Coefficient
 \rho(X,Y) = \mathrm{Cov}(X^*,Y^*) = \frac{\mathrm{Cov}(X,Y)}{\sigma_x \sigma_y}
 \end{equation*}
 
-The correlation coefficient is thus just a particular way of writing the covariance.
+The correlation coefficient is thus just a particular way - a dimensionless way - 
+of writing the covariance.
 
 Now it is time we get back to R and play around 
 with these concepts a bit. As a finance class you should be motivated to know these
 concepts well because they are a sort of cap-stone for investment science and portfolio
 management.
 
-Indeed random variables are the most important models in Finance. In the next example
+Indeed random variables are the most important **models** in Finance. In the next example
 we will study the concepts of this section by putting them in a Finance context. In doing so
 we will also embark into a new territory of R. We will now also learn the basics of
 writing R programs using portfolio and investment theory as an example.
@@ -272,7 +310,7 @@ a payoff when completed.
 
 These kinds of simplifications are - by the way - a cornerstone in modelling as well as in
 programming. We build solutions to complex problems by starting with a simple problem and then
-buid complexity step by step.
+build complexity step by step.
 
 ### Asset return
 
@@ -333,7 +371,8 @@ the `length()`function to an object we get the number of components and thus the
 last element in an object. This we drop. The first difference we already know how to deal with. So let's
 add returns
 ```{r}
-sp500$returns <- c(NA, (diff(sp500$adjusted, lag = 1)/sp500$adjusted[-length(sp500$adjusted)]))
+sp500$returns <- c(NA, (diff(sp500$adjusted, lag = 1)/
+                          sp500$adjusted[-length(sp500$adjusted)]))
 ```
 Now it is always a good idea when you write complex commands like this to check whether the code
 is doing what you want. The second and the first value of the `adjusted`variable is:
@@ -636,10 +675,11 @@ asset_returns <- function(assets, prices){
   # construct auxiliary matrix by stacking the price vector to get a matrix with similar
   # dimensions as assets
     
-    aux <- matrix(rep(prices, dim(assets)[1]), nrow = dim(assets)[1], ncol = dim(assets)[2], byrow = T)
+    aux <- matrix(rep(prices, dim(assets)[1]), 
+                  nrow = dim(assets)[1], ncol = dim(assets)[2], byrow = T)
     
-  # Compute return rates by component wise division of assets with aux and deduct 1 from each
-  # component
+  # Compute return rates by component wise division of assets with 
+  # aux and deduct 1 from each component
     
   r <-   (assets/aux) - 1
   
@@ -648,7 +688,7 @@ asset_returns <- function(assets, prices){
 ```
 Let us go through this function step by step: The *arguments* are the payoff matrix and the
 asset prices.  Then we create an object inside the
-function, we call aux (an abbreviation for *auxialliary*). To compute returns 
+function, we call aux (an abbreviation for *auxiliary*). To compute returns 
 we have to divide every payoff by the price we paid. We do this by constructing
 an auxiliary matrix with the same dimensions as the payoff matrix ( 6 times 3). We then 
 make a matrix, telling R to fill the matrix row-wise. The number of repetitions of the
@@ -667,7 +707,7 @@ Notice also the lines, which begin with a `#` symbol. These are comments. Writin
 into your code should become second nature for you, when you write code. It describes in words
 what you write in R. It helps you to communicate with others, who might read your code. This
 includes your future self. As you gain more routine in writing little programs and procedures
-you will experience that upon returning to your code from a dew weeks ago you sometimes do not
+you will experience that upon returning to your code from a few weeks ago you sometimes do not
 understand anymore what you were doing. Comments help you to avoid such confusion. In R the
 escape character for comments is `#`. Every line beginning with this symbol will be understood to
 contain comments by R and is not going to be processed by the function.
@@ -736,7 +776,9 @@ outcome <- function(returns = ret){
   
   # pack result into a data frame
   
-  data.frame(State = state, Asset_1 = return[1], Asset_2 = return[2], Asset_3 = return[3], stringsAsFactors = FALSE)
+  data.frame(State = state, Asset_1 = return[1], 
+             Asset_2 = return[2], 
+             Asset_3 = return[3], stringsAsFactors = FALSE)
  
 
 }
@@ -797,7 +839,7 @@ name `value`. Any other name will do as well.
 
 If you look at the `value`after the loop runs, you will see that it still contains 
 the value of the last element in the set. Usually a for loop won't return anything, unless 
-you save its own output as it runs. The examples before appeared to return something becuase we 
+you save its own output as it runs. The examples before appeared to return something because we 
 called the `print()` function at every call. if we typed for example:
 ```{r new-for-example}
 for(i in c("My", "third", "for", "loop")){
@@ -923,7 +965,7 @@ round(c(e_1, e_2, e_3), 2)
 This looks good. Now Let us take this opportunity to establish a few properties of expected
 value. These properties are very important and you will need it over and over in applied
 probability. I hope that with the hands on approach of our simulation setup you will see more 
-easily why they must hold than in a purely formal derivation.
+easily why they must hold rather than in a purely formal derivation.
 
 ### Properties of expected returns and portfolio expected return
 
@@ -1100,7 +1142,9 @@ w3 <- unique(simulation_outcome$Weight_3)
 
 w <- matrix(c(w1,w2,w3), nrow = 3, ncol = 1)
  
-R <- cbind(simulation_outcome$Asset_1, simulation_outcome$Asset_2, simulation_outcome$Asset_3)
+R <- cbind(simulation_outcome$Asset_1, 
+           simulation_outcome$Asset_2, 
+           simulation_outcome$Asset_3)
 
 Vp <- t(w)%*% cov(R)%*%w
 
@@ -1139,7 +1183,7 @@ the syntax for all the others.
 The sample space of a **Bernoulli experiment** has only two possible outcomes, often denoted as
 "success" and "failure": ${\cal S} = \{\text{success}, \text{failure} \}$. We have encountered 
 this random variable already in form of coin flips in lectures 2, 3 and 4. The flipping of
-a coin would be a typical Bernoulli experiment, where the appearnac of heads could be the
+a coin would be a typical Bernoulli experiment, where the appearance of heads could be the
 success and tails the failure (or the other way round, this is a convention).
 
 Bernoulli random variable
@@ -1335,7 +1379,7 @@ We first extract the year from the data column and add a new
 variable to the sp500 data frame. For this we use a function from the
 lubridate package. This function is called `year()` and if
 applied to a date object extracts the year only. 
-Then we split the data frame according to the year using R's `slit()` function. This
+Then we split the data frame according to the year using R's `split()` function. This
 will create a list of data frames of daily records, where each list element contains
 the records of one year. We then write a little function, which takes a data frame as
 argument and selects the first row. Finally we apply this function to each element of the
@@ -1408,7 +1452,7 @@ Lets generate a tree with three steps:
 binomial_tree(S0=100, up = u, down = d, steps = 3)
 ```
 How is this related to the binomial distribution? The random variable, which we are
-studying is a random variable $X$ with $P(X = u) = p$ and $P(X = d) = 1-p $. The stock price
+studying is a random variable $X$ with $P(X = u) = p$ and $P(X = d) = 1-p$. The stock price
 $S$ follows the process
 \begin{equation*}
 S_{n+1} = S_n X_{n+1} \quad \text{for}\,\, n \geq 0
