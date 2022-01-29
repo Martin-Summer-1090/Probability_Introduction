@@ -56,7 +56,7 @@ This function completely
 describes the probability properties of the random variable. 
 Note that $p(x_j) \geq 0$ and $\sum_{j=1}^n p(x_j) = 1$.
 
-A related concept is found in the follwing important definition
+A related concept is found in the following important definition
 
 Cumulative distribution
 : The **cumulative distribution function** - abbreviated CDF - shows 
@@ -103,7 +103,7 @@ the corresponding distributions be $f(x_i)$ and $g(y_j)$.
 The aggregate points in which the two conditions $X = x_i$ and $Y = y_j$ are satisfied
 form an *event* whose probability is denoted by $P(X = x_i, Y = y_j$)
 
-Joint probability function
+Joint probability distribution
 : The function
 \begin{eqnarray*}
 P(X = x_i, Y = y_j) = p(x_i, y_j), \quad i = 1, \cdots, n \,\, j = 1, \cdots, m
@@ -186,10 +186,10 @@ Variance
 : The **variance** of a random variable $X$ is the expected value of the squared deviation
 from the expected value of $X$ or
 \begin{equation*}
-Var[X] = \mathrm{E}[(X -\mathrm{E}[X])^2]
+\mathrm{Var}(X) = \mathrm{E}\left(X -\mathrm{E}(X) \right)^2
 \end{equation*}
 
-Note that we cab simplify the expression for the variance as follows:
+Note that we can simplify the expression for the variance as follows:
 \begin{align*}
 \mathrm{E}((X-\mathrm{E}(X)^2)) & = \mathrm{E}(X^2 - 2 X \mathrm{E}(X) + \mathrm{E}(X)^2) \\
               & = \mathrm{E}(X^2) - 2 \mathrm{E}(X)\mathrm{E}(X) + \mathrm{E}(X)^2 \\
@@ -197,7 +197,7 @@ Note that we cab simplify the expression for the variance as follows:
 \end{align*}
 
 In the case of a discrete random variable, the case we discuss in this lecture, we have
-$\mathrm{Var}(X) = \sum_{i=1}^{n} \left(x_i - \mathrm{E}(X) \right)^2 p(x_i))$. 
+$\mathrm{Var}(X) = \sum_{i=1}^{n} \left(x_i - \mathrm{E}(X) \right)^2 p(x_i)$. 
 
 Note that the units of the variance are the
 squared units of the random variable. This is often not very useful for interpretations. This
@@ -234,9 +234,9 @@ Let $X$ the random variable showing the sum points on the two dice and - for the
 sake of this example $Y$ the random variable
 showing the difference between the points on the two dice. The points on the 
 individual dice ( the $\{1,2,3,4,5,6\}$) can be themselves be understood as random
-variables $U$ and $V$. Then $\mathrm(E)(XY) = \mathrm(E)\left( (U+V)(U-V) \right)$. This is
-$\mathrm(E)(U^2) - \mathrm(E)(V^2) = 3.5 - 3.5 = 0$. Note also that $\mathrm(E)(Y) = 0$,
-hence $\mathrm(Cov)(X,Y) = 0$. But when you go through the point combinations in this situation
+variables $U$ and $V$. Then $\mathrm{E}(XY) = \mathrm{E}\left( (U+V)(U-V) \right)$. This is
+$\mathrm{E}(U^2) - \mathrm{E}(V^2) = 0$. Note also that $\mathrm{E}(Y) = 0$,
+hence $\mathrm{Cov}(X,Y) = 0$. But when you go through the point combinations in this situation
 in project 1, you will realize that $X$ and $Y$ are either both odd or both even. Thus they
 are dependent. For those of you who can not see this, they can convince themselves by a
 little piece of R code:
