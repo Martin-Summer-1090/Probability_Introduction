@@ -293,7 +293,7 @@ case of *random returns* is one of the most intensively used applications of pro
 to Finance. Since random variables are the models of choice in this case, we study such an
 investment problem now.  
 
-It is at the same time an ideal examles to push the frontier of your knowledge of R, because we
+It is at the same time an ideal examples to push the frontier of your knowledge of R, because we
 can discuss in this context how to write programs and run more complex simulations 
 than we did so far. 
 
@@ -340,7 +340,7 @@ example with a discrete sample space. For returns, it is - of course - more natu
 a continuous sample space, as we will see in the next lecture.
 
 If $X_1$ is a random variable, so is of course $R$ and $r$ as a consequence and we are
-in an investment situation with radom returns.
+in an investment situation with rabdom returns.
 
 ## Modelling random asset returns: First steps in R programing
 
@@ -384,7 +384,8 @@ sp500$returns[2]
 ```
 This looks good. Now let us use our little graphical knowledge to look at the distribution of
 returns in our data using the `hist()`function from base R and using the option `freq = TRUE` to
-get empirical frequencies. We drop the `NA` and :
+get empirical frequencies. We drop the `NA` and type
+`hist(sp500$returns[-1])` which will give us:
 ```{r return distr}
 hist(sp500$returns[-1])
 ```
@@ -397,8 +398,10 @@ plotted it. It would be natural to assume a continuous sample space for modeling
 discuss such models in the next lecture. 
 
 Here we take a choice where we model randomness using discrete random variables. We do so
-by combining two random devices, constructed as a *wheel of fortune*. Both kinds
-of wheels are useful for the study of investments. Our *wheel of fortune* looks like this:
+by combining two random devices, constructed as a *wheel of fortune* and a *coin flip*. 
+Both devices are useful for the study of investments. 
+
+Our *wheel of fortune* looks like this:
 ```{r wheel-of-fortune, out.width='90%', fig.align='center', fig.cap='A wheel of fortune. If the wheel stops at the segment under the marker your payoff is determined according to the rules of the game', echo = F}
 knitr::include_graphics('figures/wheel_of_fortune.png')
 ```
@@ -489,8 +492,6 @@ a vector showing the state and the portfolio return computed by a function
 payoff(state, portfolio)
 }
 ```
-The `print()` function prints output to the console window, and allows us to display
-messages from within the body of a function.
 
 Note that in lecture 1 we showed and encouraged you to write all of your R 
 code in an R script, a text file where you can compose your code. This will become
@@ -530,7 +531,7 @@ algorithm.
 When you have to link parallel cases together, the program faces a fork in its process whenever
 it has to choose between cases. If statements help the program to do so. 
 
-An if statememt in R tells R to do certain things for a particular case. The sytnax of
+An if statement in R tells R to do certain things for a particular case. The sytnax of
 telling R to do something if a case occurs is:
 ```
 if (this) { 
@@ -583,7 +584,7 @@ if (state == "BN"){
 While this method works, it is for various reasons not very elegant. 
 
 1. The first unsatisfactory
-thing here is that the payoff numbers are hard coded into the if statement. if we would like
+thing here is that the payoff numbers are hard coded into the if statement. If we would like
 to consider other examples, or different payoff structures, we would have to rewrite the
 entire if statement. This is tedious and prone to mistakes. 
 2. The second not so elegant thing
@@ -638,7 +639,7 @@ outcome in the state space and a column for each asset.
 
 If you still remember what we discussed in lecture 2, you know that we can store objects in R
 as a matrix. We do this by telling R that we now specify a matrix and tell the column and row
-numbers to R and show the $A_B$ matrix to see what we get
+numbers to R and show the $(A_B, A_R)$ matrix to see what we get
 ```{r AB-matrix}
 A <- matrix(c(1,10,6,1,2,4,1,6,5,1,5,3,0,1,2,1,3,2.5), nrow = 6, ncol = 3, byrow = TRUE)
 A
@@ -809,7 +810,7 @@ for (value in that) {
 }
 ```
 
-The `that`object should be a set of objects (often a vector of numbers or character strings). The
+The `that` object should be a set of objects (often a vector of numbers or character strings). The
 for loop will run the code that appears between the braces once for each  member of `that`.
 
 For example, the for loop below runs `print("one run")` once for each element in the vector
@@ -898,7 +899,8 @@ Now let's inspect the output of this run by looking at the first element:
 ```{r output-sim}
 simulated_returns[[1]]
 ```
-This looks good. We now have a list with 250 data-frames all with the same variables. What we would
+This looks good. We now have a list with 2762 data-frames all 
+with the same variables. What we would
 like to have instead is one single data frame. Here is a way how to merge them:
 ```{r merge results}
 simulation_outcome <- do.call(rbind, simulated_returns)
@@ -924,7 +926,7 @@ p(x) &=& \{0.2, 0.1, 0.3, 0.13, 0.07, 0.2\}
 \end{eqnarray*}
 
 This looks pretty good and illustrates what we should expect from the weak law of large numbers. 
-We have given the probabilities by $p(x)$ and a repetition of 250 independent draws from this
+We have given the probabilities by $p(x)$ and a repetition of 2762 independent draws from this
 distribution results in relative frequencies of the individual states which are already 
 fairly close to these theoretical probabilities.
 
@@ -989,11 +991,11 @@ if `simulation_outcome$Weight_1` is taken out of the mean function it is a $2762
 containing the same weight value for every daily observation. Unique reduces this column to a
 single scalar.
 
-**The expected return of a portfolio is the weighted return of the expected returns of each asset**: This is an immediate consequence of the linearity of expectations, where $a$ and $b$
+****: This is an immediate consequence of the linearity of expectations, where $a$ and $b$
 take the roles of weights. 
 
 This property should jump right into the eye if you think of the problem in terms of our 
-data frame. Clearly, if you take a weighted sum over rows and then average accross this sum
+data frame. Clearly, if you take a weighted sum over rows and then average across this sum
 it is the same as if you take a weighted average across each column and then sum up. Let's
 do it with our data frame:
 ```{r portfolio-return-demo}
@@ -1107,7 +1109,7 @@ Let me give you a brief a reminder how this works. We let $x = (x_1, x_2, \cdots
 denote a vector of $n$ random variables. When $x$ is a column vector, then it's *transpose* is
 a row vector. The usual notation is $x^T$ for transposition. The covariance associated with
 a vector $x$
-is most conveniently written as a $m \times n$ matrix $C$ where $C_{ij} = cov(x_im )$. If $x$
+is most conveniently written as a $m \times n$ matrix $C$ where $C_{ij} = cov(x_{i}, x_{j})$. If $x$
 is rewarded as a column vector and $x^T$ as the corresponding row vector then $C$ can be 
 expressed as
 \begin{equation*}
@@ -1119,7 +1121,7 @@ w^T C w
 \end{equation*}
 If you multiply a matrix by a column vector, you have to take the inner-product of the vector
 with each row of the matrix, like this:
-```{r matrix-mult, out.width='90%', fig.align='center', fig.cap='When mutilpying a column vector with a matrix take the inner product of the vector with every row of the matrix. The result will be a column vector', echo = F}
+```{r matrix-mult, out.width='90%', fig.align='center', fig.cap='When mutilpying a column vector with a matrix take the inner product of the vector with every row of the matrix. The result will be a row vector', echo = F}
 knitr::include_graphics('figures/matrix_multiplication.png')
 
 ```
@@ -1320,7 +1322,7 @@ interest rates and are subject to various other uncertainties over time.
 The binomial distribution while conceptually very simple, allows to model asset 
 price fluctuations conveniently and realistically. In Finance there are two basic workhorse
 models to represent asset price dynamics: Binomial lattices and Ito processes. Both are
-rooted in probability but binomial lattices are conceptually simpler. Yet they form an
+rooted in probability but binomial lattices are conceptually simpler. Yet they are an
 excellent basis for computational work associated with investment problems.
 
 To define a binomial lattice model, a basic period of length has to be 
@@ -1550,11 +1552,12 @@ $p = 5 \%$.
 more realism. For such reflections it is often a good idea to drop
 superfluous structure for the question at hand. This is also a time
 proven strategy in problem solving. Ask yourself, what is the minimal
-setup I need to make my point. This is a question of the right amount of simplifcation, where the goal is to be as simple as possible but not to oversimplify. Let me help you a bit with this tactics: Assume
+setup I need to make my point. This is a question of the right amount of simplification, where the goal is to be as simple as possible but not to oversimplify. Let me help you a bit with this tactics: Assume
 now you have only two instead of $N$ obligors in your portfolio. Let
 us call them borrower $A$ and borrower $B$. You 
 would like to think about the risk they could default on their
-obligations over a time horizon $T$, say 1 year from now. Your staff
+obligations over a time horizon $T$, say 1 year from now but you
+can not assume independence. Your staff
 has produced intelligence from a detailed data analysis and
 has provided you with the the numbers $p_A$, the probability that
 the first borrower will default within the time horizon $T$ as well as

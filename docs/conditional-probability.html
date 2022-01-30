@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-01-29" />
+<meta name="date" content="2022-01-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -409,7 +409,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="conditional-probability.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.05311298</code></pre>
+<pre><code>## [1] 0.05689259</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -436,9 +436,9 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="conditional-probability.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   877  380 1257
-##   TRUE    444 1084 1528
-##   Sum    1321 1464 2785</code></pre>
+##   FALSE   878  380 1258
+##   TRUE    444 1085 1529
+##   Sum    1322 1465 2787</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -485,9 +485,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb306-6"><a href="conditional-probability.html#cb306-6" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3149013 0.1364452 0.4513465
-##   TRUE  0.1594255 0.3892280 0.5486535
-##   Sum   0.4743268 0.5256732 1.0000000</code></pre>
+##   FALSE 0.3150341 0.1363473 0.4513814
+##   TRUE  0.1593111 0.3893075 0.5486186
+##   Sum   0.4743452 0.5256548 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -618,9 +618,9 @@ first rows:</p>
 ## 11    TRUE   FALSE</code></pre>
 <p>To count the number of rows we can use the <code>nrow()</code> function.</p>
 <div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="conditional-probability.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(sel_joint)</span></code></pre></div>
-<pre><code>## [1] 1528</code></pre>
+<pre><code>## [1] 1529</code></pre>
 <p>It says that the number of notebook lines where the SP500 makes an Up move is</p>
-<pre><code>## [1] 1528</code></pre>
+<pre><code>## [1] 1529</code></pre>
 <p>The result
 should not surprise us, for we already derived it using the contingency table.</p>
 <p>Now, let us count the Ups in the Apple price occurring simultaneously with the SP500 ups. Here we
@@ -628,7 +628,7 @@ use the logical operator <code>&amp;</code> which is R’s syntax for the set sy
 <div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="conditional-probability.html#cb318-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
 <p>Now we can make use of R’s coercion rules to count the simultaneous up moves</p>
 <div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="conditional-probability.html#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
-<pre><code>## [1] 1084</code></pre>
+<pre><code>## [1] 1085</code></pre>
 <p>Now we compute the relative frequency of joint up moves among all the lines where
 the SP500 moves up, which is</p>
 <pre><code>## [1] 0.71</code></pre>
