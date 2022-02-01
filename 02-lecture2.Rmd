@@ -1222,7 +1222,7 @@ read it directly from the web.
 
 We download the file directly and store it in an R-object, which we call `eba_data`
 
-```{r download-eba}
+```{r download-eba-sol}
 eba_data <- read.csv("https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv", stringsAsFactors = FALSE)
 ```
 
@@ -1230,7 +1230,7 @@ This should result in an R-object `eba_data` (or whatever name you chose to give
 528550 records of 15 variables. One way to check this would be the `dim()` function we also
 used in the lecture:
 
-```{r check-data-dim}
+```{r check-data-dim-sol}
 dim(eba_data)
 ```
 
@@ -1240,7 +1240,7 @@ dim(eba_data)
 ```
 We refer to our data object by name `eba_data`. You must choose the name you have selected, of course.
 
-```{r extract-names}
+```{r extract-names-sol}
 names(eba_data)
 ```
 
@@ -1253,7 +1253,7 @@ names(eba_data)
 ```
 We overwrite our object name `eba_data`at each step.
 
-```{r scenario filter}
+```{r scenario filter-sol}
 eba_data <- eba_data[eba_data$Scenario == 1, ]
 ```
 
@@ -1271,7 +1271,7 @@ where the Scenario-Variable is equal to 1.
        these will give us country exposures.
 ```
 
-```{r country-select}
+```{r country-select-sol}
 eba_data <- eba_data[eba_data$Country != 0, ]
 ```
 
@@ -1282,7 +1282,7 @@ eba_data <- eba_data[eba_data$Country != 0, ]
        will select all rows where the Porfolio variable has value 1 or 2.
 ```
 
-```{r portfolio-select}
+```{r portfolio-select-sol}
 eba_data <- eba_data[eba_data$Portfolio %in% c(1,2), ]
 ```
 
@@ -1291,7 +1291,7 @@ eba_data <- eba_data[eba_data$Portfolio %in% c(1,2), ]
        gives again disaggregated numbers.
 ```
 
-```{r exposure-select}
+```{r exposure-select-sol}
 eba_data <- eba_data[eba_data$Exposure != 0, ]
 ```
 
@@ -1300,14 +1300,14 @@ eba_data <- eba_data[eba_data$Exposure != 0, ]
 
 ```
 
-```{r filter-status}
+```{r filter-status-sol}
 eba_data <- eba_data[eba_data$Status == 0, ]
 ```
 
 ```
 2-(g) From the resulting data frame choose all the rows where the IFRS9_Stages variable has value        1,2, or 3.
 ```
-```{r filter IFRS}
+```{r filter IFRS-sol}
 eba_data <- eba_data[eba_data$IFRS9_Stages %in% c(1,2,3), ]
 ```
 
@@ -1315,7 +1315,7 @@ eba_data <- eba_data[eba_data$IFRS9_Stages %in% c(1,2,3), ]
 2-(h) From the resulting data frame choose all the rows where the CR_guarantees variable is 0
 
 ```
-```{r filter CR_guarantees}
+```{r filter CR_guarantees-sol}
 eba_data <- eba_data[eba_data$CR_guarantees == 0, ]
 ```
 
@@ -1324,7 +1324,7 @@ eba_data <- eba_data[eba_data$CR_guarantees == 0, ]
 
 ```
 
-```{r filter-smth}
+```{r filter-smth-sol}
 eba_data <- eba_data[eba_data$CR_exp_moratoria == 0, ]
 ```
 
@@ -1333,13 +1333,13 @@ eba_data <- eba_data[eba_data$CR_exp_moratoria == 0, ]
    
 ```
 
-```{r filter-zero-am}
+```{r filter-zero-am-sol}
 eba_data <- eba_data[eba_data$Amount!= 0, ]
 ```
 
 This results in a new data frame with dimension:
 
-```{r dim-new}
+```{r dim-new-sol}
 dim(eba_data)
 ```
 
@@ -1347,7 +1347,7 @@ dim(eba_data)
 3. Check the type of the Amount variable.
 
 ```
-```{r check-type-of-Amount}
+```{r check-type-of-Amount-sol}
 typeof(eba_data$Amount)
 ```
 
@@ -1358,7 +1358,7 @@ type. We have reported amounts as strings of characters not as numerics in the d
 ```
 4. Transform the Amount variable to type `numeric()`
 ```
-```{r change-type-of-Amount}
+```{r change-type-of-Amount-sol}
 eba_data$Amount <- as.numeric(eba_data$Amount)
 ```
 
@@ -1366,7 +1366,7 @@ eba_data$Amount <- as.numeric(eba_data$Amount)
 5. Check for NA in the Amount variable in the resulting data frame and if you find any, remove them. 
 ```
 
-```{r type Amount}
+```{r type Amount-sol}
 sum(is.na(eba_data$Amount))
 ```
 
@@ -1377,7 +1377,7 @@ have 5763 instances of `NA`. This comes from the fact that some components in Am
 the character `.` which returns `NA`if `as.numeric()`is applied to it. This seems clear, since
 after all `.` is a string which corresponds to no number.
 
-```{r remove-na-from-amount}
+```{r remove-na-from-amount-sol}
 eba_data <- na.omit(eba_data)
 ```
 
@@ -1387,7 +1387,7 @@ eba_data <- na.omit(eba_data)
 away data smaller than 1 after this transformation.
 
 ```
-```{r change-units-amount}
+```{r change-units-amount-sol}
 eba_data$Amount <- eba_data$Amount*10^6
 ```
 
@@ -1395,7 +1395,7 @@ Explanation: If an amount is expressed in units of one million, one million Euro
 we multiply by 10^6 this is expressed as 1 000 000. We transform the Amount variable in this way
 and overwrite the old variable by the values with the new units.
 
-```{r larger-than-0}
+```{r larger-than-0-sol}
 eba_data <- eba_data[eba_data$Amount >= 1, ]
 ```
 
@@ -1408,7 +1408,7 @@ variable with name LD to your data frame.
 
 ```
 
-```{r select-leading digit}
+```{r select-leading digit-sol}
 eba_data$LD <- as.character(eba_data$Amount) |>
    substr(1,1)
 ```
@@ -1424,7 +1424,7 @@ equivalent to `substr(as.character(eba_data$Amount),1,1)`
 from Benford's law. Do the data look ok or suspicious?
 ```
 
-```{r compare-data}
+```{r compare-data-sol}
 comptable <- as.data.frame(table(eba_data$LD)/length(eba_data$LD))
 names(comptable) <- c("Digit", "Freq")
 ```
@@ -1434,16 +1434,16 @@ the number of observations using the `length()`function to get proportions. The 
 operation is then forced into a data frame and saved in the variable `comptable` we assign the 
 names `Digit`and `Freq` to the variables.
 
-```{r add-benford-frequencies}
+```{r add-benford-frequencies-sol}
 comptable$Freq_Benf <- log10(1 + 1/as.numeric(comptable$Digit))
 ```
 
-Explanation: We add a new variable to our data frame using the formula for Benfords law for
+Explanation: We add a new variable to our data frame using the formula for Benford's law for
 the distribution of digits $\{1,2,3,4,5,6,7,8,9\}$. Since we do a computation 
 with logs and division we have to be careful to change the type of our character numbers which are
 expressed as strings to numerical types first.
 
-```{r display}
+```{r display-sol}
 comptable
 ```
 The digit distribution matches up very well. So from the perspective of Benford's law about
