@@ -49,7 +49,7 @@ In order to do this let us think of a continuous random variable which can take 
 value in the interval $[0,1]$. We can generate such numbers very easily in R using the
 function `runif()`. Let's create 10 such numbers:
 
-```{r}
+```{r create-uniform-random-variables}
 runif(10, 0, 1)
 ```
 Now you could ask: What is the probability that this random variable takes a particular value of,
@@ -213,7 +213,7 @@ Exactly the same result. This means that this is a property of the normal distri
 independent in which unit we measure the random variable. The standardization has no
 influence on the distribution. It is a simple change of units.
 
-Finally, let us check how good the normal random variable catches the empirical return
+Finally, let us check how well the normal random variable catches the empirical return
 distribution we see in the data.
 ```{r empirical distribution}
 sum(sp500$returns >= (mean_ret_sp500 - sigma_ret_sp500) & 
@@ -368,7 +368,7 @@ qnorm(0.05, mean = muw, sd = sdw)
 qnorm(0.01, mean = muw, sd = sdw)
 ```
 
-The annual $95 \%$ value at risk is thus $6\,465\,511$ and the $99 \%$ Value at risk is 
+The weekly $95 \%$ value at risk is thus $6\,465\,511$ and the $99 \%$ Value at risk is 
 $9\, 222\, 811$ Euro. In both cases your equity will protect you from a wipe out. In the
 first case with a bit of a margin, if not very much, in the second case the margin is so thin that
 you might be worried still. 
@@ -430,7 +430,7 @@ Q-Q-Plot
 is a graphical method for comparing two probability distributions by plotting 
 their quantiles against each other. If the two distributions are similar, 
 then all points of the QQ-plot will lie roughly on the 45 degree line.
-lie roughly.
+
 
 The QQ-plot does basically in a different way what we tried to figure out by using the empirical
 CDF. Let us do this for our return data. 
@@ -493,7 +493,7 @@ also for sums of more than two normally distributed random variables.
 If we have a vector $x$ of $n$ jointly normally distributed random
 variables, their joint probability density is given by
 \begin{equation*}
-p(x) = \frac{1}{(2 \, \pi)^{\frac{n}{2}} |C|^{\frac{1}{2}}}\exp(-\frac{1}{2}((x - E(x)^T C^{-1}(x - E(x)))
+p(x) = \frac{1}{(2 \, \pi)^{\frac{n}{2}} |C|^{\frac{1}{2}}}\exp(-\frac{1}{2}((x - E(x))^T C^{-1}(x - E(x)))
 \end{equation*}
 In this formula $C$ denoted the variance-covariance function and $| |$
 denotes the determinant. Don't worry if you do not exactly know what 
@@ -531,6 +531,7 @@ factor $\epsilon_n$ which is for all obligors $n$ also
 a standard normal random variable. Thus the total value follows
 \begin{equation*}
 V_n(T) = \sqrt{\rho}\, Y + \sqrt{1-\rho}\epsilon_n \quad \text{for all}\,\,\, n \leq N
+\end{equation*}
 The parameter $\rho$ describes the correlation coefficient between
 the value of assets of any two obligors $n \neq m$ and its value is
 also provided to you be your staff. Now you make an additional important assumption which will allow you to leverage all your hard work from the

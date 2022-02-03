@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-02-01" />
+<meta name="date" content="2022-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -216,7 +216,6 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2.7" data-path="basic-rules.html"><a href="basic-rules.html#summary-lecture-2"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
 <li class="chapter" data-level="2.8" data-path="basic-rules.html"><a href="basic-rules.html#project2"><i class="fa fa-check"></i><b>2.8</b> Project 2: Should we trust European supervisory bank data?</a></li>
-<li class="chapter" data-level="2.9" data-path="basic-rules.html"><a href="basic-rules.html#project-2-proposal-for-worked-solution"><i class="fa fa-check"></i><b>2.9</b> Project 2: Proposal for worked solution:</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="conditional-probability.html"><a href="conditional-probability.html"><i class="fa fa-check"></i><b>3</b> Conditional Probability</a>
 <ul>
@@ -282,7 +281,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#worked-solutions-for-projects"><i class="fa fa-check"></i><b>6.2</b> Worked Solutions for Projects</a>
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="appendix.html"><a href="appendix.html#project-1-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.1</b> Project 1: Proposal for worked solution</a></li>
-<li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#project-2-proposal-for-worked-solution-1"><i class="fa fa-check"></i><b>6.2.2</b> Project 2: Proposal for worked solution:</a></li>
+<li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#project-2-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.2</b> Project 2: Proposal for worked solution:</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -340,8 +339,8 @@ from the internet.</p>
 retrieve the S&amp;P500 stock market index. To do this we need to know the ticker symbol, which is
 <code>^GSPC</code>. This has to be passed to the <code>tq_get()</code> function and that’s it. Let us save these
 data into an R object, which I call <code>sp500</code>and look at the first entries</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="conditional-probability.html#cb270-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span>
-<span id="cb270-2"><a href="conditional-probability.html#cb270-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="conditional-probability.html#cb223-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span>
+<span id="cb223-2"><a href="conditional-probability.html#cb223-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 8
 ##   symbol date        open  high   low close     volume adjusted
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
@@ -355,7 +354,7 @@ various variables.
 Now let’s retrieve the stock price data of
 Apple beginning at 2011-01-03, the same day as the index data. We know from the
 last lecture that the ticker symbol for Apple os <code>AAPL</code>. This means we can use the command:</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="conditional-probability.html#cb272-1" aria-hidden="true" tabindex="-1"></a>apple <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="conditional-probability.html#cb225-1" aria-hidden="true" tabindex="-1"></a>apple <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;AAPL&quot;</span>, <span class="at">from =</span> <span class="st">&quot; 2011-01-03&quot;</span>)</span></code></pre></div>
 <p>You can give a beginning date to the argument <code>from</code> in the <code>tq_get()</code> function (you can guess
 that you can also give an end data <code>to</code> as an argument to <code>tq_get</code>)</p>
 <p>For the contingency table we would like to count the number of days when the
@@ -370,9 +369,9 @@ could theoretically also not change at all).</p>
 you of the <code>diff()</code> function, we already used in lecture 2. It implements a method for
 computing differences in time series. Consider the following example: Say we have
 a vector of values like</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="conditional-probability.html#cb273-1" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="conditional-probability.html#cb226-1" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">10</span>)</span></code></pre></div>
 <p>and we apply the <code>diff()</code>function we will get</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="conditional-probability.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(val)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="conditional-probability.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(val)</span></code></pre></div>
 <pre><code>## [1]  2  3 -6  8  1</code></pre>
 <p>Now, of course by taking differences between 4 and 2, 7 and 4, 1 and 7, 9 and 1, ans 10 and 9 we
 have to drop the first observation and get a vector which is shorter than <code>val</code> by one component.
@@ -389,9 +388,9 @@ column “changes” and compute the changes in the closing price by the <code>d
 Now, since we loose the first value here by taking the first difference, let us
 replace it by NA and from a new column of price differences with the first observation
 replace by NA. Thus we type:</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="conditional-probability.html#cb276-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(sp500<span class="sc">$</span>close))</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="conditional-probability.html#cb229-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(sp500<span class="sc">$</span>close))</span></code></pre></div>
 <p>Lets do the same for the Apple stock price.</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="conditional-probability.html#cb277-1" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(apple<span class="sc">$</span>close))</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="conditional-probability.html#cb230-1" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(apple<span class="sc">$</span>close))</span></code></pre></div>
 <p>Note that I did not specify the <code>lag</code> argument in the <code>diff()</code>function. This i can do
 because the <code>lag</code>argument is set to a value of 1 by default, and this is the value I
 just need now, because we are looking for daily changes.</p>
@@ -409,25 +408,25 @@ arithmetic operations or in comparisons, you will be returned <code>NA</code>.</
 create practical problems. If you would for instance try to compute the
 average price change of the apple
 stock price</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="conditional-probability.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="conditional-probability.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes)</span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <p>This is, of course, annoying. Just because there is one <code>NA</code> at the beginning of more than 2700
 records, you should still be able to compute the mean. You just need to drop the <code>NA</code>. R has
 an argument to most statistical functions, which allow you to drop the <code>NA</code> before you do the
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="conditional-probability.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.05846831</code></pre>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="conditional-probability.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>## [1] 0.05880632</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="conditional-probability.html#cb282-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="conditional-probability.html#cb235-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">NA</span>)</span></code></pre></div>
 <p>and then apply:</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="conditional-probability.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(vec)</span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="conditional-probability.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(vec)</span></code></pre></div>
 <pre><code>## [1] FALSE  TRUE FALSE FALSE  TRUE</code></pre>
 <p>we get a vector of logical values. This vector would allow us then, by R’s subsetting rules, to
 select the non-NA values. We just tell R to select all elements from <code>vec</code> which are not <code>NA</code>:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="conditional-probability.html#cb285-1" aria-hidden="true" tabindex="-1"></a>vec[<span class="sc">!</span><span class="fu">is.na</span>(vec)]</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="conditional-probability.html#cb238-1" aria-hidden="true" tabindex="-1"></a>vec[<span class="sc">!</span><span class="fu">is.na</span>(vec)]</span></code></pre></div>
 <pre><code>## [1] 1 2 3</code></pre>
 <p>This end our short digression into the treatment of missing information in R.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
 <p>Let us now count the up moves and the down moves in the index and in the
@@ -435,18 +434,18 @@ Apple stock. Since there are only these two outcomes
 it is sufficient if we add a logical column to both dataframes, checking the condition that
 the change variable is larger than zero (note that with this test we automatically would
 count the possible cases where the stock price remains unchanged to the down movements).</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="conditional-probability.html#cb287-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>up <span class="ot">&lt;-</span> (sp500<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb287-2"><a href="conditional-probability.html#cb287-2" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>up <span class="ot">&lt;-</span> (apple<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="conditional-probability.html#cb240-1" aria-hidden="true" tabindex="-1"></a>sp500<span class="sc">$</span>up <span class="ot">&lt;-</span> (sp500<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb240-2"><a href="conditional-probability.html#cb240-2" aria-hidden="true" tabindex="-1"></a>apple<span class="sc">$</span>up <span class="ot">&lt;-</span> (apple<span class="sc">$</span>changes <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
 <p>We can now tabulate the joint up and down moves using the <code>table()</code> function. We give the
 <code>dnn</code> argument to the function, so we can see which are the dimensions in the table computation
 R is performing for us. We also add the marginal sums by giving the output of the
 <code>table</code> function to the <code>addmargins()</code> function of R:</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="conditional-probability.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="conditional-probability.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
 ##   FALSE   878  380 1258
-##   TRUE    444 1086 1530
-##   Sum    1322 1466 2788</code></pre>
+##   TRUE    445 1087 1532
+##   Sum    1323 1467 2790</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -485,17 +484,17 @@ not the same.
 these concepts using the frequency interpretation of probability: We divide
 each entry in our table by the total number of cases. Of course this is so frequent
 a case in applied data analysis that R has a function for it, the <code>prop.table()</code> function:</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="conditional-probability.html#cb290-1" aria-hidden="true" tabindex="-1"></a>prop_table <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(</span>
-<span id="cb290-2"><a href="conditional-probability.html#cb290-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>(</span>
-<span id="cb290-3"><a href="conditional-probability.html#cb290-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>))</span>
-<span id="cb290-4"><a href="conditional-probability.html#cb290-4" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb290-5"><a href="conditional-probability.html#cb290-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb290-6"><a href="conditional-probability.html#cb290-6" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="conditional-probability.html#cb243-1" aria-hidden="true" tabindex="-1"></a>prop_table <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(</span>
+<span id="cb243-2"><a href="conditional-probability.html#cb243-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>(</span>
+<span id="cb243-3"><a href="conditional-probability.html#cb243-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>))</span>
+<span id="cb243-4"><a href="conditional-probability.html#cb243-4" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb243-5"><a href="conditional-probability.html#cb243-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb243-6"><a href="conditional-probability.html#cb243-6" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3149211 0.1362984 0.4512195
-##   TRUE  0.1592539 0.3895265 0.5487805
-##   Sum   0.4741750 0.5258250 1.0000000</code></pre>
+##   FALSE 0.3146953 0.1362007 0.4508961
+##   TRUE  0.1594982 0.3896057 0.5491039
+##   Sum   0.4741935 0.5258065 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -609,15 +608,15 @@ it’s symbol is <code>|&gt;</code>. It allows you to make code in which several
 more readable. The way it works is that you can use the pipe to send a line of code or the
 output of a fucntion as input to another function. In our case we would first create a data frame
 and then pipe the frame to <code>na.omit()</code> to finally save it in an object we call <code>joint_ups</code>:</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="conditional-probability.html#cb296-1" aria-hidden="true" tabindex="-1"></a>joint_ups <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">SP500Up =</span> sp500<span class="sc">$</span>up, <span class="at">AppleUp =</span> apple<span class="sc">$</span>up) <span class="sc">|</span><span class="er">&gt;</span></span>
-<span id="cb296-2"><a href="conditional-probability.html#cb296-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="conditional-probability.html#cb249-1" aria-hidden="true" tabindex="-1"></a>joint_ups <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">SP500Up =</span> sp500<span class="sc">$</span>up, <span class="at">AppleUp =</span> apple<span class="sc">$</span>up) <span class="sc">|</span><span class="er">&gt;</span></span>
+<span id="cb249-2"><a href="conditional-probability.html#cb249-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code></pre></div>
 <p>Before R 4.1.0 there was a pipe operator with this functionality available through the <code>magittr</code> package, where it had the symbol <code>%&gt;%</code>. When you work with R you will encounter this version of
 the pipe sooner or later.</p>
 <p>Now we apply what we have already learned about referencing values in a data frame in R to
 select all the row numbers in our fictitious notebook where the SP500 moves Up and look at the
 first rows:</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="conditional-probability.html#cb297-1" aria-hidden="true" tabindex="-1"></a>sel_joint <span class="ot">&lt;-</span> joint_ups[joint_ups<span class="sc">$</span>SP500Up <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span>
-<span id="cb297-2"><a href="conditional-probability.html#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sel_joint, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="conditional-probability.html#cb250-1" aria-hidden="true" tabindex="-1"></a>sel_joint <span class="ot">&lt;-</span> joint_ups[joint_ups<span class="sc">$</span>SP500Up <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span>
+<span id="cb250-2"><a href="conditional-probability.html#cb250-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sel_joint, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##    SP500Up AppleUp
 ## 3     TRUE    TRUE
 ## 7     TRUE   FALSE
@@ -625,18 +624,18 @@ first rows:</p>
 ## 10    TRUE    TRUE
 ## 11    TRUE   FALSE</code></pre>
 <p>To count the number of rows we can use the <code>nrow()</code> function.</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="conditional-probability.html#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(sel_joint)</span></code></pre></div>
-<pre><code>## [1] 1530</code></pre>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="conditional-probability.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(sel_joint)</span></code></pre></div>
+<pre><code>## [1] 1532</code></pre>
 <p>It says that the number of notebook lines where the SP500 makes an Up move is</p>
-<pre><code>## [1] 1530</code></pre>
+<pre><code>## [1] 1532</code></pre>
 <p>The result
 should not surprise us, for we already derived it using the contingency table.</p>
 <p>Now, let us count the Ups in the Apple price occurring simultaneously with the SP500 ups. Here we
 use the logical operator <code>&amp;</code> which is R’s syntax for the set symbol <span class="math inline">\(\cap\)</span>:</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="conditional-probability.html#cb302-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="conditional-probability.html#cb255-1" aria-hidden="true" tabindex="-1"></a>joint_ups<span class="sc">$</span>simultaneous <span class="ot">=</span> (joint_ups<span class="sc">$</span>SP500Up <span class="sc">&amp;</span> joint_ups<span class="sc">$</span>AppleUp)</span></code></pre></div>
 <p>Now we can make use of R’s coercion rules to count the simultaneous up moves</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="conditional-probability.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
-<pre><code>## [1] 1086</code></pre>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="conditional-probability.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(joint_ups<span class="sc">$</span>simultaneous)</span></code></pre></div>
+<pre><code>## [1] 1087</code></pre>
 <p>Now we compute the relative frequency of joint up moves among all the lines where
 the SP500 moves up, which is</p>
 <pre><code>## [1] 0.71</code></pre>
@@ -1182,28 +1181,28 @@ a coin flip is worth. Suppose the referee is flipping a green coin. On a single 
 coin will land either heads or tails but over many flips it will land heads in about 70 %
 of the cases, in which you get 2 and 30 % of the cases in which you get nothing.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> Let’s use
 R to make a green coin and flip it, using the sample function, as we did already in lecture 2:</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="conditional-probability.html#cb306-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb306-2"><a href="conditional-probability.html#cb306-2" aria-hidden="true" tabindex="-1"></a>  green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
-<span id="cb306-3"><a href="conditional-probability.html#cb306-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
-<span id="cb306-4"><a href="conditional-probability.html#cb306-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="conditional-probability.html#cb259-1" aria-hidden="true" tabindex="-1"></a>flip_green_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb259-2"><a href="conditional-probability.html#cb259-2" aria-hidden="true" tabindex="-1"></a>  green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
+<span id="cb259-3"><a href="conditional-probability.html#cb259-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb259-4"><a href="conditional-probability.html#cb259-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Observe that we can implement the bias of this coin by specifying a probability distribution for
 heads and tails, by specifying the <code>prob</code> argument appropriately. When we did a coin flip earlier
 in our lecture we dropped this argument and R assumed then that we we will assume classical
 probability, in which case each outcome should get a probability 1/2.</p>
 <p>Now let’s do a round of 100 flips:</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="conditional-probability.html#cb307-1" aria-hidden="true" tabindex="-1"></a>green_tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">flip_green_coin</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="conditional-probability.html#cb260-1" aria-hidden="true" tabindex="-1"></a>green_tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">flip_green_coin</span>())</span></code></pre></div>
 <p>Now lets compute the average payoff we would have got in this round. Let us
 select the <code>"H"</code> outcomes and calculate its length:</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="conditional-probability.html#cb308-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
-<span id="cb308-2"><a href="conditional-probability.html#cb308-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 69</code></pre>
-<p>This means we have 69 cases where we get 2 and 31
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="conditional-probability.html#cb261-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
+<span id="cb261-2"><a href="conditional-probability.html#cb261-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
+<pre><code>## [1] 66</code></pre>
+<p>This means we have 66 cases where we get 2 and 34
 cases where we get 0. Thus on average
 we will get:</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="conditional-probability.html#cb310-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.38</code></pre>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="conditional-probability.html#cb263-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 1.32</code></pre>
 <p>So if we payed 1.20 for that round we would make a profit of
-0.18. The reasoning behind this argument is that the payoff
+0.12. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
 of flips it will come up heads approximately 7 out of 10 and thus will pay on
@@ -1212,10 +1211,10 @@ view of a random payoff associated with the coin is technically called a <em>ran
 the average payoff over many rounds is technically called an <em>expected value</em>. These important
 notions of probability theory we will discuss more precisely in the next lecture, lecture 4.</p>
 <p>For now you see the idea. If the coin is green we should pay for the flip at most</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="conditional-probability.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="conditional-probability.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.3</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
 <pre><code>## [1] 1.4</code></pre>
 <p>and if its red</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="conditional-probability.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.7</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="conditional-probability.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.7</span><span class="sc">*</span><span class="dv">0</span></span></code></pre></div>
 <pre><code>## [1] 0.6</code></pre>
 <p>In the investment game, we do - however - not know whether the referee is using a red or a green
 coin. This we have to guess.</p>
@@ -1225,7 +1224,7 @@ assume we will find out that 9 out of 10 coins are green. So we could make the g
 probability is 0.9 that the randomly draw coin is green.</p>
 <p>Now combining this belief with the
 physical properties of the coin we can make a second order estimate of the value:</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="conditional-probability.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.9</span><span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="conditional-probability.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.9</span><span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.1</span><span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 1.32</code></pre>
 <p>Generally this estimate will be somewhere between 0.6 and 1.4 depending on our prior assessment.</p>
 <p>Now lets start the first round in our investment game. Assume you win the auction for the
@@ -1275,11 +1274,11 @@ bucket, found the ratio 9 to 1 of green coins but the referee drew in fact a red
 flips. You observe the outcome and update your priors in the light of this new evidence.</p>
 <p>Assume we have the following record. We see a data frame with the following sequence of draws by
 the referee:</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="conditional-probability.html#cb318-1" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, </span>
-<span id="cb318-2"><a href="conditional-probability.html#cb318-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
-<span id="cb318-3"><a href="conditional-probability.html#cb318-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
-<span id="cb318-4"><a href="conditional-probability.html#cb318-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
-<span id="cb318-5"><a href="conditional-probability.html#cb318-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="conditional-probability.html#cb271-1" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, </span>
+<span id="cb271-2"><a href="conditional-probability.html#cb271-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb271-3"><a href="conditional-probability.html#cb271-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb271-4"><a href="conditional-probability.html#cb271-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb271-5"><a href="conditional-probability.html#cb271-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span></code></pre></div>
 <p>Now lets add a column with the probability that the outcome occurs, given that our hypothesis that
 the coin is green is in fact true, i.e. we add <span class="math inline">\(P(T|G)\)</span> or <span class="math inline">\(P(H|G)\)</span> respectively.</p>
 <p>This is perhaps a bit complicated, because, say in line 1 we would know that <span class="math inline">\(P(T|G)\)</span> is 0.3, but
@@ -1291,22 +1290,22 @@ usually there are many ways to implement the same thing. So let me make a sugges
 builds as much as possible on what we know already.</p>
 <p>First we add an indicator variable of type <code>logical</code>, which tells us whether it is true that the
 toss of the referee is a win or not and add this to our <code>game_record</code>data frame and call it <code>Win</code>:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="conditional-probability.html#cb319-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> (game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="conditional-probability.html#cb272-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> (game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span>)</span></code></pre></div>
 <p>Then we add a new column, recording the sum of wins up to each round. So for instance it would
 always be 0 in the first four rows but then is 1 after the first head occurs, then stays at 1 until
 the next head occurs when it jumps to 2 etc.</p>
 <p>We can uses the Win variable and R’s coercion rules to apply the <code>cumsum()</code>function of R, which takes cumulative sums. To see how it works, consider the vector:</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="conditional-probability.html#cb320-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="conditional-probability.html#cb273-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>)</span></code></pre></div>
 <p>if you apply <code>cumsum()</code> to <code>v</code> R will coerce the <code>TRUE</code> components to a numeric 1 and the <code>FALSE</code> components to a numeric 0 and then apply the function, like this:</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="conditional-probability.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(v)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="conditional-probability.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(v)</span></code></pre></div>
 <pre><code>## [1] 1 2 2 2 3 4 4 4 5</code></pre>
 <p>We add such a column to our data frame with a new varible <code>Sum_Wins</code>:</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="conditional-probability.html#cb323-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Sum_Wins <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(game_record<span class="sc">$</span>Win)</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="conditional-probability.html#cb276-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Sum_Wins <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(game_record<span class="sc">$</span>Win)</span></code></pre></div>
 <p>Now finally add a column which record the total number of flips and call it <code>Num_Flips</code>. This is
 easy:</p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="conditional-probability.html#cb324-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Num_Flips <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="conditional-probability.html#cb277-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Num_Flips <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span></code></pre></div>
 <p>Let’s have a look at our data frame construction so far:</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="conditional-probability.html#cb325-1" aria-hidden="true" tabindex="-1"></a>game_record</span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="conditional-probability.html#cb278-1" aria-hidden="true" tabindex="-1"></a>game_record</span></code></pre></div>
 <pre><code>##    Data   Win Sum_Wins Num_Flips
 ## 1     T FALSE        0         1
 ## 2     T FALSE        0         2
@@ -1352,29 +1351,29 @@ Since we assume here that the coin is green this is 0.7. With this information a
 <code>dbinom</code> function we can compute all the <span class="math inline">\(P(\text{outcome} | G)\)</span> probabilities and
 add this column to the
 frame.</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="conditional-probability.html#cb327-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POG <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Sum_Wins, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.7</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="conditional-probability.html#cb280-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POG <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Sum_Wins, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.7</span>)</span></code></pre></div>
 <p>The next colum is our prior of <span class="math inline">\(P(G)\)</span> that the coin is indeed green. This is, as we have assumed
 0.9. So this is a column of 30 values each of which is 0.9. This can be done by using the
 <code>rep()</code> function.</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="conditional-probability.html#cb328-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PG <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.9</span>, <span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="conditional-probability.html#cb281-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PG <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.9</span>, <span class="dv">30</span>)</span></code></pre></div>
 <p>Now in the next column we compute the probabilities for <span class="math inline">\(P(\text{outcome} | R)\)</span>, the
 conditional probabilities of the outcome given the coin is red. We use again <code>dbinom()</code>but
 with the appropriately adjusted arguments:</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="conditional-probability.html#cb329-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Sum_Wins, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="conditional-probability.html#cb282-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Sum_Wins, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)</span></code></pre></div>
 <p>Now we add the prior of the coin being red <span class="math inline">\(P(R)\)</span> which is in our case 0.1:</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="conditional-probability.html#cb330-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="conditional-probability.html#cb283-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.1</span>,<span class="dv">30</span>)</span></code></pre></div>
 <p>Now we have almost all the ingredients for computing a Bayesian update at every step. What we
 are still missing is the total probability of the outcome. Note that it can come from two
 sources, which we cannot distinguish just from observing the outcome. If
 you remember our discussion from before this should now look familiar to you:</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="conditional-probability.html#cb331-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="conditional-probability.html#cb284-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span></code></pre></div>
 <p>Now we have all the ingredients to compute at every step the Bayesian update
 <span class="math inline">\(P(G | \text{outcome})\)</span> of our belief that
 the coin is green. We just have to apply the formula now:</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="conditional-probability.html#cb332-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="conditional-probability.html#cb285-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span></code></pre></div>
 <p>Now let us add as a final columns the amount we should bid in each round given the updated
 believes.</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="conditional-probability.html#cb333-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="conditional-probability.html#cb286-1" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
 <p>Let’s have a look at what we’ve got now:</p>
 <table>
 <thead>
