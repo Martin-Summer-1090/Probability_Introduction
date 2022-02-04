@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-02-03" />
+<meta name="date" content="2022-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -282,6 +282,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="appendix.html"><a href="appendix.html#project-1-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.1</b> Project 1: Proposal for worked solution</a></li>
 <li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#project-2-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.2</b> Project 2: Proposal for worked solution:</a></li>
+<li class="chapter" data-level="6.2.3" data-path="appendix.html"><a href="appendix.html#project-3-worked-solution"><i class="fa fa-check"></i><b>6.2.3</b> Project 3: Worked solution</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -352,8 +353,8 @@ a continuous random variable means.</p>
 value in the interval <span class="math inline">\([0,1]\)</span>. We can generate such numbers very easily in R using the
 function <code>runif()</code>. Let’s create 10 such numbers:</p>
 <div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="continuous-random-variables.html#cb402-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>##  [1] 0.97802749 0.36565422 0.76101157 0.14975836 0.40297923 0.07489911
-##  [7] 0.82275584 0.21426083 0.74439625 0.59095263</code></pre>
+<pre><code>##  [1] 0.67608661 0.73559028 0.42682309 0.07859370 0.16269846 0.09598476
+##  [7] 0.30230697 0.81173948 0.64823499 0.31598726</code></pre>
 <p>Now you could ask: What is the probability that this random variable takes a particular value of,
 say <span class="math inline">\(0.4848450\)</span>, one value in our list? We could try simulation.
 Let’s simulate one million such uniformly distributed
@@ -378,7 +379,7 @@ in the case of a continuous random variable we can no longer talk about individu
 distributed random variable <span class="math inline">\(X \sim U[0,1]\)</span> comes
 up with a value between <span class="math inline">\(0\)</span> and <span class="math inline">\(1/4\)</span>? Lets check with our simulated numbers:</p>
 <div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="continuous-random-variables.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">0</span> <span class="sc">&lt;=</span> uniform_rv <span class="sc">&amp;</span> uniform_rv <span class="sc">&lt;=</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)<span class="sc">/</span><span class="fu">length</span>(uniform_rv)</span></code></pre></div>
-<pre><code>## [1] 0.249743</code></pre>
+<pre><code>## [1] 0.249411</code></pre>
 <p>It says 25 %, as we expect from a uniformly distributed probabilities. Let’s try R’s cumulative
 distribution function, or <span class="math inline">\(P(X \leq 1/4)\)</span> for the uniform distribution on <span class="math inline">\({\cal S}=[0,1]\)</span>:</p>
 <div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="continuous-random-variables.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="fu">punif</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div>
@@ -781,12 +782,15 @@ way is due to Vasicek 1997 and works as follows:</p>
 <dt>Obligor value model</dt>
 <dd>The <strong>simplified obligor value model</strong> makes the following basic
 assumptions:
-1. Each obligor in the loan portfolio is characterized by the monetary
+</dd>
+</dl>
+<ol style="list-style-type: decimal">
+<li><p>Each obligor in the loan portfolio is characterized by the monetary
 value of assets. The value of assets of obligor <span class="math inline">\(n\)</span> at time <span class="math inline">\(t\)</span> is
-<span class="math inline">\(V_n(t)\)</span>.
-2. It is assumed that the asset value at the time horizon <span class="math inline">\(T\)</span> has a normal distribution and the asset values are standardized, so t_hat <span class="math inline">\(V_n(0)=0\)</span> and <span class="math inline">\(V_n(T) \sim N(0,1)\)</span>.
-3. Obligor <span class="math inline">\(n\)</span> defaults, if its firm value at the time horizon <span class="math inline">\(T\)</span>, <span class="math inline">\(V(T)\)</span> falls below a prespecified barrier <span class="math inline">\(K_n\)</span>, such that <span class="math inline">\(V_n(T) \leq K_n\)</span>. The asset values of different obligors are <em>correlated</em> with each other. The variance covariance matrix of <span class="math inline">\(V_1(T), V_2(T), \cdots, V_n(T)\)</span> is denoted by <span class="math inline">\(C\)</span>.
-4. You and your staff have jointly developed a model for the asset
+<span class="math inline">\(V_n(t)\)</span>.</p></li>
+<li><p>It is assumed that the asset value at the time horizon <span class="math inline">\(T\)</span> has a normal distribution and the asset values are standardized, so t_hat <span class="math inline">\(V_n(0)=0\)</span> and <span class="math inline">\(V_n(T) \sim N(0,1)\)</span>.</p></li>
+<li><p>Obligor <span class="math inline">\(n\)</span> defaults, if its firm value at the time horizon <span class="math inline">\(T\)</span>, <span class="math inline">\(V(T)\)</span> falls below a prespecified barrier <span class="math inline">\(K_n\)</span>, such that <span class="math inline">\(V_n(T) \leq K_n\)</span>. The asset values of different obligors are <em>correlated</em> with each other. The variance covariance matrix of <span class="math inline">\(V_1(T), V_2(T), \cdots, V_n(T)\)</span> is denoted by <span class="math inline">\(C\)</span>.</p></li>
+<li><p>You and your staff have jointly developed a model for the asset
 values of the different obligors. In this model the values of the
 assets of the obligors are driven by a common factor <span class="math inline">\(Y\)</span> which is
 a standard normally distributed random variable and an idiosyncratic
@@ -797,31 +801,32 @@ V_n(T) = \sqrt{\rho}\, Y + \sqrt{1-\rho}\epsilon_n \quad \text{for all}\,\,\, n 
 \end{equation*}\]</span>
 The parameter <span class="math inline">\(\rho\)</span> describes the correlation coefficient between
 the value of assets of any two obligors <span class="math inline">\(n \neq m\)</span> and its value is
-also provided to you be your staff. Now you make an additional important assumption which will allow you to leverage all your hard work from the
-previous project: Conditional on the realisation of the systematic factor <span class="math inline">\(Y\)</span>, firm values and firm defaults ars <strong>independent</strong>.
-</dd>
-</dl>
-<p>\end{equation*}</p>
+also provided to you be your staff. Now you make an additional
+important assumption which will allow you to leverage all your hard work from the
+previous project: Conditional on the realization of the
+systematic factor <span class="math inline">\(Y\)</span>, firm values and firm defaults are <strong>independent</strong>.</p></li>
+</ol>
 <p>Your staff has produced data analysis on the covariance matrix of
 obligors asset values and provides you with <span class="math inline">\(C\)</span>. Furthermore it
-provides you with the default probabilities of each obligor <span class="math inline">\(n\)</span>, given by <span class="math inline">\(p_n\)</span>. Now you are going to analyze, contrary to the simplified
+provides you with the default probabilities of each obligor <span class="math inline">\(n\)</span>, given
+by <span class="math inline">\(p_n\)</span>. Now you are going to analyze, contrary to the simplified
 model from before, a more realistic situation where defaults
 are no longer independent by using the model assumptions outlined
 above.</p>
 <ol style="list-style-type: decimal">
-<li>Your first task is that you take the <span class="math inline">\(p_n\)</span> provided to you by
-your staff and calibrate the default barriers <span class="math inline">\(K_n\)</span> from these data.</li>
-<li>Conditional on <span class="math inline">\(Y = y\)</span>, what is the probability of having <span class="math inline">\(n\)</span> defaults in terms of the formula for the probability distribution of
-a binomial random varible?</li>
-<li>Using the assumptions on the model for the firm value, can you
+<li><p>Your first task is that you take the <span class="math inline">\(p_n\)</span> provided to you by
+your staff and calibrate the default barriers <span class="math inline">\(K_n\)</span> from these data.</p></li>
+<li><p>Conditional on <span class="math inline">\(Y = y\)</span>, what is the probability of having <span class="math inline">\(n\)</span> defaults in terms of the formula for the probability distribution of
+a binomial random varible?</p></li>
+<li><p>Using the assumptions on the model for the firm value, can you
 figure out which expression you need to plug into <code>qnorm()</code> to
-get the probability of <span class="math inline">\(p_n(y) = P(V_n(T) &lt; K_n | Y = y)\)</span>?</li>
-<li>Please combine the answers to 2 and 3 to simulate and plot
-the loss distribution assuming for your given <span class="math inline">\(\rho\)</span>.</li>
-<li>Plot distribution under higher and lower correlation as well as
-under <span class="math inline">\(\rho = 0\)</span>.</li>
-<li>What is the <span class="math inline">\(99\%\)</span> Value at risk, given <span class="math inline">\(\rho\)</span> provided by your
-staff?</li>
+get the probability of <span class="math inline">\(p_n(y) = P(V_n(T) &lt; K_n | Y = y)\)</span>?</p></li>
+<li><p>Please combine the answers to 2 and 3 to simulate and plot
+the loss distribution assuming for your given <span class="math inline">\(\rho\)</span>.</p></li>
+<li><p>Plot distribution under higher and lower correlation as well as
+under <span class="math inline">\(\rho = 0\)</span>.</p></li>
+<li><p>What is the <span class="math inline">\(99\%\)</span> Value at risk, given <span class="math inline">\(\rho\)</span> provided by your
+staff?</p></li>
 </ol>
 
 </div>

@@ -24,7 +24,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-02-03" />
+<meta name="date" content="2022-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -282,6 +282,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="6.2.1" data-path="appendix.html"><a href="appendix.html#project-1-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.1</b> Project 1: Proposal for worked solution</a></li>
 <li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#project-2-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.2</b> Project 2: Proposal for worked solution:</a></li>
+<li class="chapter" data-level="6.2.3" data-path="appendix.html"><a href="appendix.html#project-3-worked-solution"><i class="fa fa-check"></i><b>6.2.3</b> Project 3: Worked solution</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -588,7 +589,7 @@ many such runs you will get a clearer picture.</p>
 <span id="cb454-17"><a href="appendix.html#cb454-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>One round:</p>
 <div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="appendix.html#cb455-1" aria-hidden="true" tabindex="-1"></a><span class="fu">craps</span>(<span class="dv">1000</span>,<span class="fl">0.15</span>)</span></code></pre></div>
-<pre><code>## [1] 13</code></pre>
+<pre><code>## [1] 21</code></pre>
 <p>Here you have a gain. But this could be due to randomness. To see clearer you might want
 to do many repetitions for this, say 1000.</p>
 <div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="appendix.html#cb457-1" aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">craps</span>(<span class="dv">1000</span>,<span class="fl">0.15</span>))</span></code></pre></div>
@@ -736,6 +737,275 @@ the distribution of leading digits the EBA exposure data from the one data file 
 here look perfectly ok and seem not to be cooked up in any way. Note that this does not mean
 that there are no problems in these data. This analysis jsut provides some first order
 evidence that the data seem not to be obviously manipulated or forged.</p>
+</div>
+<div id="project-3-worked-solution" class="section level3" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Project 3: Worked solution</h3>
+<p>In this project we stay within the frame and the rules of the investment game
+discussed in the lecture but we investigate the game a bit in more detail.</p>
+<ol style="list-style-type: decimal">
+<li>Suppose we are in a new round and a red coin is actually used. But you think initially it is
+green. Assuming you prior beliefs are
+<ol style="list-style-type: lower-roman">
+<li>0.5 (no idea)</li>
+<li>0.9 (likely green),</li>
+<li>0.99 (very likely green)</li>
+<li>0.999 (almost surely green).</li>
+</ol></li>
+</ol>
+<p>What will be the estimates of
+the coin value in these different cases?</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>By how many flips will you get to the an estimate of 0.601 for each given
+prior?</p></li>
+<li><p>Can you visualize the adjustment of the value estimate over the 30 rounds for the different
+priors?</p></li>
+<li><p>How will the estimates of the worth of each flip develop if the green coin is used for each
+of the previous priors?</p></li>
+</ol>
+<pre><code>1. Suppose we are in a new round and a red coin is actually used. But you think initially it is
+green. Assuming you prior beliefs are 
+   i) 0.5 (no idea)
+   ii) 0.9 (likely green), 
+   iii) 0.99 (very likely green)
+   iv) 0.999 (almost surely green). 
+
+What will be the estimates of 
+the coin value in these different cases?
+</code></pre>
+<p>We start with the game data or the record we had used in our lecture but with different
+priors:</p>
+<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="appendix.html#cb507-1" aria-hidden="true" tabindex="-1"></a>prior_scenarios <span class="ot">&lt;-</span> <span class="cf">function</span>(pg){</span>
+<span id="cb507-2"><a href="appendix.html#cb507-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb507-3"><a href="appendix.html#cb507-3" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, </span>
+<span id="cb507-4"><a href="appendix.html#cb507-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb507-5"><a href="appendix.html#cb507-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb507-6"><a href="appendix.html#cb507-6" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, </span>
+<span id="cb507-7"><a href="appendix.html#cb507-7" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;T&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>))</span>
+<span id="cb507-8"><a href="appendix.html#cb507-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb507-9"><a href="appendix.html#cb507-9" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> (game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span>)</span>
+<span id="cb507-10"><a href="appendix.html#cb507-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb507-11"><a href="appendix.html#cb507-11" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Sum_Wins <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(game_record<span class="sc">$</span>Win)</span>
+<span id="cb507-12"><a href="appendix.html#cb507-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb507-13"><a href="appendix.html#cb507-13" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Num_Flips <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span>
+<span id="cb507-14"><a href="appendix.html#cb507-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb507-15"><a href="appendix.html#cb507-15" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POG <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Sum_Wins, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.7</span>)</span>
+<span id="cb507-16"><a href="appendix.html#cb507-16" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Sum_Wins, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)  </span>
+<span id="cb507-17"><a href="appendix.html#cb507-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb507-18"><a href="appendix.html#cb507-18" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PG <span class="ot">&lt;-</span> <span class="fu">rep</span>(pg, <span class="dv">30</span>)  </span>
+<span id="cb507-19"><a href="appendix.html#cb507-19" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>((<span class="dv">1</span><span class="sc">-</span>pg), <span class="dv">30</span>)</span>
+<span id="cb507-20"><a href="appendix.html#cb507-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb507-21"><a href="appendix.html#cb507-21" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span>
+<span id="cb507-22"><a href="appendix.html#cb507-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb507-23"><a href="appendix.html#cb507-23" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span>
+<span id="cb507-24"><a href="appendix.html#cb507-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb507-25"><a href="appendix.html#cb507-25" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb507-26"><a href="appendix.html#cb507-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb507-27"><a href="appendix.html#cb507-27" aria-hidden="true" tabindex="-1"></a>game_record</span>
+<span id="cb507-28"><a href="appendix.html#cb507-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb507-29"><a href="appendix.html#cb507-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="appendix.html#cb508-1" aria-hidden="true" tabindex="-1"></a>scenario_1 <span class="ot">&lt;-</span> <span class="fu">prior_scenarios</span>(<span class="fl">0.5</span>)</span>
+<span id="cb508-2"><a href="appendix.html#cb508-2" aria-hidden="true" tabindex="-1"></a>scenario_2 <span class="ot">&lt;-</span> <span class="fu">prior_scenarios</span>(<span class="fl">0.9</span>)</span>
+<span id="cb508-3"><a href="appendix.html#cb508-3" aria-hidden="true" tabindex="-1"></a>scenario_3 <span class="ot">&lt;-</span> <span class="fu">prior_scenarios</span>(<span class="fl">0.99</span>)</span>
+<span id="cb508-4"><a href="appendix.html#cb508-4" aria-hidden="true" tabindex="-1"></a>scenario_4 <span class="ot">&lt;-</span> <span class="fu">prior_scenarios</span>(<span class="fl">0.999</span>)</span></code></pre></div>
+<p>The coin values in the different cases</p>
+<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="appendix.html#cb509-1" aria-hidden="true" tabindex="-1"></a>estimated_values_per_round <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">round =</span> scenario_1<span class="sc">$</span>Num_Flips, </span>
+<span id="cb509-2"><a href="appendix.html#cb509-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">vs1 =</span> scenario_1<span class="sc">$</span>Value,</span>
+<span id="cb509-3"><a href="appendix.html#cb509-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">vs2 =</span> scenario_2<span class="sc">$</span>Value,</span>
+<span id="cb509-4"><a href="appendix.html#cb509-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">vs3 =</span> scenario_3<span class="sc">$</span>Value,</span>
+<span id="cb509-5"><a href="appendix.html#cb509-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">vs4 =</span> scenario_4<span class="sc">$</span>Value)</span>
+<span id="cb509-6"><a href="appendix.html#cb509-6" aria-hidden="true" tabindex="-1"></a>estimated_values_per_round</span></code></pre></div>
+<pre><code>##    round       vs1       vs2       vs3       vs4
+## 1      1 0.8400000 1.2352941 1.3815789 1.3981358
+## 2      2 0.7241379 1.0984615 1.3582979 1.3956637
+## 3      3 0.6583784 0.9317406 1.3090186 1.3899546
+## 4      4 0.6261080 0.7863259 1.2156622 1.3769467
+## 5      5 0.6583784 0.9317406 1.3090186 1.3899546
+## 6      6 0.6261080 0.7863259 1.2156622 1.3769467
+## 7      7 0.6114018 0.6921133 1.0709671 1.3481993
+## 8      8 0.6049266 0.6422575 0.9041661 1.2887375
+## 9      9 0.6021189 0.6186740 0.7665395 1.1809985
+## 10    10 0.6049266 0.6422575 0.9041661 1.2887375
+## 11    11 0.6021189 0.6186740 0.7665395 1.1809985
+## 12    12 0.6049266 0.6422575 0.9041661 1.2887375
+## 13    13 0.6021189 0.6186740 0.7665395 1.1809985
+## 14    14 0.6049266 0.6422575 0.9041661 1.2887375
+## 15    15 0.6114018 0.6921133 1.0709671 1.3481993
+## 16    16 0.6049266 0.6422575 0.9041661 1.2887375
+## 17    17 0.6021189 0.6186740 0.7665395 1.1809985
+## 18    18 0.6049266 0.6422575 0.9041661 1.2887375
+## 19    19 0.6021189 0.6186740 0.7665395 1.1809985
+## 20    20 0.6009095 0.6081113 0.6810109 1.0256392
+## 21    21 0.6003900 0.6034965 0.6368513 0.8621036
+## 22    22 0.6001672 0.6015023 0.6162204 0.7382043
+## 23    23 0.6003900 0.6034965 0.6368513 0.8621036
+## 24    24 0.6001672 0.6015023 0.6162204 0.7382043
+## 25    25 0.6000717 0.6006445 0.6070331 0.6657179
+## 26    26 0.6001672 0.6015023 0.6162204 0.7382043
+## 27    27 0.6003900 0.6034965 0.6368513 0.8621036
+## 28    28 0.6009095 0.6081113 0.6810109 1.0256392
+## 29    29 0.6003900 0.6034965 0.6368513 0.8621036
+## 30    30 0.6001672 0.6015023 0.6162204 0.7382043</code></pre>
+<pre><code>2. By how many flips will you get to the correct estimate of 0.6 for each given
+prior?
+</code></pre>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="appendix.html#cb512-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(estimated_values_per_round<span class="sc">$</span>vs1 <span class="sc">&gt;=</span> <span class="fl">0.601</span>)</span></code></pre></div>
+<pre><code>## [1] 19</code></pre>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="appendix.html#cb514-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(estimated_values_per_round<span class="sc">$</span>vs2 <span class="sc">&gt;=</span> <span class="fl">0.601</span>)</span></code></pre></div>
+<pre><code>## [1] 29</code></pre>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="appendix.html#cb516-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(estimated_values_per_round<span class="sc">$</span>vs3 <span class="sc">&gt;=</span> <span class="fl">0.601</span>)</span></code></pre></div>
+<pre><code>## [1] 30</code></pre>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="appendix.html#cb518-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(estimated_values_per_round<span class="sc">$</span>vs4 <span class="sc">&gt;=</span> <span class="fl">0.601</span>)</span></code></pre></div>
+<pre><code>## [1] 30</code></pre>
+<p>Comment: The beliefs converge faster, if you are not too overconfident. With strong
+overconfidence in your initial belief, there would be no convergence even after 30 rounds.</p>
+<pre><code>3. Can you visualize the adjustment of the value estimate over the 30 rounds for the different
+priors?
+</code></pre>
+<p>Visualization:</p>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="appendix.html#cb521-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(estimated_values_per_round<span class="sc">$</span>round,</span>
+<span id="cb521-2"><a href="appendix.html#cb521-2" aria-hidden="true" tabindex="-1"></a>     estimated_values_per_round<span class="sc">$</span>vs1,</span>
+<span id="cb521-3"><a href="appendix.html#cb521-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb521-4"><a href="appendix.html#cb521-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">2</span>,</span>
+<span id="cb521-5"><a href="appendix.html#cb521-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>),</span>
+<span id="cb521-6"><a href="appendix.html#cb521-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">40</span>),</span>
+<span id="cb521-7"><a href="appendix.html#cb521-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Rounds&quot;</span>,</span>
+<span id="cb521-8"><a href="appendix.html#cb521-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Values&quot;</span>)</span>
+<span id="cb521-9"><a href="appendix.html#cb521-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(estimated_values_per_round<span class="sc">$</span>round,</span>
+<span id="cb521-10"><a href="appendix.html#cb521-10" aria-hidden="true" tabindex="-1"></a>     estimated_values_per_round<span class="sc">$</span>vs2,</span>
+<span id="cb521-11"><a href="appendix.html#cb521-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb521-12"><a href="appendix.html#cb521-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">3</span>)</span>
+<span id="cb521-13"><a href="appendix.html#cb521-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(estimated_values_per_round<span class="sc">$</span>round,</span>
+<span id="cb521-14"><a href="appendix.html#cb521-14" aria-hidden="true" tabindex="-1"></a>     estimated_values_per_round<span class="sc">$</span>vs3,</span>
+<span id="cb521-15"><a href="appendix.html#cb521-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb521-16"><a href="appendix.html#cb521-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">4</span>)</span>
+<span id="cb521-17"><a href="appendix.html#cb521-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(estimated_values_per_round<span class="sc">$</span>round,</span>
+<span id="cb521-18"><a href="appendix.html#cb521-18" aria-hidden="true" tabindex="-1"></a>     estimated_values_per_round<span class="sc">$</span>vs4,</span>
+<span id="cb521-19"><a href="appendix.html#cb521-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb521-20"><a href="appendix.html#cb521-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">5</span>)</span>
+<span id="cb521-21"><a href="appendix.html#cb521-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(estimated_values_per_round<span class="sc">$</span>round,</span>
+<span id="cb521-22"><a href="appendix.html#cb521-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rep</span>(<span class="fl">0.6</span>, <span class="dv">30</span>),</span>
+<span id="cb521-23"><a href="appendix.html#cb521-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb521-24"><a href="appendix.html#cb521-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> <span class="dv">6</span>)</span>
+<span id="cb521-25"><a href="appendix.html#cb521-25" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,                           </span>
+<span id="cb521-26"><a href="appendix.html#cb521-26" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">&quot;pg 0.5&quot;</span>, <span class="st">&quot;pg 0.9&quot;</span>, <span class="st">&quot;pg 0.99&quot;</span>, <span class="st">&quot;pg 0.999&quot;</span>, <span class="st">&quot;true-value&quot;</span>),</span>
+<span id="cb521-27"><a href="appendix.html#cb521-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb521-28"><a href="appendix.html#cb521-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>)</span></code></pre></div>
+<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>Comment: You see the dangers of overconfidence. The more confident you are, the longer it
+takes you to converge to the actual true value of 0.6 in this case.</p>
+<pre><code>4. How will the estimates of the worth of each flip develop if the green coin is used for each
+of the previous priors?
+</code></pre>
+<p>Suppose we flip a green coin 30 times. The sequence we had before came from a red coin. Let’s
+generate a green coin sequence:</p>
+<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="appendix.html#cb523-1" aria-hidden="true" tabindex="-1"></a>flip_green <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb523-2"><a href="appendix.html#cb523-2" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb523-3"><a href="appendix.html#cb523-3" aria-hidden="true" tabindex="-1"></a>   green_coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
+<span id="cb523-4"><a href="appendix.html#cb523-4" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb523-5"><a href="appendix.html#cb523-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sample</span>(green_coin, <span class="dv">1</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb523-6"><a href="appendix.html#cb523-6" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb523-7"><a href="appendix.html#cb523-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Flip 30 times:</p>
+<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="appendix.html#cb524-1" aria-hidden="true" tabindex="-1"></a>draw <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">30</span>, <span class="fu">flip_green</span>())</span></code></pre></div>
+<p>Now do the same fuanction as before and give it the name:
+<code>prior_scenarios_2</code>.</p>
+<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="appendix.html#cb525-1" aria-hidden="true" tabindex="-1"></a>prior_scenarios_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(pg){</span>
+<span id="cb525-2"><a href="appendix.html#cb525-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb525-3"><a href="appendix.html#cb525-3" aria-hidden="true" tabindex="-1"></a>game_record <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Data =</span> draw)</span>
+<span id="cb525-4"><a href="appendix.html#cb525-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb525-5"><a href="appendix.html#cb525-5" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Win <span class="ot">&lt;-</span> (game_record<span class="sc">$</span>Data <span class="sc">==</span> <span class="st">&quot;H&quot;</span>)</span>
+<span id="cb525-6"><a href="appendix.html#cb525-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb525-7"><a href="appendix.html#cb525-7" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Sum_Wins <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(game_record<span class="sc">$</span>Win)</span>
+<span id="cb525-8"><a href="appendix.html#cb525-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb525-9"><a href="appendix.html#cb525-9" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Num_Flips <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span></span>
+<span id="cb525-10"><a href="appendix.html#cb525-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb525-11"><a href="appendix.html#cb525-11" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POG <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Sum_Wins, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.7</span>)</span>
+<span id="cb525-12"><a href="appendix.html#cb525-12" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>POR <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(game_record<span class="sc">$</span>Sum_Wins, game_record<span class="sc">$</span>Num_Flips, <span class="fl">0.3</span>)  </span>
+<span id="cb525-13"><a href="appendix.html#cb525-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb525-14"><a href="appendix.html#cb525-14" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PG <span class="ot">&lt;-</span> <span class="fu">rep</span>(pg, <span class="dv">30</span>)  </span>
+<span id="cb525-15"><a href="appendix.html#cb525-15" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PR <span class="ot">&lt;-</span> <span class="fu">rep</span>((<span class="dv">1</span><span class="sc">-</span>pg), <span class="dv">30</span>)</span>
+<span id="cb525-16"><a href="appendix.html#cb525-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb525-17"><a href="appendix.html#cb525-17" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG <span class="sc">+</span> game_record<span class="sc">$</span>POR<span class="sc">*</span>game_record<span class="sc">$</span>PR</span>
+<span id="cb525-18"><a href="appendix.html#cb525-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb525-19"><a href="appendix.html#cb525-19" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>PGO <span class="ot">&lt;-</span> game_record<span class="sc">$</span>POG<span class="sc">*</span>game_record<span class="sc">$</span>PG<span class="sc">/</span>game_record<span class="sc">$</span>PO</span>
+<span id="cb525-20"><a href="appendix.html#cb525-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb525-21"><a href="appendix.html#cb525-21" aria-hidden="true" tabindex="-1"></a>game_record<span class="sc">$</span>Value <span class="ot">&lt;-</span> game_record<span class="sc">$</span>PGO<span class="sc">*</span><span class="fl">0.7</span><span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>game_record<span class="sc">$</span>PGO)<span class="sc">*</span><span class="fl">0.3</span><span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb525-22"><a href="appendix.html#cb525-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb525-23"><a href="appendix.html#cb525-23" aria-hidden="true" tabindex="-1"></a>game_record</span>
+<span id="cb525-24"><a href="appendix.html#cb525-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb525-25"><a href="appendix.html#cb525-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="appendix.html#cb526-1" aria-hidden="true" tabindex="-1"></a>scenario_1_green <span class="ot">&lt;-</span> <span class="fu">prior_scenarios_2</span>(<span class="fl">0.5</span>)</span>
+<span id="cb526-2"><a href="appendix.html#cb526-2" aria-hidden="true" tabindex="-1"></a>scenario_2_green <span class="ot">&lt;-</span> <span class="fu">prior_scenarios_2</span>(<span class="fl">0.9</span>)</span>
+<span id="cb526-3"><a href="appendix.html#cb526-3" aria-hidden="true" tabindex="-1"></a>scenario_3_green <span class="ot">&lt;-</span> <span class="fu">prior_scenarios_2</span>(<span class="fl">0.99</span>)</span>
+<span id="cb526-4"><a href="appendix.html#cb526-4" aria-hidden="true" tabindex="-1"></a>scenario_4_green <span class="ot">&lt;-</span> <span class="fu">prior_scenarios_2</span>(<span class="fl">0.999</span>)</span></code></pre></div>
+<p>The coin values in the different cases</p>
+<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="appendix.html#cb527-1" aria-hidden="true" tabindex="-1"></a>estimated_values_per_round_2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">round =</span> scenario_1_green<span class="sc">$</span>Num_Flips, </span>
+<span id="cb527-2"><a href="appendix.html#cb527-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">vs1 =</span> scenario_1_green<span class="sc">$</span>Value,</span>
+<span id="cb527-3"><a href="appendix.html#cb527-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">vs2 =</span> scenario_2_green<span class="sc">$</span>Value,</span>
+<span id="cb527-4"><a href="appendix.html#cb527-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">vs3 =</span> scenario_3_green<span class="sc">$</span>Value,</span>
+<span id="cb527-5"><a href="appendix.html#cb527-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">vs4 =</span> scenario_4_green<span class="sc">$</span>Value)</span>
+<span id="cb527-6"><a href="appendix.html#cb527-6" aria-hidden="true" tabindex="-1"></a>estimated_values_per_round_2</span></code></pre></div>
+<pre><code>##    round       vs1      vs2      vs3      vs4
+## 1      1 0.8400000 1.235294 1.381579 1.398136
+## 2      2 0.7241379 1.098462 1.358298 1.395664
+## 3      3 0.8400000 1.235294 1.381579 1.398136
+## 4      4 1.0000000 1.320000 1.392000 1.399200
+## 5      5 1.1600000 1.363636 1.396552 1.399657
+## 6      6 1.2758621 1.384000 1.398519 1.399853
+## 7      7 1.3416216 1.393064 1.399364 1.399937
+## 8      8 1.3738920 1.397012 1.399727 1.399973
+## 9      9 1.3416216 1.393064 1.399364 1.399937
+## 10    10 1.3738920 1.397012 1.399727 1.399973
+## 11    11 1.3885982 1.398717 1.399883 1.399988
+## 12    12 1.3950734 1.399450 1.399950 1.399995
+## 13    13 1.3978811 1.399764 1.399979 1.399998
+## 14    14 1.3990905 1.399899 1.399991 1.399999
+## 15    15 1.3978811 1.399764 1.399979 1.399998
+## 16    16 1.3950734 1.399450 1.399950 1.399995
+## 17    17 1.3885982 1.398717 1.399883 1.399988
+## 18    18 1.3950734 1.399450 1.399950 1.399995
+## 19    19 1.3978811 1.399764 1.399979 1.399998
+## 20    20 1.3990905 1.399899 1.399991 1.399999
+## 21    21 1.3996100 1.399957 1.399996 1.400000
+## 22    22 1.3998328 1.399981 1.399998 1.400000
+## 23    23 1.3999283 1.399992 1.399999 1.400000
+## 24    24 1.3998328 1.399981 1.399998 1.400000
+## 25    25 1.3999283 1.399992 1.399999 1.400000
+## 26    26 1.3999693 1.399997 1.400000 1.400000
+## 27    27 1.3999868 1.399999 1.400000 1.400000
+## 28    28 1.3999693 1.399997 1.400000 1.400000
+## 29    29 1.3999868 1.399999 1.400000 1.400000
+## 30    30 1.3999944 1.399999 1.400000 1.400000</code></pre>
+<p>Visualization:</p>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="appendix.html#cb529-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(estimated_values_per_round_2<span class="sc">$</span>round,</span>
+<span id="cb529-2"><a href="appendix.html#cb529-2" aria-hidden="true" tabindex="-1"></a>     estimated_values_per_round_2<span class="sc">$</span>vs1,</span>
+<span id="cb529-3"><a href="appendix.html#cb529-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb529-4"><a href="appendix.html#cb529-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">2</span>,</span>
+<span id="cb529-5"><a href="appendix.html#cb529-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>),</span>
+<span id="cb529-6"><a href="appendix.html#cb529-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">40</span>),</span>
+<span id="cb529-7"><a href="appendix.html#cb529-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Rounds&quot;</span>,</span>
+<span id="cb529-8"><a href="appendix.html#cb529-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Values&quot;</span>)</span>
+<span id="cb529-9"><a href="appendix.html#cb529-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(estimated_values_per_round_2<span class="sc">$</span>round,</span>
+<span id="cb529-10"><a href="appendix.html#cb529-10" aria-hidden="true" tabindex="-1"></a>     estimated_values_per_round_2<span class="sc">$</span>vs2,</span>
+<span id="cb529-11"><a href="appendix.html#cb529-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb529-12"><a href="appendix.html#cb529-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">3</span>)</span>
+<span id="cb529-13"><a href="appendix.html#cb529-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(estimated_values_per_round_2<span class="sc">$</span>round,</span>
+<span id="cb529-14"><a href="appendix.html#cb529-14" aria-hidden="true" tabindex="-1"></a>     estimated_values_per_round_2<span class="sc">$</span>vs3,</span>
+<span id="cb529-15"><a href="appendix.html#cb529-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb529-16"><a href="appendix.html#cb529-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">4</span>)</span>
+<span id="cb529-17"><a href="appendix.html#cb529-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(estimated_values_per_round_2<span class="sc">$</span>round,</span>
+<span id="cb529-18"><a href="appendix.html#cb529-18" aria-hidden="true" tabindex="-1"></a>     estimated_values_per_round_2<span class="sc">$</span>vs4,</span>
+<span id="cb529-19"><a href="appendix.html#cb529-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb529-20"><a href="appendix.html#cb529-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">5</span>)</span>
+<span id="cb529-21"><a href="appendix.html#cb529-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(estimated_values_per_round<span class="sc">$</span>round,</span>
+<span id="cb529-22"><a href="appendix.html#cb529-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rep</span>(<span class="fl">1.4</span>, <span class="dv">30</span>),</span>
+<span id="cb529-23"><a href="appendix.html#cb529-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb529-24"><a href="appendix.html#cb529-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> <span class="dv">6</span>)</span>
+<span id="cb529-25"><a href="appendix.html#cb529-25" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,                           </span>
+<span id="cb529-26"><a href="appendix.html#cb529-26" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">&quot;pg 0.5&quot;</span>, <span class="st">&quot;pg 0.9&quot;</span>, <span class="st">&quot;pg 0.99&quot;</span>, <span class="st">&quot;pg 0.999&quot;</span>, <span class="st">&quot;true-value&quot;</span>),</span>
+<span id="cb529-27"><a href="appendix.html#cb529-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb529-28"><a href="appendix.html#cb529-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>)</span></code></pre></div>
+<p><img src="Probability_Introduction_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div class="csl-entry">

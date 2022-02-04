@@ -570,3 +570,269 @@ here look perfectly ok and seem not to be cooked up in any way. Note that this d
 that there are no problems in these data. This analysis jsut provides some first order
 evidence that the data seem not to be obviously manipulated or forged.
 
+### Project 3: Worked solution
+
+In this project we stay within the frame and the rules of the investment game 
+discussed in the lecture but we investigate the game a bit in more detail. 
+
+1. Suppose we are in a new round and a red coin is actually used. But you think initially it is
+green. Assuming you prior beliefs are 
+   i)   0.5 (no idea)
+   ii)  0.9 (likely green), 
+   iii) 0.99 (very likely green)
+   iv)  0.999 (almost surely green). 
+
+What will be the estimates of 
+the coin value in these different cases?
+
+2. By how many flips will you get to the an estimate of 0.601 for each given
+prior?
+
+3. Can you visualize the adjustment of the value estimate over the 30 rounds for the different
+priors?
+
+4. How will the estimates of the worth of each flip develop if the green coin is used for each
+of the previous priors?
+
+```
+1. Suppose we are in a new round and a red coin is actually used. But you think initially it is
+green. Assuming you prior beliefs are 
+   i) 0.5 (no idea)
+   ii) 0.9 (likely green), 
+   iii) 0.99 (very likely green)
+   iv) 0.999 (almost surely green). 
+
+What will be the estimates of 
+the coin value in these different cases?
+
+```
+
+We start with the game data or the record we had used in our lecture but with different 
+priors:
+
+```{r}
+prior_scenarios <- function(pg){
+  
+game_record <- data.frame(Data = c("T", "T", "T", "T", "H", 
+                                   "T", "T", "T", "T", "H", "T", 
+                                   "H", "T", "H", "H", "T", "T", 
+                                   "H", "T", "T", "T", "T", "H", "T", 
+                                   "T", "H", "H", "H", "T", "T"))
+
+game_record$Win <- (game_record$Data == "H")
+
+game_record$Sum_Wins <- cumsum(game_record$Win)
+
+game_record$Num_Flips <- 1:30
+
+game_record$POG <- dbinom(game_record$Sum_Wins, game_record$Num_Flips, 0.7)
+game_record$POR <- dbinom(game_record$Sum_Wins, game_record$Num_Flips, 0.3)  
+  
+game_record$PG <- rep(pg, 30)  
+game_record$PR <- rep((1-pg), 30)
+
+game_record$PO <- game_record$POG*game_record$PG + game_record$POR*game_record$PR
+
+game_record$PGO <- game_record$POG*game_record$PG/game_record$PO
+
+game_record$Value <- game_record$PGO*0.7*2 + (1-game_record$PGO)*0.3*2
+
+game_record
+  
+}
+```
+
+
+
+```{r}
+scenario_1 <- prior_scenarios(0.5)
+scenario_2 <- prior_scenarios(0.9)
+scenario_3 <- prior_scenarios(0.99)
+scenario_4 <- prior_scenarios(0.999)
+```
+
+The coin values in the different cases
+
+```{r}
+estimated_values_per_round <- data.frame(round = scenario_1$Num_Flips, 
+                                         vs1 = scenario_1$Value,
+                                         vs2 = scenario_2$Value,
+                                         vs3 = scenario_3$Value,
+                                         vs4 = scenario_4$Value)
+estimated_values_per_round
+```
+
+```
+2. By how many flips will you get to the correct estimate of 0.6 for each given
+prior?
+
+```
+```{r}
+sum(estimated_values_per_round$vs1 >= 0.601)
+```
+
+```{r}
+sum(estimated_values_per_round$vs2 >= 0.601)
+```
+
+```{r}
+sum(estimated_values_per_round$vs3 >= 0.601)
+```
+
+```{r}
+sum(estimated_values_per_round$vs4 >= 0.601)
+```
+
+Comment: The beliefs converge faster, if you are not too overconfident. With strong
+overconfidence in your initial belief, there would be no convergence even after 30 rounds.
+
+```
+3. Can you visualize the adjustment of the value estimate over the 30 rounds for the different
+priors?
+
+```
+
+
+Visualization:
+
+```{r}
+plot(estimated_values_per_round$round,
+     estimated_values_per_round$vs1,
+     type = "l",
+     col = 2,
+     ylim = c(0,1.5),
+     xlim = c(0,40),
+     xlab = "Rounds",
+     ylab = "Values")
+lines(estimated_values_per_round$round,
+     estimated_values_per_round$vs2,
+     type = "l",
+     col = 3)
+lines(estimated_values_per_round$round,
+     estimated_values_per_round$vs3,
+     type = "l",
+     col = 4)
+lines(estimated_values_per_round$round,
+     estimated_values_per_round$vs4,
+     type = "l",
+     col = 5)
+lines(estimated_values_per_round$round,
+      rep(0.6, 30),
+      type = "l",
+      col = 6)
+legend("topright",                           
+       c("pg 0.5", "pg 0.9", "pg 0.99", "pg 0.999", "true-value"),
+       lty = 1,
+       col = 2:6)
+```
+
+Comment: You see the dangers of overconfidence. The more confident you are, the longer it 
+takes you to converge to the actual true value of 0.6 in this case.
+
+```
+4. How will the estimates of the worth of each flip develop if the green coin is used for each
+of the previous priors?
+
+```
+Suppose we flip a green coin 30 times. The sequence we had before came from a red coin. Let's
+generate a green coin sequence:
+
+```{r}
+flip_green <- function(){
+   
+   green_coin <- c("H", "T")
+   
+   sample(green_coin, 1, replace = FALSE, prob = c(0.7, 0.3))
+   
+}
+```
+
+Flip 30 times:
+
+```{r}
+draw <- replicate(30, flip_green())
+```
+
+Now do the same fuanction as before and give it the name:
+`prior_scenarios_2`.
+
+```{r}
+prior_scenarios_2 <- function(pg){
+  
+game_record <- data.frame(Data = draw)
+
+game_record$Win <- (game_record$Data == "H")
+
+game_record$Sum_Wins <- cumsum(game_record$Win)
+
+game_record$Num_Flips <- 1:30
+
+game_record$POG <- dbinom(game_record$Sum_Wins, game_record$Num_Flips, 0.7)
+game_record$POR <- dbinom(game_record$Sum_Wins, game_record$Num_Flips, 0.3)  
+  
+game_record$PG <- rep(pg, 30)  
+game_record$PR <- rep((1-pg), 30)
+
+game_record$PO <- game_record$POG*game_record$PG + game_record$POR*game_record$PR
+
+game_record$PGO <- game_record$POG*game_record$PG/game_record$PO
+
+game_record$Value <- game_record$PGO*0.7*2 + (1-game_record$PGO)*0.3*2
+
+game_record
+  
+}
+```
+
+
+```{r}
+scenario_1_green <- prior_scenarios_2(0.5)
+scenario_2_green <- prior_scenarios_2(0.9)
+scenario_3_green <- prior_scenarios_2(0.99)
+scenario_4_green <- prior_scenarios_2(0.999)
+```
+
+The coin values in the different cases
+
+```{r}
+estimated_values_per_round_2 <- data.frame(round = scenario_1_green$Num_Flips, 
+                                         vs1 = scenario_1_green$Value,
+                                         vs2 = scenario_2_green$Value,
+                                         vs3 = scenario_3_green$Value,
+                                         vs4 = scenario_4_green$Value)
+estimated_values_per_round_2
+```
+
+
+Visualization:
+
+```{r}
+plot(estimated_values_per_round_2$round,
+     estimated_values_per_round_2$vs1,
+     type = "l",
+     col = 2,
+     ylim = c(0,1.5),
+     xlim = c(0,40),
+     xlab = "Rounds",
+     ylab = "Values")
+lines(estimated_values_per_round_2$round,
+     estimated_values_per_round_2$vs2,
+     type = "l",
+     col = 3)
+lines(estimated_values_per_round_2$round,
+     estimated_values_per_round_2$vs3,
+     type = "l",
+     col = 4)
+lines(estimated_values_per_round_2$round,
+     estimated_values_per_round_2$vs4,
+     type = "l",
+     col = 5)
+lines(estimated_values_per_round$round,
+      rep(1.4, 30),
+      type = "l",
+      col = 6)
+legend("topright",                           
+       c("pg 0.5", "pg 0.9", "pg 0.99", "pg 0.999", "true-value"),
+       lty = 1,
+       col = 2:6)
+```
