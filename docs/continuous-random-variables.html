@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Continuous random variables | An Introduction to Probability</title>
   <meta name="description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Continuous random variables | An Introduction to Probability" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   
@@ -24,7 +23,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-02-04" />
+<meta name="date" content="2023-01-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="random-variables.html"/>
 <link rel="next" href="references-1.html"/>
-<script src="libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,9 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -93,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -106,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -278,12 +277,6 @@ div.csl-indent {
 <li class="chapter" data-level="6.1.4" data-path="appendix.html"><a href="appendix.html#monte-carlo-simulation-and-computing"><i class="fa fa-check"></i><b>6.1.4</b> Monte Carlo Simulation and Computing</a></li>
 <li class="chapter" data-level="6.1.5" data-path="appendix.html"><a href="appendix.html#finance-and-risk-management"><i class="fa fa-check"></i><b>6.1.5</b> Finance and Risk Management</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#worked-solutions-for-projects"><i class="fa fa-check"></i><b>6.2</b> Worked Solutions for Projects</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="appendix.html"><a href="appendix.html#project-1-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.1</b> Project 1: Proposal for worked solution</a></li>
-<li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#project-2-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.2</b> Project 2: Proposal for worked solution:</a></li>
-<li class="chapter" data-level="6.2.3" data-path="appendix.html"><a href="appendix.html#project-3-worked-solution"><i class="fa fa-check"></i><b>6.2.3</b> Project 3: Worked solution</a></li>
-</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -305,25 +298,26 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="continuous-random-variables" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Continuous random variables</h1>
+<div id="continuous-random-variables" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Continuous random variables<a href="continuous-random-variables.html#continuous-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this lecture we will introduce the most important probability distribution, the <strong>normal
 distribution</strong>. While we have discussed discrete random variables so far, where the
 number of possible outcomes for <span class="math inline">\(X\)</span> is finite (or countably infinite), to
 discuss the normal distribution we
 need to deal with the case that the number of outcomes for <span class="math inline">\(X\)</span> is uncountable infinite, or
 a continuum. This leads us to the concept of a continuous random variable.</p>
-<div id="continuous-random-variables-and-probability" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Continuous random variables and probability</h2>
+<div id="continuous-random-variables-and-probability" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Continuous random variables and probability<a href="continuous-random-variables.html#continuous-random-variables-and-probability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will discuss here the most important concepts needed for the practical work with
 continuous random variables. We just note that for a mathematically rigorous treatment
 of this case we would need advanced techniques such as measure theory. We will not do that here
-(see for example <span class="citation"><a href="#ref-Billingsley1995" role="doc-biblioref">Billingsley</a> (<a href="#ref-Billingsley1995" role="doc-biblioref">1995</a>)</span>) because we want to focus on the
+(see for example <span class="citation">Billingsley (<a href="#ref-Billingsley1995" role="doc-biblioref">1995</a>)</span>) because we want to focus on the
 more applied or practical aspects
 of continuous random variables.</p>
 <dl>
 <dt>Continuous random variable</dt>
-<dd>A <strong>continuous random variable</strong> <span class="math inline">\(X\)</span> can take on a continuum of possible values.
+<dd>
+A <strong>continuous random variable</strong> <span class="math inline">\(X\)</span> can take on a continuum of possible values.
 </dd>
 </dl>
 <p>Note that random variables that can take on a continuum of values rather than only discrete values
@@ -353,8 +347,8 @@ a continuous random variable means.</p>
 value in the interval <span class="math inline">\([0,1]\)</span>. We can generate such numbers very easily in R using the
 function <code>runif()</code>. Let’s create 10 such numbers:</p>
 <div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="continuous-random-variables.html#cb402-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>##  [1] 0.67608661 0.73559028 0.42682309 0.07859370 0.16269846 0.09598476
-##  [7] 0.30230697 0.81173948 0.64823499 0.31598726</code></pre>
+<pre><code>##  [1] 0.79736071 0.59388063 0.98485335 0.14311105 0.15175667 0.02587790
+##  [7] 0.36064567 0.08218681 0.47607315 0.87565703</code></pre>
 <p>Now you could ask: What is the probability that this random variable takes a particular value of,
 say <span class="math inline">\(0.4848450\)</span>, one value in our list? We could try simulation.
 Let’s simulate one million such uniformly distributed
@@ -379,7 +373,7 @@ in the case of a continuous random variable we can no longer talk about individu
 distributed random variable <span class="math inline">\(X \sim U[0,1]\)</span> comes
 up with a value between <span class="math inline">\(0\)</span> and <span class="math inline">\(1/4\)</span>? Lets check with our simulated numbers:</p>
 <div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="continuous-random-variables.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">0</span> <span class="sc">&lt;=</span> uniform_rv <span class="sc">&amp;</span> uniform_rv <span class="sc">&lt;=</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)<span class="sc">/</span><span class="fu">length</span>(uniform_rv)</span></code></pre></div>
-<pre><code>## [1] 0.249411</code></pre>
+<pre><code>## [1] 0.250481</code></pre>
 <p>It says 25 %, as we expect from a uniformly distributed probabilities. Let’s try R’s cumulative
 distribution function, or <span class="math inline">\(P(X \leq 1/4)\)</span> for the uniform distribution on <span class="math inline">\({\cal S}=[0,1]\)</span>:</p>
 <div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="continuous-random-variables.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="fu">punif</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div>
@@ -388,7 +382,7 @@ So as soon as we have range, we can talk about positive probabilities. But this 
 change</em> from discrete to continuous random variables. Whereas in the discrete case we had points
 and could talk about probabilities of points, in the continuous case we represent
 probabilities as <em>areas under a curve</em>. Take the example we have just discussed.
-<div class="figure" style="text-align: center"><span id="fig:density-of-uniform-distributio"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:density-of-uniform-distributio"></span>
 <img src="figures/uniform_dist.png" alt="With continuous random variables probabilities are areas under the density function" width="90%" />
 <p class="caption">
 Figure 5.1: With continuous random variables probabilities are areas under the density function
@@ -400,7 +394,8 @@ variable corresponds to what you learned in high-school about integration under 
 <p>The probability density function is defined for the continuum as follows:</p>
 <dl>
 <dt>Probability density function</dt>
-<dd>For a continuous random variable, the <strong>probability density function</strong>, usually denoted by
+<dd>
+For a continuous random variable, the <strong>probability density function</strong>, usually denoted by
 <span class="math inline">\(f(x)\)</span>, has the following properties:
 </dd>
 </dl>
@@ -417,7 +412,8 @@ really important function is the <strong>cumulative distribution function</stron
 the definition here:</p>
 <dl>
 <dt>Cumulative Distribution Function</dt>
-<dd>The <strong>cumulative distribution function</strong> (abbreviated CDF) shows the probability that the
+<dd>
+The <strong>cumulative distribution function</strong> (abbreviated CDF) shows the probability that the
 random variable <span class="math inline">\(X\)</span> takes a value less than or equal to a deterministic value <span class="math inline">\(x\)</span>. It
 shows the area under the probability density function from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(x\)</span>. The notation is
 <span class="math inline">\(F(x) = P( X \leq x)\)</span> where <span class="math inline">\(- \infty &lt; x &lt; \infty\)</span>.
@@ -426,7 +422,7 @@ shows the area under the probability density function from <span class="math inl
 Note that the CDF can be used to compute probabilities because
 <span class="math inline">\(P(a &lt; X &lt; b) = P(a &lt; X \leq b) = P(a \leq X \leq b) = F(b) - F(a) = \int_a^b f(x) dx\)</span>. The
 following figure illustrates this idea:
-<div class="figure" style="text-align: center"><span id="fig:int-example"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:int-example"></span>
 <img src="figures/integral_example.png" alt="Computing probability of continuous random variable using CDF" width="90%" />
 <p class="caption">
 Figure 5.2: Computing probability of continuous random variable using CDF
@@ -445,11 +441,12 @@ the CDF at <span class="math inline">\(a\)</span> or <span class="math inline">\
 ready to discuss the most important continuous distribution, which plays a key role in
 probability and all of its applications: The <strong>normal distribution</strong>.</p>
 </div>
-<div id="normal-distribution" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Normal Distribution</h2>
+<div id="normal-distribution" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Normal Distribution<a href="continuous-random-variables.html#normal-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <dl>
 <dt>Normal Distribution</dt>
-<dd>The <strong>normal distribution</strong> is a continuous probability distribution that is
+<dd>
+The <strong>normal distribution</strong> is a continuous probability distribution that is
 centered around the mean, bell-shaped, symmetric and completely determined by
 two parameters: The mean <span class="math inline">\(\mu\)</span> and the variance <span class="math inline">\(\sigma^2\)</span>. The notation
 is <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>. The probability density
@@ -469,7 +466,8 @@ the <strong>bell curve</strong>.
 random variable with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(1\)</span>. This is called the</p>
 <dl>
 <dt>Standard Normal Distribution</dt>
-<dd>The <strong>standard normal distribution</strong> is a normal distribution with mean <span class="math inline">\(\mu = 0\)</span> and
+<dd>
+The <strong>standard normal distribution</strong> is a normal distribution with mean <span class="math inline">\(\mu = 0\)</span> and
 variance <span class="math inline">\(\sigma^2 = 1\)</span>. Any normally distributed random variable <span class="math inline">\(X\)</span> with mean
 <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> can be rewritten as a standard normal random variable
 <span class="math inline">\(Z\)</span> in the following way:
@@ -559,8 +557,8 @@ are, on the other hand, concerned with extreme risks, you are bound to underesti
 probability, if you have a normal distribution in mind. We will come to this problem again
 during this lecture.</p>
 </div>
-<div id="inverse-normal-and-quantiles" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Inverse Normal and Quantiles</h2>
+<div id="inverse-normal-and-quantiles" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Inverse Normal and Quantiles<a href="continuous-random-variables.html#inverse-normal-and-quantiles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In risk management we often ask the following question: For a given time horizon we would
 like to know the threshold loss value, such that the probability that the portfolio loss
 exceeds this value over the given time horizon is <span class="math inline">\(p\)</span>.</p>
@@ -576,7 +574,8 @@ make this probability of exceeding such a wipe out threshold very small.</p>
 <p>Let us formulate these ideas in the form of a few definitions:</p>
 <dl>
 <dt>Inverse Normal Distribution</dt>
-<dd>With the <strong>inverse normal distribution</strong>, it is possible to calculate the value <span class="math inline">\(x\)</span> such that
+<dd>
+With the <strong>inverse normal distribution</strong>, it is possible to calculate the value <span class="math inline">\(x\)</span> such that
 <span class="math inline">\(P(X \leq x)\)</span> is equal to probability <span class="math inline">\(p\)</span> for a given normally distributed random variable.
 </dd>
 </dl>
@@ -594,7 +593,8 @@ deviation <code>sigma_ret_sp500</code>, the function <code>qnorm</code> solves t
 the threshold. It <em>inverts</em> the CDF and therefore it is often called an <em>inverse problem</em>.</p>
 <dl>
 <dt>Quantile</dt>
-<dd>The <span class="math inline">\(pth\)</span> quantile (or percentile) of a probability distribution is the value <span class="math inline">\(x\)</span> such that
+<dd>
+The <span class="math inline">\(pth\)</span> quantile (or percentile) of a probability distribution is the value <span class="math inline">\(x\)</span> such that
 <span class="math inline">\(P(X \leq x) = p\)</span>. If <span class="math inline">\(X\)</span> is normally distributed, <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span> then the
 <span class="math inline">\(x\)</span> value such that <span class="math inline">\(P(X \leq x) = p\)</span> is given by the inverse CDF of the normal distribution
 with parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> for given <span class="math inline">\(p\)</span>.
@@ -604,15 +604,16 @@ with parameters <span class="math inline">\(\mu\)</span> and <span class="math i
 quantile of the portfolio loss distribution. This quantile is called the <strong>value at risk</strong>.</p>
 <dl>
 <dt>Value-at-Risk</dt>
-<dd>Given a confidence level <span class="math inline">\(\alpha \in (0,1)\)</span>, Value-at-Risk (VaR) is defined as
+<dd>
+Given a confidence level <span class="math inline">\(\alpha \in (0,1)\)</span>, Value-at-Risk (VaR) is defined as
 <span class="math inline">\(VaR_\alpha = F_L(\alpha)^{-1} = \inf\{x \in \mathbb{R} | F_L(x) \geq \alpha \}\)</span>
 With a normal loss distribution <span class="math inline">\(F_L\)</span> we can compute the value at risk
 in an easy way.
 </dd>
 </dl>
 </div>
-<div id="example-value-at-risk-and-the-problem-of-fat-tails" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Example Value at Risk and the problem of fat tails</h2>
+<div id="example-value-at-risk-and-the-problem-of-fat-tails" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Example Value at Risk and the problem of fat tails<a href="continuous-random-variables.html#example-value-at-risk-and-the-problem-of-fat-tails" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Assume you are in charge of a stock portfolio worth 100 million Euro and fully
 invested in the S&amp;P 500. You make portfolio adjustments on a weekly basis and you
 would like to know whether your value at risk is such that you would be able
@@ -628,7 +629,7 @@ weekly prices from the sp500 daily data and compute the weeky log returns.</p>
 <span id="cb424-7"><a href="continuous-random-variables.html#cb424-7" aria-hidden="true" tabindex="-1"></a><span class="co"># apply this function to each element of the list.</span></span>
 <span id="cb424-8"><a href="continuous-random-variables.html#cb424-8" aria-hidden="true" tabindex="-1"></a>auxw <span class="ot">&lt;-</span> <span class="fu">lapply</span>(split_by_week, selw)</span>
 <span id="cb424-9"><a href="continuous-random-variables.html#cb424-9" aria-hidden="true" tabindex="-1"></a><span class="co"># recombine the list entries into a data frame but drop the returns column</span></span>
-<span id="cb424-10"><a href="continuous-random-variables.html#cb424-10" aria-hidden="true" tabindex="-1"></a>sp500_weekly <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, auxw) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">subset</span>(<span class="at">select =</span> <span class="sc">-</span>returns)</span>
+<span id="cb424-10"><a href="continuous-random-variables.html#cb424-10" aria-hidden="true" tabindex="-1"></a>sp500_weekly <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, auxw) <span class="sc">|&gt;</span> <span class="fu">subset</span>(<span class="at">select =</span> <span class="sc">-</span>returns)</span>
 <span id="cb424-11"><a href="continuous-random-variables.html#cb424-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb424-12"><a href="continuous-random-variables.html#cb424-12" aria-hidden="true" tabindex="-1"></a><span class="co"># compute weekly log-returns and add to data frame</span></span>
 <span id="cb424-13"><a href="continuous-random-variables.html#cb424-13" aria-hidden="true" tabindex="-1"></a></span>
@@ -698,7 +699,8 @@ mindset the mathematical theory and the computer can unfurl its power.</p>
 identify fat tails are so called <strong>Q-Q-plots</strong>. What is this?</p>
 <dl>
 <dt>Q-Q-Plot</dt>
-<dd>In statistics, a Q-Q plot (abbreviation for quantile-quantile plot) is a probability plot and
+<dd>
+In statistics, a Q-Q plot (abbreviation for quantile-quantile plot) is a probability plot and
 is a graphical method for comparing two probability distributions by plotting
 their quantiles against each other. If the two distributions are similar,
 then all points of the QQ-plot will lie roughly on the 45 degree line.
@@ -743,16 +745,17 @@ LTCM were the nobel price winning Financial theorist Robert Merton, a world famo
 in Finance and financial modelling. So without being malicious, we could at least conclude
 from this case that uncertainty and risk, and probability models to think about these
 phenomena can even fail and fool smart people. A good and very readable
-discussion of the LTCM case can be found in <span class="citation"><a href="#ref-Dunbar2000" role="doc-biblioref">Dunbar</a> (<a href="#ref-Dunbar2000" role="doc-biblioref">2000</a>)</span>.</p>
+discussion of the LTCM case can be found in <span class="citation">Dunbar (<a href="#ref-Dunbar2000" role="doc-biblioref">2000</a>)</span>.</p>
 </div>
-<div id="more-than-one-normal-random-variable" class="section level2" number="5.5">
-<h2><span class="header-section-number">5.5</span> More than one normal random variable</h2>
+<div id="more-than-one-normal-random-variable" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> More than one normal random variable<a href="continuous-random-variables.html#more-than-one-normal-random-variable" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We have already discussed a situation where we have more than one
 random variable simultaneously, the concept of covariance and correlation as well as the properties of expecation and variance when we combine several random variables and consider their sums or functions of them. In the case of the normal distribution we have
 an additional stronger property, which you should know about.</p>
 <dl>
 <dt>Summation property of the normal distribution</dt>
-<dd>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are jointly normally distributed random variables,
+<dd>
+If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are jointly normally distributed random variables,
 then all random variables of the form <span class="math inline">\(a\, X + b\, Y\)</span>, where <span class="math inline">\(a\)</span> and
 <span class="math inline">\(b\)</span> are real numbers, are also normally distributed. This holds
 also for sums of more than two normally distributed random variables.
@@ -770,8 +773,8 @@ it in this form but, if at all, rather through the
 implemented R functions. But the formula is so important and
 famous that you should have seen it at least once in your life.</p>
 </div>
-<div id="project-portfolio-credit-risk-with-dependent-defaults" class="section level2" number="5.6">
-<h2><span class="header-section-number">5.6</span> Project: Portfolio credit risk with dependent defaults</h2>
+<div id="project-portfolio-credit-risk-with-dependent-defaults" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> Project: Portfolio credit risk with dependent defaults<a href="continuous-random-variables.html#project-portfolio-credit-risk-with-dependent-defaults" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This last project will tie together most probability and R concepts
 we have learned in our course. The context that will help us to
 do this is again credit risk and we will build on the project
@@ -780,7 +783,8 @@ from lecture 4 on modelling credit risk.</p>
 way is due to Vasicek 1997 and works as follows:</p>
 <dl>
 <dt>Obligor value model</dt>
-<dd>The <strong>simplified obligor value model</strong> makes the following basic
+<dd>
+The <strong>simplified obligor value model</strong> makes the following basic
 assumptions:
 </dd>
 </dl>
@@ -850,7 +854,6 @@ Dunbar, Nicolas. 2000. <em>Inventing Money: The Story of Long-Term Capital Manag
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -890,6 +893,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
@@ -903,7 +910,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

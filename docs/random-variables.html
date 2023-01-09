@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Random Variables | An Introduction to Probability</title>
   <meta name="description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Random Variables | An Introduction to Probability" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   
@@ -24,7 +23,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-02-04" />
+<meta name="date" content="2023-01-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="conditional-probability.html"/>
 <link rel="next" href="continuous-random-variables.html"/>
-<script src="libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,9 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -93,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -106,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -278,12 +277,6 @@ div.csl-indent {
 <li class="chapter" data-level="6.1.4" data-path="appendix.html"><a href="appendix.html#monte-carlo-simulation-and-computing"><i class="fa fa-check"></i><b>6.1.4</b> Monte Carlo Simulation and Computing</a></li>
 <li class="chapter" data-level="6.1.5" data-path="appendix.html"><a href="appendix.html#finance-and-risk-management"><i class="fa fa-check"></i><b>6.1.5</b> Finance and Risk Management</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#worked-solutions-for-projects"><i class="fa fa-check"></i><b>6.2</b> Worked Solutions for Projects</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="appendix.html"><a href="appendix.html#project-1-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.1</b> Project 1: Proposal for worked solution</a></li>
-<li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#project-2-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.2</b> Project 2: Proposal for worked solution:</a></li>
-<li class="chapter" data-level="6.2.3" data-path="appendix.html"><a href="appendix.html#project-3-worked-solution"><i class="fa fa-check"></i><b>6.2.3</b> Project 3: Worked solution</a></li>
-</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -305,10 +298,10 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="random-variables" class="section level1" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Random Variables</h1>
-<div id="discrete-distributions" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Discrete Distributions</h2>
+<div id="random-variables" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Random Variables<a href="random-variables.html#random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="discrete-distributions" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Discrete Distributions<a href="random-variables.html#discrete-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We now come to an extension of the simple probability model
 which is very useful. This is the concept of a random variable.
 We have implicitly already used this concept with our virtual
@@ -322,7 +315,8 @@ to connect this lecture with the previous ones. So we get the following
 definition</p>
 <dl>
 <dt>Random variable</dt>
-<dd>A <strong>random variable</strong> is a function defined on the sample space.
+<dd>
+A <strong>random variable</strong> is a function defined on the sample space.
 </dd>
 </dl>
 <p>The term random variable might be slightly confusing, for what is
@@ -352,7 +346,8 @@ many basic outcomes, we say that the
 random variable is <strong>discrete</strong>.</p>
 <dl>
 <dt>Probability distribution</dt>
-<dd>The function <span class="math inline">\(P(X = x_j) = p(x_j)\)</span> for <span class="math inline">\(j = 1, \cdots ,n\)</span> is called
+<dd>
+The function <span class="math inline">\(P(X = x_j) = p(x_j)\)</span> for <span class="math inline">\(j = 1, \cdots ,n\)</span> is called
 the <strong>(probability) distribution</strong> of the random variable <span class="math inline">\(X\)</span>.
 </dd>
 </dl>
@@ -362,7 +357,8 @@ Note that <span class="math inline">\(p(x_j) \geq 0\)</span> and <span class="ma
 <p>A related concept is found in the following important definition</p>
 <dl>
 <dt>Cumulative distribution</dt>
-<dd>The <strong>cumulative distribution function</strong> - abbreviated CDF - shows
+<dd>
+The <strong>cumulative distribution function</strong> - abbreviated CDF - shows
 the probability that a
 random variable <span class="math inline">\(X\)</span> take a value less than or equal to a given
 value <span class="math inline">\(x\)</span>. It is usually denoted as <span class="math inline">\(F(x) = P(X \leq x)\)</span>
@@ -387,7 +383,7 @@ of which is <span class="math inline">\(6/36\)</span> or <span class="math inlin
 <p>It is common to display the probabilities associated
 with a random variables, graphically as
 a probability distribution.</p>
-<div class="figure" style="text-align: center"><span id="fig:pdf-die"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:pdf-die"></span>
 <img src="figures/pdf_die.png" alt="The probability distribution of the random variable of rolling a six sided die" width="90%" />
 <p class="caption">
 Figure 4.1: The probability distribution of the random variable of rolling a six sided die
@@ -395,7 +391,7 @@ Figure 4.1: The probability distribution of the random variable of rolling a six
 </div>
 The cumulative distribution function of this random variable can
 be visualized as a step function:
-<div class="figure" style="text-align: center"><span id="fig:cdf-die"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:cdf-die"></span>
 <img src="figures/cdf_die.png" alt="The cumulative distribution function of the random variable of rolling a six sided die" width="90%" />
 <p class="caption">
 Figure 4.2: The cumulative distribution function of the random variable of rolling a six sided die
@@ -409,7 +405,8 @@ the corresponding distributions be <span class="math inline">\(f(x_i)\)</span> a
 form an <em>event</em> whose probability is denoted by <span class="math inline">\(P(X = x_i, Y = y_j\)</span>)</p>
 <dl>
 <dt>Joint probability distribution</dt>
-<dd>The function
+<dd>
+The function
 <span class="math display">\[\begin{eqnarray*}
 P(X = x_i, Y = y_j) = p(x_i, y_j), \quad i = 1, \cdots, n \,\, j = 1, \cdots, m
 \end{eqnarray*}\]</span>
@@ -432,7 +429,8 @@ variables. With the notion of a joint probability we also get a notion of
 conditional probability for random variables:</p>
 <dl>
 <dt>Conditional probability</dt>
-<dd>The <strong>conditional probability</strong> of the event <span class="math inline">\(Y = y_j\)</span> given that <span class="math inline">\(X = x_i\)</span> is
+<dd>
+The <strong>conditional probability</strong> of the event <span class="math inline">\(Y = y_j\)</span> given that <span class="math inline">\(X = x_i\)</span> is
 <span class="math display">\[\begin{equation*}
 P(Y = y_j | X = x_i) = \frac{p(x_i, y_j)}{f(x_i)}
 \end{equation*}\]</span>
@@ -444,7 +442,8 @@ probability defines a function of <span class="math inline">\(X\)</span>. This f
 of <span class="math inline">\(Y\)</span> for <em>given</em> <span class="math inline">\(X\)</span>.</p>
 <dl>
 <dt>Mutually independent</dt>
-<dd>Two random variables are called <strong>mutually independent</strong> if for any combination of values
+<dd>
+Two random variables are called <strong>mutually independent</strong> if for any combination of values
 <span class="math inline">\(x_1, ..., x_n\)</span>, <span class="math inline">\(y_1, ..., y_m\)</span>
 <span class="math display">\[\begin{equation*}
 P(X = x_i, Y = y_j) = P(X = x_i) P(Y = y_j)
@@ -452,14 +451,15 @@ P(X = x_i, Y = y_j) = P(X = x_i) P(Y = y_j)
 </dd>
 </dl>
 </div>
-<div id="expected-value" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Expected value</h2>
+<div id="expected-value" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Expected value<a href="random-variables.html#expected-value" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Sometimes the entire probability distribution is difficult to grasp at once. It is common to
 describe probability distributions therefore by a summary measure. Among the typical summary
 measures the <strong>expectation</strong> or the <strong>mean</strong> is by far the most important one.</p>
 <dl>
 <dt>Expected Value</dt>
-<dd>The expected value <span class="math inline">\(\mathrm{E}(X)\)</span> of a discrete random variable <span class="math inline">\(X\)</span>
+<dd>
+The expected value <span class="math inline">\(\mathrm{E}(X)\)</span> of a discrete random variable <span class="math inline">\(X\)</span>
 is the probability weighted sum of all its possible values:
 <span class="math display">\[\begin{equation*}
 \mathrm{E}(X) = x_1p(x_1) + x_2 p(x_2) + \cdots + x_n p(x_n)
@@ -480,15 +480,16 @@ sometimes even impossible.</p>
 <p>We will discuss the specific properties of expected value within an extended example a bit later
 in this lecture.</p>
 </div>
-<div id="variation" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Variation</h2>
+<div id="variation" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Variation<a href="random-variables.html#variation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>While the expected value of a random variable provides a very useful summary measure for
 a distribution, we typically also want information about the amount of variation of a
 a random variable. One such measure, which gives us a degree of possible deviation from the mean
 is the <strong>variance</strong>.</p>
 <dl>
 <dt>Variance</dt>
-<dd>The <strong>variance</strong> of a random variable <span class="math inline">\(X\)</span> is the expected value of the squared deviation
+<dd>
+The <strong>variance</strong> of a random variable <span class="math inline">\(X\)</span> is the expected value of the squared deviation
 from the expected value of <span class="math inline">\(X\)</span> or
 <span class="math display">\[\begin{equation*}
 \mathrm{Var}(X) = \mathrm{E}\left(X -\mathrm{E}(X) \right)^2
@@ -508,7 +509,8 @@ squared units of the random variable. This is often not very useful for interpre
 leads us to the concept of a standard deviation:</p>
 <dl>
 <dt>Standard Deviation</dt>
-<dd>The <strong>standard deviation</strong> of a random variable <span class="math inline">\(X\)</span> is the square root of the variance of <span class="math inline">\(X\)</span>,
+<dd>
+The <strong>standard deviation</strong> of a random variable <span class="math inline">\(X\)</span> is the square root of the variance of <span class="math inline">\(X\)</span>,
 denoted <span class="math inline">\(\mathrm{SD}(X) = \sqrt{\mathrm{Var}(X)}\)</span>.
 </dd>
 </dl>
@@ -519,7 +521,8 @@ tangible.</p>
 as follows.</p>
 <dl>
 <dt>Covariance</dt>
-<dd>The <strong>covariance</strong> for two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, is defined as
+<dd>
+The <strong>covariance</strong> for two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, is defined as
 <span class="math display">\[\begin{equation*}
 \mathrm{Cov}(X,Y) = \mathrm{E}((X - \mathrm{E}(X))(Y-\mathrm{E}(Y)))
 \end{equation*}\]</span>
@@ -787,7 +790,8 @@ of two such normalized random variables we get the so
 called <strong>correlation coefficient</strong> <span class="math inline">\(\rho(X,Y)\)</span>.</p>
 <dl>
 <dt>Correlation Coefficient</dt>
-<dd>The <strong>correlation coefficient</strong> of two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is defined as
+<dd>
+The <strong>correlation coefficient</strong> of two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is defined as
 <span class="math display">\[\begin{equation*}
 \rho(X,Y) = \mathrm{Cov}(X^*,Y^*) = \frac{\mathrm{Cov}(X,Y)}{\sigma_x \sigma_y}
 \end{equation*}\]</span>
@@ -804,8 +808,8 @@ we will study the concepts of this section by putting them in a Finance context.
 we will also embark into a new territory of R. We will now also learn the basics of
 writing R programs using portfolio and investment theory as an example.</p>
 </div>
-<div id="random-variables-the-cornerstone-for-modeling-investments-under-uncertainty" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Random variables: The cornerstone for modeling investments under uncertainty</h2>
+<div id="random-variables-the-cornerstone-for-modeling-investments-under-uncertainty" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Random variables: The cornerstone for modeling investments under uncertainty<a href="random-variables.html#random-variables-the-cornerstone-for-modeling-investments-under-uncertainty" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>An important case where probability is applied in Finance is the problem of analyzing
 risky investment decisions: When you
 make an investment with a known initial outlay of capital the amount to be returned from the
@@ -831,12 +835,12 @@ a payoff when completed.</p>
 <p>These kinds of simplifications are - by the way - a cornerstone in modelling as well as in
 programming. We build solutions to complex problems by starting with a simple problem and then
 build complexity step by step.</p>
-<div id="asset-return" class="section level3" number="4.4.1">
-<h3><span class="header-section-number">4.4.1</span> Asset return</h3>
+<div id="asset-return" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Asset return<a href="random-variables.html#asset-return" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Before we dive into the modelling of investment problems with uncertainty using probability and
 random variables as a tool, we need to introduce some financial concepts first: An
 investment instrument that can be bought and sold is called an <strong>asset</strong> in Finance. If <span class="math inline">\(X_0\)</span> is
-the amount invested today and <span class="math inline">\(X_1\)</span> is the amount received “tomorrow,” say for example in a
+the amount invested today and <span class="math inline">\(X_1\)</span> is the amount received “tomorrow”, say for example in a
 year from now, the <strong>total return</strong> is defined as the ratio of the amount received to
 the amount invested or formally <span class="math inline">\(R = \frac{X_1}{X_0}\)</span>. Often we simply use the term return.
 The <strong>rate of return</strong> is defined as the difference between the amount received and the amount
@@ -848,8 +852,8 @@ This shows that the rate of return acts much like an <em>interest rate</em>.</p>
 return as a random variable is one possibility to describe and analyze this situation of
 uncertain returns.</p>
 </div>
-<div id="random-asset-returns" class="section level3" number="4.4.2">
-<h3><span class="header-section-number">4.4.2</span> Random asset returns</h3>
+<div id="random-asset-returns" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Random asset returns<a href="random-variables.html#random-asset-returns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now you can already see, how random variables can act as a model for investment under
 uncertainty. In an uncertain situation, the amount received at the end of the period
 <span class="math inline">\(X_1\)</span> is a random variable. The underlying sample space has to be specified appropriately and
@@ -860,8 +864,8 @@ a continuous sample space, as we will see in the next lecture.</p>
 in an investment situation with rabdom returns.</p>
 </div>
 </div>
-<div id="modelling-random-asset-returns-first-steps-in-r-programing" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Modelling random asset returns: First steps in R programing</h2>
+<div id="modelling-random-asset-returns-first-steps-in-r-programing" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Modelling random asset returns: First steps in R programing<a href="random-variables.html#modelling-random-asset-returns-first-steps-in-r-programing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We are now going to build a model of random returns that we can use to simulate the payoff
 consequences of portfolio investment decisions as well as for giving a concrete context to the
 abstract notions we introduced before. This will show you their power as well as their practical
@@ -870,7 +874,7 @@ relevance in Finance.</p>
 market index - we discussed before.</p>
 <div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="random-variables.html#cb290-1" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;^GSPC&quot;</span>, <span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>, <span class="at">from =</span> <span class="st">&quot;2011-01-03&quot;</span>, <span class="at">to =</span> <span class="st">&quot;2021-12-22&quot;</span>)</span>
 <span id="cb290-2"><a href="random-variables.html#cb290-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 5 x 8
+<pre><code>## # A tibble: 5 × 8
 ##   symbol date        open  high   low close     volume adjusted
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 ^GSPC  2011-01-03 1258. 1276. 1258. 1272. 4286670000    1272.
@@ -916,7 +920,7 @@ discuss such models in the next lecture.</p>
 by combining two random devices, constructed as a <em>wheel of fortune</em> and a <em>coin flip</em>.
 Both devices are useful for the study of investments.</p>
 Our <em>wheel of fortune</em> looks like this:
-<div class="figure" style="text-align: center"><span id="fig:wheel-of-fortune"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:wheel-of-fortune"></span>
 <img src="figures/wheel_of_fortune.png" alt="A wheel of fortune. If the wheel stops at the segment under the marker your payoff is determined according to the rules of the game" width="90%" />
 <p class="caption">
 Figure 4.3: A wheel of fortune. If the wheel stops at the segment under the marker your payoff is determined according to the rules of the game
@@ -1018,7 +1022,7 @@ spinning the wheel, just as we rolled the dice in lecture 1:</p>
 <span id="cb296-4"><a href="random-variables.html#cb296-4" aria-hidden="true" tabindex="-1"></a>wheel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;L&quot;</span>, <span class="st">&quot;N&quot;</span>)</span>
 <span id="cb296-5"><a href="random-variables.html#cb296-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb296-6"><a href="random-variables.html#cb296-6" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>)), </span>
-<span id="cb296-7"><a href="random-variables.html#cb296-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">sample</span>(wheel, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">|</span><span class="er">&gt;</span></span>
+<span id="cb296-7"><a href="random-variables.html#cb296-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">sample</span>(wheel, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">|&gt;</span></span>
 <span id="cb296-8"><a href="random-variables.html#cb296-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">&quot;&quot;</span>)</span>
 <span id="cb296-9"><a href="random-variables.html#cb296-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb296-10"><a href="random-variables.html#cb296-10" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(state)</span>
@@ -1030,7 +1034,7 @@ operator <code>|&gt;</code>, which channels the output of <code>c()</code> into 
 the help menu to check how it works in detail.</p>
 <p>We can now use <code>get_state</code>to flip the coin and spin the wheel to generate a state of the world:</p>
 <div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="random-variables.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_state</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;BH&quot;</code></pre>
+<pre><code>## [1] &quot;RH&quot;</code></pre>
 <p>The monetary value of the outcome depends on the portfolio of assets you have chosen.
 We write a program to compute the payoff and save it as a function, so for instance, if we get
 <code>payoff("RH", portfolio)</code> will output the payoffs and returns or the portfolio you have chosen.</p>
@@ -1045,8 +1049,8 @@ payoff(state, portfolio)
 code in an R script, a text file where you can compose your code. This will become
 very important as you work through this part of lecture 4. Remember that you can
 open an R script in RStudio by going to the menu bar and clicking on File &gt; New File &gt; R Script.</p>
-<div id="a-strategy-for-writing-a-program" class="section level3" number="4.5.1">
-<h3><span class="header-section-number">4.5.1</span> A strategy for writing a program</h3>
+<div id="a-strategy-for-writing-a-program" class="section level3 hasAnchor" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> A strategy for writing a program<a href="random-variables.html#a-strategy-for-writing-a-program" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A coding task like writing a function to determine the random
 outcome of an investment decision is a complex task. Such a task can be
 tackled best, by using a fairly simple strategy:</p>
@@ -1069,8 +1073,8 @@ you can work out the algorithms one at a time.</p>
 on the state. In all cases in our example, though, the function will use the same
 algorithm.</p>
 </div>
-<div id="if-statements-and-if-else-statements" class="section level3" number="4.5.2">
-<h3><span class="header-section-number">4.5.2</span> if Statements and if-else Statements</h3>
+<div id="if-statements-and-if-else-statements" class="section level3 hasAnchor" number="4.5.2">
+<h3><span class="header-section-number">4.5.2</span> if Statements and if-else Statements<a href="random-variables.html#if-statements-and-if-else-statements" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>When you have to link parallel cases together, the program faces a fork in its process whenever
 it has to choose between cases. If statements help the program to do so.</p>
 <p>An if statement in R tells R to do certain things for a particular case. The sytnax of
@@ -1135,8 +1139,8 @@ into the three assets. We do not say anything here how the allocation is decided
 a decision has been taken, the portfolio will be a vector of weights <span class="math inline">\((w^1, w^2, w^3)\)</span> with
 <span class="math inline">\(0 \leq w^i \leq 1\)</span> for <span class="math inline">\(i = 1,2,3\)</span>.</p>
 </div>
-<div id="portfolios-and-linear-algebra" class="section level3" number="4.5.3">
-<h3><span class="header-section-number">4.5.3</span> Portfolios and linear algebra</h3>
+<div id="portfolios-and-linear-algebra" class="section level3 hasAnchor" number="4.5.3">
+<h3><span class="header-section-number">4.5.3</span> Portfolios and linear algebra<a href="random-variables.html#portfolios-and-linear-algebra" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let us address the first issue and find an abstract representation of our portfolio. A
 very efficient and convenient way for this is to think of the payoffs in terms of
 linear algebra as a matrix. For example, the matrix of asset payoffs when the coin lands
@@ -1253,8 +1257,8 @@ contain comments by R and is not going to be processed by the function.</p>
 ## RL -1.00000000 -0.82935154 -0.56756757
 ## RN  0.07526882 -0.48805461 -0.45945946</code></pre>
 </div>
-<div id="lookup-tables" class="section level3" number="4.5.4">
-<h3><span class="header-section-number">4.5.4</span> Lookup Tables</h3>
+<div id="lookup-tables" class="section level3 hasAnchor" number="4.5.4">
+<h3><span class="header-section-number">4.5.4</span> Lookup Tables<a href="random-variables.html#lookup-tables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Often the simplest way to do something in R involves subsetting. Our function gives us a column
 vector with rownames for the returns in each basic outcome of our random experiment.</p>
 <div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="random-variables.html#cb311-1" aria-hidden="true" tabindex="-1"></a>returns <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(assets, prices)</span>
@@ -1285,8 +1289,8 @@ to this state by subsetting and choose the right row. In the end we want to keep
 number. We can strip of the name by the <code>unname()</code> function. This helps us to avoid
 a complicated if-else-tree in this case.</p>
 </div>
-<div id="writing-the-outcome-program" class="section level3" number="4.5.5">
-<h3><span class="header-section-number">4.5.5</span> Writing the outcome program</h3>
+<div id="writing-the-outcome-program" class="section level3 hasAnchor" number="4.5.5">
+<h3><span class="header-section-number">4.5.5</span> Writing the outcome program<a href="random-variables.html#writing-the-outcome-program" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now we can put together the different parts to implement our envisaged skeleton</p>
 <pre><code>outcome &lt;- function(portfolio){
   state &lt;- get_state()
@@ -1322,17 +1326,17 @@ payoff(state, portfolio)
 <span id="cb322-4"><a href="random-variables.html#cb322-4" aria-hidden="true" tabindex="-1"></a>ret <span class="ot">&lt;-</span> <span class="fu">asset_returns</span>(<span class="at">assets =</span> a, <span class="at">prices =</span> pr)</span>
 <span id="cb322-5"><a href="random-variables.html#cb322-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb322-6"><a href="random-variables.html#cb322-6" aria-hidden="true" tabindex="-1"></a><span class="fu">outcome</span>(<span class="at">returns =</span> ret)</span></code></pre></div>
-<pre><code>##   State    Asset_1    Asset_2    Asset_3
-## 1    BL 0.07526882 -0.6587031 -0.1351351</code></pre>
+<pre><code>##   State    Asset_1   Asset_2   Asset_3
+## 1    BH 0.07526882 0.7064846 0.2972973</code></pre>
 <p>This does not look so bad, but what can we do with this? Well now we are in the position to
 study a particular portfolio through simulation. We can play with the coin and the wheel random
 mechanism to see what it does to our asset returns and to our portfolio returns. We can study
 the expected return and the variation of returns. For this we need another flow control construct</p>
 </div>
-<div id="for-loops" class="section level3" number="4.5.6">
-<h3><span class="header-section-number">4.5.6</span> for Loops</h3>
+<div id="for-loops" class="section level3 hasAnchor" number="4.5.6">
+<h3><span class="header-section-number">4.5.6</span> for Loops<a href="random-variables.html#for-loops" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A for loop is a command that repeats a chunk of code many times, once for each element in a set
-of inputs. A for loop tells R “do this for every value of that.” In the syntax of R this
+of inputs. A for loop tells R “do this for every value of that”. In the syntax of R this
 looks like this:</p>
 <pre><code>for (value in that) {
    this
@@ -1388,12 +1392,12 @@ contain the output of every iteration in the for loop.</p>
 <pre><code>## [1] &quot;My&quot;    &quot;forth&quot; &quot;for&quot;   &quot;loop&quot;</code></pre>
 <p>What is going on here? We have first preallocated a vector of type character with length 4. The
 vector does not yet contain anything. Then we declared the four words we are going to use in our
-loop and saved them in an object called “word.” Then we start the loop and save at each of the
-four slots in the character vector one word from “words,” one after the other. At the end of the
+loop and saved them in an object called “word”. Then we start the loop and save at each of the
+four slots in the character vector one word from “words”, one after the other. At the end of the
 loop <code>chars</code> is filled with the words from word and can be inspected.</p>
 </div>
-<div id="portfolio-expected-return-and-variance" class="section level3" number="4.5.7">
-<h3><span class="header-section-number">4.5.7</span> Portfolio expected Return and Variance</h3>
+<div id="portfolio-expected-return-and-variance" class="section level3 hasAnchor" number="4.5.7">
+<h3><span class="header-section-number">4.5.7</span> Portfolio expected Return and Variance<a href="random-variables.html#portfolio-expected-return-and-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let us now analyze the expected return and the variance of our portfolio using a
 simulation approach by writing a for loop and by using our outcome function. Our
 horizon for computing returns is one day. So let us look at the expected daily return over a period
@@ -1416,19 +1420,19 @@ similar to our SP500 data. This comprised 2762 trading days. So let’s write a 
 <span id="cb332-15"><a href="random-variables.html#cb332-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now let’s inspect the output of this run by looking at the first element:</p>
 <div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="random-variables.html#cb333-1" aria-hidden="true" tabindex="-1"></a>simulated_returns[[<span class="dv">1</span>]]</span></code></pre></div>
-<pre><code>##   State    Asset_1   Asset_2   Asset_3
-## 1    BH 0.07526882 0.7064846 0.2972973</code></pre>
+<pre><code>##   State    Asset_1    Asset_2    Asset_3
+## 1    BN 0.07526882 0.02389078 0.08108108</code></pre>
 <p>This looks good. We now have a list with 2762 data-frames all
 with the same variables. What we would
 like to have instead is one single data frame. Here is a way how to merge them:</p>
 <div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="random-variables.html#cb335-1" aria-hidden="true" tabindex="-1"></a>simulation_outcome <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, simulated_returns)</span>
 <span id="cb335-2"><a href="random-variables.html#cb335-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulation_outcome, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##   State     Asset_1     Asset_2     Asset_3
-## 1    BH  0.07526882  0.70648464  0.29729730
+## 1    BN  0.07526882  0.02389078  0.08108108
 ## 2    BN  0.07526882  0.02389078  0.08108108
 ## 3    RL -1.00000000 -0.82935154 -0.56756757
-## 4    RN  0.07526882 -0.48805461 -0.45945946
-## 5    RN  0.07526882 -0.48805461 -0.45945946</code></pre>
+## 4    BN  0.07526882  0.02389078  0.08108108
+## 5    BL  0.07526882 -0.65870307 -0.13513514</code></pre>
 <p>Let me explain. Dataframes with the same variables can be merged by the function <code>rbind()</code>. This
 can be applied to an arbitrary (finite) number of dataframes. <code>do.call()</code> is a function which is
 applied to a list. Its first argument is a function (what should be done), the second argument
@@ -1440,8 +1444,8 @@ should occur given our coin and wheel random device:</p>
 <div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="random-variables.html#cb337-1" aria-hidden="true" tabindex="-1"></a>rel_freq_states <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(simulation_outcome<span class="sc">$</span>State))</span>
 <span id="cb337-2"><a href="random-variables.html#cb337-2" aria-hidden="true" tabindex="-1"></a>rel_freq_states</span></code></pre></div>
 <pre><code>## 
-##         BH         BL         BN         RH         RL         RN 
-## 0.18935554 0.10391021 0.29905865 0.13902969 0.06806662 0.20057929</code></pre>
+##        BH        BL        BN        RH        RL        RN 
+## 0.1940623 0.1042723 0.3153512 0.1245474 0.0640840 0.1976828</code></pre>
 <p>Remember from before that our theoretical probability distribution was given by
 <span class="math display">\[\begin{eqnarray*}
 {\cal S} &amp;=&amp; \{BH, BL, BN, RH, RL, RN\} \\
@@ -1451,7 +1455,7 @@ p(x) &amp;=&amp; \{0.2, 0.1, 0.3, 0.13, 0.07, 0.2\}
 We have given the probabilities by <span class="math inline">\(p(x)\)</span> and a repetition of 2762 independent draws from this
 distribution results in relative frequencies of the individual states which are already
 fairly close to these theoretical probabilities.</p>
-<p>In a “notebook-view,” the expected value can be seen as the long term
+<p>In a “notebook-view”, the expected value can be seen as the long term
 average of a random variable in a series of
 a repeated random experiment. Let us check this for our data but using the portfolio weights. We
 add the weights for each asset and then compute <span class="math inline">\(E(w^1 r^1), E(w^2 r^2), E(w^3 r^3)\)</span> from our
@@ -1462,17 +1466,17 @@ data and compare to the theoretical expected value according to our definition.<
 <span id="cb339-4"><a href="random-variables.html#cb339-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb339-5"><a href="random-variables.html#cb339-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulation_outcome, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##   State     Asset_1     Asset_2     Asset_3 Weight_1 Weight_2 Weight_3
-## 1    BH  0.07526882  0.70648464  0.29729730     0.25    0.375    0.375
+## 1    BN  0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
 ## 2    BN  0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
 ## 3    RL -1.00000000 -0.82935154 -0.56756757     0.25    0.375    0.375
-## 4    RN  0.07526882 -0.48805461 -0.45945946     0.25    0.375    0.375
-## 5    RN  0.07526882 -0.48805461 -0.45945946     0.25    0.375    0.375</code></pre>
+## 4    BN  0.07526882  0.02389078  0.08108108     0.25    0.375    0.375
+## 5    BL  0.07526882 -0.65870307 -0.13513514     0.25    0.375    0.375</code></pre>
 <div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="random-variables.html#cb341-1" aria-hidden="true" tabindex="-1"></a>E_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1)</span>
 <span id="cb341-2"><a href="random-variables.html#cb341-2" aria-hidden="true" tabindex="-1"></a>E_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_2)</span>
 <span id="cb341-3"><a href="random-variables.html#cb341-3" aria-hidden="true" tabindex="-1"></a>E_3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_3)</span>
 <span id="cb341-4"><a href="random-variables.html#cb341-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb341-5"><a href="random-variables.html#cb341-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(E_1, E_2, E_3), <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1]  0.00 -0.04 -0.04</code></pre>
+<pre><code>## [1]  0.00 -0.03 -0.04</code></pre>
 <p>Let us compare this result with the theoretical expected value.</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="random-variables.html#cb343-1" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.13</span>, <span class="fl">0.07</span>, <span class="fl">0.2</span>)</span>
 <span id="cb343-2"><a href="random-variables.html#cb343-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1487,8 +1491,8 @@ value. These properties are very important and you will need it over and over in
 probability. I hope that with the hands on approach of our simulation setup you will see more
 easily why they must hold rather than in a purely formal derivation.</p>
 </div>
-<div id="properties-of-expected-returns-and-portfolio-expected-return" class="section level3" number="4.5.8">
-<h3><span class="header-section-number">4.5.8</span> Properties of expected returns and portfolio expected return</h3>
+<div id="properties-of-expected-returns-and-portfolio-expected-return" class="section level3 hasAnchor" number="4.5.8">
+<h3><span class="header-section-number">4.5.8</span> Properties of expected returns and portfolio expected return<a href="random-variables.html#properties-of-expected-returns-and-portfolio-expected-return" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Expectation is linear</strong>: If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are random variables then
 <span class="math display">\[\begin{equation*}
 E(a\,X + b\,Y) = a\,E(X) + b\, E(Y)
@@ -1501,7 +1505,7 @@ empirical expected value by:</p>
 <span id="cb345-3"><a href="random-variables.html#cb345-3" aria-hidden="true" tabindex="-1"></a>E_3 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_3)<span class="sc">*</span><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_3)</span>
 <span id="cb345-4"><a href="random-variables.html#cb345-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb345-5"><a href="random-variables.html#cb345-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(E_1, E_2, E_3), <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1]  0.00 -0.04 -0.04</code></pre>
+<pre><code>## [1]  0.00 -0.03 -0.04</code></pre>
 <p>We get exactly the same value. Note that I have used the function <code>unique()</code>here. This is because
 if <code>simulation_outcome$Weight_1</code> is taken out of the mean function it is a <span class="math inline">\(2762 \times 1\)</span> vector
 containing the same weight value for every daily observation. Unique reduces this column to a
@@ -1515,18 +1519,18 @@ do it with our data frame:</p>
 <div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="random-variables.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version 1: Take expected return of each asset and then compute weighted average: </span></span>
 <span id="cb347-2"><a href="random-variables.html#cb347-2" aria-hidden="true" tabindex="-1"></a><span class="co"># w^1 E(r^1) + w^2 E(r^2) + w^3 E(r^3)</span></span>
 <span id="cb347-3"><a href="random-variables.html#cb347-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(E_1 <span class="sc">+</span> E_2 <span class="sc">+</span> E_3, <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] -0.08</code></pre>
+<pre><code>## [1] -0.07</code></pre>
 <div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="random-variables.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version 2: Compute E(w^1 r^1 + w^2 r^2 + w^3 r^3)</span></span>
 <span id="cb349-2"><a href="random-variables.html#cb349-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb349-3"><a href="random-variables.html#cb349-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Weight_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_2 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">|</span><span class="er">&gt;</span></span>
+<span id="cb349-3"><a href="random-variables.html#cb349-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Weight_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_2 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">|&gt;</span></span>
 <span id="cb349-4"><a href="random-variables.html#cb349-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] -0.08</code></pre>
+<pre><code>## [1] -0.07</code></pre>
 <p>Finally, note that the expected value of a constant is the value of the constant:</p>
 <p><strong>Property 3</strong>: For a constant <span class="math inline">\(a\)</span>, <span class="math inline">\(E(a) = a\)</span>.</p>
 <p>What about the variance? Let us also use our data frame to establish some important properties.</p>
 </div>
-<div id="properties-of-variance-and-portfolio-variance" class="section level3" number="4.5.9">
-<h3><span class="header-section-number">4.5.9</span> Properties of variance and portfolio variance</h3>
+<div id="properties-of-variance-and-portfolio-variance" class="section level3 hasAnchor" number="4.5.9">
+<h3><span class="header-section-number">4.5.9</span> Properties of variance and portfolio variance<a href="random-variables.html#properties-of-variance-and-portfolio-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Property 1</strong> If <span class="math inline">\(X\)</span> is a random variable,
 <span class="math display">\[\begin{equation*}
 Var(X) = E(X^2) - (E(X))^2
@@ -1534,11 +1538,11 @@ Var(X) = E(X^2) - (E(X))^2
 <p>Let us check this with the random returns of asset 1:</p>
 <div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="random-variables.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variance of returns rounded to two digits:</span></span>
 <span id="cb351-2"><a href="random-variables.html#cb351-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb351-3"><a href="random-variables.html#cb351-3" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<span id="cb351-3"><a href="random-variables.html#cb351-3" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 0.07</code></pre>
 <div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="random-variables.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variance computed by applying Property 1:</span></span>
 <span id="cb353-2"><a href="random-variables.html#cb353-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb353-3"><a href="random-variables.html#cb353-3" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<span id="cb353-3"><a href="random-variables.html#cb353-3" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">mean</span>(simulation_outcome<span class="sc">$</span>Asset_1)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 0.07</code></pre>
 <p><strong>Property 2</strong> If <span class="math inline">\(X\)</span> is a random variable and <span class="math inline">\(a\)</span> is a real number we have
 <span class="math display">\[\begin{equation*}
@@ -1548,12 +1552,12 @@ Var(a\,X) = a^2 Var(X)
 distance from the mean should increase by a factor of 25. Let us check this again with our
 data frame for asset 1:</p>
 <div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="random-variables.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(w^1*r^1)</span></span>
-<span id="cb355-2"><a href="random-variables.html#cb355-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0046</code></pre>
+<span id="cb355-2"><a href="random-variables.html#cb355-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Weight_1) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 0.0043</code></pre>
 <div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="random-variables.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (w^1)^2 Var(r^1)</span></span>
 <span id="cb357-2"><a href="random-variables.html#cb357-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb357-3"><a href="random-variables.html#cb357-3" aria-hidden="true" tabindex="-1"></a>((<span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1))<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0046</code></pre>
+<span id="cb357-3"><a href="random-variables.html#cb357-3" aria-hidden="true" tabindex="-1"></a>((<span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1))<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 0.0043</code></pre>
 <p><strong>Property 3</strong> If <span class="math inline">\(X\)</span> is a random variable and <span class="math inline">\(a\)</span> is a constant then
 <span class="math display">\[\begin{equation*}
 Var(X + a) = Var(X)
@@ -1562,10 +1566,10 @@ This should also be intuitive, because a constant has no variation so it should 
 the variance of a random variable. Let us check this again with our data frame:</p>
 <div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="random-variables.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(r^1 + 1000)</span></span>
 <span id="cb359-2"><a href="random-variables.html#cb359-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> <span class="dv">1000</span>)</span></code></pre></div>
-<pre><code>## [1] 0.07336863</code></pre>
+<pre><code>## [1] 0.06937098</code></pre>
 <div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="random-variables.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(r^1)</span></span>
 <span id="cb361-2"><a href="random-variables.html#cb361-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1)</span></code></pre></div>
-<pre><code>## [1] 0.07336863</code></pre>
+<pre><code>## [1] 0.06937098</code></pre>
 <p>Finally we have a very important property of variance which is particularly relevant in the
 context of portfolios.</p>
 <p><strong>Property 4</strong> If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are random variables and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are real numbers
@@ -1583,8 +1587,8 @@ Le us check this formula again with our data frame:</p>
 <div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="random-variables.html#cb363-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Var(\sum_i w^i\,r^i)</span></span>
 <span id="cb363-2"><a href="random-variables.html#cb363-2" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> simulation_outcome<span class="sc">$</span>Weight_1<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_1 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_2<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_2 <span class="sc">+</span> simulation_outcome<span class="sc">$</span>Weight_3<span class="sc">*</span>simulation_outcome<span class="sc">$</span>Asset_3</span>
 <span id="cb363-3"><a href="random-variables.html#cb363-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb363-4"><a href="random-variables.html#cb363-4" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(aux_1) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0997</code></pre>
+<span id="cb363-4"><a href="random-variables.html#cb363-4" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(aux_1) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 0.0988</code></pre>
 <div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="random-variables.html#cb365-1" aria-hidden="true" tabindex="-1"></a><span class="co"># \sum_{i=1}^n (w^i)^2 Var(r^i) +  \sum_{i \neq j } w^i w^j Cov(r^i, r^j)</span></span>
 <span id="cb365-2"><a href="random-variables.html#cb365-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb365-3"><a href="random-variables.html#cb365-3" aria-hidden="true" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(simulation_outcome<span class="sc">$</span>Weight_1)</span>
@@ -1596,8 +1600,8 @@ Le us check this formula again with our data frame:</p>
 <span id="cb365-9"><a href="random-variables.html#cb365-9" aria-hidden="true" tabindex="-1"></a>Varportf <span class="ot">&lt;-</span> w1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_1) <span class="sc">+</span> w2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w3<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span><span class="fu">var</span>(simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w1<span class="sc">*</span>w2<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1,simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w1<span class="sc">*</span>w3<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w2<span class="sc">*</span>w1<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_2) <span class="sc">+</span> w2<span class="sc">*</span>w3<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span> w3<span class="sc">*</span>w1<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_1, simulation_outcome<span class="sc">$</span>Asset_3) <span class="sc">+</span></span>
 <span id="cb365-10"><a href="random-variables.html#cb365-10" aria-hidden="true" tabindex="-1"></a>w3<span class="sc">*</span>w2<span class="sc">*</span><span class="fu">cov</span>(simulation_outcome<span class="sc">$</span>Asset_2, simulation_outcome<span class="sc">$</span>Asset_3)</span>
 <span id="cb365-11"><a href="random-variables.html#cb365-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb365-12"><a href="random-variables.html#cb365-12" aria-hidden="true" tabindex="-1"></a>Varportf <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## [1] 0.0997</code></pre>
+<span id="cb365-12"><a href="random-variables.html#cb365-12" aria-hidden="true" tabindex="-1"></a>Varportf <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 0.0988</code></pre>
 <p>It works great but this notation is pretty awkward. Here is how we can do better. With more than
 two random variables it is convenient to use linear algebra or matrix notation and to make
 use of R’s capabilities to do do.</p>
@@ -1617,7 +1621,7 @@ w^T C w
 \end{equation*}\]</span>
 If you multiply a matrix by a column vector, you have to take the inner-product of the vector
 with each row of the matrix, like this:
-<div class="figure" style="text-align: center"><span id="fig:matrix-mult"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:matrix-mult"></span>
 <img src="figures/matrix_multiplication.png" alt="When mutilpying a column vector with a matrix take the inner product of the vector with every row of the matrix. The result will be a row vector" width="90%" />
 <p class="caption">
 Figure 4.4: When mutilpying a column vector with a matrix take the inner product of the vector with every row of the matrix. The result will be a row vector
@@ -1645,9 +1649,9 @@ previous example:</p>
 <span id="cb367-12"><a href="random-variables.html#cb367-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb367-13"><a href="random-variables.html#cb367-13" aria-hidden="true" tabindex="-1"></a>Vp <span class="ot">&lt;-</span> <span class="fu">t</span>(w)<span class="sc">%*%</span> <span class="fu">cov</span>(R)<span class="sc">%*%</span>w</span>
 <span id="cb367-14"><a href="random-variables.html#cb367-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb367-15"><a href="random-variables.html#cb367-15" aria-hidden="true" tabindex="-1"></a>Vp <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
+<span id="cb367-15"><a href="random-variables.html#cb367-15" aria-hidden="true" tabindex="-1"></a>Vp <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##        [,1]
-## [1,] 0.0997</code></pre>
+## [1,] 0.0988</code></pre>
 <p>Much more elegant and less error prone, isn’t it?</p>
 <p>add expectation and variance of functions of a RV <span class="math inline">\(X\)</span>.</p>
 <p>Our portfolio seems to be a bad deal. Over the course of the holding period it had an average
@@ -1660,10 +1664,10 @@ classes. The key words for this body of applied theory is mean variance analysis
 Markowitz Model</p>
 </div>
 </div>
-<div id="the-binomial-distribution-and-models-of-asset-price-dynamics" class="section level2" number="4.6">
-<h2><span class="header-section-number">4.6</span> The Binomial Distribution and models of asset price dynamics</h2>
-<div id="the-binomial-distribution-in-applied-computational-finance" class="section level3" number="4.6.1">
-<h3><span class="header-section-number">4.6.1</span> The binomial distribution in applied computational Finance</h3>
+<div id="the-binomial-distribution-and-models-of-asset-price-dynamics" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> The Binomial Distribution and models of asset price dynamics<a href="random-variables.html#the-binomial-distribution-and-models-of-asset-price-dynamics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="the-binomial-distribution-in-applied-computational-finance" class="section level3 hasAnchor" number="4.6.1">
+<h3><span class="header-section-number">4.6.1</span> The binomial distribution in applied computational Finance<a href="random-variables.html#the-binomial-distribution-in-applied-computational-finance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In the last section of this lecture we discuss one particular discrete distribution: The
 binomial distribution. This is a discrete distribution which is particularly important in
 applied work and it is the foundation of one of the most important models of asset
@@ -1673,8 +1677,8 @@ random variables and their distributions in special functions. We learn how to u
 functions. Their syntax is always the same, and thus, once you know one of them you also know
 the syntax for all the others.</p>
 </div>
-<div id="bernoulli-random-variables-as-a-building-block-of-the-binomial-distribution" class="section level3" number="4.6.2">
-<h3><span class="header-section-number">4.6.2</span> Bernoulli random variables as a building block of the binomial distribution</h3>
+<div id="bernoulli-random-variables-as-a-building-block-of-the-binomial-distribution" class="section level3 hasAnchor" number="4.6.2">
+<h3><span class="header-section-number">4.6.2</span> Bernoulli random variables as a building block of the binomial distribution<a href="random-variables.html#bernoulli-random-variables-as-a-building-block-of-the-binomial-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The sample space of a <strong>Bernoulli experiment</strong> has only two possible outcomes, often denoted as
 “success” and “failure”: <span class="math inline">\({\cal S} = \{\text{success}, \text{failure} \}\)</span>. We have encountered
 this random variable already in form of coin flips in lectures 2, 3 and 4. The flipping of
@@ -1682,7 +1686,8 @@ a coin would be a typical Bernoulli experiment, where the appearance of heads co
 success and tails the failure (or the other way round, this is a convention).</p>
 <dl>
 <dt>Bernoulli random variable</dt>
-<dd>The <strong>bernoulli random variable</strong> takes a value of 1 or 0. The probability of
+<dd>
+The <strong>bernoulli random variable</strong> takes a value of 1 or 0. The probability of
 success is given <span class="math inline">\(p\)</span> and of failure <span class="math inline">\(1-p\)</span>. The notation for a bernoulli random variable
 is <span class="math inline">\(X \sim Ber(p)\)</span>. This means: <span class="math inline">\(X\)</span> is a random variable that has bernoulli distribution with
 success probability <span class="math inline">\(p\)</span> (and thererfore failure probability <span class="math inline">\(1-p\)</span>).
@@ -1693,7 +1698,8 @@ variance is <span class="math inline">\(Var(X) = p (1-p)\)</span>. You may try t
 of expected value and variance we introduced in this lecture.</p>
 <dl>
 <dt>Binomial random variable</dt>
-<dd>The <strong>binomial random variable</strong> generalizes the idea of a Bernoulli random variable. A
+<dd>
+The <strong>binomial random variable</strong> generalizes the idea of a Bernoulli random variable. A
 binomial random variable <span class="math inline">\(X\)</span> is the sum of <span class="math inline">\(n\)</span> independent and identically distributed
 bernoulli random variables. The random variable is defined by two parameters, the total
 number of trials <span class="math inline">\(n\)</span> and the probability of “success” <span class="math inline">\(p\)</span>. It is useful for caclulating
@@ -1772,7 +1778,7 @@ We could do the same experiment now with only one line of code by using the <cod
 <p><img src="Probability_Introduction_files/figure-html/compare-hist-roll-five-1.png" width="672" />
 The probability to get 3 sixes according to the simulation (relative frequency) is:</p>
 <div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="random-variables.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(sim_rolls <span class="sc">==</span> <span class="dv">3</span>)<span class="sc">/</span><span class="fu">length</span>(sim_rolls)</span></code></pre></div>
-<pre><code>## [1] 0.03226</code></pre>
+<pre><code>## [1] 0.03258</code></pre>
 <p>This could be also be compute directly by <code>dbinom()</code>like this:</p>
 <div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="random-variables.html#cb381-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div>
 <pre><code>## [1] 0.03215021</code></pre>
@@ -1783,8 +1789,8 @@ speed and performance will become essential. Using built in functions whenever p
 support this goal. We will talk a bit more systematically about efficient and fast computation
 in the next lecture.</p>
 </div>
-<div id="modeling-asset-price-dynamics-with-binomial-trees" class="section level3" number="4.6.3">
-<h3><span class="header-section-number">4.6.3</span> Modeling asset price dynamics with binomial trees</h3>
+<div id="modeling-asset-price-dynamics-with-binomial-trees" class="section level3 hasAnchor" number="4.6.3">
+<h3><span class="header-section-number">4.6.3</span> Modeling asset price dynamics with binomial trees<a href="random-variables.html#modeling-asset-price-dynamics-with-binomial-trees" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The investment problem we analyzed in this lecture has only one period. Most real world
 investment problems fluctuate and can be traded frequently. They pay dividends, face fluctuating
 interest rates and are subject to various other uncertainties over time.</p>
@@ -1804,7 +1810,7 @@ the next period. The probabilities of these outcomes are <span class="math inlin
 <span class="math inline">\(p\)</span> with <span class="math inline">\(0 &lt; p &lt; 1\)</span>. This model continues for many time steps. If the time step are short,
 there are many possibilities for the price at the end of the process, even though the
 possibilities at each time step are confined to only two.
-<div class="figure" style="text-align: center"><span id="fig:binomial-lattice"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:binomial-lattice"></span>
 <img src="figures/binomial_lattice.png" alt="A binomial lattice with three time steps" width="90%" />
 <p class="caption">
 Figure 4.5: A binomial lattice with three time steps
@@ -1837,7 +1843,7 @@ to zero.</p>
 <p>Now let us check this using our R-tools learned so far. Take again the S&amp;P 500 as our test data
 set. Remember our SP500 data we used before:</p>
 <div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="random-variables.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 5 x 9
+<pre><code>## # A tibble: 5 × 9
 ##   symbol date        open  high   low close     volume adjusted  returns
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 ^GSPC  2011-01-03 1258. 1276. 1258. 1272. 4286670000    1272. NA      
@@ -1868,10 +1874,10 @@ R acrobatics, so if this sounds weird or difficult to comprehend, don’t worry.
 <span id="cb385-7"><a href="random-variables.html#cb385-7" aria-hidden="true" tabindex="-1"></a><span class="co"># apply this function to each element of the list.</span></span>
 <span id="cb385-8"><a href="random-variables.html#cb385-8" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">lapply</span>(split_by_year, sel)</span>
 <span id="cb385-9"><a href="random-variables.html#cb385-9" aria-hidden="true" tabindex="-1"></a><span class="co"># recombine the list entries into a data frame but drop the returns column</span></span>
-<span id="cb385-10"><a href="random-variables.html#cb385-10" aria-hidden="true" tabindex="-1"></a>sp500_annual <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, aux) <span class="sc">|</span><span class="er">&gt;</span> <span class="fu">subset</span>(<span class="at">select =</span> <span class="sc">-</span>returns)</span>
+<span id="cb385-10"><a href="random-variables.html#cb385-10" aria-hidden="true" tabindex="-1"></a>sp500_annual <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, aux) <span class="sc">|&gt;</span> <span class="fu">subset</span>(<span class="at">select =</span> <span class="sc">-</span>returns)</span>
 <span id="cb385-11"><a href="random-variables.html#cb385-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb385-12"><a href="random-variables.html#cb385-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500_annual, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 9
+<pre><code>## # A tibble: 3 × 9
 ##   symbol date        open  high   low close     volume adjusted  year
 ##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
 ## 1 ^GSPC  2011-01-03 1258. 1276. 1258. 1272. 4286670000    1272.  2011
@@ -1934,8 +1940,8 @@ S_{n+1} = S_n X_{n+1} \quad \text{for}\,\, n \geq 0
 \end{equation*}\]</span>
 Thus given the value of <span class="math inline">\(S_n\)</span>
 <span class="math display">\[\begin{equation*}
-S_{n+1} = 
-\begin{cases} 
+S_{n+1} =
+\begin{cases}
 u\,S_n \, \mbox{with probability} \,\,p \\
 d\, S_n \, \mbox{with probability}\,\, (1-p)
 \end{cases}
@@ -1980,8 +1986,8 @@ calibrate our binomial pricing model.</p>
 particular, when it comes to pricing derivatives.</p>
 </div>
 </div>
-<div id="project-credit-risk-model-and-independence" class="section level2" number="4.7">
-<h2><span class="header-section-number">4.7</span> Project: Credit risk model and independence</h2>
+<div id="project-credit-risk-model-and-independence" class="section level2 hasAnchor" number="4.7">
+<h2><span class="header-section-number">4.7</span> Project: Credit risk model and independence<a href="random-variables.html#project-credit-risk-model-and-independence" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In this project you will study the probability of credit risk, the
 risk that one or more creditors in a portfolio of loans will
 default. We have already touched a bit of this problem in our
@@ -2068,7 +2074,6 @@ these two extreme situations?</li>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -2108,6 +2113,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
@@ -2121,7 +2130,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 First probability ideas and first steps in R | An Introduction to Probability</title>
   <meta name="description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 First probability ideas and first steps in R | An Introduction to Probability" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Lecture Notes. The output format for this example is bookdown::gitbook." />
   
@@ -24,7 +23,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2022-02-04" />
+<meta name="date" content="2023-01-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="basic-rules.html"/>
-<script src="libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,9 +49,9 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -93,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -106,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -278,12 +277,6 @@ div.csl-indent {
 <li class="chapter" data-level="6.1.4" data-path="appendix.html"><a href="appendix.html#monte-carlo-simulation-and-computing"><i class="fa fa-check"></i><b>6.1.4</b> Monte Carlo Simulation and Computing</a></li>
 <li class="chapter" data-level="6.1.5" data-path="appendix.html"><a href="appendix.html#finance-and-risk-management"><i class="fa fa-check"></i><b>6.1.5</b> Finance and Risk Management</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="appendix.html"><a href="appendix.html#worked-solutions-for-projects"><i class="fa fa-check"></i><b>6.2</b> Worked Solutions for Projects</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="appendix.html"><a href="appendix.html#project-1-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.1</b> Project 1: Proposal for worked solution</a></li>
-<li class="chapter" data-level="6.2.2" data-path="appendix.html"><a href="appendix.html#project-2-proposal-for-worked-solution"><i class="fa fa-check"></i><b>6.2.2</b> Project 2: Proposal for worked solution:</a></li>
-<li class="chapter" data-level="6.2.3" data-path="appendix.html"><a href="appendix.html#project-3-worked-solution"><i class="fa fa-check"></i><b>6.2.3</b> Project 3: Worked solution</a></li>
-</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -305,8 +298,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="first-steps" class="section level1" number="1">
-<h1><span class="header-section-number">Chapter 1</span> First probability ideas and first steps in R</h1>
+<div id="first-steps" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> First probability ideas and first steps in R<a href="first-steps.html#first-steps" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>If you chose to study Finance it should be natural for you to also study probability.
 After all, Finance studies the allocation and pricing of money across time. You can
 safe money to use it later for purchasing goods and services. You can also borrow money to
@@ -338,14 +331,14 @@ removed from an actual Finance context, I agree. But be patient and bear with me
 building of a die, which can be rolled on the computer is a simple but extremely rich
 example which can lead us straight both into probability and into R at the same time and
 get us started for actual probability applications in Finance.</p>
-<div id="rolling-a-die" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Rolling a die: First Probability ideas.</h2>
+<div id="rolling-a-die" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Rolling a die: First Probability ideas.<a href="first-steps.html#rolling-a-die" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Lets start with a classic and old example of a probability model, which occupied the attention of
 Pascal and Fermat as well as their gambling friend the Chevalier de Méré: Rolling
 a six sided die.</p>
 When you role a die or several dice like shown in the following picture <a href="first-steps.html#fig:dice">1.1</a>,
 it is uncertain on which face it will finally end up after the throw.
-<div class="figure" style="text-align: center"><span id="fig:dice"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:dice"></span>
 <img src="figures/dice.jpg" alt="Rolling dice: An old game of chance" width="25%" />
 <p class="caption">
 Figure 1.1: Rolling dice: An old game of chance
@@ -353,8 +346,8 @@ Figure 1.1: Rolling dice: An old game of chance
 </div>
 <p>What seems clear though is, that it will turn out that it is either one of
 the six possible faces of the die.</p>
-<div id="random-experiments-sample-space-events" class="section level3" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Random experiments, sample space, events</h3>
+<div id="random-experiments-sample-space-events" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Random experiments, sample space, events<a href="first-steps.html#random-experiments-sample-space-events" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In the theory of probability a process leading to an uncertain outcome is called a
 <strong>random experiment</strong>. The example of throwing a die helps us to give a precise meaning
 to the notion of an uncertain outcome. While we can imagine in principle that the die lands on
@@ -372,8 +365,8 @@ is given as the set <span class="math inline">\({\cal S} = \{1,2,3,4,5,6\}\)</sp
 are often called <strong>events</strong> in probability theory. An event could be - for example -
 an outcome where the die shows an upward looking face with an even number <span class="math inline">\(A = \{2,4,6\}\)</span>.</p>
 </div>
-<div id="the-role-and-nature-of-idealizations-in-applications" class="section level3" number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> The role and nature of idealizations in applications</h3>
+<div id="the-role-and-nature-of-idealizations-in-applications" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> The role and nature of idealizations in applications<a href="first-steps.html#the-role-and-nature-of-idealizations-in-applications" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Idealizations of the kind we discussed for the throw of a die are standard in probability and
 we will encounter them again and again. For example the movement of a stock price is often
 though of as a conceptual random experiment. When we try to agree on what is the
@@ -393,8 +386,8 @@ on a security price at <span class="math inline">\(x\)</span> it would be also a
 could be just a cent higher, an assumption equally unappealing than assuming it can get in
 principle arbitrarily high.</p>
 </div>
-<div id="classical-probability" class="section level3" number="1.1.3">
-<h3><span class="header-section-number">1.1.3</span> Classical Probability: Measuring uncertainty</h3>
+<div id="classical-probability" class="section level3 hasAnchor" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Classical Probability: Measuring uncertainty<a href="first-steps.html#classical-probability" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Probability</strong> is a measure of how likely an event of an experiment is. But how could we measure
 chance? Here is the first big idea of probability theory and how the originators
 thought about it.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
@@ -429,16 +422,16 @@ to look at the die rolling example from the perspective of R and dive into
 some of its basic concepts.</p>
 </div>
 </div>
-<div id="rolling-die-on-computer" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Rolling a die on the computer: First steps in R</h2>
-<div id="r-interface" class="section level3" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> The R User Interface</h3>
+<div id="rolling-die-on-computer" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Rolling a die on the computer: First steps in R<a href="first-steps.html#rolling-die-on-computer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="r-interface" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> The R User Interface<a href="first-steps.html#r-interface" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 Before we can ask our tool to do anything for us, we need to know how to talk to
 it. In our case RStudio allows us to talk to our computer. It works like any other
 application. When you launch RStudio on your computer, in figure
 <a href="first-steps.html#fig:rstudio-start-screen">1.2</a> you see a screen looking like
 this:
-<div class="figure" style="text-align: center"><span id="fig:rstudio-start-screen"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rstudio-start-screen"></span>
 <img src="figures/Screenshot_RStudio.png" alt="The RStudio startup screen" width="90%" />
 <p class="caption">
 Figure 1.2: The RStudio startup screen
@@ -532,8 +525,8 @@ of 10 points is the empty set <span class="math inline">\(A = \emptyset\)</span>
 means the set containing no elements. This event can contain no elements because we can not get
 a score of 10 by rolling a six sided die.</p>
 </div>
-<div id="objects" class="section level3" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> Objects</h3>
+<div id="objects" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Objects<a href="first-steps.html#objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>You can save data in R by storing them in <strong>objects</strong>.
 An object is a name, you can choose yourself to
 store data. For example, if you choose to store the value <code>6</code> in an object called <code>point_six</code>,
@@ -556,7 +549,7 @@ values stored in it, like this:</p>
 typing the following command at the prompt. This command creates an object with name
 <code>die</code> and assigns the vector <code>1,2,3,4,5, 6</code> to it.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="first-steps.html#cb14-1" aria-hidden="true" tabindex="-1"></a>die <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:rstudio-screen-with-command"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rstudio-screen-with-command"></span>
 <img src="figures/screenwithobject.png" alt="The RStudio Environment pane keeps track of the objects you have created" width="90%" />
 <p class="caption">
 Figure 1.3: The RStudio Environment pane keeps track of the objects you have created
@@ -619,8 +612,8 @@ It will give you a warning though.</p>
 element-wise execution is often extremely useful. It allows to manipulate groups of values in
 a systematic yet easy way.</p>
 </div>
-<div id="functions" class="section level3" number="1.2.3">
-<h3><span class="header-section-number">1.2.3</span> Functions</h3>
+<div id="functions" class="section level3 hasAnchor" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Functions<a href="first-steps.html#functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>R contains many <strong>functions</strong> which we can use to manipulate data and compute things.
 The syntax for
 using a function is very simple: You type the function name and put the value of the function
@@ -651,19 +644,19 @@ we can roll our die on the computer and conduct actual random experiments.</p>
 as arguments a vector names <code>x</code> and a number named <code>size</code>. <code>sample</code> will return
 <code>size</code> elements randomly chosen from the vector <code>x</code>. Lets say:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="first-steps.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## [1] 1 3</code></pre>
+<pre><code>## [1] 4 3</code></pre>
 <p>In this case <code>sample</code> has chosen <code>4,1</code> from the vector <code>x = (1,2,3,4)</code> at random.</p>
 <p>If we want
 to roll the die in our computer we can thus pass the die as an argument to <code>sample</code> and
 use the number <code>1</code> for the <code>size</code> argument. Lets do a few rolls with our die</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="first-steps.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 4</code></pre>
+<pre><code>## [1] 3</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="first-steps.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="first-steps.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 5</code></pre>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="first-steps.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 3</code></pre>
+<pre><code>## [1] 6</code></pre>
 <p>These are the random outcomes of our consecutive rolls. It is as if we had thrown an
 actual die but in this case we have done the same thing on the computer. Isn’t it cool that
 this is possible at all? The <code>sample()</code> function will remain our good friend throughout this
@@ -675,7 +668,7 @@ the data. Names help us to avoid passing the wrong
 data and thereby mixing up things or committing errors. But using names is not
 necessary. If we just wrote</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="first-steps.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(die,<span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 5</code></pre>
 <p>R would also know what to do. It is not always clear which names to use
 for a function. If you are
 not sure, you can use the function <code>args()</code> to look it up. Here we take the
@@ -690,8 +683,8 @@ default value, which is <code>0</code> in case of the round function.</p>
 errors. If you don’t write argument names, R matches your values to the arguments of the
 function by order.</p>
 </div>
-<div id="writing_your_own_functions" class="section level3" number="1.2.4">
-<h3><span class="header-section-number">1.2.4</span> Writing your own functions</h3>
+<div id="writing_your_own_functions" class="section level3 hasAnchor" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Writing your own functions<a href="first-steps.html#writing_your_own_functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now we are ready to write our own function to roll the die in our computer. Each function in R
 has the same elements: A <strong>name</strong>, a <strong>function body</strong> of code and a set of <strong>arguments</strong>.
 To write your
@@ -707,15 +700,15 @@ have to write the actual code within the braces <code>{}</code>.</p>
 <span id="cb51-2"><a href="first-steps.html#cb51-2" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">sample</span>(die, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now we can roll our die for a few times to show how the function works</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="first-steps.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 4</code></pre>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="first-steps.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 4</code></pre>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="first-steps.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 3</code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="first-steps.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 6</code></pre>
+<pre><code>## [1] 1</code></pre>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="first-steps.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code></pre></div>
-<pre><code>## [1] 6</code></pre>
+<pre><code>## [1] 5</code></pre>
 <p>Note that in our function <code>roll_die()</code> has no arguments, just the function body. This is
 perfectly legitimate in R. It is important that when we call the function we have to call it
 with the parenthesis like <code>roll_die()</code>. If we only call the name <code>roll_die</code>, R will display the
@@ -747,10 +740,10 @@ you omit the trigger R just prints the body of the function. When you run a func
 all the code in the function body is executed and R returns the result of the last
 line of code. If the last line of code does not return a value neither will R.</p>
 </div>
-<div id="arguments" class="section level3" number="1.2.5">
-<h3><span class="header-section-number">1.2.5</span> Arguments</h3>
+<div id="arguments" class="section level3 hasAnchor" number="1.2.5">
+<h3><span class="header-section-number">1.2.5</span> Arguments<a href="first-steps.html#arguments" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Imagine we remove the first line of code in our function body and changed the name
-die in the sample function to “ball.”</p>
+die in the sample function to “ball”.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="first-steps.html#cb64-1" aria-hidden="true" tabindex="-1"></a>roll_die2 <span class="ot">&lt;-</span> <span class="cf">function</span>(){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>If we call the function now, we will get an error. The function call <code>roll_die2()</code> will
 result in
@@ -760,17 +753,17 @@ function. Lets do this:</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="first-steps.html#cb65-1" aria-hidden="true" tabindex="-1"></a>roll_die2 <span class="ot">&lt;-</span> <span class="cf">function</span>(ball){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now the function will work as long as we supply <code>ball</code> when we call the function.</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="first-steps.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die2</span>(<span class="at">ball =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code></pre></div>
-<pre><code>## [1] 4</code></pre>
+<pre><code>## [1] 1</code></pre>
 <p>Note that we still get an error, if we forget to supply ball argument.
 This could be avoided if we give the function a default argument</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="first-steps.html#cb68-1" aria-hidden="true" tabindex="-1"></a>roll_die2 <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ball=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div>
 <p>Now if we type:</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="first-steps.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die2</span>()</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 1</code></pre>
 <p>everything works, just as intended.</p>
 </div>
-<div id="scripts" class="section level3" number="1.2.6">
-<h3><span class="header-section-number">1.2.6</span> Scripts</h3>
+<div id="scripts" class="section level3 hasAnchor" number="1.2.6">
+<h3><span class="header-section-number">1.2.6</span> Scripts<a href="first-steps.html#scripts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>So far we have worked by interacting with the console. But what if you want to edit
 your functions? It would be much easier, if you could use a draft of your code and
 work form there. This can be done by using a <strong>script</strong>.</p>
@@ -780,7 +773,7 @@ save it and edit it later.
 It also makes your work <em>reproducible</em>. You can edit and proofread your
 code and share it with others. To save your script go to <code>File &gt; Save As</code> in the
 menu bar.</p>
-<div class="figure" style="text-align: center"><span id="fig:scriptscreen"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:scriptscreen"></span>
 <img src="figures/scriptscreen.png" alt="The RStudio Script" width="90%" />
 <p class="caption">
 Figure 1.4: The RStudio Script
@@ -794,8 +787,8 @@ there are key short cuts which you will learn as you work more with RStudio and 
 <p>From now on you should write all your R-code for this course in scripts. Make a new folder
 for the scripts you write and store your R-code there from now on.</p>
 </div>
-<div id="packages_help" class="section level3" number="1.2.7">
-<h3><span class="header-section-number">1.2.7</span> Using packages and finding Help</h3>
+<div id="packages_help" class="section level3 hasAnchor" number="1.2.7">
+<h3><span class="header-section-number">1.2.7</span> Using packages and finding Help<a href="first-steps.html#packages_help" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We have now a function which we can use to simulate the rolling of a die, <code>roll_die()</code>. If the
 die is <em>fair</em> it should be the case that if we roll the die often, all numbers should occur
 about equally often. The die should not be weighted in favor of a particular value.</p>
@@ -809,8 +802,8 @@ to be installed and loaded before you can use them.
 Since packages are such a powerful tool in R we need to introduce what they are and how to use
 them in the beginning.</p>
 </div>
-<div id="packages" class="section level3" number="1.2.8">
-<h3><span class="header-section-number">1.2.8</span> Packages</h3>
+<div id="packages" class="section level3 hasAnchor" number="1.2.8">
+<h3><span class="header-section-number">1.2.8</span> Packages<a href="first-steps.html#packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are many visualization tools in R that come with the basic installation. Since the point
 we want to make here is about packages, we will use a visualization function which is part of
 the add on package <strong>ggplot2</strong>, a very popular package for making all kinds of graphs. ggplot2
@@ -818,7 +811,7 @@ is not part of the base-R distribution. It has to be therefore loaded before we 
 use it.</p>
 <p>There are
 many additional functions provided with this package. Indeed you could
-run a whole course on just that<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> For the point we want to make here
+run a whole course on just that <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> For the point we want to make here
 we will use just one of them, called <code>qplot()</code>, a shorthand for for quick plot.</p>
 <p>Since <code>qplot()</code> is a function in the package <em>ggplot2</em>, we first need to install this package.
 To install a package you need to be connected to the internet. If you have internet connection
@@ -852,7 +845,7 @@ to the <code>replicate</code> function.</p>
 We now use the <code>qplot()</code>function from the <em>ggplot2</em> library to make a quick visualization, by
 typing the command <code>qplot(rolls)</code>. I include the resulting picture in the
 following figure
-<div class="figure" style="text-align: center"><span id="fig:100-rolls-of-a-fair-die"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:100-rolls-of-a-fair-die"></span>
 <img src="figures/100_rolls.png" alt="Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 100 times" width="90%" />
 <p class="caption">
 Figure 1.5: Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 100 times
@@ -873,7 +866,7 @@ a fingertip. Let us roll our die 10000 times and plot the result.</p>
 <pre><code>&gt; rolls2 &lt;- replicate(10000, roll_die())
 &gt; qplot(rolls2m bindwidth = 1)</code></pre>
 <p>Now the picture looks better.</p>
-<div class="figure" style="text-align: center"><span id="fig:1000-rolls-of-a-fair-die"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:1000-rolls-of-a-fair-die"></span>
 <img src="figures/10000_rolls.png" alt="Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 10000 times" width="90%" />
 <p class="caption">
 Figure 1.6: Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 10000 times
@@ -884,8 +877,8 @@ increase the number of rolls of the die. For the moment, let us just state that
 at least for this case it seems that there is no significant visual evidence that our
 virtual die is loaded.</p>
 </div>
-<div id="getting_help" class="section level3" number="1.2.9">
-<h3><span class="header-section-number">1.2.9</span> Getting Help</h3>
+<div id="getting_help" class="section level3 hasAnchor" number="1.2.9">
+<h3><span class="header-section-number">1.2.9</span> Getting Help<a href="first-steps.html#getting_help" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We have now learned a tiny number of R functions and we have written one function
 ourselves. We have
 learned how to make use of functions provided by packages.</p>
@@ -900,7 +893,7 @@ question mark at the prompt, like this</p>
 Then, after you have pressed the return key, a help page is opened in the right
 lower pane under the
 help tab as shown in <a href="first-steps.html#fig:helpinr">1.7</a>
-<div class="figure" style="text-align: center"><span id="fig:helpinr"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:helpinr"></span>
 <img src="figures/rhelp.png" alt="The Help-pane in RStudio" width="90%" />
 <p class="caption">
 Figure 1.7: The Help-pane in RStudio
@@ -954,10 +947,10 @@ we have a reference to related R functions under the field <strong>See</strong>.
 couple of different cases how you can use the function in practice.</p>
 </div>
 </div>
-<div id="coincidences" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Application: Coincidences and the Blockchain</h2>
-<div id="birthday_problem" class="section level3" number="1.3.1">
-<h3><span class="header-section-number">1.3.1</span> The birthday problem</h3>
+<div id="coincidences" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Application: Coincidences and the Blockchain<a href="first-steps.html#coincidences" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="birthday_problem" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> The birthday problem<a href="first-steps.html#birthday_problem" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We learned now some basic notions of probability and of R with the example of the
 rolling of a fair die. It is really surprising what already can be done by just applying
 the simple ideas we have just learned. The application we want to show you now is
@@ -1001,7 +994,7 @@ different the probability that the third person has a different birthday from th
 <span class="math inline">\(\frac{363}{365}\)</span> and so on for all <span class="math inline">\(n\)</span> in the room. Thus the probability of a shared birthday
 in the room is:
 <span class="math display">\[\begin{equation*}
-P(\text{at least two people share birthday}) = 
+P(\text{at least two people share birthday}) =
 1 - \frac{365 \times 364 \times 363 \cdots \times 365 - n +1}{365^n}
 \end{equation*}\]</span>
 Now there is an additional thing we did not yet introduce and which we will learn
@@ -1022,8 +1015,8 @@ starting at 365 and ending at 343. Then the probability can be computed as</p>
 that with 23 people the probability is already larger than 50 %. Quite stunning. You can now
 verify yourself that with 50 people this probability is already at 97 %.</p>
 </div>
-<div id="an-r-function-to-compute-birthday-probabilities" class="section level3" number="1.3.2">
-<h3><span class="header-section-number">1.3.2</span> An R function to compute birthday probabilities</h3>
+<div id="an-r-function-to-compute-birthday-probabilities" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> An R function to compute birthday probabilities<a href="first-steps.html#an-r-function-to-compute-birthday-probabilities" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now let us use our knowledge about how to write R functions to write a function to
 compute birthday probabilities. The function argument is the number <span class="math inline">\(n\)</span> of people in class.
 The coincidence probability is given by the formula we have derived. Now
@@ -1037,8 +1030,8 @@ here is how we could go about writing this function:</p>
 <p>Voila, indeed with 50 people in the group the collision probability is already
 at 97 %.</p>
 </div>
-<div id="determining-birthday-collisions-by-simulation" class="section level3" number="1.3.3">
-<h3><span class="header-section-number">1.3.3</span> Determining birthday collisions by simulation</h3>
+<div id="determining-birthday-collisions-by-simulation" class="section level3 hasAnchor" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Determining birthday collisions by simulation<a href="first-steps.html#determining-birthday-collisions-by-simulation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now this was an argument derived analytically and then we just packed the derived result into
 a function to compute the exact birthday-collision probabilities. Here is how we could
 figure out these probabilities by simulation, even with the minimal tools we have
@@ -1097,7 +1090,7 @@ at the moment.</p>
 <p>In the numerator I ask R to count the number of 0s (no birthday collisions) in the object
 <code>simprobs_23</code> and then I divide it by 10000, just as in the definition of relative frequency probability. Then I compute 1 minus this relative frequency</p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="first-steps.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_23[simprobs_23 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">10000</span></span></code></pre></div>
-<pre><code>## [1] 0.4994</code></pre>
+<pre><code>## [1] 0.5067</code></pre>
 <p>Voila, this is pretty good, isn’t it? Remember that the analytical solution we just got a bit
 earlier was <code>0.5072972</code></p>
 <p>Isn’t this cool? Instead of using formal reasoning we built a random experiment on the
@@ -1111,13 +1104,13 @@ stitch all steps together.</p>
 <span id="cb89-4"><a href="first-steps.html#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb89-5"><a href="first-steps.html#cb89-5" aria-hidden="true" tabindex="-1"></a>simprobs_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100000</span>, <span class="fu">sim_50</span>())</span>
 <span id="cb89-6"><a href="first-steps.html#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_50[simprobs_50 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">100000</span></span></code></pre></div>
-<pre><code>## [1] 0.96983</code></pre>
+<pre><code>## [1] 0.96999</code></pre>
 <p>Pretty amazing! Before we got the exact value as <code>0.9703736</code>.</p>
 <p>But now let us stay still with the birthday problem but now get away from this playful
 application to something really serious: Cryptography.</p>
 </div>
-<div id="hashfunctions" class="section level3" number="1.3.4">
-<h3><span class="header-section-number">1.3.4</span> Hash-functions and the blockchain</h3>
+<div id="hashfunctions" class="section level3 hasAnchor" number="1.3.4">
+<h3><span class="header-section-number">1.3.4</span> Hash-functions and the blockchain<a href="first-steps.html#hashfunctions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The birthday problem is the canonical model for the probabilistic study
 of coincidences of all kinds.
 A particular important application of this idea is in cryptography, and its
@@ -1156,7 +1149,7 @@ before the probability of a collision is larger than a certain threshold?</p>
 <p>The probability of no-collision (<span class="math inline">\(nc\)</span>) with <span class="math inline">\(n\)</span> hashed-messages
 through a SHA-256 hash function is
 <span class="math display">\[\begin{equation*}
-P_{nc}(n) = 1 \times \left(1 - \frac{1}{2^{256}}\right)\times 
+P_{nc}(n) = 1 \times \left(1 - \frac{1}{2^{256}}\right)\times
 \left(1 - \frac{2}{2^{256}}\right) \times \cdots \times \left(1 - \frac{(n-1)}{2^{256}}\right)
 \end{equation*}\]</span></p>
 <p>Now to do the estimation of the threshold we use an approximation, which works with
@@ -1166,8 +1159,8 @@ approximately as
 <span class="math display">\[\begin{align*}
 P_{nc}(n) &amp;\approx 1 \times \exp\left(-\frac{1}{2^{256}}\right) \times \exp\left(-\frac{2}{2^{256}}\right) \times \cdots
 \times \exp\left(-\frac{(n-1)}{2^{256}}\right) \\
- &amp;\approx 1 \times \exp\left(-\frac{(1+2+3+...+(n-1))}{2^{256}} \right) \\
- &amp;\approx \exp\left(-\frac{n \times (n-1)}{2 \times 2^{256}}\right)
+&amp;\approx 1 \times \exp\left(-\frac{(1+2+3+...+(n-1))}{2^{256}} \right) \\
+&amp;\approx \exp\left(-\frac{n \times (n-1)}{2 \times 2^{256}}\right)
 \end{align*}\]</span>
 Now if <span class="math inline">\(n \ll 2^{256}\)</span> we can again use the approximation
 <span class="math inline">\(\exp(x) \approx 1 + x\)</span> to get the probability of a hash-collision as
@@ -1188,11 +1181,11 @@ Thus to have a collision probability with <span class="math inline">\(99.8%\)</s
 <p>which amounts to <span class="math inline">\(2^{128}\)</span> hashes. This is, of course a <strong>really</strong> big number.</p>
 <p>Let’s put this
 into perspective: If a computer computes <span class="math inline">\(10000\)</span> hashes per second, it would take
-more than <span class="math inline">\(10^{27}\)</span> years to compute <span class="math inline">\(2^{128}\)</span> hashes. <span class="citation"><a href="#ref-Narayananetal2016" role="doc-biblioref">Narayanan et al.</a> (<a href="#ref-Narayananetal2016" role="doc-biblioref">2016</a>)</span> formulate it like this: “<em>…if every computer ever made by humanity had been computing since the beginning of the universe, the odds that they would have found a collision by now are still infinitesimally small. So small that it it’s far less than the odds that a meteor will land on your house.</em>”</p>
+more than <span class="math inline">\(10^{27}\)</span> years to compute <span class="math inline">\(2^{128}\)</span> hashes. <span class="citation">Narayanan et al. (<a href="#ref-Narayananetal2016" role="doc-biblioref">2016</a>)</span> formulate it like this: “<em>…if every computer ever made by humanity had been computing since the beginning of the universe, the odds that they would have found a collision by now are still infinitesimally small. So small that it it’s far less than the odds that a meteor will land on your house.</em>”.</p>
 </div>
 </div>
-<div id="summary" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Summary</h2>
+<div id="summary" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Summary<a href="first-steps.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In this lecture we have taken a first step towards some very basic probability notions and some
 basic steps in R. Isn’t it amazing how much territory we could cover with so few concepts?
 You have learned about how to think probabilistically about collision probabilities and
@@ -1232,8 +1225,8 @@ execution of commands.</li>
 <li><strong>Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability</strong></li>
 </ol>
 </div>
-<div id="project-1-craps-a-casion-dice-game." class="section level2" number="1.5">
-<h2><span class="header-section-number">1.5</span> Project 1: Craps: A casion dice game.</h2>
+<div id="project-1-craps-a-casion-dice-game." class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Project 1: Craps: A casion dice game.<a href="first-steps.html#project-1-craps-a-casion-dice-game." class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The first project is about one of the very few dice games offered at a Casino:
 Craps.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
 <p>In Craps people throw a pair of dice and bet on outcomes of these
@@ -1287,11 +1280,11 @@ Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science</em>. O’R
 <div class="footnotes">
 <hr />
 <ol start="2">
-<li id="fn2"><p>In this discussion I use chapter 1 in <span class="citation"><a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">Diaconis and Skyrms</a> (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span><a href="first-steps.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>In this discussion I use chapter 1 in <span class="citation">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span><a href="first-steps.html#fnref2" class="footnote-back">↩︎</a></p></li>
 <li id="fn3"><p>A very good starting point is for
-instance <span class="citation"><a href="#ref-Healy2018" role="doc-biblioref">Healy</a> (<a href="#ref-Healy2018" role="doc-biblioref">2019</a>)</span>, in case you are interested. Also a good source is the
-first chapter in <span class="citation"><a href="#ref-WickhamGrolemund2017" role="doc-biblioref">Wickham and Grolemund</a> (<a href="#ref-WickhamGrolemund2017" role="doc-biblioref">2017</a>)</span>.<a href="first-steps.html#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>We follow here the discussion in <span class="citation"><a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">Diaconis and Skyrms</a> (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span><a href="first-steps.html#fnref4" class="footnote-back">↩︎</a></p></li>
+instance <span class="citation">Healy (<a href="#ref-Healy2018" role="doc-biblioref">2019</a>)</span>, in case you are interested. Also a good source is the
+first chapter in <span class="citation">Wickham and Grolemund (<a href="#ref-WickhamGrolemund2017" role="doc-biblioref">2017</a>)</span>.<a href="first-steps.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>We follow here the discussion in <span class="citation">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span><a href="first-steps.html#fnref4" class="footnote-back">↩︎</a></p></li>
 <li id="fn5"><p>We have taken this discussion from <a href="https://brilliant.org/wiki/birthday-paradox/" class="uri">https://brilliant.org/wiki/birthday-paradox/</a><a href="first-steps.html#fnref5" class="footnote-back">↩︎</a></p></li>
 <li id="fn6"><p>A bit, short for binary digit, is defined as the most basic
 unit of data in telecommunications and computing. Each bit is represented
@@ -1312,7 +1305,6 @@ skills in R.<a href="first-steps.html#fnref7" class="footnote-back">↩︎</a></
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1352,6 +1344,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
@@ -1365,7 +1361,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
