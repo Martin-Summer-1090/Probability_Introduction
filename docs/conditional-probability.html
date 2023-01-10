@@ -23,7 +23,7 @@
 <meta name="author" content="Martin Summer" />
 
 
-<meta name="date" content="2023-01-09" />
+<meta name="date" content="2023-01-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -411,7 +411,7 @@ an argument to most statistical functions, which allow you to drop the <code>NA<
 computation, <code>na.rm</code>. When we set this argument to <code>TRUE</code> (or equivalently <code>T</code>), R is able
 to do the computation:</p>
 <div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="conditional-probability.html#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(apple<span class="sc">$</span>changes, <span class="at">na.rm =</span> T)</span></code></pre></div>
-<pre><code>## [1] 0.03898433</code></pre>
+<pre><code>## [1] 0.03914671</code></pre>
 <p>Occasionally, you also want to identify or count the <code>NA</code> in your data with a logical test. For
 this purpose R provides a special function <code>is.na()</code>. This function takes a value and checks
 whether it is an <code>NA</code>. Say, for example, we have the vector:</p>
@@ -438,9 +438,9 @@ R is performing for us. We also add the marginal sums by giving the output of th
 <div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="conditional-probability.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">table</span>(sp500<span class="sc">$</span>up, apple<span class="sc">$</span>up, <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;SP500&quot;</span>, <span class="st">&quot;Apple&quot;</span>)))</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500   FALSE TRUE  Sum
-##   FALSE   988  402 1390
+##   FALSE   988  403 1391
 ##   TRUE    457 1176 1633
-##   Sum    1445 1578 3023</code></pre>
+##   Sum    1445 1579 3024</code></pre>
 <p>From this table you can read the total number of cases where it is true that
 the SP500 index and the Apple stock price move
 up together, the number of cases when they fall together as well as
@@ -490,9 +490,9 @@ a case in applied data analysis that R has a function for it, the <code>prop.tab
 <span id="cb243-6"><a href="conditional-probability.html#cb243-6" aria-hidden="true" tabindex="-1"></a>prop_table</span></code></pre></div>
 <pre><code>##        Apple
 ## SP500       FALSE      TRUE       Sum
-##   FALSE 0.3268277 0.1329805 0.4598081
-##   TRUE  0.1511743 0.3890175 0.5401919
-##   Sum   0.4780020 0.5219980 1.0000000</code></pre>
+##   FALSE 0.3267196 0.1332672 0.4599868
+##   TRUE  0.1511243 0.3888889 0.5400132
+##   Sum   0.4778439 0.5221561 1.0000000</code></pre>
 <p>The <strong>marginal probability</strong> that the SP500 will make an Up move is:
 <span class="math display">\[\begin{equation*}
 P(\text{SP500-Up} \cap \text{Apple-Down}) + P(\text{SP500-Up} \cap \text{Apple-up}) = P(\text{SP500-Up})
@@ -1204,14 +1204,14 @@ probability, in which case each outcome should get a probability 1/2.</p>
 select the <code>"H"</code> outcomes and calculate its length:</p>
 <div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="conditional-probability.html#cb261-1" aria-hidden="true" tabindex="-1"></a>sel_heads <span class="ot">&lt;-</span> green_tosses[green_tosses <span class="sc">==</span> <span class="st">&quot;H&quot;</span>]</span>
 <span id="cb261-2"><a href="conditional-probability.html#cb261-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel_heads)</span></code></pre></div>
-<pre><code>## [1] 82</code></pre>
-<p>This means we have 82 cases where we get 2 and 18
+<pre><code>## [1] 72</code></pre>
+<p>This means we have 72 cases where we get 2 and 28
 cases where we get 0. Thus on average
 we will get:</p>
 <div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="conditional-probability.html#cb263-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">length</span>(sel_heads)<span class="sc">/</span><span class="dv">100</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 1.64</code></pre>
+<pre><code>## [1] 1.44</code></pre>
 <p>So if we payed 1.20 for that round we would make a profit of
-0.44. The reasoning behind this argument is that the payoff
+0.24. The reasoning behind this argument is that the payoff
 associated with a randomly flipped coin, which lands with 70 % chance on
 heads and with 30 % chance on tails will pay 2 or 0 at each flip but over a longer sequence
 of flips it will come up heads approximately 7 out of 10 and thus will pay on
