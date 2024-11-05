@@ -6,10 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Norah Jones">
-<meta name="dcterms.date" content="2024-11-05">
+<meta name="author" content="Martin Summer">
 
-<title>Probability_Introduction</title>
+<title>An Introduction to Probability</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -107,7 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -131,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Probability_Introduction</a> 
+      <a href="./">An Introduction to Probability</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -175,16 +140,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
+  <ul class="collapse">
+  <li><a href="#what-are-these-lecture-notes-about" id="toc-what-are-these-lecture-notes-about" class="nav-link" data-scroll-target="#what-are-these-lecture-notes-about">What are these lecture notes about</a></li>
+  <li><a href="#downloading-and-installing-r" id="toc-downloading-and-installing-r" class="nav-link" data-scroll-target="#downloading-and-installing-r">Downloading and installing R</a></li>
+  <li><a href="#downloading-and-installing-rstudio" id="toc-downloading-and-installing-rstudio" class="nav-link" data-scroll-target="#downloading-and-installing-rstudio">Downloading and installing RStudio</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#structure-of-the-notes" id="toc-structure-of-the-notes" class="nav-link" data-scroll-target="#structure-of-the-notes">Structure of the Notes</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Probability_Introduction</h1>
+<h1 class="title">An Introduction to Probability</h1>
+<p class="subtitle lead">With Applications to Computational Finance using R</p>
 </div>
 
 
@@ -194,14 +169,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Norah Jones </p>
+             <p>Martin Summer </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 5, 2024</p>
+      <p class="date">5 November, 2024</p>
     </div>
   </div>
   
@@ -213,19 +188,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="preface" class="level1 unnumbered">
+<section id="preface" class="level1 unnumbered page-columns page-full">
 <h1 class="unnumbered">Preface</h1>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<blockquote class="blockquote">
+<p>“What I hear, I forget; What I see, I remember; What I do, I understand”</p>
+<p>Confucius, 551-479 BC’</p>
+</blockquote>
+<section id="what-are-these-lecture-notes-about" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="what-are-these-lecture-notes-about">What are these lecture notes about</h2>
+<p>These lecture notes support the course <strong>An Introduction to Probability - with Applications to Computational Finance using R</strong>. Our lectures are going to teach you basic concepts of probability every finance practitioner needs to know and be familiar with. Because you will need probability as a tool for thinking about and solving finance problems with computational methods, we will use computational finance as the context within which we develop the concepts and ideas of probability. But we will also make much use of the computer in this course: Our approach to teaching you basic concepts of probability is based on understanding concepts by building them with your own hands.</p>
+<p>But how can we build abstract concepts such as probability, random phenomena and chance by our own hands? While probability is a mathematical theory, it gains practical value and an intuitive meaning in connection with real or conceptual experiments such as, the future change in a stock price index, the future value of a portfolio of securities, the chance that a creditor is not going to be able to pay back your loan.</p>
+<p>Many of these experiments we can nowadays simulate on the computer. We can can construct, build and simulate a huge variety of random phenomena. We can - for instance - implement models of random fluctuations of asset prices. We can model financial risks and contemplate possible future scenarios through simulation.</p>
+<p>The arrival of the computer has been indeed a sea change for the mathematics of probability because it allows both reflecting about probability through theorems and proofs as well as by making use of computer simulation. We can approach our understanding of abstract concepts by building them with our own hands on the computer. This is the approach to teaching you probability in this course.</p>
+<p>It is, however important to always keep in mind that the real world is different from the theory world as well as from the simulated world. The real world is both richer and more complex than both theory and simulation. It may contain features which need to be be taken into account for the explanation of phenomena which are absent in theory or in the simulation. We will try our best to develop your feeling for the difference, between theoretical concepts, simulations and applications as well as for the interdependence of these three areas.</p>
+<p>There are many ways to build virtual objects and to run simulations to manipulate them. For this we will need a programming language. The language we choose for this course is R and the integrated development environment RStudio. This is one of the main languages used in data analysis, statistics and data science and is widely used in industry and academia. It will be our tool to do probability in this course.</p>
+</section>
+<section id="downloading-and-installing-r" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="downloading-and-installing-r">Downloading and installing R</h2>
+<p>So lets start by downloading and installing R first. R is an open source project maintained by an international team of developers. The software is made available through a website called the comprehensive R archive network (http://cran.r-project.org).</p>
+<p>At the top of this website, in a box named “Download and install R” you will find three links for downloading R. Choose the link that describes your operating system, Windows, Mac or Linux. These links will lead you to the necessary information you need to install a current version of R. The easiest install option is to install R from precompiled binaries. There is also the option to built R from source on all operating systems if you have the tools and the expertise to do so. R also comes both in a 32-bit and a 64-bit version. It does not make a substantial difference which version you use. 64-bit versions can handle larger files and data sets with fewer memory management problems.</p>
+</section>
+<section id="downloading-and-installing-rstudio" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="downloading-and-installing-rstudio">Downloading and installing RStudio</h2>
+<p>RStudio is an application that helps you write and develop R code. It makes using R much easier for you than using it in isolation. The interface of RStudio looks the same across all operating systems.</p>
+<p>You can download RStudio for free from https://www.rstudio.com/products/rstudio/. Select the box RStudio Desktop and follow the download instructions. RStudio Desktop is free. Note that you need to have a version of R installed to use RStudio.</p>
+<p>If you have successfully installed R and RStudio, we are ready to start.</p>
+</section>
+<section id="prerequisites" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<p>This course is built as an intuitive and elementary introduction to the field. No knowledge of probability or R is assumed and all concepts are built from scratch. You should be able to study for this course by relying on the slides and these lecture notes only without having to consult a textbook or further literature.</p>
+<p>Many of you will have heard or studied probability at some stage in college or at university. I hope the course will appeal to the newcomers as well as to the experienced. While it should allow the first group to quickly learn some of the most important concepts and raise your curiosity and excitement about a field of knowledge which is both beautiful and immensely practical, I hope it will open a new perspective for the more experienced among you and thus help deepening your understanding of concepts you might already have heard elsewhere.</p>
+<p>The lectures develop probability concepts and R concepts in parallel. This follows the idea underlying this course to develop your knowledge of probability concepts by building them on the computer yourself and play with them. In this way we hope to build your R skills more thoroughly because they appear in a natural context and that this context also reinforces your understanding of probability.</p>
+</section>
+<section id="structure-of-the-notes" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="structure-of-the-notes">Structure of the Notes</h2>
+<p>The notes are structured into five main chapters. The idea is to cover each main chapter topic in one of the five double units allocated to this course.</p>
+<p>Each of the main chapters or lectures are followed by a so called <em>project</em>. The projects are meant to be worked on by you in the assigned groups between the lectures and should help you to practice and to deepen what you have learned. We will discuss the project questions at the end of each lecture. We will also distribute a worked problem after you have worked on it yourself.</p>
+<p>We begin the first lecture, <strong>lecture 1</strong> by discussing some of the main basic probability fundamentals by putting them in their historical context where the first ideas appear of how you could measure something such elusive as <em>chance</em> at all. Surprisingly these first simple ideas are already very rich and lead us quite far into the field and its problems.</p>
+<p>In this lecture we will also give a first panoramic run down of what you can do with R. In this lecture the first application will be a simple game of chance, the rolling of a dice. This is the only non directly finance related example discussed at length in this course but as we go along you will recognize that dice games and investment problems, for example, are not all that far apart really, at least with respect to their probabilistic structure and how you can model it.</p>
+<p>But even the very basic ideas of probability and R enable us, already at this early stage, to take on a serious real world problem as well. In fact, we can already at this early stage study and understand problems of the chance of coincidences. This class of problems is at the heart of the science of constructing cryptographically safe finger prints, so called hash-functions, which are at the heart of crypto-currencies such as Bitcoin.</p>
+<p>The first project will deal with a classical dice game, which you can also play at the casino, the game of <em>craps</em>. While a toy game, it has much parallels with investment problems and builds the first skills that will later help you in analyzing investment problems.</p>
+<p><strong>Lecture 2</strong> will introduce the first basic ideas a bit more formally and also generalize them. In particular it explains the basic ideas of how probability and frequencies of chance events are related. We will discuss the power as well as the limits of these ideas for applied work in probability.</p>
+<p>In this lecture we will explain in detail how you can use R to read, store and manipulate data. We also start working with stock market data and randomly fluctuating asset prices and discuss how we can deepen our understanding of them using probability and R.</p>
+<p>Project 2 will help you to train and practice your understanding of data manipulation in R by analyzing a real world supervisory data set from the European Banking Authority EBA. We will use a really cool empirical probability pattern on the empirical frequency of leading digits - Benford’s law - for checking whether the data could be trusted or do look fishy on purely probabilistic grounds.</p>
+<p>In <strong>Lecture 3</strong> we will learn about the key concept of conditional probability. This lecture contains lots of concepts but it is also of key importance for understanding many problems in Finance and the management of financial risks. We will explain how the misunderstanding or perhaps willful ignorance of the concept of <em>dependence</em> is at the root of the big financial crisis of 2007-2008. We will also learn, how updating your probability assessments in the light of new data is important for investment decisions.</p>
+<p>On top of this directly practical considerations, we will also learn how this particular problem of updating probability assessments in the light of new information helps us close a conceptual gap in the pure frequency interpretations of probability.</p>
+<p>In terms of R this lecture gives you a bit of a break in the sense that it applies what we have learned before and thereby reinforces what we have already learned. It will introduce some useful techniques and functions along the way.</p>
+<p>In project 3 you will deepen your understanding of how probability updating works and how its sound understanding can make a real difference for the success of investment decisions.</p>
+<p><strong>Lecture 4</strong> will introduce you more precisely to the key probabilistic model of random returns and other random phenomena in Finance: The concept of a random variable and the concepts of expected value, variance, standard deviation, covariance and correlation. We will discuss at length the modelling of random returns and learn about the basic workhorse model of asset price dynamics, the binomial lattice.</p>
+<p>This discussion gives us also the appropriate context to discuss how to write programs in R and some of the principles and constructions that are most useful for this task.</p>
+<p>In the project for lecture 4 you will learn about how you can apply the ideas of random variables and the binomial distribution to deepen your understanding of credit risk.</p>
+<p>The final <strong>Lecture 5</strong> discusses the concept of continuous random variables, which is very important for a large body of applied work. You will be introduced to the normal distribution and its power and limits for modelling random returns and financial risks.</p>
+<p>In terms of R this lecture will provide a good context for discussing what matters when you want to make your R code fast and efficient.</p>
+<p>The last project will then allow us to connect all the concepts of the five lectures with the project following lecture 4 to get a somewhat realistic and practically useful model for analyzing and managing credit risk.</p>
+</section>
+<section id="acknowledgements" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>I would like to thank my friend and colleague Branko Urošević that he entrusted me to develop this course for his new and innovative program in computational finance.</p>
+<p>I am very grateful for the opportunity to make a contribution to this effort and for all the encouragement, support and advice I got from him for this project. Of course he bears no responsibility whatsoever for any shortcomings of these lecture notes.</p>
+<p>I would also like to sincerely thank the students of the bootcamp probability course of January 2022 who gave me feedback and studied from the lecture. They were a fantastic and enthusiastic cohort.</p>
+</section>
+<section id="references" class="level2 unnumbered page-columns page-full">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<p>When you teach such a fundamental field as probability theory and its applications in Finance you teach from a core knowledge that has been built by many pioneers, experts and other teachers in this area. In this sense nothing contained in this course is original work. The only contribution a teacher can make is the way how the material is presented and combined. In this sense these lecture notes are nothing but a collection of well known and time tested material as well as an experiment in yet one more, hopefully innovative exposition.</p>
+<p>But even in this field I have copied and recycled a lot from the teaching materials and collective wisdom of other colleagues whose examples and problems I found particularly helpful. Without any claim to completeness let me briefly go through the sources I have relied on most strongly when developing this course.</p>
+<p>With respect to probability theory two sources have influenced me most and I have followed their example extensively in this course: William Fellers “An introduction to probability theory and its applications volume 1.” which first appeared in 1957. (<span class="citation" data-cites="Feller1968">(<a href="references.html#ref-Feller1968" role="doc-biblioref"><strong>Feller1968?</strong></a>)</span>). While really old by now it is still in my view one of the most outstanding reference with respect to exposition and clarity of explanation as well as an inspiring source of enthusiasm for the subject. I just would like to mention as an aside that Feller (born Vilibald Srećko Feller) was a Croatian emigrant to first Germany and then the US in the 1930ies. You might claim him as a citizen of Croatia, former Yugoslavia or even Austria, since when he was born in 1906, what is now Croatia was still a part of the Austrian-Hungarian empire.</p>
+<p>My second most important source for this course in terms of probability was Karl Schmedder’s course “An intuitive introduction to probabiliy”, which Karl developed for the online platform Coursera. I consider this course an outstanding didactical achievement and masterpiece. If you find this lectures fun, I can only encourage you to also do the course on Coursera, when you find time. It is for a reason that Karl’s course is the mostly viewed Coursera course from Switzerand.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;See https://www.coursera.org/learn/introductiontoprobability</p></div></div><p>In terms of R and R programming I have followed and copied a lot from Garett Grolemund’s excellent book “Hands on programming with R”.(<span class="citation" data-cites="Grolemund2014">(<a href="references.html#ref-Grolemund2014" role="doc-biblioref"><strong>Grolemund2014?</strong></a>)</span>) I encourage you to study this book. From it I have not only learned about one of the most excellent explanations of R concepts but also the insight that these concepts are best explained within a very concrete and non trivial application context rather than in a patchy series of toy examples. The dice example in lecture 1 is directly from Garett’s book, the rest is adaptions and transfers to a Finance context. Garrett’s book has some really fun gambling applications as the context for using and explaining R concepts.</p>
+<p>With respect to Finance and investments I have relied on the excellent book by David Luenberger, “Investment Science”. (<span class="citation" data-cites="Luenberger2009">(<a href="references.html#ref-Luenberger2009" role="doc-biblioref"><strong>Luenberger2009?</strong></a>)</span>) If you can get a hold of this fantastic work, I can only encourage you to get one and have it on your shelf. It is a role model of clarity of exposition and has much more to offer than we can cover in this book.</p>
+<p>Finally with respect to the history and the interpretations of probability, I have learned the most form the excellent book “10 great ideas about chance”, by Persi Diaconis and Brian Skyrms. (<span class="citation" data-cites="DiaconisSkyrms2019">(<a href="references.html#ref-DiaconisSkyrms2019" role="doc-biblioref"><strong>DiaconisSkyrms2019?</strong></a>)</span>) If you find probability interesting or even fascinating I encourage you to read this book at some stage, if you find time. It is full of highly interesting philosophical, mathematical, historical and fun facts and ideas about this very rich subject.</p>
+<p>But now, lets get straight down to the matter at hand.</p>
 
 
 </section>
+</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
