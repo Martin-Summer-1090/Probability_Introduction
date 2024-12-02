@@ -1,0 +1,16 @@
+\frametitle{Practical Example: Simulating Stock Returns}
+\textbf{Simulating Stock Returns Using R}
+\begin{verbatim}
+# Simulate daily returns for a stock
+set.seed(123)
+n <- 100
+daily_returns <- rnorm(n, mean = 0.001, sd = 0.02)
+
+# Compute cumulative returns
+price <- cumprod(1 + daily_returns) * 100
+
+# Visualize the stock price
+plot(price, type = "l", col = "blue", lwd = 2,
+     main = "Simulated Stock Price",
+     xlab = "Days", ylab = "Price")
+\end{verbatim}
