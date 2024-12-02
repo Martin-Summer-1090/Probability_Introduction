@@ -21,7 +21,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -143,8 +197,13 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
   <ul class="collapse">
   <li><a href="#what-are-these-lecture-notes-about" id="toc-what-are-these-lecture-notes-about" class="nav-link" data-scroll-target="#what-are-these-lecture-notes-about">What are these lecture notes about</a></li>
+  <li><a href="#leveraging-chatgpt-free-version" id="toc-leveraging-chatgpt-free-version" class="nav-link" data-scroll-target="#leveraging-chatgpt-free-version">Leveraging ChatGPT (Free Version)</a>
+  <ul class="collapse">
+  <li><a href="#using-an-llm-to-enhance-your-learning" id="toc-using-an-llm-to-enhance-your-learning" class="nav-link" data-scroll-target="#using-an-llm-to-enhance-your-learning">Using an LLM to Enhance Your Learning</a></li>
+  </ul></li>
   <li><a href="#downloading-and-installing-r" id="toc-downloading-and-installing-r" class="nav-link" data-scroll-target="#downloading-and-installing-r">Downloading and installing R</a></li>
   <li><a href="#downloading-and-installing-rstudio" id="toc-downloading-and-installing-rstudio" class="nav-link" data-scroll-target="#downloading-and-installing-rstudio">Downloading and installing RStudio</a></li>
+  <li><a href="#signing-up-for-chatgpt-free-version" id="toc-signing-up-for-chatgpt-free-version" class="nav-link" data-scroll-target="#signing-up-for-chatgpt-free-version">Signing up for ChatGPT (Free Version)</a></li>
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
   <li><a href="#structure-of-the-notes" id="toc-structure-of-the-notes" class="nav-link" data-scroll-target="#structure-of-the-notes">Structure of the Notes</a></li>
   <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
@@ -176,7 +235,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">5 November, 2024</p>
+      <p class="date">2 December, 2024</p>
     </div>
   </div>
   
@@ -196,12 +255,113 @@ ul.task-list li input[type="checkbox"] {
 </blockquote>
 <section id="what-are-these-lecture-notes-about" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="what-are-these-lecture-notes-about">What are these lecture notes about</h2>
-<p>These lecture notes support the course <strong>An Introduction to Probability - with Applications to Computational Finance using R</strong>. Our lectures are going to teach you basic concepts of probability every finance practitioner needs to know and be familiar with. Because you will need probability as a tool for thinking about and solving finance problems with computational methods, we will use computational finance as the context within which we develop the concepts and ideas of probability. But we will also make much use of the computer in this course: Our approach to teaching you basic concepts of probability is based on understanding concepts by building them with your own hands.</p>
+<p>These lecture notes support the course An Introduction to Probability - with Applications to Computational Finance using R. The course introduces essential probability concepts that every finance practitioner must understand. As probability is crucial for solving financial problems computationally, we will use computational finance as the context to develop these ideas. The focus will be hands-on learning, enabling you to understand and internalize concepts by applying them yourself.</p>
+<p>To make abstract concepts like randomness, chance, and probability more accessible, we will leverage computational tools, primarily R, and visualizations. By actively engaging with these tools, you’ll not only deepen your understanding of probability but also enhance your ability to apply it to real-world finance problems.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Understand foundational probability concepts.</li>
+<li>Apply probability principles to solve computational finance problems.</li>
+<li>Gain hands-on experience using R for probability and finance applications.</li>
+<li>Develop proficiency in interpreting and visualizing probabilistic data.</li>
+</ol>
+</div>
+</div>
 <p>But how can we build abstract concepts such as probability, random phenomena and chance by our own hands? While probability is a mathematical theory, it gains practical value and an intuitive meaning in connection with real or conceptual experiments such as, the future change in a stock price index, the future value of a portfolio of securities, the chance that a creditor is not going to be able to pay back your loan.</p>
 <p>Many of these experiments we can nowadays simulate on the computer. We can can construct, build and simulate a huge variety of random phenomena. We can - for instance - implement models of random fluctuations of asset prices. We can model financial risks and contemplate possible future scenarios through simulation.</p>
 <p>The arrival of the computer has been indeed a sea change for the mathematics of probability because it allows both reflecting about probability through theorems and proofs as well as by making use of computer simulation. We can approach our understanding of abstract concepts by building them with our own hands on the computer. This is the approach to teaching you probability in this course.</p>
+<p>Let me give you one example right away. Don’t worry if you do not understand precisely what the following snippet of code is doing. We will learn the syntax of the R language as we go along. This is just to demonstrate you what I explained in words before by a simple example highlighting simulation of random processes and visualization.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+An R example for illustration
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate daily returns for a stock</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># Ensure reproducibility</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>       <span class="co"># Number of days</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>daily_returns <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">0.001</span>, <span class="at">sd =</span> <span class="fl">0.02</span>)  <span class="co"># Normal distribution</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cumulative returns</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>price <span class="ot">&lt;-</span> <span class="fu">cumprod</span>(<span class="dv">1</span> <span class="sc">+</span> daily_returns) <span class="sc">*</span> <span class="dv">100</span>  <span class="co"># Starting price = 100</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the stock price</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(price, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Simulated Stock Price"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Days"</span>, <span class="at">ylab =</span> <span class="st">"Price"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>This example highlights:</p>
+<ul>
+<li>How randomness influences stock price movements</li>
+<li>R’s usefulness in simulations and visualization.</li>
+</ul>
 <p>It is, however important to always keep in mind that the real world is different from the theory world as well as from the simulated world. The real world is both richer and more complex than both theory and simulation. It may contain features which need to be be taken into account for the explanation of phenomena which are absent in theory or in the simulation. We will try our best to develop your feeling for the difference, between theoretical concepts, simulations and applications as well as for the interdependence of these three areas.</p>
 <p>There are many ways to build virtual objects and to run simulations to manipulate them. For this we will need a programming language. The language we choose for this course is R and the integrated development environment RStudio. This is one of the main languages used in data analysis, statistics and data science and is widely used in industry and academia. It will be our tool to do probability in this course.</p>
+<p>Since this course was being taught the first time new AI tools such as large language models (LLMs) like chatGPT, Claude or Gemini have been introduced. These new powerful tools create new opportunities for learning and deepening knowledge such as the concepts learned in this course. In this year I will show you throughout the course, how you can leverage AI tools like ChatGPT for deeper learning. I encourage you to use these tools to generate examples, explain concepts, and debug R code.</p>
+</section>
+<section id="leveraging-chatgpt-free-version" class="level2">
+<h2 class="anchored" data-anchor-id="leveraging-chatgpt-free-version">Leveraging ChatGPT (Free Version)</h2>
+<section id="using-an-llm-to-enhance-your-learning" class="level3">
+<h3 class="anchored" data-anchor-id="using-an-llm-to-enhance-your-learning">Using an LLM to Enhance Your Learning</h3>
+<p>Throughout this course, you’ll learn how to use ChatGPT to support your studies. As a free tool, it offers capabilities that can make learning probability more interactive and engaging. Here’s how you can leverage it:</p>
+<ul>
+<li><p><strong>Clarify Concepts</strong>:<br>
+Ask ChatGPT to explain concepts in simple terms or elaborate on topics you find difficult:</p>
+<blockquote class="blockquote">
+<p>“Explain the concept of a probability distribution with an example.”</p>
+</blockquote></li>
+<li><p><strong>Generate Examples</strong>:<br>
+Use it to create additional examples for practice:</p>
+<blockquote class="blockquote">
+<p>“Can you give me an example of a random variable and how it applies in finance?”</p>
+</blockquote></li>
+<li><p><strong>Debug R Code</strong>:<br>
+If you encounter issues with your R code, paste the code and ask:</p>
+<blockquote class="blockquote">
+<p>“Why does this R code not run, and how can I fix it?”</p>
+</blockquote></li>
+<li><p><strong>Practice Exercises</strong>:<br>
+Request custom exercises:</p>
+<blockquote class="blockquote">
+<p>“Create three exercises to practice calculating probabilities for dice rolls.”</p>
+</blockquote></li>
+<li><p><strong>Simulate Interactive Discussions</strong>:<br>
+Simulate discussions with ChatGPT to test your understanding:</p>
+<blockquote class="blockquote">
+<p>“I think the variance of a constant is zero. Am I correct? Explain why or why not.”</p>
+</blockquote></li>
+<li><p><strong>Learn Best Practices in R</strong>:<br>
+Ask for tips to improve your coding practices:</p>
+<blockquote class="blockquote">
+<p>“What are the best practices for writing clean and efficient R code?”</p>
+</blockquote></li>
+</ul>
+<p><strong>Important Note</strong>:<br>
+While ChatGPT is a powerful learning tool, remember to verify the outputs, especially for complex calculations, and always critically evaluate its suggestions.</p>
+</section>
 </section>
 <section id="downloading-and-installing-r" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="downloading-and-installing-r">Downloading and installing R</h2>
@@ -213,6 +373,21 @@ ul.task-list li input[type="checkbox"] {
 <p>RStudio is an application that helps you write and develop R code. It makes using R much easier for you than using it in isolation. The interface of RStudio looks the same across all operating systems.</p>
 <p>You can download RStudio for free from https://www.rstudio.com/products/rstudio/. Select the box RStudio Desktop and follow the download instructions. RStudio Desktop is free. Note that you need to have a version of R installed to use RStudio.</p>
 <p>If you have successfully installed R and RStudio, we are ready to start.</p>
+<p>Throughout this course I will use R with RStudio and when I do code demonstrations I will use this environment. R can be used in many other ways of course. Some of you might be accustomed to work with Jupyter Notebooks. I will just mention here that with some minor tweaks R can be used with Jupyter notebooks as well. I will not go into the details here. Those of you who are interested in such a setup are encouraged to ask chatGPT:</p>
+<blockquote class="blockquote">
+<p>“Please give me a step by step instruction how to set up the system to use R through Jupyter notebooks instead of RStudio.”</p>
+</blockquote>
+</section>
+<section id="signing-up-for-chatgpt-free-version" class="level2">
+<h2 class="anchored" data-anchor-id="signing-up-for-chatgpt-free-version">Signing up for ChatGPT (Free Version)</h2>
+<p>To access the free version of ChatGPT, follow these steps:</p>
+<ol type="1">
+<li>Go to <a href="https://chat.openai.com">https://chat.openai.com</a> in your web browser.</li>
+<li>Click on the “Sign Up” button to create an account. You can sign up using an email address or your existing Google or Microsoft account.</li>
+<li>Follow the prompts to verify your email address and complete the registration process.</li>
+<li>Once registered, log in to access ChatGPT. You can start using it immediately for your learning needs.</li>
+</ol>
+<p>Using ChatGPT is free, but note that certain features or advanced versions (e.g., GPT-4) may require a paid subscription. The free version (GPT-3.5) is sufficient for all activities and examples provided in this course.</p>
 </section>
 <section id="prerequisites" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="prerequisites">Prerequisites</h2>
@@ -252,14 +427,28 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 <p>When you teach such a fundamental field as probability theory and its applications in Finance you teach from a core knowledge that has been built by many pioneers, experts and other teachers in this area. In this sense nothing contained in this course is original work. The only contribution a teacher can make is the way how the material is presented and combined. In this sense these lecture notes are nothing but a collection of well known and time tested material as well as an experiment in yet one more, hopefully innovative exposition.</p>
 <p>But even in this field I have copied and recycled a lot from the teaching materials and collective wisdom of other colleagues whose examples and problems I found particularly helpful. Without any claim to completeness let me briefly go through the sources I have relied on most strongly when developing this course.</p>
-<p>With respect to probability theory two sources have influenced me most and I have followed their example extensively in this course: William Fellers “An introduction to probability theory and its applications volume 1.” which first appeared in 1957. (<span class="citation" data-cites="Feller1968">(<a href="references.html#ref-Feller1968" role="doc-biblioref"><strong>Feller1968?</strong></a>)</span>). While really old by now it is still in my view one of the most outstanding reference with respect to exposition and clarity of explanation as well as an inspiring source of enthusiasm for the subject. I just would like to mention as an aside that Feller (born Vilibald Srećko Feller) was a Croatian emigrant to first Germany and then the US in the 1930ies. You might claim him as a citizen of Croatia, former Yugoslavia or even Austria, since when he was born in 1906, what is now Croatia was still a part of the Austrian-Hungarian empire.</p>
+<p>With respect to probability theory two sources have influenced me most and I have followed their example extensively in this course: William Fellers “An introduction to probability theory and its applications volume 1.” which first appeared in 1957. (<span class="citation" data-cites="Feller1968">Feller (<a href="references.html#ref-Feller1968" role="doc-biblioref">1968</a>)</span>). While really old by now it is still in my view one of the most outstanding reference with respect to exposition and clarity of explanation as well as an inspiring source of enthusiasm for the subject. I just would like to mention as an aside that Feller (born Vilibald Srećko Feller) was a Croatian emigrant to first Germany and then the US in the 1930ies. You might claim him as a citizen of Croatia, former Yugoslavia or even Austria, since when he was born in 1906, what is now Croatia was still a part of the Austrian-Hungarian empire.</p>
 <p>My second most important source for this course in terms of probability was Karl Schmedder’s course “An intuitive introduction to probabiliy”, which Karl developed for the online platform Coursera. I consider this course an outstanding didactical achievement and masterpiece. If you find this lectures fun, I can only encourage you to also do the course on Coursera, when you find time. It is for a reason that Karl’s course is the mostly viewed Coursera course from Switzerand.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;See https://www.coursera.org/learn/introductiontoprobability</p></div></div><p>In terms of R and R programming I have followed and copied a lot from Garett Grolemund’s excellent book “Hands on programming with R”.(<span class="citation" data-cites="Grolemund2014">(<a href="references.html#ref-Grolemund2014" role="doc-biblioref"><strong>Grolemund2014?</strong></a>)</span>) I encourage you to study this book. From it I have not only learned about one of the most excellent explanations of R concepts but also the insight that these concepts are best explained within a very concrete and non trivial application context rather than in a patchy series of toy examples. The dice example in lecture 1 is directly from Garett’s book, the rest is adaptions and transfers to a Finance context. Garrett’s book has some really fun gambling applications as the context for using and explaining R concepts.</p>
-<p>With respect to Finance and investments I have relied on the excellent book by David Luenberger, “Investment Science”. (<span class="citation" data-cites="Luenberger2009">(<a href="references.html#ref-Luenberger2009" role="doc-biblioref"><strong>Luenberger2009?</strong></a>)</span>) If you can get a hold of this fantastic work, I can only encourage you to get one and have it on your shelf. It is a role model of clarity of exposition and has much more to offer than we can cover in this book.</p>
-<p>Finally with respect to the history and the interpretations of probability, I have learned the most form the excellent book “10 great ideas about chance”, by Persi Diaconis and Brian Skyrms. (<span class="citation" data-cites="DiaconisSkyrms2019">(<a href="references.html#ref-DiaconisSkyrms2019" role="doc-biblioref"><strong>DiaconisSkyrms2019?</strong></a>)</span>) If you find probability interesting or even fascinating I encourage you to read this book at some stage, if you find time. It is full of highly interesting philosophical, mathematical, historical and fun facts and ideas about this very rich subject.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;See https://www.coursera.org/learn/introductiontoprobability</p></div></div><p>In terms of R and R programming I have followed and copied a lot from Garett Grolemund’s excellent book “Hands on programming with R”.(<span class="citation" data-cites="Grolemund2014">Grolemund (<a href="references.html#ref-Grolemund2014" role="doc-biblioref">2014</a>)</span>) I encourage you to study this book. From it I have not only learned about one of the most excellent explanations of R concepts but also the insight that these concepts are best explained within a very concrete and non trivial application context rather than in a patchy series of toy examples. The dice example in lecture 1 is directly from Garett’s book, the rest is adaptions and transfers to a Finance context. Garrett’s book has some really fun gambling applications as the context for using and explaining R concepts.</p>
+<p>With respect to Finance and investments I have relied on the excellent book by David Luenberger, “Investment Science”. (<span class="citation" data-cites="Luenberger2009">Luenberger (<a href="references.html#ref-Luenberger2009" role="doc-biblioref">2009</a>)</span>) If you can get a hold of this fantastic work, I can only encourage you to get one and have it on your shelf. It is a role model of clarity of exposition and has much more to offer than we can cover in this book.</p>
+<p>Finally with respect to the history and the interpretations of probability, I have learned the most form the excellent book “10 great ideas about chance”, by Persi Diaconis and Brian Skyrms. (<span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span>) If you find probability interesting or even fascinating I encourage you to read this book at some stage, if you find time. It is full of highly interesting philosophical, mathematical, historical and fun facts and ideas about this very rich subject.</p>
 <p>But now, lets get straight down to the matter at hand.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-DiaconisSkyrms2019" class="csl-entry" role="listitem">
+Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. Princeton University Press.
+</div>
+<div id="ref-Feller1968" class="csl-entry" role="listitem">
+Feller, William. 1968. <em>An Introduction to Probability Theory and Its Applications</em>. 3rd ed. Vol. 1. Wiley.
+</div>
+<div id="ref-Grolemund2014" class="csl-entry" role="listitem">
+Grolemund, Garrett. 2014. <em>Hands on Programming with <span>R</span></em>. O’Reilly. <a href="https://rstudio-education.github.io/hopr/">https://rstudio-education.github.io/hopr/</a>.
+</div>
+<div id="ref-Luenberger2009" class="csl-entry" role="listitem">
+Luenberger, David. 2009. <em>Investment Science</em>. Oxford University Press.
+</div>
+</div>
 </section>
 </section>
 

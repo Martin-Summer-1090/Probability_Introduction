@@ -6,15 +6,27 @@
 
 ## What are these lecture notes about {-}
 
-These lecture notes support the course **An Introduction to Probability - with Applications to Computational Finance using R**. 
-Our lectures are going to teach you basic concepts of probability every finance 
-practitioner needs to know and be familiar with. Because you will need
-probability as a tool for thinking about and solving finance problems with
-computational methods, we will use computational finance as the context within
-which we develop the concepts and ideas of probability. But we will also
-make much use of the computer in this course: Our approach to teaching you 
-basic concepts of probability is based on understanding concepts by building 
-them with your own hands.
+These lecture notes support the course An Introduction to Probability - with Applications 
+to Computational Finance using R. The course introduces essential probability concepts that 
+every finance practitioner must understand. As probability is crucial for solving financial 
+problems computationally, we will use computational finance as the context to develop these 
+ideas. The focus will be hands-on learning, enabling you to understand and internalize 
+concepts by applying them yourself.
+
+To make abstract concepts like randomness, chance, and probability more accessible, we will 
+leverage computational tools, primarily R, and visualizations. By actively engaging with 
+these tools, you’ll not only deepen your understanding of probability but also enhance 
+your ability to apply it to real-world finance problems.
+
+::: {.callout-note}
+## Key learning objectives
+
+1. Understand foundational probability concepts.
+2. Apply probability principles to solve computational finance problems.
+3. Gain hands-on experience using R for probability and finance applications.
+4. Develop proficiency in interpreting and visualizing probabilistic data.
+
+:::
 
 But how can we build abstract concepts such as probability, random phenomena and chance by 
 our own hands? 
@@ -35,6 +47,41 @@ We can approach our understanding of abstract concepts
 by building them with our own hands on the computer. This is the approach to teaching you
 probability in this course.
 
+Let me give you one example right away. Don't worry if you do 
+not understand precisely what the following snippet
+of code is doing. We will learn the syntax of
+the R language as we go along. This is just to
+demonstrate you what I explained in words 
+before by a simple example highlighting simulation
+of random processes and visualization.
+
+::: {.callout-tip}
+## An R example for illustration
+
+```{r}
+# Simulate daily returns for a stock
+
+set.seed(123)  # Ensure reproducibility
+n <- 100       # Number of days
+daily_returns <- rnorm(n, mean = 0.001, sd = 0.02)  # Normal distribution
+
+# Compute cumulative returns
+price <- cumprod(1 + daily_returns) * 100  # Starting price = 100
+
+# Visualize the stock price
+plot(price, type = "l", col = "blue", lwd = 2,
+     main = "Simulated Stock Price",
+     xlab = "Days", ylab = "Price")
+
+```
+
+:::
+
+This example highlights:
+
+* How randomness influences stock price movements
+* R's usefulness in simulations and visualization.
+
 It is, however important to always keep in mind that the
 real world is different from the theory world as well as from 
 the simulated world. The real world is both richer 
@@ -50,6 +97,52 @@ them. For this we will need a programming language. The language we choose for t
 course is R and the integrated development environment RStudio. This is one of the main
 languages used in data analysis, statistics and data science and is widely used in industry and 
 academia. It will be our tool to do probability in this course.
+
+Since this course was being taught the first time new AI tools such as large language models
+(LLMs) like chatGPT, Claude or Gemini have been introduced. These new powerful tools
+create new opportunities for learning and deepening knowledge such as the
+concepts learned in this course. In this year I will show you
+throughout the course, how you can leverage AI tools like ChatGPT for deeper learning. 
+I encourage you to use these tools to generate examples, explain concepts, and debug R code.
+
+## Leveraging ChatGPT (Free Version)
+
+### Using an LLM to Enhance Your Learning
+
+Throughout this course, you’ll learn how to use ChatGPT to support your studies. As a free tool, it offers capabilities that can make learning probability more interactive and engaging. Here’s how you can leverage it:
+
+- **Clarify Concepts**:  
+  Ask ChatGPT to explain concepts in simple terms or elaborate on topics you find difficult:
+  
+  > "Explain the concept of a probability distribution with an example."
+
+- **Generate Examples**:  
+  Use it to create additional examples for practice:
+  
+  > "Can you give me an example of a random variable and how it applies in finance?"
+
+- **Debug R Code**:  
+  If you encounter issues with your R code, paste the code and ask:
+  
+  > "Why does this R code not run, and how can I fix it?"
+
+- **Practice Exercises**:  
+  Request custom exercises:
+  
+  > "Create three exercises to practice calculating probabilities for dice rolls."
+
+- **Simulate Interactive Discussions**:  
+  Simulate discussions with ChatGPT to test your understanding:
+  
+  > "I think the variance of a constant is zero. Am I correct? Explain why or why not."
+
+- **Learn Best Practices in R**:  
+  Ask for tips to improve your coding practices:
+  
+  > "What are the best practices for writing clean and efficient R code?"
+
+**Important Note**:  
+While ChatGPT is a powerful learning tool, remember to verify the outputs, especially for complex calculations, and always critically evaluate its suggestions.
 
 ## Downloading and installing R {-}
 
@@ -77,6 +170,30 @@ Select the box RStudio Desktop and follow the download instructions. RStudio Des
 Note that you need to have a version of R installed to use RStudio.
 
 If you have successfully installed R and RStudio, we are ready to start.
+
+Throughout this course I will use R with RStudio and when I do code
+demonstrations I will use this environment. R can be used in many other
+ways of course. Some of you might be accustomed to work with
+Jupyter Notebooks. I will just mention here that with some minor
+tweaks R can be used with Jupyter notebooks as well. I will not
+go into the details here. Those of you who are interested in such a
+setup are encouraged to ask chatGPT: 
+
+> "Please give me a step by step instruction how to set up the system 
+> to use R through Jupyter notebooks instead of RStudio."
+
+## Signing up for ChatGPT (Free Version)
+
+To access the free version of ChatGPT, follow these steps:
+
+1. Go to [https://chat.openai.com](https://chat.openai.com) in your web browser.
+2. Click on the "Sign Up" button to create an account. You can sign up using an email address or your existing Google or Microsoft account.
+3. Follow the prompts to verify your email address and complete the registration process.
+4. Once registered, log in to access ChatGPT. You can start using it immediately for your learning needs.
+
+Using ChatGPT is free, but note that certain features or advanced versions (e.g., GPT-4) may require a paid subscription. 
+The free version (GPT-3.5) is sufficient for all activities and examples provided in this course.
+
 
 ## Prerequisites {-}
 
