@@ -1,0 +1,79 @@
+\documentclass{standalone}
+
+\usepackage{pstricks, pstricks-add}
+
+
+
+\begin{document}
+	
+	\begin{pspicture}(-1,-1)(11,8)
+	% \psgrid
+	 
+	
+%left picture
+	  
+	  \psframe[linewidth=1pt](0,2)(4,6)
+	 
+	
+	\psclip{\psframe[](4, 2)(0, 6)}
+	  \pscircle[fillstyle = solid, fillcolor = blue, linestyle = none, opacity = 0.5](0,3){3}
+	  \pscircle[fillstyle = solid, fillcolor = red,  linestyle = none, opacity = 0.5](2.4,4.4){1}
+	\endpsclip
+	
+	
+	\rput(0.6,5.4){\large{$B$}}
+	\rput(3,4.6){\large{$A$}}
+	\rput(2.1,4.3){$A \cap B$}
+	
+	\rput(3.5,5.5){\large{${\cal S}$}}
+	
+% right picture
+
+     \psline[linewidth=1pt](4.4,2)(4.4,4)
+     \psline[linewidth=1pt](4.4,4)(7.6,4)
+     \psline[linewidth=1pt](4.4,2)(7.6,2)
+     \psline[linewidth=1pt, linestyle = dashed](7.6,4)(9.6,4)
+     \psline[linewidth=1pt, linestyle = dashed](7.6,2)(9.6,2)
+     \psline[linewidth=1pt](9.6,4)(10.8,4)
+     \psline[linewidth=1pt](9.6,2)(10.8,2)
+     \psline[linewidth=1pt](10.8,2)(10.8,4)
+     
+     \psframe[fillstyle = solid, fillcolor = blue, linestyle = none, opacity = 0.3](4.4,2)(5,4) 
+     \psframe[fillstyle = solid, fillcolor = red,  linestyle = none, opacity = 0.3](5,2)(5.6,4) 
+     
+     \psframe[fillstyle = solid, fillcolor = blue, linestyle = none, opacity = 0.3](5.6,2)(6.2,4)
+     
+     \psframe[fillstyle = solid, fillcolor = blue, linestyle = none, opacity = 0.3](6.2,2)(6.8,4)
+     \psframe[fillstyle = solid, fillcolor = red, linestyle = none, opacity = 0.3](6.2,2)(6.8,4)
+     
+     \psframe[fillstyle = solid, fillcolor = blue, linestyle = none, opacity = 0.3](10.2,2)(10.8,4)
+     \psframe[fillstyle = solid, fillcolor = red, linestyle = none, opacity = 0.3](10.2,2)(10.8,4)
+     
+     \rput{90}(4.7,3.5){\tiny{SP500-U}}
+     \rput{90}(4.7,2.45){\tiny{Apple-D}}
+     \rput(4.7,4.2){$1$}
+     
+     \rput{90}(5.3,3.5){\tiny{SP500-D}}
+     \rput{90}(5.3,2.45){\tiny{Apple-U}}
+     \rput(5.3,4.2){$2$}
+     
+     \rput{90}(5.9,3.5){\tiny{SP500-U}}
+     \rput{90}(5.9,2.45){\tiny{Apple-D}}
+     \rput(5.9,4.2){$3$}
+     
+     \rput{90}(6.5,3.5){\tiny{SP500-U}}
+     \rput{90}(6.5,2.45){\tiny{Apple-U}}
+      \rput(6.5,4.2){$3$}
+     
+     \rput{90}(10.5,3.5){\tiny{SP500-U}}
+     \rput{90}(10.5,2.45){\tiny{Apple-U}}
+     \rput(10.5,4.2){$2752$}
+     
+     
+	 
+	
+	\end{pspicture}
+	
+	
+\end{document}
+
