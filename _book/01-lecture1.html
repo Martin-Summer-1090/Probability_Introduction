@@ -216,7 +216,7 @@ window.Quarto = {
   <li><a href="#the-role-and-nature-of-idealizations-in-applications" id="toc-the-role-and-nature-of-idealizations-in-applications" class="nav-link" data-scroll-target="#the-role-and-nature-of-idealizations-in-applications"><span class="header-section-number">1.1.2</span> The role and nature of idealizations in applications</a></li>
   <li><a href="#classical-probability" id="toc-classical-probability" class="nav-link" data-scroll-target="#classical-probability"><span class="header-section-number">1.1.3</span> Classical Probability: Measuring uncertainty</a></li>
   </ul></li>
-  <li><a href="#rolling-die-on-computer" id="toc-rolling-die-on-computer" class="nav-link" data-scroll-target="#rolling-die-on-computer"><span class="header-section-number">1.2</span> Rolling a die on the computer: First steps in R</a>
+  <li><a href="#tossing-coin-on-computer" id="toc-tossing-coin-on-computer" class="nav-link" data-scroll-target="#tossing-coin-on-computer"><span class="header-section-number">1.2</span> Tossing a coin on the computer: First steps in R</a>
   <ul class="collapse">
   <li><a href="#r-interface" id="toc-r-interface" class="nav-link" data-scroll-target="#r-interface"><span class="header-section-number">1.2.1</span> The R User Interface</a></li>
   <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects"><span class="header-section-number">1.2.2</span> Objects</a></li>
@@ -284,13 +284,27 @@ window.Quarto = {
 <p><span class="quarto-unresolved-ref">?fig-coin-toss</span> visualizes such a process.</p>
 <section id="random-experiments-sample-space-events" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="random-experiments-sample-space-events"><span class="header-section-number">1.1.1</span> Random experiments, sample space, events</h3>
-<p>In the theory of probability a process leading to an uncertain outcome is called a <strong>random experiment</strong>. The example of throwing a die helps us to give a precise meaning to the notion of an uncertain outcome. While we can imagine in principle that the die lands on one of its corners and this is one outcome, we agree <em>on the outset</em> that we are going to consider the (practically relevant cases) that it will land on one of the faces.</p>
-<p>The collection of all possible outcomes of a practical or conceptual random experiment is called in probability theory a <strong>sample space</strong>. While the sample space of throwing a die is an idealization it is exactly this idealization which simplifies the theory without affecting its applicability. The <strong>basic outcomes</strong> in the random experiment of throwing a die are that the die lands such that the upward showing face shows a 1 a 2, 3, 4, 5 or a 6. In the theory the collection of basic outcomes is denoted as a set. Thus the sample space of throwing a die is given as the set <span class="math inline">\({\cal S} = \{1,2,3,4,5,6\}\)</span>.</p>
-<p>The sample space <span class="math inline">\({\cal S}\)</span> is the set of all basic outcomes. The <em>subsets</em> of the sample space are often called <strong>events</strong> in probability theory. An event could be - for example - an outcome where the die shows an upward looking face with an even number <span class="math inline">\(A = \{2,4,6\}\)</span>.</p>
+<p>In the theory of probability a process leading to an uncertain outcome is called a <strong>random experiment</strong>. The example of tossing a coin helps us to give a precise meaning to the notion of an uncertain outcome. While we can imagine in principle that the coin lands on its rim and this is one outcome, we agree <em>on the outset</em> that we are going to consider the (practically relevant cases) that it will land on one of the faces.</p>
+<p>The collection of all possible outcomes of a practical or conceptual random experiment is called in probability theory a <strong>sample space</strong>. While the sample space of tossing a coin is an idealization it is exactly this idealization which simplifies the theory without affecting its applicability. The <strong>basic outcomes</strong> in the random experiment of tossing a coin are that the die lands such that the upward showing face shows Heads or Tails. Let us encode this outcome by 1 for “Heads” and 0 for “Tails”. In the theory the collection of basic outcomes is denoted as a set. Thus the sample space of tossing a coin is given as the set <span class="math inline">\({\cal S} = \{1,0\}\)</span>.</p>
+<p>The sample space <span class="math inline">\({\cal S}\)</span> is the set of all basic outcomes, which are in our case only two: 1 or 0.</p>
+<p>In more complex random experiments there will usually be more than two outcomes. Subsets of the sample space containing more than one basic outcome are called <strong>events</strong> in the theory of probability.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Now you try
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider another random experiment from games of chance: Throwing a six sided die. What are the basic outcomes in this random experiment? What is the sample space in this case? How would you describe the event that the outcome of the die shows an off number in terms of a subset of the sample space?</p>
+</div>
+</div>
 </section>
 <section id="the-role-and-nature-of-idealizations-in-applications" class="level3" data-number="1.1.2">
 <h3 data-number="1.1.2" class="anchored" data-anchor-id="the-role-and-nature-of-idealizations-in-applications"><span class="header-section-number">1.1.2</span> The role and nature of idealizations in applications</h3>
-<p>Idealizations of the kind we discussed for the throw of a die are standard in probability and we will encounter them again and again. For example the movement of a stock price is often though of as a conceptual random experiment. When we try to agree on what is the appropriate sample space of this experiment, we can say that the price can not fall below 0 but it is hard to agree on what will be the highest possible price. In the probabilistic treatment of stock prices, which we will discuss later in our course, it is for instance common to assume that the sample space of this random experiment is the entire interval of non-negative real numbers <span class="math inline">\({\cal S} = [0, \infty)\)</span>.</p>
+<p>Idealizations of the kind we discussed for the toss of a coin are standard in probability and we will encounter them again and again. For example the movement of a stock price is often though of as a conceptual random experiment. When we try to agree on what is the appropriate sample space of this experiment, we can say that the price can not fall below 0 but it is hard to agree on what will be the highest possible price. In the probabilistic treatment of stock prices, which we will discuss later in our course, it is for instance common to assume that the sample space of this random experiment is the entire interval of non-negative real numbers <span class="math inline">\({\cal S} = [0, \infty)\)</span>.</p>
 <p>Many of us would hesitate to claim that the price might rise without bound. Yet many models in applied Finance are based on such an assumption. The models allow arbitrary price hikes but with arbitrary small probability as the price gets higher and higher. Practically it does not make sense to believe that a security price can become arbitrarily high. The use of arbitrarily small probabilities in a financial model might seem absurd but it does no practical harm and makes the model simple and convenient to use. Moreover, if we seriously introduced an upper bound on a security price at <span class="math inline">\(x\)</span> it would be also awkward to assume that it is impossible that it could be just a cent higher, an assumption equally unappealing than assuming it can get in principle arbitrarily high.</p>
 </section>
 <section id="classical-probability" class="level3 page-columns page-full" data-number="1.1.3">
@@ -299,7 +313,20 @@ window.Quarto = {
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;In this discussion I use chapter 1 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>The probability of an event <span class="math inline">\(A\)</span> according to the originators of the theory of probability is then <span class="math display">\[\begin{equation}
 P(A) = \frac{\text{Number of cases where $A$ occurs}}{\text{Total number of cases}}
 \end{equation}\]</span></p>
-<p>Thus, if we want to know the probability of the die ending up on a face such that an even number is shown (2,4,6) we have to compute according to this notion <span class="math inline">\(3/6\)</span> (since the total number of cases are six basic outcomes) which is a chance of <span class="math inline">\(50 \%\)</span>.</p>
+<p>Thus, if we want to know the probability of the coin ending up Heads, we have to compute according to this notion <span class="math inline">\(1/2\)</span>, since the total number of cases is 2 (Heads or Tails).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Now you try
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider another random experiment of throwing a six sided die: According to the probability notion explained above what would be the chance that the die lands on on a face such that an even number is shown?.</p>
+</div>
+</div>
 <p>Note that this classical notion of probability has a few interesting consequences, which we will discuss in more detail later but which already now naturally flow from this basic idea of measuring chance.</p>
 <ol type="1">
 <li>Probability is never negative.</li>
@@ -307,12 +334,93 @@ P(A) = \frac{\text{Number of cases where $A$ occurs}}{\text{Total number of case
 <li>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> never occur in the same case, then <span class="math inline">\(P(A \,\text{or}\, B) = P(A) + P(B)\)</span>.</li>
 </ol>
 <p>In particular then the probability that an event does <em>not</em> occur is 1 less the probability that it occurs: <span class="math inline">\(P(\text{not}\, A) = 1 - P(A)\)</span>.</p>
+<p>Now let me briefly interrupt here to show you how you can make use of a large language model, using ChatGPT as a use case to support learning new concepts such as we have just introduced them here.</p>
+<p>We have discussed new two classical and famous random experiments you will probably find in every textbook on probability. Assume you would like to deepen your understanding of these concepts and also consider more complex examples in particular from Finance. This is something the LLM is very good at. You could - for instance - ask ChatGPT at the prompt something like shown in <span class="quarto-unresolved-ref">?fig-Promptgpt</span> :</p>
+<div class="cell" data-layout-align="center" data-fig.label="Promptgpt">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/prompt_gpt_example.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Figure 2: The ChatGPT prompt</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Here is an answer I would get for this prompt:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer by ChatGPT40
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here are three detailed examples from finance to illustrate the concepts of a <strong>random experiment</strong>, <strong>sample space</strong>, <strong>basic outcomes</strong>, and <strong>events</strong>:</p>
+<hr>
+<p><strong>Example 1: Daily Price Movement of a Stock</strong></p>
+<p><strong>Random Experiment:</strong> Observe the daily price movement of a particular stock (e.g., Apple Inc.) at the close of the trading day.</p>
+<ul>
+<li><p><strong>Sample Space ((S)):</strong> The set of all possible outcomes of the price movement. For simplicity, we can represent the sample space as: [ S = {} ]</p></li>
+<li><p><strong>Basic Outcomes:</strong></p>
+<ul>
+<li>“Price increases” (e.g., the stock closes higher than it opened).</li>
+<li>“Price decreases” (e.g., the stock closes lower than it opened).</li>
+<li>“No change” (e.g., the stock closes at the same price it opened).</li>
+</ul></li>
+<li><p><strong>Events:</strong></p>
+<ul>
+<li>Event (A): “The stock price increases.” ({price increase})</li>
+<li>Event (B): “The stock price either increases or remains unchanged.” ({price increase, no change})</li>
+</ul></li>
+</ul>
+<hr>
+<p><strong>Example 2: Credit Card Default Risk</strong></p>
+<p><strong>Random Experiment:</strong> Assess whether a randomly selected credit card holder defaults on their monthly payment.</p>
+<ul>
+<li><p><strong>Sample Space ((S)):</strong> [ S = {} ]</p></li>
+<li><p><strong>Basic Outcomes:</strong></p>
+<ul>
+<li>“Default” (e.g., the cardholder fails to make the minimum payment).</li>
+<li>“No default” (e.g., the cardholder pays at least the minimum required).</li>
+</ul></li>
+<li><p><strong>Events:</strong></p>
+<ul>
+<li>Event (A): “The cardholder defaults.” ({default})</li>
+<li>Event (B): “The cardholder does not default.” ({no default})</li>
+<li>Event (C): “Default occurs for a customer from a specific demographic (e.g., under 30 years old).” This is a subset of the sample space but is conditioned on additional information.</li>
+</ul></li>
+</ul>
+<hr>
+<p><strong>Example 3: Bond Ratings Transition</strong></p>
+<p><strong>Random Experiment:</strong> Observe the change in the credit rating of a corporate bond over a year.</p>
+<ul>
+<li><p><strong>Sample Space ((S)):</strong> The set of possible credit rating transitions. For example, using a simple rating scale: [ S = {, , , , , , , } ]</p>
+<p>Over a year, the bond can transition from its initial rating to any of these, or stay the same.</p></li>
+<li><p><strong>Basic Outcomes:</strong></p>
+<ul>
+<li>“AAA to AAA” (no change in the highest credit quality).</li>
+<li>“BBB to BB” (downgrade).</li>
+<li>“A to default” (significant deterioration).</li>
+</ul></li>
+<li><p><strong>Events:</strong></p>
+<ul>
+<li>Event (A): “The bond is downgraded by one or more notches.” (Any outcome where the final rating is lower than the initial rating, e.g., {AAA to AA, A to BB}).</li>
+<li>Event (B): “The bond defaults.” ({default}).</li>
+<li>Event (C): “The bond remains investment-grade.” (All transitions where the final rating is AAA, AA, A, or BBB).</li>
+</ul></li>
+</ul>
+<hr>
+<p>These examples show how the concepts apply to finance, helping to bridge the theoretical framework of probability with practical applications in the field. Would you like to dive deeper into any of these examples or extend them to computations like probabilities of events?</p>
+</div>
+</div>
 <p>Let us interrupt here our discussion of probability for a moment and ask how we can make good on our promise to make these ideas tangible, so we can play with them.</p>
 <p>For this we will need the computer. Since we will talk to the computer in R, it is now the right time to look at the die rolling example from the perspective of R and dive into some of its basic concepts.</p>
 </section>
 </section>
-<section id="rolling-die-on-computer" class="level2 page-columns page-full" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="rolling-die-on-computer"><span class="header-section-number">1.2</span> Rolling a die on the computer: First steps in R</h2>
+<section id="tossing-coin-on-computer" class="level2 page-columns page-full" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="tossing-coin-on-computer"><span class="header-section-number">1.2</span> Tossing a coin on the computer: First steps in R</h2>
 <section id="r-interface" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="r-interface"><span class="header-section-number">1.2.1</span> The R User Interface</h3>
 <p>Before we can ask our tool to do anything for us, we need to know how to talk to it. In our case RStudio allows us to talk to our computer. It works like any other application. When you launch RStudio on your computer, in figure @ref(fig:rstudio-start-screen) you see a screen looking like this:</p>
@@ -477,7 +585,7 @@ length</code></pre>
 <p>The function takes as arguments a vector names <code>x</code> and a number named <code>size</code>. <code>sample</code> will return <code>size</code> elements randomly chosen from the vector <code>x</code>. Lets say: ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3 2</code></pre>
+<pre><code>[1] 1 2</code></pre>
 </div>
 <p>:::</p>
 <p>In this case <code>sample</code> has chosen <code>4,1</code> from the vector <code>x = (1,2,3,4)</code> at random.</p>
@@ -488,11 +596,11 @@ length</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6</code></pre>
+<pre><code>[1] 3</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -503,7 +611,7 @@ length</code></pre>
 <p>Every argument in every function has a name. We specify which data are assigned to the arguments by setting a mathematical equal sign <code>=</code> between the name and the data. Names help us to avoid passing the wrong data and thereby mixing up things or committing errors. But using names is not necessary. If we just wrote ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(die,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 6</code></pre>
 </div>
 <p>::: R would also know what to do. It is not always clear which names to use for a function. If you are not sure, you can use the function <code>args()</code> to look it up. Here we take the function <code>round</code>as one example. ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">args</span>(round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -527,15 +635,15 @@ NULL</code></pre>
 <p>Now we can roll our die for a few times to show how the function works ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5</code></pre>
+<pre><code>[1] 4</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>[1] 6</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>[1] 3</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -543,7 +651,7 @@ NULL</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6</code></pre>
+<pre><code>[1] 4</code></pre>
 </div>
 <p>::: Note that in our function <code>roll_die()</code> has no arguments, just the function body. This is perfectly legitimate in R. It is important that when we call the function we have to call it with the parenthesis like <code>roll_die()</code>. If we only call the name <code>roll_die</code>, R will display the code in the function body.</p>
 <p>A final remark in the <code>sample</code> function is in place here. If we look at the arguments of sample using the <code>args</code> function we see ::: {.cell}</p>
@@ -567,7 +675,7 @@ NULL</code></pre>
 <p>::: Now the function will work as long as we supply <code>ball</code> when we call the function. ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die2</span>(<span class="at">ball =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5</code></pre>
+<pre><code>[1] 4</code></pre>
 </div>
 <p>::: Note that we still get an error, if we forget to supply ball argument. This could be avoided if we give the function a default argument ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>roll_die2 <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">ball=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -735,7 +843,7 @@ P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\te
 <p>In the numerator I ask R to count the number of 0s (no birthday collisions) in the object <code>simprobs_23</code> and then I divide it by 10000, just as in the definition of relative frequency probability. Then I compute 1 minus this relative frequency ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_23[simprobs_23 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5024</code></pre>
+<pre><code>[1] 0.5034</code></pre>
 </div>
 <p>::: Voila, this is pretty good, isn’t it? Remember that the analytical solution we just got a bit earlier was <code>0.5072972</code></p>
 <p>Isn’t this cool? Instead of using formal reasoning we built a random experiment on the computer and came up with a pretty good approximation of the collision probability.</p>
@@ -747,7 +855,7 @@ P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\te
 <span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>simprobs_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100000</span>, <span class="fu">sim_50</span>())</span>
 <span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_50[simprobs_50 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">100000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9705</code></pre>
+<pre><code>[1] 0.97016</code></pre>
 </div>
 <p>::: Pretty amazing! Before we got the exact value as <code>0.9703736</code>.</p>
 <p>But now let us stay still with the birthday problem but now get away from this playful application to something really serious: Cryptography.</p>

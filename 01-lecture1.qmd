@@ -57,27 +57,44 @@ knitr::include_graphics('figures/fair_coin_toss.jpg')
 ### Random experiments, sample space, events {#random-experiments-sample-space-events}
 
 In the theory of probability a process leading to an uncertain outcome is called a
-**random experiment**. The example of throwing a die helps us to give a precise meaning
-to the notion of an uncertain outcome. While we can imagine in principle that the die lands on
-one of its corners and this is one outcome, we agree *on the outset* that we are going to 
+**random experiment**. The example of tossing a coin helps us to give a precise meaning
+to the notion of an uncertain outcome. While we can imagine in principle that the coin lands on
+its rim and this is one outcome, we agree *on the outset* that we are going to 
 consider the (practically relevant cases) that it will land on one of the faces.
 
 The collection of all possible outcomes of a practical or conceptual random experiment is called
-in probability theory a **sample space**. While the sample space of throwing a die is an 
+in probability theory a **sample space**. While the sample space of tossing a coin is an 
 idealization it is exactly this idealization which simplifies the theory without affecting
 its applicability. The **basic outcomes** in the random experiment of 
-throwing a die are that the 
-die lands such that the upward showing face shows a 1 a 2, 3, 4, 5 or a 6. In the theory
-the collection of basic outcomes is denoted as a set. Thus the sample space of throwing a die
-is given as the set ${\cal S} = \{1,2,3,4,5,6\}$.
+tossing a coin are that the 
+die lands such that the upward showing face shows Heads or Tails. Let us encode this
+outcome by 1 for "Heads" and 0 for "Tails". In the theory
+the collection of basic outcomes is denoted as a set. Thus the sample space of 
+tossing a coin is given as the set ${\cal S} = \{1,0\}$.
 
-The sample space ${\cal S}$ is the set of all basic outcomes. The *subsets* of the sample space
-are often called **events** in probability theory. An event could be - for example -
-an outcome where the die shows an upward looking face with an even number $A = \{2,4,6\}$.
+The sample space ${\cal S}$ is the set of all basic outcomes, which are
+in our case only two: 1 or 0.
+
+In more complex random experiments there will usually be
+more than two outcomes. Subsets of the sample space
+containing more than one basic outcome are called
+**events** in the theory of probability.
+
+::: {.callout-note}
+## Now you try
+
+Consider another random experiment from games of chance: Throwing
+a six sided die. What are the basic outcomes in this random
+experiment? What is the sample space in this case? How
+would you describe the event that the outcome of
+the die shows an off number in terms of a subset
+of the sample space?
+
+:::
 
 ### The role and nature of idealizations in applications
 
-Idealizations of the kind we discussed for the throw of a die are standard in probability and
+Idealizations of the kind we discussed for the toss of a coin are standard in probability and
 we will encounter them again and again. For example the movement of a stock price is often 
 though of as a conceptual random experiment. When we try to agree on what is the
 appropriate sample space of this experiment, we can say that the price can not fall below
@@ -111,10 +128,19 @@ The probability of an event $A$ according to the originators of the theory of pr
 P(A) = \frac{\text{Number of cases where $A$ occurs}}{\text{Total number of cases}}
 \end{equation}
 
-Thus, if we want to know the probability of the die ending up on a face such that an 
-even number is shown (2,4,6) we have to compute according to this notion $3/6$ (since
-the total number of cases are six basic outcomes) which is a
-chance of $50 \%$. 
+Thus, if we want to know the probability of the coin ending up Heads,
+we have to compute according to this notion $1/2$, since the total
+number of cases is 2 (Heads or Tails).
+
+::: {.callout-note}
+## Now you try
+
+Consider another random experiment of throwing a six
+sided die: According to the probability notion explained above what
+would be the chance that the die lands on on a face such that an 
+even number is shown?. 
+
+:::
 
 Note that this classical notion of probability has a few interesting consequences, which we
 will discuss in more detail later but which already now naturally flow from 
@@ -128,6 +154,98 @@ chance.
 In particular then the probability that an event does *not* occur is 1 less the probability
 that it occurs: $P(\text{not}\, A) = 1 - P(A)$.
 
+Now let me briefly interrupt here to show you how you can make use of a
+large language model, using ChatGPT as a use case to support learning
+new concepts such as we have just introduced them here.
+
+We have discussed new two classical and famous random experiments
+you will probably find in every textbook on probability. Assume you
+would like to deepen your understanding of these concepts and also
+consider more complex examples in particular from Finance. This is
+something the LLM is very good at. You could - for instance - ask
+ChatGPT at the prompt something like shown in @fig-Promptgpt :
+
+
+```{r chatGPT-prompt, out.width='90%', fig.align='center', fig.cap='Figure 2: The ChatGPT prompt', fig.label='Promptgpt', echo=FALSE}
+knitr::include_graphics('figures/prompt_gpt_example.png')
+```
+
+Here is an answer I would get for this prompt:
+
+::: {.callout-tip}
+## Answer by ChatGPT40
+
+Here are three detailed examples from finance to illustrate the concepts of a **random experiment**, **sample space**, **basic outcomes**, and **events**:
+
+---
+
+**Example 1: Daily Price Movement of a Stock**
+
+**Random Experiment:** Observe the daily price movement of a particular stock (e.g., Apple Inc.) at the close of the trading day.
+
+- **Sample Space (\(S\)):** The set of all possible outcomes of the price movement. For simplicity, we can represent the sample space as:
+  \[
+  S = \{\text{price increase, price decrease, no change}\}
+  \]
+
+- **Basic Outcomes:** 
+  - "Price increases" (e.g., the stock closes higher than it opened).
+  - "Price decreases" (e.g., the stock closes lower than it opened).
+  - "No change" (e.g., the stock closes at the same price it opened).
+
+- **Events:**
+  - Event \(A\): "The stock price increases." (\{price increase\})
+  - Event \(B\): "The stock price either increases or remains unchanged." (\{price increase, no change\})
+
+---
+
+ **Example 2: Credit Card Default Risk**
+
+**Random Experiment:** Assess whether a randomly selected credit card holder defaults on their monthly payment.
+
+- **Sample Space (\(S\)):** 
+  \[
+  S = \{\text{default, no default}\}
+  \]
+
+- **Basic Outcomes:**
+  - "Default" (e.g., the cardholder fails to make the minimum payment).
+  - "No default" (e.g., the cardholder pays at least the minimum required).
+
+- **Events:**
+  - Event \(A\): "The cardholder defaults." (\{default\})
+  - Event \(B\): "The cardholder does not default." (\{no default\})
+  - Event \(C\): "Default occurs for a customer from a specific demographic (e.g., under 30 years old)." This is a subset of the sample space but is conditioned on additional information.
+
+---
+
+ **Example 3: Bond Ratings Transition**
+
+**Random Experiment:** Observe the change in the credit rating of a corporate bond over a year.
+
+- **Sample Space (\(S\)):** 
+  The set of possible credit rating transitions. For example, using a simple rating scale:
+  \[
+  S = \{\text{AAA}, \text{AA}, \text{A}, \text{BBB}, \text{BB}, \text{B}, \text{CCC}, \text{default}\}
+  \]
+
+  Over a year, the bond can transition from its initial rating to any of these, or stay the same.
+
+- **Basic Outcomes:**
+  - "AAA to AAA" (no change in the highest credit quality).
+  - "BBB to BB" (downgrade).
+  - "A to default" (significant deterioration).
+
+- **Events:**
+  - Event \(A\): "The bond is downgraded by one or more notches." (Any outcome where the final rating is lower than the initial rating, e.g., \{AAA to AA, A to BB\}).
+  - Event \(B\): "The bond defaults." (\{default\}).
+  - Event \(C\): "The bond remains investment-grade." (All transitions where the final rating is AAA, AA, A, or BBB).
+
+---
+
+These examples show how the concepts apply to finance, helping to bridge the theoretical framework of probability with practical applications in the field. Would you like to dive deeper into any of these examples or extend them to computations like probabilities of events?
+:::
+
 Let us interrupt here our discussion of 
 probability for a moment and ask how we can make good on our promise to
 make these ideas tangible, so we can play with them. 
@@ -137,7 +255,7 @@ computer. Since we will talk to the computer in R, it is now the right time
 to look at the die rolling example from the perspective of R and dive into
 some of its basic concepts.
 
-## Rolling a die on the computer: First steps in R {#rolling-die-on-computer}
+## Tossing a coin on the computer: First steps in R {#tossing-coin-on-computer}
 
 ### The R User Interface {#r-interface}
 
