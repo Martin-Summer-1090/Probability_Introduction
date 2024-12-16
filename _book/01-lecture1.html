@@ -333,8 +333,29 @@ Now you try
 <li>If an event <span class="math inline">\(A\)</span> occurs in all cases <span class="math inline">\(P(A)=1\)</span>.</li>
 <li>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> never occur in the same case, then <span class="math inline">\(P(A \,\text{or}\, B) = P(A) + P(B)\)</span>.</li>
 </ol>
+<p>While rule 1. and 2. are intuitively fairly obvious (try to think of examples to convince yourself!), rule 3 might need some concrete explanation. The case described by rule 3 is often referred to as <strong>mutually exclusive</strong> events, i.e. they can not occur together.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example for rule 3:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suppose you have a standard deck of 52 playing cards, and you are interested in the probability of drawing a King <span class="math inline">\(A\)</span> or a Queen <span class="math inline">\(B\)</span>.</p>
+<ul>
+<li>The probability of drawing a King is <span class="math inline">\(P(A) = \frac{4}{52}\)</span>, since there are 4 Kings in the deck.</li>
+<li>The probability of drawing a Queen is <span class="math inline">\(P(B) = \frac{4}{52}\)</span>, since there are also 4 Queens.</li>
+</ul>
+<p>Since a card cannot be both a King and a Queen, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive events.</p>
+<p>Thus, the probability of drawing a King <strong>or</strong> a Queen is: <span class="math inline">\(P(A \,\text{or}\, B) = P(A) + P(B) = \frac{4}{52} + \frac{4}{52} = \frac{8}{52} = \frac{2}{13}\)</span></p>
+<p>This illustrates how probabilities of mutually exclusive events add up.</p>
+</div>
+</div>
 <p>In particular then the probability that an event does <em>not</em> occur is 1 less the probability that it occurs: <span class="math inline">\(P(\text{not}\, A) = 1 - P(A)\)</span>.</p>
-<p>Now let me briefly interrupt here to show you how you can make use of a large language model, using ChatGPT as a use case to support learning new concepts such as we have just introduced them here.</p>
+<p>Now let me show you how you can make use of a large language model, using ChatGPT as a use case, to support learning new concepts such as we have just introduced them here.</p>
 <p>We have discussed new two classical and famous random experiments you will probably find in every textbook on probability. Assume you would like to deepen your understanding of these concepts and also consider more complex examples in particular from Finance. This is something the LLM is very good at. You could - for instance - ask ChatGPT at the prompt something like shown in <span class="quarto-unresolved-ref">?fig-Promptgpt</span> :</p>
 <div class="cell" data-layout-align="center" data-fig.label="Promptgpt">
 <div class="cell-output-display">
@@ -585,33 +606,33 @@ length</code></pre>
 <p>The function takes as arguments a vector names <code>x</code> and a number named <code>size</code>. <code>sample</code> will return <code>size</code> elements randomly chosen from the vector <code>x</code>. Lets say: ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 2</code></pre>
+<pre><code>[1] 1 3</code></pre>
 </div>
 <p>:::</p>
 <p>In this case <code>sample</code> has chosen <code>4,1</code> from the vector <code>x = (1,2,3,4)</code> at random.</p>
 <p>If we want to roll the die in our computer we can thus pass the die as an argument to <code>sample</code> and use the number <code>1</code> for the <code>size</code> argument. Lets do a few rolls with our die ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
+<pre><code>[1] 6</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5</code></pre>
+<pre><code>[1] 4</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
+<pre><code>[1] 4</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> die, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <p>::: These are the random outcomes of our consecutive rolls. It is as if we had thrown an actual die but in this case we have done the same thing on the computer. Isn’t it cool that this is possible at all? The <code>sample()</code> function will remain our good friend throughout this course.</p>
 <p>R functions can have many arguments, but they need to be separated by a comma.</p>
 <p>Every argument in every function has a name. We specify which data are assigned to the arguments by setting a mathematical equal sign <code>=</code> between the name and the data. Names help us to avoid passing the wrong data and thereby mixing up things or committing errors. But using names is not necessary. If we just wrote ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(die,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <p>::: R would also know what to do. It is not always clear which names to use for a function. If you are not sure, you can use the function <code>args()</code> to look it up. Here we take the function <code>round</code>as one example. ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">args</span>(round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -635,23 +656,23 @@ NULL</code></pre>
 <p>Now we can roll our die for a few times to show how the function works ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 <p>::: Note that in our function <code>roll_die()</code> has no arguments, just the function body. This is perfectly legitimate in R. It is important that when we call the function we have to call it with the parenthesis like <code>roll_die()</code>. If we only call the name <code>roll_die</code>, R will display the code in the function body.</p>
 <p>A final remark in the <code>sample</code> function is in place here. If we look at the arguments of sample using the <code>args</code> function we see ::: {.cell}</p>
@@ -682,7 +703,7 @@ NULL</code></pre>
 <p>::: Now if we type: ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roll_die2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 <p>::: everything works, just as intended.</p>
 </section>
@@ -843,7 +864,7 @@ P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\te
 <p>In the numerator I ask R to count the number of 0s (no birthday collisions) in the object <code>simprobs_23</code> and then I divide it by 10000, just as in the definition of relative frequency probability. Then I compute 1 minus this relative frequency ::: {.cell}</p>
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_23[simprobs_23 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5034</code></pre>
+<pre><code>[1] 0.5127</code></pre>
 </div>
 <p>::: Voila, this is pretty good, isn’t it? Remember that the analytical solution we just got a bit earlier was <code>0.5072972</code></p>
 <p>Isn’t this cool? Instead of using formal reasoning we built a random experiment on the computer and came up with a pretty good approximation of the collision probability.</p>
@@ -855,7 +876,7 @@ P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\te
 <span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>simprobs_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100000</span>, <span class="fu">sim_50</span>())</span>
 <span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">length</span>((simprobs_50[simprobs_50 <span class="sc">==</span> <span class="dv">0</span>]))<span class="sc">/</span><span class="dv">100000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.97016</code></pre>
+<pre><code>[1] 0.97072</code></pre>
 </div>
 <p>::: Pretty amazing! Before we got the exact value as <code>0.9703736</code>.</p>
 <p>But now let us stay still with the birthday problem but now get away from this playful application to something really serious: Cryptography.</p>
