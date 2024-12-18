@@ -1,0 +1,62 @@
+---
+title: "My coin tossing function"
+author: "Martin Summer"
+editor: source
+---
+
+## Tossing a Coin in R {#coin-tossing}
+
+   The function `toss_coin()` allows us to simulate the random experiment of tossing a coin. 
+   Here is the code:
+   
+```{r}
+toss_coin <- function() {
+       coin <- 0:1
+       sample(coin, size = 1, replace = TRUE)
+   }
+```
+   
+### Explanation of the Code
+
+   The `toss_coin` function uses the `sample` function to randomly select one of the two values in the vector `coin`. Setting `replace = TRUE` ensures that each toss is independent. Here's an example of a series of tosses:
+
+```{r}
+tosses <- replicate(10, toss_coin())
+   tosses
+```
+
+The output is a vector of 10 random toss outcomes.
+
+```{r}
+# Load the ggplot2 package
+library(ggplot2)
+
+# Simulate 100 coin tosses
+tosses <- replicate(100, sample(c(0, 1), size = 1, replace = TRUE))
+
+# Create a data frame for plotting
+tosses_df <- data.frame(
+  Outcome = factor(tosses, levels = c(0, 1), labels = c("Tails", "Heads"))
+)
+
+# Plot the results using ggplot2
+ggplot(tosses_df, aes(x = Outcome)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(
+    title = "Occurrences of Heads and Tails",
+    x = "Outcome",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+set.seed(123)
+tosses2 <- replicate(10000, toss_coin())
+```
+
+```{r}
+
+```
+

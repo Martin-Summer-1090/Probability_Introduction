@@ -539,7 +539,7 @@ for example.
 
 For simulating random experiments, R has the very useful function 
 `sample()`. With this function
-we can roll our die on the computer and conduct actual random experiments. 
+we can - for example - toss a coin on the computer and conduct actual random experiments. 
 
 The function takes
 as arguments a vector names `x` and a number named `size`. `sample` will return
@@ -668,29 +668,29 @@ the rolling of a six sided die.
 Imagine we remove the first line of code in our function body and changed the name
 die in the sample function to "ball".
 ```{r change-name}
-roll_die2 <- function(){sample(ball, size = 1)}
+toss_coin2 <- function(){sample(ball, size = 1)}
 ```
 If we call the function now, we will get an error. The function call `roll_die2()` will 
 result in 
 the error message `Error in sample(ball, size = 1) : object 'ball' not found` (try it!)
 
-We could supply ball when we call `roll_die2` if we make ball an argument of the
+We could supply ball when we call `toss_coin2` if we make ball an argument of the
 function. Lets do this:
 ```{r make-argument}
-roll_die2 <- function(ball){sample(ball, size = 1)}
+toss_coin2 <- function(ball){sample(ball, size = 1)}
 ```
 Now the function will work as long as we supply `ball` when we call the function.
 ```{r now-it-works}
-roll_die2(ball = 1:6)
+toss_coin2(ball = 0:1)
 ```
 Note that we still get an error, if we forget to supply ball argument.
 This could be avoided if we give the function a default argument
 ```{r give-default-argument}
-roll_die2 <- function(ball= 1:6){sample(ball, size = 1)}
+toss_coin2 <- function(ball= 0:1){sample(ball, size = 1)}
 ```
 Now if we type:
 ```{r roll_die2}
-roll_die2()
+toss_coin2()
 ```
 everything works, just as intended.
 
@@ -720,13 +720,83 @@ there are key short cuts which you will learn as you work more with RStudio and 
 From now on you should write all your R-code for this course in scripts. Make a new folder
 for the scripts you write and store your R-code there from now on.
 
+### Using Quarto Documents {#quarto-documents}
+
+Quarto documents provide an elegant way to combine explanatory text, R code, and 
+the resulting output in one cohesive file. This makes them especially useful for 
+documenting your learning process, conducting reproducible research, or preparing assignments. 
+
+Let's walk through how to use a Quarto document to write down and experiment with 
+your coin-tossing function.
+
+1. **Creating a New Quarto Document**:
+   To begin, create a new Quarto document in RStudio by navigating 
+   to `File > New File > Quarto Document...`. You will see a popup window 
+   allowing you to type a title for the document and your name. It also 
+   allows you to select a format for your document. Choose the `HTML` format 
+   for now, as it allows easy preview in your browser, and click the `Create`
+   button The popup window will look something like this:
+   
+```{r, scriptscreen, out.width='90%', fig.align='center', fig.cap='The quarto pop up window', echo = F}
+knitr::include_graphics('figures/quarto_pop_up.png')
+```
+   
+   
+2. **Understanding the Quarto Layout**:
+   The new Quarto document will have a YAML header at the top, which might look like this:
+
+```{r, scriptscreen, out.width='90%', fig.align='center', fig.cap='The quarto pop up window', echo = F}
+knitr::include_graphics('figures/quarto_yaml.png')
+```
+   
+   Below this header, you will see some example text and R code chunks. 
+   Replace the example content with your own text and code.
+
+3. **Adding the Coin Tossing Function**:
+   In your Quarto document, you can explain your approach to creating the 
+   coin-tossing function, and include the code in a code chunk. 
+   
+   Here's an example:
+
+```{r, scriptscreen, out.width='90%', fig.align='center', fig.cap='Combining text and code in quarto documents', echo = F}
+knitr::include_graphics('figures/first_quarto_steps.png')
+
+```
+
+4. **Running and Compiling the Document**:
+   Once you have written your text and code, save your document.
+   You can execute the R code directly 
+   within the Quarto document. To run a code chunk, click the green play button in 
+   the upper-right corner of the chunk or use the 
+   shortcut `Ctrl + Shift + Enter` (Windows) or `Cmd + Shift + Enter` (Mac).
+
+   After executing your code, you can compile the document into a readable output format by clicking the `Render` button or using the shortcut `Ctrl + Shift + K` (Windows) or `Cmd + Shift + K` (Mac).
+
+5. **Adding Comments and Output**:
+   You can interweave your code with text explanations to make the document self-contained and easy to understand. For example:
+
+```{r, scriptscreen, out.width='90%', fig.align='center', fig.cap='Combining text and code in quarto documents', echo = F}
+knitr::include_graphics('figures/code_and_text.png')
+
+```
+
+There is of course a lot you can do to enhance your quarto documents. For example
+the lecture notes you are reading now are all written and composed in
+quarto as are the lecture slides.
+
+By using Quarto documents, you can create well-documented, interactive code 
+files that are both functional and easy to share with others. 
+
 ### Using packages and finding Help {#packages_help}
 
-We have now a function which we can use to simulate the rolling of a die, `roll_die()`. If the 
-die is *fair* it should be the case  that if we roll  the die often, all numbers should occur
-about equally often. The die should not be weighted in favor of a particular value.
+We have now a function which we can use to simulate the tossing of a coin, `coin_toss()`. 
+If the 
+coin is *fair* it should be the case  that if we toss the coin often, 
+Heads and Tails should occur
+about equally often. The coin should not be weighted in favor of a particular value.
 
-One way to learn whether our die is fair are *repetition* and *visualization*. These 
+One way to learn whether our coin is fair are *repetition* and *visualization*. 
+These 
 are tools we will need all the time, when working with data and when doing probability.
 While R has many useful functions, one of the great powers is that R is constantly extended
 by a huge community of users by providing packages. 
@@ -785,33 +855,53 @@ repeat a command many times.
 The number of times we want to repeat something is given as an argument 
 to the `replicate` function.
 
-Now lets roll our die 100 times and save the result in an object we call `rolls`:
+Now lets roll our die 100 times and save the result in an object we call `tosses`:
 ```{r replicate-die-rolls}
-rolls <- replicate(100, roll_die())
+set.seed(123)
+tosses <- replicate(100, toss_coin())
 ```
-We now use the `qplot()`function from the *ggplot2* library to make a quick visualization, by
-typing the command `qplot(rolls)`. I include the resulting picture in the
-following figure
-```{r 100-rolls-of-a-fair-die, out.width='90%', fig.align='center', fig.cap='Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 100 times', echo = F}
-knitr::include_graphics('figures/100_rolls.png')
+
+The function `set.seed()` I used here with the argument `123` is just
+a device to make this experiment reproduceable. If this function is
+not used, each new run of the 100 replications would show a
+different outcome. 
+
+I now show you a code for visualizing this outcome. The code contains some
+concepts that we did not yet discuss. But we will learn them soon. For
+the moment don't worry about these details and just see what this code 
+does:
+
+```{r}
+# Create a data frame for plotting
+tosses_df <- data.frame(
+  Outcome = factor(tosses, levels = c(0, 1), labels = c("Tails", "Heads"))
+)
+
+# Plot the results using ggplot2
+ggplot(tosses_df, aes(x = Outcome)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(
+    title = "Occurrences of Heads and Tails",
+    x = "Outcome",
+    y = "Count"
+  ) +
+  theme_minimal()
 ```
+
 If you try this and your picture looks a bit different from mine, don't worry. This is as things
 should be. I have stored the picture after one particular run of the replicate function and saved
 it in my figures folder to these lecture notes. Each time you run the replicate function anew
 a new random outcome is stored which will look not exactly the same as any other or course. This
 is what randomness does to the outcome of rolling a die.
 
-It looks like every value occurred roughly 16 times 
-but there is still quite some variation. For instance,
-the value 3 seems to occur more than 20 times whereas the value 2 
-occurs less than 15 times. 
+It looks like every value occurred roughly 50 times 
+but there is still quite some variation. 
 
 Maybe
 we have to give it another trial with more replications. With the computer we can do this with 
 a fingertip. Let us roll our die 10000 times and plot the result.
 ```
-> rolls2 <- replicate(10000, roll_die())
-> qplot(rolls2m bindwidth = 1)
+> tosses2 <- replicate(10000, toss_coin())
 ```
 Now the picture looks better. 
 
