@@ -48,7 +48,7 @@ that the coin has equal chances of coming up heads as coming up
 tails. When the coin is tossed it is uncertain whether it
 will ultimately come up Heads or Tails. 
 
-```{r dice, out.width='25%', fig.align='center', fig.cap='Figure 1: Tossing a coin', fig.label='coin-toss', echo=FALSE}
+```{r fig-coin-toss, out.width='25%', fig.align='center', fig.cap='Figure 1: Tossing a coin', echo=FALSE}
 knitr::include_graphics('figures/fair_coin_toss.jpg')
 ```
 
@@ -188,7 +188,7 @@ something the LLM is very good at. You could - for instance - ask
 ChatGPT at the prompt something like shown in @fig-Promptgpt :
 
 
-```{r chatGPT-prompt, out.width='90%', fig.align='center', fig.cap='Figure 2: The ChatGPT prompt', fig.label='Promptgpt', echo=FALSE}
+```{r fig-Promptgpt, out.width='90%', fig.align='center', fig.cap='Figure 2: The ChatGPT prompt', echo=FALSE}
 knitr::include_graphics('figures/prompt_gpt_example.png')
 ```
 
@@ -421,7 +421,7 @@ Heads
 
 
 Now you can use the name of the object to refer to its value. For instance, you could divide 
-```Heads```by ```2```and get a meaningful result
+```Heads``` by  ```2``` and get a meaningful result
 
 ```{r referring-to-object}
 Heads/2
@@ -493,14 +493,24 @@ R would subtract `1` from every component in the vector `coin`.
 Another specific behavior of R, you need to know about is called **recycling**. If you give
 R two vectors of different length in an operation, R will repeat the shorter vector as long as
 it is of equal length with the longer one. For example, if you have:
+
 ```{r recycling}
 coin + 1
 ```
 
 you see that R adds 1 to 0 and then starts over again by adding 1 to 1. 
+
 If the longer vectors is 
-not a multiple of the shorter one, R recycles but the cuts off. 
-It will give you a warning though.
+not a multiple of the shorter one, R recycles but the cuts off.^[As of R 
+version 4.2.0 (released in April 2022), the behavior regarding the recycling rule 
+has changed. In older versions of R, a warning was issued when the length of one 
+vector was not a multiple of the length of the other vector during arithmetic 
+operations. The reasoning behind this change was to reduce unnecessary noise 
+in the output. Many users found the warnings redundant in cases where the 
+recycling rule was intentional and understood. However, this change 
+means you need to be more cautious, as unexpected behavior might go 
+unnoticed without the warning.] 
+
 ```{r recycling-warning}
 coin + 1:4
 ```
@@ -516,13 +526,17 @@ The syntax for
 using a function is very simple: You type the function name and put the value of the function
 **argument** in parentheses. Here we use for illustrations the function of the square root 
 `sqrt()`:
+
 ```{r sqrt-function}
 sqrt(4)
 ```
+
 or rounding a number:
+
 ```{r round-function}
 round(3.1415)
 ```
+
 The data you write in the parentheses are called the **function arguments**. 
 Arguments can be all sorts of
 things: raw data, R objects, results from other functions. 
@@ -530,11 +544,13 @@ things: raw data, R objects, results from other functions.
 If functions are nested, R evaluates the
 innermost function first and then goes on to the outer functions. To see 
 examples of all these instances you can take
+
 ```{r evaluation-example}
 numbers <- 1:7
 mean(numbers)
 round(mean(numbers))
 ```
+
 for example. 
 
 For simulating random experiments, R has the very useful function 
@@ -544,6 +560,7 @@ we can - for example - toss a coin on the computer and conduct actual random exp
 The function takes
 as arguments a vector names `x` and a number named `size`. `sample` will return
 `size` elements randomly chosen from the vector `x`. Lets say:
+
 ```{r illustrate-sample-function}
 sample(x = 0:1, size = 1)
 ```
@@ -553,12 +570,14 @@ In this case `sample` has chosen either 0 or 1 from the vector `x = (0,1)` at ra
 If we want
 to toss the coin in our computer we can thus pass the coin as an argument to `sample` and
 use the number `1` for the `size` argument. Lets do a few tosses with our die
+
 ```{r roll-die}
 sample(x = coin, size = 1)
 sample(x = coin, size = 1)
 sample(x = coin, size = 1)
 sample(x = coin, size = 1)
 ```
+
 These are the random outcomes of our consecutive tosses. It is as if we had thrown an
 actual coin but in this case we have done the same thing on the computer. Isn't it cool that 
 this is possible at all? The `sample()` function will remain our good friend throughout this 
@@ -571,16 +590,20 @@ arguments by setting a mathematical equal sign `=` between the name and
 the data. Names help us to avoid passing the wrong
 data and thereby mixing up things or committing errors. But using names is not
 necessary. If we just wrote
+
 ```{r names-not-necessary}
 sample(coin,1)
 ```
+
 R would also know what to do. It is not always clear which names to use 
 for a function. If you are
 not sure, you can use the function `args()` to look it up. Here we take the 
 function `round`as one example.
+
 ```{r example-args-function}
 args(round)
 ```
+
 Note that the `digits` argument in the `round` function is already set to `0`. Frequently
 R functions come with optional arguments. These arguments are optional because the come with a 
 default value, which is `0` in case of the round function. 
@@ -605,13 +628,15 @@ The name here is `my_function`, next comes the expression `function()` which nee
 The names of the function arguments have to be written between the parentheses. Then we
 have to write the actual code within the  braces `{}`.
 
-To do this for the die, lets write a function named `roll_die`.
+To do this for the die, lets write a function named `toss_coin`.
+
 ```{r function-toss-coin}
 toss_coin <- function(){coin <- 0:1 
                          sample(coin, size = 1)}
 ```
 
-Now we can roll our die for a few times to show how the function works
+Now we can toss our coin for a few times to show how the function works
+
 ```{r roll-die-few-times}
 toss_coin()
 toss_coin()
@@ -619,6 +644,7 @@ toss_coin()
 toss_coin()
 toss_coin()
 ```
+
 Note that in our function `toss_coin()` has no arguments, just the function body. This is
 perfectly legitimate in R. It is important that when we call the function we have to call it
 with the parenthesis like `toss_coin()`. If we only call the name `toss_coin`, R will display the
@@ -626,9 +652,11 @@ code in the function body.
 
 A final remark in the `sample` function is in place here. If we look at the arguments of
 sample using the `args` function we see
+
 ```{r arguments-of-sample-function}
 args(sample)
 ```
+
 Lets do not discuss all the details of this output but concentrate for a 
 moment on the `replace` 
 argument. What does this mean? 
@@ -667,31 +695,41 @@ the rolling of a six sided die.
 
 Imagine we remove the first line of code in our function body and changed the name
 die in the sample function to "ball".
+
 ```{r change-name}
 toss_coin2 <- function(){sample(ball, size = 1)}
 ```
+
 If we call the function now, we will get an error. The function call `roll_die2()` will 
 result in 
 the error message `Error in sample(ball, size = 1) : object 'ball' not found` (try it!)
 
 We could supply ball when we call `toss_coin2` if we make ball an argument of the
 function. Lets do this:
+
 ```{r make-argument}
 toss_coin2 <- function(ball){sample(ball, size = 1)}
 ```
+
 Now the function will work as long as we supply `ball` when we call the function.
+
 ```{r now-it-works}
 toss_coin2(ball = 0:1)
 ```
+
 Note that we still get an error, if we forget to supply ball argument.
 This could be avoided if we give the function a default argument
+
 ```{r give-default-argument}
 toss_coin2 <- function(ball= 0:1){sample(ball, size = 1)}
 ```
+
 Now if we type:
+
 ```{r roll_die2}
 toss_coin2()
 ```
+
 everything works, just as intended.
 
 ### Scripts {#scripts}
@@ -737,7 +775,7 @@ your coin-tossing function.
    for now, as it allows easy preview in your browser, and click the `Create`
    button The popup window will look something like this:
    
-```{r, scriptscreen, out.width='90%', fig.align='center', fig.cap='The quarto pop up window', echo = F}
+```{r, pop-up-window, out.width='90%', fig.align='center', fig.cap='The quarto pop up window', echo = F}
 knitr::include_graphics('figures/quarto_pop_up.png')
 ```
    
@@ -745,7 +783,7 @@ knitr::include_graphics('figures/quarto_pop_up.png')
 2. **Understanding the Quarto Layout**:
    The new Quarto document will have a YAML header at the top, which might look like this:
 
-```{r, scriptscreen, out.width='90%', fig.align='center', fig.cap='The quarto pop up window', echo = F}
+```{r, quarto-yaml-header, out.width='90%', fig.align='center', fig.cap='The quarto yaml header', echo = F}
 knitr::include_graphics('figures/quarto_yaml.png')
 ```
    
@@ -758,7 +796,7 @@ knitr::include_graphics('figures/quarto_yaml.png')
    
    Here's an example:
 
-```{r, scriptscreen, out.width='90%', fig.align='center', fig.cap='Combining text and code in quarto documents', echo = F}
+```{r, text-and-code-combined, out.width='90%', fig.align='center', fig.cap='Combining text and code in quarto documents', echo = F}
 knitr::include_graphics('figures/first_quarto_steps.png')
 
 ```
@@ -772,20 +810,14 @@ knitr::include_graphics('figures/first_quarto_steps.png')
 
    After executing your code, you can compile the document into a readable output format by clicking the `Render` button or using the shortcut `Ctrl + Shift + K` (Windows) or `Cmd + Shift + K` (Mac).
 
-5. **Adding Comments and Output**:
-   You can interweave your code with text explanations to make the document self-contained and easy to understand. For example:
-
-```{r, scriptscreen, out.width='90%', fig.align='center', fig.cap='Combining text and code in quarto documents', echo = F}
-knitr::include_graphics('figures/code_and_text.png')
-
-```
-
 There is of course a lot you can do to enhance your quarto documents. For example
 the lecture notes you are reading now are all written and composed in
 quarto as are the lecture slides.
 
 By using Quarto documents, you can create well-documented, interactive code 
-files that are both functional and easy to share with others. 
+files that are both functional and easy to share with others. You can use quarto
+indpendently from R and combine it with other languages like
+phyton or julia. Ceck out: https://quarto.org/
 
 ### Using packages and finding Help {#packages_help}
 
@@ -819,10 +851,16 @@ There are
 many additional functions provided with this package. Indeed you could
 run a whole course on just that ^[A very good starting point is for
 instance @Healy2018, in case you are interested. Also a good source is the
-first chapter in @WickhamGrolemund2017.] For the point we want to make here
-we will use just one of them, called `qplot()`, a shorthand for for quick plot.
+first chapter in @WickhamGrolemund2017.] 
 
-Since `qplot()` is a function in the package *ggplot2*, we first need to install this package.
+Since we want to use functios now which are not in the base R distribution.
+we need to load the package which provides the functions we want.
+In this example we use the package *ggplot2*.
+
+When we use a package for the first time it needs to be installed. Once
+installed it does not have to be reinstalled when we use it at later
+coding sessions again.
+
 To install a package you need to be connected to the internet. If you have internet connection
 go to the command line and run at the command line:
 `install.packages("ggplot2")`.
@@ -839,16 +877,18 @@ interactively by clicking the install button on the upper left corner of the Pac
 After installation the package is on our hard-drive but it can not yet be used. 
 To use the package it has
 to be loaded. This is done with the command `library`. To load the *ggplot2* package we type
+
 ```{r load-packages}
 library("ggplot2")
 ```
+
 and hit the return key. Many things could be said about the R package system 
 and you will learn it
 in more detail as we go along in our course. For the moment the most important 
 thing to remember
 is that a package needs to be newly loaded whenever you want to use it in a new R session.
 
-To check whether our dies is fair, we need to roll it many times. 
+To check whether our coin is fair, we need to toss it many times. 
 R provides a function, that does this
 for us. This function is called `replicate()` and provides an easy way to 
 repeat a command many times.
@@ -856,6 +896,7 @@ The number of times we want to repeat something is given as an argument
 to the `replicate` function.
 
 Now lets roll our die 100 times and save the result in an object we call `tosses`:
+
 ```{r replicate-die-rolls}
 set.seed(123)
 tosses <- replicate(100, toss_coin())
@@ -867,9 +908,10 @@ not used, each new run of the 100 replications would show a
 different outcome. 
 
 I now show you a code for visualizing this outcome. The code contains some
-concepts that we did not yet discuss. But we will learn them soon. For
-the moment don't worry about these details and just see what this code 
-does:
+concepts that we did not yet discuss. Don't worry. We will learn them soon.
+The point here is to shwo you how we use the functions of the
+package to produce a visualization of the outcome of 
+our 100 coin tosses.
 
 ```{r}
 # Create a data frame for plotting
@@ -888,30 +930,65 @@ ggplot(tosses_df, aes(x = Outcome)) +
   theme_minimal()
 ```
 
-If you try this and your picture looks a bit different from mine, don't worry. This is as things
-should be. I have stored the picture after one particular run of the replicate function and saved
-it in my figures folder to these lecture notes. Each time you run the replicate function anew
-a new random outcome is stored which will look not exactly the same as any other or course. This
-is what randomness does to the outcome of rolling a die.
 
 It looks like every value occurred roughly 50 times 
-but there is still quite some variation. 
+but there is still quite some variation. Tail occured 
+fewer times than Heads.
 
 Maybe
-we have to give it another trial with more replications. With the computer we can do this with 
-a fingertip. Let us roll our die 10000 times and plot the result.
-```
-> tosses2 <- replicate(10000, toss_coin())
-```
-Now the picture looks better. 
+we have to give it another trial with more replications. 
+With the computer we can do this with 
+a fingertip. Let us roll our die 1000 times and plot the result.
 
-```{r 1000-rolls-of-a-fair-die, out.width='90%', fig.align='center', fig.cap='Frequencies of 1, 2, 3, 4, 5, 6 after rolling our virtual die 10000 times', echo = F}
-knitr::include_graphics('figures/10000_rolls.png')
+Here is how we would code this by recycling the code used before.
+
+```{r 1000-coin-tosses}
+
+set.seed(123)
+tosses <- replicate(1000, toss_coin())
+
+# Create a data frame for plotting
+tosses_df <- data.frame(
+  Outcome = factor(tosses, levels = c(0, 1), labels = c("Tails", "Heads"))
+)
+
+# Plot the results using ggplot2
+ggplot(tosses_df, aes(x = Outcome)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(
+    title = "Occurrences of Heads and Tails",
+    x = "Outcome",
+    y = "Count"
+  ) +
+  theme_minimal()
 ```
+
+Now it looks much better: Each face comes up approximately 500 times.
 We will learn in our course why the picture get better as we
 increase the number of rolls of the die. For the moment, let us just state that
 at least for this case it seems that there is no significant visual evidence that our 
 virtual die is loaded.
+
+::: {.callout-tip}
+## Tip for R novices: How to leverage the LLM to enhance understanding
+
+Let me give you a hint here how you could use the LLM to enhance
+your learning experience in another way. The students usually taking
+this bootcamp class have very different backgrounds. Some have much experience
+with programming but perhaps not necessarily in R. Many of you will - for
+example - know Python, because most of the MQF is taught and run with
+Python. In such a case you could use the LLM to translate the R code
+into Python and then compare. 
+
+Or assume you are impatient and want to jump ahead by
+having somebody explaining you the ggplot2 code
+we used for the plotting function. Ask the LLM to 
+explain you the R code and what it does, and I
+assure you you will get a pretty good and well
+explained answer.
+
+Try it!
+:::
 
 ### Getting Help {#getting_help}
 
@@ -927,14 +1004,16 @@ help page. You need to learn how to use this source right from the beginning.
 
 To access the help page of a function you type the function name preceded by a 
 question mark at the prompt, like this
+
 ```{r help-by-questionmark}
 ?sample
 ```
 
 Then, after you have pressed the return key, a help page is opened in the right 
 lower pane under the
-help tab as shown in \@ref(fig:helpinr)
-```{r helpinr, out.width='90%', fig.align='center', fig.cap='The Help-pane in RStudio', echo = F}
+help tab as shown in @fig-helpinr
+
+```{r fig-helpinr, out.width='90%', fig.align='center', fig.cap='The Help-pane in RStudio', echo = F}
 knitr::include_graphics('figures/rhelp.png')
 
 ```
@@ -999,21 +1078,32 @@ couple of different cases how you can use the function in practice.
 
 ### The birthday problem {#birthday_problem}
 
-We learned now some basic notions of probability and of R with the example of the
-rolling of a fair die. It is really surprising what already can be done by just applying
-the simple ideas we have just learned. The application we want to show you now is
-known to probability theorists as the **birthday problem**. It originates in a piece
-of recreational maths and math-puzzles but it reaches out until cryptography, computer security
-and blockchain architecture. It also gives us an opportunity to apply some of our newly
-acquired R-knowledge.
+In this section, we will apply our foundational knowledge of probability to 
+a fascinating real-world problem known as the birthday problem:
 
-The starting question in the birthday puzzle is: What is the probability that at least two 
+The starting question in the birthday problem is: What is the probability that at least two 
 people in a room share the same birthday, when we neglect things like leap years, and when
 we assume that birthdays on any day of the year are equiprobable and the birthdays
-of the people in the room are independent. We have no twins for example. Perhaps some of
+of the people in the room are independent. We have no twins for example. 
+
+Perhaps some of
 you have already seen this problem before. If not, the result may surprise you. Even if
-you saw the birthday problem before, perhaps not many of you have seen the connection to the
-cryptography and the blockchain.^[We follow here the discussion in @DiaconisSkyrms2019]
+you saw the birthday problem before, perhaps not many of you are aware
+that the significance of this problem reaches far beyond recreational 
+math puzzles. This is because the birthday story is of course
+accidential. The mathematical formulation of the problem
+will reveal through the process of abstraction that this problem
+is at the heart a problem about the probability
+of coincidences. As such it has real world connections to
+cryptography and the blockchain security.^[We follow here the discussion in @DiaconisSkyrms2019]
+
+Through this problem, we will:
+
+- Explore how to frame probability questions mathematically.
+- Use basic R functions to compute probabilities.
+- Learn how to simulate experiments to approximate probabilities. This problem 
+  is not only an entertaining mathematical puzzle but also a stepping stone to 
+  understanding its applications in cryptography and blockchain security.
 
 First, observe that we took our assumptions such that we are in  the frame of classical
 probability like the originators of the field thought about it.
@@ -1021,36 +1111,42 @@ probability like the originators of the field thought about it.
 Now for the sake of familiarizing ourselves with the new concepts, let us try to map the birthday
 problem into the probability notions we learned so far.
 
-The *sample space* is the set of possible outcomes of the experiment. Assume we have $n$
-people in the room. Since each person can have a birthday at any of the 365 days in the
-year (note that we assumed we exclude leap years) and we have $n$ people in the room, the
-possible basic outcomes are $365 \times 365 \times 365 \cdots 365$ taken $n$ times. This
-will produce a set with $365^{n}$ ordered $n-tuples$ or sequences of birthdays. 
-This is the sample space of this
-experiment, written as ${\cal S} = \{x | x \in 365^n\}$ in set theoretic notation. It means
-the sample space is the set of all ordered $n-tuples$ from the Cartesian product $365^n$.
+The *sample space* is the set of possible outcomes of the experiment. 
+The sample space for our problem includes all possible combinations of birthdays 
+for the group. For example, if there are 3 people, each with a birthday on any 
+of 365 days, the sample space contains all possible sequences of three birthdays:
 
-Remember that in mathematics, a Cartesian product is a mathematical operation that 
-returns a set (or product set or simply product) from multiple sets 
-(in this case the sample space, 
-${\cal S}$. That is, for sets $A$ and $B$, the Cartesian product $A \times B$ is the 
-set of all ordered pairs $(a, b)$ where $a \in A$ and $b \in B$.
+$(1,1,1),(1,1,2),…,(365,365,365)$
+
+In general, for $n$ people, there are $365^n$ possible combinations, as each 
+person’s birthday is independent of the others.^[Mathematically you can describe the sample space for the birthday problem as a set with  $365^n$ ordered $n$-tuples or sequences of birthdays: ${\cal S} = \{x | x \in 365^n \}$ This is the sample space of this experiment, written as  in set theoretic notation. It means the sample space is the set of all ordered  $n-tuples$ from the Cartesian product $365^n$. Remember that in mathematics, a Cartesian product is a mathematical  operation that returns a set (or product set or simply product) from multiple  sets (in this case the sample space, ${\cal S}$. That is, for sets $A$ and $B$, the Cartesian product $A \times B$ is the set of all ordered pairs  $(a,b)$ where $a \in A$ and $b \in B$.]
 
 Now given this sample space we can assign a probability to the event that two people chosen at
 random will have the same birthday. The denominator will this be $365^n$. The nominator for
 this probability will be much more straightforward to figure out, if we compute the
 complement. We discussed before that the probability of the complement of an event 
-is 1 minus the probability of the event. Translated to the
-birthday problem, this means we look for the 1 minus the probability that that all 
-birthdays are different. The probability that
-the second person has a different birthday from the first is $\frac{364}{365}$. If they are
-different the probability that the third person has a different birthday from them is 
-$\frac{363}{365}$ and so on for all $n$ in the room. Thus the probability of a shared birthday 
-in the room is:
+is 1 minus the probability of the event. 
+
+We can use the complement rule to compute the probability of at least 
+two people sharing a birthday: Compute the probability that no 
+two people share a birthday. Subtract this probability from 1 to get the 
+probability of at least one match.
+
+Here's how we compute the probability of no matches:
+
+1.    The first person can have any birthday $(365/365).
+2.    The second person must avoid the first person’s birthday $(364/365)$.
+3.    The third person must avoid the first two birthdays $(363/365)$.
+
+Now continue this reasoning for $n$ people.
+
+The final probability is:
+
 \begin{equation*}
 P(\text{at least two people share birthday}) = 
 1 - \frac{365 \times 364 \times 363 \cdots \times 365 - n +1}{365^n}
 \end{equation*}
+
 Now there is an additional thing we did not yet introduce and which we will learn 
 about in the next lecture. This refers to our assumption that the individual
 birthdays are independent. For the moment you need to take the
@@ -1071,159 +1167,140 @@ We have used the operator `^` which is needed to compute powers. Now we see from
 that with 23 people the probability is already larger than 50 %. Quite stunning. You can now
 verify yourself that with 50 people this probability is already at 97 %.
 
-### An R function to compute birthday probabilities
+Let’s visualize how the probability of at least one shared birthday grows with 
+the size of the group. The plot below shows that the probability exceeds 50% with 
+just 23 people and quickly approaches 100% as the group size increases.
 
-Now let us use our knowledge about how to write R functions to write a function to
-compute birthday probabilities. The function argument is the number $n$ of people in class.
-The coincidence probability is given by the formula we have derived. Now
-here is how we could go about writing this function:
-```{r coincidence-function}
-birthday_collisions <- function(n){
-  1 - prod(365:(365-n+1))/365^n
+```{r visualize-brithday-problem}
+
+# Define the birthday_collisions function
+
+birthday_collisions <- function(n) {
+  1 - prod(365:(365 - n + 1)) / 365^n
 }
+
+# Generate data for group sizes
+
+group_sizes <- 1:50
+collision_probs <- sapply(group_sizes, birthday_collisions)
+
+# Plot the probability of at least one shared birthday
+
+plot(group_sizes, collision_probs, type = "l", col = "blue", lwd = 2,
+     xlab = "Group Size", ylab = "Collision Probability",
+     main = "Probability of At Least One Shared Birthday")
+abline(h = 0.5, col = "red", lty = 2)  # Highlight the 50% threshold
+
 ```
-Now lets verify what I have claimed before about the group size 50.
-```{r group-size-50}
-birthday_collisions(50)
-```
-Voila, indeed with 50 people in the  group the collision probability is already
-at 97 %.
+
+I will not go in detail into the explanation of the code at this stage.
+For those of you who crave for an explanation, please look at the
+marginal note here or use the LLM for a step by step explanation.^[`birthday_collisions` Function: This function calculates the probability of at least one shared birthday for a group of nn people using the formula derived earlier. `group_sizes` and `collision_probs`: `group_sizes` defines a range of group sizes (1 to 50). `sapply` applies the `birthday_collisions` function to each group size, computing the collision probabilities. Visualization: A line plot (`type = "l"`) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (`abline`) highlights the 50% threshold for better visual context.]
 
 ### Determining birthday collisions by simulation
 
-Now this was an argument derived analytically and then we just packed the derived result into
-a function to compute the exact birthday-collision probabilities. Here is how we could
-figure out these probabilities by simulation, even with the minimal tools we have
-learned so far.
+Instead of deriving the probability analytically, we can simulate the birthday experiment. Here’s how:
 
-Let us simulate first birthdays for 23 people in a room using the sample function. We
-stick to the assumption that our year has 365 days (no leap years), and that all birthdays
-are equally likely, so we can sample from the list of days from 1 to 365 with the
-sample function which we have already encountered. 
+1. Generate random birthdays for nn people using `sample(1:365, n, replace = TRUE)`.
+2. Count how often at least two people share a birthday using the unique() function.
+3. Repeat the simulation many times (e.g., 10,000) using replicate() to estimate the probability.
 
-We need 
-to take care to set the `replace` argument
-in the sample function to the value `TRUE`. This is because we always draw for 
-every person in the
-room from the same list of values. If one birthday is drawn it is possible 
-in principle that later in the process the same birthday is drawn again. Before, when we worked
-with only one die we did not need to care whether sample drew with replacement or not.
-```{r simulate-23-birthdays}
-b_23 <- sample(1:365, 23, replace = TRUE)
+```{r sim-brithday-function}
 
-```
-This little piece of code is to be read in the same way as before when we built the process
-of rolling a die on the computer. We sample 23 values from the vector $1,2,3,\cdots,365$ 
-**without** replacement. Think about a situation where I use uniform random numbers to call 23
-people in your group and write the birthdays I get in this way into the object `b_23`.
-
-Here is how I can find the number of matches in `b_23`. R has a built in function, which is
-called `unique()`. So if there were two people with the same birthday in `b_23`, applying
-`unique()` to `b_23` would only keep one value. Now clearly if we subtract the length of
-the resulting object from 23 we get the number of collisions in `b_23`. Fortunately we can
-use the R function `length()` to achieve this task. `length()` computes the length of any
-object we give it as an argument.
-```{r unique-in-23}
-m_23 <- 23 - length(unique(b_23))
-```
-So for instance if `sample()` drew 23 different birthdays `m_23` would be 0.
-
-Let's pack this process into a function:
-```{r simulate-birthday-probs-23}
-sim_23 <- function(){
-  b_23 <- sample(1:365, 23, replace = TRUE)
-  (23 - length(unique(b_23)))
+sim_birthday <- function(n, trials = 10000) {
+  results <- replicate(trials, {
+    birthdays <- sample(1:365, n, replace = TRUE)
+    any(duplicated(birthdays))
+  })
+  mean(results)
 }
 ```
-Now we can repeat this process many times - say 10000 times - using the replicate function.
+
+
+Let me give a step-by-step breakdown of this piece of code.
+
+1. **Defining the Function**:
+
+The function `sim_brithday` has two arguments
+
+  - `n`: The number of people in the room (group size).
+  - `trials`: The number of simulation repetitions (default is 10,000).
+   These parameters allow us to customize the simulation for different group sizes and levels of precision.
+
+2. **Using `replicate` to Run Simulations**:
+
+   The `replicate()` function repeats an experiment a specified number of times 
+   (`trials`). Each experiment simulates one instance of \(n\) people in a room.
+
+3. **Simulating Birthdays**:
+  
+   The `sample()` function generates \(n\) random birthdays (integers between 1 and 365) 
+   with replacement, representing the assumption that birthdays are independent 
+   and uniformly distributed. This step directly reflects the assumptions made in 
+   the analytical solution:
+   
+    - The sample space consists of 365 possible birthdays.
+    - Sampling is done with replacement because multiple people can share the same birthday.
+
+4. **Checking for Duplicates**:
+ 
+   The `duplicated()` function identifies repeated birthdays in the sample. The `any()` function 
+   checks if there is at least one duplicate. If duplicates exist, this corresponds to 
+   a "birthday collision." This step operationalizes the concept of finding the 
+   complement (at least one collision) rather than calculating the probability of 
+   all unique birthdays.
+
+5. **Calculating the Probability**:
+ 
+   The `results` vector contains `TRUE` (collision occurred) or `FALSE` (no collision) for each trial. Taking the `mean()` of this logical vector calculates the proportion of trials with a collision, which corresponds to the simulated probability. This step ties back to the definition of relative frequency probability introduced earlier: the probability of an event is the ratio of favorable outcomes to the total number of trials.
+
+Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:
+
 ```{r}
-simprobs_23 <- replicate(10000, sim_23())
+sim_birthday(23)
+sim_birthday(50)
 ```
 
-Now how do we get from here to probabilities? Here we anticipate and introduce a new 
-probability concept which we will
-discuss in more detail in the next lecture but which you perhaps already came across a few 
-times. 
 
-This concept could be called the **relative frequency probability** . In this concept
-the probability of an event $A$ is defined as
-\begin{equation*}
-P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\text{Total number of trials in a random experiment}}
-\end{equation*}
-Applying this concept to our data generated by the replicate function and stored in `b_23` would
-require two things. First we would have to count the number of times we saw a 1,2 or more matches, which in our case means 1,2 or more birthday collisions, add up the count and divide by the
-number of replications. Clearly it is also easier here to work the other way round. We count
-the number of no collisions and use the complement rule, by computing 1 minus the relative
-frequency of no collisions. Let us do that.
+- For \(n = 23\), the output should be close to the analytically derived probability (\(\approx 0.507\)).
+- For \(n = 50\), the output should approximate \(\approx 0.970\).
 
-Now this is clearly too tedious to do by hand. 
-We will discuss systematically in the next lecture how to refer to individual values in an R
-object and select and operate on ranges of values etc. 
+What are the advantages of simulations. Here are three main advantages:
 
-For the moment, look at the next step
-just as a piece of magic and don't worry if you do not exactly understand the syntax
-at the moment. 
+- **Flexibility**: This method works even when the assumptions (e.g., uniformity or independence) are adjusted.
+- **Verification**: We can confirm analytical results with experimental data.
+- **Real-World Application**: Simulation methods are widely used in practice when exact formulas are unavailable or complex.
 
-In the numerator I ask R to count the number of 0s (no birthday collisions) in the object
-`simprobs_23` and then I divide it by 10000, just as in the definition of relative frequency probability. Then I compute 1 minus this relative frequency
-```{r}
-1 - length((simprobs_23[simprobs_23 == 0]))/10000
-```
-Voila, this is pretty good, isn't it? Remember that the analytical solution we just got a bit
-earlier was `0.5072972`
+By understanding and applying this simulation, you now have a practical tool to explore probability problems beyond purely mathematical derivations.
 
-
-Isn't this cool? Instead of using formal reasoning we built a random experiment on the
-computer and came up with a pretty good approximation of the collision probability. 
-
-Let's check the result with 50 for the sake of completeness and for the sake of practice, with
-an experiment with 10000 trials. I now 
-stitch all steps together.
-```{r simulate-birthday-probs-50}
-sim_50 <- function(){
-  b_50 <- sample(1:365, 50, replace = TRUE)
-  (50 - length(unique(b_50)))}
-
-simprobs_50 <- replicate(100000, sim_50())
-1 - length((simprobs_50[simprobs_50 == 0]))/100000
-```
-Pretty amazing! Before we got the exact value as `0.9703736`.
-
-But now let us stay still with the birthday problem but now get away from this playful
-application to something really serious: Cryptography.
+The birthday problem has practical implications beyond recreational math. In cryptography, the 
+same underlying principles are used to analyze the likelihood of hash collisions 
+in blockchain systems and digital signatures. Let’s explore this connection further.
 
 ### Hash-functions and the blockchain {#hashfunctions}
 
-The birthday problem is the canonical model for the probabilistic study
-of coincidences of all kinds.
-A particular important application of this idea is in cryptography, and its 
-concept of so called **hash-functions**.
+The birthday problem provides the foundation for studying coincidences in various 
+contexts. A critical application is in cryptography, where the concept of 
+**hash functions** relies on similar probabilistic principles to ensure 
+data security.
 
-A hash-function maps a string of arbitrary but finite length to a fixed length string 
-of output.^[We have taken this discussion from https://brilliant.org/wiki/birthday-paradox/] A
-very frequently used hash-function in practice is the function SHA-256, which maps its input
-to a string of 256 bits^[A bit, short for binary digit, is defined as the most basic 
-unit of data in telecommunications and computing. Each bit is represented 
-by either a 1 or a 0]. So, you could for instance give the text of these lecture notes as an 
-input to SHA-256 and it would map this into a 256-bit string, which functions like
-a finger print of this text. This function is an instance of a special from of mappings 
-called a *one-way-function* meaning that it is easy to evaluate or compute but it is
-practically impossible to learn from the value the initial argument by computing the inverse.
+A hash function is a mathematical tool that converts an 
+input (e.g., a text, file, or number) of any size into a 
+fixed-length output, often called a "hash value" or "digest." 
+For example, the widely used hash function SHA-256 maps its 
+input to a 256-bit string. You can think of this hash value as 
+a digital fingerprint: any change to the input, no matter how
+small, results in a completely different hash.
 
-Hash-Functions are key pillars of modern cryptography, where they play a major role in message
-authentication. This is because it is impossible to modify the input without significantly
-changing the output. So in our previous example, if you only deleted or added a comma to these 
-notes and hash-them again they would hash into a completely different 
-value than the previous version which 
-still was without this minor change.
-Comparing the hash-values would reveal immediately 
-that something has changed.
+Hash functions have two critical properties that make them essential in cryptography:
 
-The collision problem for hash-functions is formally equivalent 
-to the birthday problem. The event
-we are interested in is that *at least two input strings hash-to the same value*. Again it
-is easier to think about the complementary event that *all inputs hash to a different value*.
-
+1. **One-wayness**: It is computationally unfeasible to determine the 
+    original input from the hash value. A hash function is easy to evaluate 
+    or compute but it is practically impossible to learn from the value 
+    the initial argument by computing the inverse.
+2. **Collision resistance**: It is highly unlikely for two different inputs 
+   to produce the same hash value.
+   
 If the range of the hash-function is $M$ and the hash-function maps into a 256 bit string
 then there are $2^{256}$ basic outcomes. Since the hash-function maps a large string onto
 a smaller string it is possible that there are two different strings $x \neq y$ mapping
@@ -1234,50 +1311,58 @@ For a cryptographically secure hash function it is therefore required that the p
 such a collision should be small enough to exclude a collision in all practically
 relevant circumstances.
 
-Note that this is a problem formally similar to the birthday problem. In the cryptography
-context we ask, how many values does a potential attacker have to hash through SHA-256 
-before the probability of a collision is larger than a certain threshold?
+The collision problem for hash functions is analogous to the birthday problem. 
+Instead of asking how many people are needed in a room for a shared birthday, 
+we ask: how many inputs (e.g., messages or files) need to be hashed before two 
+of them produce the same hash value? This probability depends 
+on the size of the hash space, which is determined by the number 
+of bits^[A bit, short for binary digit, is defined as the most basic unit of data in telecommunications and computing. Each bit is represented by either a 1 or a 0] in the hash function's output.
 
-The probability of no-collision ($nc$) with $n$ hashed-messages 
-through a SHA-256 hash function is
+Let $M = 2^{256}$ the number of possible hash values. The
+probability of no collisions after $n$ hashes is
+
 \begin{equation*}
-P_{nc}(n) = 1 \times \left(1 - \frac{1}{2^{256}}\right)\times 
-\left(1 - \frac{2}{2^{256}}\right) \times \cdots \times \left(1 - \frac{(n-1)}{2^{256}}\right)
+P_{nc}(n) = 1 \times \left(1 - \frac{1}{M}\right)\times 
+\left(1 - \frac{2}{M} \right) \times \cdots \times \left(1 - \frac{(n-1)}{M} \right)
 \end{equation*}
 
 Now to do the estimation of the threshold we use an approximation, which works with 
 a simple property of the logarithm: $\log(1-x)\approx -x$ when $x$ is small. Thus for
 $n$ much smaller than $M$, or $n \ll M$, we can write the no-collision probability 
-approximately as
+approximately (using the logarithms) as
 \begin{align*}
-P_{nc}(n) &\approx 1 \times \exp\left(-\frac{1}{2^{256}}\right) \times \exp\left(-\frac{2}{2^{256}}\right) \times \cdots
-\times \exp\left(-\frac{(n-1)}{2^{256}}\right) \\
- &\approx 1 \times \exp\left(-\frac{(1+2+3+...+(n-1))}{2^{256}} \right) \\
- &\approx \exp\left(-\frac{n \times (n-1)}{2 \times 2^{256}}\right)
-\end{align*}
-Now if $n \ll 2^{256}$ we can again use the approximation
-$\exp(x) \approx 1 + x$ to get the probability of a hash-collision as
-\begin{align*}
-P_{nc}(n) &\approx 1 - \frac{n \times (n-1)}{2\times 2^{256}}\\
-       & \approx 1 - \frac{n^2}{2\times 2^{256}}
+P_{nc}(n) &\approx \exp \left( - \frac{n(n-1)}{2M})
 \end{align*}
 Thus the probability of a hash-collision as a function of $n$ is then approximately
 \begin{equation*}
-P_{c}(n) = \frac{n^2}{2 \times 2^{256}}
+P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 \end{equation*}
-Thus to have a collision probability with $99.8%$ you need
-```{r 99-percent-collision}
-sqrt(2*2^256*0.998)
-```
-which is about $5*10^{38}$ hashes. To have a collision probability of $50 \%$ you need
-```{r 50-percent-collision}
-sqrt(2^256)
-```
-which amounts to $2^{128}$ hashes. This is, of course a **really** big number. 
 
-Let's put this
-into perspective: If a computer computes $10000$ hashes per second, it would take
-more than $10^{27}$ years to compute $2^{128}$ hashes. @Narayananetal2016 formulate it like this: "*...if every computer ever made by humanity had been computing since the beginning of the universe, the odds that they would have found a collision by now are still infinitesimally small. So small that it it's far less than the odds that a meteor will land on your house.*". 
+Let's try a visualization to show how $P_{c}(n)$ increases with $n$:
+
+```{r hash-collisions}
+
+n <- 1:100
+M <- 2^256
+
+collision_prob <- (n^2) / (2 * M)
+
+plot(n, collision_prob, type = "l", log = "y", col = "blue",
+     xlab = "Number of Inputs (n)", ylab = "Collision Probability (log scale)",
+     main = "Hash Collision Probability (SHA-256)")
+abline(h = 0.5, col = "red", lty = 2)  # 50% threshold
+
+```
+
+These results show that for SHA-256:
+
+- To have a $50$% chance of a collision, an attacker would need to compute approximately $2^{128}$ hashes.
+- At $10000$ hashes per second, this would take longer than the age of the universe.
+
+This enormous computational difficulty ensures the security of modern cryptographic systems. Even with the combined computing power of all devices on Earth, finding a collision is practically impossible.
+
+The birthday problem demonstrates how fundamental probability concepts can inform critical applications like cryptographic hash functions. By understanding the collision probabilities, we see why hash functions like SHA-256 are effective for ensuring data integrity and security.
+
 
 ## Summary
 
@@ -1317,46 +1402,9 @@ execution of commands.
 
 These are the **Applications** we have covered in the lecture:
 
-1. **Constructing a die on the computer and roll it an arbitrary number of times**
+1. **Constructing a coin on the computer and toss it an arbitrary number of times**
 2. **The birthday problem and how to solve it analytically as well as through simulation**
 3. **Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability**
 
-## Project 1: Craps: A casion dice game.
-
-The first project is about one of the very few dice games offered at a Casino: 
-Craps.^[ This will be
-the only project in this course where we do not go into a direct financial application. 
-Before we can do so, we need to build still a bit more knowledge of probability and
-skills in R.]
-
-In Craps people throw a pair of dice and bet on outcomes of these
-throws. In this project we practice our new knowledge by
-implementing the dice throws of craps and the automatic summation of points on the computer.
-We try to find out the 
-probability of the possible outcomes and check the fairness of the dice.
-
-1. Your first task in this project will be to write a function which allows you 
-to virtually throw a pair of dice and sum up the points shown after the throw.
-2. Simulate and plot the result of your simulation using `qplot()` with the `binwidth`
-argument set to 1.
-3. Are these dice fair? Why?
-4. Assume the dice were unfair in the following sense: Numbers 1,2,3,4 and 5 have a 
-probability of $1/8$ while the 6 has a probability of $3/8$. Study the help page of
-the `sample`function and find out how you could give these new probability weights
-to the function. If you redo your simulation analysis with the loaded dice, how does the
-picture change?
-5. Write a script for this random experiment.
-6. Now look at the random experiment of throwing two dice with the concepts from
-probability theory: What is the sample space of this experiment. What are the 
-probabilities of the basic outcomes? What is the probability of getting sum 7, what is
-the probability of getting sum 2 for the case of the fair dice, for the case of the unfair dice?
-
-7. Imagine now that you are at the casino which uses fair dice and you can spend 150 Euro
-for chips. Since you have figured out that 7 is the most
-likely outcome you would like to buy bets on 7. The casino
-offers you a bet for 15 cent. When you win you get 1 Euro for the
-bet, when you loose you get nothing. Every bet costs 15 cents, so you can
-make 1000 bets in total 
-on 7 from your budget of 150. Is this a good or a bad deal for you? Try to think about
-this problem in terms of a simulation.
+# Project 1: 
 
