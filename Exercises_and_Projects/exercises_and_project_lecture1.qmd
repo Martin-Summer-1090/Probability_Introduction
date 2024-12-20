@@ -1,0 +1,158 @@
+
+---
+title: "Exercises and Project: Lecture 1 Solutions"
+format: html
+---
+
+## Exercises with Solutions
+
+### Exercise 1: Simulate Rolling Two Dice
+
+#### Task
+Write a function to simulate rolling a pair of dice. Simulate 10,000 rolls and visualize the distribution of sums.
+
+#### Solution
+```{r}
+# Function to roll two dice and sum their outcomes
+roll_dice <- function() {
+  sum(sample(1:6, size = 2, replace = TRUE))
+}
+
+# Simulate 10,000 rolls
+set.seed(123)
+dice_rolls <- replicate(10000, roll_dice())
+
+# Visualize the results
+library(ggplot2)
+dice_data <- data.frame(Sum = dice_rolls)
+ggplot(data = dice_data, aes(x = Sum)) +
+  geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
+  labs(
+    title = "Distribution of Sums of Two Dice",
+    x = "Sum",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+---
+
+### Exercise 2: Analyze the Fairness of Dice
+
+#### Task
+Compute the theoretical probabilities of sums for two fair dice and compare with simulated frequencies.
+
+#### Solution
+```{r}
+# Theoretical probabilities
+fair_probs <- data.frame(
+  Sum = 2:12,
+  Probability = c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1) / 36
+)
+
+# Simulated probabilities
+simulated_probs <- as.data.frame(table(dice_rolls) / length(dice_rolls))
+colnames(simulated_probs) <- c("Sum", "Simulated_Probability")
+simulated_probs$Sum <- as.numeric(as.character(simulated_probs$Sum))
+
+# Merge and compare
+comparison <- merge(fair_probs, simulated_probs, by = "Sum")
+comparison
+```
+
+**Comments**:
+- Simulated probabilities should closely match theoretical probabilities if the dice are fair.
+
+---
+
+### Exercise 3: Simulate Loaded Dice
+
+#### Task
+Simulate rolls for loaded dice where 1-5 have a probability of 1/8, and 6 has a probability of 3/8. Visualize the results.
+
+#### Solution
+```{r}
+# Function to roll loaded dice
+roll_loaded_dice <- function() {
+  prob <- c(1/8, 1/8, 1/8, 1/8, 1/8, 3/8)
+  sum(sample(1:6, size = 2, replace = TRUE, prob = prob))
+}
+
+# Simulate 10,000 rolls
+set.seed(123)
+loaded_rolls <- replicate(10000, roll_loaded_dice())
+
+# Visualize
+loaded_data <- data.frame(Sum = loaded_rolls)
+ggplot(data = loaded_data, aes(x = Sum)) +
+  geom_histogram(binwidth = 1, fill = "pink", color = "black") +
+  labs(
+    title = "Distribution of Sums of Loaded Dice",
+    x = "Sum",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+**Comments**:
+- Observe how the distribution shifts due to the loading. Sum 12 becomes more likely due to the increased probability of rolling 6.
+
+---
+
+## Project with Solutions
+
+### Project: Casino Dice Game and Probabilities
+
+#### Exercise 4: Probability of Specific Sums
+
+**Task**: Calculate the probability of rolling a sum of 7 and 2 for both fair and loaded dice.
+
+**Solution**:
+```{r}
+# Fair dice probabilities
+prob_sum_7_fair <- 6 / 36
+prob_sum_2_fair <- 1 / 36
+
+# Loaded dice probabilities
+prob_sum_7_loaded <- (5 * 3 + 5 * 3) / 64
+prob_sum_2_loaded <- (1 * 1) / 64
+
+list(
+  "Fair Dice" = list("Sum 7" = prob_sum_7_fair, "Sum 2" = prob_sum_2_fair),
+  "Loaded Dice" = list("Sum 7" = prob_sum_7_loaded, "Sum 2" = prob_sum_2_loaded)
+)
+```
+
+**Comments**:
+- Sum 7 remains most likely for fair dice but changes significantly for loaded dice.
+
+---
+
+#### Exercise 5: Evaluating a Betting Strategy
+
+**Task**: Simulate 1,000 bets on sum 7 for both fair and loaded dice.
+
+**Solution**:
+```{r}
+simulate_bets <- function(num_bets, cost_per_bet, payout, prob_win) {
+  results <- sample(c(payout, -cost_per_bet), num_bets, replace = TRUE, prob = c(prob_win, 1 - prob_win))
+  sum(results)
+}
+
+# Fair dice
+fair_profit <- replicate(10000, simulate_bets(1000, 0.15, 1, prob_sum_7_fair))
+mean(fair_profit)
+
+# Loaded dice
+loaded_profit <- replicate(10000, simulate_bets(1000, 0.15, 1, prob_sum_7_loaded))
+mean(loaded_profit)
+```
+
+**Comments**:
+- Discuss expected values and profitability under fair and loaded conditions.
+- Highlight how casinos use odds to maintain their advantage.
+
+---
+
+### Conclusion
+This set of exercises and project demonstrates how probability principles and R simulations can be applied to understand real-world scenarios like dice games and casino strategies. Through this analysis, students gain hands-on experience in probability modeling and critical thinking about fairness and profitability.

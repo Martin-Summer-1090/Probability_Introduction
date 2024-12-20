@@ -1406,5 +1406,128 @@ These are the **Applications** we have covered in the lecture:
 2. **The birthday problem and how to solve it analytically as well as through simulation**
 3. **Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability**
 
-# Project 1: 
+## Exercises and Project:
 
+### Exercises
+
+#### Exercise 1: Simulate Rolling Two Dice
+
+- Write a function to simulate rolling a pair of dice. Each die produces a 
+random number between 1 and 6. The function should return the sum of the two dice.
+
+
+- Simulate 10,000 rolls and store the results. Use `table()` to compute the frequencies of each sum and   visualize the results with a histogram.
+
+- Create a histogram. Use the help function of R to find out how to do this.
+
+
+#### Exercise 2: Analyze the Fairness of Dice
+
+- Compute the theoretical probabilities of all possible outcomes (sums from 2 to 12) for fair dice. Recall that each outcome corresponds to different combinations of the two dice.
+
+- Compare the theoretical probabilities to the simulated frequencies. Are the dice fair? Justify your conclusion.
+
+
+
+#### Exercise 3: Simulate Loaded Dice
+
+- Assume the dice are "loaded" such that numbers 1, 2, 3, 4, and 5 have probabilities of \( \frac{1}{8} \), while 6 has a probability of \( \frac{3}{8} \).
+
+- Modify your simulation using the `prob` argument in `sample()` to reflect these probabilities.
+
+- Simulate 10,000 rolls of the loaded dice and visualize the results. How does the distribution of sums change compared to fair dice?
+
+
+#### Exercise 4: The Probability of Specific Sums
+
+- Using your theoretical understanding of the sample space, calculate the probabilities of:
+   
+   - Rolling a sum of 7.
+   - Rolling a sum of 2.
+   - Repeat for both fair and loaded dice.
+
+- Verify your theoretical results with your simulations.
+
+
+
+#### Exercise 5: Evaluating a Betting Strategy
+
+- Imagine you are at a casino with fair dice. You have €150 to spend, and each bet on the sum of 7 costs €0.15. If you win, the casino pays €1. Otherwise, you lose your bet.
+
+- Simulate 1,000 bets on the sum of 7:
+   - Calculate the total amount you win or lose.
+   - Repeat the simulation 10,000 times to estimate the expected profit or loss.
+
+
+3. Is betting on 7 a good strategy? Why, why not?
+
+
+#### Exercise 6: Explore Alternative Scenarios
+
+- Assume the casino uses loaded dice (as defined earlier) instead of fair dice. How does this change your betting strategy and expected profit? Perform the simulation again under these conditions.
+
+-Reflect on the importance of fairness in games of chance and how loaded dice impact the house advantage.
+
+### Project 1: Detecting collisions in financial transactions
+
+#### Introduction: Real-World Importance of Unique Identifiers in Finance
+
+In modern financial systems, every transaction is assigned a unique identifier, allowing 
+stakeholders to track, verify, and manage transaction details efficiently. 
+These identifiers are critical for maintaining transparency, accountability, and 
+security across high-volume transaction systems. However, as the volume of 
+transactions grows, the risk of identifier collisions—where two different 
+transactions are assigned the same identifier—increases.
+
+This issue is analogous to the birthday problem: as the number of transactions 
+increases, the likelihood of collisions rises due to the combinatorial nature of 
+the problem. A collision could result in processing errors or even security 
+vulnerabilities, such as fraudulent transactions or misattribution of funds.
+
+To mitigate such risks, many financial systems employ hash functions, such 
+as the widely used SHA-256, to map data to a large space of possible outputs. 
+These hash functions, with their vast output range (e.g., $2^{256}), make 
+collisions extremely unlikely, even for billions of transactions. By 
+understanding the principles behind collision probabilities, financial 
+institutions can design systems that maintain transaction integrity even 
+under high workloads.
+
+In this project, we will explore this critical aspect of financial systems 
+by simulating transaction identifiers and analyzing collision probabilities. 
+This exercise demonstrates how theoretical probability concepts translate 
+directly to practical challenges in computational finance.^[For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com]
+
+In this project, you will:
+
+1.  Simulate a system assigning transaction identifiers.
+2.  Investigate the probability of identifier collisions under different scenarios.
+3.  Discuss implications for system design and security.
+
+#### Simulate transaction identifiers
+
+- Write a function to simulate transaction identifiers, where each identifier is randomly chosen from a pool of   size $M$ (e.g. $M = 10^6$ or $M = 10^9$)
+- Using your function, simulate $n$ transactions and check for duplicates using R's `duplicated()` function.
+
+#### Compute collision probabilities
+
+- Simulate nn transactions multiple times and estimate the collision probability as the fraction of simulations   with at least one collision.
+- Use this function to compute the collision probability for $n = 10^3, n = 10^6, n = 10^9$ and $M = 10^6, M = 10^9$
+
+#### Visualize the results
+
+Plot the collision probability as a function of nn for different values of $M$.
+We did not cover Rs plotting functions in the lecture so far. We only showed some
+examples which we did not explain. But we explained how you could research
+R's help system and how you could ask an LLM for help. With any of these
+resources you should be able to come up with some reasonable visualization.
+
+#### Investigate the system design
+
+- Reflect on how the size of the pool $M$ influences the collision risk.
+- What happens when the transaction volume $n$ increases significantly?
+
+#### Financial implications
+
+- Imagine a financial institution processing transactions with $M=10^6$ identifiers. 
+- If the daily transaction volume grows to $n=10^5$, what is the risk of a collision?
+- Discuss potential consequences of a collision (e.g., failed transactions, fraud risks) and propose ways to   mitigate these risks (e.g., increasing $M$, using hash functions).
