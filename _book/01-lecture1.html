@@ -236,10 +236,14 @@ window.Quarto = {
   <li><a href="#hashfunctions" id="toc-hashfunctions" class="nav-link" data-scroll-target="#hashfunctions"><span class="header-section-number">1.3.3</span> Hash-functions and the blockchain</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.4</span> Summary</a></li>
-  <li><a href="#exercises-and-project" id="toc-exercises-and-project" class="nav-link" data-scroll-target="#exercises-and-project"><span class="header-section-number">1.5</span> Exercises and Project:</a>
+  <li><a href="#project-designing-transaction-identifyers-for-digital-payment-systems" id="toc-project-designing-transaction-identifyers-for-digital-payment-systems" class="nav-link" data-scroll-target="#project-designing-transaction-identifyers-for-digital-payment-systems"><span class="header-section-number">1.5</span> Project: Designing transaction identifyers for digital payment systems</a>
   <ul class="collapse">
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.5.1</span> Exercises</a></li>
-  <li><a href="#project-1-detecting-collisions-in-financial-transactions" id="toc-project-1-detecting-collisions-in-financial-transactions" class="nav-link" data-scroll-target="#project-1-detecting-collisions-in-financial-transactions"><span class="header-section-number">1.5.2</span> Project 1: Detecting collisions in financial transactions</a></li>
+  <li><a href="#introduction-real-world-importance-of-unique-identifiers-in-finance" id="toc-introduction-real-world-importance-of-unique-identifiers-in-finance" class="nav-link" data-scroll-target="#introduction-real-world-importance-of-unique-identifiers-in-finance"><span class="header-section-number">1.5.1</span> Introduction: Real-World Importance of Unique Identifiers in Finance</a></li>
+  <li><a href="#simulate-transaction-identifiers" id="toc-simulate-transaction-identifiers" class="nav-link" data-scroll-target="#simulate-transaction-identifiers"><span class="header-section-number">1.5.2</span> Simulate transaction identifiers</a></li>
+  <li><a href="#compute-collision-probabilities" id="toc-compute-collision-probabilities" class="nav-link" data-scroll-target="#compute-collision-probabilities"><span class="header-section-number">1.5.3</span> Compute collision probabilities</a></li>
+  <li><a href="#visualize-the-results" id="toc-visualize-the-results" class="nav-link" data-scroll-target="#visualize-the-results"><span class="header-section-number">1.5.4</span> Visualize the results</a></li>
+  <li><a href="#investigate-the-system-design" id="toc-investigate-the-system-design" class="nav-link" data-scroll-target="#investigate-the-system-design"><span class="header-section-number">1.5.5</span> Investigate the system design</a></li>
+  <li><a href="#financial-implications" id="toc-financial-implications" class="nav-link" data-scroll-target="#financial-implications"><span class="header-section-number">1.5.6</span> Financial implications</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -306,7 +310,7 @@ Now you try
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Consider another random experiment from games of chance: Throwing a six sided die. What are the basic outcomes in this random experiment? What is the sample space in this case? How would you describe the event that the outcome of the die shows an off number in terms of a subset of the sample space?</p>
+<p>Consider another random experiment from games of chance: Throwing a six sided die. What are the basic outcomes in this random experiment? What is the sample space in this case? How would you describe the event that the outcome of the die shows an odd number in terms of a subset of the sample space? Consider yet a new random experiment where you throw two coins, instead of one. What are the basic outcomes in this random experiment? What is the sample space in this case? How do these concepts look like when you throw two six sided dice instead of two coins?</p>
 </div>
 </div>
 </section>
@@ -332,7 +336,7 @@ Now you try
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Consider another random experiment of throwing a six sided die: According to the probability notion explained above what would be the chance that the die lands on on a face such that an even number is shown?.</p>
+<p>Consider another random experiment of throwing a six sided die: According to the probability notion explained above what would be the chance that the die lands on on a face such that an even number is shown?. What would be the chance that in the random experiment of throwing two dice the sum of points would be 7? What is the chance that when rolling two six sided dice the sum is 2?</p>
 </div>
 </div>
 <p>Note that this classical notion of probability has a few interesting consequences, which we will discuss in more detail later but which already now naturally flow from this basic idea of measuring chance.</p>
@@ -395,7 +399,7 @@ Answer by ChatGPT40
 <p><strong>Example 1: Daily Price Movement of a Stock</strong></p>
 <p><strong>Random Experiment:</strong> Observe the daily price movement of a particular stock (e.g., Apple Inc.) at the close of the trading day.</p>
 <ul>
-<li><p><strong>Sample Space ((S)):</strong> The set of all possible outcomes of the price movement. For simplicity, we can represent the sample space as: [ S = {} ]</p></li>
+<li><p><strong>Sample Space <span class="math inline">\({\cal S}\)</span>:</strong> The set of all possible outcomes of the price movement. For simplicity, we can represent the sample space as: <span class="math inline">\({\cal S} = \{ \text{price increase, price decrease, no change} \}\)</span></p></li>
 <li><p><strong>Basic Outcomes:</strong></p>
 <ul>
 <li>“Price increases” (e.g., the stock closes higher than it opened).</li>
@@ -404,15 +408,16 @@ Answer by ChatGPT40
 </ul></li>
 <li><p><strong>Events:</strong></p>
 <ul>
-<li>Event (A): “The stock price increases.” ({price increase})</li>
-<li>Event (B): “The stock price either increases or remains unchanged.” ({price increase, no change})</li>
+<li>Event <span class="math inline">\(A\)</span>: “The stock price increases.” <span class="math inline">\(\{ \text{price increase} \}\)</span></li>
+<li>Event <span class="math inline">\(B\)</span>: “The stock price either increases or remains unchanged.” <span class="math inline">\(\{ \text{price increase, no change} \}\)</span></li>
 </ul></li>
 </ul>
 <hr>
 <p><strong>Example 2: Credit Card Default Risk</strong></p>
 <p><strong>Random Experiment:</strong> Assess whether a randomly selected credit card holder defaults on their monthly payment.</p>
 <ul>
-<li><p><strong>Sample Space ((S)):</strong> [ S = {} ]</p></li>
+<li><p><strong>Sample Space <span class="math inline">\({\cal S}\)</span>:</strong></p>
+<p><span class="math inline">\(S = \{\text{default, no default} \}\)</span></p></li>
 <li><p><strong>Basic Outcomes:</strong></p>
 <ul>
 <li>“Default” (e.g., the cardholder fails to make the minimum payment).</li>
@@ -420,16 +425,16 @@ Answer by ChatGPT40
 </ul></li>
 <li><p><strong>Events:</strong></p>
 <ul>
-<li>Event (A): “The cardholder defaults.” ({default})</li>
-<li>Event (B): “The cardholder does not default.” ({no default})</li>
-<li>Event (C): “Default occurs for a customer from a specific demographic (e.g., under 30 years old).” This is a subset of the sample space but is conditioned on additional information.</li>
+<li>Event <span class="math inline">\(A\)</span>: “The cardholder defaults.” ({default})</li>
+<li>Event <span class="math inline">\(B\)</span>: “The cardholder does not default.” ({no default})</li>
+<li>Event <span class="math inline">\(C\)</span>: “Default occurs for a customer from a specific demographic (e.g., under 30 years old).” This is a subset of the sample space but is conditioned on additional information.</li>
 </ul></li>
 </ul>
 <hr>
 <p><strong>Example 3: Bond Ratings Transition</strong></p>
 <p><strong>Random Experiment:</strong> Observe the change in the credit rating of a corporate bond over a year.</p>
 <ul>
-<li><p><strong>Sample Space ((S)):</strong> The set of possible credit rating transitions. For example, using a simple rating scale: [ S = {, , , , , , , } ]</p>
+<li><p><strong>Sample Space <span class="math inline">\({\cal S}\)</span>:</strong> The set of possible credit rating transitions. For example, using a simple rating scale: <span class="math inline">\({\cal S} = \{\text{AAA}, \text{AA}, \text{A}, \text{BBB}, \text{BB}, \text{B}, \text{CCC}, \text{default} \}\)</span></p>
 <p>Over a year, the bond can transition from its initial rating to any of these, or stay the same.</p></li>
 <li><p><strong>Basic Outcomes:</strong></p>
 <ul>
@@ -439,9 +444,9 @@ Answer by ChatGPT40
 </ul></li>
 <li><p><strong>Events:</strong></p>
 <ul>
-<li>Event (A): “The bond is downgraded by one or more notches.” (Any outcome where the final rating is lower than the initial rating, e.g., {AAA to AA, A to BB}).</li>
-<li>Event (B): “The bond defaults.” ({default}).</li>
-<li>Event (C): “The bond remains investment-grade.” (All transitions where the final rating is AAA, AA, A, or BBB).</li>
+<li>Event <span class="math inline">\(A\)</span>: “The bond is downgraded by one or more notches.” (Any outcome where the final rating is lower than the initial rating, e.g., {AAA to AA, A to BB}).</li>
+<li>Event <span class="math inline">\(B\)</span>: “The bond defaults.” ({default}).</li>
+<li>Event <span class="math inline">\(C\)</span>: “The bond remains investment-grade.” (All transitions where the final rating is AAA, AA, A, or BBB).</li>
 </ul></li>
 </ul>
 <hr>
@@ -456,13 +461,17 @@ Answer by ChatGPT40
 <h2 data-number="1.2" class="anchored" data-anchor-id="tossing-coin-on-computer"><span class="header-section-number">1.2</span> Tossing a coin on the computer: First steps in R</h2>
 <section id="r-interface" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="r-interface"><span class="header-section-number">1.2.1</span> The R User Interface</h3>
-<p>Before we can ask our tool to do anything for us, we need to know how to talk to it. In our case RStudio allows us to talk to our computer. It works like any other application. When you launch RStudio on your computer, in figure @ref(fig:rstudio-start-screen) you see a screen looking like this:</p>
+<p>Before we can ask our tool to do anything for us, we need to know how to talk to it. In our case RStudio allows us to talk to our computer. It works like any other application. When you launch RStudio on your computer, in figure <a href="#fig-rstudio-start-screen" class="quarto-xref">Figure&nbsp;<span>1.3</span></a> you see a screen looking like this:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/Screenshot_RStudio.png" class="img-fluid figure-img" style="width:90.0%"></p>
-<figcaption>The RStudio startup screen</figcaption>
+<div id="fig-rstudio-start-screen" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rstudio-start-screen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/Screenshot_RStudio.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rstudio-start-screen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.3: The RStudio startup screen
+</figcaption>
 </figure>
 </div>
 </div>
@@ -533,15 +542,19 @@ Error: unexpected input in "5%3"
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/screenwithobject.png" class="img-fluid figure-img" style="width:90.0%"></p>
-<figcaption>The RStudio Environment pane keeps track of the objects you have created</figcaption>
+<div id="fig-rstudio-screen-with-command" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rstudio-screen-with-command-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/screenwithobject.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rstudio-screen-with-command-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you have created
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>You can now see in the right upper Environment pane in figure @ref(fig:rstudio-screen-with-command) that R shows you that there is an object with the name <code>coin</code> that it consists of integers <code>0,1</code>. As you create more objects they will be stored in the Environment pane and are ready for your reference, unless you delete them. You can remove or delete an object by typing <code>rm(object)</code> or by assigning the value <code>coin &lt;- NULL</code> which would also remove the object from your environment or workspace.</p>
+<p>You can now see in the right upper Environment pane in figure <a href="#fig-rstudio-screen-with-command" class="quarto-xref">Figure&nbsp;<span>1.4</span></a> that R shows you that there is an object with the name <code>coin</code> that it consists of integers <code>0,1</code>. As you create more objects they will be stored in the Environment pane and are ready for your reference, unless you delete them. You can remove or delete an object by typing <code>rm(object)</code> or by assigning the value <code>coin &lt;- NULL</code> which would also remove the object from your environment or workspace.</p>
 <p>You can name your objects almost anything with a few exceptions. An object name must not start with a number. There are some special symbols which can also not be used in object names, like <code>^, !, $, @, +, -, /, *</code>. Note that R is case sensitive and distinguishes small and big letters. If you assign a new value for an object you have already created, R will overwrite the object without warning.</p>
 <p>You can see which objects are currently created and available for you in the Environment pane of your session of by typing <code>ls()</code>. The UNIX users among you will recognize this command from the unix shell, where it displays the files in a directory.</p>
 <p>Before we learn how we can actually roll our die and perform a random experiment with it, let us briefly use the opportunity to explain a few things about how R does computations. We have already explained that we can use the object name to refer to the value. So for instance if we type</p>
@@ -632,15 +645,15 @@ Error: unexpected input in "5%3"
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>These are the random outcomes of our consecutive tosses. It is as if we had thrown an actual coin but in this case we have done the same thing on the computer. Isn’t it cool that this is possible at all? The <code>sample()</code> function will remain our good friend throughout this course.</p>
@@ -694,7 +707,7 @@ NULL</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>Note that in our function <code>toss_coin()</code> has no arguments, just the function body. This is perfectly legitimate in R. It is important that when we call the function we have to call it with the parenthesis like <code>toss_coin()</code>. If we only call the name <code>toss_coin</code>, R will display the code in the function body.</p>
@@ -720,7 +733,7 @@ Now you try
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Consider another random experiment of throwing a six sided die. Use the concepts learned in this section to write a function which simulates the rolling of a six sided die.</p>
+<p>Consider another random experiment of throwing a six sided die. Use the concepts learned in this section to write a function which simulates the rolling of a six sided die. Write a function to simulate the throwing of two dice. Think about how to set the <code>replace</code> argument in the sample function in this case. Use R’s help function to learn about the role of the <code>replace</code> argument. Alternatively ask the LLM to explain the use of <code>replace</code> in R’s sample function. You can also ask for examples or demonstrations what goes wrong when this argument is parametrized in the wrong way.</p>
 </div>
 </div>
 </section>
@@ -739,7 +752,7 @@ Now you try
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin2</span>(<span class="at">ball =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>Note that we still get an error, if we forget to supply ball argument. This could be avoided if we give the function a default argument</p>
@@ -750,7 +763,7 @@ Now you try
 <div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 </div>
 <p>everything works, just as intended.</p>
@@ -904,6 +917,7 @@ Now you try
 </div>
 </div>
 <p>Now it looks much better: Each face comes up approximately 500 times. We will learn in our course why the picture get better as we increase the number of rolls of the die. For the moment, let us just state that at least for this case it seems that there is no significant visual evidence that our virtual die is loaded.</p>
+<p>But wait a minute. We have introduced the idea of classical probability by constructing equally probable cases and then count. Here we have repeated a random experiment over and over again to draw some conclusion on the underlying probabilities by visualizing the frequency polts of outcomes? These ideas are connected. We have just informally introduced a new idea in probability, the <strong>relative frequency notion</strong> of probability. How the two concepts are related and why this notion makes sense we will learn more formally in the next lecture. For the moment let’s just stick with the idea that practitioners have used at all times to assess probabilities by looking at frequencies of particular events occurring. When and why this kind of reasoning about probability works we learn in the next lecture.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -928,7 +942,7 @@ Tip for R novices: How to leverage the LLM to enhance understanding
 <div class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>?sample</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Then, after you have pressed the return key, a help page is opened in the right lower pane under the help tab as shown in <a href="#fig-helpinr" class="quarto-xref">Figure&nbsp;<span>1.3</span></a></p>
+<p>Then, after you have pressed the return key, a help page is opened in the right lower pane under the help tab as shown in <a href="#fig-helpinr" class="quarto-xref">Figure&nbsp;<span>1.5</span></a></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-helpinr" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -937,7 +951,7 @@ Tip for R novices: How to leverage the LLM to enhance understanding
 <img src="figures/rhelp.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-helpinr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.3: The Help-pane in RStudio
+Figure&nbsp;1.5: The Help-pane in RStudio
 </figcaption>
 </figure>
 </div>
@@ -982,7 +996,7 @@ a vector of probability weights for obtaining the elements of the vector being s
 <h2 data-number="1.3" class="anchored" data-anchor-id="coincidences"><span class="header-section-number">1.3</span> Application: Coincidences and the Blockchain</h2>
 <section id="birthday_problem" class="level3 page-columns page-full" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="birthday_problem"><span class="header-section-number">1.3.1</span> The birthday problem</h3>
-<p>In this section, we will apply our foundational knowledge of probability to a fascinating real-world problem known as the birthday problem:</p>
+<p>In this section, we will apply our foundational knowledge of probability - which is at the moment just the informal and intuitive notion of counting equally probably cases - to a fascinating real-world problem known as the <em>birthday problem</em>:</p>
 <p>The starting question in the birthday problem is: What is the probability that at least two people in a room share the same birthday, when we neglect things like leap years, and when we assume that birthdays on any day of the year are equiprobable and the birthdays of the people in the room are independent. We have no twins for example.</p>
 <p>Perhaps some of you have already seen this problem before. If not, the result may surprise you. Even if you saw the birthday problem before, perhaps not many of you are aware that the significance of this problem reaches far beyond recreational math puzzles. This is because the birthday story is of course accidential. The mathematical formulation of the problem will reveal through the process of abstraction that this problem is at the heart a problem about the probability of coincidences. As such it has real world connections to cryptography and the blockchain security.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;We follow here the discussion in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>Through this problem, we will:</p>
@@ -996,11 +1010,11 @@ a vector of probability weights for obtaining the elements of the vector being s
 <p>The <em>sample space</em> is the set of possible outcomes of the experiment. The sample space for our problem includes all possible combinations of birthdays for the group. For example, if there are 3 people, each with a birthday on any of 365 days, the sample space contains all possible sequences of three birthdays:</p>
 <p><span class="math inline">\((1,1,1),(1,1,2),…,(365,365,365)\)</span></p>
 <p>In general, for <span class="math inline">\(n\)</span> people, there are <span class="math inline">\(365^n\)</span> possible combinations, as each person’s birthday is independent of the others.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;Mathematically you can describe the sample space for the birthday problem as a set with <span class="math inline">\(365^n\)</span> ordered <span class="math inline">\(n\)</span>-tuples or sequences of birthdays: <span class="math inline">\({\cal S} = \{x | x \in 365^n \}\)</span> This is the sample space of this experiment, written as in set theoretic notation. It means the sample space is the set of all ordered <span class="math inline">\(n-tuples\)</span> from the Cartesian product <span class="math inline">\(365^n\)</span>. Remember that in mathematics, a Cartesian product is a mathematical operation that returns a set (or product set or simply product) from multiple sets (in this case the sample space, <span class="math inline">\({\cal S}\)</span>. That is, for sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the Cartesian product <span class="math inline">\(A \times B\)</span> is the set of all ordered pairs <span class="math inline">\((a,b)\)</span> where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in B\)</span>.</p></div></div><p>Now given this sample space we can assign a probability to the event that two people chosen at random will have the same birthday. The denominator will this be <span class="math inline">\(365^n\)</span>. The nominator for this probability will be much more straightforward to figure out, if we compute the complement. We discussed before that the probability of the complement of an event is 1 minus the probability of the event.</p>
-<p>We can use the complement rule to compute the probability of at least two people sharing a birthday: Compute the probability that no two people share a birthday. Subtract this probability from 1 to get the probability of at least one match.</p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;Mathematically you can describe the sample space for the birthday problem as a set with <span class="math inline">\(365^n\)</span> ordered <span class="math inline">\(n\)</span>-tuples or sequences of birthdays: <span class="math inline">\({\cal S} = \{x | x \in 365^n \}\)</span> This is the sample space of this experiment, written as in set theoretic notation. It means the sample space is the set of all ordered <span class="math inline">\(n-tuples\)</span> from the Cartesian product <span class="math inline">\(365^n\)</span>. Remember that in mathematics, a Cartesian product is a mathematical operation that returns a set (or product set or simply product) from multiple sets (in this case the sample space, <span class="math inline">\({\cal S}\)</span>. That is, for sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the Cartesian product <span class="math inline">\(A \times B\)</span> is the set of all ordered pairs <span class="math inline">\((a,b)\)</span> where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in B\)</span>.</p></div></div><p>Now given this sample space we can assign a probability to the event that two people chosen at random will have the same birthday. The denominator will this be <span class="math inline">\(365^n\)</span>. The nominator for this probability will be much more straightforward to figure out, if we compute the complement. We discussed before that the probability of the complement of an event is 1 minus the probability of the event: <span class="math inline">\(P(\text{not} A) = 1 - P(A)\)</span>.</p>
+<p>Let <span class="math inline">\(A\)</span> denote the event that no two people share the same brithday. We can then use the complement rule to compute the probability of at least two people sharing a birthday: Compute the probability that no two people share a birthday. Subtract this probability from 1 to get the probability of at least one match.</p>
 <p>Here’s how we compute the probability of no matches:</p>
 <ol type="1">
-<li>The first person can have any birthday $(365/365).</li>
+<li>The first person can have any birthday <span class="math inline">\((365/365)\)</span>.</li>
 <li>The second person must avoid the first person’s birthday <span class="math inline">\((364/365)\)</span>.</li>
 <li>The third person must avoid the first two birthdays <span class="math inline">\((363/365)\)</span>.</li>
 </ol>
@@ -1011,13 +1025,16 @@ P(\text{at least two people share birthday}) =
 1 - \frac{365 \times 364 \times 363 \cdots \times 365 - n +1}{365^n}
 \end{equation*}\]</span></p>
 <p>Now there is an additional thing we did not yet introduce and which we will learn about in the next lecture. This refers to our assumption that the individual birthdays are independent. For the moment you need to take the following fact on faith: The probability of independent events is the product of the probability these events.</p>
-<p>Now comes the surprise for those of you who did not already see the birthday problem. Assume the group size of people is 23. Let us compute the birthday coincidence probability. For this computation we make use of the R function <code>prod()</code> which takes a vector of numbers as input and computes their product. For <span class="math inline">\(n=23\)</span> we need the list of numbers from 365 to 343. Now we can use the <code>:</code> operator and take advantage from one of its cool properties. If we formulate the command as <code>365:343</code> then the colon operator will give us a descending list of integers starting at 365 and ending at 343. Then the probability can be computed as ::: {.cell}</p>
+<p>Now comes the surprise for those of you who did not already see the birthday problem. Assume the group size of people is 23. Let us compute the birthday coincidence probability. For this computation we make use of the R function <code>prod()</code> which takes a vector of numbers as input and computes their product. For <span class="math inline">\(n=23\)</span> we need the list of numbers from 365 to 343. Now we can use the <code>:</code> operator and take advantage from one of its cool properties. If we formulate the command as <code>365:343</code> then the colon operator will give us a descending list of integers starting at 365 and ending at 343. Then the probability can be computed as</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">prod</span>(<span class="dv">365</span><span class="sc">:</span><span class="dv">343</span>)<span class="sc">/</span><span class="dv">365</span><span class="sc">^</span><span class="dv">23</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5072972</code></pre>
 </div>
-<p>::: We have used the operator <code>^</code> which is needed to compute powers. Now we see from our computation that with 23 people the probability is already larger than 50 %. Quite stunning. You can now verify yourself that with 50 people this probability is already at 97 %.</p>
-<p>Let’s visualize how the probability of at least one shared birthday grows with the size of the group. The plot below shows that the probability exceeds 50% with just 23 people and quickly approaches 100% as the group size increases.</p>
+</div>
+<p>We have used the operator <code>^</code> which is needed to compute powers. Now we see from our computation that with 23 people the probability is already larger than 50 %. Quite stunning. You can now verify yourself that with 50 people this probability is already at 97 %.</p>
+<p>Let’s visualize how the probability of at least one shared birthday grows with the size of the group. This time I will use base R’s plotting functionality and not use the <code>ggplot2</code> package.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;I used <code>ggplot2</code> before to explain the concept of a package and how to load it to enhance R’s functionality. Base R containts a lot of powerful plotting functions which work independently of <code>gglot2</code>.</p></div></div><p>The plot below shows that the probability exceeds 50% with just 23 people and quickly approaches 100% as the group size increases.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the birthday_collisions function</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1044,14 +1061,14 @@ P(\text{at least two people share birthday}) =
 </div>
 </div>
 </div>
-<p>I will not go in detail into the explanation of the code at this stage. For those of you who crave for an explanation, please look at the marginal note here or use the LLM for a step by step explanation.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;<code>birthday_collisions</code> Function: This function calculates the probability of at least one shared birthday for a group of nn people using the formula derived earlier. <code>group_sizes</code> and <code>collision_probs</code>: <code>group_sizes</code> defines a range of group sizes (1 to 50). <code>sapply</code> applies the <code>birthday_collisions</code> function to each group size, computing the collision probabilities. Visualization: A line plot (<code>type = "l"</code>) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (<code>abline</code>) highlights the 50% threshold for better visual context.</p></div></div></section>
+<p>I will not go in detail into the explanation of the code at this stage. For those of you who crave for an explanation, please look at the marginal note here or use the LLM for a step by step explanation.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<code>birthday_collisions</code> Function: This function calculates the probability of at least one shared birthday for a group of nn people using the formula derived earlier. <code>group_sizes</code> and <code>collision_probs</code>: <code>group_sizes</code> defines a range of group sizes (1 to 50). <code>sapply</code> applies the <code>birthday_collisions</code> function to each group size, computing the collision probabilities. Visualization: A line plot (<code>type = "l"</code>) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (<code>abline</code>) highlights the 50% threshold for better visual context.</p></div></div></section>
 <section id="determining-birthday-collisions-by-simulation" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="determining-birthday-collisions-by-simulation"><span class="header-section-number">1.3.2</span> Determining birthday collisions by simulation</h3>
-<p>Instead of deriving the probability analytically, we can simulate the birthday experiment. Here’s how:</p>
+<p>Instead of deriving the probability analytically, we can simulate the birthday experiment if we use the relative frequency notion of probability which we informally had used in our visualization of coin tosses. Here’s how:</p>
 <ol type="1">
 <li>Generate random birthdays for nn people using <code>sample(1:365, n, replace = TRUE)</code>.</li>
-<li>Count how often at least two people share a birthday using the unique() function.</li>
+<li>Count how often at least two people share a birthday using the <code>duplicated() function</code>in combination with the logical function <code>any()</code>.</li>
 <li>Repeat the simulation many times (e.g., 10,000) using replicate() to estimate the probability.</li>
 </ol>
 <div class="cell">
@@ -1067,16 +1084,16 @@ P(\text{at least two people share birthday}) =
 <ol type="1">
 <li><strong>Defining the Function</strong>:</li>
 </ol>
-<p>The function <code>sim_brithday</code> has two arguments</p>
+<p>The function <code>sim_birthday</code> has two arguments</p>
 <ul>
 <li><code>n</code>: The number of people in the room (group size).</li>
 <li><code>trials</code>: The number of simulation repetitions (default is 10,000). These parameters allow us to customize the simulation for different group sizes and levels of precision.</li>
 </ul>
 <ol start="2" type="1">
 <li><p><strong>Using <code>replicate</code> to Run Simulations</strong>:</p>
-<p>The <code>replicate()</code> function repeats an experiment a specified number of times (<code>trials</code>). Each experiment simulates one instance of (n) people in a room.</p></li>
+<p>The <code>replicate()</code> function repeats an experiment a specified number of times (<code>trials</code>). Each experiment simulates one instance of <span class="math inline">\(n\)</span> people in a room.</p></li>
 <li><p><strong>Simulating Birthdays</strong>:</p>
-<p>The <code>sample()</code> function generates (n) random birthdays (integers between 1 and 365) with replacement, representing the assumption that birthdays are independent and uniformly distributed. This step directly reflects the assumptions made in the analytical solution:</p>
+<p>The <code>sample()</code> function generates <span class="math inline">\(n\)</span> random birthdays (integers between 1 and 365) with replacement, representing the assumption that birthdays are independent and uniformly distributed. This step directly reflects the assumptions made in the analytical solution:</p>
 <ul>
 <li>The sample space consists of 365 possible birthdays.</li>
 <li>Sampling is done with replacement because multiple people can share the same birthday.</li>
@@ -1086,6 +1103,7 @@ P(\text{at least two people share birthday}) =
 <li><p><strong>Calculating the Probability</strong>:</p>
 <p>The <code>results</code> vector contains <code>TRUE</code> (collision occurred) or <code>FALSE</code> (no collision) for each trial. Taking the <code>mean()</code> of this logical vector calculates the proportion of trials with a collision, which corresponds to the simulated probability. This step ties back to the definition of relative frequency probability introduced earlier: the probability of an event is the ratio of favorable outcomes to the total number of trials.</p></li>
 </ol>
+<p>This step requires some explanation of how R uses data types. We will learn about this more systematically in the next lecture. Here I give a quick and superficial explanation. R can force logical data types automatically to a numerical type when it applies arithmetic functions to a logical vector, forcing <code>TRUE</code> to 1 and <code>FALSE</code> to 0. Now, when you take the average (<code>mean()</code>) of a vector containing only 1 and 0 values you will get the proportion of 1’s or <code>TRUE</code> values. We will use such tricks often during the course of the lecture. For the moment I ask you to bear with this quick and superficial explanation of why this way of proceeding does what we want.</p>
 <p>Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_birthday</span>(<span class="dv">23</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1098,8 +1116,8 @@ P(\text{at least two people share birthday}) =
 </div>
 </div>
 <ul>
-<li>For (n = 23), the output should be close to the analytically derived probability (()).</li>
-<li>For (n = 50), the output should approximate ().</li>
+<li>For <span class="math inline">\(n = 23\)</span>, the output should be close to the analytically derived probability <span class="math inline">\(\approx 0.507\)</span>.</li>
+<li>For <span class="math inline">\(n = 50\)</span>, the output should approximate <span class="math inline">\(\approx 0.970\)</span>.</li>
 </ul>
 <p>What are the advantages of simulations. Here are three main advantages:</p>
 <ul>
@@ -1121,15 +1139,27 @@ P(\text{at least two people share birthday}) =
 </ol>
 <p>If the range of the hash-function is <span class="math inline">\(M\)</span> and the hash-function maps into a 256 bit string then there are <span class="math inline">\(2^{256}\)</span> basic outcomes. Since the hash-function maps a large string onto a smaller string it is possible that there are two different strings <span class="math inline">\(x \neq y\)</span> mapping to the same value <span class="math inline">\(\text{hash}(x)=\text{hash}(y)\)</span>. This would be a problem for message authentication because it would give the same “fingerprint” for two different strings.</p>
 <p>For a cryptographically secure hash function it is therefore required that the probability of such a collision should be small enough to exclude a collision in all practically relevant circumstances.</p>
-<p>The collision problem for hash functions is analogous to the birthday problem. Instead of asking how many people are needed in a room for a shared birthday, we ask: how many inputs (e.g., messages or files) need to be hashed before two of them produce the same hash value? This probability depends on the size of the hash space, which is determined by the number of bits<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> in the hash function’s output.</p>
-<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;A bit, short for binary digit, is defined as the most basic unit of data in telecommunications and computing. Each bit is represented by either a 1 or a 0</p></div></div><p>Let <span class="math inline">\(M = 2^{256}\)</span> the number of possible hash values. The probability of no collisions after <span class="math inline">\(n\)</span> hashes is</p>
+<p>The collision problem for hash functions is analogous to the birthday problem. Instead of asking how many people are needed in a room for a shared birthday, we ask: how many inputs (e.g., messages or files) need to be hashed before two of them produce the same hash value? This probability depends on the size of the hash space, which is determined by the number of bits<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> in the hash function’s output.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;A bit, short for binary digit, is defined as the most basic unit of data in telecommunications and computing. Each bit is represented by either a 1 or a 0</p></div></div><p>Let <span class="math inline">\(M = 2^{256}\)</span> the number of possible hash values. The probability of no collisions after <span class="math inline">\(n\)</span> hashes is</p>
 <p><span class="math display">\[\begin{equation*}
 P_{nc}(n) = 1 \times \left(1 - \frac{1}{M}\right)\times
 \left(1 - \frac{2}{M} \right) \times \cdots \times \left(1 - \frac{(n-1)}{M} \right)
 \end{equation*}\]</span></p>
-<p>Now to do the estimation of the threshold we use an approximation, which works with a simple property of the logarithm: <span class="math inline">\(\log(1-x)\approx -x\)</span> when <span class="math inline">\(x\)</span> is small. Thus for <span class="math inline">\(n\)</span> much smaller than <span class="math inline">\(M\)</span>, or <span class="math inline">\(n \ll M\)</span>, we can write the no-collision probability approximately (using the logarithms) as <span class="math display">\[\begin{align*}
-P_{nc}(n) &amp;\approx \exp \left( - \frac{n(n-1)}{2M})
-\end{align*}\]</span> Thus the probability of a hash-collision as a function of <span class="math inline">\(n\)</span> is then approximately <span class="math display">\[\begin{equation*}
+<p>For <span class="math inline">\(n\)</span> large this probability can be approximated by a factorial expansion as <span class="math display">\[\begin{equation*}
+P_{nc}(n) \approx \prod_{k=0}^{n-1} \left( 1 - \frac{k}{M} \right)
+\end{equation*}\]</span></p>
+<p>Now convert the product into a sum using the natural logarithm: <span class="math display">\[\begin{equation}
+\ln P_{nc}(n) \approx \sum_{k=0}^{n -1} \ln \left( 1 - \frac{k}{M} \right)
+\end{equation}\]</span></p>
+<p>Now to do the estimation of the threshold we use an approximation, which works with a simple property of the logarithm: <span class="math inline">\(\log(1-x)\approx -x\)</span> when <span class="math inline">\(x\)</span> is small. Thus for <span class="math inline">\(n\)</span> much smaller than <span class="math inline">\(M\)</span>, or <span class="math inline">\(n \ll M\)</span>, we can write the no-collision probability as <span class="math display">\[\begin{equation*}
+\ln P_{nc}(n) \approx - \sum_{k=0}^{n-1} \frac{k}{M}
+\end{equation*}\]</span> Simplify the summation by usin the fact that <span class="math inline">\(\sum_{k=0}^{n-1} = \frac{n(n-1)}{2}\)</span> we get <span class="math display">\[\begin{equation*}
+\ln P_{nc}(n) \approx -\frac{n(n-1)}{2\, M}
+\end{equation*}\]</span> By taking exponentials on both sides this gives us <span class="math display">\[\begin{equation*}
+P_{nc}(n) \approx \exp \left( - \frac{n(n-1)}{2 \, M} \right)
+\end{equation*}\]</span></p>
+<p>Thus the probability of a hash-collision as a function of <span class="math inline">\(n\)</span> is then approximately</p>
+<p><span class="math display">\[\begin{equation*}
 P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 \end{equation*}\]</span></p>
 <p>Let’s try a visualization to show how <span class="math inline">\(P_{c}(n)\)</span> increases with <span class="math inline">\(n\)</span>:</p>
@@ -1189,109 +1219,48 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 <li><strong>Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability</strong></li>
 </ol>
 </section>
-<section id="exercises-and-project" class="level2 page-columns page-full" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="exercises-and-project"><span class="header-section-number">1.5</span> Exercises and Project:</h2>
-<section id="exercises" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.5.1</span> Exercises</h3>
-<section id="exercise-1-simulate-rolling-two-dice" class="level4" data-number="1.5.1.1">
-<h4 data-number="1.5.1.1" class="anchored" data-anchor-id="exercise-1-simulate-rolling-two-dice"><span class="header-section-number">1.5.1.1</span> Exercise 1: Simulate Rolling Two Dice</h4>
-<ul>
-<li><p>Write a function to simulate rolling a pair of dice. Each die produces a random number between 1 and 6. The function should return the sum of the two dice.</p></li>
-<li><p>Simulate 10,000 rolls and store the results. Use <code>table()</code> to compute the frequencies of each sum and visualize the results with a histogram.</p></li>
-<li><p>Create a histogram. Use the help function of R to find out how to do this.</p></li>
-</ul>
-</section>
-<section id="exercise-2-analyze-the-fairness-of-dice" class="level4" data-number="1.5.1.2">
-<h4 data-number="1.5.1.2" class="anchored" data-anchor-id="exercise-2-analyze-the-fairness-of-dice"><span class="header-section-number">1.5.1.2</span> Exercise 2: Analyze the Fairness of Dice</h4>
-<ul>
-<li><p>Compute the theoretical probabilities of all possible outcomes (sums from 2 to 12) for fair dice. Recall that each outcome corresponds to different combinations of the two dice.</p></li>
-<li><p>Compare the theoretical probabilities to the simulated frequencies. Are the dice fair? Justify your conclusion.</p></li>
-</ul>
-</section>
-<section id="exercise-3-simulate-loaded-dice" class="level4" data-number="1.5.1.3">
-<h4 data-number="1.5.1.3" class="anchored" data-anchor-id="exercise-3-simulate-loaded-dice"><span class="header-section-number">1.5.1.3</span> Exercise 3: Simulate Loaded Dice</h4>
-<ul>
-<li><p>Assume the dice are “loaded” such that numbers 1, 2, 3, 4, and 5 have probabilities of ( ), while 6 has a probability of ( ).</p></li>
-<li><p>Modify your simulation using the <code>prob</code> argument in <code>sample()</code> to reflect these probabilities.</p></li>
-<li><p>Simulate 10,000 rolls of the loaded dice and visualize the results. How does the distribution of sums change compared to fair dice?</p></li>
-</ul>
-</section>
-<section id="exercise-4-the-probability-of-specific-sums" class="level4" data-number="1.5.1.4">
-<h4 data-number="1.5.1.4" class="anchored" data-anchor-id="exercise-4-the-probability-of-specific-sums"><span class="header-section-number">1.5.1.4</span> Exercise 4: The Probability of Specific Sums</h4>
-<ul>
-<li><p>Using your theoretical understanding of the sample space, calculate the probabilities of:</p>
-<ul>
-<li>Rolling a sum of 7.</li>
-<li>Rolling a sum of 2.</li>
-<li>Repeat for both fair and loaded dice.</li>
-</ul></li>
-<li><p>Verify your theoretical results with your simulations.</p></li>
-</ul>
-</section>
-<section id="exercise-5-evaluating-a-betting-strategy" class="level4" data-number="1.5.1.5">
-<h4 data-number="1.5.1.5" class="anchored" data-anchor-id="exercise-5-evaluating-a-betting-strategy"><span class="header-section-number">1.5.1.5</span> Exercise 5: Evaluating a Betting Strategy</h4>
-<ul>
-<li><p>Imagine you are at a casino with fair dice. You have €150 to spend, and each bet on the sum of 7 costs €0.15. If you win, the casino pays €1. Otherwise, you lose your bet.</p></li>
-<li><p>Simulate 1,000 bets on the sum of 7:</p>
-<ul>
-<li>Calculate the total amount you win or lose.</li>
-<li>Repeat the simulation 10,000 times to estimate the expected profit or loss.</li>
-</ul></li>
-</ul>
-<ol start="3" type="1">
-<li>Is betting on 7 a good strategy? Why, why not?</li>
-</ol>
-</section>
-<section id="exercise-6-explore-alternative-scenarios" class="level4" data-number="1.5.1.6">
-<h4 data-number="1.5.1.6" class="anchored" data-anchor-id="exercise-6-explore-alternative-scenarios"><span class="header-section-number">1.5.1.6</span> Exercise 6: Explore Alternative Scenarios</h4>
-<ul>
-<li>Assume the casino uses loaded dice (as defined earlier) instead of fair dice. How does this change your betting strategy and expected profit? Perform the simulation again under these conditions.</li>
-</ul>
-<p>-Reflect on the importance of fairness in games of chance and how loaded dice impact the house advantage.</p>
-</section>
-</section>
-<section id="project-1-detecting-collisions-in-financial-transactions" class="level3 page-columns page-full" data-number="1.5.2">
-<h3 data-number="1.5.2" class="anchored" data-anchor-id="project-1-detecting-collisions-in-financial-transactions"><span class="header-section-number">1.5.2</span> Project 1: Detecting collisions in financial transactions</h3>
-<section id="introduction-real-world-importance-of-unique-identifiers-in-finance" class="level4 page-columns page-full" data-number="1.5.2.1">
-<h4 data-number="1.5.2.1" class="anchored" data-anchor-id="introduction-real-world-importance-of-unique-identifiers-in-finance"><span class="header-section-number">1.5.2.1</span> Introduction: Real-World Importance of Unique Identifiers in Finance</h4>
+<section id="project-designing-transaction-identifyers-for-digital-payment-systems" class="level2 page-columns page-full" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="project-designing-transaction-identifyers-for-digital-payment-systems"><span class="header-section-number">1.5</span> Project: Designing transaction identifyers for digital payment systems</h2>
+<section id="introduction-real-world-importance-of-unique-identifiers-in-finance" class="level3 page-columns page-full" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="introduction-real-world-importance-of-unique-identifiers-in-finance"><span class="header-section-number">1.5.1</span> Introduction: Real-World Importance of Unique Identifiers in Finance</h3>
 <p>In modern financial systems, every transaction is assigned a unique identifier, allowing stakeholders to track, verify, and manage transaction details efficiently. These identifiers are critical for maintaining transparency, accountability, and security across high-volume transaction systems. However, as the volume of transactions grows, the risk of identifier collisions—where two different transactions are assigned the same identifier—increases.</p>
 <p>This issue is analogous to the birthday problem: as the number of transactions increases, the likelihood of collisions rises due to the combinatorial nature of the problem. A collision could result in processing errors or even security vulnerabilities, such as fraudulent transactions or misattribution of funds.</p>
-<p>To mitigate such risks, many financial systems employ hash functions, such as the widely used SHA-256, to map data to a large space of possible outputs. These hash functions, with their vast output range (e.g., $2^{256}), make collisions extremely unlikely, even for billions of transactions. By understanding the principles behind collision probabilities, financial institutions can design systems that maintain transaction integrity even under high workloads.</p>
-<p>In this project, we will explore this critical aspect of financial systems by simulating transaction identifiers and analyzing collision probabilities. This exercise demonstrates how theoretical probability concepts translate directly to practical challenges in computational finance.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com</p></div></div><p>In this project, you will:</p>
+<p>To mitigate such risks, many financial systems employ hash functions, such as the widely used SHA-256, to map data to a large space of possible outputs. These hash functions, with their vast output range (e.g., <span class="math inline">\(2^{256}\)</span>), make collisions extremely unlikely, even for billions of transactions. By understanding the principles behind collision probabilities, financial institutions can design systems that maintain transaction integrity even under high workloads.</p>
+<p>In this project, we will explore this critical aspect of financial systems by simulating transaction identifiers and analyzing collision probabilities. This exercise demonstrates how theoretical probability concepts translate directly to practical challenges in computational finance.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com</p></div></div><p>In this project, you will:</p>
 <ol type="1">
 <li>Simulate a system assigning transaction identifiers.</li>
 <li>Investigate the probability of identifier collisions under different scenarios.</li>
 <li>Discuss implications for system design and security.</li>
 </ol>
 </section>
-<section id="simulate-transaction-identifiers" class="level4" data-number="1.5.2.2">
-<h4 data-number="1.5.2.2" class="anchored" data-anchor-id="simulate-transaction-identifiers"><span class="header-section-number">1.5.2.2</span> Simulate transaction identifiers</h4>
+<section id="simulate-transaction-identifiers" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="simulate-transaction-identifiers"><span class="header-section-number">1.5.2</span> Simulate transaction identifiers</h3>
 <ul>
 <li>Write a function to simulate transaction identifiers, where each identifier is randomly chosen from a pool of size <span class="math inline">\(M\)</span> (e.g.&nbsp;<span class="math inline">\(M = 10^6\)</span> or <span class="math inline">\(M = 10^9\)</span>)</li>
 <li>Using your function, simulate <span class="math inline">\(n\)</span> transactions and check for duplicates using R’s <code>duplicated()</code> function.</li>
 </ul>
 </section>
-<section id="compute-collision-probabilities" class="level4" data-number="1.5.2.3">
-<h4 data-number="1.5.2.3" class="anchored" data-anchor-id="compute-collision-probabilities"><span class="header-section-number">1.5.2.3</span> Compute collision probabilities</h4>
+<section id="compute-collision-probabilities" class="level3" data-number="1.5.3">
+<h3 data-number="1.5.3" class="anchored" data-anchor-id="compute-collision-probabilities"><span class="header-section-number">1.5.3</span> Compute collision probabilities</h3>
 <ul>
 <li>Simulate nn transactions multiple times and estimate the collision probability as the fraction of simulations with at least one collision.</li>
 <li>Use this function to compute the collision probability for <span class="math inline">\(n = 10^3, n = 10^6, n = 10^9\)</span> and <span class="math inline">\(M = 10^6, M = 10^9\)</span></li>
 </ul>
 </section>
-<section id="visualize-the-results" class="level4" data-number="1.5.2.4">
-<h4 data-number="1.5.2.4" class="anchored" data-anchor-id="visualize-the-results"><span class="header-section-number">1.5.2.4</span> Visualize the results</h4>
+<section id="visualize-the-results" class="level3" data-number="1.5.4">
+<h3 data-number="1.5.4" class="anchored" data-anchor-id="visualize-the-results"><span class="header-section-number">1.5.4</span> Visualize the results</h3>
 <p>Plot the collision probability as a function of nn for different values of <span class="math inline">\(M\)</span>. We did not cover Rs plotting functions in the lecture so far. We only showed some examples which we did not explain. But we explained how you could research R’s help system and how you could ask an LLM for help. With any of these resources you should be able to come up with some reasonable visualization.</p>
 </section>
-<section id="investigate-the-system-design" class="level4" data-number="1.5.2.5">
-<h4 data-number="1.5.2.5" class="anchored" data-anchor-id="investigate-the-system-design"><span class="header-section-number">1.5.2.5</span> Investigate the system design</h4>
+<section id="investigate-the-system-design" class="level3" data-number="1.5.5">
+<h3 data-number="1.5.5" class="anchored" data-anchor-id="investigate-the-system-design"><span class="header-section-number">1.5.5</span> Investigate the system design</h3>
 <ul>
 <li>Reflect on how the size of the pool <span class="math inline">\(M\)</span> influences the collision risk.</li>
 <li>What happens when the transaction volume <span class="math inline">\(n\)</span> increases significantly?</li>
 </ul>
 </section>
-<section id="financial-implications" class="level4" data-number="1.5.2.6">
-<h4 data-number="1.5.2.6" class="anchored" data-anchor-id="financial-implications"><span class="header-section-number">1.5.2.6</span> Financial implications</h4>
+<section id="financial-implications" class="level3" data-number="1.5.6">
+<h3 data-number="1.5.6" class="anchored" data-anchor-id="financial-implications"><span class="header-section-number">1.5.6</span> Financial implications</h3>
 <ul>
 <li>Imagine a financial institution processing transactions with <span class="math inline">\(M=10^6\)</span> identifiers.</li>
 <li>If the daily transaction volume grows to <span class="math inline">\(n=10^5\)</span>, what is the risk of a collision?</li>
@@ -1310,7 +1279,6 @@ Healy, Kirean. 2019. <em>Data Visualization: A Practical Introduction</em>. Prin
 Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science</em>. O’Reilly. <a href="https://r4ds.had.co.nz/">https://r4ds.had.co.nz/</a>.
 </div>
 </div>
-</section>
 </section>
 </section>
 

@@ -1,0 +1,125 @@
+
+---
+title: "Introduction to Probability and R"
+author: "Your Name"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+format:
+  beamer:
+    theme: metropolis
+    slide-level: 2
+    toc: true
+    incremental: false
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Preface
+
+> "What I hear, I forget; What I see, I remember; What I do, I understand"  
+> — Confucius, 551-479 BC
+
+---
+
+## What are these lecture notes about?
+
+These lecture notes support the course **An Introduction to Probability - with Applications to Computational Finance using R**. The course introduces essential probability concepts that every finance practitioner must understand.
+
+Key highlights:
+- Hands-on learning approach.
+- Leverages **R** for simulations and visualizations.
+- Connects theory with real-world applications.
+
+---
+
+## Key Learning Objectives
+
+1. Understand foundational probability concepts.  
+2. Apply probability principles to solve computational finance problems.  
+3. Gain hands-on experience using R for probability and finance applications.  
+4. Develop proficiency in interpreting and visualizing probabilistic data.
+
+---
+
+## Building Intuition through Simulation
+
+- Probability concepts gain value when connected to real or conceptual experiments:
+  - Stock price changes.
+  - Portfolio value fluctuations.
+  - Credit risk evaluations.
+
+- Simulations allow us to:
+  - Construct and manipulate random phenomena.
+  - Model financial risks and explore future scenarios.
+
+---
+
+## Example: Simulating Stock Returns in R (Code)
+
+```{r}
+set.seed(123)  # Ensure reproducibility
+n <- 100       # Number of days
+daily_returns <- rnorm(n, mean = 0.001, sd = 0.02)
+
+price <- cumprod(1 + daily_returns) * 100  # Starting price = 100
+
+plot(price, type = "l", col = "blue", lwd = 2,
+     main = "Simulated Stock Price",
+     xlab = "Days", ylab = "Price")
+```
+
+---
+
+## Example: Simulating Stock Returns in R (Visualization)
+
+```{r fig.width=7, fig.height=4, out.width='80%'}
+# Ensure the plot is scaled properly
+plot(price, type = "l", col = "blue", lwd = 2,
+     main = "Simulated Stock Price",
+     xlab = "Days", ylab = "Price")
+```
+
+- **Highlights**:
+  - Influence of randomness on stock prices.
+  - R’s utility for simulations and visualization.
+
+---
+
+## Using R and RStudio
+
+### Installing R
+1. Download from [CRAN](http://cran.r-project.org).  
+2. Choose your operating system (Windows, Mac, Linux).  
+3. Install precompiled binaries (easiest method).  
+
+### Installing RStudio
+1. Download RStudio Desktop (free) from [RStudio website](https://www.rstudio.com/products/rstudio/).  
+2. Ensure R is installed first.
+
+---
+
+## Large Language Models (LLMs) for Learning
+
+- LLMs like ChatGPT can assist with:
+  - Clarifying concepts.
+  - Generating examples.
+  - Debugging R code.
+  - Creating practice exercises.
+
+---
+
+# Acknowledgments
+
+I thank **Branko Urošević** for entrusting me with developing this course. I am also grateful to former students for their feedback and enthusiasm.
+
+---
+
+# References
+
+- **Feller, W. (1968)**. *An Introduction to Probability Theory and Its Applications, Vol.1*.  
+- **Schmedders, K. (Coursera)**. *An Intuitive Introduction to Probability*.  
+- **Grolemund, G. (2014)**. *Hands-on Programming with R*.  
+- **Luenberger, D. (2009)**. *Investment Science*.  
+- **Diaconis, P., & Skyrms, B. (2019)**. *10 Great Ideas About Chance*.
+

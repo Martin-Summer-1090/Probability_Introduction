@@ -1,0 +1,91 @@
+
+---
+title: "First Probability Ideas and First Steps in R"
+author: "Your Name"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+format:
+  beamer:
+    theme: metropolis
+    slide-level: 2
+    toc: true
+    incremental: false
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Finance and Uncertainty
+
+- Finance inherently involves **uncertainty** and **risk**.
+- Core questions in Finance:
+  - How to allocate and price money over time?
+  - How to quantify and manage uncertainty?
+- Examples:
+  - **Saving**: Deferring consumption today for future benefits.
+  - **Borrowing**: Investing now, with repayment tied to uncertain future revenues.
+
+---
+
+## Role of Probability
+
+- **Risk and uncertainty** are unavoidable in Finance.
+- Probability provides the tools to:
+  - Quantify uncertainty.
+  - Analyze and manage risks.
+- A cornerstone of **financial decision-making**.
+
+---
+
+## Historical Context
+
+- Probability theory began as a mathematical discipline.
+- Origins trace back to **16th and 17th century Europe**:
+  - Debates about gambling.
+  - Involvement of great minds: Cardano, Pascal, Fermat, Bernoulli.
+- Earlier human awareness of chance:
+  - Gambling traditions.
+  - Veneration of the **goddess of chance**.
+
+---
+
+# First Steps: Coin Tossing
+
+- Tossing a coin:
+  - **Classical probability**: Equal chance for heads and tails.
+  - A simple chance process people have used throughout history.
+- Link to Finance:
+  - Simulates stock behavior with equal chances of price increase or decrease.
+
+---
+
+## Simulating a Coin Toss in R (Code)
+
+```{r}
+set.seed(42)  # Ensures reproducibility
+n_tosses <- 100
+results <- sample(c("Heads", "Tails"), size = n_tosses, replace = TRUE)
+
+# Print the first 10 results
+print(results[1:10])
+```
+
+---
+
+## Visualizing Coin Toss Results (Code and Plot)
+
+```{r fig.width=7, fig.height=4, out.width="80%"}
+# Create a bar plot of the outcomes
+barplot(table(results), col = c("blue", "red"),
+        main = "Coin Toss Outcomes",
+        xlab = "Outcome", ylab = "Frequency")
+```
+
+---
+
+# Key Takeaways
+
+1. Probability is essential for quantifying and managing uncertainty in Finance.
+2. Simulations like coin tossing provide a simple way to explore probabilistic concepts.
+3. R is a powerful tool for performing these simulations and visualizations.
+

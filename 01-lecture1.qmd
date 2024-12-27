@@ -87,9 +87,13 @@ Consider another random experiment from games of chance: Throwing
 a six sided die. What are the basic outcomes in this random
 experiment? What is the sample space in this case? How
 would you describe the event that the outcome of
-the die shows an off number in terms of a subset
+the die shows an odd number in terms of a subset
 of the sample space?
-
+Consider yet a new random experiment where you throw two coins,
+instead of one. What are the basic outcomes in this random
+experiment? What is the sample space in this case? How do
+these concepts look like when you throw two six sided dice
+instead of two coins?
 :::
 
 ### The role and nature of idealizations in applications
@@ -138,8 +142,9 @@ number of cases is 2 (Heads or Tails).
 Consider another random experiment of throwing a six
 sided die: According to the probability notion explained above what
 would be the chance that the die lands on on a face such that an 
-even number is shown?. 
-
+even number is shown?. What would be the chance that in the random
+experiment of throwing two dice the sum of points would be 7? What
+is the chance that when rolling two six sided dice the sum is 2?
 :::
 
 Note that this classical notion of probability has a few interesting consequences, which we
@@ -205,10 +210,8 @@ Here are three detailed examples from finance to illustrate the concepts of a **
 
 **Random Experiment:** Observe the daily price movement of a particular stock (e.g., Apple Inc.) at the close of the trading day.
 
-- **Sample Space (\(S\)):** The set of all possible outcomes of the price movement. For simplicity, we can represent the sample space as:
-  \[
-  S = \{\text{price increase, price decrease, no change}\}
-  \]
+- **Sample Space ${\cal S}$:** The set of all possible outcomes of the price movement. For simplicity, we can represent the sample space as:
+  ${\cal S} = \{ \text{price increase, price decrease, no change} \}$
 
 - **Basic Outcomes:** 
   - "Price increases" (e.g., the stock closes higher than it opened).
@@ -216,8 +219,8 @@ Here are three detailed examples from finance to illustrate the concepts of a **
   - "No change" (e.g., the stock closes at the same price it opened).
 
 - **Events:**
-  - Event \(A\): "The stock price increases." (\{price increase\})
-  - Event \(B\): "The stock price either increases or remains unchanged." (\{price increase, no change\})
+  - Event $A$: "The stock price increases." $\{ \text{price increase} \}$
+  - Event $B$: "The stock price either increases or remains unchanged." $\{ \text{price increase, no change} \}$
 
 ---
 
@@ -225,19 +228,19 @@ Here are three detailed examples from finance to illustrate the concepts of a **
 
 **Random Experiment:** Assess whether a randomly selected credit card holder defaults on their monthly payment.
 
-- **Sample Space (\(S\)):** 
-  \[
-  S = \{\text{default, no default}\}
-  \]
+- **Sample Space ${\cal S}$:** 
+  
+  $S = \{\text{default, no default} \}$
+  
 
 - **Basic Outcomes:**
   - "Default" (e.g., the cardholder fails to make the minimum payment).
   - "No default" (e.g., the cardholder pays at least the minimum required).
 
 - **Events:**
-  - Event \(A\): "The cardholder defaults." (\{default\})
-  - Event \(B\): "The cardholder does not default." (\{no default\})
-  - Event \(C\): "Default occurs for a customer from a specific demographic (e.g., under 30 years old)." This is a subset of the sample space but is conditioned on additional information.
+  - Event $A$: "The cardholder defaults." (\{default\})
+  - Event $B$: "The cardholder does not default." (\{no default\})
+  - Event $C$: "Default occurs for a customer from a specific demographic (e.g., under 30 years old)." This is a subset of the sample space but is conditioned on additional information.
 
 ---
 
@@ -245,12 +248,9 @@ Here are three detailed examples from finance to illustrate the concepts of a **
 
 **Random Experiment:** Observe the change in the credit rating of a corporate bond over a year.
 
-- **Sample Space (\(S\)):** 
-  The set of possible credit rating transitions. For example, using a simple rating scale:
-  \[
-  S = \{\text{AAA}, \text{AA}, \text{A}, \text{BBB}, \text{BB}, \text{B}, \text{CCC}, \text{default}\}
-  \]
-
+- **Sample Space ${\cal S}$:** 
+  The set of possible credit rating transitions. For example, using a simple rating scale: ${\cal S} = \{\text{AAA}, \text{AA}, \text{A}, \text{BBB}, \text{BB}, \text{B}, \text{CCC}, \text{default} \}$
+  
   Over a year, the bond can transition from its initial rating to any of these, or stay the same.
 
 - **Basic Outcomes:**
@@ -259,9 +259,9 @@ Here are three detailed examples from finance to illustrate the concepts of a **
   - "A to default" (significant deterioration).
 
 - **Events:**
-  - Event \(A\): "The bond is downgraded by one or more notches." (Any outcome where the final rating is lower than the initial rating, e.g., \{AAA to AA, A to BB\}).
-  - Event \(B\): "The bond defaults." (\{default\}).
-  - Event \(C\): "The bond remains investment-grade." (All transitions where the final rating is AAA, AA, A, or BBB).
+  - Event $A$: "The bond is downgraded by one or more notches." (Any outcome where the final rating is lower than the initial rating, e.g., \{AAA to AA, A to BB\}).
+  - Event $B$: "The bond defaults." (\{default\}).
+  - Event $C$: "The bond remains investment-grade." (All transitions where the final rating is AAA, AA, A, or BBB).
 
 ---
 
@@ -284,9 +284,9 @@ some of its basic concepts.
 Before we can ask our tool to do anything for us, we need to know how to talk to
 it. In our case RStudio allows us to talk to our computer. It works like any other
 application. When you launch RStudio on your computer, in figure 
-\@ref(fig:rstudio-start-screen) you see a screen looking like
+@fig-rstudio-start-screen you see a screen looking like
 this:
-```{r rstudio-start-screen, out.width='90%', fig.align='center', fig.cap='The RStudio startup screen', echo = F}
+```{r fig-rstudio-start-screen, out.width='90%', fig.align='center', fig.cap='The RStudio startup screen', echo = F}
 knitr::include_graphics('figures/Screenshot_RStudio.png')
 ```
 In this picture you see a screenshot of my RStudio screen. Interacting with the app is easy. You
@@ -435,12 +435,12 @@ typing the following command at the prompt. This command creates an object with 
 coin <- 0:1
 ```
 
-```{r rstudio-screen-with-command, out.width='90%', fig.align='center', fig.cap='The RStudio Environment pane keeps track of the objects you have created', echo = F}
+```{r fig-rstudio-screen-with-command, out.width='90%', fig.align='center', fig.cap='The RStudio Environment pane keeps track of the objects you have created', echo = F}
 knitr::include_graphics('figures/screenwithobject.png')
 ```
 
 You can now see in the right upper Environment pane in 
-figure \@ref(fig:rstudio-screen-with-command)
+figure @fig-rstudio-screen-with-command
 that R shows you that there is an 
 object with the
 name ```coin``` that it consists of integers ```0,1 ```. As you create more 
@@ -689,6 +689,14 @@ Consider another random experiment of throwing
 a six sided die. Use the concepts learned in this
 section to write a function which simulates
 the rolling of a six sided die.
+Write a function to simulate the throwing of two dice.
+Think about how to set the `replace` argument in the
+sample function in this case. Use R's help function
+to learn about the role of the `replace` argument.
+Alternatively ask the LLM to explain the use of
+`replace` in R's sample function. You can also ask for
+examples or demonstrations what goes wrong when this argument
+is parametrized in the wrong way.
 :::
 
 ### Arguments {#arguments}
@@ -969,6 +977,18 @@ increase the number of rolls of the die. For the moment, let us just state that
 at least for this case it seems that there is no significant visual evidence that our 
 virtual die is loaded.
 
+But wait a minute. We have introduced the idea of classical probability by
+constructing equally probable cases and then count. Here we have repeated
+a random experiment over and over again to draw some conclusion on the
+underlying probabilities by visualizing the frequency polts of outcomes?
+These ideas are connected. We have just informally introduced a new idea
+in probability, the **relative frequency notion** of probability. How the
+two concepts are related and why this notion makes sense we will learn more
+formally in the next lecture. For the moment let's just stick with the idea
+that practitioners have used at all times to assess probabilities by looking
+at frequencies of particular events occurring. When and why this kind of
+reasoning about probability works we learn in the next lecture.
+
 ::: {.callout-tip}
 ## Tip for R novices: How to leverage the LLM to enhance understanding
 
@@ -1078,8 +1098,11 @@ couple of different cases how you can use the function in practice.
 
 ### The birthday problem {#birthday_problem}
 
-In this section, we will apply our foundational knowledge of probability to 
-a fascinating real-world problem known as the birthday problem:
+In this section, we will apply our foundational knowledge of probability - 
+which is at the
+moment just the informal and intuitive notion of 
+counting equally probably cases -  to 
+a fascinating real-world problem known as the *birthday problem*:
 
 The starting question in the birthday problem is: What is the probability that at least two 
 people in a room share the same birthday, when we neglect things like leap years, and when
@@ -1121,20 +1144,24 @@ $(1,1,1),(1,1,2),…,(365,365,365)$
 In general, for $n$ people, there are $365^n$ possible combinations, as each 
 person’s birthday is independent of the others.^[Mathematically you can describe the sample space for the birthday problem as a set with  $365^n$ ordered $n$-tuples or sequences of birthdays: ${\cal S} = \{x | x \in 365^n \}$ This is the sample space of this experiment, written as  in set theoretic notation. It means the sample space is the set of all ordered  $n-tuples$ from the Cartesian product $365^n$. Remember that in mathematics, a Cartesian product is a mathematical  operation that returns a set (or product set or simply product) from multiple  sets (in this case the sample space, ${\cal S}$. That is, for sets $A$ and $B$, the Cartesian product $A \times B$ is the set of all ordered pairs  $(a,b)$ where $a \in A$ and $b \in B$.]
 
-Now given this sample space we can assign a probability to the event that two people chosen at
-random will have the same birthday. The denominator will this be $365^n$. The nominator for
+Now given this sample space we can assign a probability to the 
+event that two people chosen at
+random will have the same birthday. The denominator will this be $365^n$. 
+The nominator for
 this probability will be much more straightforward to figure out, if we compute the
-complement. We discussed before that the probability of the complement of an event 
-is 1 minus the probability of the event. 
+complement. 
+We discussed before that the probability of the complement of an event 
+is 1 minus the probability of the event: $P(\text{not} A) = 1 - P(A)$.
 
-We can use the complement rule to compute the probability of at least 
+Let $A$ denote the event that no two people share the same brithday.
+We can then use the complement rule to compute the probability of at least 
 two people sharing a birthday: Compute the probability that no 
 two people share a birthday. Subtract this probability from 1 to get the 
 probability of at least one match.
 
 Here's how we compute the probability of no matches:
 
-1.    The first person can have any birthday $(365/365).
+1.    The first person can have any birthday $(365/365)$.
 2.    The second person must avoid the first person’s birthday $(364/365)$.
 3.    The third person must avoid the first two birthdays $(363/365)$.
 
@@ -1160,15 +1187,23 @@ and computes their product. For $n=23$ we need the list of numbers from 365 to 3
 can use the `:` operator and take advantage from one of its cool properties. If we formulate
 the command as `365:343` then the colon operator will give us a descending list of integers
 starting at 365 and ending at 343. Then the probability can be computed as
+
 ```{r coindcindence-23}
 1 - prod(365:343)/365^23
 ```
+
 We have used the operator `^` which is needed to compute powers. Now we see from our computation
 that with 23 people the probability is already larger than 50 %. Quite stunning. You can now
 verify yourself that with 50 people this probability is already at 97 %.
 
 Let’s visualize how the probability of at least one shared birthday grows with 
-the size of the group. The plot below shows that the probability exceeds 50% with 
+the size of the group. This time I will use base R's plotting functionality
+and not use the `ggplot2` package.^[I used `ggplot2` before to explain the
+concept of a package and how to load it to enhance R's functionality.
+Base R containts a lot of powerful plotting functions which work
+independently of `gglot2`.]
+
+The plot below shows that the probability exceeds 50% with 
 just 23 people and quickly approaches 100% as the group size increases.
 
 ```{r visualize-brithday-problem}
@@ -1199,10 +1234,11 @@ marginal note here or use the LLM for a step by step explanation.^[`birthday_col
 
 ### Determining birthday collisions by simulation
 
-Instead of deriving the probability analytically, we can simulate the birthday experiment. Here’s how:
+Instead of deriving the probability analytically, we can simulate the birthday experiment if we use the relative frequency notion of probability which
+we informally had used in our visualization of coin tosses. Here’s how:
 
 1. Generate random birthdays for nn people using `sample(1:365, n, replace = TRUE)`.
-2. Count how often at least two people share a birthday using the unique() function.
+2. Count how often at least two people share a birthday using the `duplicated() function`in combination with the logical function `any()`.
 3. Repeat the simulation many times (e.g., 10,000) using replicate() to estimate the probability.
 
 ```{r sim-brithday-function}
@@ -1221,7 +1257,7 @@ Let me give a step-by-step breakdown of this piece of code.
 
 1. **Defining the Function**:
 
-The function `sim_brithday` has two arguments
+The function `sim_birthday` has two arguments
 
   - `n`: The number of people in the room (group size).
   - `trials`: The number of simulation repetitions (default is 10,000).
@@ -1230,11 +1266,11 @@ The function `sim_brithday` has two arguments
 2. **Using `replicate` to Run Simulations**:
 
    The `replicate()` function repeats an experiment a specified number of times 
-   (`trials`). Each experiment simulates one instance of \(n\) people in a room.
+   (`trials`). Each experiment simulates one instance of $n$ people in a room.
 
 3. **Simulating Birthdays**:
   
-   The `sample()` function generates \(n\) random birthdays (integers between 1 and 365) 
+   The `sample()` function generates $n$ random birthdays (integers between 1 and 365) 
    with replacement, representing the assumption that birthdays are independent 
    and uniformly distributed. This step directly reflects the assumptions made in 
    the analytical solution:
@@ -1254,6 +1290,17 @@ The function `sim_brithday` has two arguments
  
    The `results` vector contains `TRUE` (collision occurred) or `FALSE` (no collision) for each trial. Taking the `mean()` of this logical vector calculates the proportion of trials with a collision, which corresponds to the simulated probability. This step ties back to the definition of relative frequency probability introduced earlier: the probability of an event is the ratio of favorable outcomes to the total number of trials.
 
+This step requires some explanation of how R uses data types. We will learn 
+about this more systematically in the next lecture. Here I give a quick
+and superficial explanation. R can force logical data types automatically
+to a numerical type when it applies arithmetic functions to a logical
+vector, forcing `TRUE` to 1 and `FALSE` to 0. Now, when you take the average 
+(`mean()`) of a vector containing only 1 and 0 values you will get the
+proportion of 1's or `TRUE` values. We will use such tricks often during
+the course of the lecture. For the moment I ask you to bear with this
+quick and superficial explanation of why this way of proceeding does what
+we want.
+
 Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:
 
 ```{r}
@@ -1262,8 +1309,8 @@ sim_birthday(50)
 ```
 
 
-- For \(n = 23\), the output should be close to the analytically derived probability (\(\approx 0.507\)).
-- For \(n = 50\), the output should approximate \(\approx 0.970\).
+- For $n = 23$, the output should be close to the analytically derived probability $\approx 0.507$.
+- For $n = 50$, the output should approximate $\approx 0.970$.
 
 What are the advantages of simulations. Here are three main advantages:
 
@@ -1326,14 +1373,37 @@ P_{nc}(n) = 1 \times \left(1 - \frac{1}{M}\right)\times
 \left(1 - \frac{2}{M} \right) \times \cdots \times \left(1 - \frac{(n-1)}{M} \right)
 \end{equation*}
 
+For $n$ large this probability can be approximated by a factorial
+expansion as
+\begin{equation*}
+P_{nc}(n) \approx \prod_{k=0}^{n-1} \left( 1 - \frac{k}{M} \right)
+\end{equation*}
+
+Now convert the product into a sum using the natural logarithm:
+\begin{equation}
+\ln P_{nc}(n) \approx \sum_{k=0}^{n -1} \ln \left( 1 - \frac{k}{M} \right)
+\end{equation}
+
 Now to do the estimation of the threshold we use an approximation, which works with 
 a simple property of the logarithm: $\log(1-x)\approx -x$ when $x$ is small. Thus for
-$n$ much smaller than $M$, or $n \ll M$, we can write the no-collision probability 
-approximately (using the logarithms) as
-\begin{align*}
-P_{nc}(n) &\approx \exp \left( - \frac{n(n-1)}{2M})
-\end{align*}
+$n$ much smaller than $M$, or $n \ll M$, we can write the no-collision
+probability as
+\begin{equation*}
+\ln P_{nc}(n) \approx - \sum_{k=0}^{n-1} \frac{k}{M}
+\end{equation*}
+Simplify the summation by usin the fact that 
+$\sum_{k=0}^{n-1} = \frac{n(n-1)}{2}$ we get
+\begin{equation*}
+\ln P_{nc}(n) \approx -\frac{n(n-1)}{2\, M}
+\end{equation*}
+By taking exponentials on both sides this gives us 
+\begin{equation*}
+P_{nc}(n) \approx \exp \left( - \frac{n(n-1)}{2 \, M} \right)
+\end{equation*}
+
+
 Thus the probability of a hash-collision as a function of $n$ is then approximately
+
 \begin{equation*}
 P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 \end{equation*}
@@ -1406,71 +1476,9 @@ These are the **Applications** we have covered in the lecture:
 2. **The birthday problem and how to solve it analytically as well as through simulation**
 3. **Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability**
 
-## Exercises and Project:
+## Project: Designing transaction identifyers for digital payment systems
 
-### Exercises
-
-#### Exercise 1: Simulate Rolling Two Dice
-
-- Write a function to simulate rolling a pair of dice. Each die produces a 
-random number between 1 and 6. The function should return the sum of the two dice.
-
-
-- Simulate 10,000 rolls and store the results. Use `table()` to compute the frequencies of each sum and   visualize the results with a histogram.
-
-- Create a histogram. Use the help function of R to find out how to do this.
-
-
-#### Exercise 2: Analyze the Fairness of Dice
-
-- Compute the theoretical probabilities of all possible outcomes (sums from 2 to 12) for fair dice. Recall that each outcome corresponds to different combinations of the two dice.
-
-- Compare the theoretical probabilities to the simulated frequencies. Are the dice fair? Justify your conclusion.
-
-
-
-#### Exercise 3: Simulate Loaded Dice
-
-- Assume the dice are "loaded" such that numbers 1, 2, 3, 4, and 5 have probabilities of \( \frac{1}{8} \), while 6 has a probability of \( \frac{3}{8} \).
-
-- Modify your simulation using the `prob` argument in `sample()` to reflect these probabilities.
-
-- Simulate 10,000 rolls of the loaded dice and visualize the results. How does the distribution of sums change compared to fair dice?
-
-
-#### Exercise 4: The Probability of Specific Sums
-
-- Using your theoretical understanding of the sample space, calculate the probabilities of:
-   
-   - Rolling a sum of 7.
-   - Rolling a sum of 2.
-   - Repeat for both fair and loaded dice.
-
-- Verify your theoretical results with your simulations.
-
-
-
-#### Exercise 5: Evaluating a Betting Strategy
-
-- Imagine you are at a casino with fair dice. You have €150 to spend, and each bet on the sum of 7 costs €0.15. If you win, the casino pays €1. Otherwise, you lose your bet.
-
-- Simulate 1,000 bets on the sum of 7:
-   - Calculate the total amount you win or lose.
-   - Repeat the simulation 10,000 times to estimate the expected profit or loss.
-
-
-3. Is betting on 7 a good strategy? Why, why not?
-
-
-#### Exercise 6: Explore Alternative Scenarios
-
-- Assume the casino uses loaded dice (as defined earlier) instead of fair dice. How does this change your betting strategy and expected profit? Perform the simulation again under these conditions.
-
--Reflect on the importance of fairness in games of chance and how loaded dice impact the house advantage.
-
-### Project 1: Detecting collisions in financial transactions
-
-#### Introduction: Real-World Importance of Unique Identifiers in Finance
+### Introduction: Real-World Importance of Unique Identifiers in Finance
 
 In modern financial systems, every transaction is assigned a unique identifier, allowing 
 stakeholders to track, verify, and manage transaction details efficiently. 
@@ -1486,7 +1494,7 @@ vulnerabilities, such as fraudulent transactions or misattribution of funds.
 
 To mitigate such risks, many financial systems employ hash functions, such 
 as the widely used SHA-256, to map data to a large space of possible outputs. 
-These hash functions, with their vast output range (e.g., $2^{256}), make 
+These hash functions, with their vast output range (e.g., $2^{256}$), make 
 collisions extremely unlikely, even for billions of transactions. By 
 understanding the principles behind collision probabilities, financial 
 institutions can design systems that maintain transaction integrity even 
@@ -1503,17 +1511,17 @@ In this project, you will:
 2.  Investigate the probability of identifier collisions under different scenarios.
 3.  Discuss implications for system design and security.
 
-#### Simulate transaction identifiers
+### Simulate transaction identifiers
 
 - Write a function to simulate transaction identifiers, where each identifier is randomly chosen from a pool of   size $M$ (e.g. $M = 10^6$ or $M = 10^9$)
 - Using your function, simulate $n$ transactions and check for duplicates using R's `duplicated()` function.
 
-#### Compute collision probabilities
+### Compute collision probabilities
 
 - Simulate nn transactions multiple times and estimate the collision probability as the fraction of simulations   with at least one collision.
 - Use this function to compute the collision probability for $n = 10^3, n = 10^6, n = 10^9$ and $M = 10^6, M = 10^9$
 
-#### Visualize the results
+### Visualize the results
 
 Plot the collision probability as a function of nn for different values of $M$.
 We did not cover Rs plotting functions in the lecture so far. We only showed some
@@ -1521,12 +1529,12 @@ examples which we did not explain. But we explained how you could research
 R's help system and how you could ask an LLM for help. With any of these
 resources you should be able to come up with some reasonable visualization.
 
-#### Investigate the system design
+### Investigate the system design
 
 - Reflect on how the size of the pool $M$ influences the collision risk.
 - What happens when the transaction volume $n$ increases significantly?
 
-#### Financial implications
+### Financial implications
 
 - Imagine a financial institution processing transactions with $M=10^6$ identifiers. 
 - If the daily transaction volume grows to $n=10^5$, what is the risk of a collision?
