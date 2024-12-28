@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Probability: Basic Definitions and Rules – An Introduction to Probability</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./01-lecture1.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-lecture2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability: Basic Definitions and Rules</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">An Introduction to Probability</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-lecture1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">First probability ideas and first steps in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-lecture2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability: Basic Definitions and Rules</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#terminology" id="toc-terminology" class="nav-link active" data-scroll-target="#terminology"><span class="header-section-number">2.1</span> Terminology</a></li>
+  <li><a href="#probability-theory-and-applications" id="toc-probability-theory-and-applications" class="nav-link" data-scroll-target="#probability-theory-and-applications"><span class="header-section-number">2.2</span> Probability in theory and applications of probability</a></li>
+  <li><a href="#probability-and-the-language-of-sets" id="toc-probability-and-the-language-of-sets" class="nav-link" data-scroll-target="#probability-and-the-language-of-sets"><span class="header-section-number">2.3</span> Probability and the language of sets</a></li>
+  <li><a href="#using-an-llm-to-deepen-your-understanding-of-set-theory-in-probability" id="toc-using-an-llm-to-deepen-your-understanding-of-set-theory-in-probability" class="nav-link" data-scroll-target="#using-an-llm-to-deepen-your-understanding-of-set-theory-in-probability"><span class="header-section-number">2.4</span> Using an LLM to Deepen Your Understanding of Set Theory in Probability</a>
+  <ul class="collapse">
+  <li><a href="#ask-for-clarifications" id="toc-ask-for-clarifications" class="nav-link" data-scroll-target="#ask-for-clarifications"><span class="header-section-number">2.4.1</span> Ask for Clarifications</a></li>
+  <li><a href="#generate-additional-examples" id="toc-generate-additional-examples" class="nav-link" data-scroll-target="#generate-additional-examples"><span class="header-section-number">2.4.2</span> Generate Additional Examples</a></li>
+  <li><a href="#simulate-visualizations-and-code-interpretation" id="toc-simulate-visualizations-and-code-interpretation" class="nav-link" data-scroll-target="#simulate-visualizations-and-code-interpretation"><span class="header-section-number">2.4.3</span> Simulate Visualizations and Code Interpretation</a></li>
+  <li><a href="#practice-applying-definitions" id="toc-practice-applying-definitions" class="nav-link" data-scroll-target="#practice-applying-definitions"><span class="header-section-number">2.4.4</span> Practice Applying Definitions</a></li>
+  <li><a href="#explore-real-world-applications" id="toc-explore-real-world-applications" class="nav-link" data-scroll-target="#explore-real-world-applications"><span class="header-section-number">2.4.5</span> Explore Real-World Applications</a></li>
+  <li><a href="#learn-r-through-step-by-step-guidance" id="toc-learn-r-through-step-by-step-guidance" class="nav-link" data-scroll-target="#learn-r-through-step-by-step-guidance"><span class="header-section-number">2.4.6</span> Learn R Through Step-by-Step Guidance</a></li>
+  <li><a href="#simulate-discussions" id="toc-simulate-discussions" class="nav-link" data-scroll-target="#simulate-discussions"><span class="header-section-number">2.4.7</span> Simulate Discussions</a></li>
+  </ul></li>
+  <li><a href="#frequency" id="toc-frequency" class="nav-link" data-scroll-target="#frequency"><span class="header-section-number">2.5</span> Probability and Frequency</a>
+  <ul class="collapse">
+  <li><a href="#the-weak-law-of-large-numbers-wlln" id="toc-the-weak-law-of-large-numbers-wlln" class="nav-link" data-scroll-target="#the-weak-law-of-large-numbers-wlln"><span class="header-section-number">2.5.1</span> The Weak Law of Large Numbers (WLLN)</a></li>
+  <li><a href="#exploring-the-weak-law-of-large-numbers-with-r" id="toc-exploring-the-weak-law-of-large-numbers-with-r" class="nav-link" data-scroll-target="#exploring-the-weak-law-of-large-numbers-with-r"><span class="header-section-number">2.5.2</span> Exploring the Weak Law of Large Numbers with R</a></li>
+  </ul></li>
+  <li><a href="#independence" id="toc-independence" class="nav-link" data-scroll-target="#independence"><span class="header-section-number">2.6</span> Independence</a>
+  <ul class="collapse">
+  <li><a href="#intuition-behind-independence" id="toc-intuition-behind-independence" class="nav-link" data-scroll-target="#intuition-behind-independence"><span class="header-section-number">2.6.1</span> Intuition Behind Independence</a></li>
+  <li><a href="#a-worked-example" id="toc-a-worked-example" class="nav-link" data-scroll-target="#a-worked-example"><span class="header-section-number">2.6.2</span> A Worked Example</a></li>
+  <li><a href="#definition-of-independence" id="toc-definition-of-independence" class="nav-link" data-scroll-target="#definition-of-independence"><span class="header-section-number">2.6.3</span> Definition of Independence</a></li>
+  <li><a href="#important-note-independence-vs.-multiplication-rule" id="toc-important-note-independence-vs.-multiplication-rule" class="nav-link" data-scroll-target="#important-note-independence-vs.-multiplication-rule"><span class="header-section-number">2.6.4</span> Important Note: Independence vs.&nbsp;Multiplication Rule</a></li>
+  <li><a href="#why-is-independence-important-here" id="toc-why-is-independence-important-here" class="nav-link" data-scroll-target="#why-is-independence-important-here"><span class="header-section-number">2.6.5</span> Why Is Independence Important Here?</a></li>
+  </ul></li>
+  <li><a href="#moreR" id="toc-moreR" class="nav-link" data-scroll-target="#moreR"><span class="header-section-number">2.7</span> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</a>
+  <ul class="collapse">
+  <li><a href="#readingdata" id="toc-readingdata" class="nav-link" data-scroll-target="#readingdata"><span class="header-section-number">2.7.1</span> Reading data in R</a></li>
+  <li><a href="#robjects" id="toc-robjects" class="nav-link" data-scroll-target="#robjects"><span class="header-section-number">2.7.2</span> R objects</a></li>
+  <li><a href="#apple-up-down" id="toc-apple-up-down" class="nav-link" data-scroll-target="#apple-up-down"><span class="header-section-number">2.7.3</span> Example: Will the stock price of Apple move up or down?</a></li>
+  <li><a href="#benford" id="toc-benford" class="nav-link" data-scroll-target="#benford"><span class="header-section-number">2.7.4</span> Example: Benfords law: The empirical probabilities of leading digits</a></li>
+  </ul></li>
+  <li><a href="#summary-lecture-2" id="toc-summary-lecture-2" class="nav-link" data-scroll-target="#summary-lecture-2"><span class="header-section-number">2.8</span> Summary</a></li>
+  <li><a href="#project2" id="toc-project2" class="nav-link" data-scroll-target="#project2"><span class="header-section-number">2.9</span> Project 2: Should we trust European supervisory bank data?</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="basic-rules" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability: Basic Definitions and Rules</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This lecture explores the fundamentals of probability, including random experiments, sample spaces, and events, to better understand uncertainty. Building on previous concepts, we will delve deeper into empirical probability and explore its foundational role in probability theory. We will also examine the concept of independence, essential for understanding interactions between events. In contrast to lecture 1 we will strive for a more formal discussion of the concepts we learned so far and present probability as a mathematical theory.</p>
+<p>As in the previous lecture R will help us to better understand these concepts in practice. We will substantially enlarge our knowledge of R in this lecture to buid more complex simulations as well as to enhance our ability to manipulate data for probabilistic analysis. As a finance context we will use stock market data as our leading example.</p>
+<p>Let us briefly recap lecture 1: In lecture 1 we looked at an intuitive notion of probability as it was conceived at the origins of probability theory. The key idea there was that one approach to quantify or measure something like uncertainty you consider cases which are equally probable and then compute various probabilities by counting such cases. If the probability of cases do not influence the probability of other cases, if outcomes are independent, using this intuitive idea we can already analyse fairly sophisticated problems like some problems of coincidences.</p>
+<p>We also learned some basic uses of R and how we can use R to built random experiments and simulate uncertain outcomes. We learned how we can use R to visualize experiments to enhance our understanding and how we can interact with an LLM to dive deeper into problems and concepts we are learning. For the visualizations we informally introduced the idea of repeating a random process many times and use the empirical relative frequency of events as measures of the probability of an outcome using a new idea of thinking about probabilities. In this way the informal discussion in lecture 1 gave us a panoramic overview both of basic probability ideas as well as of R which we are now going to enhance an deepen.</p>
+<section id="terminology" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="terminology"><span class="header-section-number">2.1</span> Terminology</h2>
+<p>Probability is a mathematical theory that provides a rigorous framework for understanding uncertainty. It is particularly useful when analyzing real-world phenomena, such as random sampling in surveys or fluctuations in stock prices.</p>
+<p>Let us now formalize the foundational concepts of this theory:</p>
+<dl>
+<dt>Random Experiment</dt>
+<dd>
+A process with a set of possible outcomes, where the specific outcome cannot be predicted with certainty beforehand.
+</dd>
+</dl>
+<p>To clarify this concept, we define uncertain outcomes in advance. We pin down the possible outcomes by agreeing <em>on the outset</em> what we want to consider as the possible outcomes. Take the simple example of considering whether the price of a stock is going to rise or fall at the next day. In a practical situations the outcome of a move in the stock price can be that it rises or falls but it could in principle also stay the same. Still when we think about the experiment of observing the stock price tomorrow in many applications in Finance we usually agree that <em>rise</em> and <em>fall</em> are the only possible outcomes of this experiment. When we want to consider the random experiment that includes the case that the price stays the same we need to agree upfront the the possible outcomes are <em>rise</em>, <em>fall</em> and <em>unchanged</em>.</p>
+<p>This collection of all possible outcomes in probability theory is called the</p>
+<dl>
+<dt>Sample space</dt>
+<dd>
+The collection of all possible outcomes of an experiment is called the <strong>sample space</strong> and is denoted as the set <span class="math inline">\({\cal S}\)</span>
+</dd>
+</dl>
+<p>In the example before when we look at rises and falls in the stock price we would have <span class="math inline">\({\cal S} = \{rise, fall \}\)</span></p>
+<dl>
+<dt>Basic outcome, event, simple event</dt>
+<dd>
+A <strong>basic outcome</strong> is a single possible result of a random experiment. An <strong>event</strong> is a subset of the sample space, representing one or more outcomes. A <strong>simple event</strong> is an event containing exactly one basic outcome.
+</dd>
+</dl>
+<p><strong>Example:</strong> For {S} = {rise,fall}$, the event <span class="math inline">\(\{\text{rise}\}\)</span> is a simple event, while the event <span class="math inline">\(\{\text{rise, fall}\}\)</span> includes all outcomes and corresponds to the entire sample space.</p>
+<p>In the first lecture we learned about two approaches to measure probability. But the theory of probability actually does not depend on how we measure it precisely. In the theory of probability this measure is an abstract concept.</p>
+<dl>
+<dt>Probability</dt>
+<dd>
+For a given (discrete) sample space ${S}, <strong>Probability</strong> is a function that assigns a value to each event, representing its likelihood. The function has to fulfill three properties: 1. <span class="math inline">\(P({\cal S}) = 1\)</span>. 2. For any event <span class="math inline">\(A \in {\cal S}\)</span>, <span class="math inline">\(0 \leq P(A) \leq 1\)</span>. The probability of an event can never be negative or larger than 1. 3. For mutually exclusive events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(P(A \cup B) \leq P(A) + P(B)\)</span>.
+</dd>
+</dl>
+<p>Thus when we talk about probability in a precise and meaningful sense we can only do so in relation to a given sample space or to a certain conceptual experiment. In theory, probability is an abstract measure of uncertainty that does not depend on how it is observed or estimated. While practical applications may involve approximating probabilities using data, the mathematical theory assumes probabilities are predefined and satisfy specific rules.</p>
+<p>I have itroduced here probabilities with relation to a <em>discrete</em> sample space. The sample spaces discussed in Lecture 1 include finite sets, which can be small or large, such as the extensive output space of the SHA-256 hash function.</p>
+<p>There are also more complicated discrete sample spaces: Think of the random experiment of tossing a coin as often as necessary to see Heads for the first time. We can begin writing down the basic outcomes as: <span class="math inline">\(E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...\)</span>. An event where Heads never appear, denoted <span class="math inline">\(E0\)</span>, may also be considered. In this case, when the basic events can be arranged into a simple sequence. A sample space is called <em>discrete</em> if it contains only finitely many points, or infinitely many points which can be arranged into a simple sequence.</p>
+<p>Not all sample spaces are discrete. Except for the technical tools required there is no essential difference between the two cases. In our discussion of probability in this lecture we consider mostly discrete sample spaces, however we will also discuss some basic non-discrete sample spaces later in the lectures. Now let us state more formally what we mean by probability.</p>
+<p>Before we go on let me further clarify what we mean when we say that in the theory, probability is an abstract measure of uncertainty which we take as given.</p>
+</section>
+<section id="probability-theory-and-applications" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="probability-theory-and-applications"><span class="header-section-number">2.2</span> Probability in theory and applications of probability</h2>
+<p>Probabilities are expressed as numbers between 0 and 1. As mentioned by <span class="citation" data-cites="Feller1968">Feller (<a href="#ref-Feller1968" role="doc-biblioref">1968</a>)</span> in his famous probability textbook, these numbers are of the same nature as distances in geometry. In the theory we assume they are <em>given</em> to us.</p>
+<p>From the viewpoint of probability theory, we need not assume anything about how they are measured. In this sense probabilities in the theory of probability are an abstract measure of uncertainty.</p>
+<p>In practical applications, determining probabilities or applying theory often requires sophisticated statistical methods. So, while the mathematical as well as the intuitive meaning of probability are clear only as we proceed with the theory we will get a better ability to see how we can apply this concept.</p>
+</section>
+<section id="probability-and-the-language-of-sets" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="probability-and-the-language-of-sets"><span class="header-section-number">2.3</span> Probability and the language of sets</h2>
+<p>Probability theory relies on the language of sets to describe relationships between events. Understanding key set operations is essential for working with probabilities effectively.</p>
+<p>Let’s go through them and illustrate the concepts in the context of the examples we have already developed in lecture 1.</p>
+<dl>
+<dt>Union</dt>
+<dd>
+The <strong>union of two events</strong> <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> represents all outcomes that belong to <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> or in both. It is written <span class="math inline">\(A \cup B\)</span>.
+</dd>
+</dl>
+<p>Let us use the example of the experiment of rolling a die. The sample space <span class="math inline">\({\cal S}\)</span> is the set of all possible outcomes of rolling the dice <span class="math inline">\({\cal S}=\{1,2,3,4,5,6\}\)</span>. Assume one event is that the outcome is 1, 2 or 3. In set notation, we would write <span class="math inline">\(A = \{1,2,3\}\)</span>. Let us also assume that the second event is that the outcome is some even number, i.e.&nbsp;2, 4, 6. Again using set notation we would write <span class="math inline">\(B = \{2,4,6\}\)</span>. The event <span class="math inline">\(A \cup B\)</span> is then the set of all outcomes such that the outcome is in <span class="math inline">\(A\)</span> or in <span class="math inline">\(B\)</span> or in both or these sets.</p>
+<p>You can implement set operations in R because R provides functions for computing set operations. Let us use the occasion to show you briefly how to use these functions in the context of this example: We define the sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> first using the assignment operator:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We compute the union by using the function <code>union()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">union</span>(A,B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 6</code></pre>
+</div>
+</div>
+<p>which gives us the union of both sets.</p>
+<p>To understand this operation better we can visualize the set union in this example by looking at <a href="#fig-set-union" class="quarto-xref">Figure&nbsp;<span>2.1</span></a></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-set-union" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-set-union-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/set_union.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-set-union-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: The meaning of set union
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The sample space <span class="math inline">\({\cal S}\)</span> is the gray set containing all possible outcomes of our random experiment. Graphically the union of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(A \cup B\)</span> is a subset of the sample space, the entire colored area.</p>
+<dl>
+<dt>Intersection</dt>
+<dd>
+The <strong>intersection of two events</strong> are all outcomes that are both in <span class="math inline">\(A\)</span> and in <span class="math inline">\(B\)</span>. It is written as <span class="math inline">\(A \cap B\)</span>.
+</dd>
+</dl>
+<p>In R we would implement this operation by using the function <code>intersect()</code> and apply it to our sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> we have defined before.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(A,B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p><a href="#fig-set-intersection" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> visualizes this operation graphically</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-set-intersection" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-set-intersection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/set_intersection.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-set-intersection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: The meaning of set intersection
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The intersection of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(A \cap B\)</span> is the orange area containing the dice face with two points. Indeed two is both in <span class="math inline">\(A\)</span> and in <span class="math inline">\(B\)</span>, which is exactly the meaning of set intersection.</p>
+<dl>
+<dt>Complement</dt>
+<dd>
+The <strong>complement</strong> of an event <span class="math inline">\(A\)</span> within the sample space <span class="math inline">\({\cal S}\)</span> is the set of all outcomes that are in <span class="math inline">\({\cal S}\)</span> but not in <span class="math inline">\(A\)</span>. It is written as <span class="math inline">\({\cal S} \setminus A\)</span>.
+</dd>
+</dl>
+<p>Lets say we want to get the complement, or the set difference of <span class="math inline">\(A \cup B\)</span> with respect to the sample space <span class="math inline">\({\cal S}\)</span>.</p>
+<p>The R implementation of the set differecne operation is the function <code>setdiff()</code>. This is how we would tell R to compute the setdifference of the union of <span class="math inline">\(a\)</span> and <span class="math inline">\(B\)</span> and the sample space <span class="math inline">\({\cal S}\)</span> in our example of the die:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(S, <span class="fu">union</span>(A,B))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+</div>
+<p>This can again be visualized in <span class="quarto-unresolved-ref">?fig-set-minus</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/set_minus.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>The meaning of complement</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This complement is the dice shown in the light redish area, i.e.&nbsp;all the elements of <span class="math inline">\({\cal S}\)</span> which are not in <span class="math inline">\(A \cup B\)</span>.</p>
+<dl>
+<dt>Mutually Exclusive</dt>
+<dd>
+Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>mutually exclusive</strong> if they can not occur simultaneously. This means <span class="math inline">\(A \cap B = \emptyset\)</span>, their intersection is empty.
+</dd>
+</dl>
+<p>An example in our context is the set of even outcomes <span class="math inline">\(B=\{2,4,6\}\)</span> and the set of odd outcomes, let us call it <span class="math inline">\(C=\{1,3,5\}\)</span>. If we intersect these sets</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(B,C)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>numeric(0)</code></pre>
+</div>
+</div>
+<p>we get the empty set, which is expressed by R by giving the data type, in this case numeric, because we are intersecting sets of numeric values, followed by (0). This means, there is no numeric value in the intersection of <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>.</p>
+<p>Let us discuss set operations a bit further by thinking about the probability of the union of two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> within the context of our visual examples. Remember that we had <span class="math inline">\(A = \{1,2,3 \}\)</span> and $B = { 2,4,6}. Look at <a href="#fig-set-union-mutually-exclusive" class="quarto-xref">Figure&nbsp;<span>2.3</span></a></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-set-union-mutually-exclusive" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-set-union-mutually-exclusive-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/set_union.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-set-union-mutually-exclusive-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: The meaning of set union
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We would like to know what is the probability of <span class="math inline">\(P(A \cup B)\)</span>? Now if we add up <span class="math inline">\(P(A)\)</span> and <span class="math inline">\(P(B)\)</span> we would assign a probability to the outcome <span class="math inline">\(2\)</span> twice. Such double counting must be avoided and thus we have to subtract <span class="math inline">\(P(A \cap B)\)</span> the intersection, so that: <span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span>. Now you see what the qualification <em>mutually exclusive</em> does in our probability rule 3. When <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive <span class="math inline">\(A \cap B = \emptyset\)</span> and in this case <span class="math inline">\(P(A \union B) = P(A) + P(B)\)</span>. We can add up the probabilities because when events are mutually exclusive we can not double count events by adding up individual probabilities.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Now you try
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you drop the qualification that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> must be mutually exclusive in point 3 in the definition of probability. How would rule 3 have to be changed?</p>
+</div>
+</div>
+<p>Here’s a tip you could share with your students to encourage effective use of a Large Language Model (LLM) for deepening their understanding of the concepts and definitions introduced in this section:</p>
+</section>
+<section id="using-an-llm-to-deepen-your-understanding-of-set-theory-in-probability" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="using-an-llm-to-deepen-your-understanding-of-set-theory-in-probability"><span class="header-section-number">2.4</span> Using an LLM to Deepen Your Understanding of Set Theory in Probability</h2>
+<p>An LLM like ChatGPT can be an incredibly helpful tool to explore concepts and solidify your understanding. Here are some example of what you could do:</p>
+<section id="ask-for-clarifications" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="ask-for-clarifications"><span class="header-section-number">2.4.1</span> Ask for Clarifications</h3>
+<p>If a definition or concept isn’t clear, ask the LLM to explain it in simpler terms or using different examples. For instance:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“What is the difference between the union and intersection of sets in probability? Can you give examples?”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Follow up
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Can you compare this to a real-life scenario, like rolling a die or flipping a coin?”</p>
+</div>
+</div>
+</section>
+<section id="generate-additional-examples" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="generate-additional-examples"><span class="header-section-number">2.4.2</span> Generate Additional Examples</h3>
+<p>Use the LLM to create new examples similar to the ones in the lecture. This will give you more practice applying the concepts.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Give me an example of mutually exclusive events involving sports outcomes.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Can you show a sample space and events for tossing two coins?”</p>
+</div>
+</div>
+</section>
+<section id="simulate-visualizations-and-code-interpretation" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="simulate-visualizations-and-code-interpretation"><span class="header-section-number">2.4.3</span> Simulate Visualizations and Code Interpretation</h3>
+<p>While the LLM doesn’t directly produce visuals, you can ask it to describe how a diagram or R output would look. This helps connect theoretical concepts to their graphical representations. For example:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Describe what a Venn diagram looks like for <span class="math inline">\(A \cup B\)</span>, <span class="math inline">\(A \cap B\)</span>, and <span class="math inline">\(A \setminus B\)</span>.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“What does the R function <code>union(A, B)</code> compute? How is it related to <span class="math inline">\(A \cup B\)</span>?”</p>
+</div>
+</div>
+</section>
+<section id="practice-applying-definitions" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="practice-applying-definitions"><span class="header-section-number">2.4.4</span> Practice Applying Definitions</h3>
+<p>Use the LLM to test your understanding by quizzing yourself.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Ask me questions about the definitions of sample spaces, union, intersection, and complement.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Give me a scenario and ask which set operation applies.”</p>
+</div>
+</div>
+</section>
+<section id="explore-real-world-applications" class="level3" data-number="2.4.5">
+<h3 data-number="2.4.5" class="anchored" data-anchor-id="explore-real-world-applications"><span class="header-section-number">2.4.5</span> Explore Real-World Applications</h3>
+<p>Use the LLM to explore how these concepts apply in real-world contexts beyond the lecture.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“How is the concept of set intersection used in data science or finance?”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Explain how mutually exclusive events are important in designing experiments.”</p>
+</div>
+</div>
+</section>
+<section id="learn-r-through-step-by-step-guidance" class="level3" data-number="2.4.6">
+<h3 data-number="2.4.6" class="anchored" data-anchor-id="learn-r-through-step-by-step-guidance"><span class="header-section-number">2.4.6</span> Learn R Through Step-by-Step Guidance</h3>
+<p>If you’re new to R, ask the LLM to guide you through using functions like <code>union()</code>, <code>intersect()</code>, and <code>setdiff()</code> step by step.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Explain how to use <code>setdiff()</code> in R with an example involving dice rolls.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Follow up
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“How does this output relate to the complement of a set?”</p>
+</div>
+</div>
+<ol start="7" type="1">
+<li><strong>Dive Deeper into Probability Rule 3:</strong></li>
+</ol>
+<p>Use the LLM to generate explanations and examples that clarify how probabilities relate to set operations.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Follow up
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Explain why <span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span>.”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Follow up
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Can you provide a numerical example to illustrate this rule?”</p>
+</div>
+</div>
+</section>
+<section id="simulate-discussions" class="level3" data-number="2.4.7">
+<h3 data-number="2.4.7" class="anchored" data-anchor-id="simulate-discussions"><span class="header-section-number">2.4.7</span> Simulate Discussions</h3>
+<p>Ask the LLM to take the role of a peer or instructor to simulate a conversation about the material.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Pretend you are my study partner. Let’s discuss the complement of events and its significance in probability.”</p>
+</div>
+</div>
+<p>By actively engaging with the LLM through these kinds of prompts, you can practice, explore, and deepen your understanding of the material beyond the lecture. Try it alone or with your group.</p>
+</section>
+</section>
+<section id="frequency" class="level2 page-columns page-full" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="frequency"><span class="header-section-number">2.5</span> Probability and Frequency</h2>
+<p>Now it is time to explain a connection we made so far informally when we looked at visualizations and simulations, where we used connection between relative frequencies of probabilities in repetions of a random experiment.</p>
+<p>The <strong>frequency interpretation of probability</strong> is a practical approach to understanding uncertainty. It defines the probability of an event <span class="math inline">\(A\)</span> as:</p>
+<p><span class="math display">\[\begin{equation*}
+P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\text{Total number of trials}}
+\end{equation*}\]</span></p>
+<p>This interpretation is intuitive and often used in fields like engineering, finance, and natural sciences. However, it raises important questions about the connection between observed frequencies and theoretical probabilities.</p>
+<p>The origins of this discussion reach back to the seventeenth century. The philosophers Gottfried Wilhelm Leibnitz (1646 - 1716) and Jacob Bernoulli (1655 - 1705) had great hopes for the new field of probability to find applications in fields like medicine, law, commerce and finance. This interest in exploring new fields of potential applications drove them to study frequency evidence of events. They felt that relying on intuitively equally probable cases might not be enough for these ambitious application attempts.</p>
+<p>Jacob Bernoulli gave an answer which is among the great ideas in probability theory (see <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span>), the <strong>weak law of large numbers</strong>. It establishes one of the most important connections between frequency and probability.</p>
+<section id="the-weak-law-of-large-numbers-wlln" class="level3 page-columns page-full" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="the-weak-law-of-large-numbers-wlln"><span class="header-section-number">2.5.1</span> The Weak Law of Large Numbers (WLLN)</h3>
+<p>The Weak Law of Large Numbers provides a rigorous mathematical foundation for the frequency interpretation of probability. It states:</p>
+<p><em>As the number of independent and identically distributed (i.i.d.) trials increases, the relative frequency of an event converges to its true probability with high probability.</em></p>
+<p>Now let us pause here and restate what the weak law says: The law says that</p>
+<ol type="1">
+<li>Over many trials, the observed frequencies of outcomes will get closer to their theoretical probabilities.</li>
+<li>This convergence occurs with high likelihood as the number of trials increases.</li>
+</ol>
+<p>Observe also what the weak law does <em>not</em> say:</p>
+<ol type="1">
+<li>Frequencies <strong>are not</strong> probabilities. Instead frequencies <strong>approximate</strong> probabilities as trials increase.</li>
+<li>The weak law does not guarantee exact convergence in finite samples - it describes <strong>long run</strong> outcomes of repeating identical experiments many times.</li>
+</ol>
+<p>Let#s go back to the exmple of the fair coin we played with in lecture 1: There we constructed a fair coin toss where <span class="math inline">\(P(\text{Heads})=0.5\)</span>. When we have just a few tosses, say 10 times, you might observe 6 Heads (60%), which is close to but not exactly 50%. As you increase the tosses, say to 100, the frequency might be 52 Heads (52%), closer to 50%. if you go to even more tosses, say 10,000 tosses, the frequency approaches 50%.</p>
+<p>This demonstrates that, as the number of trials increases, the relative frequency converges to the theoretical probability.</p>
+<p>It is crucial to understand that Bernoulli’s Law of Large Numbers does <strong>not</strong> assert that frequencies are probabilities. Rather, it describes how, under certain conditions, frequencies fall within specific bounds relative to probabilities. Specifically, given a theoretical probability, a desired margin of error, and a confidence level, Bernoulli’s result provides an upper bound on the number of trials required for the relative frequency of an event to approximate its true probability.</p>
+<p>This distinction highlights an important limitation: the Weak Law of Large Numbers addresses the problem of inference from probabilities to frequencies, not the reverse. That is, it shows how probabilities can predict the behavior of frequencies in repeated trials, but it does not justify using observed frequencies as definitive probabilities. Instead, the theorem ensures that as the number of trials grows, the relative frequency of an event will converge to its probability, within specified bounds.</p>
+<p>Although we will frequently use frequency-based measures of probability in practical applications, it is essential to recognize the conceptual gap between the idealized mathematical theory and the empirical realities it seeks to describe. Probability theory relies on the concept of limiting relative frequencies, which exist only in an idealized framework of infinite trials. Real-world applications, however, involve finite data and inherently require interpretation, judgment, and domain expertise.</p>
+<p>This distinction between theory and practice is more than a technical nuance—it addresses a fundamental challenge for any theory with practical ambitions: How does the idealized framework relate to the messy complexities of reality? In probability, as in other fields, there is no direct or naive application of theory to practice. Bridging this gap demands a sound understanding of the theory, along with careful consideration of real-world conditions and context.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;For a formal statement of the weak law of large numbers, we need more concepts which we have not yet introduced, in particular the notion of a random variable. Let me give the formal statement here for those of you who are interested and know the concept of a random variable already: Let <span class="math inline">\(X_1, X_2, \dots, X_n\)</span> be <span class="math inline">\(n\)</span> independently, identically distributed random variables with expected value <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Let <span class="math inline">\(\bar{X}_n\)</span> denote the sample mean. Then the weak law of large numbers states: <span class="math inline">\(P(|\bar{X}_n - \mu | \geq \epsilon) \to 0 \quad \text{as } n \to \infty\)</span>. This means that the probability of the sample mean deviating significantly from the expected value diminishes as the number of trials increases.</p></div></div></section>
+<section id="exploring-the-weak-law-of-large-numbers-with-r" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="exploring-the-weak-law-of-large-numbers-with-r"><span class="header-section-number">2.5.2</span> Exploring the Weak Law of Large Numbers with R</h3>
+<p>In the following code chunk we first define a coin as we did in lecture 1 with the understanding that 1 represents Heads and 0 represents Tails. Then we use the replicate function and the sample function to toss the coin 1000 times.</p>
+<p>Now in the next step we use the logical condition <code>results == 1</code> to create a logical vector indicating whether each toss resulted in Heads. <code>cumsum()</code>then calculates the cumulative count of Heads after each toss. Dividing this cumulative count by (1:n) (the toss number) gives the cumulative relative frequency of Heads at each step.</p>
+<p>Then we plot these frequencies againts the number of tosses. The <span class="math inline">\(x\)</span>-axis represents the number of tosses, while the <span class="math inline">\(y\)</span>-axis represents the relative frequency of heads. We draw a red horizontal line where the relative frequency is identical to the theoretical probability of <span class="math inline">\(0.5\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the coin</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Toss the coin n times</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n, <span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate cumulative frequency of Heads</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>heads_freq <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(results <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span>n)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the convergence</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, heads_freq, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>),</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Tosses"</span>, <span class="at">ylab =</span> <span class="st">"Frequency of Heads"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Convergence of Relative Frequency to True Probability"</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.5</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02-lecture2_files/figure-html/weak-lwaw-coin-example-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This plot illustrates how the relative frequency of Heads approaches <span class="math inline">\(P(\text{Heads})=0.5\)</span> as the number of tosses increases.</p>
+</section>
+</section>
+<section id="independence" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="independence"><span class="header-section-number">2.6</span> Independence</h2>
+<p>The idealized thought experiment behind the Weak Law of Large Numbers assumes the idea of <strong>independence</strong>. Let us define this concept more precisely and explain its implications. While we have already used independence implicitly in earlier examples, it is important to formalize and understand it carefully.</p>
+<section id="intuition-behind-independence" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="intuition-behind-independence"><span class="header-section-number">2.6.1</span> Intuition Behind Independence</h3>
+<p>Two events are said to be <strong>independent</strong> if the occurrence of one event does not influence the probability of the other event occurring. In other words, knowing that one event has occurred provides no information about the likelihood of the other event.</p>
+<p>For example, consider rolling a fair six-sided die twice. The outcome of the first roll does not affect the outcome of the second roll because the rolls are independent. The probability of any number appearing on the second roll remains <span class="math inline">\(1/6\)</span>, regardless of what happened on the first roll.</p>
+</section>
+<section id="a-worked-example" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="a-worked-example"><span class="header-section-number">2.6.2</span> A Worked Example</h3>
+<p>Let us calculate the probability of rolling a 5 on the first roll and a 6 on the second roll.<br>
+This is the probability of the event “5 on the first roll and 6 on the second roll,” which we write as <span class="math inline">\(P(5 \cap 6)\)</span>.</p>
+<p>Since the rolls are independent: <span class="math inline">\(P(5 \cap 6) = P(5) \times P(6)\)</span>.</p>
+<ul>
+<li>The probability of rolling a 5 on a fair six-sided die is <span class="math inline">\(P(5) = 1/6\)</span>.</li>
+<li>The probability of rolling a 6 on a fair six-sided die is <span class="math inline">\(P(6) = 1/6\)</span>.</li>
+</ul>
+<p>Thus: <span class="math inline">\(P(5 \cap 6) = \frac{1}{6} \cdot \frac{1}{6} = \frac{1}{36}\)</span>.</p>
+<p>This calculation uses the <strong>multiplication rule for independent events</strong>, which states that if two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent, then the probability of both occurring is the product of their individual probabilities.</p>
+</section>
+<section id="definition-of-independence" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="definition-of-independence"><span class="header-section-number">2.6.3</span> Definition of Independence</h3>
+<p>We now formalize this concept:</p>
+<p><strong>Independence:</strong><br>
+Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>independent</strong> if and only if: <span class="math inline">\(P(A \cap B) = P(A) \times P(B)\)</span>.</p>
+<p>This definition formalizes the idea that the occurrence of one event does not affect the likelihood of the other. Independence is an assumption we often make in theoretical models like the Weak Law of Large Numbers and many other probabilistic frameworks.</p>
+</section>
+<section id="important-note-independence-vs.-multiplication-rule" class="level3" data-number="2.6.4">
+<h3 data-number="2.6.4" class="anchored" data-anchor-id="important-note-independence-vs.-multiplication-rule"><span class="header-section-number">2.6.4</span> Important Note: Independence vs.&nbsp;Multiplication Rule</h3>
+<p>While independence allows us to use the multiplication rule <span class="math inline">\(P(A \cap B) = P(A) \times P(B)\)</span>, it is critical to remember that the reverse is not true:<br>
+- Just because you can multiply probabilities does not necessarily mean the events are independent.<br>
+- For independence to hold, the probabilities of the events must truly be unaffected by one another.</p>
+</section>
+<section id="why-is-independence-important-here" class="level3" data-number="2.6.5">
+<h3 data-number="2.6.5" class="anchored" data-anchor-id="why-is-independence-important-here"><span class="header-section-number">2.6.5</span> Why Is Independence Important Here?</h3>
+<p>Independence is a key assumption in the Weak Law of Large Numbers, where we consider a series of <strong>independent and identically distributed (i.i.d.) trials</strong>. Without independence, the law’s guarantees about the behavior of frequencies would not hold. As we move forward, we will see independence as a foundational concept in many probabilistic models and calculations.</p>
+</section>
+</section>
+<section id="moreR" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="moreR"><span class="header-section-number">2.7</span> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</h2>
+<p>But now enough of dices and coins. Let us try out and apply some of the new ideas we just have learned and use the opportunity to learn some more important R concepts in the context of an example with stock price data.</p>
+<section id="readingdata" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="readingdata"><span class="header-section-number">2.7.1</span> Reading data in R</h3>
+<p>Before we can do anything with data, we need to learn how to load data into R and how to save them. We will discuss now how to do this with comma separated text files. R provides packages for reading and writing from almost any other format, like Excel, STATA, SAS or MATLAB. In all those cases the same principles apply as in the csv case.</p>
+<p>I have prepared a data-file recording daily information on the stock price of Apple in csv, which I have downloaded from the internet. This file is called <code>aapl_prices.csv</code>. Let me at this stage skip the details of how I did that exactly. We will discuss getting financial data from the internet later.</p>
+<p>To read a plain text or csv file, R provides the function <code>read.csv()</code>. If the csv file comes with a European instead of an US decimal format (<code>,</code> instead of <code>.</code> for the decimal sign.) you need <code>read.csv2()</code>.</p>
+<p>In the simplest form you read the data and write them to an object you can work with in R. For this you need to type something like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>aapl_prices <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/aapl_prices.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The function needs as an argument the file name. If the file is in a sub-folder of the current directory you need to also specify the path. To specify the correct path to the file you need to know in which part of your directory tree you are currently working.</p>
+<p>In my case I am working in the project folder for my lecture notes, which has a sub-folder called <code>data</code> and thus I specify the path relative to this location. To find out what is your current R working directory, R provides the function <code>getwd()</code>. If I type this in my case, I will get</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/home/martinsummer/Code/R/Probability_Introduction"</code></pre>
+</div>
+</div>
+<p>the path of my project folder for this lecture notes. So if I type the string <code>"data/aapl_prices.csv"</code> this specifies the path relative to my working directory.</p>
+<p>If you read the file on your computer, you need to specify the path appropriately from where you are working in R at the moment to where you have stored the csv file.</p>
+<p>Now <code>read.csv()</code> has many additional arguments, which provide you with lots of flexibility. I encourage you to check it out and play with it using the help function and the examples given therein.</p>
+<p>We have now read the apple stock price data and written it to the R-object <code>aapl_prices</code>. Lets inspect the object a bit to see what we’ve got. I use the function <code>head()</code> with the parameter value <code>n = 10</code>. This will show me the first 10 rows of the datafile.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   symbol       date     open     high      low    close    volume adjusted
+1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
+7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
+8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
+9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
+10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
+</div>
+</div>
+<p>Without going into the details, we see that we get a data table, which records for every day beginning in January 1990 the opening, the highest and the lowest price, the closing price, the volume (number of shares) and the closing price adjusted for dividend and stock splits. Let’s not worry for the moment what the exact technical meaning of these financial terms is. Now we are ready to work with these data.</p>
+</section>
+<section id="robjects" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="robjects"><span class="header-section-number">2.7.2</span> R objects</h3>
+<p>The most basic type of R objects are <strong>atomic vectors</strong>. Most structures in R are built from atomic vectors. The stock data-file we have just loaded is an example of such a more complex structure built from atomic vectors. We have already encountered a few of those in our previous lecture.</p>
+<section id="atomic" class="level4" data-number="2.7.2.1">
+<h4 data-number="2.7.2.1" class="anchored" data-anchor-id="atomic"><span class="header-section-number">2.7.2.1</span> Atomic vectors</h4>
+<p>An atomic vector is just a simple vector of data. For example our die constructed in the first lecture is an instance of this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>die <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>R has a function, which allows you to check whether an object is an atomic vector or not. This function is called <code>is.vector()</code>. It takes the object name as an argument and returns <code>TRUE</code> if the object is an atomic vector and <code>FALSE</code> if it is not. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.vector</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>does indeed return <code>TRUE</code>.</p>
+<p>Each atomic vector stores values in a one-dimensional vector, and each atomic vector can only store one type of data. The length of the atomic vector can be determined by the function <code>length()</code> This function takes an R object, which is an atomic vector, as an argument and returns the number of elements in this vector. Here is the example of the die</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+<p>which is 6 as it should be. An atomic vector could also have only one element, in which case <code>lenght()</code>would return 1.</p>
+<p>Now altogether R has implemented six basic types of atomic vectors:</p>
+<ol type="1">
+<li><p>double</p></li>
+<li><p>integers</p></li>
+<li><p>characters</p></li>
+<li><p>logical</p></li>
+<li><p>complex</p></li>
+<li><p>raw</p></li>
+</ol>
+<p>We will not encounter complex and raw data-types in this course, so let us skip those and discuss only the first 4 types.</p>
+<p>If yo u go back to our stock data and look at the first three lines</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  symbol       date     open     high      low    close    volume adjusted
+1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106</code></pre>
+</div>
+</div>
+<p>The variables open, high, close, volume and adjusted are all stored as the first R data type: <strong>Doubles</strong>. A double vector stores regular numbers. It seems natural to store such quantities as opening and closing prices as doubles. Doubles can be positive or negative, they can have digits right of the decimal place. If not explicitly told otherwise, R saves any number you give it as a double. Note that some functions refer to doubles with the more intuitive term numeric. It has an equivalent meaning in R.</p>
+<p>For example the number of traded shares in our apple stock price file is saved as a double. But arguably the number of shares could also have been saved as an <strong>Integer</strong>. This is the second data type in R for number which can be written without decimals. If you explicitly specify number as integers, you need to append the letter <code>L</code> to the number. Say, for example, we would want to specifie the points shown on our die explicitly as integers, then we would type</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>die_int <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>L,<span class="dv">2</span>L,<span class="dv">3</span>L,<span class="dv">4</span>L,<span class="dv">5</span>L,<span class="dv">6</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now R will save the die with integer values. Before, since we did not explicitly specify it, the values were stored probably as doubles. You can check the type always with the function <code>typeof()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+</div>
+<p>Now why should we care for distinguishing integers from doubles? This has to do with the way a computer does computations. Sometimes a difference in precision can have surprising effects. In your computer 64bits of memory are allocated for each double in an R program. While this allows for a very precise representation of numbers not all numbers can be exactly represented with 64-bits. The famous candidates are <span class="math inline">\(\pi\)</span>, which has an infinite sequence of digits and must therefore be rounded by the computer. Usually the rounding error introduced into your computations will go unnoticed but sometimes surprises can occur. Take for instance:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.440892e-16</code></pre>
+</div>
+</div>
+<p>Why is that? The square root of 2 can not be expresses precisely because, as already the old Greeks knew, it is not a rational number. And voila, you have a small rounding error. Such errors are called <em>floating point errors</em> in computer science lingo and computing with such numbers is called <em>floating-point-arithmetic</em>.</p>
+<p>With integers floating point errors are avoided, but for many applications this is not an option. Luckily for most cases floating-point arithmetic provides sufficient precision for most of the applications we encounter in practice.</p>
+<p>When you look at the first column of our stock price data you see the ticker symbol of the apple stock <code>AAPL</code>. This is the symbol of the third data type: <strong>Character</strong>. A character vector stores strings of text, which have to be put between quotation marks <code>""</code>. Strings are the individual elements of a character vector. We have encountered character vectors already in this lecture, where we represented the fair coin with the vector <code>c("H", "T")</code> with the string <code>"H"</code> for head and the string <code>"T"</code> for tail.</p>
+<p>Note that a string can be more than just letters. If you type, for instance the number <code>1</code> with quotation marks, like <code>"1"</code> R would interpret the value as a string not as a number. Sometimes one can get confused in R because both objects and characters appear as text in R code. Object names are without quotation marks strings always are between quotation marks.</p>
+<p>The next data type in the list are: <strong>Logicals</strong>. Logical vectors store <code>TRUEs</code> and <code>FALSES</code>. They are extremely useful for doing comparisons and - as we will see shortly - also for subsetting.</p>
+<p>For example, if you type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">&gt;</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>R tells you that this statement is False.</p>
+<p>Whenever you type <code>TRUE</code> of <code>FALSE</code> without quotation marks, R will treat the input as logical data. For instance, the following statement yields:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>logic <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>logic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  TRUE FALSE  TRUE</code></pre>
+</div>
+</div>
+<p>You can check the type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(logic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "logical"</code></pre>
+</div>
+</div>
+<p>One important R-fact which you need to know about atomic vectors is that atomic vectors can have <strong>attributes</strong>. Attributes won’t affect the values of an object but can hold and store object metadata. Normally we do not look at these metadata, but many R functions check for attributes and then do special things with the object depending on these attributes.</p>
+<p>Attributes can be checked with the function <code>attributes()</code> using an R object as an argument.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<p>Since <code>die</code>has no attributes R returns <code>NULL</code>. This value is often returned by functions whose values are undefined.</p>
+<p>The most common attributes for atomic vectors are <strong>names</strong>, <strong>dimensions</strong> and <strong>classes</strong>. Each of these attributes has its own helper function that you can use to give attributes to the object.</p>
+<p>When you look up the value for the die you will get</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<p>We see that our die object has no names, but we could assign some. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span>, <span class="st">"four"</span>, <span class="st">"five"</span>, <span class="st">"six"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now the die has a name attribute:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$names
+[1] "one"   "two"   "three" "four"  "five"  "six"  </code></pre>
+</div>
+</div>
+<p>Note that the values are not affected nor will the names be affected when the values are manipulated. For instance, if you type</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>die <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  one   two three  four  five   six 
+    2     3     4     5     6     7 </code></pre>
+</div>
+</div>
+<p>the names stay what they were and all values are increased by 1. To remove the names you can type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One very important attribute, we will encounter all the time is <strong>dimension</strong>, with the helper function <code>dim()</code>. For example we can look at our data object of stock prices to get:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8044    8</code></pre>
+</div>
+</div>
+<p>which returns two numbers, which mean that the object has 8044 rows and 8 columns.</p>
+<p>But with dim we can also transform our die into a matrix, with say two rows and three columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>die</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6</code></pre>
+</div>
+</div>
+<p>R will always use the first value in dim for the rows and the second for the columns. dim can be generalized to higher dimensional array structures.</p>
+<p>If you want to have more control on how R fills up the values, you can use a richer helper function, which gives you more control. For two dimensional data arrays this is provide by the function <code>matrix()</code>. Say you type</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(die, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6</code></pre>
+</div>
+</div>
+<p>the matrix will be filled up by column. You can change that behavior by setting the <code>byrow</code> argument to <code>TRUE</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(die, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    4    5    6</code></pre>
+</div>
+</div>
+<p>Notice that changing the dimensions of an object, will not change its type. But it will change the object’s <strong>class</strong> attribute:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "matrix" "array" </code></pre>
+</div>
+</div>
+<p>A class in R is a special case of an atomic vector.</p>
+<p>With the attribute system R allows you to represent more data types. R uses, for example a special class to represent dates and times. The data variable in our stock data is - for example - represents as a type of this kind.</p>
+<p>To illustrate this we take the R-function <code>Sys.time()</code>. This function returns the current time on your computer. It looks like a character string when you display it but it is actually a double with class <code>POSIXct</code>, <code>POSIXt</code> (it has two classes):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>now</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2024-12-28 23:16:57 CET"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "POSIXct" "POSIXt" </code></pre>
+</div>
+</div>
+<p><code>POSIXct</code> is a widely used framework for representing dates and times. But we will skip the details here.</p>
+<p>R stores categorical data, such as nationality, sex etc. by using <strong>factors</strong>. If you take for instance, sex, it can have only two values - male or female - and these values may have their idiosyncratic order, for example that females go always first. To make a factor in R you have to pass an atomic vector to the <code>factor()</code> function. This function works by recoding the values in the vector as integers and store the results in an integer vector. R also adds a <code>level</code> attribute which contains the set of labels and their order and a class attribute that says the vector is a factor. Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"f"</span>, <span class="st">"m"</span>))</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$levels
+[1] "f" "m"
+
+$class
+[1] "factor"</code></pre>
+</div>
+</div>
+<p>Factors can be confusing since they look like characters but behave like integers.</p>
+<p>Note that R will often try to convert character strings to factors when you load and create data. I recommend that you do not allow R to make factors unless you explicitly ask for it. This can usually be controlled by an argument to whatever the data reader function is. For instance you can give the <code>read.csv()</code> function the argument <code>stringsAsFactors = FALSE</code>.</p>
+<p>R has an internal <strong>coercion</strong> behavior for data types, which you should know about if you work with R. With this knowledge you can do many useful things.</p>
+<p>If a character string is present in an atomic vector, R will automatically convert every other component in this vector to a character string. If a vector contains only logicals and numbers, R will convert the logicals to numbers. In this case every <code>TRUE</code> becomes a 1 and every <code>FALSE</code> becomes a 0.</p>
+<p>R also uses the coercion rules, when we do math with logicals, like for example</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>What happens here is that R coerces the vector <code>c(TRUE, TRUE, FALSE, FALSE)</code> to the vector <code>c(1, 1, 0, 0)</code> and sums the components.</p>
+<p>Going back to our data set on the apple stock price, we see that this dataset stores values of different types, characters, dates and doubles. How does R achieve this?</p>
+<p>The answer is that this is achieved by a data structure called a <strong>list</strong>. List are like atomic vectors, because the group data into a one-dimensional set. However, lists do no group together individual values. List group together R objects, such as atomic vectors or even other lists.</p>
+<p>For example, you can create a list, which contains a numeric vector of length 31 in its first element, a character vector of length 1 in its second element and a new list of length 2 in its third. This is done by using the <code>list()</code>function of R, like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>list_example <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">100</span><span class="sc">:</span><span class="dv">130</span>, <span class="st">"R"</span>, <span class="fu">list</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>list_example</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+ [1] 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118
+[20] 119 120 121 122 123 124 125 126 127 128 129 130
+
+[[2]]
+[1] "R"
+
+[[3]]
+[[3]][[1]]
+[1] TRUE
+
+[[3]][[2]]
+[1] FALSE</code></pre>
+</div>
+</div>
+<p>The double bracketed indices tell you which element of the list is being displayed. The single bracketed indices tell you which sub-element of the list is being displayed. For example 100 is the first subelement of the first element in the list. “R” is the first subelement of the second list element.</p>
+<p><strong>Data Frames</strong> are the two dimensional version of a list. They are by far the most useful storage structure for data analysis. Indeed, our dataset on the Apple stock price we have loaded before is an instance of a data frame. Data frames group vectors together in a two dimensional table. As a consequence each variable can, i.e.&nbsp;each column of the data frame can contain a different data type. Within a column, however, we can have only one data type.</p>
+<p>if you look at the type of a data frame, you will see that it is indeed a list and the class is a data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "list"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+</div>
+<p>Now armed with our new knowledge of R and probability lets ask a question to our new data set.</p>
+</section>
+</section>
+<section id="apple-up-down" class="level3" data-number="2.7.3">
+<h3 data-number="2.7.3" class="anchored" data-anchor-id="apple-up-down"><span class="header-section-number">2.7.3</span> Example: Will the stock price of Apple move up or down?</h3>
+<p>Let us look at the first lines of our data once again:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   symbol       date     open     high      low    close    volume adjusted
+1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
+7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
+8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
+9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
+10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
+</div>
+</div>
+<p>Let us check what kind of object <code>aapl_prices</code> is.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "list"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+</div>
+<p>As expected the object is a list. The class shows that our object is a <code>data.frame</code>. Since the object is of class data-frame we can use the <code>dim</code> function to see the number of daily observations in our data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8044    8</code></pre>
+</div>
+</div>
+<p>We see that our data store price information about 8044 trading days.</p>
+<p>We could now approach the question about the probability of the Apple stock price moving up tomorrow by taking a frequency-approach. This would require us first to count the number of up-movements in our data. How do we do that?</p>
+<p>Now we need to know know how we address and work with individual values in our data-set. Let’s say we measure the movement of the close price. R has a notation system to extract a value or subset of values from an object: You write the name of the object first, followed by a pair of hard brackets. Between the brackets goes a <code>,</code>separating row and column indices. The notation is thus like <code>aapl_prices[ , ]</code>.</p>
+<p>When it comes to writing the indices you have six different ways to do this, all of them very simple. You can use:</p>
+<ol type="1">
+<li>Positive integers</li>
+<li>Negative integers</li>
+<li>Zero</li>
+<li>Blank spaces</li>
+<li>Logical values</li>
+<li>Names</li>
+</ol>
+<p>The simplest are <strong>positive integers</strong>. For example if you choose</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>,<span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.332589</code></pre>
+</div>
+</div>
+<p>you see that the first value in the sixth column is selected. You thus get the first closing price of the Apple stock recorded in our dataset. You can extract more than one value, for instance by typing:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.332589 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036
+ [9] 0.308036 0.305804</code></pre>
+</div>
+</div>
+<p>which gives you the first 10 closing prices.</p>
+<p>Note that R’s notation system is not limited to data frames. The same syntax can be used to select values from any R object, provided you supply an index for each dimension of the object. Two things have to be kept in mind. In R indexing begins at 1. In some other programming languages indexing begins at 0. The indexing convention in R is just like in linear algebra. The second thing to note is that if you select two or more columns from a data frame, R will return a new data frame, like in</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   symbol       date     open     high      low    close    volume adjusted
+1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
+7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
+8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
+9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
+10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
+</div>
+</div>
+<p>However, if you select a single column, R will return a vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.332589 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036
+ [9] 0.308036 0.305804</code></pre>
+</div>
+</div>
+<p>If you prefer to get returned a data frame in this case, you have to add the argument <code>drop = FALSE</code>, like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      close
+1  0.332589
+2  0.334821
+3  0.335938
+4  0.337054
+5  0.339286
+6  0.335938
+7  0.321429
+8  0.308036
+9  0.308036
+10 0.305804</code></pre>
+</div>
+</div>
+<p><strong>Negative integers</strong> work exactly opposite to positive integers. If you type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices[<span class="sc">-</span><span class="dv">1</span>,<span class="dv">6</span>], <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036 0.308036
+ [9] 0.305804 0.311384</code></pre>
+</div>
+</div>
+<p>R will return the sixth column of the data frame <em>except</em> the first row. We just display the first 10 values.</p>
+<p>If you try to pair a negative and a positive integer in an index, R will return an error. However, you can use both negative and positive integers if you use them in <em>different</em> indices.</p>
+<p><strong>Zero</strong> is neither positive nor negative, If you use 0 as an index, R will return nothing from a dimension with index 0. The following syntax for instance creates an empty object</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">0</span>,<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>data frame with 0 columns and 0 rows</code></pre>
+</div>
+</div>
+<p><strong>Blank spaces</strong> are used if you want to ask R to select <em>every</em> value in a dimension. So for instance, if you type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>sel <span class="ot">&lt;-</span> aapl_prices[ , <span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>R will select the entire column of closing prices. You can check that the length of this vector is</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8044</code></pre>
+</div>
+</div>
+<p>as expected.</p>
+<p><strong>Logical Values</strong> can also be used for subsetting. If you type for instance</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="fu">c</span>(F,F,F,F,F,T,F,F)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.332589</code></pre>
+</div>
+</div>
+<p>R will select the first closing price. Note that here we used the R convention that <code>TRUE</code>and <code>T</code> as well as <code>FALSE</code>and <code>F</code> have an equivalent meaning.</p>
+<p>Finally, you can ask for the elements, you want by name. On our case, you could select the first closing price by</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">"close"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.332589</code></pre>
+</div>
+</div>
+<p>Finally, note that two types of object in R obey an optional second system of notation. You can extract values from data frames and lists with th <code>$</code>syntax. It works as follows: For example</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>close)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16.39576</code></pre>
+</div>
+</div>
+<p>would select the column of closing prices and compute their mean.</p>
+<p>Now lets try to solve the counting problem for our data set. To see whether the price went up we need to subtract the closing price of the first data from the second, and see whether it is larger than zero. This we would have to do for every observation in the whole frame.</p>
+<p>Now let us bring our indexing rules into action. We create two new objects, one ranging from observation 2 of the close price until the end of the data frame, the other ranging from 1 to but the last element, then we subtract and write the result in a new object. Finally we inspect the first 10 elements of the result</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">2</span><span class="sc">:</span><span class="dv">8044</span>, <span class="st">"close"</span>]</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>aux_2 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8043</span> , <span class="st">"close"</span>]</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>diff_close <span class="ot">&lt;-</span> (aux_1 <span class="sc">-</span> aux_2)</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>diff_close[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0.002232  0.001117  0.001116  0.002232 -0.003348 -0.014509 -0.013393
+ [8]  0.000000 -0.002232  0.005580</code></pre>
+</div>
+</div>
+<p>Now this works but it is not very elegant. Actually R has a built in function, called <code>diff()</code> which will do the job for us. We can even append the result to the frame we have using the <code>$</code> notation as follows: Let us call the new variable <code>diff</code>. But now we have to be careful. Since we take first differences we will looe one observation. This will create a mismatch in the dimenion of the dataframe. Since the data frame starts at some date (in our case 1990-01-02) we have no difference for the first observation. R’s notation for a missing observation is <code>NA</code>. So we neet to put an <code>NA</code>ahead of our diff column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(aapl_prices<span class="sc">$</span>close, <span class="at">lag =</span> <span class="dv">1</span>))</span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n=</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  symbol       date     open     high      low    close    volume adjusted
+1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+      diff
+1       NA
+2 0.002232
+3 0.001117
+4 0.001116
+5 0.002232</code></pre>
+</div>
+</div>
+<p>Let’s check whether we get the same thing and compare with the values in <code>diff_close</code>. They do indeed match.</p>
+<p>Now we can use a really cool feature to count the up moves, which shows you the power of R in a very nice example. We can test conditions by logical operators. In our case we want to know whether the diff between two consecutive closing prices is positive. We add another column to the dataframe which will then contain <code>TRUE</code> or <code>FALSE</code>values, when the condition holds. To see what happens, let us do this and look at the first 5 rows of our new data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff_pos <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>diff <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   symbol       date     open     high      low    close    volume adjusted
+1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
+2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
+3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
+4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
+5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
+6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
+7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
+8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
+9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
+10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967
+        diff diff_pos
+1         NA       NA
+2   0.002232     TRUE
+3   0.001117     TRUE
+4   0.001116     TRUE
+5   0.002232     TRUE
+6  -0.003348    FALSE
+7  -0.014509    FALSE
+8  -0.013393    FALSE
+9   0.000000    FALSE
+10 -0.002232    FALSE</code></pre>
+</div>
+</div>
+<p>Now according to the frequency notion of probability we could attach the probability of an inter day up move of the Apple stock price by computing the share of up moves (diff positive) among all our change observations.</p>
+<p>Now we can use the R coercion rules. If we apply the mean function to our <code>diff_pos</code> column we get the share of up moves, since R will coerce the <code>TRUE</code> values to 1 and the <code>FALSE</code> values to 0. This is a new opportunity to practice our newly acquired subsetting rules:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5051598</code></pre>
+</div>
+</div>
+<p>We see that the result is that the stock price has moved up about half of the days and not up at the other days.</p>
+<p>Let me explain what is going on in the syntax of our R statement. We selected the column from our data frame that contained the differences. Then we apply the <code>mean()</code> function to this column. But since the column contains one value which is <code>NA</code> the mean would return <code>NA</code> if we not correct for this fact. This is what the argument <code>na.rm = T</code> does. It tells R to first remove <code>NA</code> form the observations and then compute the mean.</p>
+<p>Now from a frequency point of view <span class="math inline">\(P(U) = 0.51\)</span> and <span class="math inline">\(P(D) = 0.49\)</span> accordingly.</p>
+<p>Now <strong>assume in addition</strong> that the direction of a price move of the Apple stock on the current trading day is <strong>independent</strong> of the direction of the Apple stock price move on the previous trading day for all days. This means that the probability of <span class="math inline">\(U\)</span>-movements and of <span class="math inline">\(D\)</span>-movements is unaffected by the number of previous <span class="math inline">\(U\)</span> and <span class="math inline">\(D\)</span> movements. This is - of course - an assumption. You may think about whether this assumption is reasonable.</p>
+<p>Postponing this important discussion, consider now a week from Monday to Friday and ask: “What is the probability that the price of Apple will increase on each of the consecutive days?”</p>
+<p>There are five trading days, so we need to compute <span class="math inline">\(P(U \cap U \cap U \cap U \cap U \cap U)\)</span>. This is by our assumption of independence equal to <span class="math inline">\(P(U) \cdot P(U) \cdot P(U) \cdot P(U) \cdot P(U)\)</span>. By our probability estimate from relative frequency this amounts to <span class="math inline">\(0.51^5\)</span>, which amounts to <span class="math inline">\(0.035\)</span>.</p>
+<p>“What is the probability that the stock price will decrease either on Monday, Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?”</p>
+<p>The probability that the <span class="math inline">\(D\)</span> movement happens, say on a Monday, is <span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span> or <span class="math inline">\(0.49*0.51^4\)</span> which is <span class="math inline">\(0.033\)</span>. We have in total five mutually exclusive scenarios: <span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap D \cap U \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap D \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap U \cap D \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap U \cap U \cap D)\)</span>. Thus we have <span class="math inline">\(0.033 + 0.033 + 0.033 + 0.033 + 0.033\)</span> as the final probability of this event, which is <span class="math inline">\(0.132\)</span>.</p>
+<p>Is this analysis any good? How could we possibly judge this? Interestingly the relative frequencies of up and down moves look similar to a random experiment of a few thousand tosses of a fair coin. But can we learn anything from this? Are the up and down moves independent? Independence - of course - does not follow from the result we just got.</p>
+<p>The idea that stock prices may fluctuate randomly was first discussed systematically by Louis Bachelier (1870 - 1946), a French mathematician who studied stock price movements mathematically. In 1965 the economist <span class="citation" data-cites="Samuelson1965">Samuelson (<a href="#ref-Samuelson1965" role="doc-biblioref">1965</a>)</span> published an article with the title “Proof that stock prices fluctuate randomly”. He argues in this paper that randomness comes about through the active participation of traders seeking to maximize their wealth. A huge army of investors would aggressively use the smallest informational advantage and in doing so, they incorporate the information into market prices, which quickly eliminates this profit opportunity. This lead to a cornerstone of modern Finance theory called the <em>random walk hypothesis</em> of stock price fluctuations.</p>
+<p>If this theory was true, it would give an argument, why we might look at the up and down movements in the stock price of apple as if it was the outcome of tossing a fair coin. In this case the probability of an up or a down movement should be 1/2 and with the number of trials approaching infinity the frequency of ups and downs should approach this probability.</p>
+<p>The literature on stock price fluctuations which came later, however, presented evidence that stock prices are predictable to a certain degree and do not fluctuate randomly. A good reference summarizing this evidence is <span class="citation" data-cites="LoMacKinlay1999">Lo and MacKinlay (<a href="#ref-LoMacKinlay1999" role="doc-biblioref">2019</a>)</span> In this case our approach would perhaps produce a misleading answer.</p>
+<p>We cannot give a clear cut answer here. The point of this brief discussion is that you just cannot apply a theoretical machinery mechanically without giving it further thought and without maintaining a healthy amount of skepticism. It is fascinating that there are situations where abstract theories, like the theory of probability, show a robust relation to real world phenomena. But the nature, the precise meaning and the robustness of this relation has to be investigated for each single case.</p>
+</section>
+<section id="benford" class="level3" data-number="2.7.4">
+<h3 data-number="2.7.4" class="anchored" data-anchor-id="benford"><span class="header-section-number">2.7.4</span> Example: Benfords law: The empirical probabilities of leading digits</h3>
+<p>Let us discuss last example in this lecture which will fortify both our probability knowledge as well as our newly gained R skills. It will also prepare you for the project assigned in this lecture, which will familiarize you with yet another financial dataset.</p>
+<p>The example we are going to discuss here is again an instance of empirical probabilities for a rather surprising instance: Leading digits. What are leading digits? Well the concept is actually simple: Say we have the number 7829, then the leading digit in this number is 7, the first digit in 7829. If the number is 10892, it would be 1, if it is 4 it would be 4.</p>
+<p>Now we could ask the following question: let’s look at datasets we can find in real life, any datasets. How often in these datasets is the leading digit a 1, a 2, etc. or a 9? You might think that they all occur with about the same frequency. Indeed, what would be special about any particular digit? So in this case each number would occur with probability <span class="math inline">\(1/9\)</span> or with a frequency of about <span class="math inline">\(11 \%\)</span>.</p>
+<p>But here is an interesting fact: They occur with unequal frequency. They are actually quite unequal and follow a peculiar logarithmic pattern; you can give a formula for the empirical probabilities. This formula looks as follows:</p>
+<dl>
+<dt>Benfords Law</dt>
+<dd>
+In a dataset the frequency of <span class="math inline">\(d\)</span> being the first digit is <span class="math display">\[\begin{equation*}
+P(d) = \log_{10}\left(1+ \frac{1}{d}\right)
+\end{equation*}\]</span> where <span class="math inline">\(d \in \{1,\cdots, 9 \}\)</span>
+</dd>
+</dl>
+<p>Let us look at how this distribution looks like. Let us build a data frame where we see the digits in one column and the Benford-Probabilities in the second one:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Digit =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>benford<span class="sc">$</span>Prob_Benford <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>benford<span class="sc">$</span>Digit)</span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(benford)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Digit</th>
+<th style="text-align: right;">Prob_Benford</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.3010300</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.1760913</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.1249387</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.0969100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.0791812</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.0669468</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.0579919</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.0511525</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.0457575</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Now here comes the really surprising fact. This law has been observed in credit card bills, stock market prices, in the market valuation of listed companies, in population data, the length of rivers.</p>
+<p>There are some requirements on these datasets: They should not have an arbitrary maximum or minimum for example. The numbers also must not be assigned, like grades of exams, assigned phone numbers or assigned identities.</p>
+<p>Now let us check this with a real data set. We choose a dataset of US-county population data. This give us an opportunity to show you a second way to read a csv file into R by giving the internet link to the file directly as a string to the <code>read.csv()</code> function. We do this with the population data and store the data in an object we call <code>population_data</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>population_data <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">"https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/counties/totals/co-est2020-alldata.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So you, if you know the internet address of the file and the file name you can read data also directly from an url without first downloading them and then read it from your local copy.</p>
+<p>Now we want to use these data to check or illustrate Benford’s law. Now you will encounter something typical for real data situations. If you inspect the data, you will see that there is much more than we need. Let us therefore select the data we want to look at, using the R tools we learned in this lecture. We create a new data frame which contains only the variables <code>COUNTY</code> <code>STNAME</code>, <code>CTYNAME</code> and <code>CENSUS2010POP</code>, and we discard all the other ones.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>pop_us <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">County_ID =</span> population_data<span class="sc">$</span>COUNTY, <span class="at">State =</span> population_data<span class="sc">$</span>STNAME, <span class="at">County =</span> population_data<span class="sc">$</span>CTYNAME, <span class="at">Population =</span> population_data<span class="sc">$</span>CENSUS2010POP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This looks already pretty good, but we would like to have the data purely on county level. The current data set also contains State aggregates, which have <code>County_Id == 0</code>. There are also a few counties which get value “X”. We also want to filter out those. Let’s use logical sub-setting to filter these data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered <span class="ot">&lt;-</span> pop_us[((pop_us<span class="sc">$</span>County_ID <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (pop_us<span class="sc">$</span>Population <span class="sc">!=</span> <span class="st">"X"</span>)), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This will give us the pop_us data frame with all rows except those where the variable County_ID is equal to zero (which are the state aggregates).</p>
+<p>Now we extract the leading digits from the population numbers. Notice that in our data set the population numbers are stored as characters, as you can see from typing:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(pop_us_filtered<span class="sc">$</span>Population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+<p>So we can use R’s string functions. This is a vast area which could fill a lecture on it own. We just mention one of the many R-functions operating on strings. One way to implement selection of a leading digit is using one of R’s string functions, <code>substr()</code>. You can give any string to this function and cut a substring, by specifying where it should begin and where it should end. Now in our case the population number. Let us use this to add a new column of leading digits to the data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered<span class="sc">$</span>LD <span class="ot">&lt;-</span> <span class="fu">substr</span>(pop_us_filtered<span class="sc">$</span>Population, <span class="dv">1</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we just need to tabulate the leading digits. This means, we count the frequency of 1, 2 et. until 9 and divide by the total number of observations. This tabulation functionality is implemented in R by its function <code>table</code>. So lets tabulate the respective column and divide by the total number of observations:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>emp_dist <span class="ot">&lt;-</span> (<span class="fu">table</span>(pop_us_filtered<span class="sc">$</span>LD)<span class="sc">/</span><span class="fu">length</span>(pop_us_filtered<span class="sc">$</span>LD))</span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>emp_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+         1          2          3          4          5          6          7 
+0.30340656 0.18911175 0.11907036 0.09805794 0.06781280 0.06685769 0.05794333 
+         8          9 
+0.04839223 0.04934734 </code></pre>
+</div>
+</div>
+<p>It would be nicer if we could show both the empirical frequencies and the bendford probabiliities in one dataframe. We first transform the emp_dist into a data frame and merge with the <code>benford$Prob_Benford</code> vector. This can be done by using the R function <code>cbind()</code> which can merge two data framews</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(emp_dist), benford<span class="sc">$</span>Prob_Benford)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now lets give the new data frame nicer names using the name function and display the result in a nice table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Digit"</span>, <span class="st">"Emp_Freq"</span>, <span class="st">"Benf_Freq"</span>)</span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Digit</th>
+<th style="text-align: right;">Emp_Freq</th>
+<th style="text-align: right;">Benf_Freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">0.3034066</td>
+<td style="text-align: right;">0.3010300</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">0.1891117</td>
+<td style="text-align: right;">0.1760913</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">0.1190704</td>
+<td style="text-align: right;">0.1249387</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: right;">0.0980579</td>
+<td style="text-align: right;">0.0969100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: right;">0.0678128</td>
+<td style="text-align: right;">0.0791812</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: right;">0.0668577</td>
+<td style="text-align: right;">0.0669468</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">0.0579433</td>
+<td style="text-align: right;">0.0579919</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: right;">0.0483922</td>
+<td style="text-align: right;">0.0511525</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: right;">0.0493473</td>
+<td style="text-align: right;">0.0457575</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The match is amazingly close. This is quite cool, isn’t it ?</p>
+<p>One application of this interesting regularity has been to screen data sets, for instance tax filings, to find evidence whether they might have been manipulated by looking for deviations from Benford’s law. In the second project you are asked to do just that. Investigate the first digit distribution in a real financial data-set and compare to Benford’s law. For those of you who got interested in this “magic” law, let me mention that there is a monograph length treatment in <span class="citation" data-cites="BergerHill2015">Berger and Hill (<a href="#ref-BergerHill2015" role="doc-biblioref">2015</a>)</span></p>
+</section>
+</section>
+<section id="summary-lecture-2" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="summary-lecture-2"><span class="header-section-number">2.8</span> Summary</h2>
+<p>In this lecture we have dived a bit deeper into probability. We made some of our introductory concepts more precise and more general and learned about the important concepts of independence and how probabilities and frequencies of events in series of identical independent experiments are and are not related. We also learned about tools to go back and forth between probability theory and data and encountered our first financial dataset, a data frame for the stock pirce of Apple.</p>
+<p>These are the <strong>probability concepts</strong> we have covered in this lecture:</p>
+<p>In this lecture we have given precise definitions of our basic concepts of <strong>sample space</strong>, <strong>basic outcome</strong>, <strong>events</strong> and <strong>probability</strong>. This time we gave an abstract definition of probability which shares the basic properties we required for classical probability. We explained what <strong>discrete probability</strong> means and explained how we can build events by set theoretic operations of <strong>union</strong>, <strong>intersection</strong>, <strong>complements</strong>. We have also explained the meaning of <strong>mutually exlusive</strong>. We have explained the notion of <strong>empirical probability</strong> or <strong>frequency probability</strong>. We have discussed the <strong>weak law of large numbers</strong> which establishes for a given probability the number of identical independent trials that are needed such that the relative frequency of an event falls within any given bound around this probability. While relative frequencies are not probabilities they approach given probabilities in the limit of a sequence of identical independent trials. We have finally learned about the definition of <strong>independence</strong> of events. If two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent the probability that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> occur is the product of their individual probabilities.</p>
+<p>These are the <strong>R concepts</strong> covered in this lecture: We learned what <strong>R objects</strong> are and that R has <strong>six types of atomic vectors</strong>, namely <strong>double</strong>, <strong>integer</strong>, <strong>character</strong>, <strong>logical</strong>, <strong>complex</strong> and <strong>raw</strong>. We have learned how to <strong>subset R objects</strong> by positive integers, negative integers, zero, blank spaces, logicals and names.</p>
+<p>These are the <strong>applications</strong> we have covered in this lecture. <strong>Tossing a fair coin</strong> by simulation. <strong>reading data from a stored csv files</strong> and also <strong>reading a csv file directly from the internet</strong>. <strong>Using R’s subsetting functions</strong> to analyze up and down movements of <strong>stock price data</strong> and <strong>use empirical probabilities</strong> together with an independence assumption to compute the probability of certain sequences of up and down moves. <strong>Benford’s law</strong> of leading digits.</p>
+</section>
+<section id="project2" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="project2"><span class="header-section-number">2.9</span> Project 2: Should we trust European supervisory bank data?</h2>
+<p>The European Banking Authority EBA conducts a biannual stress testing exercise for the biggest European banks every two years. In the stress test bank exposure data are collected and then particular stress scenarios are applied to the reported data. The goal is to find out whether the banks would have enough capital to withstand an adverse scenario. EBA makes a huge effort to publish the data that are the base of the stress test on its web site: https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing</p>
+<p>In this project you are asked to use the knowledge you learned about empirical probabilities, R and Benford’s law to check whether the EBA stress testing data show the distribution of leading digits, you would expect from Benford’s law.</p>
+<ol type="1">
+<li><p>Go to the EBA website https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing and download the file Credit Risk IRB (https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv). You can do so by downloading the file, storing it locally and then read it into R or you can read it directly from the web.</p></li>
+<li><p>We want to study the distribution of leading digits in the Amounts reported in the EBA file of credit risk exposures. Now the csv file contains many different data that all somehow belong to the EBA stress test. We would not like to check all data but only exposure data. We need first to filter the data to make sure we have a meaningful collection of exposure data for all the banks. The description of the data and the data dimensions is in the files <code>Metadata_TR.xlsx</code> and <code>Data_Dictionary.xlsx</code>. You are welcome to study these data in detail. It will probably need more time than you have available. They are also quite complicated. Since the aim of this project is not directly to understand the eba-data but to work with your R-concepts and probability concepts, let me guide you here how to filter these data in 10 sequential steps. Note that this sequencing is for didactical reasons only and for the purpose not to loose oversight. With routine and experience all these steps can be done in one go as well:</p>
+<ol type="a">
+<li>Extract all variables names, using the <code>names()</code>function.</li>
+<li>Select all rows where the Scenario variable has value 1. Note that the symbol you need in the R syntax for equal is <code>==</code>, the syntax is therefore <code>Scenario == 1</code>. You might check out the R-help entry <code>Comparison</code> for further details.</li>
+<li>From the resulting data-frame select all rows where the Country variable is not equal to 0. (hint: The not equal operator in the R syntax is <code>!=</code>). If you look into the Metadata-File you will see that 0 are all the aggregate exposures not broken down by country. Excluding these will give us country exposures.</li>
+<li>From the resulting data frame select all rows where the Portfolio variable has value 1 or 2.These codes describe the accounting rules under which the exposure values are reported, internal rating based (IRB) or standard approach (SA). As a hint you can use R’s subset operator <code>%in%</code> here so <code>Portfolio %in% c(1,2)</code> written with the approprate subsetting rule will select all rows where the Porfolio variable has value 1 or 2.</li>
+<li>From the resulting data frame choose all the rows where the Exposure variable is not 0.This gives again disaggregated numbers.</li>
+<li>From the resulting data frame choose all the rows where the Status variable has value 0.</li>
+<li>From the resulting data frame choose all the rows where the IFRS9_Stages variable has value 1,2, or 3.</li>
+<li>From the resulting data frame choose all the rows where the CR_guarantees variable is 0</li>
+<li>From the resulting data frame choose all the rows where the CR_exp_moratoria variable is 0.</li>
+<li>From the resulting data frame, drop all rows where the Amount variable is 0.</li>
+</ol></li>
+<li><p>Check the type of the Amount variable.</p></li>
+<li><p>Transform the Amount variable to type <code>numeric()</code></p></li>
+<li><p>Check for NA in the Amount variable in the resulting data frame and if you find any, remove them.</p></li>
+<li><p>Change the Amount variable from the actual unit of Million Euros to the unit of 1 Euro 1 Euro and throw away data smaller than 1 after this transformation.</p></li>
+<li><p>Select the leading digits from the Amount variable, using R’s string functions and add a variable with name LD to your data frame.</p></li>
+<li><p>Compare the empirical frequencies in the data with the theoretical frequencies from Benford’s law by creating an appropriate data frame. What can you say from this evidence?</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-BergerHill2015" class="csl-entry" role="listitem">
+Berger, Arno, and Theodore Hill. 2015. <em>An Introduction to Benford’s Law</em>. Princeton University Press.
+</div>
+<div id="ref-DiaconisSkyrms2019" class="csl-entry" role="listitem">
+Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. Princeton University Press.
+</div>
+<div id="ref-Feller1968" class="csl-entry" role="listitem">
+Feller, William. 1968. <em>An Introduction to Probability Theory and Its Applications</em>. 3rd ed. Vol. 1. Wiley.
+</div>
+<div id="ref-LoMacKinlay1999" class="csl-entry" role="listitem">
+Lo, Andrew, and Craig MacKinlay. 2019. <em>A Non-Random Walk down Wallstreet</em>. Princeton University Press.
+</div>
+<div id="ref-Samuelson1965" class="csl-entry" role="listitem">
+Samuelson, Paul. 1965. <span>“Proof That Properly Anticipated Prices Fluctuate Randomly.”</span> <em>Industrial Management Review</em> 6.
+</div>
+</div>
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-lecture1.html" class="pagination-link" aria-label="First probability ideas and first steps in R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">First probability ideas and first steps in R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

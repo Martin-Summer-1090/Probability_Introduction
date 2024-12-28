@@ -1,0 +1,22 @@
+---
+title: "Read US population data"
+output: html_notebook
+author: Martin Summer
+date: "8.12.2021"
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+population <- read.csv("co-est2020.csv") %>% 
+  select(COUNTY, STNAME, CTYNAME, POPESTIMATE2020) %>% 
+  filter(COUNTY != 0) %>% 
+  select(CTYNAME, STNAME, POPESTIMATE2020) %>% 
+  rename(County = CTYNAME, State = STNAME, Population = POPESTIMATE2020)
+
+write.csv(population, "co-est2020-transformed.csv", row.names = FALSE)
+```
+`
+
