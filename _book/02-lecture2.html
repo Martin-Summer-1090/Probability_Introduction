@@ -245,12 +245,19 @@ window.Quarto = {
   <li><a href="#moreR" id="toc-moreR" class="nav-link" data-scroll-target="#moreR"><span class="header-section-number">2.7</span> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</a>
   <ul class="collapse">
   <li><a href="#readingdata" id="toc-readingdata" class="nav-link" data-scroll-target="#readingdata"><span class="header-section-number">2.7.1</span> Reading data in R</a></li>
-  <li><a href="#robjects" id="toc-robjects" class="nav-link" data-scroll-target="#robjects"><span class="header-section-number">2.7.2</span> R objects</a></li>
-  <li><a href="#apple-up-down" id="toc-apple-up-down" class="nav-link" data-scroll-target="#apple-up-down"><span class="header-section-number">2.7.3</span> Example: Will the stock price of Apple move up or down?</a></li>
-  <li><a href="#benford" id="toc-benford" class="nav-link" data-scroll-target="#benford"><span class="header-section-number">2.7.4</span> Example: Benfords law: The empirical probabilities of leading digits</a></li>
+  <li><a href="#robjects" id="toc-robjects" class="nav-link" data-scroll-target="#robjects"><span class="header-section-number">2.7.2</span> R Objects and Stock Price Movements</a></li>
+  <li><a href="#robjects-extended" id="toc-robjects-extended" class="nav-link" data-scroll-target="#robjects-extended"><span class="header-section-number">2.7.3</span> Extending R Objects: Factors, Data Frames, and Lists</a></li>
+  <li><a href="#apple-up-down" id="toc-apple-up-down" class="nav-link" data-scroll-target="#apple-up-down"><span class="header-section-number">2.7.4</span> Example: Will the Stock Price of Apple Move Up or Down?</a></li>
+  <li><a href="#benford" id="toc-benford" class="nav-link" data-scroll-target="#benford"><span class="header-section-number">2.7.5</span> Example: Benford’s Law and Trading Volumes</a></li>
+  <li><a href="#enhancing-your-learning-with-an-llm-debugging-and-exploring-data-analysis-pitfalls" id="toc-enhancing-your-learning-with-an-llm-debugging-and-exploring-data-analysis-pitfalls" class="nav-link" data-scroll-target="#enhancing-your-learning-with-an-llm-debugging-and-exploring-data-analysis-pitfalls"><span class="header-section-number">2.7.6</span> Enhancing Your Learning with an LLM: Debugging and Exploring Data Analysis Pitfalls</a></li>
   </ul></li>
-  <li><a href="#summary-lecture-2" id="toc-summary-lecture-2" class="nav-link" data-scroll-target="#summary-lecture-2"><span class="header-section-number">2.8</span> Summary</a></li>
-  <li><a href="#project2" id="toc-project2" class="nav-link" data-scroll-target="#project2"><span class="header-section-number">2.9</span> Project 2: Should we trust European supervisory bank data?</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.8</span> Summary</a></li>
+  <li><a href="#project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law" id="toc-project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law" class="nav-link" data-scroll-target="#project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law"><span class="header-section-number">2.9</span> <strong>Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law</strong></a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">2.9.1</span> <strong>Overview</strong></a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives"><span class="header-section-number">2.9.2</span> <strong>Objectives</strong></a></li>
+  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps"><span class="header-section-number">2.9.3</span> <strong>Steps</strong></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -804,777 +811,1190 @@ Two events <span class="math inline">\(A\)</span> and <span class="math inline">
 <p>Independence is a key assumption in the Weak Law of Large Numbers, where we consider a series of <strong>independent and identically distributed (i.i.d.) trials</strong>. Without independence, the law’s guarantees about the behavior of frequencies would not hold. As we move forward, we will see independence as a foundational concept in many probabilistic models and calculations.</p>
 </section>
 </section>
-<section id="moreR" class="level2" data-number="2.7">
+<section id="moreR" class="level2 page-columns page-full" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="moreR"><span class="header-section-number">2.7</span> Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values</h2>
 <p>But now enough of dices and coins. Let us try out and apply some of the new ideas we just have learned and use the opportunity to learn some more important R concepts in the context of an example with stock price data.</p>
-<section id="readingdata" class="level3" data-number="2.7.1">
+<section id="readingdata" class="level3 page-columns page-full" data-number="2.7.1">
 <h3 data-number="2.7.1" class="anchored" data-anchor-id="readingdata"><span class="header-section-number">2.7.1</span> Reading data in R</h3>
-<p>Before we can do anything with data, we need to learn how to load data into R and how to save them. We will discuss now how to do this with comma separated text files. R provides packages for reading and writing from almost any other format, like Excel, STATA, SAS or MATLAB. In all those cases the same principles apply as in the csv case.</p>
-<p>I have prepared a data-file recording daily information on the stock price of Apple in csv, which I have downloaded from the internet. This file is called <code>aapl_prices.csv</code>. Let me at this stage skip the details of how I did that exactly. We will discuss getting financial data from the internet later.</p>
-<p>To read a plain text or csv file, R provides the function <code>read.csv()</code>. If the csv file comes with a European instead of an US decimal format (<code>,</code> instead of <code>.</code> for the decimal sign.) you need <code>read.csv2()</code>.</p>
-<p>In the simplest form you read the data and write them to an object you can work with in R. For this you need to type something like this:</p>
+<p>In financial analysis, the first step is often acquiring and loading data. This could be historical stock prices, economic indicators, or portfolio metrics. In this section, we’ll learn how to load a prepared dataset of Apple stock prices into R for analysis.</p>
+<p>Why learn to load data? Loading data is the foundation for everything else we’ll do in this course. Whether you’re calculating probabilities or visualizing stock trends, understanding how to access and manipulate data is essential.</p>
+<section id="reading-csv-files" class="level4 page-columns page-full" data-number="2.7.1.1">
+<h4 data-number="2.7.1.1" class="anchored" data-anchor-id="reading-csv-files"><span class="header-section-number">2.7.1.1</span> Reading csv files</h4>
+<p>For this example, I’ve prepared a dataset recording daily stock price information for Apple in a CSV file (<code>aapl_prices.csv</code>). This file contains the opening, high, low, and closing prices, trading volume, and adjusted closing prices for each day starting in January 1990.</p>
+<p>To load this file into R, we use the <code>read.csv()</code> function:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>aapl_prices <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/aapl_prices.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The function needs as an argument the file name. If the file is in a sub-folder of the current directory you need to also specify the path. To specify the correct path to the file you need to know in which part of your directory tree you are currently working.</p>
-<p>In my case I am working in the project folder for my lecture notes, which has a sub-folder called <code>data</code> and thus I specify the path relative to this location. To find out what is your current R working directory, R provides the function <code>getwd()</code>. If I type this in my case, I will get</p>
+<p>Here, <code>"data/aapl_prices.csv"</code> specifies the path to the file relative to the working directory.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;If you work with European-style decimals <code>,</code> instead of <code>.</code>, you might need <code>read.csv2()</code>. For now, we’ll stick to the default U.S. format.</p></div><div id="fn3"><p><sup>3</sup>&nbsp;A great way to explore these options is to consult the R Data Import/Export Manual or experiment with sample datasets from various sources like Kaggle or the tidyverse’s guide.</p></div></div><p>R is highly versatile when it comes to handling data formats. Beyond CSV files, R can read and write Excel files, JSON, XML, databases, and more. While many formats can be accessed using built-in functions with a syntax similar to <code>read.csv()</code>, others may require loading additional packages. For instance, the <code>readxl</code> package is excellent for Excel files, and the <code>jsonlite</code> package is ideal for JSON data.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>To check your current working directory, use the <code>getwd()</code> function:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "/home/martinsummer/Code/R/Probability_Introduction"</code></pre>
 </div>
 </div>
-<p>the path of my project folder for this lecture notes. So if I type the string <code>"data/aapl_prices.csv"</code> this specifies the path relative to my working directory.</p>
-<p>If you read the file on your computer, you need to specify the path appropriately from where you are working in R at the moment to where you have stored the csv file.</p>
-<p>Now <code>read.csv()</code> has many additional arguments, which provide you with lots of flexibility. I encourage you to check it out and play with it using the help function and the examples given therein.</p>
-<p>We have now read the apple stock price data and written it to the R-object <code>aapl_prices</code>. Lets inspect the object a bit to see what we’ve got. I use the function <code>head()</code> with the parameter value <code>n = 10</code>. This will show me the first 10 rows of the datafile.</p>
+<p>If the file is not in the expected location, ensure the path is correct or adjust it as needed.</p>
+</section>
+<section id="inspecting-the-data" class="level4" data-number="2.7.1.2">
+<h4 data-number="2.7.1.2" class="anchored" data-anchor-id="inspecting-the-data"><span class="header-section-number">2.7.1.2</span> Inspecting the data</h4>
+<p>Once the data is loaded, it’s important to inspect it. This helps you understand its structure and content. For example, we can use the <code>head()</code> function to view the first 10 rows:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   symbol       date     open     high      low    close    volume adjusted
-1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
-2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
-3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
-4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
-5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
-6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
-7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
-8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
-9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
-10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
+<pre><code>   symbol       date     open     high      low    close    volume  adjusted
+1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
+2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
+3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
+4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
+5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.2647689
+7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.2533336
+8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.2427781
+9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.2427781
+10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.2410190</code></pre>
 </div>
 </div>
-<p>Without going into the details, we see that we get a data table, which records for every day beginning in January 1990 the opening, the highest and the lowest price, the closing price, the volume (number of shares) and the closing price adjusted for dividend and stock splits. Let’s not worry for the moment what the exact technical meaning of these financial terms is. Now we are ready to work with these data.</p>
+<p>This reveals a table with columns such as the opening price, highest and lowest prices, and adjusted closing price for each day. While we won’t dive into the exact meaning of these financial terms just yet, this dataset will serve as the foundation for our analysis.</p>
 </section>
-<section id="robjects" class="level3" data-number="2.7.2">
-<h3 data-number="2.7.2" class="anchored" data-anchor-id="robjects"><span class="header-section-number">2.7.2</span> R objects</h3>
-<p>The most basic type of R objects are <strong>atomic vectors</strong>. Most structures in R are built from atomic vectors. The stock data-file we have just loaded is an example of such a more complex structure built from atomic vectors. We have already encountered a few of those in our previous lecture.</p>
+<section id="common-pitfalls-and-tips" class="level4" data-number="2.7.1.3">
+<h4 data-number="2.7.1.3" class="anchored" data-anchor-id="common-pitfalls-and-tips"><span class="header-section-number">2.7.1.3</span> Common pitfalls and tips</h4>
+<ul>
+<li><p>If you see an error like cannot open the connection, it likely means R can’t find the file. Use <code>getwd()</code> to confirm your working directory and ensure the file is in the specified location.</p></li>
+<li><p>Explore the dataset further! Try <code>summary(aapl_prices)</code> to get an overview of each variable or <code>tail(aapl_prices, n = 10)</code> to see the most recent rows.</p></li>
+</ul>
+<p>Now that we’ve successfully loaded and inspected the dataset, we’re ready to dive into analyzing it.</p>
+</section>
+</section>
+<section id="robjects" class="level3 page-columns page-full" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="robjects"><span class="header-section-number">2.7.2</span> R Objects and Stock Price Movements</h3>
+<p>In R, most data structures are built from <strong>atomic vectors</strong>, which are the simplest type of R objects. Atomic vectors store one-dimensional data, where all elements must be of the same type. Our stock price dataset contains examples of more complex structures made up of atomic vectors. Let’s explore atomic vectors using simplified stock price data to better understand how they work.</p>
 <section id="atomic" class="level4" data-number="2.7.2.1">
-<h4 data-number="2.7.2.1" class="anchored" data-anchor-id="atomic"><span class="header-section-number">2.7.2.1</span> Atomic vectors</h4>
-<p>An atomic vector is just a simple vector of data. For example our die constructed in the first lecture is an instance of this.</p>
+<h4 data-number="2.7.2.1" class="anchored" data-anchor-id="atomic"><span class="header-section-number">2.7.2.1</span> Atomic Vectors in Stock Price Analysis</h4>
+<p>To introduce atomic vectors, consider a basic example of daily stock price movements. Suppose the price of a stock can change in one of three ways:</p>
+<ul>
+<li>Decrease by 1 (<code>-1</code>)</li>
+<li>Stay the same (<code>0</code>)</li>
+<li>Increase by 1 (<code>+1</code>)</li>
+</ul>
+<p>We can represent these possible changes in price using an atomic vector:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>die <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>price_changes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>R has a function, which allows you to check whether an object is an atomic vector or not. This function is called <code>is.vector()</code>. It takes the object name as an argument and returns <code>TRUE</code> if the object is an atomic vector and <code>FALSE</code> if it is not. For example:</p>
+<p>Atomic vectors are one-dimensional and store data of a single type. In this case, <code>price_changes</code> is a numeric vector representing the possible daily price changes.</p>
+<p>You can verify whether an object is an atomic vector using the <code>is.vector()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.vector</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.vector</span>(price_changes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-<p>does indeed return <code>TRUE</code>.</p>
-<p>Each atomic vector stores values in a one-dimensional vector, and each atomic vector can only store one type of data. The length of the atomic vector can be determined by the function <code>length()</code> This function takes an R object, which is an atomic vector, as an argument and returns the number of elements in this vector. Here is the example of the die</p>
+<p>This will return <code>TRUE</code> since <code>price_changes</code> is indeed an atomic vector.</p>
+</section>
+<section id="properties-of-atomic-vectors" class="level4" data-number="2.7.2.2">
+<h4 data-number="2.7.2.2" class="anchored" data-anchor-id="properties-of-atomic-vectors"><span class="header-section-number">2.7.2.2</span> Properties of Atomic Vectors</h4>
+<p>Each atomic vector has several properties. For example:</p>
+<ul>
+<li><strong>Length</strong>: The number of elements in the vector can be checked using <code>length()</code>:</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(price_changes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6</code></pre>
+<pre><code>[1] 3</code></pre>
 </div>
 </div>
-<p>which is 6 as it should be. An atomic vector could also have only one element, in which case <code>lenght()</code>would return 1.</p>
-<p>Now altogether R has implemented six basic types of atomic vectors:</p>
-<ol type="1">
-<li><p>double</p></li>
-<li><p>integers</p></li>
-<li><p>characters</p></li>
-<li><p>logical</p></li>
-<li><p>complex</p></li>
-<li><p>raw</p></li>
-</ol>
-<p>We will not encounter complex and raw data-types in this course, so let us skip those and discuss only the first 4 types.</p>
-<p>If yo u go back to our stock data and look at the first three lines</p>
+<p>This will return <code>3</code>, as there are three possible price changes.</p>
+<ul>
+<li><strong>Data Type</strong>: Every atomic vector must have a single data type. You can determine the type using the <code>typeof()</code> function:</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  symbol       date     open     high      low    close    volume adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106</code></pre>
-</div>
-</div>
-<p>The variables open, high, close, volume and adjusted are all stored as the first R data type: <strong>Doubles</strong>. A double vector stores regular numbers. It seems natural to store such quantities as opening and closing prices as doubles. Doubles can be positive or negative, they can have digits right of the decimal place. If not explicitly told otherwise, R saves any number you give it as a double. Note that some functions refer to doubles with the more intuitive term numeric. It has an equivalent meaning in R.</p>
-<p>For example the number of traded shares in our apple stock price file is saved as a double. But arguably the number of shares could also have been saved as an <strong>Integer</strong>. This is the second data type in R for number which can be written without decimals. If you explicitly specify number as integers, you need to append the letter <code>L</code> to the number. Say, for example, we would want to specifie the points shown on our die explicitly as integers, then we would type</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>die_int <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>L,<span class="dv">2</span>L,<span class="dv">3</span>L,<span class="dv">4</span>L,<span class="dv">5</span>L,<span class="dv">6</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now R will save the die with integer values. Before, since we did not explicitly specify it, the values were stored probably as doubles. You can check the type always with the function <code>typeof()</code>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "integer"</code></pre>
-</div>
-</div>
-<p>Now why should we care for distinguishing integers from doubles? This has to do with the way a computer does computations. Sometimes a difference in precision can have surprising effects. In your computer 64bits of memory are allocated for each double in an R program. While this allows for a very precise representation of numbers not all numbers can be exactly represented with 64-bits. The famous candidates are <span class="math inline">\(\pi\)</span>, which has an infinite sequence of digits and must therefore be rounded by the computer. Usually the rounding error introduced into your computations will go unnoticed but sometimes surprises can occur. Take for instance:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.440892e-16</code></pre>
-</div>
-</div>
-<p>Why is that? The square root of 2 can not be expresses precisely because, as already the old Greeks knew, it is not a rational number. And voila, you have a small rounding error. Such errors are called <em>floating point errors</em> in computer science lingo and computing with such numbers is called <em>floating-point-arithmetic</em>.</p>
-<p>With integers floating point errors are avoided, but for many applications this is not an option. Luckily for most cases floating-point arithmetic provides sufficient precision for most of the applications we encounter in practice.</p>
-<p>When you look at the first column of our stock price data you see the ticker symbol of the apple stock <code>AAPL</code>. This is the symbol of the third data type: <strong>Character</strong>. A character vector stores strings of text, which have to be put between quotation marks <code>""</code>. Strings are the individual elements of a character vector. We have encountered character vectors already in this lecture, where we represented the fair coin with the vector <code>c("H", "T")</code> with the string <code>"H"</code> for head and the string <code>"T"</code> for tail.</p>
-<p>Note that a string can be more than just letters. If you type, for instance the number <code>1</code> with quotation marks, like <code>"1"</code> R would interpret the value as a string not as a number. Sometimes one can get confused in R because both objects and characters appear as text in R code. Object names are without quotation marks strings always are between quotation marks.</p>
-<p>The next data type in the list are: <strong>Logicals</strong>. Logical vectors store <code>TRUEs</code> and <code>FALSES</code>. They are extremely useful for doing comparisons and - as we will see shortly - also for subsetting.</p>
-<p>For example, if you type:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">&gt;</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-</div>
-<p>R tells you that this statement is False.</p>
-<p>Whenever you type <code>TRUE</code> of <code>FALSE</code> without quotation marks, R will treat the input as logical data. For instance, the following statement yields:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>logic <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>logic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  TRUE FALSE  TRUE</code></pre>
-</div>
-</div>
-<p>You can check the type:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(logic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "logical"</code></pre>
-</div>
-</div>
-<p>One important R-fact which you need to know about atomic vectors is that atomic vectors can have <strong>attributes</strong>. Attributes won’t affect the values of an object but can hold and store object metadata. Normally we do not look at these metadata, but many R functions check for attributes and then do special things with the object depending on these attributes.</p>
-<p>Attributes can be checked with the function <code>attributes()</code> using an R object as an argument.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>NULL</code></pre>
-</div>
-</div>
-<p>Since <code>die</code>has no attributes R returns <code>NULL</code>. This value is often returned by functions whose values are undefined.</p>
-<p>The most common attributes for atomic vectors are <strong>names</strong>, <strong>dimensions</strong> and <strong>classes</strong>. Each of these attributes has its own helper function that you can use to give attributes to the object.</p>
-<p>When you look up the value for the die you will get</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>NULL</code></pre>
-</div>
-</div>
-<p>We see that our die object has no names, but we could assign some. For example:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span>, <span class="st">"four"</span>, <span class="st">"five"</span>, <span class="st">"six"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now the die has a name attribute:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$names
-[1] "one"   "two"   "three" "four"  "five"  "six"  </code></pre>
-</div>
-</div>
-<p>Note that the values are not affected nor will the names be affected when the values are manipulated. For instance, if you type</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>die <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  one   two three  four  five   six 
-    2     3     4     5     6     7 </code></pre>
-</div>
-</div>
-<p>the names stay what they were and all values are increased by 1. To remove the names you can type:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(die) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>One very important attribute, we will encounter all the time is <strong>dimension</strong>, with the helper function <code>dim()</code>. For example we can look at our data object of stock prices to get:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 8044    8</code></pre>
-</div>
-</div>
-<p>which returns two numbers, which mean that the object has 8044 rows and 8 columns.</p>
-<p>But with dim we can also transform our die into a matrix, with say two rows and three columns:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>die</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     [,1] [,2] [,3]
-[1,]    1    3    5
-[2,]    2    4    6</code></pre>
-</div>
-</div>
-<p>R will always use the first value in dim for the rows and the second for the columns. dim can be generalized to higher dimensional array structures.</p>
-<p>If you want to have more control on how R fills up the values, you can use a richer helper function, which gives you more control. For two dimensional data arrays this is provide by the function <code>matrix()</code>. Say you type</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(die, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     [,1] [,2] [,3]
-[1,]    1    3    5
-[2,]    2    4    6</code></pre>
-</div>
-</div>
-<p>the matrix will be filled up by column. You can change that behavior by setting the <code>byrow</code> argument to <code>TRUE</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(die, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     [,1] [,2] [,3]
-[1,]    1    2    3
-[2,]    4    5    6</code></pre>
-</div>
-</div>
-<p>Notice that changing the dimensions of an object, will not change its type. But it will change the object’s <strong>class</strong> attribute:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(die) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "integer"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(die)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "matrix" "array" </code></pre>
-</div>
-</div>
-<p>A class in R is a special case of an atomic vector.</p>
-<p>With the attribute system R allows you to represent more data types. R uses, for example a special class to represent dates and times. The data variable in our stock data is - for example - represents as a type of this kind.</p>
-<p>To illustrate this we take the R-function <code>Sys.time()</code>. This function returns the current time on your computer. It looks like a character string when you display it but it is actually a double with class <code>POSIXct</code>, <code>POSIXt</code> (it has two classes):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>now</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "2024-12-28 23:16:57 CET"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(price_changes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "double"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this case, the type is <code>double</code> because the vector contains numeric data.</p>
+</section>
+<section id="using-vectors-in-simulations" class="level4" data-number="2.7.2.3">
+<h4 data-number="2.7.2.3" class="anchored" data-anchor-id="using-vectors-in-simulations"><span class="header-section-number">2.7.2.3</span> Using Vectors in Simulations</h4>
+<p>Vectors are powerful tools for simulations. For example, we can simulate a week of stock price movements using the <code>sample()</code> function, which randomly selects elements from the vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>week_movements <span class="ot">&lt;-</span> <span class="fu">sample</span>(price_changes, <span class="at">size =</span> <span class="dv">7</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>week_movements</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1  0 -1  1  0 -1  1</code></pre>
+</div>
+</div>
+<p>Here, <code>size = 7</code> simulates 7 days of movements, and <code>replace = TRUE</code> allows values to be selected more than once.</p>
+</section>
+<section id="connection-to-probability" class="level4" data-number="2.7.2.4">
+<h4 data-number="2.7.2.4" class="anchored" data-anchor-id="connection-to-probability"><span class="header-section-number">2.7.2.4</span> Connection to Probability</h4>
+<p>This simulation ties into the concept of probability. Each price change (<code>-1</code>, <code>0</code>, <code>1</code>) can be treated as a basic outcome in a sample space defined by <span class="math inline">\({\cal S} = \{-1,0,1\}\)</span>. By specifying probabilities, we can simulate scenarios where some outcomes are more likely than others. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>week_movements_weighted <span class="ot">&lt;-</span> <span class="fu">sample</span>(price_changes, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size =</span> <span class="dv">7</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">replace =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>))</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>week_movements_weighted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1  1 -1 -1 -1 -1  0</code></pre>
+</div>
+</div>
+<p>Here, the probabilities <code>0.3</code>, <code>0.4</code>, and <code>0.3</code> represent the likelihood of a decrease, no change, or an increase in price, respectively.</p>
+</section>
+<section id="more-about-atomic-vectors" class="level4 page-columns page-full" data-number="2.7.2.5">
+<h4 data-number="2.7.2.5" class="anchored" data-anchor-id="more-about-atomic-vectors"><span class="header-section-number">2.7.2.5</span> More About Atomic Vectors</h4>
+<p>R supports six basic types of atomic vectors:</p>
+<ol type="1">
+<li><strong>Double</strong>: Numeric data with decimal precision (e.g., stock prices).</li>
+<li><strong>Integer</strong>: Whole numbers (e.g., the number of shares traded).</li>
+<li><strong>Character</strong>: Text strings (e.g., stock symbols like <code>"AAPL"</code>).</li>
+<li><strong>Logical</strong>: Boolean values (<code>TRUE</code> or <code>FALSE</code>, often used in comparisons).</li>
+<li><strong>Complex</strong>: Numbers with imaginary components (not used in this course).</li>
+<li><strong>Raw</strong>: Binary data (not used in this course).</li>
+</ol>
+<p>We will primarily work with <strong>doubles</strong>, <strong>integers</strong>, <strong>characters</strong>, and <strong>logicals</strong>.We will primarily work with <strong>doubles</strong>, <strong>integers</strong>, <strong>characters</strong>, and <strong>logicals</strong>.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;Why should we care for distinguishing integers from doubles? This has to do with how a computer performs computations. Sometimes, differences in precision can lead to surprising effects. In your computer, 64 bits of memory are allocated for each double in an R program. While this allows for precise representation of numbers, not all numbers can be exactly represented with 64 bits. For example, <span class="math inline">\(\pi\)</span> has an infinite sequence of digits and must therefore be rounded by the computer. Usually, rounding errors introduced into computations go unnoticed, but sometimes they become apparent. For instance, the expression <span class="math inline">\(\sqrt{2^2} - 2\)</span> results in a small floating-point error because the square root of 2 cannot be expressed precisely. These are called <em>floating-point errors</em>. While integers avoid floating-point errors, they are often impractical for many applications. Luckily, floating-point arithmetic is sufficiently precise for most use cases.</p></div></div><p>For example, the stock price dataset contains variables of different types: - Prices (e.g., opening and closing prices) are stored as <strong>doubles</strong>. - Ticker symbols are stored as <strong>characters</strong>. - Logical vectors can be created by applying conditions to the data. For instance, finding days when the closing price was higher than the opening price:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>up_day <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>close <span class="sc">&gt;</span> aapl_prices<span class="sc">$</span>open</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices<span class="sc">$</span>up_day, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE</code></pre>
+</div>
+</div>
+</section>
+<section id="attributes-of-atomic-vectors" class="level4" data-number="2.7.2.6">
+<h4 data-number="2.7.2.6" class="anchored" data-anchor-id="attributes-of-atomic-vectors"><span class="header-section-number">2.7.2.6</span> Attributes of Atomic Vectors</h4>
+<p>Atomic vectors can have attributes, such as:</p>
+<ul>
+<li><strong>Names</strong>: Metadata to describe each element.</li>
+<li><strong>Dimensions</strong>: Turning a vector into a matrix or array.</li>
+</ul>
+<p>For example, we can assign names to the elements of <code>price_changes</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(price_changes) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Decrease"</span>, <span class="st">"No Change"</span>, <span class="st">"Increase"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>price_changes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Decrease No Change  Increase 
+       -1         0         1 </code></pre>
+</div>
+</div>
+<p>The names don’t affect the values but provide context for analysis. Here you see that the names are entered into R as a character vector stores, strings of text, which have to be put between quotation marks <code>""</code>. Strings are the individual elements of a character vector. We could use character vectors for instance in building our virtual coin earlier in the lecture in a more human readable form by using <code>coin &lt;- c("H", "T")</code> isntead of <code>coin &lt;- c(1,0)</code>.</p>
+<p>Note that a string can be more than just letters. If you type, for instance the number <code>1</code> with quotation marks, like <code>"1"</code> R would interpret the value as a string not as a number. Sometimes one can get confused in R because both objects and characters appear as text in R code. Object names are without quotation marks strings always are between quotation marks.</p>
+<p>We can also reshape the vector into a matrix, which introduces dimensions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(price_changes) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>price_changes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]
+[1,]   -1
+[2,]    0
+[3,]    1</code></pre>
+</div>
+</div>
+<p>This transforms the vector into a matrix with 3 rows and 1 column.^[With the attribute system R allows you to represent more data types. R uses, for example a special class to represent dates and times. The data variable in our stock data is - for example - represents as a type of this kind.</p>
+<p>To illustrate this we take the R-function <code>Sys.time()</code>. This function returns the current time on your computer. It looks like a character string when you display it but it is actually a double with class <code>POSIXct</code>, <code>POSIXt</code> (it has two classes):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>now</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2024-12-30 16:28:40 CET"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "POSIXct" "POSIXt" </code></pre>
 </div>
 </div>
-<p><code>POSIXct</code> is a widely used framework for representing dates and times. But we will skip the details here.</p>
-<p>R stores categorical data, such as nationality, sex etc. by using <strong>factors</strong>. If you take for instance, sex, it can have only two values - male or female - and these values may have their idiosyncratic order, for example that females go always first. To make a factor in R you have to pass an atomic vector to the <code>factor()</code> function. This function works by recoding the values in the vector as integers and store the results in an integer vector. R also adds a <code>level</code> attribute which contains the set of labels and their order and a class attribute that says the vector is a factor. Example:</p>
+<p><code>POSIXct</code> is a widely used framework for representing dates and times. But we will skip the details here.]</p>
+</section>
+</section>
+<section id="robjects-extended" class="level3" data-number="2.7.3">
+<h3 data-number="2.7.3" class="anchored" data-anchor-id="robjects-extended"><span class="header-section-number">2.7.3</span> Extending R Objects: Factors, Data Frames, and Lists</h3>
+<p>In the previous section, we explored <strong>atomic vectors</strong>, the foundation of many R objects. However, real-world data often requires more sophisticated structures. Let’s extend our understanding by examining <strong>factors</strong>, <strong>data frames</strong>, and <strong>lists</strong>, using examples from stock price analysis.</p>
+<section id="factors" class="level4" data-number="2.7.3.1">
+<h4 data-number="2.7.3.1" class="anchored" data-anchor-id="factors"><span class="header-section-number">2.7.3.1</span> Factors in Stock Price Analysis</h4>
+<p>Factors are used to store categorical data, which can have a fixed set of possible values (called <em>levels</em>). In stock market data, factors are useful for categorizing data, such as trading days or stock types.</p>
+<p>For example, suppose we want to represent the days of the working week in our dataset:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"f"</span>, <span class="st">"m"</span>))</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>days <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Monday"</span>, <span class="st">"Tuesday"</span>, <span class="st">"Wednesday"</span>, <span class="st">"Thursday"</span>, <span class="st">"Friday"</span>))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "integer"</code></pre>
+<pre><code>[1] Monday    Tuesday   Wednesday Thursday  Friday   
+Levels: Friday Monday Thursday Tuesday Wednesday</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This factor has unique levels (<code>"Monday"</code>, <code>"Tuesday"</code>, etc.) that categorize the data. Factors can also be ordered, which is useful when the order matters:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>ordered_days <span class="ot">&lt;-</span> <span class="fu">factor</span>(days, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Monday"</span>, <span class="st">"Tuesday"</span>, </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"Wednesday"</span>, <span class="st">"Thursday"</span>, </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"Friday"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>ordered_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Monday    Tuesday   Wednesday Thursday  Friday   
+Levels: Monday &lt; Tuesday &lt; Wednesday &lt; Thursday &lt; Friday</code></pre>
+</div>
+</div>
+<p>Factors are internally stored as integers but behave like characters when displayed. You can inspect their attributes to see how they’re stored:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(ordered_days)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$levels
-[1] "f" "m"
+[1] "Monday"    "Tuesday"   "Wednesday" "Thursday"  "Friday"   
 
 $class
-[1] "factor"</code></pre>
+[1] "ordered" "factor" </code></pre>
 </div>
 </div>
-<p>Factors can be confusing since they look like characters but behave like integers.</p>
-<p>Note that R will often try to convert character strings to factors when you load and create data. I recommend that you do not allow R to make factors unless you explicitly ask for it. This can usually be controlled by an argument to whatever the data reader function is. For instance you can give the <code>read.csv()</code> function the argument <code>stringsAsFactors = FALSE</code>.</p>
-<p>R has an internal <strong>coercion</strong> behavior for data types, which you should know about if you work with R. With this knowledge you can do many useful things.</p>
-<p>If a character string is present in an atomic vector, R will automatically convert every other component in this vector to a character string. If a vector contains only logicals and numbers, R will convert the logicals to numbers. In this case every <code>TRUE</code> becomes a 1 and every <code>FALSE</code> becomes a 0.</p>
-<p>R also uses the coercion rules, when we do math with logicals, like for example</p>
+</section>
+<section id="dataframes" class="level4" data-number="2.7.3.2">
+<h4 data-number="2.7.3.2" class="anchored" data-anchor-id="dataframes"><span class="header-section-number">2.7.3.2</span> Data Frames: Organizing Stock Price Data</h4>
+<p>A <strong>data frame</strong> is a two-dimensional structure that organizes data into rows and columns, where each column can store a different type of data. The stock price dataset we loaded earlier is a perfect example of a data frame.</p>
+<p>Let’s revisit the <code>aapl_prices</code> dataset:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>  symbol       date     open     high      low    close    volume  adjusted
+1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
+2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
+3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
+4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
+5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+6   AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.2647689
+  up_day
+1   TRUE
+2  FALSE
+3  FALSE
+4  FALSE
+5   TRUE
+6  FALSE</code></pre>
 </div>
-</div>
-<p>What happens here is that R coerces the vector <code>c(TRUE, TRUE, FALSE, FALSE)</code> to the vector <code>c(1, 1, 0, 0)</code> and sums the components.</p>
-<p>Going back to our data set on the apple stock price, we see that this dataset stores values of different types, characters, dates and doubles. How does R achieve this?</p>
-<p>The answer is that this is achieved by a data structure called a <strong>list</strong>. List are like atomic vectors, because the group data into a one-dimensional set. However, lists do no group together individual values. List group together R objects, such as atomic vectors or even other lists.</p>
-<p>For example, you can create a list, which contains a numeric vector of length 31 in its first element, a character vector of length 1 in its second element and a new list of length 2 in its third. This is done by using the <code>list()</code>function of R, like this:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>list_example <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">100</span><span class="sc">:</span><span class="dv">130</span>, <span class="st">"R"</span>, <span class="fu">list</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>list_example</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
- [1] 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118
-[20] 119 120 121 122 123 124 125 126 127 128 129 130
-
-[[2]]
-[1] "R"
-
-[[3]]
-[[3]][[1]]
-[1] TRUE
-
-[[3]][[2]]
-[1] FALSE</code></pre>
-</div>
-</div>
-<p>The double bracketed indices tell you which element of the list is being displayed. The single bracketed indices tell you which sub-element of the list is being displayed. For example 100 is the first subelement of the first element in the list. “R” is the first subelement of the second list element.</p>
-<p><strong>Data Frames</strong> are the two dimensional version of a list. They are by far the most useful storage structure for data analysis. Indeed, our dataset on the Apple stock price we have loaded before is an instance of a data frame. Data frames group vectors together in a two dimensional table. As a consequence each variable can, i.e.&nbsp;each column of the data frame can contain a different data type. Within a column, however, we can have only one data type.</p>
-<p>if you look at the type of a data frame, you will see that it is indeed a list and the class is a data frame.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "list"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data.frame"</code></pre>
 </div>
 </div>
-<p>Now armed with our new knowledge of R and probability lets ask a question to our new data set.</p>
+<p>Each column in a data frame is an atomic vector, meaning it contains values of a single type:</p>
+<ul>
+<li><strong>Doubles</strong>: Prices (e.g., opening, closing).</li>
+<li><strong>Characters</strong>: Ticker symbols (<code>"AAPL"</code>).</li>
+<li><strong>Logicals</strong>: New variables created based on conditions.</li>
+</ul>
+<p>For example, we can create a logical column to indicate whether the stock closed higher than it opened:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>up_day <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>close <span class="sc">&gt;</span> aapl_prices<span class="sc">$</span>open</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices[<span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>, <span class="st">"up_day"</span>)], <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        date    close up_day
+1 1990-01-02 0.332589   TRUE
+2 1990-01-03 0.334821  FALSE
+3 1990-01-04 0.335938  FALSE
+4 1990-01-05 0.337054  FALSE
+5 1990-01-08 0.339286   TRUE</code></pre>
+</div>
+</div>
+<p>Data frames are extremely flexible. You can subset them, filter rows, or add new columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset rows where the stock closed higher than it opened</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>higher_close <span class="ot">&lt;-</span> aapl_prices[aapl_prices<span class="sc">$</span>up_day <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(higher_close)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   symbol       date     open     high      low    close    volume  adjusted
+1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
+5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.2427781
+11   AAPL 1990-01-16 0.299107 0.312500 0.292411 0.311384 214244800 0.2454167
+14   AAPL 1990-01-19 0.301339 0.308036 0.299107 0.305804 265137600 0.2410190
+17   AAPL 1990-01-24 0.290179 0.305804 0.287946 0.303571 169792000 0.2392588
+   up_day
+1    TRUE
+5    TRUE
+9    TRUE
+11   TRUE
+14   TRUE
+17   TRUE</code></pre>
+</div>
+</div>
 </section>
+<section id="lists" class="level4" data-number="2.7.3.3">
+<h4 data-number="2.7.3.3" class="anchored" data-anchor-id="lists"><span class="header-section-number">2.7.3.3</span> Lists: Combining Multiple Data Types</h4>
+<p>While data frames organize tabular data, <strong>lists</strong> allow us to group together objects of different types and structures. This makes lists a powerful tool for storing heterogeneous data.</p>
+<p>For example, let’s create a list to summarize key information about Apple’s stock prices:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>stock_summary <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ticker =</span> <span class="st">"AAPL"</span>,</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">price_summary =</span> <span class="fu">summary</span>(aapl_prices<span class="sc">$</span>close),</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">highest_price =</span> <span class="fu">max</span>(aapl_prices<span class="sc">$</span>high, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">range</span>(aapl_prices<span class="sc">$</span>date, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>stock_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$ticker
+[1] "AAPL"
+
+$price_summary
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+  0.1155   0.3834   3.3300  30.5265  28.8950 259.0200 
+
+$highest_price
+[1] 260.1
+
+$date_range
+[1] "1990-01-02" "2024-12-27"</code></pre>
+</div>
+</div>
+<p>You can access elements in a list using double brackets (<code>[[</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>stock_summary[[<span class="st">"highest_price"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 260.1</code></pre>
+</div>
+</div>
+<p>Lists can also contain nested lists or data frames, enabling complex data structures. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>nested_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">summary =</span> stock_summary,</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">recent_data =</span> <span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>nested_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$summary
+$summary$ticker
+[1] "AAPL"
+
+$summary$price_summary
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+  0.1155   0.3834   3.3300  30.5265  28.8950 259.0200 
+
+$summary$highest_price
+[1] 260.1
+
+$summary$date_range
+[1] "1990-01-02" "2024-12-27"
+
+
+$recent_data
+  symbol       date     open     high      low    close    volume  adjusted
+1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
+2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
+3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
+4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
+5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+  up_day
+1   TRUE
+2  FALSE
+3  FALSE
+4  FALSE
+5   TRUE</code></pre>
+</div>
+</div>
 </section>
-<section id="apple-up-down" class="level3" data-number="2.7.3">
-<h3 data-number="2.7.3" class="anchored" data-anchor-id="apple-up-down"><span class="header-section-number">2.7.3</span> Example: Will the stock price of Apple move up or down?</h3>
-<p>Let us look at the first lines of our data once again:</p>
+<section id="combined-practice" class="level4" data-number="2.7.3.4">
+<h4 data-number="2.7.3.4" class="anchored" data-anchor-id="combined-practice"><span class="header-section-number">2.7.3.4</span> Factors, Data Frames, and Lists in Practice</h4>
+<p>To see how these structures work together, consider this small example. We’ll summarize Apple’s stock price movements over a week and organize the results in a list:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate weekly price movements</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>week_movements <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">size =</span> <span class="dv">5</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>))</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>days <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"Monday"</span>, <span class="st">"Tuesday"</span>, <span class="st">"Wednesday"</span>, </span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Thursday"</span>, <span class="st">"Friday"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>weekly_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">day =</span> days,</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">price_change =</span> week_movements</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the data</span></span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>summary_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">week_data =</span> weekly_data,</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">positive_days =</span> <span class="fu">sum</span>(weekly_data<span class="sc">$</span>price_change <span class="sc">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">total_change =</span> <span class="fu">sum</span>(weekly_data<span class="sc">$</span>price_change)</span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>summary_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   symbol       date     open     high      low    close    volume adjusted
-1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
-2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
-3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
-4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
-5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
-6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
-7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
-8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
-9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
-10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
+<pre><code>$week_data
+        day price_change
+1    Monday            0
+2   Tuesday           -1
+3 Wednesday            1
+4  Thursday            0
+5    Friday            0
+
+$positive_days
+[1] 1
+
+$total_change
+[1] 0</code></pre>
 </div>
 </div>
-<p>Let us check what kind of object <code>aapl_prices</code> is.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "list"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "data.frame"</code></pre>
-</div>
-</div>
-<p>As expected the object is a list. The class shows that our object is a <code>data.frame</code>. Since the object is of class data-frame we can use the <code>dim</code> function to see the number of daily observations in our data set.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 8044    8</code></pre>
-</div>
-</div>
-<p>We see that our data store price information about 8044 trading days.</p>
-<p>We could now approach the question about the probability of the Apple stock price moving up tomorrow by taking a frequency-approach. This would require us first to count the number of up-movements in our data. How do we do that?</p>
-<p>Now we need to know know how we address and work with individual values in our data-set. Let’s say we measure the movement of the close price. R has a notation system to extract a value or subset of values from an object: You write the name of the object first, followed by a pair of hard brackets. Between the brackets goes a <code>,</code>separating row and column indices. The notation is thus like <code>aapl_prices[ , ]</code>.</p>
-<p>When it comes to writing the indices you have six different ways to do this, all of them very simple. You can use:</p>
+<p>This example combines:</p>
+<ul>
+<li>A <strong>factor</strong> (<code>days</code>) to represent the days of the week.</li>
+<li>A <strong>data frame</strong> (<code>weekly_data</code>) to organize daily price changes.</li>
+<li>A <strong>list</strong> (<code>summary_list</code>) to store the data frame and summary statistics.</li>
+</ul>
+</section>
+<section id="why-these-structures-matter" class="level4" data-number="2.7.3.5">
+<h4 data-number="2.7.3.5" class="anchored" data-anchor-id="why-these-structures-matter"><span class="header-section-number">2.7.3.5</span> Why These Structures Matter</h4>
+<p>Factors, data frames, and lists are essential for organizing and analyzing real-world data. In financial analysis, they allow us to:</p>
 <ol type="1">
-<li>Positive integers</li>
-<li>Negative integers</li>
-<li>Zero</li>
-<li>Blank spaces</li>
-<li>Logical values</li>
-<li>Names</li>
+<li>Categorize data efficiently (factors).</li>
+<li>Analyze structured datasets (data frames).</li>
+<li>Integrate heterogeneous data (lists).</li>
 </ol>
-<p>The simplest are <strong>positive integers</strong>. For example if you choose</p>
+<p>Armed with these tools, you’re ready to perform deeper analyses and connect R concepts to practical financial problems. Next, we’ll use this knowledge to explore probabilistic questions with our stock price data.</p>
+</section>
+</section>
+<section id="apple-up-down" class="level3 page-columns page-full" data-number="2.7.4">
+<h3 data-number="2.7.4" class="anchored" data-anchor-id="apple-up-down"><span class="header-section-number">2.7.4</span> Example: Will the Stock Price of Apple Move Up or Down?</h3>
+<p>Let us revisit the first lines of our dataset:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>,<span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   symbol       date     open     high      low    close    volume  adjusted
+1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
+2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
+3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
+4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
+5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.2647689
+7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.2533336
+8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.2427781
+9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.2427781
+10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.2410190
+   up_day
+1    TRUE
+2   FALSE
+3   FALSE
+4   FALSE
+5    TRUE
+6   FALSE
+7   FALSE
+8   FALSE
+9    TRUE
+10  FALSE</code></pre>
+</div>
+</div>
+<section id="understanding-the-structure-of-the-data" class="level4" data-number="2.7.4.1">
+<h4 data-number="2.7.4.1" class="anchored" data-anchor-id="understanding-the-structure-of-the-data"><span class="header-section-number">2.7.4.1</span> Understanding the Structure of the Data</h4>
+<p>To begin, let’s confirm the type and structure of <code>aapl_prices</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "list"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+</div>
+<p>As expected, the object is a list with the class <code>data.frame</code>. This means the dataset organizes data in rows and columns. We can use the <code>dim()</code> function to see how many trading days are recorded:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8815    9</code></pre>
+</div>
+</div>
+<p>The dataset contains price information for 8815 trading days.</p>
+<hr>
+</section>
+<section id="subsetting-data-accessing-specific-elements" class="level4" data-number="2.7.4.2">
+<h4 data-number="2.7.4.2" class="anchored" data-anchor-id="subsetting-data-accessing-specific-elements"><span class="header-section-number">2.7.4.2</span> Subsetting Data: Accessing Specific Elements</h4>
+<p>To analyze the dataset, we need to extract specific values or subsets of data. R provides a powerful and flexible notation system for subsetting:</p>
+<p><code>aapl_prices[row_indices, column_indices]</code></p>
+<p>Here are the six main subsetting methods in R:</p>
+<ol type="1">
+<li><strong>Positive Integers</strong>:
+<ul>
+<li>Example: Select the closing price on the first trading day:</li>
+</ul></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">"close"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.332589</code></pre>
 </div>
 </div>
-<p>you see that the first value in the sixth column is selected. You thus get the first closing price of the Apple stock recorded in our dataset. You can extract more than one value, for instance by typing:</p>
+<ul>
+<li>Select the first 5 closing prices:</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">"close"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 0.332589 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036
- [9] 0.308036 0.305804</code></pre>
+<pre><code>[1] 0.332589 0.334821 0.335938 0.337054 0.339286</code></pre>
 </div>
 </div>
-<p>which gives you the first 10 closing prices.</p>
-<p>Note that R’s notation system is not limited to data frames. The same syntax can be used to select values from any R object, provided you supply an index for each dimension of the object. Two things have to be kept in mind. In R indexing begins at 1. In some other programming languages indexing begins at 0. The indexing convention in R is just like in linear algebra. The second thing to note is that if you select two or more columns from a data frame, R will return a new data frame, like in</p>
+<ol start="2" type="1">
+<li><p><strong>Negative Integers</strong>:</p>
+<ul>
+<li>Exclude the first observation (show first 3 entries after this operation):</li>
+</ul></li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>     <span class="fu">head</span>(aapl_prices[<span class="sc">-</span><span class="dv">1</span>, <span class="st">"close"</span>], <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   symbol       date     open     high      low    close    volume adjusted
-1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
-2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
-3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
-4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
-5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
-6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
-7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
-8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
-9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
-10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967</code></pre>
+<pre><code>[1] 0.334821 0.335938 0.337054</code></pre>
 </div>
 </div>
-<p>However, if you select a single column, R will return a vector:</p>
+<ol start="3" type="1">
+<li><strong>Zero</strong>:
+<ul>
+<li>Creates an empty object:</li>
+</ul></li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] 0.332589 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036
- [9] 0.308036 0.305804</code></pre>
-</div>
-</div>
-<p>If you prefer to get returned a data frame in this case, you have to add the argument <code>drop = FALSE</code>, like:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">6</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      close
-1  0.332589
-2  0.334821
-3  0.335938
-4  0.337054
-5  0.339286
-6  0.335938
-7  0.321429
-8  0.308036
-9  0.308036
-10 0.305804</code></pre>
-</div>
-</div>
-<p><strong>Negative integers</strong> work exactly opposite to positive integers. If you type:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices[<span class="sc">-</span><span class="dv">1</span>,<span class="dv">6</span>], <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] 0.334821 0.335938 0.337054 0.339286 0.335938 0.321429 0.308036 0.308036
- [9] 0.305804 0.311384</code></pre>
-</div>
-</div>
-<p>R will return the sixth column of the data frame <em>except</em> the first row. We just display the first 10 values.</p>
-<p>If you try to pair a negative and a positive integer in an index, R will return an error. However, you can use both negative and positive integers if you use them in <em>different</em> indices.</p>
-<p><strong>Zero</strong> is neither positive nor negative, If you use 0 as an index, R will return nothing from a dimension with index 0. The following syntax for instance creates an empty object</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">0</span>,<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>     aapl_prices[<span class="dv">0</span>, <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>data frame with 0 columns and 0 rows</code></pre>
 </div>
 </div>
-<p><strong>Blank spaces</strong> are used if you want to ask R to select <em>every</em> value in a dimension. So for instance, if you type:</p>
+<ol start="4" type="1">
+<li><p><strong>Blank Spaces</strong>:</p>
+<ul>
+<li>Select all values in a dimension:</li>
+</ul></li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>sel <span class="ot">&lt;-</span> aapl_prices[ , <span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>R will select the entire column of closing prices. You can check that the length of this vector is</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(sel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>     sel <span class="ot">&lt;-</span> aapl_prices[, <span class="st">"close"</span>]</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">length</span>(sel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8044</code></pre>
+<pre><code>[1] 8815</code></pre>
 </div>
 </div>
-<p>as expected.</p>
-<p><strong>Logical Values</strong> can also be used for subsetting. If you type for instance</p>
+<ol start="5" type="1">
+<li><p><strong>Logical Values</strong>:</p>
+<ul>
+<li>Example: Use a logical vector to select the first closing price:</li>
+</ul></li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="fu">c</span>(F,F,F,F,F,T,F,F)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>     aapl_prices[<span class="dv">1</span>, <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      high    close
+1 0.334821 0.332589</code></pre>
+</div>
+</div>
+<ol start="6" type="1">
+<li><strong>Names</strong>:
+<ul>
+<li>Select using column names:</li>
+</ul></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">"close"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.332589</code></pre>
 </div>
 </div>
-<p>R will select the first closing price. Note that here we used the R convention that <code>TRUE</code>and <code>T</code> as well as <code>FALSE</code>and <code>F</code> have an equivalent meaning.</p>
-<p>Finally, you can ask for the elements, you want by name. On our case, you could select the first closing price by</p>
+</section>
+<section id="calculating-daily-price-differences" class="level4" data-number="2.7.4.3">
+<h4 data-number="2.7.4.3" class="anchored" data-anchor-id="calculating-daily-price-differences"><span class="header-section-number">2.7.4.3</span> Calculating Daily Price Differences</h4>
+<p>Let us compute the day-to-day differences in closing prices. Using indexing, we can calculate these differences manually:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">"close"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">2</span><span class="sc">:</span><span class="dv">8044</span>, <span class="st">"close"</span>]</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>aux_2 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8043</span>, <span class="st">"close"</span>]</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>diff_close <span class="ot">&lt;-</span> aux_1 <span class="sc">-</span> aux_2</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(diff_close, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.332589</code></pre>
+<pre><code> [1]  0.002231985  0.001117021  0.001116008  0.002231985 -0.003347993
+ [6] -0.014508992 -0.013393015  0.000000000 -0.002231985  0.005579978</code></pre>
 </div>
 </div>
-<p>Finally, note that two types of object in R obey an optional second system of notation. You can extract values from data frames and lists with th <code>$</code>syntax. It works as follows: For example</p>
+<p>Alternatively, the built-in <code>diff()</code> function simplifies this task:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>close)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(aapl_prices<span class="sc">$</span>close))</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16.39576</code></pre>
+<pre><code>  symbol       date     open     high      low    close    volume  adjusted
+1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
+2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
+3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
+4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
+5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+  up_day        diff
+1   TRUE          NA
+2  FALSE 0.002231985
+3  FALSE 0.001117021
+4  FALSE 0.001116008
+5   TRUE 0.002231985</code></pre>
 </div>
 </div>
-<p>would select the column of closing prices and compute their mean.</p>
-<p>Now lets try to solve the counting problem for our data set. To see whether the price went up we need to subtract the closing price of the first data from the second, and see whether it is larger than zero. This we would have to do for every observation in the whole frame.</p>
-<p>Now let us bring our indexing rules into action. We create two new objects, one ranging from observation 2 of the close price until the end of the data frame, the other ranging from 1 to but the last element, then we subtract and write the result in a new object. Finally we inspect the first 10 elements of the result</p>
+<p>The first observation is <code>NA</code> because there is no prior day to calculate a difference.</p>
+</section>
+<section id="frequency-based-probability-of-upward-moves" class="level4 page-columns page-full" data-number="2.7.4.4">
+<h4 data-number="2.7.4.4" class="anchored" data-anchor-id="frequency-based-probability-of-upward-moves"><span class="header-section-number">2.7.4.4</span> Frequency-Based Probability of Upward Moves</h4>
+<p>To determine the probability of the stock moving up on any given day, we create a logical column that indicates whether the price difference is positive:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">2</span><span class="sc">:</span><span class="dv">8044</span>, <span class="st">"close"</span>]</span>
-<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>aux_2 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8043</span> , <span class="st">"close"</span>]</span>
-<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>diff_close <span class="ot">&lt;-</span> (aux_1 <span class="sc">-</span> aux_2)</span>
-<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>diff_close[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff_pos <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>diff <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.002232  0.001117  0.001116  0.002232 -0.003348 -0.014509 -0.013393
- [8]  0.000000 -0.002232  0.005580</code></pre>
+<pre><code>  symbol       date     open     high      low    close    volume  adjusted
+1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
+2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
+3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
+4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
+5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+  up_day        diff diff_pos
+1   TRUE          NA       NA
+2  FALSE 0.002231985     TRUE
+3  FALSE 0.001117021     TRUE
+4  FALSE 0.001116008     TRUE
+5   TRUE 0.002231985     TRUE</code></pre>
 </div>
 </div>
-<p>Now this works but it is not very elegant. Actually R has a built in function, called <code>diff()</code> which will do the job for us. We can even append the result to the frame we have using the <code>$</code> notation as follows: Let us call the new variable <code>diff</code>. But now we have to be careful. Since we take first differences we will looe one observation. This will create a mismatch in the dimenion of the dataframe. Since the data frame starts at some date (in our case 1990-01-02) we have no difference for the first observation. R’s notation for a missing observation is <code>NA</code>. So we neet to put an <code>NA</code>ahead of our diff column:</p>
+<p>Using the relative frequency approach, we calculate the probability of an upward move as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(aapl_prices<span class="sc">$</span>close, <span class="at">lag =</span> <span class="dv">1</span>))</span>
-<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n=</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  symbol       date     open     high      low    close    volume adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
-4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
-5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
-      diff
-1       NA
-2 0.002232
-3 0.001117
-4 0.001116
-5 0.002232</code></pre>
+<pre><code>[1] 0.5073746</code></pre>
 </div>
 </div>
-<p>Let’s check whether we get the same thing and compare with the values in <code>diff_close</code>. They do indeed match.</p>
-<p>Now we can use a really cool feature to count the up moves, which shows you the power of R in a very nice example. We can test conditions by logical operators. In our case we want to know whether the diff between two consecutive closing prices is positive. We add another column to the dataframe which will then contain <code>TRUE</code> or <code>FALSE</code>values, when the condition holds. To see what happens, let us do this and look at the first 5 rows of our new data frame:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff_pos <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>diff <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   symbol       date     open     high      low    close    volume adjusted
-1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.266423
-2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.268211
-3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.269106
-4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.270000
-5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.271788
-6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.269106
-7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.257483
-8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.246755
-9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.246755
-10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.244967
-        diff diff_pos
-1         NA       NA
-2   0.002232     TRUE
-3   0.001117     TRUE
-4   0.001116     TRUE
-5   0.002232     TRUE
-6  -0.003348    FALSE
-7  -0.014509    FALSE
-8  -0.013393    FALSE
-9   0.000000    FALSE
-10 -0.002232    FALSE</code></pre>
-</div>
-</div>
-<p>Now according to the frequency notion of probability we could attach the probability of an inter day up move of the Apple stock price by computing the share of up moves (diff positive) among all our change observations.</p>
-<p>Now we can use the R coercion rules. If we apply the mean function to our <code>diff_pos</code> column we get the share of up moves, since R will coerce the <code>TRUE</code> values to 1 and the <code>FALSE</code> values to 0. This is a new opportunity to practice our newly acquired subsetting rules:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5051598</code></pre>
-</div>
-</div>
-<p>We see that the result is that the stock price has moved up about half of the days and not up at the other days.</p>
-<p>Let me explain what is going on in the syntax of our R statement. We selected the column from our data frame that contained the differences. Then we apply the <code>mean()</code> function to this column. But since the column contains one value which is <code>NA</code> the mean would return <code>NA</code> if we not correct for this fact. This is what the argument <code>na.rm = T</code> does. It tells R to first remove <code>NA</code> form the observations and then compute the mean.</p>
-<p>Now from a frequency point of view <span class="math inline">\(P(U) = 0.51\)</span> and <span class="math inline">\(P(D) = 0.49\)</span> accordingly.</p>
-<p>Now <strong>assume in addition</strong> that the direction of a price move of the Apple stock on the current trading day is <strong>independent</strong> of the direction of the Apple stock price move on the previous trading day for all days. This means that the probability of <span class="math inline">\(U\)</span>-movements and of <span class="math inline">\(D\)</span>-movements is unaffected by the number of previous <span class="math inline">\(U\)</span> and <span class="math inline">\(D\)</span> movements. This is - of course - an assumption. You may think about whether this assumption is reasonable.</p>
-<p>Postponing this important discussion, consider now a week from Monday to Friday and ask: “What is the probability that the price of Apple will increase on each of the consecutive days?”</p>
-<p>There are five trading days, so we need to compute <span class="math inline">\(P(U \cap U \cap U \cap U \cap U \cap U)\)</span>. This is by our assumption of independence equal to <span class="math inline">\(P(U) \cdot P(U) \cdot P(U) \cdot P(U) \cdot P(U)\)</span>. By our probability estimate from relative frequency this amounts to <span class="math inline">\(0.51^5\)</span>, which amounts to <span class="math inline">\(0.035\)</span>.</p>
-<p>“What is the probability that the stock price will decrease either on Monday, Tuesday, Wednesday, Thursday or Friday and will increase on the other four days?”</p>
-<p>The probability that the <span class="math inline">\(D\)</span> movement happens, say on a Monday, is <span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span> or <span class="math inline">\(0.49*0.51^4\)</span> which is <span class="math inline">\(0.033\)</span>. We have in total five mutually exclusive scenarios: <span class="math inline">\(P(D \cap U \cap U \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap D \cap U \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap D \cap U \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap U \cap D \cap U)\)</span>, <span class="math inline">\(P(U \cap U \cap U \cap U \cap D)\)</span>. Thus we have <span class="math inline">\(0.033 + 0.033 + 0.033 + 0.033 + 0.033\)</span> as the final probability of this event, which is <span class="math inline">\(0.132\)</span>.</p>
+<p>or about 51 %.</p>
+<p>This one line of code does several important things that are worth unpacking.</p>
+<p>First, R has an internal behavior known as <strong>type coercion</strong>, where logical values (<code>TRUE</code> and <code>FALSE</code>) are automatically converted into numerical values when used in numerical operations. Specifically:</p>
+<ul>
+<li><code>TRUE</code> is coerced to <code>1</code></li>
+<li><code>FALSE</code> is coerced to <code>0</code></li>
+</ul>
+<p>By applying the <code>mean()</code> function to a logical vector, R computes the average of its numerical representation, effectively calculating the proportion of <code>TRUE</code> values. In this case, the mean gives the relative frequency of upward price movements in the dataset.</p>
+<p>Additionally, this approach relies on the fact that the <code>mean()</code> function automatically divides the sum of the values by their count. Since <code>TRUE</code> values are coerced to <code>1</code>, the sum of the vector corresponds to the total count of upward movements. <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;In fact, using <code>sum(aapl_prices$diff_pos, na.rm = TRUE)</code> would provide the total number of days where the stock price increased, as <code>sum()</code> adds up the <code>1</code>s in the binary vector.</p></div></div><p>This step also highlights the flexibility and power of R’s vectorized operations, where simple functions like <code>mean()</code> and <code>sum()</code> can directly compute meaningful results for logical or binary data without additional loops or transformations.</p>
+</section>
+<section id="applying-probability-concepts" class="level4" data-number="2.7.4.5">
+<h4 data-number="2.7.4.5" class="anchored" data-anchor-id="applying-probability-concepts"><span class="header-section-number">2.7.4.5</span> Applying Probability Concepts</h4>
+<p>Assume that price movements are <strong>independent</strong> of one another. This means that the direction of the stock price movement today does not influence tomorrow’s movement. With this assumption, we can calculate compound probabilities over multiple days.</p>
+<ol type="1">
+<li><p><strong>Probability of Consecutive Increases</strong>: What is the probability that the stock price increases every day over a week (5 trading days)?</p>
+<p><span class="math inline">\(P(U \cap U \cap U \cap U \cap U) = P(U)^5 = 0.51^5 = 0.035\)</span></p></li>
+<li><p><strong>Probability of One Decrease and Four Increases</strong>: Consider the probability of a decrease on any one day, and increases on the other four:</p>
+<p><span class="math inline">\(P(D \cap U \cap U \cap U \cap U) = 0.49 \cdot 0.51^4 = 0.033\)</span></p>
+<p>Since there are 5 such (mutually exclusive) scenarios (one for each trading day), the total probability is:</p>
+<p><span class="math inline">\(5 \cdot 0.033 = 0.132\)</span></p></li>
+</ol>
+</section>
+<section id="reflecting-on-assumptions" class="level4" data-number="2.7.4.6">
+<h4 data-number="2.7.4.6" class="anchored" data-anchor-id="reflecting-on-assumptions"><span class="header-section-number">2.7.4.6</span> Reflecting on Assumptions</h4>
 <p>Is this analysis any good? How could we possibly judge this? Interestingly the relative frequencies of up and down moves look similar to a random experiment of a few thousand tosses of a fair coin. But can we learn anything from this? Are the up and down moves independent? Independence - of course - does not follow from the result we just got.</p>
 <p>The idea that stock prices may fluctuate randomly was first discussed systematically by Louis Bachelier (1870 - 1946), a French mathematician who studied stock price movements mathematically. In 1965 the economist <span class="citation" data-cites="Samuelson1965">Samuelson (<a href="#ref-Samuelson1965" role="doc-biblioref">1965</a>)</span> published an article with the title “Proof that stock prices fluctuate randomly”. He argues in this paper that randomness comes about through the active participation of traders seeking to maximize their wealth. A huge army of investors would aggressively use the smallest informational advantage and in doing so, they incorporate the information into market prices, which quickly eliminates this profit opportunity. This lead to a cornerstone of modern Finance theory called the <em>random walk hypothesis</em> of stock price fluctuations.</p>
 <p>If this theory was true, it would give an argument, why we might look at the up and down movements in the stock price of apple as if it was the outcome of tossing a fair coin. In this case the probability of an up or a down movement should be 1/2 and with the number of trials approaching infinity the frequency of ups and downs should approach this probability.</p>
 <p>The literature on stock price fluctuations which came later, however, presented evidence that stock prices are predictable to a certain degree and do not fluctuate randomly. A good reference summarizing this evidence is <span class="citation" data-cites="LoMacKinlay1999">Lo and MacKinlay (<a href="#ref-LoMacKinlay1999" role="doc-biblioref">2019</a>)</span> In this case our approach would perhaps produce a misleading answer.</p>
 <p>We cannot give a clear cut answer here. The point of this brief discussion is that you just cannot apply a theoretical machinery mechanically without giving it further thought and without maintaining a healthy amount of skepticism. It is fascinating that there are situations where abstract theories, like the theory of probability, show a robust relation to real world phenomena. But the nature, the precise meaning and the robustness of this relation has to be investigated for each single case.</p>
+<p>As Louis Bachelier and Paul Samuelson noted, randomness in financial markets may emerge from the interplay of rational traders, yet this randomness is not absolute. A nuanced understanding of market dynamics is crucial for drawing meaningful conclusions.</p>
 </section>
-<section id="benford" class="level3" data-number="2.7.4">
-<h3 data-number="2.7.4" class="anchored" data-anchor-id="benford"><span class="header-section-number">2.7.4</span> Example: Benfords law: The empirical probabilities of leading digits</h3>
-<p>Let us discuss last example in this lecture which will fortify both our probability knowledge as well as our newly gained R skills. It will also prepare you for the project assigned in this lecture, which will familiarize you with yet another financial dataset.</p>
-<p>The example we are going to discuss here is again an instance of empirical probabilities for a rather surprising instance: Leading digits. What are leading digits? Well the concept is actually simple: Say we have the number 7829, then the leading digit in this number is 7, the first digit in 7829. If the number is 10892, it would be 1, if it is 4 it would be 4.</p>
-<p>Now we could ask the following question: let’s look at datasets we can find in real life, any datasets. How often in these datasets is the leading digit a 1, a 2, etc. or a 9? You might think that they all occur with about the same frequency. Indeed, what would be special about any particular digit? So in this case each number would occur with probability <span class="math inline">\(1/9\)</span> or with a frequency of about <span class="math inline">\(11 \%\)</span>.</p>
-<p>But here is an interesting fact: They occur with unequal frequency. They are actually quite unequal and follow a peculiar logarithmic pattern; you can give a formula for the empirical probabilities. This formula looks as follows:</p>
-<dl>
-<dt>Benfords Law</dt>
-<dd>
-In a dataset the frequency of <span class="math inline">\(d\)</span> being the first digit is <span class="math display">\[\begin{equation*}
-P(d) = \log_{10}\left(1+ \frac{1}{d}\right)
-\end{equation*}\]</span> where <span class="math inline">\(d \in \{1,\cdots, 9 \}\)</span>
-</dd>
-</dl>
-<p>Let us look at how this distribution looks like. Let us build a data frame where we see the digits in one column and the Benford-Probabilities in the second one:</p>
+</section>
+<section id="benford" class="level3" data-number="2.7.5">
+<h3 data-number="2.7.5" class="anchored" data-anchor-id="benford"><span class="header-section-number">2.7.5</span> Example: Benford’s Law and Trading Volumes</h3>
+<p>Let us conclude this lecture with an example that ties together our understanding of empirical probabilities and relative frequencies while also showcasing a surprising pattern in real-world data. This example will further strengthen your R skills and prepare you for the assigned project.</p>
+<section id="the-curious-case-of-leading-digits" class="level4" data-number="2.7.5.1">
+<h4 data-number="2.7.5.1" class="anchored" data-anchor-id="the-curious-case-of-leading-digits"><span class="header-section-number">2.7.5.1</span> The Curious Case of Leading Digits</h4>
+<p>First, let us define <strong>leading digits</strong>: the leading digit of a number is simply its first non-zero digit. For instance: - The leading digit of <code>7829</code> is <code>7</code>. - The leading digit of <code>0.00453</code> is <code>4</code>. - The leading digit of <code>10892</code> is <code>1</code>.</p>
+<p>You might expect that in a random dataset, all leading digits from <code>1</code> to <code>9</code> occur with roughly equal frequencies (approximately 11% each). However, real-world datasets often show a very different pattern: smaller digits like <code>1</code> appear more frequently than larger digits like <code>9</code>. This pattern follows a logarithmic distribution known as <strong>Benford’s Law</strong>, which states: <span class="math inline">\(P(d) = \log_{10}\left(1 + \frac{1}{d}\right)\)</span></p>
+<p>where <span class="math inline">\(d \in \{1, 2, \dots, 9\}\)</span>.</p>
+</section>
+<section id="benfords-law-in-trading-volumes" class="level4" data-number="2.7.5.2">
+<h4 data-number="2.7.5.2" class="anchored" data-anchor-id="benfords-law-in-trading-volumes"><span class="header-section-number">2.7.5.2</span> Benford’s Law in Trading Volumes</h4>
+<p>Let’s see if trading volumes follow Benford’s Law. First, we extract the trading volumes from the <code>aapl_prices</code> dataset:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Digit =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>benford<span class="sc">$</span>Prob_Benford <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>benford<span class="sc">$</span>Digit)</span>
-<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(benford)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>volumes <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>volume</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we filter out invalid values (e.g., zeros or missing values) and extract the leading digits:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>valid_volumes <span class="ot">&lt;-</span> volumes[volumes <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(volumes)]</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>leading_digits <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s break down this code:</p>
+<p>Here’s an explanation of the two code lines tailored for students:</p>
+<p><strong>1. Filter Valid Trading Volumes</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>valid_volumes <span class="ot">&lt;-</span> volumes[volumes <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(volumes)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This line ensures that only valid trading volumes are included in the analysis. Let’s break it down:</p>
+<ol type="1">
+<li><strong><code>volumes &gt; 0</code></strong>:
+<ul>
+<li>This condition filters out any non-positive values (e.g., <code>0</code> or negative numbers).</li>
+<li>These values are not meaningful for analyzing leading digits because they do not have valid non-zero digits.</li>
+</ul></li>
+<li><strong><code>!is.na(volumes)</code></strong>:
+<ul>
+<li>The <code>is.na()</code> function checks if a value is missing (<code>NA</code>).</li>
+<li>The <code>!</code> operator negates this, keeping only non-missing values.</li>
+</ul></li>
+<li><strong>Combining Conditions</strong>:
+<ul>
+<li>The <code>&amp;</code> operator combines the two conditions. Only entries that satisfy both (i.e., are greater than 0 and not missing) are retained.</li>
+</ul></li>
+<li><strong>Subsetting</strong>:
+<ul>
+<li><code>volumes[...]</code> applies these conditions to the <code>volumes</code> vector. The result is a new vector, <code>valid_volumes</code>, containing only the valid trading volumes.</li>
+</ul></li>
+</ol>
+<p><strong>2. Extract Leading Digits</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>leading_digits <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This line extracts the leading digit of each valid trading volume. Here’s how it works:</p>
+<ol type="1">
+<li><strong>Convert to Character Strings</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.character</span>(valid_volumes),<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "183198400" "207995200" "221513600" "123312000" "101572800"</code></pre>
+</div>
+</div>
+<ul>
+<li>Since trading volumes are numeric, we need to treat them as text to extract specific characters.</li>
+<li><code>as.character()</code> converts each number into a string representation.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Extract the First Character</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>),<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "1" "2" "2" "1" "1"</code></pre>
+</div>
+</div>
+<ul>
+<li>The <code>substr()</code> function extracts substrings from each string.</li>
+<li><code>1, 1</code> specifies that we extract the substring starting at position 1 and ending at position 1 (i.e., the first character of the string). This gives the leading digit as a character.</li>
+</ul>
+<ol start="3" type="1">
+<li><p><strong>Convert Back to Numeric</strong>:</p>
+<p><code>as.numeric(...)</code>: The extracted leading digit is initially a character. <code>as.numeric()</code> converts it back into a numeric value, allowing us to perform calculations like counting frequencies.</p></li>
+</ol>
+<p>Now we compute the empirical frequencies of the leading digits and compare them to the theoretical probabilities:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabulate empirical frequencies</span></span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>emp_freq <span class="ot">&lt;-</span> <span class="fu">table</span>(leading_digits) <span class="sc">/</span> <span class="fu">length</span>(leading_digits)</span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with empirical and Benford probabilities</span></span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Digit =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
+<span id="cb101-7"><a href="#cb101-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Empirical_Freq =</span> <span class="fu">as.numeric</span>(emp_freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]), <span class="co"># Match digits 1 to 9</span></span>
+<span id="cb101-8"><a href="#cb101-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Benford_Prob =</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>))</span>
+<span id="cb101-9"><a href="#cb101-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here’s an explanation of the code chunk, step by step:</p>
+<p><strong>1. Tabulate Empirical Frequencies</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>emp_freq <span class="ot">&lt;-</span> <span class="fu">table</span>(leading_digits) <span class="sc">/</span> <span class="fu">length</span>(leading_digits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><strong><code>table(leading_digits)</code></strong>:
+<ul>
+<li>This function counts how many times each unique value appears in <code>leading_digits</code>.</li>
+<li>In our case, <code>leading_digits</code> contains numbers between 1 and 9, so the output will have counts for each of these digits.</li>
+</ul></li>
+<li><strong><code>length(leading_digits)</code></strong>:
+<ul>
+<li>This calculates the total number of entries in <code>leading_digits</code>, i.e., the total number of leading digits observed.</li>
+</ul></li>
+<li><strong><code>table(...) / length(...)</code></strong>:
+<ul>
+<li>Dividing the counts from <code>table(leading_digits)</code> by the total count gives the <strong>relative frequencies</strong> of each digit.</li>
+<li>These are the <strong>empirical probabilities</strong> of each digit appearing as the leading digit.</li>
+</ul></li>
+</ol>
+</section>
+<section id="create-a-data-frame-for-comparison" class="level4" data-number="2.7.5.3">
+<h4 data-number="2.7.5.3" class="anchored" data-anchor-id="create-a-data-frame-for-comparison"><span class="header-section-number">2.7.5.3</span> <strong>2. Create a Data Frame for Comparison</strong></h4>
+<ol type="1">
+<li><strong><code>Digit = 1:9</code></strong>:
+<ul>
+<li>This creates a column in the data frame with the digits 1 through 9. These are the leading digits we’re analyzing.</li>
+</ul></li>
+<li><strong><code>Empirical_Freq = as.numeric(emp_freq[1:9])</code></strong>:
+<ul>
+<li><strong>Subsetting <code>emp_freq[1:9]</code></strong>:
+<ul>
+<li>The <code>table()</code> function includes entries for all unique values in <code>leading_digits</code>. If there are missing digits (e.g., if <code>leading_digits</code> doesn’t include a certain number), <code>emp_freq</code> may not have all 9 entries.</li>
+<li>By explicitly subsetting with <code>[1:9]</code>, we ensure the frequencies for digits 1 through 9 are aligned with the <code>Digit</code> column, ignoring any gaps or extra entries (e.g., <code>0</code>).</li>
+</ul></li>
+<li><strong><code>as.numeric()</code></strong>:
+<ul>
+<li>The <code>table()</code> output is a special type of object, not a standard numeric vector. Converting it ensures that the values can be used for computations and stored in the data frame.</li>
+</ul></li>
+</ul></li>
+<li><strong><code>Benford_Prob = log10(1 + 1 / (1:9))</code></strong>:
+<ul>
+<li>This calculates the theoretical probabilities for digits 1 through 9 according to Benford’s Law: <span class="math inline">\(P(d) = \log_{10}\left(1 + \frac{1}{d}\right)\)</span></li>
+<li><code>1:9</code> provides the range of digits for which we compute probabilities.</li>
+</ul></li>
+<li><strong>Combining into a Data Frame</strong>:
+<ul>
+<li>The <code>data.frame()</code> function organizes the information into a table with three columns:
+<ul>
+<li><code>Digit</code>: The digits 1 through 9.</li>
+<li><code>Empirical_Freq</code>: The observed relative frequencies of these digits from <code>emp_freq</code>.</li>
+<li><code>Benford_Prob</code>: The theoretical probabilities predicted by Benford’s Law.</li>
+</ul></li>
+</ul></li>
+</ol>
+<p>We can now display the results</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the comparison</span></span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(benford)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">Digit</th>
-<th style="text-align: right;">Prob_Benford</th>
+<th style="text-align: right;">Empirical_Freq</th>
+<th style="text-align: right;">Benford_Prob</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">0.3072036</td>
 <td style="text-align: right;">0.3010300</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
+<td style="text-align: right;">0.1674419</td>
 <td style="text-align: right;">0.1760913</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">3</td>
+<td style="text-align: right;">0.1185479</td>
 <td style="text-align: right;">0.1249387</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">4</td>
+<td style="text-align: right;">0.0976744</td>
 <td style="text-align: right;">0.0969100</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">5</td>
+<td style="text-align: right;">0.0713556</td>
 <td style="text-align: right;">0.0791812</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">6</td>
+<td style="text-align: right;">0.0670448</td>
 <td style="text-align: right;">0.0669468</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">7</td>
+<td style="text-align: right;">0.0620533</td>
 <td style="text-align: right;">0.0579919</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">8</td>
+<td style="text-align: right;">0.0584231</td>
 <td style="text-align: right;">0.0511525</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">9</td>
+<td style="text-align: right;">0.0502552</td>
 <td style="text-align: right;">0.0457575</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>Now here comes the really surprising fact. This law has been observed in credit card bills, stock market prices, in the market valuation of listed companies, in population data, the length of rivers.</p>
-<p>There are some requirements on these datasets: They should not have an arbitrary maximum or minimum for example. The numbers also must not be assigned, like grades of exams, assigned phone numbers or assigned identities.</p>
-<p>Now let us check this with a real data set. We choose a dataset of US-county population data. This give us an opportunity to show you a second way to read a csv file into R by giving the internet link to the file directly as a string to the <code>read.csv()</code> function. We do this with the population data and store the data in an object we call <code>population_data</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>population_data <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">"https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/counties/totals/co-est2020-alldata.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>So you, if you know the internet address of the file and the file name you can read data also directly from an url without first downloading them and then read it from your local copy.</p>
-<p>Now we want to use these data to check or illustrate Benford’s law. Now you will encounter something typical for real data situations. If you inspect the data, you will see that there is much more than we need. Let us therefore select the data we want to look at, using the R tools we learned in this lecture. We create a new data frame which contains only the variables <code>COUNTY</code> <code>STNAME</code>, <code>CTYNAME</code> and <code>CENSUS2010POP</code>, and we discard all the other ones.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>pop_us <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">County_ID =</span> population_data<span class="sc">$</span>COUNTY, <span class="at">State =</span> population_data<span class="sc">$</span>STNAME, <span class="at">County =</span> population_data<span class="sc">$</span>CTYNAME, <span class="at">Population =</span> population_data<span class="sc">$</span>CENSUS2010POP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>This looks already pretty good, but we would like to have the data purely on county level. The current data set also contains State aggregates, which have <code>County_Id == 0</code>. There are also a few counties which get value “X”. We also want to filter out those. Let’s use logical sub-setting to filter these data:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered <span class="ot">&lt;-</span> pop_us[((pop_us<span class="sc">$</span>County_ID <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (pop_us<span class="sc">$</span>Population <span class="sc">!=</span> <span class="st">"X"</span>)), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>This will give us the pop_us data frame with all rows except those where the variable County_ID is equal to zero (which are the state aggregates).</p>
-<p>Now we extract the leading digits from the population numbers. Notice that in our data set the population numbers are stored as characters, as you can see from typing:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(pop_us_filtered<span class="sc">$</span>Population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "character"</code></pre>
-</div>
-</div>
-<p>So we can use R’s string functions. This is a vast area which could fill a lecture on it own. We just mention one of the many R-functions operating on strings. One way to implement selection of a leading digit is using one of R’s string functions, <code>substr()</code>. You can give any string to this function and cut a substring, by specifying where it should begin and where it should end. Now in our case the population number. Let us use this to add a new column of leading digits to the data frame.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>pop_us_filtered<span class="sc">$</span>LD <span class="ot">&lt;-</span> <span class="fu">substr</span>(pop_us_filtered<span class="sc">$</span>Population, <span class="dv">1</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now we just need to tabulate the leading digits. This means, we count the frequency of 1, 2 et. until 9 and divide by the total number of observations. This tabulation functionality is implemented in R by its function <code>table</code>. So lets tabulate the respective column and divide by the total number of observations:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>emp_dist <span class="ot">&lt;-</span> (<span class="fu">table</span>(pop_us_filtered<span class="sc">$</span>LD)<span class="sc">/</span><span class="fu">length</span>(pop_us_filtered<span class="sc">$</span>LD))</span>
-<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>emp_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-         1          2          3          4          5          6          7 
-0.30340656 0.18911175 0.11907036 0.09805794 0.06781280 0.06685769 0.05794333 
-         8          9 
-0.04839223 0.04934734 </code></pre>
-</div>
-</div>
-<p>It would be nicer if we could show both the empirical frequencies and the bendford probabiliities in one dataframe. We first transform the emp_dist into a data frame and merge with the <code>benford$Prob_Benford</code> vector. This can be done by using the R function <code>cbind()</code> which can merge two data framews</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(emp_dist), benford<span class="sc">$</span>Prob_Benford)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now lets give the new data frame nicer names using the name function and display the result in a nice table:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Digit"</span>, <span class="st">"Emp_Freq"</span>, <span class="st">"Benf_Freq"</span>)</span>
-<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Digit</th>
-<th style="text-align: right;">Emp_Freq</th>
-<th style="text-align: right;">Benf_Freq</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: right;">0.3034066</td>
-<td style="text-align: right;">0.3010300</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2</td>
-<td style="text-align: right;">0.1891117</td>
-<td style="text-align: right;">0.1760913</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3</td>
-<td style="text-align: right;">0.1190704</td>
-<td style="text-align: right;">0.1249387</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4</td>
-<td style="text-align: right;">0.0980579</td>
-<td style="text-align: right;">0.0969100</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5</td>
-<td style="text-align: right;">0.0678128</td>
-<td style="text-align: right;">0.0791812</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">6</td>
-<td style="text-align: right;">0.0668577</td>
-<td style="text-align: right;">0.0669468</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">7</td>
-<td style="text-align: right;">0.0579433</td>
-<td style="text-align: right;">0.0579919</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">8</td>
-<td style="text-align: right;">0.0483922</td>
-<td style="text-align: right;">0.0511525</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">9</td>
-<td style="text-align: right;">0.0493473</td>
-<td style="text-align: right;">0.0457575</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>The match is amazingly close. This is quite cool, isn’t it ?</p>
-<p>One application of this interesting regularity has been to screen data sets, for instance tax filings, to find evidence whether they might have been manipulated by looking for deviations from Benford’s law. In the second project you are asked to do just that. Investigate the first digit distribution in a real financial data-set and compare to Benford’s law. For those of you who got interested in this “magic” law, let me mention that there is a monograph length treatment in <span class="citation" data-cites="BergerHill2015">Berger and Hill (<a href="#ref-BergerHill2015" role="doc-biblioref">2015</a>)</span></p>
+</section>
+<section id="interpreting-the-results" class="level4" data-number="2.7.5.4">
+<h4 data-number="2.7.5.4" class="anchored" data-anchor-id="interpreting-the-results"><span class="header-section-number">2.7.5.4</span> Interpreting the Results</h4>
+<p>The table above compares the observed frequencies of leading digits in Apple’s trading volumes with the predictions of Benford’s Law. The match is stunningly close. The example illustrates how this surprising regularity applies even in financial datasets like trading volumes.</p>
+</section>
+<section id="broader-applications" class="level4" data-number="2.7.5.5">
+<h4 data-number="2.7.5.5" class="anchored" data-anchor-id="broader-applications"><span class="header-section-number">2.7.5.5</span> Broader Applications</h4>
+<p>Benford’s Law has been observed across diverse datasets, such as: - Market capitalization of companies, - GDP of countries or regions, - Population data of cities or counties.</p>
+<p>Its applicability hinges on datasets spanning multiple orders of magnitude and not being artificially bounded. Deviations from Benford’s Law have even been used to detect fraud in tax filings and financial records.</p>
+<p>For your project, you will explore whether Benford’s Law holds for another financial dataset, allowing you to test this “law of leading digits” in a real-world context.</p>
 </section>
 </section>
-<section id="summary-lecture-2" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="summary-lecture-2"><span class="header-section-number">2.8</span> Summary</h2>
-<p>In this lecture we have dived a bit deeper into probability. We made some of our introductory concepts more precise and more general and learned about the important concepts of independence and how probabilities and frequencies of events in series of identical independent experiments are and are not related. We also learned about tools to go back and forth between probability theory and data and encountered our first financial dataset, a data frame for the stock pirce of Apple.</p>
-<p>These are the <strong>probability concepts</strong> we have covered in this lecture:</p>
-<p>In this lecture we have given precise definitions of our basic concepts of <strong>sample space</strong>, <strong>basic outcome</strong>, <strong>events</strong> and <strong>probability</strong>. This time we gave an abstract definition of probability which shares the basic properties we required for classical probability. We explained what <strong>discrete probability</strong> means and explained how we can build events by set theoretic operations of <strong>union</strong>, <strong>intersection</strong>, <strong>complements</strong>. We have also explained the meaning of <strong>mutually exlusive</strong>. We have explained the notion of <strong>empirical probability</strong> or <strong>frequency probability</strong>. We have discussed the <strong>weak law of large numbers</strong> which establishes for a given probability the number of identical independent trials that are needed such that the relative frequency of an event falls within any given bound around this probability. While relative frequencies are not probabilities they approach given probabilities in the limit of a sequence of identical independent trials. We have finally learned about the definition of <strong>independence</strong> of events. If two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent the probability that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> occur is the product of their individual probabilities.</p>
-<p>These are the <strong>R concepts</strong> covered in this lecture: We learned what <strong>R objects</strong> are and that R has <strong>six types of atomic vectors</strong>, namely <strong>double</strong>, <strong>integer</strong>, <strong>character</strong>, <strong>logical</strong>, <strong>complex</strong> and <strong>raw</strong>. We have learned how to <strong>subset R objects</strong> by positive integers, negative integers, zero, blank spaces, logicals and names.</p>
-<p>These are the <strong>applications</strong> we have covered in this lecture. <strong>Tossing a fair coin</strong> by simulation. <strong>reading data from a stored csv files</strong> and also <strong>reading a csv file directly from the internet</strong>. <strong>Using R’s subsetting functions</strong> to analyze up and down movements of <strong>stock price data</strong> and <strong>use empirical probabilities</strong> together with an independence assumption to compute the probability of certain sequences of up and down moves. <strong>Benford’s law</strong> of leading digits.</p>
+<section id="enhancing-your-learning-with-an-llm-debugging-and-exploring-data-analysis-pitfalls" class="level3" data-number="2.7.6">
+<h3 data-number="2.7.6" class="anchored" data-anchor-id="enhancing-your-learning-with-an-llm-debugging-and-exploring-data-analysis-pitfalls"><span class="header-section-number">2.7.6</span> Enhancing Your Learning with an LLM: Debugging and Exploring Data Analysis Pitfalls</h3>
+<p>One of the most powerful ways to use a <strong>Large Language Model (LLM)</strong>, like ChatGPT, is as a <strong>debugging companion</strong> and a tool for uncovering potential pitfalls in your data analysis. This can be particularly valuable as you learn new concepts, such as the ones covered in this lecture on probability and data analysis with R.</p>
+<p><strong>Use Case: Debugging R Code and Avoiding Common Mistakes</strong></p>
+<p>When working with R, especially as a beginner, you might encounter errors, unexpected outputs, or difficulties understanding how certain functions behave. Here’s how you can use an LLM to enhance your learning:</p>
+<p><strong>1. Explaining Error Messages</strong></p>
+<p>When you run into an error message in R, an LLM can help you interpret it and suggest solutions. For example:</p>
+<p><strong>Error Message:</strong></p>
+<pre class="plaintext"><code>Error in table(leading_digits): all arguments must have the same length</code></pre>
+<p><strong>How to Use an LLM:</strong> - Copy the error message and your code into the LLM, and ask:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I encountered this error in R. Here is my code: [paste your code]. Can you explain what went wrong and suggest how to fix it?”</p>
+</div>
+</div>
+<p><strong>2. Exploring Alternatives and Best Practices</strong></p>
+<p>LLMs can also suggest alternative ways to achieve the same task or point out best practices you might not be aware of.</p>
+<p><strong>Example:</strong> You might ask:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I used <code>substr(as.character(valid_volumes), 1, 1)</code> to extract leading digits. Are there other, possibly better ways to do this in R?”</p>
+</div>
+</div>
+<p><strong>3. Checking Your Understanding with “What-If” Questions</strong></p>
+<p>LLMs are great for exploring “what-if” scenarios that test your understanding of concepts.</p>
+<p><strong>Example Questions:</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What happens if I include zero or negative values in the dataset when applying Benford’s Law?“*</p>
+</div>
+</div>
+<p>or you might ask</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If my dataset has fewer than 100 observations, how reliable are the empirical probabilities in approximating theoretical probabilities?”</p>
+</div>
+</div>
+<p>This type of interaction helps you connect the theoretical content (e.g., the weak law of large numbers) with practical considerations.</p>
+<p><strong>4. Summarizing and Synthesizing Knowledge</strong></p>
+<p>You can use an LLM to review and consolidate your learning by asking it to summarize key concepts or connect them in new ways.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Can you summarize the main differences between empirical probabilities and theoretical probabilities, and explain how they relate to Benford’s Law?</p>
+</div>
+</div>
+<p>This exercise reinforces your understanding while revealing gaps or misconceptions.</p>
+<p>Debugging and exploring potential pitfalls are essential skills for any data scientist or analyst. By leveraging an LLM, you not only solve immediate problems but also gain deeper insights into your learning process. This approach fosters independence and critical thinking, preparing you to tackle more complex challenges in the future.</p>
+<p>As you work on the project for this lecture, try using an LLM to explain error messages, explore alternative solutions, and answer your “what-if” questions. You might be surprised at how much you can learn from this collaborative process!</p>
 </section>
-<section id="project2" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="project2"><span class="header-section-number">2.9</span> Project 2: Should we trust European supervisory bank data?</h2>
-<p>The European Banking Authority EBA conducts a biannual stress testing exercise for the biggest European banks every two years. In the stress test bank exposure data are collected and then particular stress scenarios are applied to the reported data. The goal is to find out whether the banks would have enough capital to withstand an adverse scenario. EBA makes a huge effort to publish the data that are the base of the stress test on its web site: https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing</p>
-<p>In this project you are asked to use the knowledge you learned about empirical probabilities, R and Benford’s law to check whether the EBA stress testing data show the distribution of leading digits, you would expect from Benford’s law.</p>
+</section>
+<section id="summary" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">2.8</span> Summary</h2>
+<p>In this lecture, we explored foundational concepts in <strong>probability theory</strong> and developed practical skills for working with <strong>R</strong>. Here’s a summary of what we covered:</p>
+<section id="probability-concepts" class="level4" data-number="2.8.0.1">
+<h4 data-number="2.8.0.1" class="anchored" data-anchor-id="probability-concepts"><span class="header-section-number">2.8.0.1</span> <strong>Probability Concepts</strong></h4>
+<ul>
+<li>Precise definitions of:
+<ul>
+<li><strong>Sample space</strong>: The set of all possible outcomes of an experiment.</li>
+<li><strong>Basic outcomes</strong>: Individual elements of the sample space.</li>
+<li><strong>Events</strong>: Subsets of the sample space.</li>
+<li><strong>Probability</strong>: A numerical measure of the likelihood of an event, satisfying the key properties of non-negativity, normalization, and additivity.</li>
+</ul></li>
+<li><strong>Discrete probability</strong>:
+<ul>
+<li>How probabilities are assigned to events in a finite or countably infinite sample space.</li>
+<li>The construction of events using set operations like <strong>union</strong>, <strong>intersection</strong>, and <strong>complement</strong>.</li>
+<li>The concept of <strong>mutually exclusive events</strong> and its implications for probabilities.</li>
+</ul></li>
+<li><strong>Empirical probability</strong> (or <strong>frequency probability</strong>):
+<ul>
+<li>The relative frequency of an event in a series of repeated experiments.</li>
+<li>How empirical probabilities approximate theoretical probabilities as the number of trials increases, as demonstrated by the <strong>weak law of large numbers</strong>.</li>
+</ul></li>
+<li><strong>Independence of events</strong>:
+<ul>
+<li>Definition: Two events (A) and (B) are independent if (P(A B) = P(A) P(B)).</li>
+<li>Implications for computing probabilities in repeated or combined experiments.</li>
+</ul></li>
+</ul>
+</section>
+<section id="r-concepts" class="level4" data-number="2.8.0.2">
+<h4 data-number="2.8.0.2" class="anchored" data-anchor-id="r-concepts"><span class="header-section-number">2.8.0.2</span> <strong>R Concepts</strong></h4>
+<ul>
+<li><strong>R Objects</strong>:
+<ul>
+<li>Overview of <strong>atomic vectors</strong> and their six types: <strong>double</strong>, <strong>integer</strong>, <strong>character</strong>, <strong>logical</strong>, <strong>complex</strong>, and <strong>raw</strong>.</li>
+<li>Attributes of atomic vectors, such as <strong>names</strong>, <strong>dimensions</strong>, and <strong>classes</strong>.</li>
+<li>Introduction to <strong>data frames</strong>, the primary data structure for organizing and analyzing tabular data in R.</li>
+</ul></li>
+<li><strong>Subsetting in R</strong>:
+<ul>
+<li>Methods for subsetting R objects using <strong>positive integers</strong>, <strong>negative integers</strong>, <strong>zero</strong>, <strong>blank spaces</strong>, <strong>logical vectors</strong>, and <strong>names</strong>.</li>
+<li>Practical examples to manipulate data frames and vectors efficiently.</li>
+</ul></li>
+<li>String manipulation in R:
+<ul>
+<li>Extracting and processing information from character data.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="applications" class="level4" data-number="2.8.0.3">
+<h4 data-number="2.8.0.3" class="anchored" data-anchor-id="applications"><span class="header-section-number">2.8.0.3</span> <strong>Applications</strong></h4>
+<ul>
+<li><strong>Simulating coin tosses</strong>:
+<ul>
+<li>Using R to simulate repeated trials and compute relative frequencies.</li>
+</ul></li>
+<li><strong>Reading data</strong>:
+<ul>
+<li>Loading datasets from stored <strong>CSV files</strong> and directly from <strong>online sources</strong>.</li>
+</ul></li>
+<li><strong>Stock price analysis</strong>:
+<ul>
+<li>Using subsetting techniques to analyze up and down movements in stock prices.</li>
+<li>Computing empirical probabilities of price movements and using independence assumptions to estimate probabilities of sequences of moves.</li>
+</ul></li>
+<li><strong>Benford’s Law</strong>:
+<ul>
+<li>Exploring the surprising regularity of leading digits in real-world datasets.</li>
+<li>Applying Benford’s Law to trading volumes and comparing empirical distributions to theoretical predictions.</li>
+</ul></li>
+</ul>
+<p>Through this lecture, we reinforced the connection between probability theory and data analysis, demonstrating how abstract concepts like empirical probabilities and independence can be applied in real-world scenarios using R. The integration of theoretical ideas with computational tools prepares you for more advanced analysis and real-world problem-solving.</p>
+</section>
+</section>
+<section id="project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law"><span class="header-section-number">2.9</span> <strong>Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law</strong></h2>
+<section id="overview" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">2.9.1</span> <strong>Overview</strong></h3>
+<p>This project challenges you to apply Benford’s Law to detect potential anomalies in financial data. By analyzing the leading digits of revenue and expenditure data for a set of companies, you will explore whether these datasets follow the natural logarithmic distribution predicted by Benford’s Law. Through this project, you will reinforce your understanding of empirical probabilities and their applications, while also practicing critical data analysis skills in R.</p>
+</section>
+<section id="objectives" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="objectives"><span class="header-section-number">2.9.2</span> <strong>Objectives</strong></h3>
 <ol type="1">
-<li><p>Go to the EBA website https://www.eba.europa.eu/risk-analysis-and-data/eu-wide-stress-testing and download the file Credit Risk IRB (https://www.eba.europa.eu/assets/st21/full_database/TRA_CRE_IRB.csv). You can do so by downloading the file, storing it locally and then read it into R or you can read it directly from the web.</p></li>
-<li><p>We want to study the distribution of leading digits in the Amounts reported in the EBA file of credit risk exposures. Now the csv file contains many different data that all somehow belong to the EBA stress test. We would not like to check all data but only exposure data. We need first to filter the data to make sure we have a meaningful collection of exposure data for all the banks. The description of the data and the data dimensions is in the files <code>Metadata_TR.xlsx</code> and <code>Data_Dictionary.xlsx</code>. You are welcome to study these data in detail. It will probably need more time than you have available. They are also quite complicated. Since the aim of this project is not directly to understand the eba-data but to work with your R-concepts and probability concepts, let me guide you here how to filter these data in 10 sequential steps. Note that this sequencing is for didactical reasons only and for the purpose not to loose oversight. With routine and experience all these steps can be done in one go as well:</p>
-<ol type="a">
-<li>Extract all variables names, using the <code>names()</code>function.</li>
-<li>Select all rows where the Scenario variable has value 1. Note that the symbol you need in the R syntax for equal is <code>==</code>, the syntax is therefore <code>Scenario == 1</code>. You might check out the R-help entry <code>Comparison</code> for further details.</li>
-<li>From the resulting data-frame select all rows where the Country variable is not equal to 0. (hint: The not equal operator in the R syntax is <code>!=</code>). If you look into the Metadata-File you will see that 0 are all the aggregate exposures not broken down by country. Excluding these will give us country exposures.</li>
-<li>From the resulting data frame select all rows where the Portfolio variable has value 1 or 2.These codes describe the accounting rules under which the exposure values are reported, internal rating based (IRB) or standard approach (SA). As a hint you can use R’s subset operator <code>%in%</code> here so <code>Portfolio %in% c(1,2)</code> written with the approprate subsetting rule will select all rows where the Porfolio variable has value 1 or 2.</li>
-<li>From the resulting data frame choose all the rows where the Exposure variable is not 0.This gives again disaggregated numbers.</li>
-<li>From the resulting data frame choose all the rows where the Status variable has value 0.</li>
-<li>From the resulting data frame choose all the rows where the IFRS9_Stages variable has value 1,2, or 3.</li>
-<li>From the resulting data frame choose all the rows where the CR_guarantees variable is 0</li>
-<li>From the resulting data frame choose all the rows where the CR_exp_moratoria variable is 0.</li>
-<li>From the resulting data frame, drop all rows where the Amount variable is 0.</li>
-</ol></li>
-<li><p>Check the type of the Amount variable.</p></li>
-<li><p>Transform the Amount variable to type <code>numeric()</code></p></li>
-<li><p>Check for NA in the Amount variable in the resulting data frame and if you find any, remove them.</p></li>
-<li><p>Change the Amount variable from the actual unit of Million Euros to the unit of 1 Euro 1 Euro and throw away data smaller than 1 after this transformation.</p></li>
-<li><p>Select the leading digits from the Amount variable, using R’s string functions and add a variable with name LD to your data frame.</p></li>
-<li><p>Compare the empirical frequencies in the data with the theoretical frequencies from Benford’s law by creating an appropriate data frame. What can you say from this evidence?</p></li>
+<li>Analyze the distribution of leading digits in revenue and expenditure data.</li>
+<li>Compare empirical distributions with the theoretical predictions of Benford’s Law.</li>
+<li>Identify and interpret deviations from Benford’s Law.</li>
+<li>Reflect on the implications of your findings in the context of financial forensics.</li>
+</ol>
+</section>
+<section id="steps" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="steps"><span class="header-section-number">2.9.3</span> <strong>Steps</strong></h3>
+<p><strong>Step 1: Understand the Research Question</strong> Your main tasks are: 1. To determine if the leading digits of revenues and expenditures conform to Benford’s Law. 2. To interpret deviations, particularly in expenditure data, which may suggest anomalies such as fraud or manipulation.</p>
+<p><strong>Step 2: Obtain and Inspect the Dataset</strong></p>
+<ol type="1">
+<li><strong>Download the Dataset</strong>:
+<ul>
+<li><strong>Mock Dataset</strong>: You will receive a CSV file named <code>company_financials.csv</code>, containing simulated data for revenues and expenditures of 200 companies. This dataset includes some subtle anomalies in the expenditures.</li>
+</ul></li>
+<li><strong>Inspect the Data</strong>:
+<ul>
+<li>Load the dataset in R and examine its structure using functions like <code>head()</code>, <code>summary()</code>, and <code>str()</code>.</li>
+<li>Ensure you understand the data columns:
+<ul>
+<li><code>CompanyID</code>: A unique identifier for each company.</li>
+<li><code>Revenue</code>: The revenue of the company (in dollars).</li>
+<li><code>Expenditure</code>: The expenditure of the company (in dollars).</li>
+</ul></li>
+</ul></li>
+</ol>
+<p><strong>Step 3: Prepare the Data</strong></p>
+<ol type="1">
+<li><strong>Filter Valid Data</strong>:
+<ul>
+<li>Exclude invalid entries:
+<ul>
+<li>Non-positive values (e.g., 0 or negative numbers).</li>
+<li>Missing values (<code>NA</code>).</li>
+</ul></li>
+</ul></li>
+<li><strong>Extract Leading Digits</strong>:
+<ul>
+<li>Use string manipulation to extract the first digit from each valid value:</li>
+</ul></li>
+</ol>
+<p><strong>Step 4: Analyze the Data</strong></p>
+<ol type="1">
+<li><strong>Compute Empirical Frequencies</strong>:
+<ul>
+<li>Tabulate the frequencies of the leading digits for revenues and expenditures:</li>
+</ul></li>
+<li><strong>Compare with Benford’s Law</strong>:
+<ul>
+<li>Create data frames for comparison:</li>
+</ul></li>
+<li><strong>Visualize the Results</strong>:
+<ul>
+<li>Plot bar charts comparing empirical and theoretical distributions for revenues and expenditures.</li>
+</ul></li>
+</ol>
+<p><strong>Step 5: Interpret the Results</strong></p>
+<ol type="1">
+<li><strong>Evaluate Conformity</strong>:
+<ul>
+<li>Does the revenue data closely match Benford’s predictions?</li>
+<li>Do expenditures show significant deviations?</li>
+</ul></li>
+<li><strong>Hypothesize Causes</strong>:
+<ul>
+<li>What might explain deviations in expenditures? Consider:
+<ul>
+<li>Rounded or artificial values.</li>
+<li>Anomalies such as fraud.</li>
+</ul></li>
+</ul></li>
+<li><strong>Probability Context</strong>:
+<ul>
+<li>Relate empirical frequencies to probabilities and discuss the implications of large sample sizes.</li>
+</ul></li>
+</ol>
+<p><strong>Step 6: Submit Your Work</strong></p>
+<ol type="1">
+<li>A short report summarizing:
+<ul>
+<li>Your approach to data preparation and analysis.</li>
+<li>A comparison of the revenue and expenditure distributions with Benford’s Law.</li>
+<li>Your interpretation of any anomalies.</li>
+</ul></li>
+<li>Well-commented R code for your analysis.</li>
+</ol>
+<p><strong>Deliverables</strong></p>
+<ol type="1">
+<li><strong>Analysis Report</strong>:
+<ul>
+<li>Include plots and tables summarizing your findings.</li>
+</ul></li>
+<li><strong>R Script</strong>:
+<ul>
+<li>Submit a clear and well-commented R script.</li>
+</ul></li>
 </ol>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-BergerHill2015" class="csl-entry" role="listitem">
-Berger, Arno, and Theodore Hill. 2015. <em>An Introduction to Benford’s Law</em>. Princeton University Press.
-</div>
 <div id="ref-DiaconisSkyrms2019" class="csl-entry" role="listitem">
 Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. Princeton University Press.
 </div>
@@ -1588,6 +2008,7 @@ Lo, Andrew, and Craig MacKinlay. 2019. <em>A Non-Random Walk down Wallstreet</em
 Samuelson, Paul. 1965. <span>“Proof That Properly Anticipated Prices Fluctuate Randomly.”</span> <em>Industrial Management Review</em> 6.
 </div>
 </div>
+</section>
 </section>
 
 
