@@ -1,154 +1,362 @@
-# The Concept of Conditional Probability
+# Conditional Probability
 
-## Understanding Structured Finance: Bonds, Pools, and Tranches
+## Why neglecting conditional probability may be expensive: A case study.
 
-To appreciate the significance of conditional probability, we begin with a crucial historical context: the financial crisis of 2007-2008. This global crisis exposed the vulnerabilities of structured finance, a domain where assumptions about independence and conditional probabilities played a pivotal role.
+To appreciate the significance of conditional probability, let us start with a simple but striking scenario from the world of finance. Imagine you are an investor trying to evaluate the safety of a bond portfolio. On paper, the bonds are rated highly by reputable agencies, and the portfolio looks diversified—a dream investment. However, during a global recession, a few defaults occur, and to your surprise, the entire portfolio begins to unravel, causing significant losses. How could this happen?
+
+This seemingly safe portfolio turned risky because it underestimated the connections between events—a core idea tied to conditional probability. Conditional probability helps us analyze how the risk of one event changes given another has occurred. It enables us to model dependencies, a critical factor in real-world scenarios, particularly during financial crises.
+
+Understanding these relationships isn't just an intellectual exercise—it’s crucial for preventing catastrophic losses. Whether you're pricing complex financial instruments, assessing credit risk, or making investment decisions, mastering conditional probability allows you to account for interconnected risks and avoid misleading conclusions based on oversimplified assumptions.
+
+More generally conditional probability is the key instrument of probability theory that guides you in adjusting risk assessment when new information becomes available that was not there before.
+
+With this motivation in mind, we now turn to a historical example that demonstrates the importance of understanding conditional probability: the financial crisis of 2007-2008. This crisis revealed how wrong assumptions about independence and neglect of dependence in events and conditional probabilities can lead to systemic failures in structured finance.^[ See @Tooze2018: For an engaging and comprehensive exploration of the great financial crisis of 2007 - 2008 and its causes and aftermath. It is highly recommended for deeper study.]
+
+### Understanding Structured Finance: Bonds, Pools, and Tranches
+
+Let us begin with a simplified overview of the basic ideas of structured 
+finance and the engineering of specific risk profiles from a portfolio of 
+risky bonds. This example will then illustrate all the basic ideas why
+conditional probability is an important concept and how it helps us 
+navigating complext real world situations. This example will also 
+motivate our our more formal discussion.
 
 ### Bonds and Credit Risk
 
-**Bond, face value, par value**
-: A **bond** is a financial instrument where the issuer agrees to pay the holder a specific amount, the **face value** or **par value**, at maturity. Bonds are widely used as fixed-income securities but carry the risk of default if the issuer faces financial difficulties.
+**Bond, face value, par value** : A **bond** is a financial instrument where 
+the issuer agrees to pay the holder a specific amount, the **face value** or 
+**par value**, at maturity. Bonds are widely used as fixed-income securities 
+but carry the risk of default if the issuer faces financial difficulties.
 
-To quantify this risk, bonds are rated by agencies such as Moody’s and Standard & Poor’s. Investment-grade bonds are considered low-risk, while speculative or "junk" bonds are riskier and more likely to default. Here is a summary of the rating schemes:
+To quantify this risk, bonds are rated by agencies such as Moody’s and 
+Standard & Poor’s. Investment-grade bonds are considered low-risk, while 
+speculative or "junk" bonds are riskier and more likely to default. Here is a summary of their rating schemes and what the ratings mean in words:
 
-| Rating Category    | Moody's  | Standard & Poor's |
-|--------------------|----------|-------------------|
-| High grade         | Aaa      | AAA               |
-|                    | Aa       | AA                |
-| Medium grade       | A        | A                 |
-|                    | Baa      | BBB               |
-| Speculative grade  | Ba       | BB                |
-|                    | B        | B                 |
-| Default danger     | Caa      | CCC               |
-|                    | Ca       | CC                |
-|                    | C        | C                 |
-|                    |          | D                 |
+| Rating Category   | Moody's | Standard & Poor's |
+| ----------------- | ------- | ----------------- |
+| High grade        | Aaa     | AAA               |
+|                   | Aa      | AA                |
+| Medium grade      | A       | A                 |
+|                   | Baa     | BBB               |
+| Speculative grade | Ba      | BB                |
+|                   | B       | B                 |
+| Default danger    | Caa     | CCC               |
+|                   | Ca      | CC                |
+|                   | C       | C                 |
+|                   |         | D                 |
 
 ### Pooling and Tranching: The Innovation
 
-Structured finance emerged in the early 2000s as a way to manage risk through **pooling** and **tranching**. By pooling risky assets and dividing cash flows into "tranches" with distinct risk profiles, financial engineers created new bonds, including investment-grade securities, from portfolios of junk bonds. A major product of this innovation was the **mortgage-backed security (MBS)**.
+Structured finance emerged in the early 2000s as a way to manage risk 
+through **pooling** and **tranching**. By pooling risky assets and dividing 
+cash flows 
+into "tranches" with distinct risk profiles, financial engineers created new 
+bonds, including investment-grade securities, from portfolios of junk bonds. 
+A major product of this innovation was the **mortgage-backed security (MBS)**.
 
-#### An Illustrative Example: Junk Bonds and Event Trees
+### An Example 
 
-Consider a simple bond that pays €1 at maturity with a 10% chance of default. If we introduce a second identical bond, the combined system can be modeled as a probability tree:
+Let us develop an intuitive understanding of structured finance and its
+relation to probability through a simplified example, which I learned
+from Karl Schmedder's course mentioned at the beginning.^[See https://www.coursera.org/learn/introductiontoprobability]
 
-```{r two-stage-tree, out.width='90%', fig.align='center', fig.cap='An event tree for two defaultable bonds with independent default probabilities', echo=FALSE}
-knitr::include_graphics('figures/double_tree_two_bonds.png')
+##### A Simple Event Tree for One Bond
+
+Consider a single bond you can own today that pays €1 at maturity at some point
+in the future. Time is often abbreviated as $t$ and the points in time
+are symbolized by letting $t$ take different values like $t=0$ for today and
+$t=1$ for a future point in time, say a year from today.
+
+This bond has a 10% chance of default, meaning there is a 90% chance it 
+will not default. With a default probability of 10%, this bond would likely 
+receive a speculative grade rating, such as 'B' or 'B-' in the rating 
+tables presented earlier. This poor rating reflects the significant 
+risk of non-payment associated with such a bond, which could deter 
+risk-averse investors and highlight its 'junk' bond status. 
+The payoff is structured as follows:
+
+- If the bond does not default (“N”), the payoff is €1.
+- If the bond defaults (“D”), the payoff is €0.
+
+This situation can be represented as a simple probability tree of
+@fig-single_bond_event_tree
+
+```{r fig-single_bond_event_tree, out.width='90%', fig.align='center', fig.cap='Event tree for one bond', echo=FALSE}
+knitr::include_graphics('figures/single_bond_event_tree.png')
+
 ```
 
-This tree reflects the independence assumption: the likelihood of both bonds not defaulting is:
 
-\[
-P(B^1_N \cap B^2_N) = P(B^1_N) \cdot P(B^2_N) = 0.9 \cdot 0.9 = 0.81
-\]
+The graph above visualizes the outcomes of a single bond. Each node represents a possible state of the bond at different times:
 
-Now, through pooling and tranching, these two junk bonds can be transformed into:
+- $t=0$ is the starting point.
+- $t=1$ No Default $N$ occurs with a probability of $P(N) = 0.9$.
+- $t=1$ Default $D$ occurs with a probability of $P(D) = 0.1$.
 
-- **Investment-grade bond (\(I\)):** Defaults only if both bonds default (\(P(I\,\text{default}) = 0.01\)).
-- **Toxic junk bond (\(J\)):** Pays only if neither bond defaults (\(P(J\,\text{default}) = 0.99\)).
+You could see this in analogy to the toss of a coin with the difference
+that both sides of the coin show with different probability.
 
-The resulting securities create the illusion of reduced risk for some investors while concentrating risk for others.
+#### Combining Two Bonds with Independence Assumption
 
-### The Pitfall of Dependent Risks
+We now combine two such bonds into a portfolio. The 
+assumption of **independence** implies that the defaults 
+of these bonds occur independently of each other. 
 
-Structured finance relies heavily on the assumption of **independence**. But in reality, defaults are often correlated, especially during systemic crises. For instance, a recession might increase the likelihood of multiple defaults simultaneously, invalidating the independence assumption.
+While this assumption simplifies calculations, it was 
+historically used by financial engineers to justify creating 
+tranches from risky portfolios. The reasoning was that 
+diversification reduces the likelihood of joint 
+defaults, making some tranches appear safer.
 
-```{r dependent-risks, out.width='90%', fig.align='center', fig.cap='An event tree for dependent default probabilities', echo=FALSE}
-knitr::include_graphics('figures/dependence.png')
+At the time, financial engineers relied on historical 
+data and market conditions to argue for this independence. 
+Defaults were often uncorrelated under normal economic 
+conditions, and diversification was seen as a proven 
+strategy for mitigating risk. For example, if bond 
+defaults were driven by isolated 
+events (such as company-specific issues), 
+the assumption of independence seemed reasonable. 
+Moreover, the packaging of diverse assets from different 
+industries into portfolios strengthened the appearance of 
+safety, as individual economic shocks were less 
+likely to affect the entire portfolio simultaneously.
+
+However, this reasoning neglected systemic risks. During economic 
+downturns or financial crises, defaults often become highly correlated due 
+to shared macroeconomic pressures, such as declining housing 
+markets or credit tightening. For instance, in the lead-up to 
+the 2008 financial crisis, rising mortgage defaults were driven 
+by broader economic factors that impacted many bonds simultaneously.
+WIth this in mind it would be not pausible to assume that bonds can
+be stacked together in a portfolio without the default risks of one
+being not pushed up by the default risk of others.
+
+Even without the formal use of probability theory, financial 
+engineers could have questioned whether diversification 
+truly guaranteed independence in the context of systemic risks.
+
+The idea that junk plus junk could be transformed into 
+investment-grade bonds through pooling should have raised 
+skepticism. Careful critical thinking—considering broader 
+economic dependencies—would have revealed that this transformation was too 
+good to be true. By ignoring these dependencies, financial 
+engineers failed to see how small cracks in the system could 
+cascade into systemic failures.^[ A famous voice at the time 
+warning about the flawed reasoning
+was Raghuram Rajan, former chief economist of the International Monetary Fund. 
+He warned that rather than reducing risk through diversification, CDOs 
+and other derivatives spread risk and uncertainty about the value of the 
+underlying assets more widely. ]
+
+But let us not jump ahead and try to see how the tree for two bonds looks like
+when we assume independence in @fig-two_bond_event_tree.
+
+```{r fig-two_bond_event_tree, out.width='90%', fig.align='center', fig.cap='Event tree for two bonds with independent default risk', echo=FALSE}
+knitr::include_graphics('figures/two_bonds_event_tree.png')
 ```
 
-Under dependence, the probability of joint defaults increases, eroding the reliability of investment-grade ratings. This matters because investors and institutions, relying on these flawed ratings, underestimated the risk embedded in these securities. As defaults started to cluster during the financial crisis, losses quickly cascaded through the financial system. The assumed independence between risks provided a false sense of security, which led to over-leveraging and an inability to hedge adequately against systemic failures. Ultimately, this misjudgment amplified the scale and speed of the crisis, exposing the financial system’s vulnerability to correlated risks.
+The outcome of combining two bonds can be represented as a double event tree, showing all possible combinations of defaults and no defaults at $t=1$:
+picture here
 
-### Lessons from Structured Finance
+#### Pooling and Tranching
 
-The structured finance example underscores the need for precise reasoning about conditional probabilities and independence. These concepts are not just abstract mathematical ideas—they have profound implications for real-world decision-making.
+When you look at this portfolio under the independence assumption there
+seems to be room for reengineering the risk profile of this portfolio. In all
+outcomes but in the one where both bonds default you can guarantee a payoff of
+1. There remains an adverse outcome, where both bonds default in which case
+you can pay out nothing. But under independence this risk is small. The
+probability of this event - remember our treatment of independent events in the
+first lecture - would be:
+$P(D) \times P(D) = 0.1 \times 0.1 = 0.01$
+Pretty low. For example assume that the probability of default refer to
+the probability of the bond defaulting over a year, the usual time frame 
+taken in ratings, this would be a one in a hundered years event. In $99%$ we
+would get a sure payoff of 1.
 
-## Bayes' Theorem: Updating Beliefs with New Information
+So this is the idea. We **pool** the payoffs of both securities and define
+two new securities by changing their payoff profile. The first one pays
+always 1 except when both bonds default in which case this bond pays 0. The 
+other one will always pay 0 except in the case where both bonds do not default.
+This is under independence an event with probability $P(N) \times P(N) = 0.81$.
+Rember the complementarity rule? This says that the second bond will thus have 
+a default probability of $19$ % instead of $10%$ it would be close to
+toxic junk now.
 
-Bayes' theorem allows us to update probabilities based on new evidence systematically. It not only provides a mechanism for incorporating new data but also addresses a critical question in probability theory: how do we connect frequencies with single-event probabilities?
+Here is picture how you can visualize this piece fo financial magic.
 
-### Formal Definition
+```{r fig-pooling-and-tranching, out.width='90%', fig.align='center', fig.cap='Event tree for two bonds with independent default risk with pooling and tranching', echo=FALSE}
+knitr::include_graphics('figures/pooling_and_tranching.png')
 
-**Bayes' Theorem**
-: Let $A$ and $B$ be two events with $P(B) > 0$. Bayes' theorem states:
+```
+
+What is done here is that the aggregate payoffs of both bonds are collected
+in a pool and new securities - called P - in this picture are issued against the
+pool. One, the upper one is now an investment grade asset paying 1 in every state
+except one and the other is a toxic junk bond paying always 0 except in one state.
+Note that the investment grade status could be engineered under the
+assumption that the risks are independent.
+
+#### Pooling and Tranching without Independent Risks 
+
+Now, let us consider a hypothetical question: 
+**How would the event tree change if the independence assumption does not hold?** Dependence would alter the probabilities in a way that reflects 
+the increased likelihood of joint defaults during systemic events.
+
+Suppose we now assume that the probability of Bond 2 defaulting changes rather than staying unchanged under the condition that Bond 1 has defaulted:
+
+- If Bond 1 does **not** default, Bond 2 defaults with probability 0.1 (as before).
+- If Bond 1 **does** default, Bond 2 defaults with a higher probability 
+of 0.6 due to systemic dependence.
+
+This dependence reflects a scenario where defaults are more 
+likely to occur together, such as during an economic downturn. 
+The resulting event tree can be visualized as follows:
+
+```{r fig-pooling-and-tranching-dependent, out.width='90%', fig.align='center', fig.cap='Event tree for two bonds with independent default risk with pooling and tranching with dependent default risk', echo=FALSE}
+knitr::include_graphics('figures/two_bonds_event_tree_dependent_events.png')
+
+```
+
+On the first sight this looks almost identical to the picture before. Only
+the numbers on the edges of the second tree have changed. These changed numbers
+reflect the idea that the event that one bond has defaultet changes the
+probability of the second bond defualting as well. How could such a dependence
+occur?
+
+Here’s a real-world example to illustrate how dependence can occur:
+In the context of bonds, dependence in default probabilities can 
+arise from shared exposure to systemic risks or interconnected 
+factors. For instance, consider two companies that 
+issue bonds and operate in the same industry, such as 
+the energy sector. If oil prices plummet due to an 
+economic downturn or geopolitical instability, both 
+companies might experience financial stress, making it 
+more likely that one default is followed by another. 
+
+Another example is during a financial crisis, such as the 
+2008 global financial meltdown. A bank's default on its 
+obligations can lead to cascading defaults in other 
+institutions due to counterparty risks or a general loss 
+of confidence in the financial system. In such cases, the 
+probability of a second default is no longer independent 
+of the first because the events are tied to the same underlying 
+macroeconomic factors.
+
+These examples highlight that the assumption of independence 
+between bond defaults might hold under normal market conditions 
+but breaks down during systemic crises. Such dependencies must 
+be carefully modeled to avoid underestimating risk, as was 
+the case in structured finance products leading up to the 2008 crisis.
+
+A prudent risk manager must keep such a scenario in mind when he analyzes
+a portfolio. Think about it in the context of the toy example. In the
+first case the default risk of the first asset created by pooling and tranching
+was $P(D) \times P(D) = 0.1 \times 0.1 = 0.01$. Under a scenario with
+dependent risks this changes to $P(D) \times P(D | D) = 0.1 \times 0.6$, a risk
+larger by a factor of 6! While the first bond would be rated as investment
+grade, the second would be rated as speculative grade and the magic from
+pooling and tranching suddenly disappears. Junk plus junk remains junk after 
+all.
+
+For pooling and tranching to reduce overall risk and create safe tranches:
+
+1. **Diversification:** Assets must come from independent sectors with minimal systemic risk.
+2. **Stable Macroeconomic Conditions:** Systemic risks must be low to maintain independence assumptions.
+3. **Transparent Modeling:** Dependence structures must be explicitly modeled and accounted for in risk assessments.
+
+The neglect of these conditions led to a flawed sense of security in structured finance, which contributed to the 2008 financial crisis.
+
+## Conditional Probability
+
+Conditional probability formalizes how the probability of one event 
+changes when another event is known to occur, providing a 
+framework for understanding dependencies quantitatively.
+
+Here is the mathematical definition:
+
+Conditional probability
+: Let $A$ and $B$ be given events. We define the **conditional probability** 
+of $A$ given $B$ as
 \begin{equation*}
-P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)}
+P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 \end{equation*}
 
-This formula bridges the gap between the frequentist interpretation of probability (long-run frequencies) and the Bayesian view (degrees of belief).
+Note that for conditional probabilities we have for two events $A$ and $B$, that
+$P(A|B) \neq P(B|A)$.
+To see this assume that $P(A) \neq P(B)$ and $P(A) \neq 0$ and
+$P(B)\neq 0$. 
 
-### Frequency and Probability: Closing the Gap
+We then get:
+\begin{equation*}
+P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(B \cap A)}{P(B)}
+\end{equation*}
+since $P(A \cap B) = P(B \cap A)$.
+It follows that
+\begin{equation*}
+\frac{P(B \cap A)}{P(B)} \neq \frac{P(B \cap A)}{P(A)} = P(B|A)
+\end{equation*}
+since we
+have assumed that $P(A) \neq P(B)$. 
+Therefore $P(A|B) \neq P(B|A)$.
 
-The weak law of large numbers shows that frequencies converge to probabilities 
-over many trials. However, it does not address how to interpret single-event 
-probabilities. Bayes' theorem provides this connection by allowing us to 
-infer probabilities in light of observed frequencies.
+As in the case of independent events the probability of
+two events occuring simultaneously we use the
+**multiplication rule**. The multiplication rule is the
+AND rule of probability theory. In the general case
+where dependence might occur we have to take into
+account that the probability of events influence each
+other. This requires a new notation, which we 
+have iplicitly used before when discussing our
+event tree.
 
-Consider the structured finance example: observing mortgage delinquencies 
-enables us to update the likelihood of bond defaults, moving from long-term 
-averages to actionable probabilities.
+Multiplication rule
+: Given events $A$ and $B$ it holds that
+\begin{equation*}
+P(A \cap B) = P(A | B)\times P(B)
+\end{equation*}
 
-### Example 1: "Where Is the Speck?"
+The notation $P(A | B)$ reads *probability of event $A$ given event $B$ has 
+occurred*. With th multiplication rule can gain a deeper insight into 
+the meaning of independence. Remember that two events $A$ and  $B$ are independent
+if $P(A \cap B) = P(B \cap A) = P(A) \times P(B)$. 
 
-Imagine inspecting a camera lens for a speck of dust. Initially, the speck’s location is equally likely on the front lens, rear lens, or not on the lens at all. After observing a smudge on a test image, we update our beliefs using Bayes' theorem.
+If we combine this rule with the
+concept of conditional probability, we see that if two 
+events $A$ and $B$ are independent, then
+\begin{equation*}
+P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A) \times P(B)}{P(B)} = P(A)
+\end{equation*}
+and
+\begin{equation*}
+P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \times P(B)}{P(A)} = P(B)
+\end{equation*}
 
-```{r}
-# Define prior probabilities
-prior <- c(front = 1/3, rear = 1/3, none = 1/3)
+This formula says that if two events are independent the probability of $A$ is
+not influenced by the event $B$ occurring and the probability of event $B$ is not
+influenced by the event $A$ occurring.
 
-# Define likelihoods
-likelihood <- c(front = 0.9, rear = 0.7, none = 0.1)
+Let's think about an example illustrating this fact. 
+Suppose you are analyzing the stock prices of Company A and Company B. Let:
 
-# Compute unnormalized posteriors
-unnormalized <- prior * likelihood
+- $A$: The event that Company $A$’s stock price increases.
+- $B$: The event that Company $B$’s stock price increases.
 
-# Normalize to get posterior probabilities
-posterior <- unnormalized / sum(unnormalized)
-posterior
-```
+Now imagine the following situation:
 
+1. **Strong Dependency**:
+   - If Company B’s stock increases $B$, it often positively impacts Company 
+   $A$ due to a business partnership. For example, $P(A|B) = 0.8$ (an 80% 
+   chance of $A$’s stock rising if $B$’s stock rises).
+   - However, the reverse relationship is weaker. If Company $A$’s stock rises 
+   $A$, it may only slightly impact Company $B$ due to asymmetrical business dynamics. For example, $P(B|A) = 0.3$ (a 30% chance of B’s stock rising if $A$’s stock rises).
 
-### Example 2: Overconfidence in Financial Risk Assessment
+2. **Asymmetry**:
+   - The probabilities are different because $P(A|B)$ measures how $A$’s stock depends on $B$’s movement, while $P(B|A)$ measures how $B$’s stock depends on 
+   $A$’s movement. The strength and direction of influence are not necessarily the same.
 
-Overconfidence in structured finance often led to underestimating correlated risks. Bayesian updating can reveal the pitfalls of such optimism. Let’s streamline the R example:
+ So why is $P(A|B) \neq P(B|A)$:
+ 
+- The events $A$ and $B$ have different relationships depending on which stock's movement is **caused by or influenced by** the other.
+- In this case, $P(A|B) \neq P(B|A)$ because Company $B$'s stock has a stronger influence on A’s stock than vice versa.
 
-```{r}
-# Define initial assumptions
-prior <- c(independent = 0.9, dependent = 0.1)
-
-# Define likelihoods of observed defaults under each scenario
-likelihood <- c(independent = 0.05, dependent = 0.2)
-
-# Compute unnormalized posteriors
-unnormalized <- prior * likelihood
-
-# Normalize to get posterior probabilities
-posterior <- unnormalized / sum(unnormalized)
-posterior
-```
-
-
-### Visualization
-
-To visualize the updating process for the "Where Is the Speck?" example:
-
-```{r}
-# Ensure prior and posterior are explicitly defined and have consistent lengths
-prior <- c(front = 1/3, rear = 1/3, none = 1/3)
-posterior <- c(front = 0.45, rear = 0.35, none = 0.2) # Example values consistent with prior
-
-# Create the data frame
-scenarios <- data.frame(
-  Scenario = rep(c("Prior", "Posterior"), each = 3),
-  Location = rep(c("Front", "Rear", "None"), 2),
-  Probability = c(prior, posterior)
-)
-
-# Visualization
-library(ggplot2)
-ggplot(scenarios, aes(x = Location, y = Probability, fill = Scenario)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Bayesian Updating: Speck Location", x = "Location", y = "Probability")
-
-```
-
+Think of $P(A|B)$ as asking, “If $B$ moves, how does $A$ behave?” versus $P(B|A)$, which asks, “If $A$ moves, how does $B$ behave?” The relationship is directional, and the influence is often unequal, leading to $P(A|B) \neq P(B|A)$.

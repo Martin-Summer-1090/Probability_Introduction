@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Conditional Probability – An Introduction to Probability</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-lecture2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-lecture3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conditional Probability</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">An Introduction to Probability</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-lecture1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">First probability ideas and first steps in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-lecture2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability: Basic Definitions and Rules</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-lecture3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conditional Probability</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-neglecting-conditional-probability-may-be-expensive-a-case-study." id="toc-why-neglecting-conditional-probability-may-be-expensive-a-case-study." class="nav-link active" data-scroll-target="#why-neglecting-conditional-probability-may-be-expensive-a-case-study."><span class="header-section-number">3.1</span> Why neglecting conditional probability may be expensive: A case study.</a>
+  <ul class="collapse">
+  <li><a href="#understanding-structured-finance-bonds-pools-and-tranches" id="toc-understanding-structured-finance-bonds-pools-and-tranches" class="nav-link" data-scroll-target="#understanding-structured-finance-bonds-pools-and-tranches"><span class="header-section-number">3.1.1</span> Understanding Structured Finance: Bonds, Pools, and Tranches</a></li>
+  <li><a href="#bonds-and-credit-risk" id="toc-bonds-and-credit-risk" class="nav-link" data-scroll-target="#bonds-and-credit-risk"><span class="header-section-number">3.1.2</span> Bonds and Credit Risk</a></li>
+  <li><a href="#pooling-and-tranching-the-innovation" id="toc-pooling-and-tranching-the-innovation" class="nav-link" data-scroll-target="#pooling-and-tranching-the-innovation"><span class="header-section-number">3.1.3</span> Pooling and Tranching: The Innovation</a></li>
+  <li><a href="#an-example" id="toc-an-example" class="nav-link" data-scroll-target="#an-example"><span class="header-section-number">3.1.4</span> An Example</a></li>
+  </ul></li>
+  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link" data-scroll-target="#conditional-probability"><span class="header-section-number">3.2</span> Conditional Probability</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conditional Probability</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="why-neglecting-conditional-probability-may-be-expensive-a-case-study." class="level2 page-columns page-full" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="why-neglecting-conditional-probability-may-be-expensive-a-case-study."><span class="header-section-number">3.1</span> Why neglecting conditional probability may be expensive: A case study.</h2>
+<p>To appreciate the significance of conditional probability, let us start with a simple but striking scenario from the world of finance. Imagine you are an investor trying to evaluate the safety of a bond portfolio. On paper, the bonds are rated highly by reputable agencies, and the portfolio looks diversified—a dream investment. However, during a global recession, a few defaults occur, and to your surprise, the entire portfolio begins to unravel, causing significant losses. How could this happen?</p>
+<p>This seemingly safe portfolio turned risky because it underestimated the connections between events—a core idea tied to conditional probability. Conditional probability helps us analyze how the risk of one event changes given another has occurred. It enables us to model dependencies, a critical factor in real-world scenarios, particularly during financial crises.</p>
+<p>Understanding these relationships isn’t just an intellectual exercise—it’s crucial for preventing catastrophic losses. Whether you’re pricing complex financial instruments, assessing credit risk, or making investment decisions, mastering conditional probability allows you to account for interconnected risks and avoid misleading conclusions based on oversimplified assumptions.</p>
+<p>More generally conditional probability is the key instrument of probability theory that guides you in adjusting risk assessment when new information becomes available that was not there before.</p>
+<p>With this motivation in mind, we now turn to a historical example that demonstrates the importance of understanding conditional probability: the financial crisis of 2007-2008. This crisis revealed how wrong assumptions about independence and neglect of dependence in events and conditional probabilities can lead to systemic failures in structured finance.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp; See <span class="citation" data-cites="Tooze2018">Tooze (<a href="#ref-Tooze2018" role="doc-biblioref">2018</a>)</span>: For an engaging and comprehensive exploration of the great financial crisis of 2007 - 2008 and its causes and aftermath. It is highly recommended for deeper study.</p></div></div><section id="understanding-structured-finance-bonds-pools-and-tranches" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="understanding-structured-finance-bonds-pools-and-tranches"><span class="header-section-number">3.1.1</span> Understanding Structured Finance: Bonds, Pools, and Tranches</h3>
+<p>Let us begin with a simplified overview of the basic ideas of structured finance and the engineering of specific risk profiles from a portfolio of risky bonds. This example will then illustrate all the basic ideas why conditional probability is an important concept and how it helps us navigating complext real world situations. This example will also motivate our our more formal discussion.</p>
+</section>
+<section id="bonds-and-credit-risk" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="bonds-and-credit-risk"><span class="header-section-number">3.1.2</span> Bonds and Credit Risk</h3>
+<p><strong>Bond, face value, par value</strong> : A <strong>bond</strong> is a financial instrument where the issuer agrees to pay the holder a specific amount, the <strong>face value</strong> or <strong>par value</strong>, at maturity. Bonds are widely used as fixed-income securities but carry the risk of default if the issuer faces financial difficulties.</p>
+<p>To quantify this risk, bonds are rated by agencies such as Moody’s and Standard &amp; Poor’s. Investment-grade bonds are considered low-risk, while speculative or “junk” bonds are riskier and more likely to default. Here is a summary of their rating schemes and what the ratings mean in words:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Rating Category</th>
+<th>Moody’s</th>
+<th>Standard &amp; Poor’s</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>High grade</td>
+<td>Aaa</td>
+<td>AAA</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Aa</td>
+<td>AA</td>
+</tr>
+<tr class="odd">
+<td>Medium grade</td>
+<td>A</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Baa</td>
+<td>BBB</td>
+</tr>
+<tr class="odd">
+<td>Speculative grade</td>
+<td>Ba</td>
+<td>BB</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>B</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td>Default danger</td>
+<td>Caa</td>
+<td>CCC</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Ca</td>
+<td>CC</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>C</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>D</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="pooling-and-tranching-the-innovation" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="pooling-and-tranching-the-innovation"><span class="header-section-number">3.1.3</span> Pooling and Tranching: The Innovation</h3>
+<p>Structured finance emerged in the early 2000s as a way to manage risk through <strong>pooling</strong> and <strong>tranching</strong>. By pooling risky assets and dividing cash flows into “tranches” with distinct risk profiles, financial engineers created new bonds, including investment-grade securities, from portfolios of junk bonds. A major product of this innovation was the <strong>mortgage-backed security (MBS)</strong>.</p>
+</section>
+<section id="an-example" class="level3 page-columns page-full" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="an-example"><span class="header-section-number">3.1.4</span> An Example</h3>
+<p>Let us develop an intuitive understanding of structured finance and its relation to probability through a simplified example, which I learned from Karl Schmedder’s course mentioned at the beginning.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;See https://www.coursera.org/learn/introductiontoprobability</p></div></div><section id="a-simple-event-tree-for-one-bond" class="level5" data-number="3.1.4.0.1">
+<h5 data-number="3.1.4.0.1" class="anchored" data-anchor-id="a-simple-event-tree-for-one-bond"><span class="header-section-number">3.1.4.0.1</span> A Simple Event Tree for One Bond</h5>
+<p>Consider a single bond you can own today that pays €1 at maturity at some point in the future. Time is often abbreviated as <span class="math inline">\(t\)</span> and the points in time are symbolized by letting <span class="math inline">\(t\)</span> take different values like <span class="math inline">\(t=0\)</span> for today and <span class="math inline">\(t=1\)</span> for a future point in time, say a year from today.</p>
+<p>This bond has a 10% chance of default, meaning there is a 90% chance it will not default. With a default probability of 10%, this bond would likely receive a speculative grade rating, such as ‘B’ or ‘B-’ in the rating tables presented earlier. This poor rating reflects the significant risk of non-payment associated with such a bond, which could deter risk-averse investors and highlight its ‘junk’ bond status. The payoff is structured as follows:</p>
+<ul>
+<li>If the bond does not default (“N”), the payoff is €1.</li>
+<li>If the bond defaults (“D”), the payoff is €0.</li>
+</ul>
+<p>This situation can be represented as a simple probability tree of <a href="#fig-single_bond_event_tree" class="quarto-xref">Figure&nbsp;<span>3.1</span></a></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-single_bond_event_tree" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-single_bond_event_tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/single_bond_event_tree.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-single_bond_event_tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Event tree for one bond
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The graph above visualizes the outcomes of a single bond. Each node represents a possible state of the bond at different times:</p>
+<ul>
+<li><span class="math inline">\(t=0\)</span> is the starting point.</li>
+<li><span class="math inline">\(t=1\)</span> No Default <span class="math inline">\(N\)</span> occurs with a probability of <span class="math inline">\(P(N) = 0.9\)</span>.</li>
+<li><span class="math inline">\(t=1\)</span> Default <span class="math inline">\(D\)</span> occurs with a probability of <span class="math inline">\(P(D) = 0.1\)</span>.</li>
+</ul>
+<p>You could see this in analogy to the toss of a coin with the difference that both sides of the coin show with different probability.</p>
+</section>
+<section id="combining-two-bonds-with-independence-assumption" class="level4 page-columns page-full" data-number="3.1.4.1">
+<h4 data-number="3.1.4.1" class="anchored" data-anchor-id="combining-two-bonds-with-independence-assumption"><span class="header-section-number">3.1.4.1</span> Combining Two Bonds with Independence Assumption</h4>
+<p>We now combine two such bonds into a portfolio. The assumption of <strong>independence</strong> implies that the defaults of these bonds occur independently of each other.</p>
+<p>While this assumption simplifies calculations, it was historically used by financial engineers to justify creating tranches from risky portfolios. The reasoning was that diversification reduces the likelihood of joint defaults, making some tranches appear safer.</p>
+<p>At the time, financial engineers relied on historical data and market conditions to argue for this independence. Defaults were often uncorrelated under normal economic conditions, and diversification was seen as a proven strategy for mitigating risk. For example, if bond defaults were driven by isolated events (such as company-specific issues), the assumption of independence seemed reasonable. Moreover, the packaging of diverse assets from different industries into portfolios strengthened the appearance of safety, as individual economic shocks were less likely to affect the entire portfolio simultaneously.</p>
+<p>However, this reasoning neglected systemic risks. During economic downturns or financial crises, defaults often become highly correlated due to shared macroeconomic pressures, such as declining housing markets or credit tightening. For instance, in the lead-up to the 2008 financial crisis, rising mortgage defaults were driven by broader economic factors that impacted many bonds simultaneously. WIth this in mind it would be not pausible to assume that bonds can be stacked together in a portfolio without the default risks of one being not pushed up by the default risk of others.</p>
+<p>Even without the formal use of probability theory, financial engineers could have questioned whether diversification truly guaranteed independence in the context of systemic risks.</p>
+<p>The idea that junk plus junk could be transformed into investment-grade bonds through pooling should have raised skepticism. Careful critical thinking—considering broader economic dependencies—would have revealed that this transformation was too good to be true. By ignoring these dependencies, financial engineers failed to see how small cracks in the system could cascade into systemic failures.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp; A famous voice at the time warning about the flawed reasoning was Raghuram Rajan, former chief economist of the International Monetary Fund. He warned that rather than reducing risk through diversification, CDOs and other derivatives spread risk and uncertainty about the value of the underlying assets more widely. </p></div></div><p>But let us not jump ahead and try to see how the tree for two bonds looks like when we assume independence in <a href="#fig-two_bond_event_tree" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-two_bond_event_tree" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two_bond_event_tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/two_bonds_event_tree.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two_bond_event_tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Event tree for two bonds with independent default risk
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The outcome of combining two bonds can be represented as a double event tree, showing all possible combinations of defaults and no defaults at <span class="math inline">\(t=1\)</span>: picture here</p>
+</section>
+<section id="pooling-and-tranching" class="level4" data-number="3.1.4.2">
+<h4 data-number="3.1.4.2" class="anchored" data-anchor-id="pooling-and-tranching"><span class="header-section-number">3.1.4.2</span> Pooling and Tranching</h4>
+<p>When you look at this portfolio under the independence assumption there seems to be room for reengineering the risk profile of this portfolio. In all outcomes but in the one where both bonds default you can guarantee a payoff of 1. There remains an adverse outcome, where both bonds default in which case you can pay out nothing. But under independence this risk is small. The probability of this event - remember our treatment of independent events in the first lecture - would be: <span class="math inline">\(P(D) \times P(D) = 0.1 \times 0.1 = 0.01\)</span> Pretty low. For example assume that the probability of default refer to the probability of the bond defaulting over a year, the usual time frame taken in ratings, this would be a one in a hundered years event. In <span class="math inline">\(99%\)</span> we would get a sure payoff of 1.</p>
+<p>So this is the idea. We <strong>pool</strong> the payoffs of both securities and define two new securities by changing their payoff profile. The first one pays always 1 except when both bonds default in which case this bond pays 0. The other one will always pay 0 except in the case where both bonds do not default. This is under independence an event with probability <span class="math inline">\(P(N) \times P(N) = 0.81\)</span>. Rember the complementarity rule? This says that the second bond will thus have a default probability of <span class="math inline">\(19\)</span> % instead of <span class="math inline">\(10%\)</span> it would be close to toxic junk now.</p>
+<p>Here is picture how you can visualize this piece fo financial magic.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-pooling-and-tranching" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pooling-and-tranching-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/pooling_and_tranching.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pooling-and-tranching-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Event tree for two bonds with independent default risk with pooling and tranching
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>What is done here is that the aggregate payoffs of both bonds are collected in a pool and new securities - called P - in this picture are issued against the pool. One, the upper one is now an investment grade asset paying 1 in every state except one and the other is a toxic junk bond paying always 0 except in one state. Note that the investment grade status could be engineered under the assumption that the risks are independent.</p>
+</section>
+<section id="pooling-and-tranching-without-independent-risks" class="level4" data-number="3.1.4.3">
+<h4 data-number="3.1.4.3" class="anchored" data-anchor-id="pooling-and-tranching-without-independent-risks"><span class="header-section-number">3.1.4.3</span> Pooling and Tranching without Independent Risks</h4>
+<p>Now, let us consider a hypothetical question: <strong>How would the event tree change if the independence assumption does not hold?</strong> Dependence would alter the probabilities in a way that reflects the increased likelihood of joint defaults during systemic events.</p>
+<p>Suppose we now assume that the probability of Bond 2 defaulting changes rather than staying unchanged under the condition that Bond 1 has defaulted:</p>
+<ul>
+<li>If Bond 1 does <strong>not</strong> default, Bond 2 defaults with probability 0.1 (as before).</li>
+<li>If Bond 1 <strong>does</strong> default, Bond 2 defaults with a higher probability of 0.6 due to systemic dependence.</li>
+</ul>
+<p>This dependence reflects a scenario where defaults are more likely to occur together, such as during an economic downturn. The resulting event tree can be visualized as follows:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-pooling-and-tranching-dependent" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pooling-and-tranching-dependent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/two_bonds_event_tree_dependent_events.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pooling-and-tranching-dependent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: Event tree for two bonds with independent default risk with pooling and tranching with dependent default risk
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>On the first sight this looks almost identical to the picture before. Only the numbers on the edges of the second tree have changed. These changed numbers reflect the idea that the event that one bond has defaultet changes the probability of the second bond defualting as well. How could such a dependence occur?</p>
+<p>Here’s a real-world example to illustrate how dependence can occur: In the context of bonds, dependence in default probabilities can arise from shared exposure to systemic risks or interconnected factors. For instance, consider two companies that issue bonds and operate in the same industry, such as the energy sector. If oil prices plummet due to an economic downturn or geopolitical instability, both companies might experience financial stress, making it more likely that one default is followed by another.</p>
+<p>Another example is during a financial crisis, such as the 2008 global financial meltdown. A bank’s default on its obligations can lead to cascading defaults in other institutions due to counterparty risks or a general loss of confidence in the financial system. In such cases, the probability of a second default is no longer independent of the first because the events are tied to the same underlying macroeconomic factors.</p>
+<p>These examples highlight that the assumption of independence between bond defaults might hold under normal market conditions but breaks down during systemic crises. Such dependencies must be carefully modeled to avoid underestimating risk, as was the case in structured finance products leading up to the 2008 crisis.</p>
+<p>A prudent risk manager must keep such a scenario in mind when he analyzes a portfolio. Think about it in the context of the toy example. In the first case the default risk of the first asset created by pooling and tranching was <span class="math inline">\(P(D) \times P(D) = 0.1 \times 0.1 = 0.01\)</span>. Under a scenario with dependent risks this changes to <span class="math inline">\(P(D) \times P(D | D) = 0.1 \times 0.6\)</span>, a risk larger by a factor of 6! While the first bond would be rated as investment grade, the second would be rated as speculative grade and the magic from pooling and tranching suddenly disappears. Junk plus junk remains junk after all.</p>
+<p>For pooling and tranching to reduce overall risk and create safe tranches:</p>
+<ol type="1">
+<li><strong>Diversification:</strong> Assets must come from independent sectors with minimal systemic risk.</li>
+<li><strong>Stable Macroeconomic Conditions:</strong> Systemic risks must be low to maintain independence assumptions.</li>
+<li><strong>Transparent Modeling:</strong> Dependence structures must be explicitly modeled and accounted for in risk assessments.</li>
+</ol>
+<p>The neglect of these conditions led to a flawed sense of security in structured finance, which contributed to the 2008 financial crisis.</p>
+</section>
+</section>
+</section>
+<section id="conditional-probability" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">3.2</span> Conditional Probability</h2>
+<p>Conditional probability formalizes how the probability of one event changes when another event is known to occur, providing a framework for understanding dependencies quantitatively.</p>
+<p>Here is the mathematical definition:</p>
+<dl>
+<dt>Conditional probability</dt>
+<dd>
+Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be given events. We define the <strong>conditional probability</strong> of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span> as <span class="math display">\[\begin{equation*}
+P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
+\end{equation*}\]</span>
+</dd>
+</dl>
+<p>Note that for conditional probabilities we have for two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, that <span class="math inline">\(P(A|B) \neq P(B|A)\)</span>. To see this assume that <span class="math inline">\(P(A) \neq P(B)\)</span> and <span class="math inline">\(P(A) \neq 0\)</span> and <span class="math inline">\(P(B)\neq 0\)</span>.</p>
+<p>We then get: <span class="math display">\[\begin{equation*}
+P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(B \cap A)}{P(B)}
+\end{equation*}\]</span> since <span class="math inline">\(P(A \cap B) = P(B \cap A)\)</span>. It follows that <span class="math display">\[\begin{equation*}
+\frac{P(B \cap A)}{P(B)} \neq \frac{P(B \cap A)}{P(A)} = P(B|A)
+\end{equation*}\]</span> since we have assumed that <span class="math inline">\(P(A) \neq P(B)\)</span>. Therefore <span class="math inline">\(P(A|B) \neq P(B|A)\)</span>.</p>
+<p>As in the case of independent events the probability of two events occuring simultaneously we use the <strong>multiplication rule</strong>. The multiplication rule is the AND rule of probability theory. In the general case where dependence might occur we have to take into account that the probability of events influence each other. This requires a new notation, which we have iplicitly used before when discussing our event tree.</p>
+<dl>
+<dt>Multiplication rule</dt>
+<dd>
+Given events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> it holds that <span class="math display">\[\begin{equation*}
+P(A \cap B) = P(A | B)\times P(B)
+\end{equation*}\]</span>
+</dd>
+</dl>
+<p>The notation <span class="math inline">\(P(A | B)\)</span> reads <em>probability of event <span class="math inline">\(A\)</span> given event <span class="math inline">\(B\)</span> has occurred</em>. With th multiplication rule can gain a deeper insight into the meaning of independence. Remember that two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if <span class="math inline">\(P(A \cap B) = P(B \cap A) = P(A) \times P(B)\)</span>.</p>
+<p>If we combine this rule with the concept of conditional probability, we see that if two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent, then <span class="math display">\[\begin{equation*}
+P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A) \times P(B)}{P(B)} = P(A)
+\end{equation*}\]</span> and <span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \times P(B)}{P(A)} = P(B)
+\end{equation*}\]</span></p>
+<p>This formula says that if two events are independent the probability of <span class="math inline">\(A\)</span> is not influenced by the event <span class="math inline">\(B\)</span> occurring and the probability of event <span class="math inline">\(B\)</span> is not influenced by the event <span class="math inline">\(A\)</span> occurring.</p>
+<p>Let’s think about an example illustrating this fact. Suppose you are analyzing the stock prices of Company A and Company B. Let:</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: The event that Company <span class="math inline">\(A\)</span>’s stock price increases.</li>
+<li><span class="math inline">\(B\)</span>: The event that Company <span class="math inline">\(B\)</span>’s stock price increases.</li>
+</ul>
+<p>Now imagine the following situation:</p>
+<ol type="1">
+<li><strong>Strong Dependency</strong>:
+<ul>
+<li>If Company B’s stock increases <span class="math inline">\(B\)</span>, it often positively impacts Company <span class="math inline">\(A\)</span> due to a business partnership. For example, <span class="math inline">\(P(A|B) = 0.8\)</span> (an 80% chance of <span class="math inline">\(A\)</span>’s stock rising if <span class="math inline">\(B\)</span>’s stock rises).</li>
+<li>However, the reverse relationship is weaker. If Company <span class="math inline">\(A\)</span>’s stock rises <span class="math inline">\(A\)</span>, it may only slightly impact Company <span class="math inline">\(B\)</span> due to asymmetrical business dynamics. For example, <span class="math inline">\(P(B|A) = 0.3\)</span> (a 30% chance of B’s stock rising if <span class="math inline">\(A\)</span>’s stock rises).</li>
+</ul></li>
+<li><strong>Asymmetry</strong>:
+<ul>
+<li>The probabilities are different because <span class="math inline">\(P(A|B)\)</span> measures how <span class="math inline">\(A\)</span>’s stock depends on <span class="math inline">\(B\)</span>’s movement, while <span class="math inline">\(P(B|A)\)</span> measures how <span class="math inline">\(B\)</span>’s stock depends on <span class="math inline">\(A\)</span>’s movement. The strength and direction of influence are not necessarily the same.</li>
+</ul></li>
+</ol>
+<p>So why is <span class="math inline">\(P(A|B) \neq P(B|A)\)</span>:</p>
+<ul>
+<li>The events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> have different relationships depending on which stock’s movement is <strong>caused by or influenced by</strong> the other.</li>
+<li>In this case, <span class="math inline">\(P(A|B) \neq P(B|A)\)</span> because Company <span class="math inline">\(B\)</span>’s stock has a stronger influence on A’s stock than vice versa.</li>
+</ul>
+<p>Think of <span class="math inline">\(P(A|B)\)</span> as asking, “If <span class="math inline">\(B\)</span> moves, how does <span class="math inline">\(A\)</span> behave?” versus <span class="math inline">\(P(B|A)\)</span>, which asks, “If <span class="math inline">\(A\)</span> moves, how does <span class="math inline">\(B\)</span> behave?” The relationship is directional, and the influence is often unequal, leading to <span class="math inline">\(P(A|B) \neq P(B|A)\)</span>.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Tooze2018" class="csl-entry" role="listitem">
+Tooze, Adam. 2018. <em>Crashed. How a Decade of Financial Crisis Changed the World</em>. Viking.
+</div>
+</div>
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-lecture2.html" class="pagination-link" aria-label="Probability: Basic Definitions and Rules">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability: Basic Definitions and Rules</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
