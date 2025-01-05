@@ -240,9 +240,8 @@ window.Quarto = {
   <li><a href="#introduction-to-environments" id="toc-introduction-to-environments" class="nav-link" data-scroll-target="#introduction-to-environments"><span class="header-section-number">3.3.1</span> Introduction to Environments</a></li>
   <li><a href="#scoping-rules" id="toc-scoping-rules" class="nav-link" data-scroll-target="#scoping-rules"><span class="header-section-number">3.3.2</span> Scoping Rules</a></li>
   <li><a href="#closures" id="toc-closures" class="nav-link" data-scroll-target="#closures"><span class="header-section-number">3.3.3</span> Closures</a></li>
-  <li><a href="#function-factory-for-conditional-probability-calculators" id="toc-function-factory-for-conditional-probability-calculators" class="nav-link" data-scroll-target="#function-factory-for-conditional-probability-calculators"><span class="header-section-number">3.3.4</span> <strong>Function Factory for Conditional Probability Calculators</strong></a></li>
   </ul></li>
-  <li><a href="#updating-beliefs-bayes-rule" id="toc-updating-beliefs-bayes-rule" class="nav-link" data-scroll-target="#updating-beliefs-bayes-rule"><span class="header-section-number">3.4</span> Updating beliefs: Bayes rule</a></li>
+  <li><a href="#updating-beliefs-bayes-rule" id="toc-updating-beliefs-bayes-rule" class="nav-link" data-scroll-target="#updating-beliefs-bayes-rule"><span class="header-section-number">3.4</span> Updating beliefs: Bayes’ rule</a></li>
   </ul>
 </nav>
     </div>
@@ -512,11 +511,11 @@ P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(example_without_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "T" "H" "H" "T" "T" "H" "T" "H" "T" "T"</code></pre>
+<pre><code> [1] "T" "H" "H" "H" "H" "T" "T" "H" "H" "T"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(example_without_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "T" "H" "H" "H" "T" "H" "T" "T" "T" "T"</code></pre>
+<pre><code> [1] "H" "T" "T" "H" "T" "H" "H" "H" "T" "T"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tossing a fair coin 5 times, two different rund with set.seed()</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -905,7 +904,7 @@ P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \times P(B)}{P(A)} = P(B)
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="closures"><span class="header-section-number">3.3.3</span> Closures</h3>
 <p>A <strong>closure</strong> is a function that remembers the environment in which it was created. Closures are powerful for creating dynamic, reusable functions, such as calculators for different conditional probabilities.</p>
 <p><strong>Example: Probability Calculator Factory</strong></p>
-<p>Let’s create a function factory that generates specific probability calculators based on a given event.</p>
+<p>This code demonstrates a powerful concept in R: <strong>closures</strong>. A closure is a function that “remembers” the environment in which it was created, allowing you to dynamically generate new functions with specific behaviors. Let’s create a function factory that generates specific probability calculators based on a given event.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function factory for conditional probability calculators</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -935,32 +934,7 @@ P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \times P(B)}{P(A)} = P(B)
 <pre><code>Joint probability for BBB bonds: 0.004 </code></pre>
 </div>
 </div>
-<p>Here’s a detailed explanation of the code chunk, formatted for easy inclusion in your Quarto document:</p>
-<hr>
-</section>
-<section id="function-factory-for-conditional-probability-calculators" class="level3" data-number="3.3.4">
-<h3 data-number="3.3.4" class="anchored" data-anchor-id="function-factory-for-conditional-probability-calculators"><span class="header-section-number">3.3.4</span> <strong>Function Factory for Conditional Probability Calculators</strong></h3>
-<p>This code demonstrates a powerful concept in R: <strong>closures</strong>. A closure is a function that “remembers” the environment in which it was created, allowing you to dynamically generate new functions with specific behaviors. Let’s unpack the code step by step:</p>
-<section id="code" class="level4" data-number="3.3.4.1">
-<h4 data-number="3.3.4.1" class="anchored" data-anchor-id="code"><span class="header-section-number">3.3.4.1</span> <strong>Code</strong></h4>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function factory for conditional probability calculators</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>probability_calculator_factory <span class="ot">&lt;-</span> <span class="cf">function</span>(event_probability) {</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(conditional_probability) {</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    joint_probability <span class="ot">&lt;-</span> event_probability <span class="sc">*</span> conditional_probability</span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(joint_probability)</span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create calculators for different events</span></span>
-<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>junk_calculator <span class="ot">&lt;-</span> <span class="fu">probability_calculator_factory</span>(<span class="fl">0.05</span>)  <span class="co"># Junk bonds</span></span>
-<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>bbb_calculator <span class="ot">&lt;-</span> <span class="fu">probability_calculator_factory</span>(<span class="fl">0.02</span>)   <span class="co"># BBB bonds</span></span>
-<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate joint probabilities</span></span>
-<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>junk_joint <span class="ot">&lt;-</span> <span class="fu">junk_calculator</span>(<span class="fl">0.1</span>)  <span class="co"># P(Default | Junk) * P(Junk)</span></span>
-<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>bbb_joint <span class="ot">&lt;-</span> <span class="fu">bbb_calculator</span>(<span class="fl">0.2</span>)    <span class="co"># P(Default | BBB) * P(BBB)</span></span>
-<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Joint probability for Junk bonds:"</span>, junk_joint, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Joint probability for BBB bonds:"</span>, bbb_joint, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s unpack the code step by step:</p>
 <p>The <code>probability_calculator_factory</code> is a <strong>function factory</strong>. It takes one argument, <code>event_probability</code>, and returns a new function that calculates the <strong>joint probability</strong> for a given conditional probability:</p>
 <ul>
 <li><strong>Input</strong>:
@@ -997,9 +971,8 @@ Now you try
 </div>
 </section>
 </section>
-</section>
 <section id="updating-beliefs-bayes-rule" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="updating-beliefs-bayes-rule"><span class="header-section-number">3.4</span> Updating beliefs: Bayes rule</h2>
+<h2 data-number="3.4" class="anchored" data-anchor-id="updating-beliefs-bayes-rule"><span class="header-section-number">3.4</span> Updating beliefs: Bayes’ rule</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">

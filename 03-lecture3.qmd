@@ -974,6 +974,12 @@ calculators for different conditional probabilities.
 
 **Example: Probability Calculator Factory**
 
+This code demonstrates a powerful concept in R: **closures**. 
+A closure 
+is a function that "remembers" the environment in 
+which it was created, 
+allowing you to dynamically generate new functions 
+with specific behaviors.
 Let’s create a function factory that generates specific probability 
 calculators based on a given event.
 
@@ -1003,36 +1009,9 @@ cat("Joint probability for BBB bonds:", bbb_joint, "\n")
 
 ```
 
-Here's a detailed explanation of the code chunk, formatted for easy inclusion in your Quarto document:
 
----
+ Let’s unpack the code step by step:
 
-### **Function Factory for Conditional Probability Calculators**
-
-This code demonstrates a powerful concept in R: **closures**. A closure is a function that "remembers" the environment in which it was created, allowing you to dynamically generate new functions with specific behaviors. Let’s unpack the code step by step:
-
-#### **Code**
-
-```r
-# Function factory for conditional probability calculators
-probability_calculator_factory <- function(event_probability) {
-  function(conditional_probability) {
-    joint_probability <- event_probability * conditional_probability
-    return(joint_probability)
-  }
-}
-
-# Create calculators for different events
-junk_calculator <- probability_calculator_factory(0.05)  # Junk bonds
-bbb_calculator <- probability_calculator_factory(0.02)   # BBB bonds
-
-# Calculate joint probabilities
-junk_joint <- junk_calculator(0.1)  # P(Default | Junk) * P(Junk)
-bbb_joint <- bbb_calculator(0.2)    # P(Default | BBB) * P(BBB)
-
-cat("Joint probability for Junk bonds:", junk_joint, "\n")
-cat("Joint probability for BBB bonds:", bbb_joint, "\n")
-```
 
 The `probability_calculator_factory` is a **function factory**. It takes 
 one argument, `event_probability`, and returns a new function 
@@ -1073,6 +1052,6 @@ function is created, while still allowing flexibility for additional inputs.
 3. Use the `probability_calculator_factory` to compute joint probabilities for a new event, such as "Real Estate Sector Default."
 :::
 
-## Updating beliefs: Bayes rule
+## Updating beliefs: Bayes' rule
 
 
