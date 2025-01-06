@@ -1052,6 +1052,260 @@ function is created, while still allowing flexibility for additional inputs.
 3. Use the `probability_calculator_factory` to compute joint probabilities for a new event, such as "Real Estate Sector Default."
 :::
 
-## Updating beliefs: Bayes' rule
+## Bayes' Rule: One of the Great Ideas in Probability
 
+Bayes' Rule stands among the ten great ideas in probability. 
+Its power lies in solving a fundamental problem: how to infer 
+underlying chances from observed frequencies. This insight filled 
+a critical gap left by Bernoulli’s weak law of large numbers, which 
+explained how observed frequencies converge to probabilities but 
+left unanswered the question of how to reason from those 
+frequencies back to the chances that generated them.
 
+At its core, Bayes' Rule provides a framework for updating our beliefs 
+in light of new information. But what does it mean to assign a 
+probability to a belief? This idea rests on another deep insight in 
+probability theory: judgments about uncertainty can be measured, and 
+when those judgments are coherent, they follow the rules of probability. 
+^[Frank Ramsey (1903–1930) was a British mathematician, philosopher, and 
+economist whose profound contributions spanned multiple fields 
+despite his tragically short life. In probability, he 
+established the foundation for subjective probability theory, 
+showing that coherent judgments about uncertainty adhere to 
+the axioms of probability. Ramsey also made groundbreaking 
+advances in decision theory, logic, and economics, including 
+the famous Ramsey pricing in public economics and 
+his foundational work in mathematical logic. For more, on Ramsey's ideas of
+connecting judegment to probability see chapter 2 in @DiaconisSkyrms2019]
+
+The key breakthrough of Bayes' Rule is that it ties these coherent judgments—our 
+initial beliefs, or priors—to evidence, using conditional probability. This 
+process transforms subjective judgments into a systematic method for 
+reasoning under uncertainty, with profound applications across science, finance, 
+and everyday decision-making.
+
+### A simple example: Revising beliefs about market valuation
+
+We discussed the big financial crisis of 2007-2008 earlier in this lecture. 
+Imagine now you are an investor in the year 2011, just a bit later. The market 
+is gripped by fear of another financial crisis, this time triggered by 
+tensions in the Eurozone. Some of you might still remember this
+episode which now belongs to the history of financial crisis.
+
+Let's imagine how you could have asessed the market situation by looking
+ast financial data. This is also an excellent opportuity to introdcue you
+to one of many great opportunities to load real world data directly into
+you R session using add on packages. The package we are going to use here
+is called `tidyquant`. To be able to use it you must first install it using
+the `install.packages()`function of base R or the package installer pane in
+RStudio. Let us do that - assuming that this package has been installed. You
+might remember how to load a package from before.
+
+```{r loading-tidyquant, message=FALSE, warning=FALSE}
+
+library(tidyquant)
+```
+
+Now tidyquant has many functions allwoing you to retrieve and transform
+real world financial data. We do not go into any detail here. This is something
+you can do yourself using the excellent documentation of this package, the many
+examples on the web or by interrogating your LLM.^[Check out https://cran.r-project.org/web/packages/tidyquant/index.html]. One of the
+core workhorse functions in tidyquant is the function `tq_get()` which allows 
+you to retrieve data.
+
+One thing an anlyst might be interested in is how the stock market as measured
+by a broad index does at the moment compared to its historical values. Let's 
+say you are looking back 11 years from 2011 into the past and see how the
+S&P500 does now compared to this history. This is how you would 
+use `tidyquant` to do this:
+
+```{r using-tqget}
+
+# Fetch S&P 500 data from 2000 to 2011
+
+sp500_data <- tq_get("SPY", from = "2000-01-01", to = "2011-12-31")
+```
+
+In order to do load data you need the string of the name of the series
+you are interested in, which you can learn from the documetation. In our
+case this is "SPY" for the SP500. You can
+also specify a time range or just the beginning of the series. In the latter 
+case it will give you all the data from the beginning up to the current or
+most recent trading day. We have written the data into an R object called
+`sp500_data` and now you might inspect it.
+
+```{r inspect sp500}
+head(sp500_data)
+```
+
+The otput says that the data object is a `tibble()`. Don't worry about this
+detail at the moment and think of a `tibble()`as something equivalent to a
+dataframe.
+
+Now let us visualize the data using base R's `plot()` function. Use the help
+facilities or your LLM to find out abut the syntax details.
+
+```{r visualize-sp500}
+
+# Base R plot
+plot(
+  sp500_data$date, sp500_data$adjusted,
+  type = "l",                # Line plot
+  col = "blue",              # Line color
+  lwd = 2,                   # Line width
+  xlab = "Date",             # X-axis label
+  ylab = "Adjusted Price",   # Y-axis label
+  main = "S&P 500 Price Trends (1998–2011)" # Title
+)
+
+# Add grid lines for better readability
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray")
+```
+
+We see that the index is about the same level as it was
+10 years ago. The index alone does not tell you very much. 
+How about
+relating this to some important market fundamentals.
+One powerful feature of `tidyquant()` is that it can
+fetch data from various data sources. Here I get,
+for the sake of this example, data on
+corporate profits from the FRED database of
+the Fed St. Louis^[See https://fred.stlouisfed.org/]
+
+```{r retrieveing spfundamentals}
+
+# Get corporate profits data from FRED
+corporate_profits <- tq_get("CP", from = "2000-01-01", to = "2011-12-31", get = "economic.data")
+
+# Visualize corporate profits
+plot(
+  corporate_profits$date, corporate_profits$price,
+  type = "l",
+  col = "blue",
+  lwd = 2,
+  xlab = "Year",
+  ylab = "Corporate Profits (Index)",
+  main = "Corporate Profits (1998–2011)"
+)
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray")
+
+```
+
+Profits have roughly tripled over the same period. The market
+does seem to be undervalued. Let's put this
+into perspective by looking at Price Earning
+data. 
+
+Now we run into a problem which you will often encounter
+when working with data. It is rare that a tool covers all cases.
+P/E rations seem to be difficult to retrieve with `tidyquant`. These
+data do however exist on the web, for example at the website
+Macrotrends. The P/E ratio for the SP500 can be found for instance
+here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart
+
+To retrieve data from this site, I had to download the data locally
+first before I could get them into R. Let's look at them a bit 
+close
+
+```{r pe-sp500-macrotrends}
+
+# Set the path to the downloaded CSV file
+file_path <- "data/sp-500-pe-ratio-price-to-earnings-chart.csv"
+
+# Read the CSV file into R
+pe_data <- read.csv(file_path, stringsAsFactors = FALSE, skip = 16,
+                    col.names = c("Date", "PE_ratio"))
+
+# Convert the date column to Date class
+pe_data$Date <- as.Date(pe_data$Date, format = "%Y-%m-%d")
+
+# Filter data for the desired date range
+pe_data_filtered <- subset(pe_data, Date >= as.Date("2000-01-01") & Date <= as.Date("2011-12-31"))
+
+# Calculate the average P/E ratio over the specified period
+average_pe <- mean(pe_data_filtered$PE_ratio, na.rm = TRUE)
+
+# Plot the P/E ratio with a log scale for the y-axis
+plot(
+  pe_data_filtered$Date, pe_data_filtered$PE_ratio,
+  type = "l",                   # Line plot
+  col = "blue",                 # Line color
+  lwd = 2,                      # Line width
+  xlab = "Year",                # X-axis label
+  ylab = "P/E Ratio", # Y-axis label
+  main = "S&P 500 P/E Ratio (2000–2011)", # Plot title
+)
+
+# Add a horizontal line for the average P/E ratio
+abline(h = average_pe, col = "red", lwd = 2, lty = 2)
+
+# Add a legend to the plot
+legend(
+  "topright",                   # Legend position
+  legend = c("P/E Ratio", "Average P/E Ratio"), # Labels
+  col = c("blue", "red"),       # Line colors
+  lty = c(1, 2),                # Line types
+  lwd = c(2, 2)                 # Line widths
+)
+
+```
+
+At first glance, the market seems undervalued, with a trailing price-to-earnings (P/E) ratio of 
+`r pe_data_filtered$PE_ratio[nrow(pe_data_filtered)]`, well below the historical average 
+of `r mean(pe_data_filtered$PE_ratio, na.rm = TRUE)`.
+
+As a cautious investor, you form the hypothesis that these low valuations 
+are deceptive. You believe that corporate profits, which are at record highs 
+of `r round(max(corporate_profits$price))` compared to the historical average of 
+`r round(mean(corporate_profits$price))`, will revert to the mean.
+
+When this happens, earnings will drop, pushing the P/E ratio from a 
+seemingly cheap to expensive.
+
+With this belief in mind, you decide to hold off on investing, waiting 
+for valuations to normalize. However, as the years pass—2012, 2013, 2014, 
+and beyond— corporate profits remain elevated, and the market continues to 
+rally. Each year, your cautious stance leaves you with underwhelming 
+returns. 
+
+```{r corporate profits extended}
+
+# Get corporate profits data from FRED
+corporate_profits <- tq_get("CP", from = "2000-01-01", to = "2019-12-31", get = "economic.data")
+
+# Visualize corporate profits with a vertical line at 2011
+plot(
+  corporate_profits$date, corporate_profits$price,
+  type = "l",
+  col = "blue",
+  lwd = 2,
+  xlab = "Year",
+  ylab = "Corporate Profits (Index)",
+  main = "Corporate Profits (2000–2019)"
+)
+
+# Add a vertical line at 2011
+abline(v = as.Date("2011-01-01"), col = "red", lwd = 2, lty = 2)
+
+# Add grid lines for readability
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray")
+
+```
+
+By 2019, you’re forced to confront the possibility that your 
+belief about corporate profit mean-reversion might be wrong.
+
+#### The Need for Updating Probability Asessments
+
+This scenario highlights the importance of updating beliefs in the face of 
+new evidence. Initially, your hypothesis about profit margins reverting to 
+the mean was reasonable, based on historical data. But as year after year 
+passed without mean-reversion, the accumulating evidence should have 
+prompted you to revise your prior beliefs.
+
+Bayes' Rule offers a principled way to do this. It allows you to combine 
+your initial belief (the prior probability) with new 
+evidence (e.g., sustained elevated profit margins) to 
+calculate an updated belief (the posterior probability). 
+This process ensures that your decisions adapt as reality unfolds, 
+helping you avoid the dangers of clinging to outdated assumptions.
