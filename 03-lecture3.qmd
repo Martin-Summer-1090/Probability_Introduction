@@ -1067,7 +1067,8 @@ in light of new information. But what does it mean to assign a
 probability to a belief? This idea rests on another deep insight in 
 probability theory: judgments about uncertainty can be measured, and 
 when those judgments are coherent, they follow the rules of probability. 
-^[Frank Ramsey (1903–1930) was a British mathematician, philosopher, and 
+^[This idea goes back to the work of Frank Ramsey (1903–1930). He was 
+a British mathematician, philosopher, and 
 economist whose profound contributions spanned multiple fields 
 despite his tragically short life. In probability, he 
 established the foundation for subjective probability theory, 
@@ -1089,13 +1090,12 @@ and everyday decision-making.
 We discussed the big financial crisis of 2007-2008 earlier in this lecture. 
 Imagine now you are an investor in the year 2011, just a bit later. The market 
 is gripped by fear of another financial crisis, this time triggered by 
-tensions in the Eurozone. Some of you might still remember this
-episode which now belongs to the history of financial crisis.
+tensions in the Eurozone. 
 
 Let's imagine how you could have asessed the market situation by looking
-ast financial data. This is also an excellent opportuity to introdcue you
+at financial data. This is also an excellent opportunity to introdcue you
 to one of many great opportunities to load real world data directly into
-you R session using add on packages. The package we are going to use here
+R using add on packages. The package we are going to use here
 is called `tidyquant`. To be able to use it you must first install it using
 the `install.packages()`function of base R or the package installer pane in
 RStudio. Let us do that - assuming that this package has been installed. You
@@ -1106,7 +1106,7 @@ might remember how to load a package from before.
 library(tidyquant)
 ```
 
-Now tidyquant has many functions allwoing you to retrieve and transform
+Now tidyquant has many functions allowing you to retrieve and transform
 real world financial data. We do not go into any detail here. This is something
 you can do yourself using the excellent documentation of this package, the many
 examples on the web or by interrogating your LLM.^[Check out https://cran.r-project.org/web/packages/tidyquant/index.html]. One of the
@@ -1127,7 +1127,7 @@ sp500_data <- tq_get("SPY", from = "2000-01-01", to = "2011-12-31")
 ```
 
 In order to do load data you need the string of the name of the series
-you are interested in, which you can learn from the documetation. In our
+you are interested in, which you can learn from the documentation. In our
 case this is "SPY" for the SP500. You can
 also specify a time range or just the beginning of the series. In the latter 
 case it will give you all the data from the beginning up to the current or
@@ -1155,7 +1155,7 @@ plot(
   lwd = 2,                   # Line width
   xlab = "Date",             # X-axis label
   ylab = "Adjusted Price",   # Y-axis label
-  main = "S&P 500 Price Trends (1998–2011)" # Title
+  main = "S&P 500 Price Trends (2000–2011)" # Title
 )
 
 # Add grid lines for better readability
@@ -1165,7 +1165,8 @@ grid(nx = NULL, ny = NULL, lty = 2, col = "gray")
 We see that the index is about the same level as it was
 10 years ago. The index alone does not tell you very much. 
 How about
-relating this to some important market fundamentals.
+relating this to some relevant market fundamentals?
+
 One powerful feature of `tidyquant()` is that it can
 fetch data from various data sources. Here I get,
 for the sake of this example, data on
@@ -1185,7 +1186,7 @@ plot(
   lwd = 2,
   xlab = "Year",
   ylab = "Corporate Profits (Index)",
-  main = "Corporate Profits (1998–2011)"
+  main = "Corporate Profits (2000–2011)"
 )
 grid(nx = NULL, ny = NULL, lty = 2, col = "gray")
 
@@ -1193,19 +1194,19 @@ grid(nx = NULL, ny = NULL, lty = 2, col = "gray")
 
 Profits have roughly tripled over the same period. The market
 does seem to be undervalued. Let's put this
-into perspective by looking at Price Earning
-data. 
+into perspective by looking at Price-Earning
+data or P/E ratios. 
 
 Now we run into a problem which you will often encounter
 when working with data. It is rare that a tool covers all cases.
 P/E rations seem to be difficult to retrieve with `tidyquant`. These
 data do however exist on the web, for example at the website
-Macrotrends. The P/E ratio for the SP500 can be found for instance
-here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart
+Macrotrends.^[The P/E ratio for the SP500 can be found for instance
+here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart]
 
 To retrieve data from this site, I had to download the data locally
 first before I could get them into R. Let's look at them a bit 
-close
+closer now using again R's visualization tools.
 
 ```{r pe-sp500-macrotrends}
 
@@ -1220,12 +1221,13 @@ pe_data <- read.csv(file_path, stringsAsFactors = FALSE, skip = 16,
 pe_data$Date <- as.Date(pe_data$Date, format = "%Y-%m-%d")
 
 # Filter data for the desired date range
-pe_data_filtered <- subset(pe_data, Date >= as.Date("2000-01-01") & Date <= as.Date("2011-12-31"))
+pe_data_filtered <- subset(pe_data, Date >= as.Date("2000-01-01") & 
+                             Date <= as.Date("2011-12-31"))
 
 # Calculate the average P/E ratio over the specified period
 average_pe <- mean(pe_data_filtered$PE_ratio, na.rm = TRUE)
 
-# Plot the P/E ratio with a log scale for the y-axis
+# Plot the P/E ratio for the y-axis
 plot(
   pe_data_filtered$Date, pe_data_filtered$PE_ratio,
   type = "l",                   # Line plot
@@ -1251,14 +1253,13 @@ legend(
 ```
 
 At first glance, the market seems undervalued, with a trailing price-to-earnings (P/E) ratio of 
-`r pe_data_filtered$PE_ratio[nrow(pe_data_filtered)]`, well below the historical average 
-of `r mean(pe_data_filtered$PE_ratio, na.rm = TRUE)`.
+`r round(pe_data_filtered$PE_ratio[nrow(pe_data_filtered)])`, well below the historical average 
+of `r round(mean(pe_data_filtered$PE_ratio, na.rm = TRUE))`.
 
 As a cautious investor, you form the hypothesis that these low valuations 
 are deceptive. You believe that corporate profits, which are at record highs 
 of `r round(max(corporate_profits$price))` compared to the historical average of 
 `r round(mean(corporate_profits$price))`, will revert to the mean.
-
 When this happens, earnings will drop, pushing the P/E ratio from a 
 seemingly cheap to expensive.
 
@@ -1309,3 +1310,257 @@ evidence (e.g., sustained elevated profit margins) to
 calculate an updated belief (the posterior probability). 
 This process ensures that your decisions adapt as reality unfolds, 
 helping you avoid the dangers of clinging to outdated assumptions.
+
+### Bayes' Rule: Intuitive Understanding with a Speck of Sand
+
+Bayes' rule, one of the cornerstone ideas of probability, provides a 
+systematic method for updating probabilities based on new evidence. 
+It is formalized as:
+\begin{equation*}
+P(B|A) = \frac{P(A|B) P(B)}{P(A)}
+\end{equation*}
+
+Here 
+
+Here:
+
+- $A$: Represents the new evidence or data that has been observed.
+- $B$: Represents the hypothesis or prior belief about an event.
+
+This formula arises naturally from the multiplication rule and the 
+symmetry of $(A \cap B)$. Here's a quick derivation:
+
+1. By the multiplication rule:
+   $P(B|A)P(A) = P(A \cap B)$
+2. Similarly:
+   $P(A|B)P(B) = P(A \cap B)$
+3. Equating the two expressions for $P(A \cap B)$ and dividing by $P(A)$:
+   $P(B|A) = \frac{P(A|B)P(B)}{P(A)}$
+
+Bayes' rule is often challenging to grasp intuitively. To build 
+understanding, let's explore a simple and vivid example 
+involving a speck of sand.
+
+#### The Speck of Sand: An Intuitive Illustration
+
+Imagine a square of area 1, representing our entire sample space. 
+Within this square, there is a circle $B$, with area equal to $P(B)$. 
+You have a tiny speck of sand on your finger, which accidentally falls 
+somewhere within the square. The location of the speck is entirely random.
+
+```{r where-is-the-speck, out.width='50%', fig.align='center', fig.cap='Where is the speck of sand?', echo = F}
+knitr::include_graphics('figures/where_speck.png')
+```
+
+The probability that the speck lands in $B$ is simply the area of $B$, $P(B)$, 
+since the speck could have landed anywhere within the square with equal likelihood.
+
+#### Updating Beliefs with New Information
+
+Now, suppose you are told that the speck landed within another circle $A$ that 
+also lies inside the square:
+
+```{r where-is-the-speck-now, out.width='50%', fig.align='center', fig.cap='In fact we learn that the speck is inside circle $A$', echo = F}
+knitr::include_graphics('figures/speck_in_D.png')
+```
+
+How does this new information affect the probability that the speck is in $B$ ? 
+Mathematically, we now want to compute $P(B|A)$, the probability that the speck 
+is in $B$, given that it is inside $A$.
+
+#### Overlap Between $A$ and $B$
+
+Intuitively, the updated probability $P(B|A)$ depends on the overlap of 
+$B$ and $A$. Specifically, it is the fraction of $A$ that lies within $B$, 
+expressed as:
+\begin{equation*}
+P(B|A) = \frac{\text{Area of } A \cap B}{\text{Area of } A} = \frac{P(A \cap B)}{P(A)}
+\end{equation*}
+
+- If $A$ and $B$ overlap only slightly, $P(B|A)$ will be small:
+  
+```{r where-is-the-speck-now-small-overlap, out.width='50%', fig.align='center', fig.cap='Small overlap between $A$ and $B$', echo = F}
+knitr::include_graphics('figures/small_overlap.png')
+```
+
+- If the overlap is large, $P(B|A)$ will be large:
+
+```{r where-is-the-speck-now-big-overlap, out.width='50%', fig.align='center', fig.cap='Large overlap between $A$ and $B$', echo = F}
+knitr::include_graphics('figures/big_overlap.png')
+```
+
+#### Bayesian Interpretation
+
+In Bayesian reasoning:
+
+- $P(B)$ is the **prior probability**, representing our belief in the hypothesis $B$ before observing the data.
+- $P(A|B)$ is the **likelihood**, describing how consistent the observed data $A$ is with the hypothesis $B$.
+- $P(A)$ normalizes the result, ensuring all probabilities sum to 1.
+
+
+The speck-of-sand example illustrates how Bayesian updating works:
+
+1. Start with a **prior** $P(B)$.
+2. Receive new **evidence** $P(A|B)$.
+3. Update the probability of the hypothesis given the evidence $(P(B|A)$.
+
+Bayes' theorem quantifies this intuitive process of revising 
+beliefs based on data.
+
+
+## Using an LLM to Explore Conditional Probability
+
+In each lecture I try to involve a use case showing you
+how you could leverage the power of LLMs to deepen your
+learning experience. Conditional probability is an
+excellent topic to explore with the LLM. 
+Understanding conditional probability can be challenging because 
+our intuitions about likelihoods often conflict with the 
+precise rules of probability theory. Unlike geometric 
+intuition which is hardwired in the human mind through the
+needs of our visual system, we humans lack an innate
+intuitive understanding of probability. This is something
+that has to be acquired through training and practice.
+An LLM like ChatGPT can serve as a dialogue partner to 
+help you explore this gap and refine your understanding.
+
+Here is a suggested use case:
+You can use an LLM to simulate and analyze scenarios where our 
+intuition might mislead us. Here's how to structure a 
+dialogue with the model:
+
+1. **Pose a Real-World Scenario**:
+   - Example: "Suppose you test positive for a rare disease with a 
+   prevalence of 1%. The test is 95% accurate, meaning it correctly identifies 
+   positives 95% of the time and negatives 95% of the time. What is the 
+   probability that you actually have the disease?"
+
+2. **Engage in a Dialogue**:
+   - Ask the model to explain how to approach the problem using 
+     conditional probability.
+   - Explore intermediate steps such as calculating the prior 
+     probability, likelihood, and posterior probability using Bayes' Rule.
+
+3. **Challenge Your Intuition**:
+   - Share your intuitive guess about the probability with the model.
+   - Let the model explain where intuition might diverge from formal 
+     reasoning and why.
+
+4. **Experiment with Variations**:
+   - Modify the problem (e.g., change the disease prevalence or test accuracy) 
+   and ask the model to recompute probabilities. Compare how small changes in assumptions affect outcomes.
+
+### Example Dialogue
+
+Here’s an example interaction you could try:
+
+**You**: "I think the probability of actually having the disease should 
+be very high since the test is 95% accurate. Is this correct?"
+
+**Model**: "Let’s compute it formally using Bayes’ Rule:
+\begin{equation*}
+P(D|T) = \frac{P(T|D) \cdot P(D)}{P(T|D) \cdot P(D) + P(T|ND) \cdot P(ND)}
+\end{equation*}
+Where:
+- $P(D) = 0.01$ (prevalence),
+- $P(ND) = 1 - P(D) = 0.99$,
+- $P(T|D) = 0.95$ (true positive rate),
+- $P(T|ND) = 0.05$ (false positive rate).
+
+Substituting the values:
+$P(D|T) = \frac{0.95 \cdot 0.01}{0.95 \cdot 0.01 + 0.05 \cdot 0.99} \approx 0.16$
+
+This means the probability you actually have the disease is about 16%, much 
+lower than intuition might suggest because the disease is so rare."
+
+Why can exercises like this be valuable?
+
+- **Refines Understanding**: Engaging in such dialogues clarifies the 
+application of Bayes’ Rule and highlights the importance of considering base rates.
+- **Reveals Pitfalls of Intuition**: You’ll learn to appreciate why our gut 
+feelings can sometimes mislead us in probabilistic reasoning.
+- **Encourages Exploration**: By modifying scenarios and asking "what if" 
+questions, you deepen your grasp of conditional probabilities in diverse contexts.
+
+Leverage this approach to build a stronger connection between the 
+theory and its real-world applications.
+
+
+## Summary
+
+### Probability Concepts
+In this lecture, we covered the following key probability concepts:
+- **Conditional Probability**: Understanding the probability of an event 
+occurring given that another event has occurred, and its relevance in real-world scenarios, especially in finance.
+- **Dependence and Independence**: How events can be dependent 
+or independent and the role of conditional probabilities in analyzing 
+their relationships.
+- **Bayes' Rule**: Using conditional probabilities to update beliefs based 
+on new evidence.
+
+These concepts were illustrated with practical examples, including a 
+discussion of the financial crisis of 2007-2008 to highlight the 
+risks of neglecting dependencies in probability modeling.
+
+### R Concepts
+During the lecture, we used R to:
+- **Simulate Conditional Probabilities**: Generate random data and 
+compute conditional probabilities to illustrate theoretical concepts.
+- **Visualize Dependencies**: Create intuitive visualizations of event 
+overlaps and relationships between probabilities.
+- **Practical Applications**: Implement real-world examples to explore 
+conditional probabilities and Bayes' Rule, showcasing how to use R for 
+data analysis in finance.
+
+This lecture bridged theoretical probability concepts with practical 
+computational tools in R, enabling a deeper understanding of 
+the material and its applications.
+
+
+## Project: Evaluating Credit Risk Using Conditional Probabilities
+
+### Problem Description
+
+A bank is evaluating a loan application using historical data to 
+estimate the likelihood of default. The borrower has a low credit 
+score, and the bank has the following data:
+
+1. **Default Rates**:
+   - Probability of default for all customers: $P(D) = 0.04$.
+   - Probability of non-default for all customers: $P(ND) = 0.96$.
+
+2. **Evidence**:
+   - Probability of a low credit score given default: $P(L|D) = 0.7$.
+   - Probability of a low credit score given non-default: $P(L|ND) = 0.1$.
+
+The goal is to determine the posterior probability of default given the 
+borrower’s low credit score, $P(D|L)$, using **Bayes' Rule**. Additionally, 
+you will verify this theoretical result by simulating customer data and 
+analyzing outcomes.
+
+---
+
+### Questions
+
+1. **Compute $P(D|L)$ Theoretically**:
+   - Use Bayes' Rule to calculate the posterior probability of default 
+   given a low credit score.
+
+2. **Simulate the Scenario in R**:
+   - Simulate a dataset of 10,000 customers where each customer is 
+   randomly assigned a default status based on $P(D)$.
+   - Based on the assigned default status, simulate whether each 
+   customer has a low credit score using $P(L|D)$ and $P(L|ND)$.
+
+3. **Compute $P(D|L)$ from Simulated Data**:
+   - Use the simulated data to compute $P(D|L)$ and compare it to the theoretical result.
+
+4. **Visualize Results**:
+   - Create a simple bar plot comparing the simulated and theoretical 
+   probabilities. If you are unfamiliar with visualization tools, check 
+   out the `barplot()` function in base R.
+
+
+
+
+

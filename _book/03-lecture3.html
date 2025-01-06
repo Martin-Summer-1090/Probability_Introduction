@@ -244,6 +244,21 @@ window.Quarto = {
   <li><a href="#bayes-rule-one-of-the-great-ideas-in-probability" id="toc-bayes-rule-one-of-the-great-ideas-in-probability" class="nav-link" data-scroll-target="#bayes-rule-one-of-the-great-ideas-in-probability"><span class="header-section-number">3.4</span> Bayes’ Rule: One of the Great Ideas in Probability</a>
   <ul class="collapse">
   <li><a href="#a-simple-example-revising-beliefs-about-market-valuation" id="toc-a-simple-example-revising-beliefs-about-market-valuation" class="nav-link" data-scroll-target="#a-simple-example-revising-beliefs-about-market-valuation"><span class="header-section-number">3.4.1</span> A simple example: Revising beliefs about market valuation</a></li>
+  <li><a href="#bayes-rule-intuitive-understanding-with-a-speck-of-sand" id="toc-bayes-rule-intuitive-understanding-with-a-speck-of-sand" class="nav-link" data-scroll-target="#bayes-rule-intuitive-understanding-with-a-speck-of-sand"><span class="header-section-number">3.4.2</span> Bayes’ Rule: Intuitive Understanding with a Speck of Sand</a></li>
+  </ul></li>
+  <li><a href="#using-an-llm-to-explore-conditional-probability" id="toc-using-an-llm-to-explore-conditional-probability" class="nav-link" data-scroll-target="#using-an-llm-to-explore-conditional-probability"><span class="header-section-number">3.5</span> Using an LLM to Explore Conditional Probability</a>
+  <ul class="collapse">
+  <li><a href="#example-dialogue" id="toc-example-dialogue" class="nav-link" data-scroll-target="#example-dialogue"><span class="header-section-number">3.5.1</span> Example Dialogue</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.6</span> Summary</a>
+  <ul class="collapse">
+  <li><a href="#probability-concepts" id="toc-probability-concepts" class="nav-link" data-scroll-target="#probability-concepts"><span class="header-section-number">3.6.1</span> Probability Concepts</a></li>
+  <li><a href="#r-concepts" id="toc-r-concepts" class="nav-link" data-scroll-target="#r-concepts"><span class="header-section-number">3.6.2</span> R Concepts</a></li>
+  </ul></li>
+  <li><a href="#project-evaluating-credit-risk-using-conditional-probabilities" id="toc-project-evaluating-credit-risk-using-conditional-probabilities" class="nav-link" data-scroll-target="#project-evaluating-credit-risk-using-conditional-probabilities"><span class="header-section-number">3.7</span> Project: Evaluating Credit Risk Using Conditional Probabilities</a>
+  <ul class="collapse">
+  <li><a href="#problem-description" id="toc-problem-description" class="nav-link" data-scroll-target="#problem-description"><span class="header-section-number">3.7.1</span> Problem Description</a></li>
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions"><span class="header-section-number">3.7.2</span> Questions</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -514,11 +529,11 @@ P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(example_without_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "T" "H" "T" "T" "T" "H" "H" "H" "T" "H"</code></pre>
+<pre><code> [1] "H" "T" "T" "H" "H" "T" "H" "H" "H" "T"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(example_without_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "H" "T" "H" "T" "T" "H" "T" "T" "T" "H"</code></pre>
+<pre><code> [1] "T" "T" "H" "T" "H" "H" "T" "H" "T" "T"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tossing a fair coin 5 times, two different rund with set.seed()</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -978,22 +993,22 @@ Now you try
 <h2 data-number="3.4" class="anchored" data-anchor-id="bayes-rule-one-of-the-great-ideas-in-probability"><span class="header-section-number">3.4</span> Bayes’ Rule: One of the Great Ideas in Probability</h2>
 <p>Bayes’ Rule stands among the ten great ideas in probability. Its power lies in solving a fundamental problem: how to infer underlying chances from observed frequencies. This insight filled a critical gap left by Bernoulli’s weak law of large numbers, which explained how observed frequencies converge to probabilities but left unanswered the question of how to reason from those frequencies back to the chances that generated them.</p>
 <p>At its core, Bayes’ Rule provides a framework for updating our beliefs in light of new information. But what does it mean to assign a probability to a belief? This idea rests on another deep insight in probability theory: judgments about uncertainty can be measured, and when those judgments are coherent, they follow the rules of probability. <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;Frank Ramsey (1903–1930) was a British mathematician, philosopher, and economist whose profound contributions spanned multiple fields despite his tragically short life. In probability, he established the foundation for subjective probability theory, showing that coherent judgments about uncertainty adhere to the axioms of probability. Ramsey also made groundbreaking advances in decision theory, logic, and economics, including the famous Ramsey pricing in public economics and his foundational work in mathematical logic. For more, on Ramsey’s ideas of connecting judegment to probability see chapter 2 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>The key breakthrough of Bayes’ Rule is that it ties these coherent judgments—our initial beliefs, or priors—to evidence, using conditional probability. This process transforms subjective judgments into a systematic method for reasoning under uncertainty, with profound applications across science, finance, and everyday decision-making.</p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;This idea goes back to the work of Frank Ramsey (1903–1930). He was a British mathematician, philosopher, and economist whose profound contributions spanned multiple fields despite his tragically short life. In probability, he established the foundation for subjective probability theory, showing that coherent judgments about uncertainty adhere to the axioms of probability. Ramsey also made groundbreaking advances in decision theory, logic, and economics, including the famous Ramsey pricing in public economics and his foundational work in mathematical logic. For more, on Ramsey’s ideas of connecting judegment to probability see chapter 2 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>The key breakthrough of Bayes’ Rule is that it ties these coherent judgments—our initial beliefs, or priors—to evidence, using conditional probability. This process transforms subjective judgments into a systematic method for reasoning under uncertainty, with profound applications across science, finance, and everyday decision-making.</p>
 <section id="a-simple-example-revising-beliefs-about-market-valuation" class="level3 page-columns page-full" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="a-simple-example-revising-beliefs-about-market-valuation"><span class="header-section-number">3.4.1</span> A simple example: Revising beliefs about market valuation</h3>
-<p>We discussed the big financial crisis of 2007-2008 earlier in this lecture. Imagine now you are an investor in the year 2011, just a bit later. The market is gripped by fear of another financial crisis, this time triggered by tensions in the Eurozone. Some of you might still remember this episode which now belongs to the history of financial crisis.</p>
-<p>Let’s imagine how you could have asessed the market situation by looking ast financial data. This is also an excellent opportuity to introdcue you to one of many great opportunities to load real world data directly into you R session using add on packages. The package we are going to use here is called <code>tidyquant</code>. To be able to use it you must first install it using the <code>install.packages()</code>function of base R or the package installer pane in RStudio. Let us do that - assuming that this package has been installed. You might remember how to load a package from before.</p>
+<p>We discussed the big financial crisis of 2007-2008 earlier in this lecture. Imagine now you are an investor in the year 2011, just a bit later. The market is gripped by fear of another financial crisis, this time triggered by tensions in the Eurozone.</p>
+<p>Let’s imagine how you could have asessed the market situation by looking at financial data. This is also an excellent opportunity to introdcue you to one of many great opportunities to load real world data directly into R using add on packages. The package we are going to use here is called <code>tidyquant</code>. To be able to use it you must first install it using the <code>install.packages()</code>function of base R or the package installer pane in RStudio. Let us do that - assuming that this package has been installed. You might remember how to load a package from before.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now tidyquant has many functions allwoing you to retrieve and transform real world financial data. We do not go into any detail here. This is something you can do yourself using the excellent documentation of this package, the many examples on the web or by interrogating your LLM.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. One of the core workhorse functions in tidyquant is the function <code>tq_get()</code> which allows you to retrieve data.</p>
+<p>Now tidyquant has many functions allowing you to retrieve and transform real world financial data. We do not go into any detail here. This is something you can do yourself using the excellent documentation of this package, the many examples on the web or by interrogating your LLM.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. One of the core workhorse functions in tidyquant is the function <code>tq_get()</code> which allows you to retrieve data.</p>
 <div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;Check out https://cran.r-project.org/web/packages/tidyquant/index.html</p></div></div><p>One thing an anlyst might be interested in is how the stock market as measured by a broad index does at the moment compared to its historical values. Let’s say you are looking back 11 years from 2011 into the past and see how the S&amp;P500 does now compared to this history. This is how you would use <code>tidyquant</code> to do this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch S&amp;P 500 data from 2000 to 2011</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>sp500_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"SPY"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, <span class="at">to =</span> <span class="st">"2011-12-31"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In order to do load data you need the string of the name of the series you are interested in, which you can learn from the documetation. In our case this is “SPY” for the SP500. You can also specify a time range or just the beginning of the series. In the latter case it will give you all the data from the beginning up to the current or most recent trading day. We have written the data into an R object called <code>sp500_data</code> and now you might inspect it.</p>
+<p>In order to do load data you need the string of the name of the series you are interested in, which you can learn from the documentation. In our case this is “SPY” for the SP500. You can also specify a time range or just the beginning of the series. In the latter case it will give you all the data from the beginning up to the current or most recent trading day. We have written the data into an R object called <code>sp500_data</code> and now you might inspect it.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1019,7 +1034,7 @@ Now you try
 <span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,                   <span class="co"># Line width</span></span>
 <span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Date"</span>,             <span class="co"># X-axis label</span></span>
 <span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Adjusted Price"</span>,   <span class="co"># Y-axis label</span></span>
-<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"S&amp;P 500 Price Trends (1998–2011)"</span> <span class="co"># Title</span></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"S&amp;P 500 Price Trends (2000–2011)"</span> <span class="co"># Title</span></span>
 <span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid lines for better readability</span></span>
@@ -1032,7 +1047,8 @@ Now you try
 </div>
 </div>
 </div>
-<p>We see that the index is about the same level as it was 10 years ago. The index alone does not tell you very much. How about relating this to some important market fundamentals. One powerful feature of <code>tidyquant()</code> is that it can fetch data from various data sources. Here I get, for the sake of this example, data on corporate profits from the FRED database of the Fed St.&nbsp;Louis<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>We see that the index is about the same level as it was 10 years ago. The index alone does not tell you very much. How about relating this to some relevant market fundamentals?</p>
+<p>One powerful feature of <code>tidyquant()</code> is that it can fetch data from various data sources. Here I get, for the sake of this example, data on corporate profits from the FRED database of the Fed St.&nbsp;Louis<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;See https://fred.stlouisfed.org/</p></div></div><div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get corporate profits data from FRED</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>corporate_profits <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"CP"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, <span class="at">to =</span> <span class="st">"2011-12-31"</span>, <span class="at">get =</span> <span class="st">"economic.data"</span>)</span>
@@ -1045,7 +1061,7 @@ Now you try
 <span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,</span>
 <span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,</span>
 <span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Corporate Profits (Index)"</span>,</span>
-<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Corporate Profits (1998–2011)"</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Corporate Profits (2000–2011)"</span></span>
 <span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NULL</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1056,9 +1072,9 @@ Now you try
 </div>
 </div>
 </div>
-<p>Profits have roughly tripled over the same period. The market does seem to be undervalued. Let’s put this into perspective by looking at Price Earning data.</p>
-<p>Now we run into a problem which you will often encounter when working with data. It is rare that a tool covers all cases. P/E rations seem to be difficult to retrieve with <code>tidyquant</code>. These data do however exist on the web, for example at the website Macrotrends. The P/E ratio for the SP500 can be found for instance here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart</p>
-<p>To retrieve data from this site, I had to download the data locally first before I could get them into R. Let’s look at them a bit close</p>
+<p>Profits have roughly tripled over the same period. The market does seem to be undervalued. Let’s put this into perspective by looking at Price-Earning data or P/E ratios.</p>
+<p>Now we run into a problem which you will often encounter when working with data. It is rare that a tool covers all cases. P/E rations seem to be difficult to retrieve with <code>tidyquant</code>. These data do however exist on the web, for example at the website Macrotrends.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;The P/E ratio for the SP500 can be found for instance here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart</p></div></div><p>To retrieve data from this site, I had to download the data locally first before I could get them into R. Let’s look at them a bit closer now using again R’s visualization tools.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the path to the downloaded CSV file</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="st">"data/sp-500-pe-ratio-price-to-earnings-chart.csv"</span></span>
@@ -1071,33 +1087,34 @@ Now you try
 <span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>pe_data<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(pe_data<span class="sc">$</span>Date, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
 <span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter data for the desired date range</span></span>
-<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>pe_data_filtered <span class="ot">&lt;-</span> <span class="fu">subset</span>(pe_data, Date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2000-01-01"</span>) <span class="sc">&amp;</span> Date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2011-12-31"</span>))</span>
-<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average P/E ratio over the specified period</span></span>
-<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>average_pe <span class="ot">&lt;-</span> <span class="fu">mean</span>(pe_data_filtered<span class="sc">$</span>PE_ratio, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the P/E ratio with a log scale for the y-axis</span></span>
-<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a>  pe_data_filtered<span class="sc">$</span>Date, pe_data_filtered<span class="sc">$</span>PE_ratio,</span>
-<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,                   <span class="co"># Line plot</span></span>
-<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,                 <span class="co"># Line color</span></span>
-<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,                      <span class="co"># Line width</span></span>
-<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,                <span class="co"># X-axis label</span></span>
-<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"P/E Ratio"</span>, <span class="co"># Y-axis label</span></span>
-<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"S&amp;P 500 P/E Ratio (2000–2011)"</span>, <span class="co"># Plot title</span></span>
-<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a horizontal line for the average P/E ratio</span></span>
-<span id="cb67-29"><a href="#cb67-29" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> average_pe, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb67-30"><a href="#cb67-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-31"><a href="#cb67-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a legend to the plot</span></span>
-<span id="cb67-32"><a href="#cb67-32" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
-<span id="cb67-33"><a href="#cb67-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"topright"</span>,                   <span class="co"># Legend position</span></span>
-<span id="cb67-34"><a href="#cb67-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P/E Ratio"</span>, <span class="st">"Average P/E Ratio"</span>), <span class="co"># Labels</span></span>
-<span id="cb67-35"><a href="#cb67-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>),       <span class="co"># Line colors</span></span>
-<span id="cb67-36"><a href="#cb67-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),                <span class="co"># Line types</span></span>
-<span id="cb67-37"><a href="#cb67-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)                 <span class="co"># Line widths</span></span>
-<span id="cb67-38"><a href="#cb67-38" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>pe_data_filtered <span class="ot">&lt;-</span> <span class="fu">subset</span>(pe_data, Date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2000-01-01"</span>) <span class="sc">&amp;</span> </span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>                             Date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2011-12-31"</span>))</span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average P/E ratio over the specified period</span></span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a>average_pe <span class="ot">&lt;-</span> <span class="fu">mean</span>(pe_data_filtered<span class="sc">$</span>PE_ratio, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the P/E ratio for the y-axis</span></span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a>  pe_data_filtered<span class="sc">$</span>Date, pe_data_filtered<span class="sc">$</span>PE_ratio,</span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,                   <span class="co"># Line plot</span></span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,                 <span class="co"># Line color</span></span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,                      <span class="co"># Line width</span></span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,                <span class="co"># X-axis label</span></span>
+<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"P/E Ratio"</span>, <span class="co"># Y-axis label</span></span>
+<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"S&amp;P 500 P/E Ratio (2000–2011)"</span>, <span class="co"># Plot title</span></span>
+<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-29"><a href="#cb67-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a horizontal line for the average P/E ratio</span></span>
+<span id="cb67-30"><a href="#cb67-30" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> average_pe, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb67-31"><a href="#cb67-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-32"><a href="#cb67-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a legend to the plot</span></span>
+<span id="cb67-33"><a href="#cb67-33" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb67-34"><a href="#cb67-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">"topright"</span>,                   <span class="co"># Legend position</span></span>
+<span id="cb67-35"><a href="#cb67-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P/E Ratio"</span>, <span class="st">"Average P/E Ratio"</span>), <span class="co"># Labels</span></span>
+<span id="cb67-36"><a href="#cb67-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>),       <span class="co"># Line colors</span></span>
+<span id="cb67-37"><a href="#cb67-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),                <span class="co"># Line types</span></span>
+<span id="cb67-38"><a href="#cb67-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)                 <span class="co"># Line widths</span></span>
+<span id="cb67-39"><a href="#cb67-39" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1106,9 +1123,8 @@ Now you try
 </div>
 </div>
 </div>
-<p>At first glance, the market seems undervalued, with a trailing price-to-earnings (P/E) ratio of 14.4635, well below the historical average of 29.343784.</p>
-<p>As a cautious investor, you form the hypothesis that these low valuations are deceptive. You believe that corporate profits, which are at record highs of 1672 compared to the historical average of 1119, will revert to the mean.</p>
-<p>When this happens, earnings will drop, pushing the P/E ratio from a seemingly cheap to expensive.</p>
+<p>At first glance, the market seems undervalued, with a trailing price-to-earnings (P/E) ratio of 14, well below the historical average of 29.</p>
+<p>As a cautious investor, you form the hypothesis that these low valuations are deceptive. You believe that corporate profits, which are at record highs of 1672 compared to the historical average of 1119, will revert to the mean. When this happens, earnings will drop, pushing the P/E ratio from a seemingly cheap to expensive.</p>
 <p>With this belief in mind, you decide to hold off on investing, waiting for valuations to normalize. However, as the years pass—2012, 2013, 2014, and beyond— corporate profits remain elevated, and the market continues to rally. Each year, your cautious stance leaves you with underwhelming returns.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get corporate profits data from FRED</span></span>
@@ -1143,6 +1159,202 @@ Now you try
 <h4 data-number="3.4.1.1" class="anchored" data-anchor-id="the-need-for-updating-probability-asessments"><span class="header-section-number">3.4.1.1</span> The Need for Updating Probability Asessments</h4>
 <p>This scenario highlights the importance of updating beliefs in the face of new evidence. Initially, your hypothesis about profit margins reverting to the mean was reasonable, based on historical data. But as year after year passed without mean-reversion, the accumulating evidence should have prompted you to revise your prior beliefs.</p>
 <p>Bayes’ Rule offers a principled way to do this. It allows you to combine your initial belief (the prior probability) with new evidence (e.g., sustained elevated profit margins) to calculate an updated belief (the posterior probability). This process ensures that your decisions adapt as reality unfolds, helping you avoid the dangers of clinging to outdated assumptions.</p>
+</section>
+</section>
+<section id="bayes-rule-intuitive-understanding-with-a-speck-of-sand" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="bayes-rule-intuitive-understanding-with-a-speck-of-sand"><span class="header-section-number">3.4.2</span> Bayes’ Rule: Intuitive Understanding with a Speck of Sand</h3>
+<p>Bayes’ rule, one of the cornerstone ideas of probability, provides a systematic method for updating probabilities based on new evidence. It is formalized as: <span class="math display">\[\begin{equation*}
+P(B|A) = \frac{P(A|B) P(B)}{P(A)}
+\end{equation*}\]</span></p>
+<p>Here</p>
+<p>Here:</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: Represents the new evidence or data that has been observed.</li>
+<li><span class="math inline">\(B\)</span>: Represents the hypothesis or prior belief about an event.</li>
+</ul>
+<p>This formula arises naturally from the multiplication rule and the symmetry of <span class="math inline">\((A \cap B)\)</span>. Here’s a quick derivation:</p>
+<ol type="1">
+<li>By the multiplication rule: <span class="math inline">\(P(B|A)P(A) = P(A \cap B)\)</span></li>
+<li>Similarly: <span class="math inline">\(P(A|B)P(B) = P(A \cap B)\)</span></li>
+<li>Equating the two expressions for <span class="math inline">\(P(A \cap B)\)</span> and dividing by <span class="math inline">\(P(A)\)</span>: <span class="math inline">\(P(B|A) = \frac{P(A|B)P(B)}{P(A)}\)</span></li>
+</ol>
+<p>Bayes’ rule is often challenging to grasp intuitively. To build understanding, let’s explore a simple and vivid example involving a speck of sand.</p>
+<section id="the-speck-of-sand-an-intuitive-illustration" class="level4" data-number="3.4.2.1">
+<h4 data-number="3.4.2.1" class="anchored" data-anchor-id="the-speck-of-sand-an-intuitive-illustration"><span class="header-section-number">3.4.2.1</span> The Speck of Sand: An Intuitive Illustration</h4>
+<p>Imagine a square of area 1, representing our entire sample space. Within this square, there is a circle <span class="math inline">\(B\)</span>, with area equal to <span class="math inline">\(P(B)\)</span>. You have a tiny speck of sand on your finger, which accidentally falls somewhere within the square. The location of the speck is entirely random.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/where_speck.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Where is the speck of sand?</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The probability that the speck lands in <span class="math inline">\(B\)</span> is simply the area of <span class="math inline">\(B\)</span>, <span class="math inline">\(P(B)\)</span>, since the speck could have landed anywhere within the square with equal likelihood.</p>
+</section>
+<section id="updating-beliefs-with-new-information" class="level4" data-number="3.4.2.2">
+<h4 data-number="3.4.2.2" class="anchored" data-anchor-id="updating-beliefs-with-new-information"><span class="header-section-number">3.4.2.2</span> Updating Beliefs with New Information</h4>
+<p>Now, suppose you are told that the speck landed within another circle <span class="math inline">\(A\)</span> that also lies inside the square:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/speck_in_D.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>In fact we learn that the speck is inside circle <span class="math inline">\(A\)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>How does this new information affect the probability that the speck is in <span class="math inline">\(B\)</span> ? Mathematically, we now want to compute <span class="math inline">\(P(B|A)\)</span>, the probability that the speck is in <span class="math inline">\(B\)</span>, given that it is inside <span class="math inline">\(A\)</span>.</p>
+</section>
+<section id="overlap-between-a-and-b" class="level4" data-number="3.4.2.3">
+<h4 data-number="3.4.2.3" class="anchored" data-anchor-id="overlap-between-a-and-b"><span class="header-section-number">3.4.2.3</span> Overlap Between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span></h4>
+<p>Intuitively, the updated probability <span class="math inline">\(P(B|A)\)</span> depends on the overlap of <span class="math inline">\(B\)</span> and <span class="math inline">\(A\)</span>. Specifically, it is the fraction of <span class="math inline">\(A\)</span> that lies within <span class="math inline">\(B\)</span>, expressed as: <span class="math display">\[\begin{equation*}
+P(B|A) = \frac{\text{Area of } A \cap B}{\text{Area of } A} = \frac{P(A \cap B)}{P(A)}
+\end{equation*}\]</span></p>
+<ul>
+<li>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> overlap only slightly, <span class="math inline">\(P(B|A)\)</span> will be small:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/small_overlap.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Small overlap between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>If the overlap is large, <span class="math inline">\(P(B|A)\)</span> will be large:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/big_overlap.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Large overlap between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bayesian-interpretation" class="level4" data-number="3.4.2.4">
+<h4 data-number="3.4.2.4" class="anchored" data-anchor-id="bayesian-interpretation"><span class="header-section-number">3.4.2.4</span> Bayesian Interpretation</h4>
+<p>In Bayesian reasoning:</p>
+<ul>
+<li><span class="math inline">\(P(B)\)</span> is the <strong>prior probability</strong>, representing our belief in the hypothesis <span class="math inline">\(B\)</span> before observing the data.</li>
+<li><span class="math inline">\(P(A|B)\)</span> is the <strong>likelihood</strong>, describing how consistent the observed data <span class="math inline">\(A\)</span> is with the hypothesis <span class="math inline">\(B\)</span>.</li>
+<li><span class="math inline">\(P(A)\)</span> normalizes the result, ensuring all probabilities sum to 1.</li>
+</ul>
+<p>The speck-of-sand example illustrates how Bayesian updating works:</p>
+<ol type="1">
+<li>Start with a <strong>prior</strong> <span class="math inline">\(P(B)\)</span>.</li>
+<li>Receive new <strong>evidence</strong> <span class="math inline">\(P(A|B)\)</span>.</li>
+<li>Update the probability of the hypothesis given the evidence <span class="math inline">\((P(B|A)\)</span>.</li>
+</ol>
+<p>Bayes’ theorem quantifies this intuitive process of revising beliefs based on data.</p>
+</section>
+</section>
+</section>
+<section id="using-an-llm-to-explore-conditional-probability" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="using-an-llm-to-explore-conditional-probability"><span class="header-section-number">3.5</span> Using an LLM to Explore Conditional Probability</h2>
+<p>In each lecture I try to involve a use case showing you how you could leverage the power of LLMs to deepen your learning experience. Conditional probability is an excellent topic to explore with the LLM. Understanding conditional probability can be challenging because our intuitions about likelihoods often conflict with the precise rules of probability theory. Unlike geometric intuition which is hardwired in the human mind through the needs of our visual system, we humans lack an innate intuitive understanding of probability. This is something that has to be acquired through training and practice. An LLM like ChatGPT can serve as a dialogue partner to help you explore this gap and refine your understanding.</p>
+<p>Here is a suggested use case: You can use an LLM to simulate and analyze scenarios where our intuition might mislead us. Here’s how to structure a dialogue with the model:</p>
+<ol type="1">
+<li><strong>Pose a Real-World Scenario</strong>:
+<ul>
+<li>Example: “Suppose you test positive for a rare disease with a prevalence of 1%. The test is 95% accurate, meaning it correctly identifies positives 95% of the time and negatives 95% of the time. What is the probability that you actually have the disease?”</li>
+</ul></li>
+<li><strong>Engage in a Dialogue</strong>:
+<ul>
+<li>Ask the model to explain how to approach the problem using conditional probability.</li>
+<li>Explore intermediate steps such as calculating the prior probability, likelihood, and posterior probability using Bayes’ Rule.</li>
+</ul></li>
+<li><strong>Challenge Your Intuition</strong>:
+<ul>
+<li>Share your intuitive guess about the probability with the model.</li>
+<li>Let the model explain where intuition might diverge from formal reasoning and why.</li>
+</ul></li>
+<li><strong>Experiment with Variations</strong>:
+<ul>
+<li>Modify the problem (e.g., change the disease prevalence or test accuracy) and ask the model to recompute probabilities. Compare how small changes in assumptions affect outcomes.</li>
+</ul></li>
+</ol>
+<section id="example-dialogue" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="example-dialogue"><span class="header-section-number">3.5.1</span> Example Dialogue</h3>
+<p>Here’s an example interaction you could try:</p>
+<p><strong>You</strong>: “I think the probability of actually having the disease should be very high since the test is 95% accurate. Is this correct?”</p>
+<p><strong>Model</strong>: “Let’s compute it formally using Bayes’ Rule: <span class="math display">\[\begin{equation*}
+P(D|T) = \frac{P(T|D) \cdot P(D)}{P(T|D) \cdot P(D) + P(T|ND) \cdot P(ND)}
+\end{equation*}\]</span> Where: - <span class="math inline">\(P(D) = 0.01\)</span> (prevalence), - <span class="math inline">\(P(ND) = 1 - P(D) = 0.99\)</span>, - <span class="math inline">\(P(T|D) = 0.95\)</span> (true positive rate), - <span class="math inline">\(P(T|ND) = 0.05\)</span> (false positive rate).</p>
+<p>Substituting the values: <span class="math inline">\(P(D|T) = \frac{0.95 \cdot 0.01}{0.95 \cdot 0.01 + 0.05 \cdot 0.99} \approx 0.16\)</span></p>
+<p>This means the probability you actually have the disease is about 16%, much lower than intuition might suggest because the disease is so rare.”</p>
+<p>Why can exercises like this be valuable?</p>
+<ul>
+<li><strong>Refines Understanding</strong>: Engaging in such dialogues clarifies the application of Bayes’ Rule and highlights the importance of considering base rates.</li>
+<li><strong>Reveals Pitfalls of Intuition</strong>: You’ll learn to appreciate why our gut feelings can sometimes mislead us in probabilistic reasoning.</li>
+<li><strong>Encourages Exploration</strong>: By modifying scenarios and asking “what if” questions, you deepen your grasp of conditional probabilities in diverse contexts.</li>
+</ul>
+<p>Leverage this approach to build a stronger connection between the theory and its real-world applications.</p>
+</section>
+</section>
+<section id="summary" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.6</span> Summary</h2>
+<section id="probability-concepts" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="probability-concepts"><span class="header-section-number">3.6.1</span> Probability Concepts</h3>
+<p>In this lecture, we covered the following key probability concepts: - <strong>Conditional Probability</strong>: Understanding the probability of an event occurring given that another event has occurred, and its relevance in real-world scenarios, especially in finance. - <strong>Dependence and Independence</strong>: How events can be dependent or independent and the role of conditional probabilities in analyzing their relationships. - <strong>Bayes’ Rule</strong>: Using conditional probabilities to update beliefs based on new evidence.</p>
+<p>These concepts were illustrated with practical examples, including a discussion of the financial crisis of 2007-2008 to highlight the risks of neglecting dependencies in probability modeling.</p>
+</section>
+<section id="r-concepts" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="r-concepts"><span class="header-section-number">3.6.2</span> R Concepts</h3>
+<p>During the lecture, we used R to: - <strong>Simulate Conditional Probabilities</strong>: Generate random data and compute conditional probabilities to illustrate theoretical concepts. - <strong>Visualize Dependencies</strong>: Create intuitive visualizations of event overlaps and relationships between probabilities. - <strong>Practical Applications</strong>: Implement real-world examples to explore conditional probabilities and Bayes’ Rule, showcasing how to use R for data analysis in finance.</p>
+<p>This lecture bridged theoretical probability concepts with practical computational tools in R, enabling a deeper understanding of the material and its applications.</p>
+</section>
+</section>
+<section id="project-evaluating-credit-risk-using-conditional-probabilities" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="project-evaluating-credit-risk-using-conditional-probabilities"><span class="header-section-number">3.7</span> Project: Evaluating Credit Risk Using Conditional Probabilities</h2>
+<section id="problem-description" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="problem-description"><span class="header-section-number">3.7.1</span> Problem Description</h3>
+<p>A bank is evaluating a loan application using historical data to estimate the likelihood of default. The borrower has a low credit score, and the bank has the following data:</p>
+<ol type="1">
+<li><strong>Default Rates</strong>:
+<ul>
+<li>Probability of default for all customers: <span class="math inline">\(P(D) = 0.04\)</span>.</li>
+<li>Probability of non-default for all customers: <span class="math inline">\(P(ND) = 0.96\)</span>.</li>
+</ul></li>
+<li><strong>Evidence</strong>:
+<ul>
+<li>Probability of a low credit score given default: <span class="math inline">\(P(L|D) = 0.7\)</span>.</li>
+<li>Probability of a low credit score given non-default: <span class="math inline">\(P(L|ND) = 0.1\)</span>.</li>
+</ul></li>
+</ol>
+<p>The goal is to determine the posterior probability of default given the borrower’s low credit score, <span class="math inline">\(P(D|L)\)</span>, using <strong>Bayes’ Rule</strong>. Additionally, you will verify this theoretical result by simulating customer data and analyzing outcomes.</p>
+<hr>
+</section>
+<section id="questions" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="questions"><span class="header-section-number">3.7.2</span> Questions</h3>
+<ol type="1">
+<li><strong>Compute <span class="math inline">\(P(D|L)\)</span> Theoretically</strong>:
+<ul>
+<li>Use Bayes’ Rule to calculate the posterior probability of default given a low credit score.</li>
+</ul></li>
+<li><strong>Simulate the Scenario in R</strong>:
+<ul>
+<li>Simulate a dataset of 10,000 customers where each customer is randomly assigned a default status based on <span class="math inline">\(P(D)\)</span>.</li>
+<li>Based on the assigned default status, simulate whether each customer has a low credit score using <span class="math inline">\(P(L|D)\)</span> and <span class="math inline">\(P(L|ND)\)</span>.</li>
+</ul></li>
+<li><strong>Compute <span class="math inline">\(P(D|L)\)</span> from Simulated Data</strong>:
+<ul>
+<li>Use the simulated data to compute <span class="math inline">\(P(D|L)\)</span> and compare it to the theoretical result.</li>
+</ul></li>
+<li><strong>Visualize Results</strong>:
+<ul>
+<li>Create a simple bar plot comparing the simulated and theoretical probabilities. If you are unfamiliar with visualization tools, check out the <code>barplot()</code> function in base R.</li>
+</ul></li>
+</ol>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -1156,7 +1368,6 @@ Feller, William. 1968. <em>An Introduction to Probability Theory and Its Applica
 Tooze, Adam. 2018. <em>Crashed. How a Decade of Financial Crisis Changed the World</em>. Viking.
 </div>
 </div>
-</section>
 </section>
 </section>
 
