@@ -242,8 +242,14 @@ $$P(X = x, Y = y) = \frac{1}{36}, \quad x, y = 1, 2, 3, 4, 5, 6.$$
 This joint PMF captures the probability of every possible pair of outcomes, 
 such as $(X = 2, Y = 5)$.
 
-A visualization tool for two dimensional PMFs is the heatmap. Consider
-as an example a heatmap of two biased dice.
+A visualization tool for two dimensional PMFs is the heatmap. The $x$ and $y$ axis
+of the heat map symbolized the values of $X$ and $Y$ whereas the third dimension 
+visualizes the probability of each pair of values $(X,Y)$ by a colur code. So, for
+examplem when the dice are fair we should have a probability of $1/36$ for each
+basic outcome, so you should see only one uniform color. To illustrate
+this visualization concept, imagine an example where the dice are
+biased:
+
 
 ```{r}
 # Define the outcomes and probabilities for two biased dice
@@ -335,10 +341,15 @@ $P(X = x, Y = y) \neq P(X = x) \cdot P(Y = y)$.
 
 
 The probabilities of $X$ and $Y$ are intertwined, reflecting their dependency.
-A classical example is the drawing two cards from a deck **without replacement**.
+A classical example is the drawing two cards from a deck without replacement.
 Let $X$ be the value of the first card, and $Y$ the value of the second card.
 Once the first card is drawn, the probabilities for $Y$ change because there 
-is one less card in the deck.
+is one less card in the deck. An example nearer to finance is the case of 
+a portfolio of financial assets each with risky payoff. You can then model
+each asset as a random variable. In a portfolio the different assets will
+in general not be independent. Common factors, such as general market sentiment,
+macroeconomic conditions, dependecne in production through supply chains etc.,
+may driev the uncertainty of several assets simultaneously.
 
 The dependency between \(X\) and \(Y\) can also be 
 described using **conditional probabilities**:
@@ -356,7 +367,6 @@ This representation emphasizes how the probability of $X$ depends on $Y$.
 For instance, in the dice example, if one die is biased to always 
 match the other, $P(X = x \mid Y = y) = 1$ when $x = y$.
 
-Here’s an example of dependent dice implemented in R:
 
 ```{r}
 # Define a joint PMF for dependent dice: one die matches the other
@@ -466,10 +476,11 @@ their probabilities. This highlights a common misunderstanding: the expected
 value is not a prediction of what will happen in a single trial, but a 
 summary of what we can expect over many repetitions of the experiment.
 
-### Variance and Standard Deviation
+### Variance and Standard Error
 
 While the expected value provides the central tendency, 
-the **variance** measures the spread of a random variable around its expected
+the **variance** measures the spread of a 
+random variable around its expected
 value.
 
 ::: {.callout-tip title="Definition: Variance" #variance-discrete}
@@ -491,9 +502,9 @@ $$
 $$
 
 
-The **standard deviation** is the square root of the variance:
+The **standard error** is the square root of the variance:
 $$
-\mathrm{SD}(X) = \sqrt{\mathrm{Var}(X)}.
+\mathrm{SE}(X) = \sqrt{\mathrm{Var}(X)}.
 $$
 It provides a measure of spread in the same units as the random variable.
 
@@ -529,7 +540,7 @@ $$
 If $X$ and $Y$ are independent, then $\mathrm{Cov}(X, Y) = 0$. However, the 
 converse is not true: a covariance of 0 does not imply independence.
 
-#### Example
+Example:
 Consider two dice, $X$ and $Y$, rolled simultaneously. Let $X$ represent the outcome of the first die and $Y$ the second. If the dice are independent, the covariance is 0:
 
 ```{r}
@@ -546,4 +557,1166 @@ $$
 $$
 The correlation coefficient ranges from $-1$ (perfect negative correlation) to $1$ (perfect positive correlation).
 
+What does it mean if covariance is called a **linear** measure of
+dependence? Let mr explain:
+The **covariance** measures the degree to which two random variables 
+change together, focusing specifically on their **linear relationship**. 
+But what does it mean for the relationship to be linear, and what happens 
+if the relationship is not linear?
 
+A linear relationship implies that one random variable can 
+be expressed approximately as a linear function of the other:
+
+$$Y = aX + b$$
+
+where $a$ and $b$ are constants. If two variables are positively linearly related, an increase in one variable tends to be associated with a proportional increase in the other. Conversely, if they are negatively linearly related, an increase in one variable tends to correspond to a proportional decrease in the other.
+
+Covariance captures this pattern by examining how the deviations of $X$ and $Y$ from their respective means 
+$(X - \mathbb{E}[X])$ and $(Y - \mathbb{E}[Y])$ vary together.
+
+- A **positive covariance** indicates that larger values of $X$ are associated with larger values of $Y$.
+- A **negative covariance** indicates that larger values of $X$ are associated with smaller values of $Y$.
+- A **covariance near zero** suggests no linear relationship, though other forms of relationships might still exist.
+
+Covariance is limited to linear relationships. If the dependence between 
+two random variables is non-linear—such as quadratic, exponential, or 
+periodic—covariance might be zero, even though the variables are strongly related.
+
+For example:
+
+- If $Y = X^2$, the relationship is perfectly deterministic. However, if 
+$X$ is symmetrically distributed around zero the covariance could still be zero.
+- For a sinusoidal relationship like \(Y = \sin(X)\), covariance would also fail to capture the dependence.
+
+
+
+### Intuition for Covariance
+To understand covariance, think of it as quantifying how closely the relationship between two variables resembles a straight-line pattern. The stronger the alignment with a straight line (positive or negative slope), the larger the magnitude of the covariance. However, when the relationship follows a curve or more complex pattern, covariance might fail to reflect the dependence, and other tools may be needed.^[To detect and measure non-linear relationships, alternative statistical tools are required:
+1. **Correlation Ratio $(\eta^2)$**: Measures the proportion of variance in one variable that can be explained by a non-linear function of the other.
+2. **Mutual Information**: Captures all forms of dependencies (linear and non-linear) by quantifying the shared information between two random variables.
+3. **Kendall's Tau / Spearman's Rank Correlation**: Rank-based measures that can detect monotonic (but not necessarily linear) relationships.
+4. **Distance Correlation**: A measure capable of capturing both linear and non-linear relationships by analyzing distances between data points.]
+
+### A Note on Terminology
+
+Some of you might have wondered why I use distinct terminology like mean and
+expected value or standard deviation and standard error. Why do I do this?
+
+Let me explain:
+In probability and statistics, certain terms are often used 
+interchangeably, leading to potential confusion. To ensure 
+clarity, we distinguish between **empirical measures**, which 
+describe observed data, and **theoretical measures**, which 
+describe properties of random variables and probability distributions.
+
+In an emorical context, when working with data we speak of
+
+- **Mean**: The arithmetic average of observed data points. It provides a 
+measure of central tendency for the sample or population.
+- **Standard Deviation**: A measure of the spread or variability of the 
+observed data around the mean.
+
+These quantities are calculated directly from data and are specific to 
+the observed sample.
+
+In a theoretical context, when we work with random Variables and distributions we
+speak of
+
+- **Expected Value**: The theoretical long-run average of a random 
+variable, derived from its probability distribution. It represents 
+the "center" of the distribution in a probabilistic sense.
+
+- **Standard Deviation**: The theoretical spread of a random variable’s values 
+around its expected value, also derived from the probability distribution.
+
+These measures rely on the underlying distribution of the random variable 
+and are not directly observable. 
+
+Why does this distinction matter?
+
+1. **Clarity in Context**: Empirical measures describe what we observe, while theoretical measures describe the underlying process or model.
+2. **Foundation for Inference**: Understanding the relationship between empirical and theoretical measures is key to making statistical inferences.
+3. **Precision in Communication**: Using terms consistently helps avoid ambiguity in academic and professional discussions.
+
+### Summary Table
+
+| **Context**             | **Measure**            | **Term**              | **Definition/Role**                                                          |
+|--------------------------|------------------------|------------------------|-------------------------------------------------------------------------------|
+| **Empirical Data**       | Central Tendency      | Mean                  | The average of observed data points.                                          |
+|                          | Spread                | Standard Deviation     | The dispersion of data points around the mean.                                |
+| **Probability Distributions** | Central Tendency      | Expected Value         | The theoretical average of a random variable based on its probability distribution. |
+|                          | Spread                | Standard Deviation     | The spread of a random variable's values around its expected value.           |
+| **Sampling Distributions** | Spread of Estimate    | Standard Error         | The standard deviation of a sample statistic, indicating estimation precision. |
+
+By maintaining this distinction, we connect the descriptive analysis of data with the theoretical underpinnings of probability and the tools of inferential statistics.
+
+
+## Random Variables: Simulating Portfolio Returns with Discrete Outcomes
+
+In this section, we build a simple portfolio simulation using discrete 
+random variables to model asset returns. Based on this cas study
+we will push the frontier of your R knowledge a bit further
+giving you the tools to efficiently write more complex
+programs in R.
+
+This example demonstrates modular R programming, flow control s
+tructures like `if-else` statements and loops, and the use 
+of lists for organizing and processing data.
+
+## Asset Returns: A Key Concept in Finance
+
+Before we model investment problems using probability and random 
+variables, let’s establish some essential financial concepts. 
+
+In Finance, an **asset** refers to any investment instrument 
+that can be bought or sold, such as stocks, bonds, real 
+estate, or even a savings account. Assets are the 
+building blocks of investment decisions.
+
+When you invest in an asset, you expect to receive some form of 
+payoff in the future. Let:
+
+- $X_0$: The amount of money invested today.
+- $X_1$: The amount received at a future time, say one year from now.
+
+The **total return** ($R$) is the ratio of the amount received to the 
+amount invested:
+$$R = \frac{X_1}{X_0}$$
+
+Often, practitioners refer to the **rate of return** ($r$), which 
+measures the proportionate change in value:
+$$r = \frac{X_1 - X_0}{X_0}$$
+
+The two measures are closely related:
+$$R = 1 + r \quad \text{or equivalently,} \quad X_1 = (1 + r) X_0$$
+
+The rate of return ($r$) behaves similarly to an interest rate, describing 
+the growth (or decline) of your investment relative to the initial outlay.
+
+In many cases, the rate of return is not known in advance. For example:
+
+- A stock's future price may depend on market conditions.
+- A bond may carry the risk of default, affecting its final payoff.
+- Real estate returns depend on fluctuating property values and rental income.
+
+This uncertainty in returns is a fundamental aspect of investment. 
+To analyze it rigorously, we model rates of 
+return as **random variables**.
+
+Random variables provide a mathematical framework for capturing uncertainty. 
+For instance:
+
+- $X_1$, the future payoff of an asset, is modeled as a random variable 
+because its value depends on uncertain factors.
+- Since $R = \frac{X_1}{X_0}$ and $r = \frac{X_1 - X_0}{X_0}$, both 
+the total return ($R$) and rate of return ($r$) are also random variables.
+
+Modeling returns as random variables allows us to:
+
+1. **Describe the range of possible outcomes**: For example, $X_1$ could 
+be high, low, or anywhere in between.
+2. **Quantify likelihoods**: We assign probabilities to outcomes, such 
+as a 20% chance of a large gain or a 5% chance of a significant loss.
+3. **Analyze investment risk and reward**: Using tools like expected value, 
+variance, and covariance, we can measure and manage the trade-off between 
+risk and return.
+
+### Analyzing Returns with Discrete and Continuous Models
+
+In this lecture, we focus on **discrete models**, where the possible outcomes 
+of returns are finite and can be explicitly listed. For example, a stock 
+might have three possible states—high, medium, or low returns—with 
+assigned probabilities. Continuous models, where returns can 
+take any value within a range, will be introduced in the next lecture.
+
+### Portfolio Setup
+
+We model the returns of three assets using discrete random variables. 
+Each asset has three possible returns, and their joint outcomes 
+are determined by a random 
+state (e.g., economic scenarios: "High", "Medium", "Low"). 
+These states have associated probabilities.
+
+Where do these probabilities come from?
+In probability theory, probabilities are treated as fundamental 
+quantities, much like length or area in geometry. They are 
+simply "given" and form the foundation for analyzing uncertainty. 
+For example, we might assume that the probability of 
+a "High" economic scenario is 30%, while "Medium" and "Low" 
+scenarios occur with probabilities of 50% and 20%, respectively.
+
+However, in practical applications, these probabilities are 
+rarely known a priori. Assigning probabilities to real-world events is 
+a complex task that often requires the use of data and statistical models. 
+In Finance, this is the domain of econometrics and related disciplines. 
+
+For instance:
+
+- Historical data on market conditions might be analyzed to estimate the 
+likelihood of different economic scenarios.
+- Expert judgment or forecasts (e.g., from central banks or financial analysts) 
+might supplement data to refine these probabilities.
+- Bayesian methods can combine prior beliefs with new data to 
+update probabilities dynamically.
+
+In our example, we assume the probabilities are already known to 
+focus on understanding how probability theory can be applied to 
+investment problems. This assumption simplifies the analysis and 
+allows us to explore key concepts like expected value and variance 
+without the added complexity of estimating probabilities.
+
+It’s important to recognize that the choice of probabilities—whether 
+derived from data, expert judgment, or theoretical models—directly 
+influences the results of any analysis. In real-world applications, 
+the validity of conclusions often hinges on how well these probabilities 
+capture the underlying uncertainties.
+
+So let us start our example by first defining 
+asset returns and probabilities using R:
+
+```{r asset-returns-and-probabilities-portfolio-example}
+
+# Define states and their probabilities
+
+states <- c("High", "Medium", "Low")
+probabilities <- c(0.3, 0.5, 0.2)  # Must sum to 1
+
+# Define asset returns for each state
+
+asset_returns <- list(
+  asset_1 = c(0.08, 0.04, -0.02), # Returns for Asset 1
+  asset_2 = c(0.12, 0.03, -0.05), # Returns for Asset 2
+  asset_3 = c(0.05, 0.02, 0.01)   # Returns for Asset 3
+)
+
+```
+
+
+### Writing Modular Functions
+
+To model portfolio returns, we break the problem into smaller tasks and write 
+modular functions. This approach makes the code more manageable, reusable, 
+and easier to debug. Modularizing your code is a principle
+you should follow always when writing smaller or larger
+programs. One strategy how this can be done is 
+breaking down a bigger task into smaller ones and 
+implement the smaller tasks as functions.
+
+In our case where we want to implement a
+portfolio simulation we need:
+
+1. Simulate a Random State
+2. Get the Asset Returen for each state
+3. Compute the portfolio returns
+4. Simulate portfolio performance
+
+Let me go through these steps function by function.
+
+#### Simulate a Random State
+
+We begin by simulating a random economic 
+state (e.g., "High," "Medium," or "Low") based on the 
+probabilities assigned to each state.
+
+```{r simulate-states}
+simulate_state <- function(states, probabilities) {
+  sample(states, size = 1, replace = TRUE, prob = probabilities)
+}
+```
+
+The `simulate_state` function uses R’s `sample()` function to randomly 
+choose one of the states based on their respective probabilities.
+This is a tool you already know. I do not have to say much more
+on the sample function. 
+
+As a remark, observe that it is a good idea to give to your
+functions names that you or somebody can easily understand. A good
+approach is to think in verbs, what is the function doing? When
+you need more than one word an often used convention in
+coding is to use and underscore to connect words.
+
+Our function is constructed such that it can take any finite state
+vector and any given state probabilities as input.
+
+#### Get Asset Returns for a State
+
+Once a state is selected, we retrieve the corresponding returns 
+for each asset. To accomplish this, we use the flexibility and 
+power of R’s **list** structure.
+
+Let us recall the list structure which we have touched only
+very briefly in previous lectures.
+
+A **list** in R is a data structure that can hold multiple 
+objects of different types and lengths. Lists are highly 
+versatile, making them particularly useful for functional 
+programming. For example, you can store vectors, matrices, 
+data frames, and even other lists within a single list.
+
+Here’s an example of creating and accessing a list:
+
+```{r creating-a-list-example}
+# Create a list
+
+my_list <- list(
+  vector = c(1, 2, 3),
+  matrix = matrix(1:4, nrow = 2),
+  data_frame = data.frame(a = 1:2, b = 3:4)
+)
+
+# Access elements of the list
+
+my_list$vector   # By name
+my_list[[2]]     # By position
+my_list[["matrix"]] # Equivalent to my_list[[2]]
+```
+
+Lists allow you to organize related but heterogeneous data in a structured way. 
+For example, in our case, the returns for each asset are stored 
+as individual vectors within a list, where each vector corresponds to one asset.
+
+Lists are particularly advantageous in programming because of their:
+
+1. **Flexibility**: They can hold objects of different types and sizes, making 
+them a universal container.
+2. **Indexing**: Elements can be accessed using names or positions, 
+enabling both clarity and adaptability.
+3. **Extensibility**: Lists can easily grow or change in structure 
+without altering the overall program logic.
+4. **Integration with Functions**: R functions like `lapply`, `sapply`, and `map` 
+are designed to work seamlessly with lists, promoting concise and efficient code.
+
+The `get_returns` function uses a list (`asset_returns`) to store 
+the possible returns for each asset across states. Here’s the function:
+
+```{r get_returns_function}
+get_returns <- function(state, states, asset_returns) {
+  index <- which(states == state)
+  sapply(asset_returns, `[`, index)
+}
+```
+
+Let’s break it down step by step:
+
+1. **Input Arguments**:
+
+   - `state`: The randomly chosen state (e.g., "High").
+   - `states`: A vector of all possible states (e.g., `c("High", "Medium", "Low")`).
+   - `asset_returns`: A list where each element is a vector of returns
+                      for an asset, corresponding to each state.
+
+2. **Find the Index of the State**:
+
+The `which` function finds the position of the selected 
+state within the `states` vector:
+
+`index <- which(states == state)`
+
+For example, if `state = "Medium"` and `states = c("High", "Medium", "Low")`,
+the result will be `index = 2`.
+
+3. **Extract Returns Using `sapply`**:
+
+The `sapply` function applies the
+subsetting operator `[` to each element of the `asset_returns` list:
+
+`sapply(asset_returns, `[`, index)`
+
+   - `sapply(asset_returns, ...)` iterates over each element of the list.
+   -  The operator `[`, with `index` as the argument, extracts the value at 
+   the `index` position from each vector in the list.
+
+   For example, if:
+
+`asset_returns <- list(
+     asset_1 = c(0.08, 0.04, -0.02),
+     asset_2 = c(0.12, 0.03, -0.05),
+     asset_3 = c(0.05, 0.02, 0.01)
+   )`
+   
+   and `index = 2`, the result will be:
+
+`c(asset_1 = 0.04, asset_2 = 0.03, asset_3 = 0.02)`
+
+The `sapply` function is part of a family of functions in R designed for
+iterating over elements of lists (or other objects like vectors). These
+functions enable you to apply a specified operation to each element of a
+list in a concise and readable way. This approach often replaces
+traditional `for` loops and promotes a functional programming style.
+
+`sapply()`is one member of a family of R's functions written for
+operations on lists.
+
+Here’s an overview of the main functions in this family:
+
+1. **`lapply`**:
+
+Applies a function to each element of a list and returns a list of the results. It is
+useful when the output needs to remain as a list.
+
+Example:
+
+```{r}
+my_list <- list(a = 1:3, b = 4:6, c = 7:9)
+lapply(my_list, sum)
+```
+
+2. **`sapply`**: A simplified version of `lapply` that attempts to return
+results as a vector or matrix, if possible.
+If simplification isn’t feasible, it falls back to returning a list.
+
+Example:
+
+```{r}
+my_list <- list(a = 1:3, b = 4:6, c = 7:9)
+sapply(my_list, sum)
+```
+
+
+3. **`vapply`**: Similar to `sapply`, but requires you to specify the type
+of the returned result (e.g., numeric, character).
+Useful for ensuring type consistency and avoiding unexpected results.
+
+Example:
+
+```{r}
+vapply(my_list, sum, numeric(1))
+```
+
+4. **`tapply`**: Applies a function to subsets of a vector, grouped by a
+factor or factors. It is a very powerful workhorses for data analysis,
+commonly used for grouped computations.
+
+Example:
+
+```{r}
+   x <- c(1, 2, 3, 4, 5, 6)
+   groups <- factor(c("A", "A", "B", "B", "C", "C"))
+   tapply(x, groups, sum)
+```
+
+5. **`mapply`**:
+
+A multivariate version of `sapply`, allowing iteration over multiple inputs
+simultaneously.
+
+Example:
+
+```{r}
+   x <- 1:3
+   y <- 4:6
+   mapply(sum, x, y)
+```
+
+So why Use `sapply` in our example?
+
+The `sapply` function is well-suited for our example because:
+1. The `asset_returns` object is a **list**, where each element corresponds to
+the returns of a single asset.
+2. We want to extract a single value (the return for a given state)
+from each list element.
+3. `sapply` simplifies the output into a named vector, making it
+easier to use for further computations.
+
+Let’s revisit the `get_returns` function:
+
+```{r}
+get_returns <- function(state, states, asset_returns) {
+  index <- which(states == state)  # Find the index of the selected state
+  sapply(asset_returns, `[`, index)  # Extract the return for the state from each asset
+}
+```
+
+`sapply(asset_returns, \`[\`, index)` applies the subsetting operator (`[`) to each element of the `asset_returns` list, using `index` as the argument. The result is a named vector of returns
+for the specified state, with names corresponding to the assets.
+
+By understanding `sapply` and its related functions, you gain access to powerful
+tools for working with lists and other data structures in R. These functions
+are essential for writing efficient, modular, and readable R code.
+
+#### Compute Portfolio Return
+
+The portfolio return is calculated as the weighted sum of the individual
+asset returns.
+
+```{r}
+compute_portfolio_return <- function(weights, returns) {
+  sum(weights * returns)
+}
+```
+
+This function multiplies each asset’s return by its respective weight and
+sums the result, yielding the total portfolio return.
+
+#### Putting Everything Together: Simulate Portfolio Performance
+
+We now combine the functions we created earlier into a larger
+function, `simulate_portfolio`, that simulates portfolio performance
+over multiple time periods. Each simulation’s results are stored
+in a **list**, leveraging modularity for clarity and reusability.
+Modular code makes it easier to debug, document, and extend.
+
+R provides several ways to iterate over data, with **for-loops** being
+a fundamental and widely used method. In a for-loop, R sequentially
+applies the specified code to each element of a sequence or range.
+
+Here’s a basic example of a for-loop in R:
+
+```{r}
+# Example of a simple for-loop
+for (i in 1:5) {
+  print(i)
+}
+```
+
+For-loops are intuitive and work well for many tasks. However, when
+iterating over larger datasets, it’s important to write efficient loops.
+One key best practice is **preallocating space** for the output of the loop.
+Without preallocation, R has to repeatedly resize the output object, which
+can slow down the computation significantly.
+
+In our `simulate_portfolio` function, we preallocate space for
+the results using `vector("list", n_periods)`. This creates
+a list of length `n_periods` before entering the loop. Preallocation
+ensures that each iteration simply fills an existing slot in the list,
+avoiding costly memory reallocation.
+
+Here’s how it looks in our function:
+
+```{r simulate-portfolio-function}
+
+simulate_portfolio <- function(n_periods, weights, states, probabilities, asset_returns) {
+
+  # Preallocate space for the results
+  results <- vector("list", n_periods)
+
+  for (i in 1:n_periods) {
+    # Simulate a random state
+    state <- simulate_state(states, probabilities)
+
+    # Retrieve the returns for the selected state
+    returns <- get_returns(state, states, asset_returns)
+
+    # Compute the portfolio return
+    portfolio_return <- compute_portfolio_return(weights, returns)
+
+    # Store the results for this iteration in the preallocated list
+    results[[i]] <- list(
+      state = state,
+      returns = returns,
+      portfolio_return = portfolio_return
+    )
+  }
+
+  results
+}
+```
+
+In R, for-loops and lists are often used together but serve distinct purposes:
+- **For-loops**: Provide a mechanism for iterating over elements or ranges, applying code to each iteration step. They are versatile and easy to understand but can become slow without preallocation for large datasets.
+- **Lists**: Offer a flexible data structure for storing diverse types of output (e.g., vectors, data frames, or even other lists). They work well with for-loops when preallocated and are essential for modular code and functional programming.
+
+In our example, the for-loop performs the iteration
+over `n_periods`, while the list (`results`) stores the output for
+each period. This combination strikes a balance between simplicity and efficiency.
+
+Let me unpack the `simulate_portfolio`function a bit further.
+
+The `simulate_portfolio` function runs a simulation for `n_periods`.
+Each iteration:
+
+1. Simulates a random state using `simulate_state`.
+2. Retrieves the returns for all assets in that state using `get_returns`.
+3. Computes the portfolio return using `compute_portfolio_return`.
+4. Stores the results (state, returns, portfolio return) in the preallocated `results` list.
+
+The function returns a list where each element contains:
+
+- **The random state**: The economic scenario for the period.
+- **The asset returns**: A named vector of returns for each asset.
+- **The portfolio return**: The weighted average return for the portfolio.
+
+Here’s an example of what the output might look like for a single simulation:
+
+```{r}
+# Output for one period
+list(
+  state = "Medium",
+  returns = c(asset_1 = 0.04, asset_2 = 0.03, asset_3 = 0.02),
+  portfolio_return = 0.032
+)
+```
+
+By preallocating space and combining modular functions, this approach ensures
+efficient and readable code, while also allowing students to explore each step
+of the simulation in isolation or as part of the larger process.
+
+
+This refined section introduces iteration concepts, explains the
+importance of preallocation, and highlights the synergy between for-loops and lists. Let me know if you’d like further enhancements!
+
+We now define the portfolio weights, which must sum to 1. This says that we have
+invested 50 % of our wealth into asset 1, 30 % into asset 2 and 20 % into
+asset 3.
+
+```{r}
+weights <- c(0.5, 0.3, 0.2)  # Weights for the three assets
+```
+
+We can now simulate the portfolio performance over
+any numebr of periods using the functions we created.
+Let#s say we do a simulation for 1000 periods.
+
+```{r}
+set.seed(42)  # For reproducibility
+n_periods <- 1000
+
+simulation_results <- simulate_portfolio(n_periods, weights, states, probabilities, asset_returns)
+```
+
+Now we have a huge pile of data stored in an object with the name `simulated_results`. What
+do we do with this?
+
+We extract the portfolio returns from the simulation and
+compute summary statistics such as the mean and variance of the returns.
+
+```{r}
+# Extract portfolio returns
+
+portfolio_returns <- sapply(simulation_results, `[[`, "portfolio_return")
+
+# Compute summary statistics
+
+mean_return <- mean(portfolio_returns)
+variance_return <- var(portfolio_returns)
+
+list(mean = mean_return, variance = variance_return)
+```
+
+Here we have summarized the distribution of our random variables using the
+concepts we learned before, thereby documenting their average return and thus
+the average return of the portfolio as well as how spread out these returns
+are.
+
+We can also create a histogram to visualize the
+full distribution of the simulated portfolio returns.
+
+```{r}
+hist(portfolio_returns, breaks = 30, main = "Portfolio Returns", xlab = "Return")
+```
+
+Let us explore the list structure we have chosen here to demonstarte how it
+helps us to access simulation details.
+
+Each element of simulation_results is itself a list, containing:
+
+- The random state.
+- The returns for each asset in that state.
+- The computed portfolio return.
+
+For example, to inspect the first simulation we would
+type
+
+```{r}
+simulation_results[[1]]
+```
+
+Let us also compute state frequencies to check whether our random
+number generator has actually implemented what we have given him
+in terms of probabilities as arguments to the `sample()`function.
+
+```{r}
+state_counts <- table(sapply(simulation_results, `[[`, "state"))
+state_frequencies <- prop.table(state_counts)
+state_frequencies
+```
+
+Here’s the refined passage with the formula and explanation added:
+
+---
+
+Finally, we can compare the results of our simulation to key statistics of the portfolio, such as the **expected portfolio return**. These statistics can also be computed theoretically using the definitions of expected value and portfolio return.
+
+The **expected return** of each asset is calculated as:
+$$E(r^i) = \sum_{j=1}^m p_j \cdot r^i_j$$
+where:
+
+- $r^i_j$ is the return of asset $i$ in state $j$,
+- $p_j$ is the probability of state $j$,
+- $m$ is the total number of states.
+
+The **expected portfolio return** is then the weighted sum of the expected
+returns of the individual assets:
+$$E(R_{\text{portfolio}}) = \sum_{i=1}^n w^i \cdot E(r^i)$$
+where:
+
+- $w^i$ is the weight of asset $i$ in the portfolio,
+- $n$ is the total number of assets.
+
+The following R code computes the expected portfolio return using the formulas above:
+
+```{r expected return}
+# Compute expected returns for each asset
+expected_returns <- sapply(asset_returns, function(asset) sum(asset * probabilities))
+
+# Compute the expected portfolio return
+expected_portfolio_return <- sum(weights * expected_returns)
+
+# Display the result
+expected_portfolio_return
+```
+
+Let me unpack this a bit:
+
+1. **Expected Returns of Individual Assets**:
+
+- The `sapply` function iterates over the `asset_returns` list, which contains the returns for each asset across the states.
+- For each asset, it computes the weighted sum of its returns using the probabilities of the states:
+
+`sum(asset * probabilities)`
+
+This corresponds directly to the formula $E(r^i) = \sum_{j=1}^m p_j \cdot r^i_j$.
+
+2. **Expected Portfolio Return**:
+
+- The `weights` vector contains the portfolio allocation for each asset.
+- The `sum(weights * expected_returns)` computation takes the weighted sum of the expected returns of the individual assets:
+
+`sum(weights * expected_returns)`
+
+This corresponds to the formula $E(R_{\text{portfolio}}) = \sum_{i=1}^n w^i \cdot E(r^i)$.
+
+By computing these values theoretically, we can validate the results of our
+simulation and gain confidence in both our simulation setup and the
+mathematical underpinnings of portfolio theory.
+
+::: {.callout-note title="Now You Try"}
+Now that we’ve calculated the **expected portfolio return** both theoretically and through simulation, take the next step and compute the **theoretical variance** of the portfolio.
+
+Recall the formula for the variance of a portfolio:
+$$
+\text{Var}(R_{\text{portfolio}}) = \sum_{i=1}^n (w^i)^2 \cdot \text{Var}(r^i) + \sum_{i \neq j} w^i \cdot w^j \cdot \text{Cov}(r^i, r^j)
+$$
+where:
+- $\text{Var}(r^i) = \sum_{j=1}^m p_j \cdot (r^i_j - E(r^i))^2$ is the variance of asset $i$,
+- $\text{Cov}(r^i, r^j) = \sum_{j=1}^m p_j \cdot (r^i_j - E(r^i)) \cdot (r^j_j - E(r^j))$ is the covariance between assets $i$ and $j$.
+
+### Steps to Get Started
+1. **Compute the Variance of Each Asset**:
+   Use the formula for variance to calculate $\text{Var}(r^i)$ for each asset based on the `asset_returns` and `probabilities`.
+
+2. **Compute the Covariance Between Pairs of Assets**:
+   Calculate $\text{Cov}(r^i, r^j)$ for all pairs of assets.
+
+3. **Combine Variances and Covariances**:
+   Use the portfolio weights and the formula above to compute $\text{Var}(R_{\text{portfolio}})$.
+
+### Tips
+- Use `sapply` to efficiently compute variances and covariances across assets.
+- Store the covariance values in a matrix for easier calculations.
+
+Once you’ve completed the theoretical calculations, compare the theoretical portfolio variance to the variance obtained from your simulation. Does it match? What could explain any differences?
+
+:::
+
+
+Here’s a refined and streamlined version of the section, with improved structure, clarity, and flow, while keeping the main content intact. I also adjusted some arguments to improve accuracy and teaching focus:
+
+---
+
+## The Binomial Distribution and its role in Finance
+
+In this final section, we explore the **binomial distribution**, a 
+discrete distribution with significant applications in Finance. It 
+forms the foundation for one of the most important models of asset p
+rice dynamics: **binomial lattices**. This discussion not only 
+deepens our understanding of probability but also introduces 
+tools in R to work with parametric distributions.
+
+### Bernoulli and Binomial Random Variables
+
+#### Bernoulli Random Variable: The Building Block
+
+A **Bernoulli experiment** has two possible outcomes, commonly 
+labeled as "success" and "failure." The corresponding **Bernoulli random variable** takes 
+a value of 1 for success and 0 for failure, with a success probability $p$ and failure probability 
+$1-p$. 
+
+If $X \sim \text{Bernoulli}(p)$, then:
+- $E(X) = p$(expected value),
+- $\text{Var}(X) = p(1-p)$ (variance).
+
+Try deriving these properties from the definitions of expectation and variance!
+
+#### Binomial Random Variable: Extending the Bernoulli
+
+The **binomial random variable** is the sum of $n$ independent Bernoulli 
+random variables, modeling the total number of successes in $n$ trials. 
+If $X \sim \text{Binomial}(n, p)$, then:
+- $E(X) = n \cdot p$,
+- $\text{Var}(X) = n \cdot p \cdot (1-p)$.
+
+The probability of exactly $k$ successes is given by:
+$$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k},$$
+where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the **binomial coefficient**.
+
+#### Intuition Through an Example
+
+Let’s consider rolling a fair die five times, with success defined as 
+rolling a six. The number of sixes follows a binomial distribution 
+with $n = 5$ and $p = 1/6$. Here’s how we compute probabilities:
+
+- **All Sixes** ($X = 5$):  
+  $P(X = 5) = (1/6)^5$.  
+
+```{r}
+  (1/6)^5
+```
+
+- **No Sixes** ($X = 0$):  
+  $P(X = 0) = (5/6)^5$.  
+
+```{r}
+  (5/6)^5
+```
+
+- **Exactly One Six** ($X = 1$):  
+  $P(X = 1) = 5 \cdot (5/6)^4 \cdot (1/6)$.  
+
+```{r}
+  5 * (5/6)^4 * (1/6)
+```
+
+### Working with the Binomial Distribution in R
+
+R provides built-in functions for parametric distributions. For the binomial distribution:
+1. `dbinom(x, n, p)`: Probability $P(X = x)$.
+2. `pbinom(x, n, p)`: Cumulative probability $P(X \leq x)$.
+3. `rbinom(N, n, p)`: Generate $N$ random samples from a binomial distribution.
+4. `qbinom(r, n, p)`: Quantile function.
+
+#### Simulating and Comparing Approaches
+
+To illustrate, let’s simulate rolling a die five times 
+and compare it with the binomial model:
+
+```{r}
+# Custom simulation
+
+roll_die_five <- function() {
+  res <- sample(1:6, 5, replace = TRUE)
+  sum(res == 6)
+}
+
+# Simulate 100,000 trials
+
+sim_rolls <- replicate(10^5, roll_die_five())
+
+# Binomial distribution simulation
+
+sim_roll_with_rbinom <- rbinom(10^5, 5, 1/6)
+```
+
+Plot the distributions and compare:
+
+```{r}
+# Plot histogram for custom simulation
+
+hist(sim_rolls, 
+     breaks = seq(-0.5, max(sim_rolls) + 0.5, by = 1), 
+     main = "Custom Simulation", 
+     xlab = "Number of Sixes", 
+     col = "lightblue", 
+     border = "black")
+
+# Plot histogram for rbinom simulation
+
+hist(sim_roll_with_rbinom, 
+     breaks = seq(-0.5, max(sim_roll_with_rbinom) + 0.5, by = 1), 
+     main = "R's rbinom Function", 
+     xlab = "Number of Sixes", 
+     col = "lightgreen", 
+     border = "black")
+
+```
+
+---
+
+### Modeling Asset Price Dynamics with Binomial Trees
+
+#### Real-World Asset Price Dynamics
+
+In practice, asset prices fluctuate due to market forces, 
+dividends, interest rates, and other uncertainties. **Binomial trees** 
+are a powerful and simple way to model these dynamics over time. Unlike 
+single-period models, binomial trees capture the evolution of prices 
+across multiple periods.
+
+#### Constructing the Binomial Model
+
+For a basic period (e.g., a day), assume:
+
+- The price can either increase by a factor $u$ or decrease by a factor $d$.
+- The probabilities of up and down movements are $p$ and $1-p$.
+
+If the initial price is $S_0$, then after $n$ periods:
+$$S_n = S_0 \cdot u^i \cdot d^{n-i},$$
+where $i$ is the number of up movements.
+
+#### Calibrating the Model
+
+Given annualized return ($\nu$) and volatility ($\sigma$), we set:
+$$u = e^{\sigma \sqrt{\Delta t}}, \quad d = e^{-\sigma \sqrt{\Delta t}}, \quad p = \frac{1}{2} + \frac{\nu}{2\sigma} \sqrt{\Delta t},$$
+where $\Delta t$ is the fraction of a year (e.g., 1/250 for daily).
+
+#### Building the Binomial Tree in R
+
+Here’s a function to generate a binomial tree:
+
+```{r}
+
+binomial_tree <- function(S0, up, down, steps) {
+  tree <- matrix(0, nrow = steps + 1, ncol = steps + 1)
+  for (i in 1:(steps + 1)) {
+    for (j in 1:i) {
+      tree[i, j] <- S0 * up^(j - 1) * down^((i - 1) - (j - 1))
+    }
+  }
+  return(tree)
+}
+```
+
+Test the function with three steps:
+
+```{r}
+
+tree <- binomial_tree(S0 = 100, up = 1.1, down = 0.9, steps = 3)
+tree
+```
+
+#### Simulating SP500 Prices
+
+Using historical SP500 data, calculate:
+- $\nu$: Average annual log return.
+- $\sigma$: Annualized volatility.
+
+Then, simulate the binomial price process and visualize the probability
+distribution of final prices:
+
+we need to work this out still using concrete returns.
+
+<!-- ```{r} -->
+<!-- # Simulate a year of daily prices -->
+<!-- tree <- binomial_tree(S0 = 100, up = u, down = d, steps = 250) -->
+<!-- outcomes <- tree[dim(tree)[1], ] -->
+<!-- plot(outcomes, dbinom(0:250, size = 250, prob = p), type = "h") -->
+<!-- ``` -->
+
+### Subsection: Leveraging an LLM to Enhance Learning from Binomial Models
+
+#### **Using an LLM for Advanced Financial Modeling**
+
+An LLM like ChatGPT can significantly enhance your learning experience from this lecture by helping you:
+1. **Understand Complex Concepts**: Get detailed explanations of topics like binomial trees, asset price dynamics, and probability distributions.
+2. **Generate Customized Code**: Create tailored R scripts to experiment with different stocks, time horizons, or assumptions.
+3. **Validate Your Work**: Debug your code or verify theoretical calculations.
+4. **Extend the Model**: Explore advanced variations, such as incorporating dividends or multi-asset portfolios.
+
+---
+
+#### Using an LLM to enhance you understanding: Debugging and Extending the Binomial Tree Model
+
+Imagine you’ve written an R function to generate a binomial tree but are unsure if the logic is correct. You can ask the LLM to review your code, explain its functionality, and suggest improvements.
+
+For example:
+**Prompt to the LLM**:
+> "I wrote this function to generate a binomial tree in R. Can you check if it’s correct? If not, how can I fix it?"
+```r
+binomial_tree <- function(S0, up, down, steps) {
+  tree <- matrix(0, nrow = steps + 1, ncol = steps + 1)
+  for (i in 1:(steps + 1)) {
+    for (j in 1:i) {
+      tree[i, j] <- S0 * up^(j - 1) * down^((i - 1) - (j - 1))
+    }
+  }
+  return(tree)
+}
+```
+
+The LLM can:
+- Analyze the logic and verify the implementation.
+- Suggest optimizations, like avoiding redundant calculations.
+- Explain how to test the function with sample inputs and interpret the results.
+
+---
+
+#### **Use Case: Generating Advanced Visualizations**
+
+You want to visualize not just the final outcomes of the binomial model but also the entire tree structure over time. While this isn’t covered in the lecture, you can ask:
+> "How can I visualize the full binomial tree structure generated by my function?"
+
+The LLM can suggest:
+- Using packages like `DiagrammeR` or `igraph` for structured visualizations.
+- Overlaying probabilities or expected values on the tree for deeper insights.
+
+---
+
+#### **Use Case: Customizing the Project**
+
+You’ve completed the project but want to explore additional scenarios. For example:
+- Use different assets (e.g., cryptocurrencies or ETFs).
+- Model dividends or transaction costs.
+- Extend the tree to multiple assets for portfolio modeling.
+
+**Prompt to the LLM**:
+> "How can I extend my binomial tree model to include transaction costs of 0.1% for every price change?"
+
+The LLM can guide you step-by-step:
+1. Modify the price calculation at each node to subtract transaction costs.
+2. Adjust the recursion logic to account for the modified prices.
+3. Validate the results and interpret the impact of transaction costs.
+
+---
+
+#### **Why This Matters**
+
+Using an LLM allows you to:
+- Gain insights beyond the lecture material.
+- Accelerate your coding and problem-solving skills.
+- Explore advanced scenarios without requiring pre-existing expertise.
+
+By leveraging these tools effectively, you can turn theoretical concepts into practical, actionable skills that prepare you for real-world challenges in Finance and beyond.
+
+---
+
+Would you like this subsection expanded or tailored further to specific aspects of the lecture?
+
+### Project Proposal: Simulating and Analyzing Real-World Asset Price Dynamics with Binomial Trees
+
+#### **Objective**
+Create a project where students use **real-world stock price data** (retrieved via `tidyquant`) to:
+1. Build a **binomial tree model** for a selected stock’s price dynamics.
+2. Calibrate the model using historical data (e.g., average annual return and volatility).
+3. Simulate the stock's potential price distribution over a defined time horizon.
+4. Analyze and visualize the results to compare simulated outcomes with theoretical values.
+
+This project ties together the lecture’s concepts, emphasizes practical applications, and encourages exploration of real data.
+
+### **Step-by-Step Structure for the Project**
+
+#### **Step 1: Data Retrieval**
+1. Use the `tidyquant` package to download historical stock price data for a user-selected stock (e.g., "AAPL" or "MSFT").
+2. Compute **daily log returns** and **annualized statistics**:
+   - Average annual log return (\( \nu \)).
+   - Annualized volatility (\( \sigma \)).
+
+#### Example Code:
+
+```{r}
+library(tidyquant)
+library(tidyverse)
+
+# Retrieve historical stock prices
+stock_data <- tq_get("AAPL", from = "2018-01-01", to = "2023-01-01")
+
+# Compute daily log returns
+stock_data <- stock_data %>%
+  mutate(log_return = log(adjusted / lag(adjusted)))
+
+# Annualized statistics
+nu <- mean(stock_data$log_return, na.rm = TRUE) * 252
+sigma <- sd(stock_data$log_return, na.rm = TRUE) * sqrt(252)
+
+nu
+sigma
+```
+
+#### **Step 2: Calibrate the Binomial Tree Parameters**
+
+1. Define the time step as daily ($\Delta t = 1/252$).
+2. Compute the **up factor** ($ u $), **down factor** ($ d $), and **probability** ($p$) using the formulas:
+   - $u = e^{\sigma \sqrt{\Delta t}}$
+   - $d = e^{-\sigma \sqrt{\Delta t}}$
+   - $p = \frac{1}{2} + \frac{\nu}{2\sigma} \sqrt{\Delta t}$.
+
+#### Example Code:
+
+```{r}
+delta_t <- 1 / 252
+u <- exp(sigma * sqrt(delta_t))
+d <- exp(-sigma * sqrt(delta_t))
+p <- 0.5 + (nu / (2 * sigma)) * sqrt(delta_t)
+
+u
+d
+p
+```
+
+#### **Step 3: Build the Binomial Tree**
+
+1. Write a function to generate a binomial tree for a given stock.
+2. Use the calibrated parameters to simulate the stock price evolution over a given horizon (e.g., 1 year with 252 steps).
+
+#### Example Code:
+
+```{r}
+binomial_tree <- function(S0, u, d, p, steps) {
+  tree <- matrix(0, nrow = steps + 1, ncol = steps + 1)
+  
+  for (i in 1:(steps + 1)) {
+    for (j in 1:i) {
+      tree[i, j] <- S0 * u^(j - 1) * d^((i - 1) - (j - 1))
+    }
+  }
+  
+  tree
+}
+
+# Generate a binomial tree for 1 year
+S0 <- 100  # Starting stock price
+tree <- binomial_tree(S0, u, d, p, steps = 252)
+```
+
+---
+
+#### **Step 4: Simulate and Visualize Final Price Distribution**
+
+1. Extract the last row of the binomial tree to analyze final stock price outcomes.
+2. Use the **binomial distribution** to compute the probabilities for each outcome.
+3. Plot the **probability mass function (PMF)** and compare it to the simulated distribution.
+
+#### Example Code:
+
+```{r}
+# Extract final prices and probabilities
+final_prices <- tree[dim(tree)[1], ]
+probabilities <- dbinom(0:252, size = 252, prob = p)
+
+# Plot PMF
+plot(final_prices, probabilities, type = "h", 
+     main = "Probability Mass Function", 
+     xlab = "Final Stock Price", ylab = "Probability")
+```
+
+---
+
+#### **Step 5: Comparison and Analysis**
+1. Compare the expected value of the final stock price from the model to the expected value based on the annualized return.
+2. Discuss discrepancies and assumptions (e.g., independence of returns, constant volatility).
+
+
+### **Deliverables**
+1. **Code Implementation**: A complete script that retrieves data, calibrates the model, builds the binomial tree, and visualizes the results.
+2. **Report**:
+   - Explanation of the binomial model and its calibration.
+   - Interpretation of the results (e.g., insights from the PMF, expected value, etc.).
+   - Reflection on the limitations of the model and suggestions for improvement.
+
+---
+
+### **Why This Project?**
+- **Practical Relevance**: Students work with real data, gaining insights into real-world financial modeling.
+- **Integration of Concepts**: Combines probability, binomial distributions, asset price dynamics, and R programming.
+- **Exploration Opportunities**: Students can tweak parameters, test different stocks, or extend the model (e.g., incorporating dividends or multi-asset portfolios).
+
+Would you like me to expand any section or provide additional example code?
