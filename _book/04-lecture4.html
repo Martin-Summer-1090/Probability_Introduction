@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./05-lecture5.html" rel="next">
 <link href="./03-lecture3.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -198,6 +199,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Random Variables</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-lecture5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Continuous random variables</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -219,22 +226,23 @@ window.Quarto = {
   <li><a href="#a-note-on-terminology" id="toc-a-note-on-terminology" class="nav-link" data-scroll-target="#a-note-on-terminology"><span class="header-section-number">4.3.5</span> A Note on Terminology</a></li>
   <li><a href="#summary-table" id="toc-summary-table" class="nav-link" data-scroll-target="#summary-table"><span class="header-section-number">4.3.6</span> Summary Table</a></li>
   </ul></li>
-  <li><a href="#random-variables-simulating-portfolio-returns-with-discrete-outcomes" id="toc-random-variables-simulating-portfolio-returns-with-discrete-outcomes" class="nav-link" data-scroll-target="#random-variables-simulating-portfolio-returns-with-discrete-outcomes"><span class="header-section-number">4.4</span> Random Variables: Simulating Portfolio Returns with Discrete Outcomes</a></li>
-  <li><a href="#asset-returns-a-key-concept-in-finance" id="toc-asset-returns-a-key-concept-in-finance" class="nav-link" data-scroll-target="#asset-returns-a-key-concept-in-finance"><span class="header-section-number">4.5</span> Asset Returns: A Key Concept in Finance</a>
+  <li><a href="#random-variables-simulating-portfolio-returns-with-discrete-outcomes" id="toc-random-variables-simulating-portfolio-returns-with-discrete-outcomes" class="nav-link" data-scroll-target="#random-variables-simulating-portfolio-returns-with-discrete-outcomes"><span class="header-section-number">4.4</span> Random Variables: Simulating Portfolio Returns with Discrete Outcomes</a>
   <ul class="collapse">
-  <li><a href="#analyzing-returns-with-discrete-and-continuous-models" id="toc-analyzing-returns-with-discrete-and-continuous-models" class="nav-link" data-scroll-target="#analyzing-returns-with-discrete-and-continuous-models"><span class="header-section-number">4.5.1</span> Analyzing Returns with Discrete and Continuous Models</a></li>
-  <li><a href="#portfolio-setup" id="toc-portfolio-setup" class="nav-link" data-scroll-target="#portfolio-setup"><span class="header-section-number">4.5.2</span> Portfolio Setup</a></li>
-  <li><a href="#writing-modular-functions" id="toc-writing-modular-functions" class="nav-link" data-scroll-target="#writing-modular-functions"><span class="header-section-number">4.5.3</span> Writing Modular Functions</a></li>
+  <li><a href="#asset-returns-a-key-concept-in-finance" id="toc-asset-returns-a-key-concept-in-finance" class="nav-link" data-scroll-target="#asset-returns-a-key-concept-in-finance"><span class="header-section-number">4.4.1</span> Asset Returns: A Key Concept in Finance</a></li>
+  <li><a href="#analyzing-returns-with-discrete-and-continuous-models" id="toc-analyzing-returns-with-discrete-and-continuous-models" class="nav-link" data-scroll-target="#analyzing-returns-with-discrete-and-continuous-models"><span class="header-section-number">4.4.2</span> Analyzing Returns with Discrete and Continuous Models</a></li>
+  <li><a href="#portfolio-setup" id="toc-portfolio-setup" class="nav-link" data-scroll-target="#portfolio-setup"><span class="header-section-number">4.4.3</span> Portfolio Setup</a></li>
+  <li><a href="#writing-modular-functions" id="toc-writing-modular-functions" class="nav-link" data-scroll-target="#writing-modular-functions"><span class="header-section-number">4.4.4</span> Writing Modular Functions</a></li>
   </ul></li>
-  <li><a href="#the-binomial-distribution-and-its-role-in-finance" id="toc-the-binomial-distribution-and-its-role-in-finance" class="nav-link" data-scroll-target="#the-binomial-distribution-and-its-role-in-finance"><span class="header-section-number">4.6</span> The Binomial Distribution and its role in Finance</a>
+  <li><a href="#the-binomial-distribution-and-its-role-in-finance" id="toc-the-binomial-distribution-and-its-role-in-finance" class="nav-link" data-scroll-target="#the-binomial-distribution-and-its-role-in-finance"><span class="header-section-number">4.5</span> The Binomial Distribution and its role in Finance</a>
   <ul class="collapse">
-  <li><a href="#bernoulli-and-binomial-random-variables" id="toc-bernoulli-and-binomial-random-variables" class="nav-link" data-scroll-target="#bernoulli-and-binomial-random-variables"><span class="header-section-number">4.6.1</span> Bernoulli and Binomial Random Variables</a></li>
-  <li><a href="#working-with-the-binomial-distribution-in-r" id="toc-working-with-the-binomial-distribution-in-r" class="nav-link" data-scroll-target="#working-with-the-binomial-distribution-in-r"><span class="header-section-number">4.6.2</span> Working with the Binomial Distribution in R</a></li>
-  <li><a href="#modeling-asset-price-dynamics-with-binomial-trees" id="toc-modeling-asset-price-dynamics-with-binomial-trees" class="nav-link" data-scroll-target="#modeling-asset-price-dynamics-with-binomial-trees"><span class="header-section-number">4.6.3</span> Modeling Asset Price Dynamics with Binomial Trees</a></li>
-  <li><a href="#project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees" id="toc-project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees" class="nav-link" data-scroll-target="#project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees"><span class="header-section-number">4.6.4</span> Project Proposal: Simulating and Analyzing Real-World Asset Price Dynamics with Binomial Trees</a></li>
-  <li><a href="#step-by-step-structure-for-the-project" id="toc-step-by-step-structure-for-the-project" class="nav-link" data-scroll-target="#step-by-step-structure-for-the-project"><span class="header-section-number">4.6.5</span> <strong>Step-by-Step Structure for the Project</strong></a></li>
-  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables"><span class="header-section-number">4.6.6</span> <strong>Deliverables</strong></a></li>
-  <li><a href="#why-this-project" id="toc-why-this-project" class="nav-link" data-scroll-target="#why-this-project"><span class="header-section-number">4.6.7</span> <strong>Why This Project?</strong></a></li>
+  <li><a href="#bernoulli-and-binomial-random-variables" id="toc-bernoulli-and-binomial-random-variables" class="nav-link" data-scroll-target="#bernoulli-and-binomial-random-variables"><span class="header-section-number">4.5.1</span> Bernoulli and Binomial Random Variables</a></li>
+  <li><a href="#working-with-the-binomial-distribution-in-r" id="toc-working-with-the-binomial-distribution-in-r" class="nav-link" data-scroll-target="#working-with-the-binomial-distribution-in-r"><span class="header-section-number">4.5.2</span> Working with the Binomial Distribution in R</a></li>
+  <li><a href="#modeling-asset-price-dynamics-with-binomial-trees" id="toc-modeling-asset-price-dynamics-with-binomial-trees" class="nav-link" data-scroll-target="#modeling-asset-price-dynamics-with-binomial-trees"><span class="header-section-number">4.5.3</span> Modeling Asset Price Dynamics with Binomial Trees</a></li>
+  <li><a href="#subsection-leveraging-an-llm-to-enhance-learning-from-binomial-models" id="toc-subsection-leveraging-an-llm-to-enhance-learning-from-binomial-models" class="nav-link" data-scroll-target="#subsection-leveraging-an-llm-to-enhance-learning-from-binomial-models"><span class="header-section-number">4.5.4</span> Subsection: Leveraging an LLM to Enhance Learning from Binomial Models</a></li>
+  <li><a href="#project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees" id="toc-project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees" class="nav-link" data-scroll-target="#project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees"><span class="header-section-number">4.5.5</span> Project Proposal: Simulating and Analyzing Real-World Asset Price Dynamics with Binomial Trees</a></li>
+  <li><a href="#step-by-step-structure-for-the-project" id="toc-step-by-step-structure-for-the-project" class="nav-link" data-scroll-target="#step-by-step-structure-for-the-project"><span class="header-section-number">4.5.6</span> <strong>Step-by-Step Structure for the Project</strong></a></li>
+  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables"><span class="header-section-number">4.5.7</span> <strong>Deliverables</strong></a></li>
+  <li><a href="#why-this-project" id="toc-why-this-project" class="nav-link" data-scroll-target="#why-this-project"><span class="header-section-number">4.5.8</span> <strong>Why This Project?</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -263,8 +271,7 @@ window.Quarto = {
 
 <p>Random variables are the main mathematical tools that allow us to quantify and analyze uncertainty in Finance for complex portfolios and other financial contexts like risk management and credit risk analysis. Whether we are modeling the returns of a portfolio, assessing risk, or simulating market dynamics, random variables provide the foundation for probabilistic reasoning.</p>
 <p>Throughout the previous lectures, we have encountered concepts such as conditional probabilities, dependencies, and independence. These ideas have helped us build intuition for modeling uncertainty. However, as we move into more advanced applications like portfolio risk modeling and asset price dynamics, a more explicit and formal treatment of <strong>random variables</strong> becomes unavoidable.</p>
-<p>Random variables are at the core of probability theory, serving as a bridge between real-world phenomena and mathematical models. They allow us to represent uncertain outcomes numerically and provide a framework for analyzing those outcomes using tools such as <strong>expected value</strong>, <strong>variance</strong>, and <strong>covariance</strong>. These measures are indispensable for understanding and managing financial risk.</p>
-<p>Random variables are not just theoretical constructs—they play a vital role in applications like:</p>
+<p>Random variables are at the core of probability theory, serving as a bridge between real-world phenomena and mathematical models. They allow us to represent uncertain outcomes numerically and provide a framework for analyzing those outcomes using tools such as <strong>expected value</strong>, <strong>variance</strong>, and <strong>covariance</strong>. These measures are indispensable for understanding and managing financial risk. Random variables play a vital role in applications like:</p>
 <ul>
 <li><strong>Portfolio Management</strong>: Estimating the expected return and risk of a portfolio.</li>
 <li><strong>Risk Assessment</strong>: Modeling the probability of extreme events, such as market crashes.</li>
@@ -277,14 +284,6 @@ window.Quarto = {
 <li>Apply R programming to simulate random variables and analyze financial scenarios.</li>
 <li>Construct a binomial tree to model asset price dynamics.</li>
 </ol>
-<p>We will proceed as follows:</p>
-<ol type="1">
-<li><strong>Random Variables and Distributions</strong>: Introduce the concept of random variables and their key properties.</li>
-<li><strong>Programming with Random Variables in R</strong>: Simulate random variables and compute statistical measures.</li>
-<li><strong>Portfolio Risk Modeling</strong>: Use random variables to model portfolio returns and risk.</li>
-<li><strong>Binomial Tree Model</strong>: Tie everything together by modeling asset price dynamics with a binomial tree.</li>
-</ol>
-<p>Let’s begin by exploring what random variables are and why they are so central to understanding uncertainty in finance.</p>
 <section id="random-variables-and-distributions" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="random-variables-and-distributions"><span class="header-section-number">4.1</span> Random Variables and Distributions</h2>
 <p>A <strong>random variable</strong> is a numerical outcome of a random phenomenon. Formally, a random variable is a function that assigns a real number to each outcome in the sample space of a random experiment. More explicitly:</p>
@@ -309,7 +308,7 @@ Definition: Random Variable
 <p>By explicitly recognizing these as random variables, we can now apply a systematic framework to quantify their behavior and analyze them.</p>
 <p>Note that it is a widely held convention in probability theory to use capital letters such as <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> etc. as symbols of a random variable.</p>
 <p>Random variables come in two varieties, depending on the properties of the sample space <span class="math inline">\({\cal S}\)</span>. If the sample space is a finite or countably finite set, the sample space is discrete and we talk of a <strong>discrete random variables</strong>.</p>
-<p>Sometimes it is natural to consider continuous sample spaces. For example when we consider the return of an asset over a year or the price of a stock at a specific time. In this case we call a random variable <strong>continuous</strong>. Continuity comes with the need to mount a bigger mathamtical machinery than we will use in this course. We will discuss continuous random variabls in the next lecture. Her we stick with the concept of a distcrete random variable.</p>
+<p>Sometimes it is natural to consider continuous sample spaces. For example when we consider the return of an asset over a year or the price of a stock at a specific time. In this case we call a random variable <strong>continuous</strong>. With continuous sample spaces we will need tools from calculus. We will discuss continuous random variables in the next lecture. Here we stick with the concept of a discrete random variable.</p>
 </section>
 <section id="probability-distributions-and-cumulative-probability-distributions" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="probability-distributions-and-cumulative-probability-distributions"><span class="header-section-number">4.2</span> Probability Distributions and Cumulative Probability Distributions</h2>
@@ -350,8 +349,8 @@ P(X = x) = p(x)
 </div>
 </div>
 </div>
-<p>This plot shows that each outcome has an equal probability of <span class="math inline">\(\frac{1}{6}\)</span> symbolized as a bar. The geometry of this bar has no meaning. The bars could be thinner or thicker while displaying the same information.</p>
-<p>Let me discuss some common confusions that arise often with understanding the cocnept of a random variable.</p>
+<p>This plot shows that each outcome has an equal probability of <span class="math inline">\(\frac{1}{6}\)</span> symbolized as a bar. The width of these bars has no meaning. The bars could be thinner or thicker while displaying the same information.</p>
+<p>Let me discuss some common confusions that arise often with understanding the concept of a random variable.</p>
 <ol type="1">
 <li><p><strong>Random Variable vs.&nbsp;Outcome</strong>: A random variable is not the same as an individual outcome. It is a function that assigns values to outcomes. The confusion is partially created by the name. Maybe a better term would be a random mapping. Anyway, keep in mind that a random variable is a function.</p></li>
 <li><p><strong>Probability Distribution vs.&nbsp;Histogram</strong>: A probability distribution represents theoretical probabilities. Don’t mix this concept up with the concept of a histogram, known from statistics and data analysis, which shows frequencies of empirical data.</p></li>
@@ -376,7 +375,7 @@ Now You Try: Other Examples
 <p>Simulate and visualize the PMF of these examples in R. Use the <code>barplot()</code> function to create intuitive visualizations.</p>
 </div>
 </div>
-<p>A related concept to the probability mass function (PMF), is the <strong>cumulative distribution function (CDF)</strong>. It can also be used to describe a discrete random variable. The CDF provides the probability that the random variable <span class="math inline">\(X\)</span> takes a value less than or equal to a specific value <span class="math inline">\(x\)</span>:</p>
+<p>A related concept to the probability mass function (PMF), is the <strong>cumulative distribution function</strong> (CDF). It can also be used to describe a discrete random variable. The CDF provides the probability that the random variable <span class="math inline">\(X\)</span> takes a value less than or equal to a specific value <span class="math inline">\(x\)</span>:</p>
 <div id="cdf-discrete" class="callout callout-style-default callout-tip callout-titled" title="Definition: Cumulative Distribution Function (CDF)">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -422,7 +421,7 @@ Definition: Cumulative Distribution Function (CDF)
 </div>
 <p>Here are some key points to keep in mind when working with cumulative distribution functions (CDFs):</p>
 <ul>
-<li>The CDF gives cumulative probabilities (<span class="math inline">\(P(X \leq x)\)</span>), not individual probabilities like the PMF or PDF.</li>
+<li>The CDF gives cumulative probabilities (<span class="math inline">\(P(X \leq x)\)</span>), not individual probabilities like the PMF.</li>
 <li>The CDF is always non-decreasing and reaches 1 for the largest possible value of <span class="math inline">\(X\)</span>.</li>
 <li>While the CDF for discrete variables has a step-like shape, it can also be smooth for continuous variables.</li>
 </ul>
@@ -534,7 +533,7 @@ Independent Random Variables
 </div>
 <p>The probabilities of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are completely separate and don’t influence each other. Example: Rolling two fair dice where the outcome of one die does not influence the other.</p>
 <p>For dependent random variables, the joint PMF does not satisfy the independence condition. Instead, the joint PMF captures the interaction between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. For example: <span class="math inline">\(P(X = x, Y = y) \neq P(X = x) \cdot P(Y = y)\)</span>.</p>
-<p>The probabilities of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are intertwined, reflecting their dependency. A classical example is the drawing two cards from a deck without replacement. Let <span class="math inline">\(X\)</span> be the value of the first card, and <span class="math inline">\(Y\)</span> the value of the second card. Once the first card is drawn, the probabilities for <span class="math inline">\(Y\)</span> change because there is one less card in the deck. An example nearer to finance is the case of a portfolio of financial assets each with risky payoff. You can then model each asset as a random variable. In a portfolio the different assets will in general not be independent. Common factors, such as general market sentiment, macroeconomic conditions, dependecne in production through supply chains etc., may driev the uncertainty of several assets simultaneously.</p>
+<p>The probabilities of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are intertwined, reflecting their dependency. A classical example is the drawing two cards from a deck without replacement. Let <span class="math inline">\(X\)</span> be the value of the first card, and <span class="math inline">\(Y\)</span> the value of the second card. Once the first card is drawn, the probabilities for <span class="math inline">\(Y\)</span> change because there is one less card in the deck. An example nearer to finance is the case of a portfolio of financial assets each with risky payoff. You can then model each asset as a random variable. In a portfolio the different assets will in general not be independent. Common factors, such as general market sentiment, macroeconomic conditions, dependecne in production through supply chains etc., may drive the uncertainty of several assets simultaneously.</p>
 <p>The dependency between (X) and (Y) can also be described using <strong>conditional probabilities</strong>:</p>
 <div id="independent-rv-discrete" class="callout callout-style-default callout-tip callout-titled" title="Dependent Random Variables">
 <div class="callout-header d-flex align-content-center">
@@ -596,15 +595,15 @@ P(X = x, Y = y) = P(X = x \mid Y = y) \cdot P(Y = y).
 <h2 data-number="4.3" class="anchored" data-anchor-id="expected-value-variance-covariance"><span class="header-section-number">4.3</span> Expected Value, Variance, Covariance</h2>
 <p>When working with random variables, we often need to summarize their behavior in a way that allows us to make decisions, compare outcomes, or model uncertainty. This is where the concepts of expected value, variance, and covariance come into play:</p>
 <ul>
-<li><p>Expected value provides a measure of the central tendency of a random variable, giving us a “weighted average” that reflects the most likely or typical outcome over the long run. It allows us to predict the average result in situations with uncertainty.</p></li>
-<li><p>Variance and its square root, the standard deviation, quantify the spread or variability of a random variable’s outcomes. These measures are crucial for understanding risk in contexts like finance, where variability often corresponds to uncertainty or volatility.</p></li>
-<li><p>Covariance extends this idea to pairs of random variables, capturing how changes in one variable are related to changes in another. This is particularly important in portfolio theory, where understanding how asset returns move together enables better diversification and risk management.</p></li>
+<li><p><strong>Expected value</strong> provides a measure of the central tendency of a random variable, giving us a “weighted average” that reflects the most likely or typical outcome over the long run. It allows us to predict the average result in situations with uncertainty.</p></li>
+<li><p><strong>Variance</strong> and its square root, the <strong>standard error</strong>, quantify the spread or variability of a random variable’s outcomes. These measures are crucial for understanding risk in contexts like finance, where variability often corresponds to uncertainty or volatility.</p></li>
+<li><p><strong>Covariance</strong> extends this idea to pairs of random variables, capturing how changes in one variable are related to changes in another. This is particularly important in portfolio theory, where understanding how asset returns move together enables better diversification and risk management.</p></li>
 </ul>
 <p>Together, these tools provide a mathematical framework for understanding, summarizing, and modeling uncertainty, making them indispensable in fields ranging from finance to engineering to data science.</p>
 <p>So let us dive into the formal definitions.</p>
 <section id="expected-value" class="level3" data-number="4.3.1">
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="expected-value"><span class="header-section-number">4.3.1</span> Expected Value</h3>
-<p>The <strong>expected value</strong> (or <strong>mean</strong>) of a random variable is a summary measure that captures the central tendency of its distribution. It represents the long-run average value of the variable if the experiment is repeated infinitely often.</p>
+<p>The <strong>expected value</strong> of a random variable is a summary measure that captures the central tendency of its distribution. It represents the long-run average value of the variable if the experiment is repeated many times.</p>
 <div id="expected-value-discrete" class="callout callout-style-default callout-tip callout-titled" title="Definition: Expected Value">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -664,10 +663,19 @@ Definition: Variance
 \]</span></p>
 <p>The <strong>standard error</strong> is the square root of the variance: <span class="math display">\[
 \mathrm{SE}(X) = \sqrt{\mathrm{Var}(X)}.
-\]</span> It provides a measure of spread in the same units as the random variable.</p>
+\]</span> What is the advantage to think in terms of standard errors rather than in terms of variance itself, when we think about the variability of a random variable? To see why, suppose <span class="math inline">\(X\)</span> represents the <strong>daily high temperature</strong> in a specific city during the month of July, measured in <strong>degrees Celsius (<span class="math inline">\(^\circ C\)</span>)</strong>. For simplicity, let’s assume <span class="math inline">\(X\)</span> is modeled as a random variable with the following characteristics based on historical data:</p>
+<ol type="1">
+<li><p><strong>Mean (Expected Value)</strong>:<br>
+The average high temperature in July is <span class="math inline">\(\mathbb{E}(X) = 25 \,^\circ C\)</span>.</p></li>
+<li><p><strong>Variance</strong>:<br>
+The variance of daily high temperatures is: <span class="math display">\[\mathrm{Var}(X) = 9 \, (\text{^\circ C}^2)\]</span>.</p>
+<p>While mathematically meaningful, the variance is expressed in squared degrees Celsius <span class="math inline">\(^\circ C^2\)</span>, which is unintuitive. People don’t typically think about “squared temperature.”</p></li>
+<li><p><strong>Standard Error</strong>:<br>
+Taking the square root of the variance gives: <span class="math display">\[\mathrm{SE}(X) = \sqrt{\mathrm{Var}(X)} = \sqrt{9} = 3 \,^\circ C.\]</span> A variance of <span class="math inline">\(9 \,^\circ C^2\)</span> is difficult to relate to because we don’t experience temperature in squared units. A standard error of <span class="math inline">\(3 \,^\circ C\)</span>, however, directly informs us that the daily high temperature typically deviates from the average (<span class="math inline">\(25 \,^\circ C\)</span>) by about <span class="math inline">\(3 \,^\circ C\)</span>.</p></li>
+</ol>
 <section id="example" class="level4" data-number="4.3.2.1">
 <h4 data-number="4.3.2.1" class="anchored" data-anchor-id="example"><span class="header-section-number">4.3.2.1</span> Example</h4>
-<p>Using the fair die example, calculate the variance and standard deviation:</p>
+<p>Using the fair die example, calculate the variance and standard error:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variance and standard deviation of a fair die</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>E_X_squared <span class="ot">&lt;-</span> <span class="fu">sum</span>(outcomes<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> probabilities)</span>
@@ -685,7 +693,7 @@ Definition: Variance
 </div>
 </section>
 </section>
-<section id="covariance" class="level3" data-number="4.3.3">
+<section id="covariance" class="level3 page-columns page-full" data-number="4.3.3">
 <h3 data-number="4.3.3" class="anchored" data-anchor-id="covariance"><span class="header-section-number">4.3.3</span> Covariance</h3>
 <p>The <strong>covariance</strong> measures the linear relationship between two random variables.</p>
 <div id="covariance-discrete" class="callout callout-style-default callout-tip callout-titled" title="Definition: Covariance">
@@ -717,10 +725,38 @@ Definition: Covariance
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
-<p>The <strong>correlation coefficient</strong> normalizes the covariance to a dimensionless measure: <span class="math display">\[
+<p>Now, consider a scenario where <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent but still have a covariance of 0. Let <span class="math inline">\(X\)</span> represent a random variable that takes the values <span class="math inline">\(\{-1, 0, 1\}\)</span>, and let <span class="math inline">\(Y\)</span> be defined as <span class="math inline">\(Y = X^2\)</span>. The joint distribution of <span class="math inline">\((X, Y)\)</span> is as follows:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(X\)</span></th>
+<th><span class="math inline">\(Y\)</span></th>
+<th>Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-1</td>
+<td>1</td>
+<td><span class="math inline">\(1/3\)</span></td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td><span class="math inline">\(1/3\)</span></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td><span class="math inline">\(1/3\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are clearly dependent because <span class="math inline">\(Y\)</span> is fully determined by <span class="math inline">\(X\)</span>. However, their covariance is 0. Check it!<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<span class="math inline">\(\mathbb{E}(X) = (-1) \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = 0\)</span> <span class="math inline">\(\mathbb{E}(Y) = 1 \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = \frac{2}{3}\)</span> <span class="math inline">\(\mathbb{E}(XY) = (-1)(1) \cdot \frac{1}{3} + (0)(0) \cdot \frac{1}{3} + (1)(1) \cdot \frac{1}{3} = 0\)</span> <span class="math inline">\(\mathrm{Cov}(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y) = 0 - (0 \cdot \frac{2}{3}) = 0\)</span> Thus, <span class="math inline">\(\mathrm{Cov}(X, Y) = 0\)</span>, even though <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are not independent</p></div></div><p>This example highlights that while independence guarantees a covariance of 0, the reverse is not true. The <strong>correlation coefficient</strong> normalizes the covariance to a dimensionless measure: <span class="math display">\[
 \rho(X, Y) = \frac{\mathrm{Cov}(X, Y)}{\mathrm{SD}(X) \cdot \mathrm{SD}(Y)}.
 \]</span> The correlation coefficient ranges from <span class="math inline">\(-1\)</span> (perfect negative correlation) to <span class="math inline">\(1\)</span> (perfect positive correlation).</p>
-<p>What does it mean if covariance is called a <strong>linear</strong> measure of dependence? Let mr explain: The <strong>covariance</strong> measures the degree to which two random variables change together, focusing specifically on their <strong>linear relationship</strong>. But what does it mean for the relationship to be linear, and what happens if the relationship is not linear?</p>
+<p>What does it mean if covariance is called a <strong>linear</strong> measure of dependence? Let me explain: The <strong>covariance</strong> measures the degree to which two random variables change together, focusing specifically on their <strong>linear relationship</strong>. But what does it mean for the relationship to be linear, and what happens if the relationship is not linear?</p>
 <p>A linear relationship implies that one random variable can be expressed approximately as a linear function of the other:</p>
 <p><span class="math display">\[Y = aX + b\]</span></p>
 <p>where <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are constants. If two variables are positively linearly related, an increase in one variable tends to be associated with a proportional increase in the other. Conversely, if they are negatively linearly related, an increase in one variable tends to correspond to a proportional decrease in the other.</p>
@@ -734,24 +770,24 @@ Definition: Covariance
 <p>For example:</p>
 <ul>
 <li>If <span class="math inline">\(Y = X^2\)</span>, the relationship is perfectly deterministic. However, if <span class="math inline">\(X\)</span> is symmetrically distributed around zero the covariance could still be zero.</li>
-<li>For a sinusoidal relationship like (Y = (X)), covariance would also fail to capture the dependence.</li>
+<li>For a sinusoidal relationship like <span class="math inline">\(Y = \sin(X)\)</span>, covariance would also fail to capture the dependence.</li>
 </ul>
 </section>
 <section id="intuition-for-covariance" class="level3 page-columns page-full" data-number="4.3.4">
 <h3 data-number="4.3.4" class="anchored" data-anchor-id="intuition-for-covariance"><span class="header-section-number">4.3.4</span> Intuition for Covariance</h3>
-<p>To understand covariance, think of it as quantifying how closely the relationship between two variables resembles a straight-line pattern. The stronger the alignment with a straight line (positive or negative slope), the larger the magnitude of the covariance. However, when the relationship follows a curve or more complex pattern, covariance might fail to reflect the dependence, and other tools may be needed.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;To detect and measure non-linear relationships, alternative statistical tools are required: 1. <strong>Correlation Ratio <span class="math inline">\((\eta^2)\)</span></strong>: Measures the proportion of variance in one variable that can be explained by a non-linear function of the other. 2. <strong>Mutual Information</strong>: Captures all forms of dependencies (linear and non-linear) by quantifying the shared information between two random variables. 3. <strong>Kendall’s Tau / Spearman’s Rank Correlation</strong>: Rank-based measures that can detect monotonic (but not necessarily linear) relationships. 4. <strong>Distance Correlation</strong>: A measure capable of capturing both linear and non-linear relationships by analyzing distances between data points.</p></div></div></section>
+<p>To understand covariance, think of it as quantifying how closely the relationship between two variables resembles a straight-line pattern. The stronger the alignment with a straight line (positive or negative slope), the larger the magnitude of the covariance. However, when the relationship follows a curve or more complex pattern, covariance might fail to reflect the dependence, and other tools may be needed.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;To detect and measure non-linear relationships, alternative statistical tools are required: 1. <strong>Correlation Ratio <span class="math inline">\((\eta^2)\)</span></strong>: Measures the proportion of variance in one variable that can be explained by a non-linear function of the other. 2. <strong>Mutual Information</strong>: Captures all forms of dependencies (linear and non-linear) by quantifying the shared information between two random variables. 3. <strong>Kendall’s Tau / Spearman’s Rank Correlation</strong>: Rank-based measures that can detect monotonic (but not necessarily linear) relationships. 4. <strong>Distance Correlation</strong>: A measure capable of capturing both linear and non-linear relationships by analyzing distances between data points.</p></div></div></section>
 <section id="a-note-on-terminology" class="level3" data-number="4.3.5">
 <h3 data-number="4.3.5" class="anchored" data-anchor-id="a-note-on-terminology"><span class="header-section-number">4.3.5</span> A Note on Terminology</h3>
 <p>Some of you might have wondered why I use distinct terminology like mean and expected value or standard deviation and standard error. Why do I do this?</p>
 <p>Let me explain: In probability and statistics, certain terms are often used interchangeably, leading to potential confusion. To ensure clarity, we distinguish between <strong>empirical measures</strong>, which describe observed data, and <strong>theoretical measures</strong>, which describe properties of random variables and probability distributions.</p>
-<p>In an emorical context, when working with data we speak of</p>
+<p>In an empirical context, when working with data we speak of</p>
 <ul>
 <li><strong>Mean</strong>: The arithmetic average of observed data points. It provides a measure of central tendency for the sample or population.</li>
 <li><strong>Standard Deviation</strong>: A measure of the spread or variability of the observed data around the mean.</li>
 </ul>
 <p>These quantities are calculated directly from data and are specific to the observed sample.</p>
-<p>In a theoretical context, when we work with random Variables and distributions we speak of</p>
+<p>In a theoretical context, when we work with random variables and distributions we speak of</p>
 <ul>
 <li><p><strong>Expected Value</strong>: The theoretical long-run average of a random variable, derived from its probability distribution. It represents the “center” of the distribution in a probabilistic sense.</p></li>
 <li><p><strong>Standard Deviation</strong>: The theoretical spread of a random variable’s values around its expected value, also derived from the probability distribution.</p></li>
@@ -821,9 +857,8 @@ Definition: Covariance
 <h2 data-number="4.4" class="anchored" data-anchor-id="random-variables-simulating-portfolio-returns-with-discrete-outcomes"><span class="header-section-number">4.4</span> Random Variables: Simulating Portfolio Returns with Discrete Outcomes</h2>
 <p>In this section, we build a simple portfolio simulation using discrete random variables to model asset returns. Based on this cas study we will push the frontier of your R knowledge a bit further giving you the tools to efficiently write more complex programs in R.</p>
 <p>This example demonstrates modular R programming, flow control s tructures like <code>if-else</code> statements and loops, and the use of lists for organizing and processing data.</p>
-</section>
-<section id="asset-returns-a-key-concept-in-finance" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="asset-returns-a-key-concept-in-finance"><span class="header-section-number">4.5</span> Asset Returns: A Key Concept in Finance</h2>
+<section id="asset-returns-a-key-concept-in-finance" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="asset-returns-a-key-concept-in-finance"><span class="header-section-number">4.4.1</span> Asset Returns: A Key Concept in Finance</h3>
 <p>Before we model investment problems using probability and random variables, let’s establish some essential financial concepts.</p>
 <p>In Finance, an <strong>asset</strong> refers to any investment instrument that can be bought or sold, such as stocks, bonds, real estate, or even a savings account. Assets are the building blocks of investment decisions.</p>
 <p>When you invest in an asset, you expect to receive some form of payoff in the future. Let:</p>
@@ -853,12 +888,13 @@ Definition: Covariance
 <li><strong>Quantify likelihoods</strong>: We assign probabilities to outcomes, such as a 20% chance of a large gain or a 5% chance of a significant loss.</li>
 <li><strong>Analyze investment risk and reward</strong>: Using tools like expected value, variance, and covariance, we can measure and manage the trade-off between risk and return.</li>
 </ol>
-<section id="analyzing-returns-with-discrete-and-continuous-models" class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="analyzing-returns-with-discrete-and-continuous-models"><span class="header-section-number">4.5.1</span> Analyzing Returns with Discrete and Continuous Models</h3>
+</section>
+<section id="analyzing-returns-with-discrete-and-continuous-models" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="analyzing-returns-with-discrete-and-continuous-models"><span class="header-section-number">4.4.2</span> Analyzing Returns with Discrete and Continuous Models</h3>
 <p>In this lecture, we focus on <strong>discrete models</strong>, where the possible outcomes of returns are finite and can be explicitly listed. For example, a stock might have three possible states—high, medium, or low returns—with assigned probabilities. Continuous models, where returns can take any value within a range, will be introduced in the next lecture.</p>
 </section>
-<section id="portfolio-setup" class="level3" data-number="4.5.2">
-<h3 data-number="4.5.2" class="anchored" data-anchor-id="portfolio-setup"><span class="header-section-number">4.5.2</span> Portfolio Setup</h3>
+<section id="portfolio-setup" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="portfolio-setup"><span class="header-section-number">4.4.3</span> Portfolio Setup</h3>
 <p>We model the returns of three assets using discrete random variables. Each asset has three possible returns, and their joint outcomes are determined by a random state (e.g., economic scenarios: “High”, “Medium”, “Low”). These states have associated probabilities.</p>
 <p>Where do these probabilities come from? In probability theory, probabilities are treated as fundamental quantities, much like length or area in geometry. They are simply “given” and form the foundation for analyzing uncertainty. For example, we might assume that the probability of a “High” economic scenario is 30%, while “Medium” and “Low” scenarios occur with probabilities of 50% and 20%, respectively.</p>
 <p>However, in practical applications, these probabilities are rarely known a priori. Assigning probabilities to real-world events is a complex task that often requires the use of data and statistical models. In Finance, this is the domain of econometrics and related disciplines.</p>
@@ -886,8 +922,8 @@ Definition: Covariance
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="writing-modular-functions" class="level3" data-number="4.5.3">
-<h3 data-number="4.5.3" class="anchored" data-anchor-id="writing-modular-functions"><span class="header-section-number">4.5.3</span> Writing Modular Functions</h3>
+<section id="writing-modular-functions" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="writing-modular-functions"><span class="header-section-number">4.4.4</span> Writing Modular Functions</h3>
 <p>To model portfolio returns, we break the problem into smaller tasks and write modular functions. This approach makes the code more manageable, reusable, and easier to debug. Modularizing your code is a principle you should follow always when writing smaller or larger programs. One strategy how this can be done is breaking down a bigger task into smaller ones and implement the smaller tasks as functions.</p>
 <p>In our case where we want to implement a portfolio simulation we need:</p>
 <ol type="1">
@@ -897,8 +933,8 @@ Definition: Covariance
 <li>Simulate portfolio performance</li>
 </ol>
 <p>Let me go through these steps function by function.</p>
-<section id="simulate-a-random-state" class="level4" data-number="4.5.3.1">
-<h4 data-number="4.5.3.1" class="anchored" data-anchor-id="simulate-a-random-state"><span class="header-section-number">4.5.3.1</span> Simulate a Random State</h4>
+<section id="simulate-a-random-state" class="level4" data-number="4.4.4.1">
+<h4 data-number="4.4.4.1" class="anchored" data-anchor-id="simulate-a-random-state"><span class="header-section-number">4.4.4.1</span> Simulate a Random State</h4>
 <p>We begin by simulating a random economic state (e.g., “High,” “Medium,” or “Low”) based on the probabilities assigned to each state.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>simulate_state <span class="ot">&lt;-</span> <span class="cf">function</span>(states, probabilities) {</span>
@@ -909,8 +945,8 @@ Definition: Covariance
 <p>As a remark, observe that it is a good idea to give to your functions names that you or somebody can easily understand. A good approach is to think in verbs, what is the function doing? When you need more than one word an often used convention in coding is to use and underscore to connect words.</p>
 <p>Our function is constructed such that it can take any finite state vector and any given state probabilities as input.</p>
 </section>
-<section id="get-asset-returns-for-a-state" class="level4" data-number="4.5.3.2">
-<h4 data-number="4.5.3.2" class="anchored" data-anchor-id="get-asset-returns-for-a-state"><span class="header-section-number">4.5.3.2</span> Get Asset Returns for a State</h4>
+<section id="get-asset-returns-for-a-state" class="level4" data-number="4.4.4.2">
+<h4 data-number="4.4.4.2" class="anchored" data-anchor-id="get-asset-returns-for-a-state"><span class="header-section-number">4.4.4.2</span> Get Asset Returns for a State</h4>
 <p>Once a state is selected, we retrieve the corresponding returns for each asset. To accomplish this, we use the flexibility and power of R’s <strong>list</strong> structure.</p>
 <p>Let us recall the list structure which we have touched only very briefly in previous lectures.</p>
 <p>A <strong>list</strong> in R is a data structure that can hold multiple objects of different types and lengths. Lists are highly versatile, making them particularly useful for functional programming. For example, you can store vectors, matrices, data frames, and even other lists within a single list.</p>
@@ -1067,8 +1103,8 @@ $c
 <p><code>sapply(asset_returns, \</code>[`, index)<code>applies the subsetting operator (</code>[<code>) to each element of the</code>asset_returns<code>list, using</code>index` as the argument. The result is a named vector of returns for the specified state, with names corresponding to the assets.</p>
 <p>By understanding <code>sapply</code> and its related functions, you gain access to powerful tools for working with lists and other data structures in R. These functions are essential for writing efficient, modular, and readable R code.</p>
 </section>
-<section id="compute-portfolio-return" class="level4" data-number="4.5.3.3">
-<h4 data-number="4.5.3.3" class="anchored" data-anchor-id="compute-portfolio-return"><span class="header-section-number">4.5.3.3</span> Compute Portfolio Return</h4>
+<section id="compute-portfolio-return" class="level4" data-number="4.4.4.3">
+<h4 data-number="4.4.4.3" class="anchored" data-anchor-id="compute-portfolio-return"><span class="header-section-number">4.4.4.3</span> Compute Portfolio Return</h4>
 <p>The portfolio return is calculated as the weighted sum of the individual asset returns.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>compute_portfolio_return <span class="ot">&lt;-</span> <span class="cf">function</span>(weights, returns) {</span>
@@ -1077,8 +1113,8 @@ $c
 </div>
 <p>This function multiplies each asset’s return by its respective weight and sums the result, yielding the total portfolio return.</p>
 </section>
-<section id="putting-everything-together-simulate-portfolio-performance" class="level4" data-number="4.5.3.4">
-<h4 data-number="4.5.3.4" class="anchored"><span class="header-section-number">4.5.3.4</span> Putting Everything Together: Simulate Portfolio Performance</h4>
+<section id="putting-everything-together-simulate-portfolio-performance" class="level4" data-number="4.4.4.4">
+<h4 data-number="4.4.4.4" class="anchored"><span class="header-section-number">4.4.4.4</span> Putting Everything Together: Simulate Portfolio Performance</h4>
 <p>We now combine the functions we created earlier into a larger function, <code>simulate_portfolio</code>, that simulates portfolio performance over multiple time periods. Each simulation’s results are stored in a <strong>list</strong>, leveraging modularity for clarity and reusability. Modular code makes it easier to debug, document, and extend.</p>
 <p>R provides several ways to iterate over data, with <strong>for-loops</strong> being a fundamental and widely used method. In a for-loop, R sequentially applies the specified code to each element of a sequence or range.</p>
 <p>Here’s a basic example of a for-loop in R:</p>
@@ -1198,7 +1234,7 @@ $variance
 <p>Here we have summarized the distribution of our random variables using the concepts we learned before, thereby documenting their average return and thus the average return of the portfolio as well as how spread out these returns are.</p>
 <p>We can also create a histogram to visualize the full distribution of the simulated portfolio returns.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(portfolio_returns, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">"Portfolio Returns"</span>, <span class="at">xlab =</span> <span class="st">"Return"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(portfolio_returns, <span class="at">breaks =</span> <span class="dv">3</span>, <span class="at">main =</span> <span class="st">"Portfolio Returns"</span>, <span class="at">xlab =</span> <span class="st">"Return"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1302,16 +1338,16 @@ Now You Try
 <p>Recall the formula for the variance of a portfolio: <span class="math display">\[
 \text{Var}(R_{\text{portfolio}}) = \sum_{i=1}^n (w^i)^2 \cdot \text{Var}(r^i) + \sum_{i \neq j} w^i \cdot w^j \cdot \text{Cov}(r^i, r^j)
 \]</span> where: - <span class="math inline">\(\text{Var}(r^i) = \sum_{j=1}^m p_j \cdot (r^i_j - E(r^i))^2\)</span> is the variance of asset <span class="math inline">\(i\)</span>, - <span class="math inline">\(\text{Cov}(r^i, r^j) = \sum_{j=1}^m p_j \cdot (r^i_j - E(r^i)) \cdot (r^j_j - E(r^j))\)</span> is the covariance between assets <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.</p>
-<section id="steps-to-get-started" class="level3" data-number="4.5.4">
-<h3 data-number="4.5.4" class="anchored" data-anchor-id="steps-to-get-started"><span class="header-section-number">4.5.4</span> Steps to Get Started</h3>
+<section id="steps-to-get-started" class="level3" data-number="4.4.5">
+<h3 data-number="4.4.5" class="anchored" data-anchor-id="steps-to-get-started"><span class="header-section-number">4.4.5</span> Steps to Get Started</h3>
 <ol type="1">
 <li><p><strong>Compute the Variance of Each Asset</strong>: Use the formula for variance to calculate <span class="math inline">\(\text{Var}(r^i)\)</span> for each asset based on the <code>asset_returns</code> and <code>probabilities</code>.</p></li>
 <li><p><strong>Compute the Covariance Between Pairs of Assets</strong>: Calculate <span class="math inline">\(\text{Cov}(r^i, r^j)\)</span> for all pairs of assets.</p></li>
 <li><p><strong>Combine Variances and Covariances</strong>: Use the portfolio weights and the formula above to compute <span class="math inline">\(\text{Var}(R_{\text{portfolio}})\)</span>.</p></li>
 </ol>
 </section>
-<section id="tips" class="level3" data-number="4.5.5">
-<h3 data-number="4.5.5" class="anchored" data-anchor-id="tips"><span class="header-section-number">4.5.5</span> Tips</h3>
+<section id="tips" class="level3" data-number="4.4.6">
+<h3 data-number="4.4.6" class="anchored" data-anchor-id="tips"><span class="header-section-number">4.4.6</span> Tips</h3>
 <ul>
 <li>Use <code>sapply</code> to efficiently compute variances and covariances across assets.</li>
 <li>Store the covariance values in a matrix for easier calculations.</li>
@@ -1325,24 +1361,24 @@ Now You Try
 </section>
 </section>
 </section>
-<section id="the-binomial-distribution-and-its-role-in-finance" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="the-binomial-distribution-and-its-role-in-finance"><span class="header-section-number">4.6</span> The Binomial Distribution and its role in Finance</h2>
+<section id="the-binomial-distribution-and-its-role-in-finance" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="the-binomial-distribution-and-its-role-in-finance"><span class="header-section-number">4.5</span> The Binomial Distribution and its role in Finance</h2>
 <p>In this final section, we explore the <strong>binomial distribution</strong>, a discrete distribution with significant applications in Finance. It forms the foundation for one of the most important models of asset p rice dynamics: <strong>binomial lattices</strong>. This discussion not only deepens our understanding of probability but also introduces tools in R to work with parametric distributions.</p>
-<section id="bernoulli-and-binomial-random-variables" class="level3" data-number="4.6.1">
-<h3 data-number="4.6.1" class="anchored" data-anchor-id="bernoulli-and-binomial-random-variables"><span class="header-section-number">4.6.1</span> Bernoulli and Binomial Random Variables</h3>
-<section id="bernoulli-random-variable-the-building-block" class="level4" data-number="4.6.1.1">
-<h4 data-number="4.6.1.1" class="anchored" data-anchor-id="bernoulli-random-variable-the-building-block"><span class="header-section-number">4.6.1.1</span> Bernoulli Random Variable: The Building Block</h4>
+<section id="bernoulli-and-binomial-random-variables" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="bernoulli-and-binomial-random-variables"><span class="header-section-number">4.5.1</span> Bernoulli and Binomial Random Variables</h3>
+<section id="bernoulli-random-variable-the-building-block" class="level4" data-number="4.5.1.1">
+<h4 data-number="4.5.1.1" class="anchored" data-anchor-id="bernoulli-random-variable-the-building-block"><span class="header-section-number">4.5.1.1</span> Bernoulli Random Variable: The Building Block</h4>
 <p>A <strong>Bernoulli experiment</strong> has two possible outcomes, commonly labeled as “success” and “failure.” The corresponding <strong>Bernoulli random variable</strong> takes a value of 1 for success and 0 for failure, with a success probability <span class="math inline">\(p\)</span> and failure probability <span class="math inline">\(1-p\)</span>.</p>
 <p>If <span class="math inline">\(X \sim \text{Bernoulli}(p)\)</span>, then: - <span class="math inline">\(E(X) = p\)</span>(expected value), - <span class="math inline">\(\text{Var}(X) = p(1-p)\)</span> (variance).</p>
 <p>Try deriving these properties from the definitions of expectation and variance!</p>
 </section>
-<section id="binomial-random-variable-extending-the-bernoulli" class="level4" data-number="4.6.1.2">
-<h4 data-number="4.6.1.2" class="anchored" data-anchor-id="binomial-random-variable-extending-the-bernoulli"><span class="header-section-number">4.6.1.2</span> Binomial Random Variable: Extending the Bernoulli</h4>
+<section id="binomial-random-variable-extending-the-bernoulli" class="level4" data-number="4.5.1.2">
+<h4 data-number="4.5.1.2" class="anchored" data-anchor-id="binomial-random-variable-extending-the-bernoulli"><span class="header-section-number">4.5.1.2</span> Binomial Random Variable: Extending the Bernoulli</h4>
 <p>The <strong>binomial random variable</strong> is the sum of <span class="math inline">\(n\)</span> independent Bernoulli random variables, modeling the total number of successes in <span class="math inline">\(n\)</span> trials. If <span class="math inline">\(X \sim \text{Binomial}(n, p)\)</span>, then: - <span class="math inline">\(E(X) = n \cdot p\)</span>, - <span class="math inline">\(\text{Var}(X) = n \cdot p \cdot (1-p)\)</span>.</p>
 <p>The probability of exactly <span class="math inline">\(k\)</span> successes is given by: <span class="math display">\[P(X = k) = \binom{n}{k} p^k (1-p)^{n-k},\]</span> where <span class="math inline">\(\binom{n}{k} = \frac{n!}{k!(n-k)!}\)</span> is the <strong>binomial coefficient</strong>.</p>
 </section>
-<section id="intuition-through-an-example" class="level4" data-number="4.6.1.3">
-<h4 data-number="4.6.1.3" class="anchored" data-anchor-id="intuition-through-an-example"><span class="header-section-number">4.6.1.3</span> Intuition Through an Example</h4>
+<section id="intuition-through-an-example" class="level4" data-number="4.5.1.3">
+<h4 data-number="4.5.1.3" class="anchored" data-anchor-id="intuition-through-an-example"><span class="header-section-number">4.5.1.3</span> Intuition Through an Example</h4>
 <p>Let’s consider rolling a fair die five times, with success defined as rolling a six. The number of sixes follows a binomial distribution with <span class="math inline">\(n = 5\)</span> and <span class="math inline">\(p = 1/6\)</span>. Here’s how we compute probabilities:</p>
 <ul>
 <li><strong>All Sixes</strong> (<span class="math inline">\(X = 5\)</span>):<br>
@@ -1376,11 +1412,11 @@ Now You Try
 </div>
 </section>
 </section>
-<section id="working-with-the-binomial-distribution-in-r" class="level3" data-number="4.6.2">
-<h3 data-number="4.6.2" class="anchored" data-anchor-id="working-with-the-binomial-distribution-in-r"><span class="header-section-number">4.6.2</span> Working with the Binomial Distribution in R</h3>
+<section id="working-with-the-binomial-distribution-in-r" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="working-with-the-binomial-distribution-in-r"><span class="header-section-number">4.5.2</span> Working with the Binomial Distribution in R</h3>
 <p>R provides built-in functions for parametric distributions. For the binomial distribution: 1. <code>dbinom(x, n, p)</code>: Probability <span class="math inline">\(P(X = x)\)</span>. 2. <code>pbinom(x, n, p)</code>: Cumulative probability <span class="math inline">\(P(X \leq x)\)</span>. 3. <code>rbinom(N, n, p)</code>: Generate <span class="math inline">\(N\)</span> random samples from a binomial distribution. 4. <code>qbinom(r, n, p)</code>: Quantile function.</p>
-<section id="simulating-and-comparing-approaches" class="level4" data-number="4.6.2.1">
-<h4 data-number="4.6.2.1" class="anchored" data-anchor-id="simulating-and-comparing-approaches"><span class="header-section-number">4.6.2.1</span> Simulating and Comparing Approaches</h4>
+<section id="simulating-and-comparing-approaches" class="level4" data-number="4.5.2.1">
+<h4 data-number="4.5.2.1" class="anchored" data-anchor-id="simulating-and-comparing-approaches"><span class="header-section-number">4.5.2.1</span> Simulating and Comparing Approaches</h4>
 <p>To illustrate, let’s simulate rolling a die five times and compare it with the binomial model:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom simulation</span></span>
@@ -1434,14 +1470,14 @@ Now You Try
 <hr>
 </section>
 </section>
-<section id="modeling-asset-price-dynamics-with-binomial-trees" class="level3" data-number="4.6.3">
-<h3 data-number="4.6.3" class="anchored" data-anchor-id="modeling-asset-price-dynamics-with-binomial-trees"><span class="header-section-number">4.6.3</span> Modeling Asset Price Dynamics with Binomial Trees</h3>
-<section id="real-world-asset-price-dynamics" class="level4" data-number="4.6.3.1">
-<h4 data-number="4.6.3.1" class="anchored" data-anchor-id="real-world-asset-price-dynamics"><span class="header-section-number">4.6.3.1</span> Real-World Asset Price Dynamics</h4>
+<section id="modeling-asset-price-dynamics-with-binomial-trees" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="modeling-asset-price-dynamics-with-binomial-trees"><span class="header-section-number">4.5.3</span> Modeling Asset Price Dynamics with Binomial Trees</h3>
+<section id="real-world-asset-price-dynamics" class="level4" data-number="4.5.3.1">
+<h4 data-number="4.5.3.1" class="anchored" data-anchor-id="real-world-asset-price-dynamics"><span class="header-section-number">4.5.3.1</span> Real-World Asset Price Dynamics</h4>
 <p>In practice, asset prices fluctuate due to market forces, dividends, interest rates, and other uncertainties. <strong>Binomial trees</strong> are a powerful and simple way to model these dynamics over time. Unlike single-period models, binomial trees capture the evolution of prices across multiple periods.</p>
 </section>
-<section id="constructing-the-binomial-model" class="level4" data-number="4.6.3.2">
-<h4 data-number="4.6.3.2" class="anchored" data-anchor-id="constructing-the-binomial-model"><span class="header-section-number">4.6.3.2</span> Constructing the Binomial Model</h4>
+<section id="constructing-the-binomial-model" class="level4" data-number="4.5.3.2">
+<h4 data-number="4.5.3.2" class="anchored" data-anchor-id="constructing-the-binomial-model"><span class="header-section-number">4.5.3.2</span> Constructing the Binomial Model</h4>
 <p>For a basic period (e.g., a day), assume:</p>
 <ul>
 <li>The price can either increase by a factor <span class="math inline">\(u\)</span> or decrease by a factor <span class="math inline">\(d\)</span>.</li>
@@ -1449,12 +1485,12 @@ Now You Try
 </ul>
 <p>If the initial price is <span class="math inline">\(S_0\)</span>, then after <span class="math inline">\(n\)</span> periods: <span class="math display">\[S_n = S_0 \cdot u^i \cdot d^{n-i},\]</span> where <span class="math inline">\(i\)</span> is the number of up movements.</p>
 </section>
-<section id="calibrating-the-model" class="level4" data-number="4.6.3.3">
-<h4 data-number="4.6.3.3" class="anchored" data-anchor-id="calibrating-the-model"><span class="header-section-number">4.6.3.3</span> Calibrating the Model</h4>
+<section id="calibrating-the-model" class="level4" data-number="4.5.3.3">
+<h4 data-number="4.5.3.3" class="anchored" data-anchor-id="calibrating-the-model"><span class="header-section-number">4.5.3.3</span> Calibrating the Model</h4>
 <p>Given annualized return (<span class="math inline">\(\nu\)</span>) and volatility (<span class="math inline">\(\sigma\)</span>), we set: <span class="math display">\[u = e^{\sigma \sqrt{\Delta t}}, \quad d = e^{-\sigma \sqrt{\Delta t}}, \quad p = \frac{1}{2} + \frac{\nu}{2\sigma} \sqrt{\Delta t},\]</span> where <span class="math inline">\(\Delta t\)</span> is the fraction of a year (e.g., 1/250 for daily).</p>
 </section>
-<section id="building-the-binomial-tree-in-r" class="level4" data-number="4.6.3.4">
-<h4 data-number="4.6.3.4" class="anchored" data-anchor-id="building-the-binomial-tree-in-r"><span class="header-section-number">4.6.3.4</span> Building the Binomial Tree in R</h4>
+<section id="building-the-binomial-tree-in-r" class="level4" data-number="4.5.3.4">
+<h4 data-number="4.5.3.4" class="anchored" data-anchor-id="building-the-binomial-tree-in-r"><span class="header-section-number">4.5.3.4</span> Building the Binomial Tree in R</h4>
 <p>Here’s a function to generate a binomial tree:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, up, down, steps) {</span>
@@ -1480,8 +1516,8 @@ Now You Try
 </div>
 </div>
 </section>
-<section id="simulating-sp500-prices" class="level4" data-number="4.6.3.5">
-<h4 data-number="4.6.3.5" class="anchored" data-anchor-id="simulating-sp500-prices"><span class="header-section-number">4.6.3.5</span> Simulating SP500 Prices</h4>
+<section id="simulating-sp500-prices" class="level4" data-number="4.5.3.5">
+<h4 data-number="4.5.3.5" class="anchored" data-anchor-id="simulating-sp500-prices"><span class="header-section-number">4.5.3.5</span> Simulating SP500 Prices</h4>
 <p>Using historical SP500 data, calculate: - <span class="math inline">\(\nu\)</span>: Average annual log return. - <span class="math inline">\(\sigma\)</span>: Annualized volatility.</p>
 <p>Then, simulate the binomial price process and visualize the probability distribution of final prices:</p>
 <p>we need to work this out still using concrete returns.</p>
@@ -1493,18 +1529,65 @@ Now You Try
 <!-- ``` -->
 </section>
 </section>
-<section id="project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees" class="level3" data-number="4.6.4">
-<h3 data-number="4.6.4" class="anchored" data-anchor-id="project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees"><span class="header-section-number">4.6.4</span> Project Proposal: Simulating and Analyzing Real-World Asset Price Dynamics with Binomial Trees</h3>
-<section id="objective" class="level4" data-number="4.6.4.1">
-<h4 data-number="4.6.4.1" class="anchored" data-anchor-id="objective"><span class="header-section-number">4.6.4.1</span> <strong>Objective</strong></h4>
+<section id="subsection-leveraging-an-llm-to-enhance-learning-from-binomial-models" class="level3" data-number="4.5.4">
+<h3 data-number="4.5.4" class="anchored" data-anchor-id="subsection-leveraging-an-llm-to-enhance-learning-from-binomial-models"><span class="header-section-number">4.5.4</span> Subsection: Leveraging an LLM to Enhance Learning from Binomial Models</h3>
+<section id="using-an-llm-for-advanced-financial-modeling" class="level4" data-number="4.5.4.1">
+<h4 data-number="4.5.4.1" class="anchored" data-anchor-id="using-an-llm-for-advanced-financial-modeling"><span class="header-section-number">4.5.4.1</span> <strong>Using an LLM for Advanced Financial Modeling</strong></h4>
+<p>An LLM like ChatGPT can significantly enhance your learning experience from this lecture by helping you: 1. <strong>Understand Complex Concepts</strong>: Get detailed explanations of topics like binomial trees, asset price dynamics, and probability distributions. 2. <strong>Generate Customized Code</strong>: Create tailored R scripts to experiment with different stocks, time horizons, or assumptions. 3. <strong>Validate Your Work</strong>: Debug your code or verify theoretical calculations. 4. <strong>Extend the Model</strong>: Explore advanced variations, such as incorporating dividends or multi-asset portfolios.</p>
+<hr>
+</section>
+<section id="using-an-llm-to-enhance-you-understanding-debugging-and-extending-the-binomial-tree-model" class="level4" data-number="4.5.4.2">
+<h4 data-number="4.5.4.2" class="anchored" data-anchor-id="using-an-llm-to-enhance-you-understanding-debugging-and-extending-the-binomial-tree-model"><span class="header-section-number">4.5.4.2</span> Using an LLM to enhance you understanding: Debugging and Extending the Binomial Tree Model</h4>
+<p>Imagine you’ve written an R function to generate a binomial tree but are unsure if the logic is correct. You can ask the LLM to review your code, explain its functionality, and suggest improvements.</p>
+<p>For example: <strong>Prompt to the LLM</strong>:</p>
+<blockquote class="blockquote">
+<p>“I wrote this function to generate a binomial tree in R. Can you check if it’s correct? If not, how can I fix it?”</p>
+</blockquote>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, up, down, steps) {</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> steps <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> steps <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(steps <span class="sc">+</span> <span class="dv">1</span>)) {</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>i) {</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>      tree[i, j] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> up<span class="sc">^</span>(j <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> down<span class="sc">^</span>((i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> (j <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tree)</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The LLM can: - Analyze the logic and verify the implementation. - Suggest optimizations, like avoiding redundant calculations. - Explain how to test the function with sample inputs and interpret the results.</p>
+<hr>
+</section>
+<section id="use-case-generating-advanced-visualizations" class="level4" data-number="4.5.4.3">
+<h4 data-number="4.5.4.3" class="anchored" data-anchor-id="use-case-generating-advanced-visualizations"><span class="header-section-number">4.5.4.3</span> <strong>Use Case: Generating Advanced Visualizations</strong></h4>
+<p>You want to visualize not just the final outcomes of the binomial model but also the entire tree structure over time. While this isn’t covered in the lecture, you can ask: &gt; “How can I visualize the full binomial tree structure generated by my function?”</p>
+<p>The LLM can suggest: - Using packages like <code>DiagrammeR</code> or <code>igraph</code> for structured visualizations. - Overlaying probabilities or expected values on the tree for deeper insights.</p>
+<hr>
+</section>
+<section id="use-case-customizing-the-project" class="level4" data-number="4.5.4.4">
+<h4 data-number="4.5.4.4" class="anchored" data-anchor-id="use-case-customizing-the-project"><span class="header-section-number">4.5.4.4</span> <strong>Use Case: Customizing the Project</strong></h4>
+<p>You’ve completed the project but want to explore additional scenarios. For example: - Use different assets (e.g., cryptocurrencies or ETFs). - Model dividends or transaction costs. - Extend the tree to multiple assets for portfolio modeling.</p>
+<p><strong>Prompt to the LLM</strong>: &gt; “How can I extend my binomial tree model to include transaction costs of 0.1% for every price change?”</p>
+<p>The LLM can guide you step-by-step: 1. Modify the price calculation at each node to subtract transaction costs. 2. Adjust the recursion logic to account for the modified prices. 3. Validate the results and interpret the impact of transaction costs.</p>
+<hr>
+</section>
+<section id="why-this-matters" class="level4" data-number="4.5.4.5">
+<h4 data-number="4.5.4.5" class="anchored" data-anchor-id="why-this-matters"><span class="header-section-number">4.5.4.5</span> <strong>Why This Matters</strong></h4>
+<p>Using an LLM allows you to: - Gain insights beyond the lecture material. - Accelerate your coding and problem-solving skills. - Explore advanced scenarios without requiring pre-existing expertise.</p>
+<p>By leveraging these tools effectively, you can turn theoretical concepts into practical, actionable skills that prepare you for real-world challenges in Finance and beyond.</p>
+<hr>
+<p>Would you like this subsection expanded or tailored further to specific aspects of the lecture?</p>
+</section>
+</section>
+<section id="project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees" class="level3" data-number="4.5.5">
+<h3 data-number="4.5.5" class="anchored" data-anchor-id="project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees"><span class="header-section-number">4.5.5</span> Project Proposal: Simulating and Analyzing Real-World Asset Price Dynamics with Binomial Trees</h3>
+<section id="objective" class="level4" data-number="4.5.5.1">
+<h4 data-number="4.5.5.1" class="anchored" data-anchor-id="objective"><span class="header-section-number">4.5.5.1</span> <strong>Objective</strong></h4>
 <p>Create a project where students use <strong>real-world stock price data</strong> (retrieved via <code>tidyquant</code>) to: 1. Build a <strong>binomial tree model</strong> for a selected stock’s price dynamics. 2. Calibrate the model using historical data (e.g., average annual return and volatility). 3. Simulate the stock’s potential price distribution over a defined time horizon. 4. Analyze and visualize the results to compare simulated outcomes with theoretical values.</p>
 <p>This project ties together the lecture’s concepts, emphasizes practical applications, and encourages exploration of real data.</p>
 </section>
 </section>
-<section id="step-by-step-structure-for-the-project" class="level3" data-number="4.6.5">
-<h3 data-number="4.6.5" class="anchored" data-anchor-id="step-by-step-structure-for-the-project"><span class="header-section-number">4.6.5</span> <strong>Step-by-Step Structure for the Project</strong></h3>
-<section id="step-1-data-retrieval" class="level4" data-number="4.6.5.1">
-<h4 data-number="4.6.5.1" class="anchored" data-anchor-id="step-1-data-retrieval"><span class="header-section-number">4.6.5.1</span> <strong>Step 1: Data Retrieval</strong></h4>
+<section id="step-by-step-structure-for-the-project" class="level3" data-number="4.5.6">
+<h3 data-number="4.5.6" class="anchored" data-anchor-id="step-by-step-structure-for-the-project"><span class="header-section-number">4.5.6</span> <strong>Step-by-Step Structure for the Project</strong></h3>
+<section id="step-1-data-retrieval" class="level4" data-number="4.5.6.1">
+<h4 data-number="4.5.6.1" class="anchored" data-anchor-id="step-1-data-retrieval"><span class="header-section-number">4.5.6.1</span> <strong>Step 1: Data Retrieval</strong></h4>
 <ol type="1">
 <li>Use the <code>tidyquant</code> package to download historical stock price data for a user-selected stock (e.g., “AAPL” or “MSFT”).</li>
 <li>Compute <strong>daily log returns</strong> and <strong>annualized statistics</strong>:
@@ -1514,10 +1597,10 @@ Now You Try
 </ul></li>
 </ol>
 </section>
-<section id="example-code" class="level4" data-number="4.6.5.2">
-<h4 data-number="4.6.5.2" class="anchored" data-anchor-id="example-code"><span class="header-section-number">4.6.5.2</span> Example Code:</h4>
+<section id="example-code" class="level4" data-number="4.5.6.2">
+<h4 data-number="4.5.6.2" class="anchored" data-anchor-id="example-code"><span class="header-section-number">4.5.6.2</span> Example Code:</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Registered S3 method overwritten by 'quantmod':
   method            from
@@ -1534,7 +1617,7 @@ Now You Try
 ✖ quantmod::summary()            masks base::summary()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
@@ -1550,29 +1633,29 @@ Now You Try
 ✖ dplyr::last()   masks xts::last()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve historical stock prices</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"AAPL"</span>, <span class="at">from =</span> <span class="st">"2018-01-01"</span>, <span class="at">to =</span> <span class="st">"2023-01-01"</span>)</span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute daily log returns</span></span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> stock_data <span class="sc">%&gt;%</span></span>
-<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_return =</span> <span class="fu">log</span>(adjusted <span class="sc">/</span> <span class="fu">lag</span>(adjusted)))</span>
-<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Annualized statistics</span></span>
-<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">&lt;-</span> <span class="fu">mean</span>(stock_data<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">252</span></span>
-<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(stock_data<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">252</span>)</span>
-<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>nu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve historical stock prices</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"AAPL"</span>, <span class="at">from =</span> <span class="st">"2018-01-01"</span>, <span class="at">to =</span> <span class="st">"2023-01-01"</span>)</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute daily log returns</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> stock_data <span class="sc">%&gt;%</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_return =</span> <span class="fu">log</span>(adjusted <span class="sc">/</span> <span class="fu">lag</span>(adjusted)))</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Annualized statistics</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">&lt;-</span> <span class="fu">mean</span>(stock_data<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">252</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(stock_data<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">252</span>)</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>nu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2312935</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3350538</code></pre>
 </div>
 </div>
 </section>
-<section id="step-2-calibrate-the-binomial-tree-parameters" class="level4" data-number="4.6.5.3">
-<h4 data-number="4.6.5.3" class="anchored" data-anchor-id="step-2-calibrate-the-binomial-tree-parameters"><span class="header-section-number">4.6.5.3</span> <strong>Step 2: Calibrate the Binomial Tree Parameters</strong></h4>
+<section id="step-2-calibrate-the-binomial-tree-parameters" class="level4" data-number="4.5.6.3">
+<h4 data-number="4.5.6.3" class="anchored" data-anchor-id="step-2-calibrate-the-binomial-tree-parameters"><span class="header-section-number">4.5.6.3</span> <strong>Step 2: Calibrate the Binomial Tree Parameters</strong></h4>
 <ol type="1">
 <li>Define the time step as daily (<span class="math inline">\(\Delta t = 1/252\)</span>).</li>
 <li>Compute the <strong>up factor</strong> ($ u <span class="math inline">\(), **down factor** (\)</span> d <span class="math inline">\(), and **probability** (\)</span>p$) using the formulas:
@@ -1583,75 +1666,75 @@ Now You Try
 </ul></li>
 </ol>
 </section>
-<section id="example-code-1" class="level4" data-number="4.6.5.4">
-<h4 data-number="4.6.5.4" class="anchored" data-anchor-id="example-code-1"><span class="header-section-number">4.6.5.4</span> Example Code:</h4>
+<section id="example-code-1" class="level4" data-number="4.5.6.4">
+<h4 data-number="4.5.6.4" class="anchored" data-anchor-id="example-code-1"><span class="header-section-number">4.5.6.4</span> Example Code:</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>delta_t <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">252</span></span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">exp</span>(sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">+</span> (nu <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> sigma)) <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t)</span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>delta_t <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">252</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">exp</span>(sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">+</span> (nu <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> sigma)) <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t)</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.021331</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9791148</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.521743</code></pre>
 </div>
 </div>
 </section>
-<section id="step-3-build-the-binomial-tree" class="level4" data-number="4.6.5.5">
-<h4 data-number="4.6.5.5" class="anchored" data-anchor-id="step-3-build-the-binomial-tree"><span class="header-section-number">4.6.5.5</span> <strong>Step 3: Build the Binomial Tree</strong></h4>
+<section id="step-3-build-the-binomial-tree" class="level4" data-number="4.5.6.5">
+<h4 data-number="4.5.6.5" class="anchored" data-anchor-id="step-3-build-the-binomial-tree"><span class="header-section-number">4.5.6.5</span> <strong>Step 3: Build the Binomial Tree</strong></h4>
 <ol type="1">
 <li>Write a function to generate a binomial tree for a given stock.</li>
 <li>Use the calibrated parameters to simulate the stock price evolution over a given horizon (e.g., 1 year with 252 steps).</li>
 </ol>
 </section>
-<section id="example-code-2" class="level4" data-number="4.6.5.6">
-<h4 data-number="4.6.5.6" class="anchored" data-anchor-id="example-code-2"><span class="header-section-number">4.6.5.6</span> Example Code:</h4>
+<section id="example-code-2" class="level4" data-number="4.5.6.6">
+<h4 data-number="4.5.6.6" class="anchored" data-anchor-id="example-code-2"><span class="header-section-number">4.5.6.6</span> Example Code:</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, u, d, p, steps) {</span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> steps <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> steps <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(steps <span class="sc">+</span> <span class="dv">1</span>)) {</span>
-<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>i) {</span>
-<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>      tree[i, j] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>(j <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> d<span class="sc">^</span>((i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> (j <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a>  tree</span>
-<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb77-12"><a href="#cb77-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb77-13"><a href="#cb77-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a binomial tree for 1 year</span></span>
-<span id="cb77-14"><a href="#cb77-14" aria-hidden="true" tabindex="-1"></a>S0 <span class="ot">&lt;-</span> <span class="dv">100</span>  <span class="co"># Starting stock price</span></span>
-<span id="cb77-15"><a href="#cb77-15" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">binomial_tree</span>(S0, u, d, p, <span class="at">steps =</span> <span class="dv">252</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, u, d, p, steps) {</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> steps <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> steps <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(steps <span class="sc">+</span> <span class="dv">1</span>)) {</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>i) {</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>      tree[i, j] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>(j <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> d<span class="sc">^</span>((i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> (j <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>  tree</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a binomial tree for 1 year</span></span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>S0 <span class="ot">&lt;-</span> <span class="dv">100</span>  <span class="co"># Starting stock price</span></span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">binomial_tree</span>(S0, u, d, p, <span class="at">steps =</span> <span class="dv">252</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 </section>
-<section id="step-4-simulate-and-visualize-final-price-distribution" class="level4" data-number="4.6.5.7">
-<h4 data-number="4.6.5.7" class="anchored" data-anchor-id="step-4-simulate-and-visualize-final-price-distribution"><span class="header-section-number">4.6.5.7</span> <strong>Step 4: Simulate and Visualize Final Price Distribution</strong></h4>
+<section id="step-4-simulate-and-visualize-final-price-distribution" class="level4" data-number="4.5.6.7">
+<h4 data-number="4.5.6.7" class="anchored" data-anchor-id="step-4-simulate-and-visualize-final-price-distribution"><span class="header-section-number">4.5.6.7</span> <strong>Step 4: Simulate and Visualize Final Price Distribution</strong></h4>
 <ol type="1">
 <li>Extract the last row of the binomial tree to analyze final stock price outcomes.</li>
 <li>Use the <strong>binomial distribution</strong> to compute the probabilities for each outcome.</li>
 <li>Plot the <strong>probability mass function (PMF)</strong> and compare it to the simulated distribution.</li>
 </ol>
 </section>
-<section id="example-code-3" class="level4" data-number="4.6.5.8">
-<h4 data-number="4.6.5.8" class="anchored" data-anchor-id="example-code-3"><span class="header-section-number">4.6.5.8</span> Example Code:</h4>
+<section id="example-code-3" class="level4" data-number="4.5.6.8">
+<h4 data-number="4.5.6.8" class="anchored" data-anchor-id="example-code-3"><span class="header-section-number">4.5.6.8</span> Example Code:</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract final prices and probabilities</span></span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>final_prices <span class="ot">&lt;-</span> tree[<span class="fu">dim</span>(tree)[<span class="dv">1</span>], ]</span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">252</span>, <span class="at">size =</span> <span class="dv">252</span>, <span class="at">prob =</span> p)</span>
-<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot PMF</span></span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(final_prices, probabilities, <span class="at">type =</span> <span class="st">"h"</span>, </span>
-<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Probability Mass Function"</span>, </span>
-<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Final Stock Price"</span>, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract final prices and probabilities</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>final_prices <span class="ot">&lt;-</span> tree[<span class="fu">dim</span>(tree)[<span class="dv">1</span>], ]</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">252</span>, <span class="at">size =</span> <span class="dv">252</span>, <span class="at">prob =</span> p)</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot PMF</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(final_prices, probabilities, <span class="at">type =</span> <span class="st">"h"</span>, </span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Probability Mass Function"</span>, </span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Final Stock Price"</span>, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1662,16 +1745,16 @@ Now You Try
 </div>
 <hr>
 </section>
-<section id="step-5-comparison-and-analysis" class="level4" data-number="4.6.5.9">
-<h4 data-number="4.6.5.9" class="anchored" data-anchor-id="step-5-comparison-and-analysis"><span class="header-section-number">4.6.5.9</span> <strong>Step 5: Comparison and Analysis</strong></h4>
+<section id="step-5-comparison-and-analysis" class="level4" data-number="4.5.6.9">
+<h4 data-number="4.5.6.9" class="anchored" data-anchor-id="step-5-comparison-and-analysis"><span class="header-section-number">4.5.6.9</span> <strong>Step 5: Comparison and Analysis</strong></h4>
 <ol type="1">
 <li>Compare the expected value of the final stock price from the model to the expected value based on the annualized return.</li>
 <li>Discuss discrepancies and assumptions (e.g., independence of returns, constant volatility).</li>
 </ol>
 </section>
 </section>
-<section id="deliverables" class="level3" data-number="4.6.6">
-<h3 data-number="4.6.6" class="anchored" data-anchor-id="deliverables"><span class="header-section-number">4.6.6</span> <strong>Deliverables</strong></h3>
+<section id="deliverables" class="level3" data-number="4.5.7">
+<h3 data-number="4.5.7" class="anchored" data-anchor-id="deliverables"><span class="header-section-number">4.5.7</span> <strong>Deliverables</strong></h3>
 <ol type="1">
 <li><strong>Code Implementation</strong>: A complete script that retrieves data, calibrates the model, builds the binomial tree, and visualizes the results.</li>
 <li><strong>Report</strong>:
@@ -1683,8 +1766,8 @@ Now You Try
 </ol>
 <hr>
 </section>
-<section id="why-this-project" class="level3" data-number="4.6.7">
-<h3 data-number="4.6.7" class="anchored" data-anchor-id="why-this-project"><span class="header-section-number">4.6.7</span> <strong>Why This Project?</strong></h3>
+<section id="why-this-project" class="level3" data-number="4.5.8">
+<h3 data-number="4.5.8" class="anchored" data-anchor-id="why-this-project"><span class="header-section-number">4.5.8</span> <strong>Why This Project?</strong></h3>
 <ul>
 <li><strong>Practical Relevance</strong>: Students work with real data, gaining insights into real-world financial modeling.</li>
 <li><strong>Integration of Concepts</strong>: Combines probability, binomial distributions, asset price dynamics, and R programming.</li>
@@ -2125,6 +2208,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./05-lecture5.html" class="pagination-link" aria-label="Continuous random variables">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Continuous random variables</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

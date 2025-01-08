@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Continuous random variables – An Introduction to Probability</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06-references.html" rel="next">
+<link href="./04-lecture4.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-lecture5.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Continuous random variables</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">An Introduction to Probability</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-lecture1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">First probability ideas and first steps in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-lecture2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability: Basic Definitions and Rules</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-lecture3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conditional Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-lecture4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Random Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-lecture5.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Continuous random variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#continuous-random-variables-and-probability" id="toc-continuous-random-variables-and-probability" class="nav-link active" data-scroll-target="#continuous-random-variables-and-probability"><span class="header-section-number">5.1</span> Continuous random variables and probability</a></li>
+  <li><a href="#inverse-normal-and-quantiles" id="toc-inverse-normal-and-quantiles" class="nav-link" data-scroll-target="#inverse-normal-and-quantiles"><span class="header-section-number">5.2</span> Inverse Normal and Quantiles</a></li>
+  <li><a href="#example-value-at-risk-and-the-problem-of-fat-tails" id="toc-example-value-at-risk-and-the-problem-of-fat-tails" class="nav-link" data-scroll-target="#example-value-at-risk-and-the-problem-of-fat-tails"><span class="header-section-number">5.3</span> Example Value at Risk and the problem of fat tails</a></li>
+  <li><a href="#more-than-one-normal-random-variable" id="toc-more-than-one-normal-random-variable" class="nav-link" data-scroll-target="#more-than-one-normal-random-variable"><span class="header-section-number">5.4</span> More than one normal random variable</a></li>
+  <li><a href="#project-portfolio-credit-risk-with-dependent-defaults" id="toc-project-portfolio-credit-risk-with-dependent-defaults" class="nav-link" data-scroll-target="#project-portfolio-credit-risk-with-dependent-defaults"><span class="header-section-number">5.5</span> Project: Portfolio credit risk with dependent defaults</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Continuous random variables</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this lecture we will introduce the most important probability distribution, the <strong>normal distribution</strong>. While we have discussed discrete random variables so far, where the number of possible outcomes for <span class="math inline">\(X\)</span> is finite (or countably infinite), to discuss the normal distribution we need to deal with the case that the number of outcomes for <span class="math inline">\(X\)</span> is uncountable infinite, or a continuum. This leads us to the concept of a continuous random variable.</p>
+<section id="continuous-random-variables-and-probability" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="continuous-random-variables-and-probability"><span class="header-section-number">5.1</span> Continuous random variables and probability</h2>
+<p>We will discuss here the most important concepts needed for the practical work with continuous random variables. We just note that for a mathematically rigorous treatment of this case we would need advanced techniques such as measure theory. We will not do that here (see for example <span class="citation" data-cites="Billingsley1995">Billingsley (<a href="#ref-Billingsley1995" role="doc-biblioref">1995</a>)</span>) because we want to focus on the more applied or practical aspects of continuous random variables.</p>
+<dl>
+<dt>Continuous random variable</dt>
+<dd>
+A <strong>continuous random variable</strong> <span class="math inline">\(X\)</span> can take on a continuum of possible values.
+</dd>
+</dl>
+<p>Note that random variables that can take on a continuum of values rather than only discrete values like the fair die, we discussed before, play an important role in practical situations. Just think of the possible values of asset prices or returns. The toy examples we studied with a model of random returns generated by a flipping coin and a wheel of fortune, were clearly artificial. The price of a stock, for example, should in principle be able to take any value in <span class="math inline">\([0,\infty)\)</span>, or shouldn’t it? This is a modelling choice that could of course also be challenged on the grounds of realism. After all stock prices are quoted in some currency, which has a smallest unit, like a cent or a penny. We already discussed the assumption of admitting the possibility that a stock price could rise without bound in the very first lecture, when we discussed the concept of a sample space. Other practically important cases where a continuum of outcomes would be a very natural model is the length of finishing a task, or the lengths and the weight of an item.</p>
+<p>You might object that these examples are also not <em>really</em> continuous. Take time. We measure it in hours, minutes or seconds. But we can measure it on a much finer grid and ultimately this process finishes at some smallest unit only because of our limitations to measure time at even smaller scales. Time <em>is</em> a continuous variable. It does not jump. In the case of stock prices the situation is different. We have a smallest monetary unit, in the Eurozone this would be cents. Still it turns out that in the case of prices practical modelling can be simpler if we think of prices as continuous.</p>
+<p>Even if we circumvent the mathematical machinery of measure theory to discuss continuous random variable it is still important to spend some time thinking of what a continuous random variable means.</p>
+<p>In order to do this let us think of a continuous random variable which can take any value in the interval <span class="math inline">\([0,1]\)</span>. We can generate such numbers very easily in R using the function <code>runif()</code>. Let’s create 10 such numbers:</p>
+<pre class="{r} create-uniform-random-variables}"><code>runif(10, 0, 1)</code></pre>
+<p>Now you could ask: What is the probability that this random variable takes a particular value of, say <span class="math inline">\(0.4848450\)</span>, one value in our list? We could try simulation. Let’s simulate one million such uniformly distributed random numbers in <span class="math inline">\({\cal S}=[0,1]\)</span> and compute the relative frequency with which <span class="math inline">\(0.4848450\)</span> occurs.</p>
+<pre class="{r} simulate-one-million-uniforms}"><code>uniform_rv &lt;- runif(10^6, 0,1)
+
+sum(uniform_rv == 0.4848450)/length(uniform_rv)</code></pre>
+<p>It is zero! Here this is literally zero. Even in <span class="math inline">\(10^6\)</span> draws the random number generator of R drew 10 different numbers at each of the one million draws. The probability of hitting a particular one is 0. Indeed there is an infinity of numbers between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> and you can not count them. Give me any number in this interval and there will be infinitely many numbers larger as well as smaller than this number. We cannot give positive probability to any particular one. If we did this and sum up the infinitely many numbers we would end up with a number larger than 1. But this is not allowed because we require probabilities to sum up to 1. The continuum does not allow us to give positive probabilities to any one number. No given number in the continuum can have a positive probability. This is key: For every continuous random variable <span class="math inline">\(X\)</span> we have <span class="math inline">\(P(X = x) = 0\)</span> for all <span class="math inline">\(x\)</span>. Thus in the case of a continuous random variable we can no longer talk about individual probabilities.</p>
+<p>Now let us think about a different question. What is the probability that the uniformly distributed random variable <span class="math inline">\(X \sim U[0,1]\)</span> comes up with a value between <span class="math inline">\(0\)</span> and <span class="math inline">\(1/4\)</span>? Lets check with our simulated numbers:</p>
+<pre class="{r} check-simulation-for-interval}"><code>sum(0 &lt;= uniform_rv &amp; uniform_rv &lt;= 1/4)/length(uniform_rv)</code></pre>
+<p>It says 25 %, as we expect from a uniformly distributed probabilities. Let’s try R’s cumulative distribution function, or <span class="math inline">\(P(X \leq 1/4)\)</span> for the uniform distribution on <span class="math inline">\({\cal S}=[0,1]\)</span>:</p>
+<pre class="{r} built-in-uiform-distr}"><code>punif(1/4)</code></pre>
+<p>So as soon as we have range, we can talk about positive probabilities. But this is the <em>big change</em> from discrete to continuous random variables. Whereas in the discrete case we had points and could talk about probabilities of points, in the continuous case we represent probabilities as <em>areas under a curve</em>. Take the example we have just discussed. <code>aui density-of-uniform-distributio, out.width='90%', fig.align='center', fig.cap='With continuous random variables probabilities are areas under the density function', echo = F} knitr::include_graphics('figures/uniform_dist.png')</code> Mathematically, areas under a curve are <em>integral</em>s. The representation of probabilities of a continuous random variable corresponds to what you learned in high-school about integration under a curve.</p>
+<p>The probability density function is defined for the continuum as follows:</p>
+<dl>
+<dt>Probability density function</dt>
+<dd>
+For a continuous random variable, the <strong>probability density function</strong>, usually denoted by <span class="math inline">\(f(x)\)</span>, has the following properties:
+</dd>
+</dl>
+<ol type="1">
+<li><span class="math inline">\(f(x) \geq 0\)</span></li>
+<li><span class="math inline">\(\int_{-\infty}^{+\infty} f(x) dx = 1\)</span></li>
+<li>If <span class="math inline">\(X\)</span> is a continuous random variable with a density function <span class="math inline">\(f\)</span>, then for any <span class="math inline">\(a &lt; b\)</span> , the probability that <span class="math inline">\(X\)</span> falls in the interval <span class="math inline">\((a,b)\)</span> is the area under the density function between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>: <span class="math inline">\(P(a &lt; X &lt; b) = \int_a^b f(x) dx\)</span></li>
+</ol>
+<p>Since we can talk only about areas under the curve for continuous random variables the really important function is the <strong>cumulative distribution function</strong> or CDF. Let us give the definition here:</p>
+<dl>
+<dt>Cumulative Distribution Function</dt>
+<dd>
+The <strong>cumulative distribution function</strong> (abbreviated CDF) shows the probability that the random variable <span class="math inline">\(X\)</span> takes a value less than or equal to a deterministic value <span class="math inline">\(x\)</span>. It shows the area under the probability density function from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(x\)</span>. The notation is <span class="math inline">\(F(x) = P( X \leq x)\)</span> where <span class="math inline">\(- \infty &lt; x &lt; \infty\)</span>.
+</dd>
+</dl>
+<p>Note that the CDF can be used to compute probabilities because <span class="math inline">\(P(a &lt; X &lt; b) = P(a &lt; X \leq b) = P(a \leq X \leq b) = F(b) - F(a) = \int_a^b f(x) dx\)</span>. The following figure illustrates this idea: ```aui int-example, out.width=‘90%’, fig.align=‘center’, fig.cap=‘Computing probability of continuous random variable using CDF’, echo = F} knitr::include_graphics(‘figures/integral_example.png’)</p>
+<pre><code>The figure gives a graphical example. Suppose we have a probability density function on the
+sample space ${\cal S} = [0, \infty)$ which is drawn as the curve shown in the picture. We would
+like to compute the probability that the random variable takes a value larger or equal to 
+some value $a$, shown in the picture. Graphically this corresponds to the red area under the curve.
+For the computation we work with the complementary event. The total area under the density
+curve must be 1 according to the laws of probability. Thus if we compute $1$ minus the 
+probability that the value of $X$ is lower than $a$ we get the result. Now $P(X \leq a)$ is
+the integral from $0$ to $a$ under the density curve $f(x)$, which is by definition the value of
+the CDF at $a$ or $F(a)$. 
+
+We will do a couple of such computations during the course of our lecture. We are now
+ready to discuss the most important continuous distribution, which plays a key role in
+probability and all of its applications: The **normal distribution**.
+
+## Normal Distribution
+
+Normal Distribution
+: The **normal distribution** is a continuous probability distribution that is 
+centered around the mean, bell-shaped, symmetric and completely determined by
+two parameters: The mean $\mu$ and the variance $\sigma^2$. The notation
+is $X \sim N(\mu, \sigma^2)$. The probability density
+function of the normal distribution with mean $\mu$ and variance $\sigma^2$ 
+is given by
+\begin{equation*}
+f(x,\mu, \sigma) = \frac{1}{\sigma \sqrt{2 \pi}} \exp\left(\frac{-(x - \mu)^2}{2 \sigma^2}\right)
+\end{equation*}
+The normal distribution is also often referred to as a **Gaussian** or **Gauss-Laplace** 
+distribution named after the German mathematician Karl Friedrich Gauss (1777-1855) and the
+french Astronomer, Physiscist and Mathematician Pierre Simon de Laplace (1749-1827). Another
+term also often used for the probability density function and its particular shape is
+the **bell curve**.
+
+A normally distributed random variable $X$ can be standardized to a normally distributed
+random variable with mean $0$ and variance $1$. This is called the
+
+Standard Normal Distribution
+: The **standard normal distribution** is a normal distribution with mean $\mu = 0$ and
+variance $\sigma^2 = 1$. Any normally distributed random variable $X$ with mean
+$\mu$ and variance $\sigma^2$ can be rewritten as a standard normal random variable
+$Z$ in the following way:
+$Z = \frac{X - \mu}{\sigma}$. By definition $Z \sim N(0,1)$
+
+Let's look at an example and go back to our stock data of the S&amp;P 500. Let us compute it's
+daily returns ans *assume* that these returns are random returns from a normal distribution. We
+have already computed the returns in a previous lecture and added them to our data frame. 
+
+The normal distribution has two parameters, the mean $\mu$ and the variance $\sigma$. We compute 
+these values for the daily returns in our data.
+```{r} return-distribution-sp500}
+mean_ret_sp500 &lt;- mean(sp500$returns, na.rm = T)
+sigma_ret_sp500 &lt;- sqrt(var(sp500$returns, na.rm = T))
+
+mean_ret_sp500
+sigma_ret_sp500</code></pre>
+<p>We see that the mean is at about 0 and the standard deviation is about <span class="math inline">\(1 \%\)</span>. Let us use this model to compute the probability that the daily returns stay within the bounds of plus or minus <span class="math inline">\(1 \%\)</span> from the mean. Theoretically this can be computed by <span class="math inline">\(F(0.1) - F(-0.1)\)</span> where <span class="math inline">\(F\)</span> is the CDF of the normal distribution. Now if you look at the formula for the normal distribution, this would amount to handle quite a daunting integration exercise. But here we can use the built in R-functions, with the syntax we already know from the binomial distribution.</p>
+<pre class="{r} normally-distributed-sp500-returns}"><code>pnorm(mean_ret_sp500 + sigma_ret_sp500, mean = mean_ret_sp500, sigma_ret_sp500) -
+pnorm(mean_ret_sp500 - sigma_ret_sp500, mean = mean_ret_sp500, sigma_ret_sp500)</code></pre>
+<p>This actually a general property of a normal distribution. For a normally distributed random variable <span class="math inline">\(68 \%\)</span> of the probability mass lies in the interval <span class="math inline">\([\mu - \sigma, \mu + \sigma]\)</span>. You can check that there are <span class="math inline">\(95 \%\)</span> in the interval <span class="math inline">\([\mu - 2 \sigma, \mu + 2 \sigma]\)</span> and <span class="math inline">\(99.7 \%\)</span> in the interval <span class="math inline">\([\mu - 3 \sigma, \mu + 3 \sigma]\)</span>.</p>
+<p>Now let us repeat the computation for the standardized normal distribution for the standardized sp500 returns, defined as: <span class="math display">\[\begin{equation*}
+\frac{X - \mu}{\sigma}
+\end{equation*}\]</span></p>
+<pre class="{r} standard-normally-distributed-sp500-returns}"><code>pnorm(1, mean = 0, sd = 1) -
+pnorm(-1, mean = 0, sd = 1)</code></pre>
+<p>Exactly the same result. This means that this is a property of the normal distribution, which is independent in which unit we measure the random variable. The standardization has no influence on the distribution. It is a simple change of units.</p>
+<p>Finally, let us check how well the normal random variable catches the empirical return distribution we see in the data.</p>
+<pre class="{r} empirical distribution}"><code>sum(sp500$returns &gt;= (mean_ret_sp500 - sigma_ret_sp500) &amp; 
+    sp500$returns &lt;= (mean_ret_sp500 + sigma_ret_sp500), na.rm = T)/
+    length(sp500$returns)</code></pre>
+<p>Not quite. This is by the way typical for return distributions of daily stock returns. Empirical return distributions of daily returns are often slightly smaller near the mean and larger at the extreme values, as a normal distribution with the same mean and standard deviation. This is usually referred to as <strong>fat tails</strong>, a property which becomes quite important when we consider extreme risks. Let us contrast the empirical and the theoretical distribution with the same mean and standard deviation in the case of the sp500 daily returns.</p>
+<pre class="{r} empirical-return-distribution-with-normal-overlay}"><code>
+y &lt;- seq(min(sp500$returns, na.rm = T), max(sp500$returns, na.rm = T), length.out = 50)
+
+hist(sp500$returns, freq = F, breaks = y, 
+     main = "Histogram of S&amp;P500 daily returns with normal curve")
+
+fun &lt;- dnorm(y, mean = mean_ret_sp500, sd = sigma_ret_sp500) 
+lines(y,fun,col=2,lwd=2)</code></pre>
+<p>The property of the empirical distribution being smaller near the mean is quite clearly visible in our data. The higher mass at the tails is not so clearly visible from this picture, but let us zoom in to the negative tail and look a bit from closer:</p>
+<pre class="{r} zooming-in}"><code>sp500_returns_zoom &lt;- sp500$returns[sp500$returns &gt;= - 0.06 &amp; sp500$returns &lt;= -0.02]
+
+z &lt;- seq(-0.06, -0.02, length.out = 20)
+
+hist(sp500_returns_zoom, freq = F, breaks = y, 
+     main = "Zoom of S&amp;P500 daily returns with normal curve to lower tail")
+
+fun &lt;- dnorm(z, mean = mean_ret_sp500, sd = sigma_ret_sp500) 
+lines(z,fun,col=2,lwd=2)</code></pre>
+<p>In the zoom you can see very clearly that there is much more mass in the tail than we would expect under a normal distribution.</p>
+<p>What does this mean? The first lesson you should draw from this is that their is no automatism from using models. While they are convenient and allow us to compute many things, the appropriate application context needs reflection, knowledge of context and decisions from the modeler. It requires autonomous and critical thinking going beyond the technicalities of models. For instance, if you rely on the normal distribution model for problems where most of the data are within one or two standard deviations from the mean, the normal random varible is perhaps good enough of a model in many application contexts. If you are, on the other hand, concerned with extreme risks, you are bound to underestimate their probability, if you have a normal distribution in mind. We will come to this problem again during this lecture.</p>
+</section>
+<section id="inverse-normal-and-quantiles" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="inverse-normal-and-quantiles"><span class="header-section-number">5.2</span> Inverse Normal and Quantiles</h2>
+<p>In risk management we often ask the following question: For a given time horizon we would like to know the threshold loss value, such that the probability that the portfolio loss exceeds this value over the given time horizon is <span class="math inline">\(p\)</span>.</p>
+<p>Note that this is a different question than we asked before. Before we had a given threshold and we were interested in the probability to get a value below the threshold.</p>
+<p>Now we have an <strong>inverse</strong> problem. We have a given probability <span class="math inline">\(p\)</span> and we want to know the threshold such that this threshold is exceeded with this given probability. A typical context for such problems in finance is risk management. Assume I manage a portfolio with uncertain (random) returns. I should be interested in asking myself: Is the probability that my portfolio is going to make a loss larger than my equity can cover, small enough to consider my exposure prudent? As a risk manager you would like to make this probability of exceeding such a wipe out threshold very small.</p>
+<p>Let us formulate these ideas in the form of a few definitions:</p>
+<dl>
+<dt>Inverse Normal Distribution</dt>
+<dd>
+With the <strong>inverse normal distribution</strong>, it is possible to calculate the value <span class="math inline">\(x\)</span> such that <span class="math inline">\(P(X \leq x)\)</span> is equal to probability <span class="math inline">\(p\)</span> for a given normally distributed random variable.
+</dd>
+</dl>
+<p>The functions that provide the necessary computation in R has the syntax <code>qnorm()</code> for the normal distribution. It is similar for other models, like in the binomial model from the last lecture, where the syntax would be <code>qbinom()</code>.</p>
+<pre class="{r} inverse-normal}"><code>qnorm(0.01, mean = mean_ret_sp500, sd = sigma_ret_sp500)</code></pre>
+<p>This function solves for the problem. What is the threshold <span class="math inline">\(x\)</span> such that <span class="math display">\[\begin{equation*}
+P(r \leq x) = 0.01
+\end{equation*}\]</span> Under the assumption that <span class="math inline">\(R\)</span> is a normal random variable with mean <code>mean_ret_sp500</code> and standard deviation <code>sigma_ret_sp500</code>, the function <code>qnorm</code> solves this problem for <span class="math inline">\(x\)</span>, giving you the threshold. It <em>inverts</em> the CDF and therefore it is often called an <em>inverse problem</em>.</p>
+<dl>
+<dt>Quantile</dt>
+<dd>
+The <span class="math inline">\(pth\)</span> quantile (or percentile) of a probability distribution is the value <span class="math inline">\(x\)</span> such that <span class="math inline">\(P(X \leq x) = p\)</span>. If <span class="math inline">\(X\)</span> is normally distributed, <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span> then the <span class="math inline">\(x\)</span> value such that <span class="math inline">\(P(X \leq x) = p\)</span> is given by the inverse CDF of the normal distribution with parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> for given <span class="math inline">\(p\)</span>.
+</dd>
+</dl>
+<p>Coming back to our risk management problem, we can now see that we are looking for a certain quantile of the portfolio loss distribution. This quantile is called the <strong>value at risk</strong>.</p>
+<dl>
+<dt>Value-at-Risk</dt>
+<dd>
+Given a confidence level <span class="math inline">\(\alpha \in (0,1)\)</span>, Value-at-Risk (VaR) is defined as <span class="math inline">\(VaR_\alpha = F_L(\alpha)^{-1} = \inf\{x \in \mathbb{R} | F_L(x) \geq \alpha \}\)</span> With a normal loss distribution <span class="math inline">\(F_L\)</span> we can compute the value at risk in an easy way.
+</dd>
+</dl>
+</section>
+<section id="example-value-at-risk-and-the-problem-of-fat-tails" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="example-value-at-risk-and-the-problem-of-fat-tails"><span class="header-section-number">5.3</span> Example Value at Risk and the problem of fat tails</h2>
+<p>Assume you are in charge of a stock portfolio worth 100 million Euro and fully invested in the S&amp;P 500. You make portfolio adjustments on a weekly basis and you would like to know whether your value at risk is such that you would be able to cover a severe portfolio loss, given your equity of 10 Million.</p>
+<p>Let us use the same approach, which we used in the last lecture to extract the weekly prices from the sp500 daily data and compute the weeky log returns.</p>
+<pre class="{r} sp500-weekly}"><code># add a column with the year using year function from lubridate package
+sp500$week &lt;- lubridate::week(sp500$date)
+# split dataframe according to year
+split_by_week &lt;- split(sp500, sp500$week)
+# write a function selecting the first row of a given data frame
+selw &lt;- function(x){x[1,]}
+# apply this function to each element of the list.
+auxw &lt;- lapply(split_by_week, selw)
+# recombine the list entries into a data frame but drop the returns column
+sp500_weekly &lt;- do.call(rbind, auxw) |&gt; subset(select = -returns)
+
+# compute weekly log-returns and add to data frame
+
+sp500_weekly$log_returns &lt;- c(NA, diff(log(sp500_weekly$adjusted), lag = 1))
+</code></pre>
+<p>Suppose you decided to consider as a model for this risk situation a normally distributed random variable, <span class="math inline">\(X \sim N(\mu,\sigma)\)</span> which is supposed to represent the random return of your sp500 portfolio over the coming week. You want to estimate your <span class="math inline">\(95 %\)</span> value at risk as well as you <span class="math inline">\(99 \%\)</span> value at risk from this model.</p>
+<p>In order to do so we must first estimate our mean (log) returns and their standard deviation from the data.</p>
+<pre class="{r} mean-and-sd-fro-weely-sp500-data}"><code>muw &lt;- mean(sp500_weekly$log_returns, na.rm = T)
+sdw &lt;- sqrt(var(sp500_weekly$log_returns, na.rm = T))
+
+muw
+sdw</code></pre>
+<p>Using the functionality of R this becomes a one-liner, or actually two one liners because you are interested in the <span class="math inline">\(95 \%\)</span> var as well as in the <span class="math inline">\(99 \%\)</span> var.</p>
+<pre class="{r} value at risk}"><code>qnorm(0.05, mean = muw, sd = sdw)
+qnorm(0.01, mean = muw, sd = sdw)</code></pre>
+<p>The weekly <span class="math inline">\(95 \%\)</span> value at risk is thus <span class="math inline">\(6\,465\,511\)</span> and the <span class="math inline">\(99 \%\)</span> Value at risk is <span class="math inline">\(9\, 222\, 811\)</span> Euro. In both cases your equity will protect you from a wipe out. In the first case with a bit of a margin, if not very much, in the second case the margin is so thin that you might be worried still.</p>
+<p>If you think about the problem a bit more and if you remember the pictures of empirical returns versus theoretical returns with parameters estimated from empirical, you see that these computations will most likely be over optimistic, since the actual return distribution will have more mass at the tails of the distribution. This naive approach to compute the value at risk will thus most likely underestimate the actual risk.</p>
+<p>So why don’t we look at the actual data to get a valdiation. With the small and one dimensional data set this can be done quite easily.</p>
+<p>We first have to sort the weekly log returns in ascending order:</p>
+<pre class="{r} sort-returns}"><code>sorted_returns &lt;- sort(sp500_weekly$log_returns)</code></pre>
+<p>The empirical cumulative distribution function at those observations takes values</p>
+<pre class="{r} ecdf-weekly-log-returns}"><code>ecdf &lt;- 1:length(sorted_returns)/length(sorted_returns)</code></pre>
+<p>Now let us sketch the ECDF for the 95 % Value at risk:</p>
+<pre class="{r} sketch-of-ECDF-for-95}"><code>plot(sorted_returns, ecdf, type = "s")
+abline(h = 0.05, lty = 3)</code></pre>
+<p>And here for the 99 % value at risk</p>
+<pre class="{r} sketch-of-ECDF-for-99}"><code>plot(sorted_returns, ecdf, type = "s")
+abline(h = 0.01, lty = 3)</code></pre>
+<p>For the 95 % quantile we look sort of ok. There is an intersection with the CDF at a log return of about <span class="math inline">\(-0.06\)</span>. For the 99 % quantile we can’t tell from the graph, we might as will be off by quite a far margin.</p>
+<p>To check this, let us look at the first value of <code>sorted_returns</code> such that <span class="math inline">\(P(\text{sorted_returns}) &gt; 0.05\)</span> or <span class="math inline">\(P(\text{sorted_returns}) &gt; 0.01\)</span></p>
+<pre class="{r} empirical-quantiles}"><code>sorted_returns[which(ecdf &gt;= 0.05)[1]]
+sorted_returns[which(ecdf &gt;= 0.01)[1]]</code></pre>
+<p>So actually for the 99 % our model has underestimated the Var substantially by about 5 Million. With a worst case loss of 14 Million our equity would have been wiped out.</p>
+<p>Now we have shown you one way how you can use R to reflect on how appropriate a model might be for your problem at hand, here of assessing a Value at Risk. You have seen that R provides powerful tool that allow you to play with data and make many complex thought experiments. But there is no foolproof recipe. No theory in the world can give you relief from using your brain, your creativity and the energy of your whole person to properly understand your situation and make a serious attempt to judge at each step whether you are on the right track when using a model. Always bear in mind the assumptions you are making and when and where things can or might go wrong. Only in the hands of a human being with such a critical mindset the mathematical theory and the computer can unfurl its power.</p>
+<p>Sometimes a checklist of tools can help. For instance, a useful graphic tool to identify fat tails are so called <strong>Q-Q-plots</strong>. What is this?</p>
+<dl>
+<dt>Q-Q-Plot</dt>
+<dd>
+In statistics, a Q-Q plot (abbreviation for quantile-quantile plot) is a probability plot and is a graphical method for comparing two probability distributions by plotting their quantiles against each other. If the two distributions are similar, then all points of the QQ-plot will lie roughly on the 45 degree line.
+</dd>
+</dl>
+<p>The QQ-plot does basically in a different way what we tried to figure out by using the empirical CDF. Let us do this for our return data.</p>
+<p>Lets take the weekly log return data <code>sp500_weekly$log_returns</code> as our example data:</p>
+<pre class="{r} qq-plot-weekly}"><code># how many data points are in sp500_weekly$log_returns removing NA
+nobs &lt;- length(na.omit(sp500_weekly$log_returns))
+# draw nobs normally distributed random variables with muw and sdw
+x &lt;- rnorm(nobs, mean = muw, sd = sdw)
+y &lt;- na.omit(sp500_weekly$log_returns)
+# normal QQ-plot
+qqplot(x, y, xlab = "Normal Distribution", ylab = "Weekly log returns", main = "Q-Q Plot")</code></pre>
+<p>You can get some evidence here that the empirical distribution agrees quite well at the center but it seems to do less so at the tails, where the empirical distribution deviates, something we have already observed before.</p>
+<p>We can also have alook at the QQ-plot of our daily returns data where we have more observations.</p>
+<pre class="{r} qq-plot-daily}"><code># how many data points are in sp500_weekly$log_returns removing NA
+nobsd &lt;- length(na.omit(sp500$returns))
+# draw nobs normally distributed random variables with muw and sdw
+xd &lt;- rnorm(nobsd, mean = mean(sp500$returns, na.rm = T), sd = sqrt(var(sp500$returns, na.rm = T)))
+yd &lt;- na.omit(sp500$returns)
+# normal QQ-plot
+qqplot(xd, yd, xlab = "Normal Distribution", ylab = "Daily returns", main = "Q-Q Plot")</code></pre>
+<p>Here you see the same thing. The normal distribution seems to be a bad model for looking at the tails and thus a poor guide for assessing extreme risks.</p>
+<p>A very famous financial disaster the failure of the American based Hedge Fund Long-Term Capital Management L.P. or short LTCM. This hedge fund collapsed in the early 1990ies by making the wrong bet on the outcome of a trade. The disaster was caused by ignoring large low-probability events, because these large losses were considered too unlikely, by relying on the models in use at the time at LTCM. The unlikely event that brought LTCM under water with billions of losses was a financial crisis in Russia at the time which brought large moves in interest rates. The case got notorious, because the size of the losses were so large that the Fed had to coordinate the investors in LTCM in a loss and restructuring negation to prevent a further meltdown of the wider Financial system. The press commented on the case with some barely hidden glee because one of the main partners in LTCM were the nobel price winning Financial theorist Robert Merton, a world famous figure in Finance and financial modelling. So without being malicious, we could at least conclude from this case that uncertainty and risk, and probability models to think about these phenomena can even fail and fool smart people. A good and very readable discussion of the LTCM case can be found in <span class="citation" data-cites="Dunbar2000">Dunbar (<a href="#ref-Dunbar2000" role="doc-biblioref">2000</a>)</span>.</p>
+</section>
+<section id="more-than-one-normal-random-variable" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="more-than-one-normal-random-variable"><span class="header-section-number">5.4</span> More than one normal random variable</h2>
+<p>We have already discussed a situation where we have more than one random variable simultaneously, the concept of covariance and correlation as well as the properties of expecation and variance when we combine several random variables and consider their sums or functions of them. In the case of the normal distribution we have an additional stronger property, which you should know about.</p>
+<dl>
+<dt>Summation property of the normal distribution</dt>
+<dd>
+If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are jointly normally distributed random variables, then all random variables of the form <span class="math inline">\(a\, X + b\, Y\)</span>, where <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are real numbers, are also normally distributed. This holds also for sums of more than two normally distributed random variables.
+</dd>
+</dl>
+<p>If we have a vector <span class="math inline">\(x\)</span> of <span class="math inline">\(n\)</span> jointly normally distributed random variables, their joint probability density is given by <span class="math display">\[\begin{equation*}
+p(x) = \frac{1}{(2 \, \pi)^{\frac{n}{2}} |C|^{\frac{1}{2}}}\exp(-\frac{1}{2}((x - E(x))^T C^{-1}(x - E(x)))
+\end{equation*}\]</span> In this formula <span class="math inline">\(C\)</span> denoted the variance-covariance function and <span class="math inline">\(| |\)</span> denotes the determinant. Don’t worry if you do not exactly know what this is or if you find this formula daunting. We will not use it in this form but, if at all, rather through the implemented R functions. But the formula is so important and famous that you should have seen it at least once in your life.</p>
+</section>
+<section id="project-portfolio-credit-risk-with-dependent-defaults" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="project-portfolio-credit-risk-with-dependent-defaults"><span class="header-section-number">5.5</span> Project: Portfolio credit risk with dependent defaults</h2>
+<p>This last project will tie together most probability and R concepts we have learned in our course. The context that will help us to do this is again credit risk and we will build on the project from lecture 4 on modelling credit risk.</p>
+<p>A model which is able to represent default correlation in a simple way is due to Vasicek 1997 and works as follows:</p>
+<dl>
+<dt>Obligor value model</dt>
+<dd>
+The <strong>simplified obligor value model</strong> makes the following basic assumptions:
+</dd>
+</dl>
+<ol type="1">
+<li><p>Each obligor in the loan portfolio is characterized by the monetary value of assets. The value of assets of obligor <span class="math inline">\(n\)</span> at time <span class="math inline">\(t\)</span> is <span class="math inline">\(V_n(t)\)</span>.</p></li>
+<li><p>It is assumed that the asset value at the time horizon <span class="math inline">\(T\)</span> has a normal distribution and the asset values are standardized, so t_hat <span class="math inline">\(V_n(0)=0\)</span> and <span class="math inline">\(V_n(T) \sim N(0,1)\)</span>.</p></li>
+<li><p>Obligor <span class="math inline">\(n\)</span> defaults, if its firm value at the time horizon <span class="math inline">\(T\)</span>, <span class="math inline">\(V(T)\)</span> falls below a prespecified barrier <span class="math inline">\(K_n\)</span>, such that <span class="math inline">\(V_n(T) \leq K_n\)</span>. The asset values of different obligors are <em>correlated</em> with each other. The variance covariance matrix of <span class="math inline">\(V_1(T), V_2(T), \cdots, V_n(T)\)</span> is denoted by <span class="math inline">\(C\)</span>.</p></li>
+<li><p>You and your staff have jointly developed a model for the asset values of the different obligors. In this model the values of the assets of the obligors are driven by a common factor <span class="math inline">\(Y\)</span> which is a standard normally distributed random variable and an idiosyncratic factor <span class="math inline">\(\epsilon_n\)</span> which is for all obligors <span class="math inline">\(n\)</span> also a standard normal random variable. Thus the total value follows <span class="math display">\[\begin{equation*}
+V_n(T) = \sqrt{\rho}\, Y + \sqrt{1-\rho}\epsilon_n \quad \text{for all}\,\,\, n \leq N
+\end{equation*}\]</span> The parameter <span class="math inline">\(\rho\)</span> describes the correlation coefficient between the value of assets of any two obligors <span class="math inline">\(n \neq m\)</span> and its value is also provided to you be your staff. Now you make an additional important assumption which will allow you to leverage all your hard work from the previous project: Conditional on the realization of the systematic factor <span class="math inline">\(Y\)</span>, firm values and firm defaults are <strong>independent</strong>.</p></li>
+</ol>
+<p>Your staff has produced data analysis on the covariance matrix of obligors asset values and provides you with <span class="math inline">\(C\)</span>. Furthermore it provides you with the default probabilities of each obligor <span class="math inline">\(n\)</span>, given by <span class="math inline">\(p_n\)</span>. Now you are going to analyze, contrary to the simplified model from before, a more realistic situation where defaults are no longer independent by using the model assumptions outlined above.</p>
+<ol type="1">
+<li><p>Your first task is that you take the <span class="math inline">\(p_n\)</span> provided to you by your staff and calibrate the default barriers <span class="math inline">\(K_n\)</span> from these data.</p></li>
+<li><p>Conditional on <span class="math inline">\(Y = y\)</span>, what is the probability of having <span class="math inline">\(n\)</span> defaults in terms of the formula for the probability distribution of a binomial random varible?</p></li>
+<li><p>Using the assumptions on the model for the firm value, can you figure out which expression you need to plug into <code>qnorm()</code> to get the probability of <span class="math inline">\(p_n(y) = P(V_n(T) &lt; K_n | Y = y)\)</span>?</p></li>
+<li><p>Please combine the answers to 2 and 3 to simulate and plot the loss distribution assuming for your given <span class="math inline">\(\rho\)</span>.</p></li>
+<li><p>Plot distribution under higher and lower correlation as well as under <span class="math inline">\(\rho = 0\)</span>.</p></li>
+<li><p>What is the <span class="math inline">\(99\%\)</span> Value at risk, given <span class="math inline">\(\rho\)</span> provided by your staff?</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Billingsley1995" class="csl-entry" role="listitem">
+Billingsley, Patrick. 1995. <em>Probability and Measure</em>. Wiley.
+</div>
+<div id="ref-Dunbar2000" class="csl-entry" role="listitem">
+Dunbar, Nicolas. 2000. <em>Inventing Money: The Story of Long-Term Capital Management and the Legends Behind It</em>. Wiley.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04-lecture4.html" class="pagination-link" aria-label="Random Variables">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Random Variables</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06-references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
