@@ -1,125 +1,432 @@
-
 ---
-title: "Introduction to Probability and R"
-author: "Your Name"
-date: "`r format(Sys.Date(), '%B %d, %Y')`"
+title: "An Introduction to Probability"
+subtitle: "With Applications to Computational Finance using R"
+author: "Martin Summer"
+date: last-modified
+date-format: D MMMM, YYYY
 format:
   beamer:
     theme: metropolis
     slide-level: 2
-    toc: true
-    incremental: false
+    fig-align: center
+    fig-width: 6     # Default width for all figures
+    fig-height: 4    # Default height for all figures
 execute:
   echo: true
+  eval: true
   warning: false
+  error: false
   message: false
 ---
 
-# Preface
 
-> "What I hear, I forget; What I see, I remember; What I do, I understand"  
-> — Confucius, 551-479 BC
 
----
+# The Motto of this Course
 
-## What are these lecture notes about?
+> "What I hear, I forget; What I see, I remember; What I do, I understand"
+>
+> Confucius, 551-479 BC
 
-These lecture notes support the course **An Introduction to Probability - with Applications to Computational Finance using R**. The course introduces essential probability concepts that every finance practitioner must understand.
+# What is this lecture about?
 
-Key highlights:
-- Hands-on learning approach.
-- Leverages **R** for simulations and visualizations.
-- Connects theory with real-world applications.
+## Probability, R, Finance
 
----
+- These lecture notes support the course **An Introduction to Probability - with Applications to Computational Finance using R**.
+- The course introduces essential probability concepts that every finance practitioner must understand using R within the context of computational finance.
+- **Why Probability?**
+  - Because Finance is about making decisions under uncertainty.
+  - Probability is the most powerful conceptual tool we have at hand to think about uncertainty and decision making under uncertainty in a systematic an rational way.
+- **Why R ?**
+   - Because it is a language which is well adapted to probability and hands 
+   on coding of applied probability problems.
+   - The computer can make abstract problems tangible.
 
-## Key Learning Objectives
 
-1. Understand foundational probability concepts.  
-2. Apply probability principles to solve computational finance problems.  
-3. Gain hands-on experience using R for probability and finance applications.  
-4. Develop proficiency in interpreting and visualizing probabilistic data.
+## Course Objectives
 
----
+- **Understand the fundamentals of probability**: concepts, rules, and theorems.
+- **Learn R programming for probability simulations**:
+  - Generating random variables.
+  - Visualizing probabilities.
+  - Solving real-world problems computationally.
+- **Apply probability concepts to finance**: Use cases in risk management, pricing, and investment decisions.
 
-## Building Intuition through Simulation
 
-- Probability concepts gain value when connected to real or conceptual experiments:
-  - Stock price changes.
-  - Portfolio value fluctuations.
-  - Credit risk evaluations.
+# Building Abstract Concepts
 
-- Simulations allow us to:
-  - Construct and manipulate random phenomena.
-  - Model financial risks and explore future scenarios.
+## Conceptual Experiments
 
----
+- How can we build abstract concepts like **probability**, **random phenomena**, and **chance** by our own hands?
+- Probability gains practical value through real or conceptual experiments, such as:
+  - Future changes in a **stock price index**.
+  - The future value of a **portfolio of securities**.
+  - The chance that a **creditor cannot repay a loan**.
 
-## Example: Simulating Stock Returns in R (Code)
+## Simulations with Computers
+
+- Computers allow us to **simulate** a wide variety of random phenomena:
+  - Models of random **fluctuations in asset prices**.
+  - Models of **financial risks**.
+  - Exploring **future scenarios** through simulation.
+
+- The arrival of computers has been a **revolution** in the mathematics of probability:
+  - Enables both theoretical reflections and practical simulations.
+  - Abstract concepts can be built **hands-on** using computational tools.
+
+
+# R Example for Simulation
+
+
+## Simulating a Stock Price in R
 
 ```{r}
-set.seed(123)  # Ensure reproducibility
-n <- 100       # Number of days
-daily_returns <- rnorm(n, mean = 0.001, sd = 0.02)
+# Simulate daily returns for a stock
 
-price <- cumprod(1 + daily_returns) * 100  # Starting price = 100
+# Ensure reproducibility
+set.seed(123)  
+# Number of days
+n <- 100
+# Normal distribution
+daily_returns <- rnorm(n, mean = 0.001, sd = 0.02)  
+# Compute cumulative returns, starting price = 100
+price <- cumprod(1 + daily_returns) * 100  
+price[1:10]
+```
 
+
+## Visualize the distribution of daily returns:
+
+```{r, fig.width=6, fig.height=4, fig.align="center"}
+hist(daily_returns, 
+     main = "Distribution of daily stock returns",
+     xlab = "Returns",
+     ylab = "Number of Days")
+
+```
+
+## Visualize the Price Dynamics
+
+```{r}
+# Visualize the stock price
 plot(price, type = "l", col = "blue", lwd = 2,
      main = "Simulated Stock Price",
      xlab = "Days", ylab = "Price")
+
 ```
 
----
 
-## Example: Simulating Stock Returns in R (Visualization)
+# Insights from the Example
 
-```{r fig.width=7, fig.height=4, out.width='80%'}
-# Ensure the plot is scaled properly
-plot(price, type = "l", col = "blue", lwd = 2,
-     main = "Simulated Stock Price",
-     xlab = "Days", ylab = "Price")
-```
+## Key Takeaways
 
 - **Highlights**:
-  - Influence of randomness on stock prices.
-  - R’s utility for simulations and visualization.
+  - How randomness influences stock price movements.
+  - The usefulness of R for simulations and visualization.
 
----
+- **Critical Reflection**:
+  - The real world is **different** from theoretical and simulated worlds.
+  - The real world is **richer and more complex** than both theory and simulation.
+  - Features in the real world may be **absent** in theory or simulations but are crucial for explanations.
 
-## Using R and RStudio
+## The Interdependence of Theory, Simulation, and Reality
 
-### Installing R
-1. Download from [CRAN](http://cran.r-project.org).  
-2. Choose your operating system (Windows, Mac, Linux).  
-3. Install precompiled binaries (easiest method).  
+- Theoretical concepts, simulations, and applications are **interdependent**.
+- Developing a sense of their differences and connections is a core goal of this course.
 
-### Installing RStudio
-1. Download RStudio Desktop (free) from [RStudio website](https://www.rstudio.com/products/rstudio/).  
-2. Ensure R is installed first.
+# Building Virtual Objects and Simulations in R
 
----
+## The Power of Simulations
 
-## Large Language Models (LLMs) for Learning
+- Simulations allow us to:
+  - **Construct and manipulate** virtual objects.
+  - Explore and analyze random phenomena.
+  - Understand complex systems through hands-on experimentation.
 
-- LLMs like ChatGPT can assist with:
+
+## Why R and RStudio?
+
+- **R Programming Language**:
+  - Well-suited for probability and hands-on coding of applied problems.
+  - Widely used in data analysis, statistics, and data science.
+
+- **RStudio IDE**:
+  - Provides an integrated environment for coding, visualization, and simulation.
+  - A popular tool in both industry and academia.
+  
+# Leveraging AI Tools in Learning
+
+## The Role of Large Language Models (LLMs)
+
+- Since this course was first taught in 2021, **AI tools** such as large language models (LLMs) have emerged.
+- Examples include **ChatGPT**, **Claude**, and **Gemini**.
+- These tools create new opportunities for learning and reinforcing concepts:
+  - Generate examples.
+  - Explain difficult topics.
+  - Debug R code.
+  - Translate code into familiar languages.
+
+## Integrating AI into This Course
+
+- Throughout the course, I will show you how to:
+  - Use ChatGPT to **enhance your learning experience**.
+  - Leverage AI for **interactive and engaging studies**.
+# Using ChatGPT for Learning
+
+## Benefits of ChatGPT in This Course
+
+- ChatGPT offers capabilities to support learning, such as:
   - Clarifying concepts.
   - Generating examples.
   - Debugging R code.
-  - Creating practice exercises.
+  - Practicing exercises.
+  - Simulating discussions.
+  - Learning best practices in R programming.
+
+- **Example Use Cases**:
+  - **Clarify Concepts**:  
+    > "Explain the concept of a probability distribution with an example."
+  - **Generate Examples**:  
+    > "Can you give me an example of a random variable and how it applies in finance?"
+
+# Using ChatGPT for Learning
+
+## Benefits of ChatGPT in This Course
+
+- ChatGPT offers capabilities to support learning, such as:
+  - Clarifying concepts.
+  - Generating examples.
+  - Debugging R code.
+  - Practicing exercises.
+  - Simulating discussions.
+  - Learning best practices in R programming.
+
+- **Example Use Cases**:
+  - **Clarify Concepts**:  
+    > "Explain the concept of a probability distribution with an example."
+  - **Generate Examples**:  
+    > "Can you give me an example of a random variable and how it applies in finance?"
+
+# Practical Examples of ChatGPT Use
+
+## More Use Cases
+
+- **Debug R Code**:  
+  Paste your code and ask for help:
+  > "Why does this R code not run, and how can I fix it?"
+
+- **Practice Exercises**:  
+  Generate exercises to reinforce learning:
+  > "Create three exercises to practice calculating probabilities for dice rolls."
+
+- **Simulate Discussions**:  
+  Test your understanding with interactive discussions:
+  > "I think the variance of a constant is zero. Am I correct? Explain why or why not."
+
+- **Learn R Best Practices**:  
+  Ask for coding tips:
+  > "What are the best practices for writing clean and efficient R code?"
+
+# Important Considerations
+
+## Verifying AI Outputs
+
+- While ChatGPT is powerful, always **verify outputs**, especially for:
+  - Complex calculations.
+  - Detailed explanations.
+  - Programming suggestions.
+
+- Use additional tools for cross-checking:
+  - **Wolfram|Alpha**:  
+    A computational engine available for free:
+    [https://www.wolframalpha.com/](https://www.wolframalpha.com/)
+
+# Downloading and Installing R
+
+## Steps to Get R
+
+- R is an open-source project maintained by an international team of developers.
+- The software is available at:
+  - [Comprehensive R Archive Network (CRAN)](http://cran.r-project.org)
+
+### Download Instructions
+
+1. Visit the "Download and install R" section at CRAN.
+2. Select the link corresponding to your operating system (Windows, Mac, or Linux).
+3. Choose **precompiled binaries** for an easier installation.
+   - Optionally, build R from source if you have the tools and expertise.
+4. Install either the 32-bit or 64-bit version:
+   - **64-bit versions** handle larger files and datasets more efficiently.
+
+# Downloading and Installing RStudio
+
+## Why Use RStudio?
+
+- **RStudio**: A user-friendly application that simplifies R coding.
+- Provides a consistent interface across all operating systems.
+
+### Steps to Install RStudio
+
+1. Visit: [https://www.rstudio.com/products/rstudio/](https://www.rstudio.com/products/rstudio/)
+2. Select **RStudio Desktop** and follow the download instructions.
+   - RStudio Desktop is free to use.
+3. Ensure you have a version of R installed before using RStudio.
 
 ---
 
-# Acknowledgments
+## Ready to Start
 
-I thank **Branko Urošević** for entrusting me with developing this course. I am also grateful to former students for their feedback and enthusiasm.
+- If R and RStudio are successfully installed, you’re ready to begin.
+- Throughout this course:
+  - I will demonstrate code using **RStudio**.
+  - Other options (e.g., Jupyter Notebooks) are available for advanced setups.
+
+# Using R with Jupyter Notebooks
+
+## Advanced Setup
+
+- R can also be used in **Jupyter Notebooks**.
+- For those interested:
+  - Ask ChatGPT for step-by-step instructions:
+    > "Please give me a step-by-step instruction on how to set up R in Jupyter Notebooks."
+- Note: This setup will not be covered in this course, but you’re welcome to explore it further.
+
+# Signing Up for ChatGPT
+
+## Steps to Create a Free Account
+
+1. Visit: [https://chat.openai.com](https://chat.openai.com)
+2. Click "Create a free account."
+   - Sign up using an email address, Google, or Microsoft account.
+3. Verify your email and complete the registration process.
+4. Log in to start using ChatGPT for learning and exploration.
+
+---
+
+## Free vs. Paid Versions
+
+- The **free version** (GPT-3.5) is sufficient for most learning needs.
+- Paid versions (e.g., GPT-4.0) offer enhanced capabilities but require a subscription.
+- Explore the free version to understand its potential.
+
+# Prerequisites
+
+## An Intuitive Introduction
+
+- This course is an **elementary introduction** to probability and R.
+- **No prior knowledge** of probability or R is required.
+- You can rely on these **lecture notes** and slides without needing additional textbooks.
+
+---
+
+## Designed for All Levels
+
+- For newcomers:
+  - Learn essential concepts from scratch.
+  - Develop curiosity and excitement about the field.
+- For experienced learners:
+  - Gain new perspectives and deepen understanding of familiar concepts.
+
+---
+
+
+# Course Structure
+
+## Parallel Development of Concepts
+
+- Probability and R concepts are developed **together**.
+- Build knowledge by **constructing and experimenting** with concepts on the computer.
+- Reinforces:
+  - Probability understanding.
+  - R programming skills.
+
+---
+
+## Main Chapters and Projects
+
+- The course is divided into **five chapters**:
+  - Each corresponds to one double lecture.
+- After each lecture:
+  - Work on a **project** to practice and deepen understanding.
+  - Projects include discussions and worked solutions.
+
+# Lecture Highlights
+
+## Lecture 1: Foundations
+
+- Explore the historical context of probability.
+- Learn basic concepts using a **coin-toss game**:
+  - Application: Modelling security prices.
+- Address a real-world problem:
+  - Understand coincidences and cryptographic safety (e.g., hash functions in Bitcoin).
+- **Project 1**: Design secure transaction identifiers for a digital payment system.
+
+---
+
+## Lecture 2: Frequencies and Data Manipulation
+
+- Discuss probability and frequency relationships.
+- Explore **Benford’s Law** for detecting anomalies in data.
+- Enhance R skills with data manipulation and structures.
+- **Project 2**: Analyze and manipulate data for probabilistic insights.
+
+# Lecture Highlights (Continued)
+
+## Lecture 3: Conditional Probability
+
+- Understand **dependence** and its role in finance.
+- Learn probability updates with new data.
+- Applications:
+  - Risk management.
+  - Investment decisions.
+- **Project 3**: Apply conditional probability to real-world financial scenarios.
+
+---
+
+## Lecture 4: Random Variables and Asset Dynamics
+
+- Explore:
+  - Expected value.
+  - Variance.
+  - Covariance and correlation.
+- Understand **binomial lattice models** for asset price dynamics.
+- Develop R skills for programming control structures.
+- **Project 4**: Simulate asset dynamics using probabilistic models.
+
+---
+
+## Lecture 5: Continuous Random Variables
+
+- Study the **normal distribution**:
+  - Its power and limitations in finance.
+- Optimize R code for performance and efficiency.
+- **Project 5**: Analyze continuous random phenomena and risks in finance.
+
+# Acknowledgements
+
+## Special Thanks
+
+- **Branko Urošević**:
+  - For entrusting me to develop this course and supporting the project.
+- **Past Students**:
+  - For their feedback and enthusiasm, which improved these notes.
 
 ---
 
 # References
 
-- **Feller, W. (1968)**. *An Introduction to Probability Theory and Its Applications, Vol.1*.  
-- **Schmedders, K. (Coursera)**. *An Intuitive Introduction to Probability*.  
-- **Grolemund, G. (2014)**. *Hands-on Programming with R*.  
-- **Luenberger, D. (2009)**. *Investment Science*.  
-- **Diaconis, P., & Skyrms, B. (2019)**. *10 Great Ideas About Chance*.
+## Key Resources
 
+1. **Probability**:
+   - William Feller: *An Introduction to Probability Theory and Its Applications.*
+   - Karl Schmedder: *An Intuitive Introduction to Probability* (Coursera).
+
+2. **R Programming**:
+   - Garrett Grolemund: *Hands-On Programming with R*.
+
+3. **Finance**:
+   - David Luenberger: *Investment Science*.
+
+4. **History and Philosophy**:
+   - Persi Diaconis and Brian Skyrms: *10 Great Ideas About Chance.*
+
+- These notes combine well-known ideas with new approaches to teaching probability and R.

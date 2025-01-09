@@ -454,7 +454,7 @@ Answer by ChatGPT40
 </div>
 </div>
 <p>Let us interrupt here our discussion of probability for a moment and ask how we can make good on our promise to make these ideas tangible, so we can play with them.</p>
-<p>For this we will need the computer. Since we will talk to the computer in R, it is now the right time to look at the die rolling example from the perspective of R and dive into some of its basic concepts.</p>
+<p>For this we will need the computer. Since we will talk to the computer in R, it is now the right time to look at the coin tossing example from the perspective of R and dive into some of its basic concepts.</p>
 </section>
 </section>
 <section id="tossing-coin-on-computer" class="level2 page-columns page-full" data-number="1.2">
@@ -633,7 +633,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>In this case <code>sample</code> has chosen either 0 or 1 from the vector <code>x = (0,1)</code> at random.</p>
@@ -641,11 +641,11 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -653,7 +653,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>These are the random outcomes of our consecutive tosses. It is as if we had thrown an actual coin but in this case we have done the same thing on the computer. Isn’t it cool that this is possible at all? The <code>sample()</code> function will remain our good friend throughout this course.</p>
@@ -691,15 +691,15 @@ NULL</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -707,7 +707,7 @@ NULL</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 </div>
 <p>Note that in our function <code>toss_coin()</code> has no arguments, just the function body. This is perfectly legitimate in R. It is important that when we call the function we have to call it with the parenthesis like <code>toss_coin()</code>. If we only call the name <code>toss_coin</code>, R will display the code in the function body.</p>
@@ -752,7 +752,7 @@ Now you try
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin2</span>(<span class="at">ball =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>Note that we still get an error, if we forget to supply ball argument. This could be avoided if we give the function a default argument</p>
@@ -1062,8 +1062,8 @@ P(\text{at least two people share birthday}) =
 </div>
 </div>
 <p>I will not go in detail into the explanation of the code at this stage. For those of you who crave for an explanation, please look at the marginal note here or use the LLM for a step by step explanation.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<code>birthday_collisions</code> Function: This function calculates the probability of at least one shared birthday for a group of nn people using the formula derived earlier. <code>group_sizes</code> and <code>collision_probs</code>: <code>group_sizes</code> defines a range of group sizes (1 to 50). <code>sapply</code> applies the <code>birthday_collisions</code> function to each group size, computing the collision probabilities. Visualization: A line plot (<code>type = "l"</code>) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (<code>abline</code>) highlights the 50% threshold for better visual context.</p></div></div></section>
-<section id="determining-birthday-collisions-by-simulation" class="level3" data-number="1.3.2">
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<code>birthday_collisions</code> Function: This function calculates the probability of at least one shared birthday for a group of <span class="math inline">\(n\)</span> people using the formula derived earlier. <code>group_sizes</code> and <code>collision_probs</code>: <code>group_sizes</code> defines a range of group sizes (1 to 50). <code>sapply</code> applies the <code>birthday_collisions</code> function to each group size, computing the collision probabilities. Visualization: A line plot (<code>type = "l"</code>) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (<code>abline</code>) highlights the 50% threshold for better visual context.</p></div></div></section>
+<section id="determining-birthday-collisions-by-simulation" class="level3 page-columns page-full" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="determining-birthday-collisions-by-simulation"><span class="header-section-number">1.3.2</span> Determining birthday collisions by simulation</h3>
 <p>Instead of deriving the probability analytically, we can simulate the birthday experiment if we use the relative frequency notion of probability which we informally had used in our visualization of coin tosses. Here’s how:</p>
 <ol type="1">
@@ -1104,7 +1104,8 @@ P(\text{at least two people share birthday}) =
 <p>The <code>results</code> vector contains <code>TRUE</code> (collision occurred) or <code>FALSE</code> (no collision) for each trial. Taking the <code>mean()</code> of this logical vector calculates the proportion of trials with a collision, which corresponds to the simulated probability. This step ties back to the definition of relative frequency probability introduced earlier: the probability of an event is the ratio of favorable outcomes to the total number of trials.</p></li>
 </ol>
 <p>This step requires some explanation of how R uses data types. We will learn about this more systematically in the next lecture. Here I give a quick and superficial explanation. R can force logical data types automatically to a numerical type when it applies arithmetic functions to a logical vector, forcing <code>TRUE</code> to 1 and <code>FALSE</code> to 0. Now, when you take the average (<code>mean()</code>) of a vector containing only 1 and 0 values you will get the proportion of 1’s or <code>TRUE</code> values. We will use such tricks often during the course of the lecture. For the moment I ask you to bear with this quick and superficial explanation of why this way of proceeding does what we want.</p>
-<p>Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:</p>
+<p>Note that this code uses a function within a function, which makes the code very efficient.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;As always there are many different ways to write this code a bit differently. Those of you who are more experienced in programming you can challenge yourself by using for instance the following approach: Create a single matrix where each row represents one trial, and each column corresponds to a birthday for one person in that trial.Use the <code>apply()</code>function for Row-Wise Operations checking for duplicates. The result should be a logical vector indicating whether each trial has a duplicate and then take the mean of this vector.</p></div></div><p>Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_birthday</span>(<span class="dv">23</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1139,8 +1140,8 @@ P(\text{at least two people share birthday}) =
 </ol>
 <p>If the range of the hash-function is <span class="math inline">\(M\)</span> and the hash-function maps into a 256 bit string then there are <span class="math inline">\(2^{256}\)</span> basic outcomes. Since the hash-function maps a large string onto a smaller string it is possible that there are two different strings <span class="math inline">\(x \neq y\)</span> mapping to the same value <span class="math inline">\(\text{hash}(x)=\text{hash}(y)\)</span>. This would be a problem for message authentication because it would give the same “fingerprint” for two different strings.</p>
 <p>For a cryptographically secure hash function it is therefore required that the probability of such a collision should be small enough to exclude a collision in all practically relevant circumstances.</p>
-<p>The collision problem for hash functions is analogous to the birthday problem. Instead of asking how many people are needed in a room for a shared birthday, we ask: how many inputs (e.g., messages or files) need to be hashed before two of them produce the same hash value? This probability depends on the size of the hash space, which is determined by the number of bits<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> in the hash function’s output.</p>
-<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;A bit, short for binary digit, is defined as the most basic unit of data in telecommunications and computing. Each bit is represented by either a 1 or a 0</p></div></div><p>Let <span class="math inline">\(M = 2^{256}\)</span> the number of possible hash values. The probability of no collisions after <span class="math inline">\(n\)</span> hashes is</p>
+<p>The collision problem for hash functions is analogous to the birthday problem. Instead of asking how many people are needed in a room for a shared birthday, we ask: how many inputs (e.g., messages or files) need to be hashed before two of them produce the same hash value? This probability depends on the size of the hash space, which is determined by the number of bits<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> in the hash function’s output.</p>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;A bit, short for binary digit, is defined as the most basic unit of data in telecommunications and computing. Each bit is represented by either a 1 or a 0</p></div></div><p>Let <span class="math inline">\(M = 2^{256}\)</span> the number of possible hash values. The probability of no collisions after <span class="math inline">\(n\)</span> hashes is</p>
 <p><span class="math display">\[\begin{equation*}
 P_{nc}(n) = 1 \times \left(1 - \frac{1}{M}\right)\times
 \left(1 - \frac{2}{M} \right) \times \cdots \times \left(1 - \frac{(n-1)}{M} \right)
@@ -1226,8 +1227,8 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 <p>In modern financial systems, every transaction is assigned a unique identifier, allowing stakeholders to track, verify, and manage transaction details efficiently. These identifiers are critical for maintaining transparency, accountability, and security across high-volume transaction systems. However, as the volume of transactions grows, the risk of identifier collisions—where two different transactions are assigned the same identifier—increases.</p>
 <p>This issue is analogous to the birthday problem: as the number of transactions increases, the likelihood of collisions rises due to the combinatorial nature of the problem. A collision could result in processing errors or even security vulnerabilities, such as fraudulent transactions or misattribution of funds.</p>
 <p>To mitigate such risks, many financial systems employ hash functions, such as the widely used SHA-256, to map data to a large space of possible outputs. These hash functions, with their vast output range (e.g., <span class="math inline">\(2^{256}\)</span>), make collisions extremely unlikely, even for billions of transactions. By understanding the principles behind collision probabilities, financial institutions can design systems that maintain transaction integrity even under high workloads.</p>
-<p>In this project, we will explore this critical aspect of financial systems by simulating transaction identifiers and analyzing collision probabilities. This exercise demonstrates how theoretical probability concepts translate directly to practical challenges in computational finance.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com</p></div></div><p>In this project, you will:</p>
+<p>In this project, we will explore this critical aspect of financial systems by simulating transaction identifiers and analyzing collision probabilities. This exercise demonstrates how theoretical probability concepts translate directly to practical challenges in computational finance.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com</p></div></div><p>In this project, you will:</p>
 <ol type="1">
 <li>Simulate a system assigning transaction identifiers.</li>
 <li>Investigate the probability of identifier collisions under different scenarios.</li>
@@ -1250,7 +1251,7 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 </section>
 <section id="visualize-the-results" class="level3" data-number="1.5.4">
 <h3 data-number="1.5.4" class="anchored" data-anchor-id="visualize-the-results"><span class="header-section-number">1.5.4</span> Visualize the results</h3>
-<p>Plot the collision probability as a function of nn for different values of <span class="math inline">\(M\)</span>. We did not cover Rs plotting functions in the lecture so far. We only showed some examples which we did not explain. But we explained how you could research R’s help system and how you could ask an LLM for help. With any of these resources you should be able to come up with some reasonable visualization.</p>
+<p>Plot the collision probability as a function of <span class="math inline">\(n\)</span> for different values of <span class="math inline">\(M\)</span>. We did not cover Rs plotting functions in the lecture so far. We only showed some examples which we did not explain. But we explained how you could research R’s help system and how you could ask an LLM for help. With any of these resources you should be able to come up with some reasonable visualization.</p>
 </section>
 <section id="investigate-the-system-design" class="level3" data-number="1.5.5">
 <h3 data-number="1.5.5" class="anchored" data-anchor-id="investigate-the-system-design"><span class="header-section-number">1.5.5</span> Investigate the system design</h3>
@@ -1264,7 +1265,7 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 <ul>
 <li>Imagine a financial institution processing transactions with <span class="math inline">\(M=10^6\)</span> identifiers.</li>
 <li>If the daily transaction volume grows to <span class="math inline">\(n=10^5\)</span>, what is the risk of a collision?</li>
-<li>Discuss potential consequences of a collision (e.g., failed transactions, fraud risks) and propose ways to mitigate these risks (e.g., increasing <span class="math inline">\(M\)</span>, using hash functions).</li>
+<li>Discuss potential consequences of a collision (e.g., failed transactions, fraud risks) and propose ways to mitigate these risks (e.g., increasing <span class="math inline">\(M\)</span>).</li>
 </ul>
 
 

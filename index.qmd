@@ -58,6 +58,9 @@ of random processes and visualization.
 ::: {.callout-tip}
 ## An R example for illustration
 
+Simulate stock prices with normally distributed
+random daily returns.
+
 ```{r}
 # Simulate daily returns for a stock
 
@@ -67,7 +70,23 @@ daily_returns <- rnorm(n, mean = 0.001, sd = 0.02)  # Normal distribution
 
 # Compute cumulative returns
 price <- cumprod(1 + daily_returns) * 100  # Starting price = 100
+price
+```
 
+Visualize the distribution of daily returns:
+
+```{r}
+hist(daily_returns, 
+     main = "Distribution of daily stock returns",
+     xlab = "Returns",
+     ylab = "Number of Days")
+```
+
+
+
+Now visualize the price dynamics:
+
+```{r}
 # Visualize the stock price
 plot(price, type = "l", col = "blue", lwd = 2,
      main = "Simulated Stock Price",

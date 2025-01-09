@@ -278,7 +278,7 @@ make these ideas tangible, so we can play with them.
 
 For this we will need the
 computer. Since we will talk to the computer in R, it is now the right time
-to look at the die rolling example from the perspective of R and dive into
+to look at the coin tossing example from the perspective of R and dive into
 some of its basic concepts.
 
 ## Tossing a coin on the computer: First steps in R {#tossing-coin-on-computer}
@@ -1234,7 +1234,7 @@ abline(h = 0.5, col = "red", lty = 2)  # Highlight the 50% threshold
 
 I will not go in detail into the explanation of the code at this stage.
 For those of you who crave for an explanation, please look at the
-marginal note here or use the LLM for a step by step explanation.^[`birthday_collisions` Function: This function calculates the probability of at least one shared birthday for a group of nn people using the formula derived earlier. `group_sizes` and `collision_probs`: `group_sizes` defines a range of group sizes (1 to 50). `sapply` applies the `birthday_collisions` function to each group size, computing the collision probabilities. Visualization: A line plot (`type = "l"`) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (`abline`) highlights the 50% threshold for better visual context.]
+marginal note here or use the LLM for a step by step explanation.^[`birthday_collisions` Function: This function calculates the probability of at least one shared birthday for a group of $n$ people using the formula derived earlier. `group_sizes` and `collision_probs`: `group_sizes` defines a range of group sizes (1 to 50). `sapply` applies the `birthday_collisions` function to each group size, computing the collision probabilities. Visualization: A line plot (`type = "l"`) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (`abline`) highlights the 50% threshold for better visual context.]
 
 ### Determining birthday collisions by simulation
 
@@ -1304,6 +1304,16 @@ proportion of 1's or `TRUE` values. We will use such tricks often during
 the course of the lecture. For the moment I ask you to bear with this
 quick and superficial explanation of why this way of proceeding does what
 we want.
+
+Note that this code uses a function within a function, which makes the
+code very efficient.^[As always there are many different ways to write this
+code a bit differently. Those of you who are more experienced in
+programming you can challenge yourself by using for instance
+the following approach: Create a single matrix where each row represents 
+one trial, and each column corresponds to a birthday for one person in that 
+trial.Use the `apply()`function for Row-Wise Operations checking for 
+duplicates. The result should be a logical vector indicating whether each trial
+has a duplicate and then take the mean of this vector.]
 
 Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:
 
@@ -1527,7 +1537,7 @@ In this project, you will:
 
 ### Visualize the results
 
-Plot the collision probability as a function of nn for different values of $M$.
+Plot the collision probability as a function of $n$ for different values of $M$.
 We did not cover Rs plotting functions in the lecture so far. We only showed some
 examples which we did not explain. But we explained how you could research
 R's help system and how you could ask an LLM for help. With any of these
@@ -1542,4 +1552,4 @@ resources you should be able to come up with some reasonable visualization.
 
 - Imagine a financial institution processing transactions with $M=10^6$ identifiers. 
 - If the daily transaction volume grows to $n=10^5$, what is the risk of a collision?
-- Discuss potential consequences of a collision (e.g., failed transactions, fraud risks) and propose ways to   mitigate these risks (e.g., increasing $M$, using hash functions).
+- Discuss potential consequences of a collision (e.g., failed transactions, fraud risks) and propose ways to   mitigate these risks (e.g., increasing $M$).
