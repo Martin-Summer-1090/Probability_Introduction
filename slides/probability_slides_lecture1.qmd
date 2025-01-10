@@ -1,91 +1,181 @@
-
 ---
-title: "First Probability Ideas and First Steps in R"
-author: "Your Name"
-date: "`r format(Sys.Date(), '%B %d, %Y')`"
+title: "An Introduction to Probability"
+subtitle: "First Probability Ideas and First Steps in R"
+author: "Martin Summer"
+date: last-modified
+date-format: D MMMM, YYYY
 format:
   beamer:
     theme: metropolis
     slide-level: 2
-    toc: true
-    incremental: false
+    fig-align: center
+    fig-width: 6     # Default width for all figures
+    fig-height: 4    # Default height for all figures
 execute:
   echo: true
+  eval: true
   warning: false
+  error: false
   message: false
 ---
 
-# Finance and Uncertainty
+# First Probability Ideas and First Steps in R {#first-steps}
 
-- Finance inherently involves **uncertainty** and **risk**.
-- Core questions in Finance:
-  - How to allocate and price money over time?
-  - How to quantify and manage uncertainty?
-- Examples:
-  - **Saving**: Deferring consumption today for future benefits.
-  - **Borrowing**: Investing now, with repayment tied to uncertain future revenues.
+## Introduction
 
----
-
-## Role of Probability
-
-- **Risk and uncertainty** are unavoidable in Finance.
-- Probability provides the tools to:
-  - Quantify uncertainty.
-  - Analyze and manage risks.
-- A cornerstone of **financial decision-making**.
+- Finance inherently involves **uncertainty** and **risk**, making probability essential.
+- Finance focuses on allocating and pricing money over time:
+  - Saving defers consumption for future purchases.
+  - Borrowing enables investment today with future repayment.
+- The future is uncertain and unpredictable, but **probability theory** provides tools to:
+  - Quantify and analyze uncertainty.
+  - Manage financial risks effectively.
 
 ---
 
-## Historical Context
+## Why Study Probability? {#why-study-probability}
 
-- Probability theory began as a mathematical discipline.
-- Origins trace back to **16th and 17th century Europe**:
-  - Debates about gambling.
-  - Involvement of great minds: Cardano, Pascal, Fermat, Bernoulli.
-- Earlier human awareness of chance:
-  - Gambling traditions.
-  - Veneration of the **goddess of chance**.
+- Probability is fundamental to managing uncertainty in Finance.
+- Originated as a mathematical theory in the **16th and 17th century**:
+  - Influenced by gambling debates.
+  - Scholars like **Cardano**, **Pascal**, **Fermat**, and **Bernoulli** contributed.
+- Humans have long been aware of chance (e.g., gambling, goddess of chance), but only later sought to **measure uncertainty mathematically**.
 
----
+# First Steps in Probability
 
-# First Steps: Coin Tossing
+## A Simple Starting Point
 
-- Tossing a coin:
-  - **Classical probability**: Equal chance for heads and tails.
-  - A simple chance process people have used throughout history.
-- Link to Finance:
-  - Simulates stock behavior with equal chances of price increase or decrease.
+- We’ll begin with a **classical probability model**: Tossing a coin.
+- This example helps us:
+  - Understand fundamental concepts in probability.
+  - Explore basic R programming.
 
 ---
 
-## Simulating a Coin Toss in R (Code)
 
-```{r}
-set.seed(42)  # Ensures reproducibility
-n_tosses <- 100
-results <- sample(c("Heads", "Tails"), size = n_tosses, replace = TRUE)
+## Tossing a Fair Coin: First Probability Ideas {#tossing-a-coin}
 
-# Print the first 10 results
-print(results[1:10])
+- A **fair coin** has an equal chance of showing Heads or Tails.
+- When tossed, the outcome is uncertain: Heads or Tails.
+- Visualizing the process:
+
+```{r fig-coin-toss, out.width='25%', fig.align='center', fig.cap='Figure 1: Tossing a coin', echo=FALSE}
+knitr::include_graphics('../figures/fair_coin_toss.jpg')
 ```
 
 ---
 
-## Visualizing Coin Toss Results (Code and Plot)
+## How Coin Tossing Matters for Finance
 
-```{r fig.width=7, fig.height=4, out.width="80%"}
-# Create a bar plot of the outcomes
-barplot(table(results), col = c("blue", "red"),
-        main = "Coin Toss Outcomes",
-        xlab = "Outcome", ylab = "Frequency")
-```
+Simulating a coin toss introduces key concepts:
+  
+  - Equal probabilities for outcomes.
+  - Link to Finance: Imagine a stock investment with a 50% chance of gain or loss.
+  - Builds intuition for probability and computational Finance.
+    
+---
+
+
+## The Role and Nature of Idealizations {#role-of-idealizations}
+
+- **Idealizations** are standard in probability and essential in Finance.
+- Example: Stock price movement as a conceptual random experiment.
+  - Price cannot fall below 0.
+  - Hard to define the highest possible price.
+
+### Sample Space of Stock Prices
+
+- Common assumption: Sample space is the entire interval of non-negative real numbers:
+  - ${\cal S} = [0, \infty)$.
 
 ---
 
-# Key Takeaways
+## Why Use Idealizations? {#why-idealizations}
 
-1. Probability is essential for quantifying and managing uncertainty in Finance.
-2. Simulations like coin tossing provide a simple way to explore probabilistic concepts.
-3. R is a powerful tool for performing these simulations and visualizations.
+- Many models in Finance assume **arbitrarily high prices**:
+  - Prices can rise without bound, but with **arbitrarily small probabilities** as they increase.
+- Practical reasoning:
+  - Imposing an upper bound $x$ may seem reasonable, but it introduces awkward assumptions:
+    - Why can't the price be just a cent higher than $x$?
+  - Simplicity and convenience outweigh strict realism.
+
+### Key Takeaway
+
+- Idealizations simplify models without significant practical harm, enabling tractable analysis in Finance.
+
+---
+
+## Classical Probability: Measuring Uncertainty {#classical-probability}
+
+- **Probability** quantifies how likely an event is to occur.
+- Measurement idea:
+  - Similar to measuring length: Choose a standard and count.
+  - Measure probability by counting equally probable cases.
+
+### Formula for Classical Probability
+
+$$
+P(A) = \frac{\text{Number of cases where $A$ occurs}}{\text{Total number of cases}}
+$$
+
+- Example: Tossing a fair coin
+  - Heads: $P(\text{Heads}) = \frac{1}{2}$ (1 favorable case out of 2 total cases).
+
+---
+
+## Properties of Classical Probability {#properties-of-probability}
+
+1. **Probability is never negative**:
+   $P(A) \geq 0$
+2. **If an event $A$ occurs in all cases**:
+   $P(A) = 1$
+3. **For mutually exclusive events $A$, $B$**:
+   $P(A \, \text{or} \, B) = P(A) + P(B)$
+
+### Example for Rule 3
+
+- Drawing a King ($A$) or a Queen ($B$) from a deck of 52 cards:
+  - $P(A) = \frac{4}{52}$, $P(B) = \frac{4}{52}$.
+  - Mutually exclusive events: $A$ and $B$ cannot occur together.
+  - $P(A \, \text{or} \, B) = \frac{4}{52} + \frac{4}{52} = \frac{8}{52} = \frac{2}{13}$.
+
+---
+
+## Complementary Events
+
+- Probability of an event **not** occurring:
+  $P(\text{not } A) = 1 - P(A)$
+
+---
+
+## Leveraging ChatGPT for Learning
+
+- Enhance understanding with **large language models (LLMs)** like ChatGPT.
+- Example prompt for ChatGPT:
+  - Explore random experiments, sample spaces, basic outcomes, and events in Finance.
+
+```{r fig-Promptgpt, out.width='90%', fig.align='center', fig.cap='Figure 2: The ChatGPT prompt', echo=FALSE}
+knitr::include_graphics('../figures/prompt_gpt_example.png')
+```
+
+
+## Transition to R: Making It Tangible
+
+- To apply these ideas practically, we turn to R.
+- Coin tossing example revisited:
+  - Learn basic R concepts.
+  - Simulate probability experiments programmatically.
+
+
+# Tossing a Coin on the Computer: First Steps in R {#tossing-coin-on-computer}
+
+## The R User Interface {#r-interface}
+
+- RStudio allows us to interact with the computer and run R commands.
+- Launch RStudio to see a screen similar to this:
+
+```{r fig-rstudio-start-screen, out.width='90%', fig.align='center', fig.cap='The RStudio startup screen', echo = F}
+knitr::include_graphics('../figures/Screenshot_RStudio.png')
+```
+
 
