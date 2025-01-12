@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lecture4</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="04-lecture4_files/libs/clipboard/clipboard.min.js"></script>
+<script src="04-lecture4_files/libs/quarto-html/quarto.js"></script>
+<script src="04-lecture4_files/libs/quarto-html/popper.min.js"></script>
+<script src="04-lecture4_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="04-lecture4_files/libs/quarto-html/anchor.min.js"></script>
+<link href="04-lecture4_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="04-lecture4_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="04-lecture4_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="04-lecture4_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="04-lecture4_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="random-variables" class="level1">
+<h1>Random Variables</h1>
+<p>Random variables are the main mathematical tools that allow us to quantify and analyze uncertainty in Finance for complex portfolios and other financial contexts like risk management and In all of these contexts random variables provide the foundation for probabilistic reasoning.</p>
+<p>Throughout the previous lectures, we have encountered concepts such as conditional probabilities, dependencies, and independence. These ideas have helped us build intuition for modeling uncertainty. However, as we move into more advanced applications like portfolio risk modeling and asset price dynamics, a more explicit and formal treatment of <strong>random variables</strong> becomes unavoidable.</p>
+<p>Random variables are at the core of probability theory, serving as a bridge between real-world phenomena and mathematical models. They allow us to represent uncertain outcomes numerically and provide a framework for analyzing those outcomes using tools such as <strong>expected value</strong>, <strong>variance</strong>, and <strong>covariance</strong>. These measures are indispensable for understanding and managing financial risk. Random variables play a vital role in applications like:</p>
+<ul>
+<li><strong>Portfolio Management</strong>: Estimating the expected return and risk of a portfolio.</li>
+<li><strong>Risk Assessment</strong>: Modeling the probability of extreme events, such as market crashes.</li>
+<li><strong>Asset Pricing</strong>: Understanding how prices evolve over time using models like the binomial tree.</li>
+</ul>
+<p>By the end of this lecture, you will:</p>
+<ol type="1">
+<li>Understand the definition and properties of random variables.</li>
+<li>Learn how to compute and interpret expected value, variance, and covariance.</li>
+<li>Apply R programming to simulate random variables and analyze financial scenarios.</li>
+<li>Construct a binomial tree to model asset price dynamics.</li>
+</ol>
+<section id="random-variables-and-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="random-variables-and-distributions">Random Variables and Distributions</h2>
+<p>A <strong>random variable</strong> is a numerical outcome of a random phenomenon. Formally, a random variable is a function that assigns a real number to each outcome in the sample space of a random experiment. More explicitly:</p>
+<div id="random-variable" class="callout callout-style-default callout-tip callout-titled" title="Definition: Random Variable">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition: Random Variable
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <strong>random variable</strong> <span class="math inline">\(X\)</span> is a function <span class="math inline">\(X:\mathcal{S} \to \mathbb{R}\)</span> from the sample space (the set of all possible outcomes of the random experiment) to the real numbers.</p>
+</div>
+</div>
+<p>A random variable is thus a <strong>function</strong> defined on the sample space of a random experiment. This formal definition allows us to generalize and analyze a wide variety of real-world scenarios. For instance:</p>
+<ul>
+<li>In the coin-flipping example from Lecture 2, the number of heads in 10 flips was a random variable.</li>
+<li>The number of multiple brithdays in a group of <span class="math inline">\(n\)</span> people is also an example of a random variable.</li>
+</ul>
+<p>By explicitly recognizing these as random variables, we can now apply a systematic framework to quantify their behavior and analyze them.</p>
+<p>Note that it is a widely held convention in probability theory to use capital letters such as <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> etc. as symbols of a random variable.</p>
+<p>Random variables come in two varieties, depending on the properties of the sample space <span class="math inline">\({\cal S}\)</span>. If the sample space is a finite or countably finite set, the sample space is discrete and we talk of a <strong>discrete random variables</strong>.</p>
+<p>Sometimes it is natural to consider continuous sample spaces. For example when we consider the return of an asset over a year or the price of a stock at a specific time. In this case we call a random variable <strong>continuous</strong>. With continuous sample spaces we will need tools from calculus. We will discuss continuous random variables in the next lecture. Here we stick with the concept of a discrete random variable.</p>
+<p>In the case of a discrete sample space we can theoretically tabulate and random variable <span class="math inline">\(X\)</span> by enumerating in some order all points in the sample space and associating with each the corresponding value of <span class="math inline">\(X\)</span>.</p>
+</section>
+<section id="probability-distributions-and-cumulative-probability-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="probability-distributions-and-cumulative-probability-distributions">Probability Distributions and Cumulative Probability Distributions</h2>
+<p>A random variable is characterized by its <strong>probability distribution</strong>, which describes how probabilities are assigned to its possible values.</p>
+<div id="pmf-discrete" class="callout callout-style-default callout-tip callout-titled" title="Definition: Probability Mass Function of a Discrete Random Variable">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition: Probability Mass Function of a Discrete Random Variable
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(X\)</span> be a random variable and <span class="math inline">\(x_1, x_2, ...\)</span> the values which it assumes. The aggregate of all sample points on which <span class="math inline">\(X\)</span> assumes a fixed value <span class="math inline">\(x_i\)</span> is form the event <span class="math inline">\(X = x_i\)</span>. It’s probability is denoted by <span class="math inline">\(P(X = x_i)\)</span>. The function: <span class="math display">\[\begin{equation*}
+P(X = x_i) = p(x_i), \,\, i=1,2,...
+\end{equation*}\]</span> is called the <strong>probability distribution</strong> of the random variable <span class="math inline">\(X\)</span>.</p>
+<p>where <span class="math inline">\(p(x_i)\)</span> satisfies:</p>
+<ul>
+<li><span class="math inline">\(0 \leq p(x_i) \leq 1 \,\, \text{for}\,\, i = 1,2, ...\)</span></li>
+<li><span class="math inline">\(\sum_{i} p(x_i) = 1\)</span>.</li>
+</ul>
+</div>
+</div>
+<p>We can visualize the probability distribution of a discrete random variable using R in a standard example: Consider a random variable <span class="math inline">\(X\)</span> that represents the outcome of rolling a fair six-sided die. The probability distribution is: <span class="math inline">\(P(X = x_i) = \frac{1}{6}, \quad i = 1, 2, 3, 4, 5, 6\)</span>.</p>
+<p>This can be visualized as:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot bars</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>,<span class="dv">6</span>), <span class="at">type =</span> <span class="st">"h"</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Probability Distribution"</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Outcome"</span>, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Add blue filled points at the top of each bar</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>), <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/pmf-visualization-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This plot shows that each outcome has an equal probability of <span class="math inline">\(\frac{1}{6}\)</span> symbolized as a bar. For better readability of the graph we symbolized the function values at <span class="math inline">\(1/6\)</span> by a blue filled dot.</p>
+<p>Let me discuss some common confusions that arise often with understanding the concept of a random variable.</p>
+<ol type="1">
+<li><p><strong>Random Variable vs.&nbsp;Outcome</strong>: A random variable is not the same as an individual outcome. It is a function that assigns values to outcomes. The confusion is partially created by the name. Maybe a better term would be a random mapping. Anyway, keep in mind that a random variable is a function defined on the sample space.</p></li>
+<li><p><strong>Probability Distribution vs.&nbsp;Histogram</strong>: A probability distribution represents theoretical probabilities. Don’t mix this concept up with the concept of a histogram, known from statistics and data analysis, which shows frequencies of empirical data.</p></li>
+<li><p><strong>Discrete vs.&nbsp;Continuous</strong>: Discrete variables take specific values (e.g., dice outcomes), while continuous variables can take any value in a range. Dealing with continuous variables needs specifc tools which we discuss in lecture 5.</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Now You Try: Other Examples">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Now You Try: Other Examples
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think of scenarios where you could define a discrete random variable.</p>
+<p>For instance:</p>
+<ul>
+<li>The number of defective products in a batch of 20.</li>
+<li>The number of rainy days in a week.</li>
+</ul>
+<p>Simulate and visualize the Probability distribution of these examples in R. You can take the visualization approach we took here. You could also try to make use of R’s <code>barplot()</code> function.</p>
+</div>
+</div>
+<p>A related concept to the probability mass function (PMF), is the <strong>cumulative distribution function</strong> (CDF). It can also be used to describe a discrete random variable. The CDF provides the probability that the random variable <span class="math inline">\(X\)</span> takes a value less than or equal to a specific value <span class="math inline">\(x\)</span>:</p>
+<div id="cdf-discrete" class="callout callout-style-default callout-tip callout-titled" title="Definition: Cumulative Distribution Function (CDF)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition: Cumulative Distribution Function (CDF)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>cumulative distribution function</strong> - abbreviated CDF - shows the probability that a random variable <span class="math inline">\(X\)</span> take a value less than or equal to a given value <span class="math inline">\(x_i\)</span>. It is usually denoted as <span class="math inline">\(F(x_i) = P(X \leq x_i)\)</span> where <span class="math inline">\(F\)</span> is non-decreasing and <span class="math inline">\(0 \leq F(x_i) \leq 1\)</span> for <span class="math inline">\(i = 1,2,...\)</span></p>
+</div>
+</div>
+<p>In the case of a discrete random variable the cumulative distribution function (CDF) is a step function, increasing by jump discontinuities. The points where the jumps occur are exactly at the values the random variable can take.</p>
+<p>The CDF, <span class="math inline">\(F(x)\)</span>, can be computed in this case as:</p>
+<ul>
+<li><span class="math inline">\(F(1) = P(X \leq 1) = P(X = 1) = \frac{1}{6}\)</span>,</li>
+<li><span class="math inline">\(F(2) = P(X \leq 2) = P(X = 1) + P(X = 2) = \frac{1}{6} + \frac{1}{6} = \frac{2}{6}\)</span>,</li>
+<li><span class="math inline">\(F(3) = P(X \leq 3) = \frac{3}{6}\)</span>,</li>
+<li>…</li>
+<li><span class="math inline">\(F(6) = P(X \leq 6) = \frac{6}{6} = 1\)</span>.</li>
+</ul>
+<p>The CDF can be visualized as a step function, showing the cumulative probabilities:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cdf <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the empty plot frame</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">c</span>(<span class="dv">0</span>, cdf), <span class="at">type =</span> <span class="st">"n"</span>, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Cumulative Distribution Function"</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Outcome"</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"F(x)"</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">6.5</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the first horizontal bar</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="st">"blue"</span>)  <span class="co"># Closed circle at (0, 0)</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="at">pch =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)  <span class="co"># Open circle at (1, 0)</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the stepwise CDF</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(x) <span class="sc">-</span> <span class="dv">1</span>)) {</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Draw the horizontal bar for each step</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">segments</span>(x[i], cdf[i], x[i <span class="sc">+</span> <span class="dv">1</span>], cdf[i], <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add the closed circle at the start of the segment</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(x[i], cdf[i], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="st">"blue"</span>)  <span class="co"># Filled circle</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add the open circle at the end of the segment</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(x[i <span class="sc">+</span> <span class="dv">1</span>], cdf[i], <span class="at">pch =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)  <span class="co"># Open circle</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the last horizontal bar and closed circle at the end</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="dv">6</span>, cdf[<span class="dv">6</span>], <span class="fl">6.5</span>, cdf[<span class="dv">6</span>], <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="dv">6</span>, cdf[<span class="dv">6</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="st">"blue"</span>)  <span class="co"># Closed circle at (6, 1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/cdf-visualization-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A Remark on Constructing Complex Graphs in R
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This visualization of the cumulative distribution function (CDF) is a great example of how graphs in R can be constructed step by step using layers and overlays. Let’s break it down to understand how the graph is built:</p>
+<p>We start with a blank canvas and create an empty plot frame using <code>plot()</code> with <code>type = "n"</code>. The <code>type = "n"</code> argument ensures that no points or lines are drawn initially, allowing us to control exactly what is added to the plot later. This blank canvas defines the axes, labels, and range, providing a foundation for the layers to come.</p>
+<p>The first horizontal line is drawn using <code>segments()</code>, starting from <code>(0, 0)</code> to <code>(1, 0)</code>. We add a filled circle (<code>pch = 16</code>) at the start <code>(0, 0)</code> and an open circle (<code>pch = 1</code>) at the end <code>(1, 0)</code> using <code>points()</code>. This step visually initializes the CDF at the correct starting point.</p>
+<p>Each step of the CDF is added one at a time using a loop. For each step: - A horizontal line is drawn to represent the constant value of the CDF over that interval. - A closed circle is placed at the beginning of the line to indicate that the value is included in the CDF at that point. - An open circle is added at the end to show that the value is not included yet, highlighting the jump discontinuity.</p>
+<p>The final horizontal line is added separately to show the end of the CDF. A closed circle is placed at the end of the last step to signify the inclusion of the final value in the distribution.</p>
+</div>
+</div>
+<p>Here are some key points to keep in mind when working with cumulative distribution functions (CDFs):</p>
+<ul>
+<li>The CDF gives cumulative probabilities (<span class="math inline">\(P(X \leq x)\)</span>), not individual probabilities.</li>
+<li>The CDF is always non-decreasing and reaches 1 for the largest possible value of <span class="math inline">\(X\)</span>.</li>
+<li>The CDF for discrete variables is a step-function with jumps at the values the random variable can take.</li>
+</ul>
+<p>The concepts of a probability distribution function and cumulative distribution function (CDF) can be extended to more than one random variable. When working with multiple random variables, we are often interested in their <strong>joint distribution</strong>, which describes how they behave together, and <strong>conditional distributions</strong>, which describe how one variable behaves given specific information about another. I discuss here the generalization to two random variables. All of the following discussion generalizes to more than two random variables.</p>
+<div id="joint-pmf-discrete" class="callout callout-style-default callout-tip callout-titled" title="Joint Probability Mass Function">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Joint Probability Mass Function
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider now two discrete random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> defined on the same sample space. and let <span class="math inline">\(x_1,x_2, ...\)</span> and <span class="math inline">\(y_1,y_2,...\)</span> the values which they assume. Let <span class="math inline">\(f(x_i)\)</span> and <span class="math inline">\(g(y_j)\)</span> be the corresponding distribution functions. The aggregate of points in which the two condistions <span class="math inline">\(X=x_i\)</span> and <span class="math inline">\(Y=y_j\)</span> are satisfied forms an event whose probability is denoted by <span class="math display">\[P(X = x_i, Y = y_j) = p(x_i, y_j), \,\, i,j,=1,2,...\]</span> is called the <strong>joint probability distribution</strong> of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. where <span class="math inline">\(p(x_i, y_j)\)</span> satisfies:</p>
+<ul>
+<li><span class="math inline">\(0 \leq p(x_i, y_j) \leq 1\)</span> for <span class="math inline">\(i,j = 1,2, ...\)</span>,</li>
+<li><span class="math inline">\(\sum_{i,j} p(x_i, y_j) = 1\)</span> for <span class="math inline">\(i,j=1,2,...\)</span>..</li>
+</ul>
+</div>
+</div>
+<p>Let me give an example: Imagine rolling two fair six-sided dice. Let <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> represent the outcomes of the first and second dice, respectively. The joint PMF is: <span class="math display">\[P(X = x_i, Y = y_j) = \frac{1}{36}, \quad x_i, y_j = 1, 2, 3, 4, 5, 6.\]</span></p>
+<p>This joint probability distribution captures the probability of every possible pair of outcomes, such as <span class="math inline">\((X = 2, Y = 5)\)</span>.</p>
+<p>One visualization tool for two dimensional probability sirtibutionsis the <strong>heatmap</strong>. The <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> axis of the heat map symbolized the values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> whereas the third dimension visualizes the probability of each pair of values <span class="math inline">\((x_i,y_j)\)</span> by a color code. So, for example when the dice are fair we should have a probability of <span class="math inline">\(1/36\)</span> for each basic outcome, so you should see only one uniform color.</p>
+<p>To illustrate this visualization concept, imagine an example where the dice are biased and not fair, so the probabilities of outcomes can differ:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the outcomes and probabilities for two biased dice</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>prob_die1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.25</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>)  <span class="co"># Probabilities for die 1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>prob_die2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.15</span>, <span class="fl">0.2</span>, <span class="fl">0.25</span>, <span class="fl">0.2</span>, <span class="fl">0.1</span>)  <span class="co"># Probabilities for die 2</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the joint PMF as the outer product of the two probability vectors</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>joint_pmf <span class="ot">&lt;-</span> <span class="fu">outer</span>(prob_die1, prob_die2)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap using the image() function</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, joint_pmf,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"blue"</span>))(<span class="dv">100</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Outcome of Die 2"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Outcome of Die 1"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Heatmap of Joint PMF (Two Biased Dice)"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">axes =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add axis labels</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">labels =</span> outcomes)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">labels =</span> outcomes)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a color legend</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"topright"</span>, </span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="fu">min</span>(joint_pmf), <span class="fu">max</span>(joint_pmf), <span class="at">length.out =</span> <span class="dv">5</span>), <span class="dv">3</span>),</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"blue"</span>))(<span class="dv">5</span>),</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Probability"</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here you see immediately that something is fishy with the dice. Would the dice be fair there should be a uniform color all over the heatmap with a color at the value of <span class="math inline">\(1/36\)</span> or <span class="math inline">\(0.03\)</span>. Try it!</p>
+<p>With this notation we can also define the notion of a conditional probability for discrete random variables.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Definition: Conditional Probability">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition: Conditional Probability
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>conditional probability</strong> of an event <span class="math inline">\(Y=y_j\)</span>, given <span class="math inline">\(X=x_i\)</span> with <span class="math inline">\(f(x_i) &gt; 0\)</span> is defined as <span class="math display">\[
+P(Y = y_j | X = x_i) = \frac{p(x_i,y_j)}{f(x_i)}
+\]</span></p>
+</div>
+</div>
+<p>In this way a number is associated with every value of <span class="math inline">\(X\)</span> and so defines a function on <span class="math inline">\(X\)</span>. This function is called</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Definition: Conditional Distribution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition: Conditional Distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>conditional distribution</strong> of <span class="math inline">\(Y\)</span> for given <span class="math inline">\(X\)</span> and denoted by <span class="math display">\[
+P(Y = y_j|X)
+\]</span></p>
+</div>
+</div>
+<p>Let’s note a few improtant points about conditional distributions:</p>
+<ol type="1">
+<li>In general, the conditional probability distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X = x_i\)</span> (denoted <span class="math inline">\(p(y_j \mid x_i)\)</span>) differs from the marginal probability distribution <span class="math inline">\(g(y_j)\)</span>. This means that knowing the value of <span class="math inline">\(X\)</span> provides information about <span class="math inline">\(Y\)</span>, which indicates stochastic dependence between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. The strongest form of dependence occurs when <span class="math inline">\(Y\)</span> is a deterministic function of <span class="math inline">\(X\)</span>, i.e., <span class="math inline">\(Y = h(X)\)</span> for some function <span class="math inline">\(h\)</span>. In this case, <span class="math inline">\(X\)</span> completely determines <span class="math inline">\(Y\)</span>, and their relationship is entirely predictable.</li>
+</ol>
+<p>On the other hand, if the joint probability distribution <span class="math inline">\(p(x_i, y_j)\)</span> factorizes as: <span class="math display">\[
+p(x_i, y_j) = f(x_i) g(y_j) \quad \text{for all pairs } (x_i, y_j),
+\]</span> then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <strong>independent</strong>. This implies that the occurrence of one event (e.g., <span class="math inline">\(X = x_i\)</span>) has no influence on the probability of the other (e.g., <span class="math inline">\(Y = y_j\)</span>). The joint distribution in this case takes the form of a multiplication table, where the probabilities are products of the marginal probabilities. When <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, their interaction is minimal, and no inference can be drawn about one variable from the other.</p>
+<ol start="2" type="1">
+<li><p>The joint distribution <span class="math inline">\(p(x_i, y_j)\)</span> uniquely determines the marginal distributions <span class="math inline">\(f(x_i)\)</span> and <span class="math inline">\(g(y_j)\)</span>, as these can be computed by summing over the appropriate dimensions: <span class="math display">\[
+f(x_i) = \sum_j p(x_i, y_j), \quad g(y_j) = \sum_i p(x_i, y_j).
+\]</span> However, the reverse is not true: the marginal distributions <span class="math inline">\(f(x_i)\)</span> and <span class="math inline">\(g(y_j)\)</span> alone do not determine the joint distribution <span class="math inline">\(p(x_i, y_j)\)</span>. For example, different joint distributions can have the same marginals but encode different types of dependence or independence between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p></li>
+<li><p>Note that two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> can have the same marginal distribution <span class="math inline">\(f(x_i) = g(y_j)\)</span> but may or may not be independent. For instance:</p></li>
+</ol>
+<ul>
+<li>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, their joint distribution will factorize as described earlier.</li>
+<li>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent, their joint distribution will include nontrivial interactions between the variables.</li>
+</ul>
+<p>For instance, consider <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> that both represent the outcomes of rolling two fair dice. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, the joint probabilities <span class="math inline">\(p(x_i, y_j)\)</span> will simply be products of the marginal probabilities. However, if <span class="math inline">\(X = Y\)</span> (e.g., the two dice always show the same value), the joint distribution will reflect perfect dependence, and <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are no longer independent despite having identical marginal distributions.</p>
+<p>Here is a visualization of this situation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a joint PMF for dependent dice: one die matches the other</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>joint_pmf <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>)  <span class="co"># Probability of matching outcomes is 1/6 for each pair</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create heatmap for the dependent joint PMF</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, joint_pmf,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"blue"</span>))(<span class="dv">100</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Outcome of Die 2"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Outcome of Die 1"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Heatmap of Joint PMF (Dependent Dice)"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">axes =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">labels =</span> outcomes)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">labels =</span> outcomes)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a color legend</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"topright"</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="fu">min</span>(joint_pmf), <span class="fu">max</span>(joint_pmf), <span class="at">length.out =</span> <span class="dv">5</span>), <span class="dv">3</span>),</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"blue"</span>))(<span class="dv">5</span>),</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Probability"</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Keep in mind:</p>
+<ul>
+<li><strong>Joint Distributions</strong> describe how two random variables behave together.</li>
+<li><strong>Conditional Distributions</strong> refine our understanding of one variable based on information about another.</li>
+<li>Joint PMFs naturally generalize to describe both <strong>independent</strong> and <strong>dependent</strong> random variables. For dependent variables, the joint PMF captures the interaction and dependencies between the variables, often requiring <strong>conditional probabilities</strong> to explain the relationships.</li>
+<li>These concepts are foundational for understanding dependencies in financial modeling, such as asset correlations or portfolio risk.</li>
+</ul>
+</section>
+<section id="expected-value-variance-covariance" class="level2">
+<h2 class="anchored" data-anchor-id="expected-value-variance-covariance">Expected Value, Variance, Covariance</h2>
+<p>When working with random variables, we often need to summarize their behavior in a way that allows us to make decisions, compare outcomes, or model uncertainty. This is where the concepts of expected value, variance, and covariance come into play:</p>
+<ul>
+<li><p><strong>Expected value</strong> provides a measure of the central tendency of a random variable, giving us a “weighted average” that reflects the most likely or typical outcome over the long run. It allows us to predict the average result in situations with uncertainty.</p></li>
+<li><p><strong>Variance</strong> and its square root, the <strong>standard error</strong>, quantify the spread or variability of a random variable’s outcomes. These measures are crucial for understanding risk in contexts like finance, where variability often corresponds to uncertainty or volatility.</p></li>
+<li><p><strong>Covariance</strong> extends this idea to pairs of random variables, capturing how changes in one variable are related to changes in another. This is particularly important in portfolio theory, where understanding how asset returns move together enables better diversification and risk management.</p></li>
+</ul>
+<p>Together, these tools provide a mathematical framework for understanding, summarizing, and modeling uncertainty, making them indispensable in fields ranging from finance to engineering to data science.</p>
+<p>So let us dive into the formal definitions.</p>
+<section id="expected-value" class="level3">
+<h3 class="anchored" data-anchor-id="expected-value">Expected Value</h3>
+<p>The <strong>expected value</strong> of a random variable is a summary measure that captures the central tendency of its distribution. It represents the long-run average value of the variable if the experiment is repeated many times.</p>
+<div id="expected-value-discrete" class="callout callout-style-default callout-tip callout-titled" title="Definition: Expected Value">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition: Expected Value
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The expected value <span class="math inline">\(\mathrm{E}(X)\)</span> of a discrete random variable <span class="math inline">\(X\)</span> is the probability-weighted sum of all its possible values: <span class="math display">\[
+\mathrm{E}(X) = \sum_{i=1}^{n} x_i p(x_i),
+\]</span> where <span class="math inline">\(x_i\)</span> are the possible values of <span class="math inline">\(X\)</span> and <span class="math inline">\(p(x_i)\)</span> are their associated probabilities.</p>
+</div>
+</div>
+<p>Note that for countably infinite outcomes, convergence conditions are required, but we focus on finite cases here.</p>
+<p>As an example, consider a fair six-sided die. The possible outcomes are <span class="math inline">\(\{1, 2, 3, 4, 5, 6\}\)</span>, each with probability <span class="math inline">\(1/6\)</span>. The expected value is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Expected value of a fair die</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>expected_value <span class="ot">&lt;-</span> <span class="fu">sum</span>(outcomes <span class="sc">*</span> probabilities)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>expected_value <span class="co"># output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.5</code></pre>
+</div>
+</div>
+<p>Although the expected value is 3.5, this value will never actually occur in a single roll—it is a theoretical average that represents the long-term central tendency of the outcomes if the die is rolled repeatedly. In other words, the expected value is not necessarily a possible outcome but rather a weighted average that balances all possible outcomes according to their probabilities. This highlights a common misunderstanding: the expected value is not a prediction of what will happen in a single trial, but a summary of what we can expect over many repetitions of the experiment.</p>
+</section>
+<section id="variance-and-standard-error" class="level3">
+<h3 class="anchored" data-anchor-id="variance-and-standard-error">Variance and Standard Error</h3>
+<p>While the expected value provides the central tendency, the <strong>variance</strong> measures the spread of a random variable around its expected value.</p>
+<div id="variance-discrete" class="callout callout-style-default callout-tip callout-titled" title="Definition: Variance">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition: Variance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>variance</strong> of <span class="math inline">\(X\)</span> is the expected value of the squared deviations from its expected value: <span class="math display">\[
+\mathrm{Var}(X) = \mathrm{E}[(X - \mathrm{E}(X))^2].
+\]</span></p>
+</div>
+</div>
+<p>For discrete random variables, this can be computed as: <span class="math display">\[
+\mathrm{Var}(X) = \sum_{i=1}^{n} \left(x_i - \mathrm{E}(X)\right)^2 p(x_i).
+\]</span></p>
+<p>Using algebra, variance can also be written as: <span class="math display">\[
+\mathrm{Var}(X) = \mathrm{E}[X^2] - (\mathrm{E}[X])^2.
+\]</span></p>
+<p>The <strong>standard error</strong> is the square root of the variance: <span class="math display">\[
+\mathrm{SE}(X) = \sqrt{\mathrm{Var}(X)}.
+\]</span> What is the advantage to think in terms of standard errors rather than in terms of variance itself, when we think about the variability of a random variable? To see why, suppose <span class="math inline">\(X\)</span> represents the <strong>daily high temperature</strong> in a specific city during the month of July, measured in <strong>degrees Celsius (<span class="math inline">\(^\circ C\)</span>)</strong>. For simplicity, let’s assume <span class="math inline">\(X\)</span> is modeled as a random variable with the following characteristics based on historical data:</p>
+<ol type="1">
+<li><p><strong>Mean (Expected Value)</strong>:<br>
+The average high temperature in July is <span class="math inline">\(\mathbb{E}(X) = 25 \,^\circ C\)</span>.</p></li>
+<li><p><strong>Variance</strong>:<br>
+The variance of daily high temperatures is: <span class="math display">\[\mathrm{Var}(X) = 9 \, (\text{^\circ C}^2)\]</span>.</p>
+<p>While mathematically meaningful, the variance is expressed in squared degrees Celsius <span class="math inline">\(^\circ C^2\)</span>, which is unintuitive. People don’t typically think about “squared temperature.”</p></li>
+<li><p><strong>Standard Error</strong>:<br>
+Taking the square root of the variance gives: <span class="math display">\[\mathrm{SE}(X) = \sqrt{\mathrm{Var}(X)} = \sqrt{9} = 3 \,^\circ C.\]</span> A variance of <span class="math inline">\(9 \,^\circ C^2\)</span> is difficult to relate to because we don’t experience temperature in squared units. A standard error of <span class="math inline">\(3 \,^\circ C\)</span>, however, directly informs us that the daily high temperature typically deviates from the average (<span class="math inline">\(25 \,^\circ C\)</span>) by about <span class="math inline">\(3 \,^\circ C\)</span>.</p></li>
+</ol>
+<section id="example" class="level4">
+<h4 class="anchored" data-anchor-id="example">Example</h4>
+<p>Using the fair die example, calculate the variance and standard error:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variance and standard deviation of a fair die</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>E_X_squared <span class="ot">&lt;-</span> <span class="fu">sum</span>(outcomes<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> probabilities)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>variance <span class="ot">&lt;-</span> E_X_squared <span class="sc">-</span> (expected_value<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>std_dev <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(variance)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>variance  <span class="co"># Output: 2.916667</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.916667</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>std_dev   <span class="co"># Output: 1.707825</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.707825</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="covariance" class="level3">
+<h3 class="anchored" data-anchor-id="covariance">Covariance</h3>
+<p>The <strong>covariance</strong> measures the linear relationship between two random variables.</p>
+<div id="covariance-discrete" class="callout callout-style-default callout-tip callout-titled" title="Definition: Covariance">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition: Covariance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> their <strong>covariance</strong> is defined as It is defined as: <span class="math display">\[
+\mathrm{Cov}(X, Y) = \mathrm{E}[(X - \mathrm{E}(X))(Y - \mathrm{E}(Y))].
+\]</span></p>
+</div>
+</div>
+<p>Alternatively: <span class="math display">\[
+\mathrm{Cov}(X, Y) = \mathrm{E}[XY] - \mathrm{E}[X]\mathrm{E}[Y].
+\]</span> If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then <span class="math inline">\(\mathrm{Cov}(X, Y) = 0\)</span>. However, the converse is not true: a covariance of 0 does not imply independence.</p>
+<p>Example: Consider two dice, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, rolled simultaneously. Let <span class="math inline">\(X\)</span> represent the outcome of the first die and <span class="math inline">\(Y\)</span> the second. If the dice are independent, the covariance is 0:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Covariance of two independent dice</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>joint_pmf <span class="ot">&lt;-</span> <span class="fu">outer</span>(probabilities, probabilities)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>E_XY <span class="ot">&lt;-</span> <span class="fu">sum</span>(outcomes <span class="sc">%*%</span> <span class="fu">t</span>(outcomes) <span class="sc">*</span> joint_pmf)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>covariance <span class="ot">&lt;-</span> E_XY <span class="sc">-</span> (expected_value<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>covariance  <span class="co"># Output: 0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>Now, consider a scenario where <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent but still have a covariance of 0. Let <span class="math inline">\(X\)</span> represent a random variable that takes the values <span class="math inline">\(\{-1, 0, 1\}\)</span>, and let <span class="math inline">\(Y\)</span> be defined as <span class="math inline">\(Y = X^2\)</span>. The joint distribution of <span class="math inline">\((X, Y)\)</span> is as follows:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(X\)</span></th>
+<th><span class="math inline">\(Y\)</span></th>
+<th>Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-1</td>
+<td>1</td>
+<td><span class="math inline">\(1/3\)</span></td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td><span class="math inline">\(1/3\)</span></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td><span class="math inline">\(1/3\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are clearly dependent because <span class="math inline">\(Y\)</span> is fully determined by <span class="math inline">\(X\)</span>. However, their covariance is 0. Check it!<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>This example highlights that while independence guarantees a covariance of 0, the reverse is not true. The <strong>correlation coefficient</strong> normalizes the covariance to a dimensionless measure: <span class="math display">\[
+\rho(X, Y) = \frac{\mathrm{Cov}(X, Y)}{\mathrm{SD}(X) \cdot \mathrm{SD}(Y)}.
+\]</span> The correlation coefficient ranges from <span class="math inline">\(-1\)</span> (perfect negative correlation) to <span class="math inline">\(1\)</span> (perfect positive correlation).</p>
+<p>What does it mean if covariance is called a <strong>linear</strong> measure of dependence? Let me explain: The <strong>covariance</strong> measures the degree to which two random variables change together, focusing specifically on their <strong>linear relationship</strong>. But what does it mean for the relationship to be linear, and what happens if the relationship is not linear?</p>
+<p>A linear relationship implies that one random variable can be expressed approximately as a linear function of the other:</p>
+<p><span class="math display">\[Y = aX + b\]</span></p>
+<p>where <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are constants. If two variables are positively linearly related, an increase in one variable tends to be associated with a proportional increase in the other. Conversely, if they are negatively linearly related, an increase in one variable tends to correspond to a proportional decrease in the other.</p>
+<p>Covariance captures this pattern by examining how the deviations of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from their respective means <span class="math inline">\((X - \mathbb{E}[X])\)</span> and <span class="math inline">\((Y - \mathbb{E}[Y])\)</span> vary together.</p>
+<ul>
+<li>A <strong>positive covariance</strong> indicates that larger values of <span class="math inline">\(X\)</span> are associated with larger values of <span class="math inline">\(Y\)</span>.</li>
+<li>A <strong>negative covariance</strong> indicates that larger values of <span class="math inline">\(X\)</span> are associated with smaller values of <span class="math inline">\(Y\)</span>.</li>
+<li>A <strong>covariance near zero</strong> suggests no linear relationship, though other forms of relationships might still exist.</li>
+</ul>
+<p>Covariance is limited to linear relationships. If the dependence between two random variables is non-linear—such as quadratic, exponential, or periodic—covariance might be zero, even though the variables are strongly related.</p>
+<p>For example:</p>
+<ul>
+<li>If <span class="math inline">\(Y = X^2\)</span>, the relationship is perfectly deterministic. However, if <span class="math inline">\(X\)</span> is symmetrically distributed around zero the covariance could still be zero.</li>
+<li>For a sinusoidal relationship like <span class="math inline">\(Y = \sin(X)\)</span>, covariance would also fail to capture the dependence.</li>
+</ul>
+</section>
+<section id="intuition-for-covariance" class="level3">
+<h3 class="anchored" data-anchor-id="intuition-for-covariance">Intuition for Covariance</h3>
+<p>To understand covariance, think of it as quantifying how closely the relationship between two variables resembles a straight-line pattern. The stronger the alignment with a straight line (positive or negative slope), the larger the magnitude of the covariance. However, when the relationship follows a curve or more complex pattern, covariance might fail to reflect the dependence, and other tools may be needed.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+</section>
+<section id="a-note-on-terminology" class="level3">
+<h3 class="anchored" data-anchor-id="a-note-on-terminology">A Note on Terminology</h3>
+<p>Some of you might have wondered why I use distinct terminology like mean and expected value or standard deviation and standard error. Why do I do this?</p>
+<p>Let me explain: In probability and statistics, certain terms are often used interchangeably, leading to potential confusion. To ensure clarity, we distinguish between <strong>empirical measures</strong>, which describe observed data, and <strong>theoretical measures</strong>, which describe properties of random variables and probability distributions.</p>
+<p>In an empirical context, when working with data we speak of</p>
+<ul>
+<li><strong>Mean</strong>: The arithmetic average of observed data points. It provides a measure of central tendency for the sample or population.</li>
+<li><strong>Standard Deviation</strong>: A measure of the spread or variability of the observed data around the mean.</li>
+</ul>
+<p>These quantities are calculated directly from data and are specific to the observed sample.</p>
+<p>In a theoretical context, when we work with random variables and distributions we speak of</p>
+<ul>
+<li><p><strong>Expected Value</strong>: The theoretical long-run average of a random variable, derived from its probability distribution. It represents the “center” of the distribution in a probabilistic sense.</p></li>
+<li><p><strong>Standard Deviation</strong>: The theoretical spread of a random variable’s values around its expected value, also derived from the probability distribution.</p></li>
+</ul>
+<p>These measures rely on the underlying distribution of the random variable and are not directly observable.</p>
+<p>Why does this distinction matter?</p>
+<ol type="1">
+<li><strong>Clarity in Context</strong>: Empirical measures describe what we observe, while theoretical measures describe the underlying process or model.</li>
+<li><strong>Foundation for Inference</strong>: Understanding the relationship between empirical and theoretical measures is key to making statistical inferences.</li>
+<li><strong>Precision in Communication</strong>: Using terms consistently helps avoid ambiguity in academic and professional discussions.</li>
+</ol>
+</section>
+<section id="summary-table" class="level3">
+<h3 class="anchored" data-anchor-id="summary-table">Summary Table</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 51%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Context</strong></th>
+<th><strong>Measure</strong></th>
+<th><strong>Term</strong></th>
+<th><strong>Definition/Role</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Empirical Data</strong></td>
+<td>Central Tendency</td>
+<td>Mean</td>
+<td>The average of observed data points.</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Spread</td>
+<td>Standard Deviation</td>
+<td>The dispersion of data points around the mean.</td>
+</tr>
+<tr class="odd">
+<td><strong>Probability Distributions</strong></td>
+<td>Central Tendency</td>
+<td>Expected Value</td>
+<td>The theoretical average of a random variable based on its probability distribution.</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Spread</td>
+<td>Standard Deviation</td>
+<td>The spread of a random variable’s values around its expected value.</td>
+</tr>
+<tr class="odd">
+<td><strong>Sampling Distributions</strong></td>
+<td>Spread of Estimate</td>
+<td>Standard Error</td>
+<td>The standard deviation of a sample statistic, indicating estimation precision.</td>
+</tr>
+</tbody>
+</table>
+<p>By maintaining this distinction, we connect the descriptive analysis of data with the theoretical underpinnings of probability and the tools of inferential statistics.</p>
+</section>
+</section>
+<section id="random-variables-simulating-portfolio-returns-with-discrete-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="random-variables-simulating-portfolio-returns-with-discrete-outcomes">Random Variables: Simulating Portfolio Returns with Discrete Outcomes</h2>
+<p>In this section, we build a simple portfolio simulation using discrete random variables to model asset returns. Based on this cas study we will push the frontier of your R knowledge a bit further giving you the tools to efficiently write more complex programs in R.</p>
+<p>This example demonstrates modular R programming, flow control s tructures like <code>if-else</code> statements and loops, and the use of lists for organizing and processing data.</p>
+<section id="asset-returns-a-key-concept-in-finance" class="level3">
+<h3 class="anchored" data-anchor-id="asset-returns-a-key-concept-in-finance">Asset Returns: A Key Concept in Finance</h3>
+<p>Before we model investment problems using probability and random variables, let’s establish some essential financial concepts.</p>
+<p>In Finance, an <strong>asset</strong> refers to any investment instrument that can be bought or sold, such as stocks, bonds, real estate, or even a savings account. Assets are the building blocks of investment decisions.</p>
+<p>When you invest in an asset, you expect to receive some form of payoff in the future. Let:</p>
+<ul>
+<li><span class="math inline">\(X_0\)</span>: The amount of money invested today.</li>
+<li><span class="math inline">\(X_1\)</span>: The amount received at a future time, say one year from now.</li>
+</ul>
+<p>The <strong>total return</strong> (<span class="math inline">\(R\)</span>) is the ratio of the amount received to the amount invested: <span class="math display">\[R = \frac{X_1}{X_0}\]</span></p>
+<p>Often, practitioners refer to the <strong>rate of return</strong> (<span class="math inline">\(r\)</span>), which measures the proportionate change in value: <span class="math display">\[r = \frac{X_1 - X_0}{X_0}\]</span></p>
+<p>The two measures are closely related: <span class="math display">\[R = 1 + r \quad \text{or equivalently,} \quad X_1 = (1 + r) X_0\]</span></p>
+<p>The rate of return (<span class="math inline">\(r\)</span>) behaves similarly to an interest rate, describing the growth (or decline) of your investment relative to the initial outlay.</p>
+<p>In many cases, the rate of return is not known in advance. For example:</p>
+<ul>
+<li>A stock’s future price may depend on market conditions.</li>
+<li>A bond may carry the risk of default, affecting its final payoff.</li>
+<li>Real estate returns depend on fluctuating property values and rental income.</li>
+</ul>
+<p>This uncertainty in returns is a fundamental aspect of investment. To analyze it rigorously, we model rates of return as <strong>random variables</strong>.</p>
+<p>Random variables provide a mathematical framework for capturing uncertainty. For instance:</p>
+<ul>
+<li><span class="math inline">\(X_1\)</span>, the future payoff of an asset, is modeled as a random variable because its value depends on uncertain factors.</li>
+<li>Since <span class="math inline">\(R = \frac{X_1}{X_0}\)</span> and <span class="math inline">\(r = \frac{X_1 - X_0}{X_0}\)</span>, both the total return (<span class="math inline">\(R\)</span>) and rate of return (<span class="math inline">\(r\)</span>) are also random variables.</li>
+</ul>
+<p>Modeling returns as random variables allows us to:</p>
+<ol type="1">
+<li><strong>Describe the range of possible outcomes</strong>: For example, <span class="math inline">\(X_1\)</span> could be high, low, or anywhere in between.</li>
+<li><strong>Quantify likelihoods</strong>: We assign probabilities to outcomes, such as a 20% chance of a large gain or a 5% chance of a significant loss.</li>
+<li><strong>Analyze investment risk and reward</strong>: Using tools like expected value, variance, and covariance, we can measure and manage the trade-off between risk and return.</li>
+</ol>
+</section>
+<section id="analyzing-returns-with-discrete-and-continuous-models" class="level3">
+<h3 class="anchored" data-anchor-id="analyzing-returns-with-discrete-and-continuous-models">Analyzing Returns with Discrete and Continuous Models</h3>
+<p>In this lecture, we focus on <strong>discrete models</strong>, where the possible outcomes of returns are finite and can be explicitly listed. For example, a stock might have three possible states—high, medium, or low returns—with assigned probabilities. Continuous models, where returns can take any value within a range, will be introduced in the next lecture.</p>
+</section>
+<section id="portfolio-setup" class="level3">
+<h3 class="anchored" data-anchor-id="portfolio-setup">Portfolio Setup</h3>
+<p>We model the returns of three assets using discrete random variables. Each asset has three possible returns, and their joint outcomes are determined by a random state (e.g., economic scenarios: “High”, “Medium”, “Low”). These states have associated probabilities.</p>
+<p>Where do these probabilities come from? In probability theory, probabilities are treated as fundamental quantities, much like length or area in geometry. They are simply “given” and form the foundation for analyzing uncertainty. For example, we might assume that the probability of a “High” economic scenario is 30%, while “Medium” and “Low” scenarios occur with probabilities of 50% and 20%, respectively.</p>
+<p>However, in practical applications, these probabilities are rarely known a priori. Assigning probabilities to real-world events is a complex task that often requires the use of data and statistical models. In Finance, this is the domain of econometrics and related disciplines.</p>
+<p>For instance:</p>
+<ul>
+<li>Historical data on market conditions might be analyzed to estimate the likelihood of different economic scenarios.</li>
+<li>Expert judgment or forecasts (e.g., from central banks or financial analysts) might supplement data to refine these probabilities.</li>
+<li>Bayesian methods can combine prior beliefs with new data to update probabilities dynamically.</li>
+</ul>
+<p>In our example, we assume the probabilities are already known to focus on understanding how probability theory can be applied to investment problems. This assumption simplifies the analysis and allows us to explore key concepts like expected value and variance without the added complexity of estimating probabilities.</p>
+<p>It’s important to recognize that the choice of probabilities—whether derived from data, expert judgment, or theoretical models—directly influences the results of any analysis. In real-world applications, the validity of conclusions often hinges on how well these probabilities capture the underlying uncertainties.</p>
+<p>So let us start our example by first defining asset returns and probabilities using R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define states and their probabilities</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"High"</span>, <span class="st">"Medium"</span>, <span class="st">"Low"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span>)  <span class="co"># Must sum to 1</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define asset returns for each state</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>asset_returns <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">asset_1 =</span> <span class="fu">c</span>(<span class="fl">0.08</span>, <span class="fl">0.04</span>, <span class="sc">-</span><span class="fl">0.02</span>), <span class="co"># Returns for Asset 1</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">asset_2 =</span> <span class="fu">c</span>(<span class="fl">0.12</span>, <span class="fl">0.03</span>, <span class="sc">-</span><span class="fl">0.05</span>), <span class="co"># Returns for Asset 2</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">asset_3 =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.02</span>, <span class="fl">0.01</span>)   <span class="co"># Returns for Asset 3</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="writing-modular-functions" class="level3">
+<h3 class="anchored" data-anchor-id="writing-modular-functions">Writing Modular Functions</h3>
+<p>To model portfolio returns, we break the problem into smaller tasks and write modular functions. This approach makes the code more manageable, reusable, and easier to debug. Modularizing your code is a principle you should follow always when writing smaller or larger programs. One strategy how this can be done is breaking down a bigger task into smaller ones and implement the smaller tasks as functions.</p>
+<p>In our case where we want to implement a portfolio simulation we need:</p>
+<ol type="1">
+<li>Simulate a Random State</li>
+<li>Get the Asset Returen for each state</li>
+<li>Compute the portfolio returns</li>
+<li>Simulate portfolio performance</li>
+</ol>
+<p>Let me go through these steps function by function.</p>
+<section id="simulate-a-random-state" class="level4">
+<h4 class="anchored" data-anchor-id="simulate-a-random-state">Simulate a Random State</h4>
+<p>We begin by simulating a random economic state (e.g., “High,” “Medium,” or “Low”) based on the probabilities assigned to each state.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>simulate_state <span class="ot">&lt;-</span> <span class="cf">function</span>(states, probabilities) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(states, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> probabilities)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>simulate_state</code> function uses R’s <code>sample()</code> function to randomly choose one of the states based on their respective probabilities. This is a tool you already know. I do not have to say much more on the sample function.</p>
+<p>As a remark, observe that it is a good idea to give to your functions names that you or somebody can easily understand. A good approach is to think in verbs, what is the function doing? When you need more than one word an often used convention in coding is to use and underscore to connect words.</p>
+<p>Our function is constructed such that it can take any finite state vector and any given state probabilities as input.</p>
+</section>
+<section id="get-asset-returns-for-a-state" class="level4">
+<h4 class="anchored" data-anchor-id="get-asset-returns-for-a-state">Get Asset Returns for a State</h4>
+<p>Once a state is selected, we retrieve the corresponding returns for each asset. To accomplish this, we use the flexibility and power of R’s <strong>list</strong> structure.</p>
+<p>Let us recall the list structure which we have touched only very briefly in previous lectures.</p>
+<p>A <strong>list</strong> in R is a data structure that can hold multiple objects of different types and lengths. Lists are highly versatile, making them particularly useful for functional programming. For example, you can store vectors, matrices, data frames, and even other lists within a single list.</p>
+<p>Here’s an example of creating and accessing a list:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">vector =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">matrix =</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">2</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_frame =</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">b =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Access elements of the list</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>my_list<span class="sc">$</span>vector   <span class="co"># By name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>my_list[[<span class="dv">2</span>]]     <span class="co"># By position</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    3
+[2,]    2    4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>my_list[[<span class="st">"matrix"</span>]] <span class="co"># Equivalent to my_list[[2]]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    3
+[2,]    2    4</code></pre>
+</div>
+</div>
+<p>Lists allow you to organize related but heterogeneous data in a structured way. For example, in our case, the returns for each asset are stored as individual vectors within a list, where each vector corresponds to one asset.</p>
+<p>Lists are particularly advantageous in programming because of their:</p>
+<ol type="1">
+<li><strong>Flexibility</strong>: They can hold objects of different types and sizes, making them a universal container.</li>
+<li><strong>Indexing</strong>: Elements can be accessed using names or positions, enabling both clarity and adaptability.</li>
+<li><strong>Extensibility</strong>: Lists can easily grow or change in structure without altering the overall program logic.</li>
+<li><strong>Integration with Functions</strong>: R functions like <code>lapply</code>, <code>sapply</code>, and <code>map</code> are designed to work seamlessly with lists, promoting concise and efficient code.</li>
+</ol>
+<p>The <code>get_returns</code> function uses a list (<code>asset_returns</code>) to store the possible returns for each asset across states. Here’s the function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>get_returns <span class="ot">&lt;-</span> <span class="cf">function</span>(state, states, asset_returns) {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  index <span class="ot">&lt;-</span> <span class="fu">which</span>(states <span class="sc">==</span> state)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(asset_returns, <span class="st">`</span><span class="at">[</span><span class="st">`</span>, index)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s break it down step by step:</p>
+<ol type="1">
+<li><p><strong>Input Arguments</strong>:</p>
+<ul>
+<li><code>state</code>: The randomly chosen state (e.g., “High”).</li>
+<li><code>states</code>: A vector of all possible states (e.g., <code>c("High", "Medium", "Low")</code>).</li>
+<li><code>asset_returns</code>: A list where each element is a vector of returns for an asset, corresponding to each state.</li>
+</ul></li>
+<li><p><strong>Find the Index of the State</strong>:</p></li>
+</ol>
+<p>The <code>which</code> function finds the position of the selected state within the <code>states</code> vector:</p>
+<p><code>index &lt;- which(states == state)</code></p>
+<p>For example, if <code>state = "Medium"</code> and <code>states = c("High", "Medium", "Low")</code>, the result will be <code>index = 2</code>.</p>
+<ol start="3" type="1">
+<li><strong>Extract Returns Using <code>sapply</code></strong>:</li>
+</ol>
+<p>The <code>sapply</code> function applies the subsetting operator <code>[</code> to each element of the <code>asset_returns</code> list:</p>
+<p><code>sapply(asset_returns,</code>[<code>, index)</code></p>
+<ul>
+<li><code>sapply(asset_returns, ...)</code> iterates over each element of the list.</li>
+<li>The operator <code>[</code>, with <code>index</code> as the argument, extracts the value at the <code>index</code> position from each vector in the list.</li>
+</ul>
+<p>For example, if:</p>
+<p><code>asset_returns &lt;- list(      asset_1 = c(0.08, 0.04, -0.02),      asset_2 = c(0.12, 0.03, -0.05),      asset_3 = c(0.05, 0.02, 0.01)    )</code></p>
+<p>and <code>index = 2</code>, the result will be:</p>
+<p><code>c(asset_1 = 0.04, asset_2 = 0.03, asset_3 = 0.02)</code></p>
+<p>The <code>sapply</code> function is part of a family of functions in R designed for iterating over elements of lists (or other objects like vectors). These functions enable you to apply a specified operation to each element of a list in a concise and readable way. This approach often replaces traditional <code>for</code> loops and promotes a functional programming style.</p>
+<p><code>sapply()</code>is one member of a family of R’s functions written for operations on lists.</p>
+<p>Here’s an overview of the main functions in this family:</p>
+<ol type="1">
+<li><strong><code>lapply</code></strong>:</li>
+</ol>
+<p>Applies a function to each element of a list and returns a list of the results. It is useful when the output needs to remain as a list.</p>
+<p>Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">c =</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(my_list, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$a
+[1] 6
+
+$b
+[1] 15
+
+$c
+[1] 24</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li><strong><code>sapply</code></strong>: A simplified version of <code>lapply</code> that attempts to return results as a vector or matrix, if possible. If simplification isn’t feasible, it falls back to returning a list.</li>
+</ol>
+<p>Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">c =</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(my_list, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> a  b  c 
+ 6 15 24 </code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li><strong><code>vapply</code></strong>: Similar to <code>sapply</code>, but requires you to specify the type of the returned result (e.g., numeric, character). Useful for ensuring type consistency and avoiding unexpected results.</li>
+</ol>
+<p>Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(my_list, sum, <span class="fu">numeric</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> a  b  c 
+ 6 15 24 </code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li><strong><code>tapply</code></strong>: Applies a function to subsets of a vector, grouped by a factor or factors. It is a very powerful workhorses for data analysis, commonly used for grouped computations.</li>
+</ol>
+<p>Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>   x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>   groups <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tapply</span>(x, groups, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> A  B  C 
+ 3  7 11 </code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li><strong><code>mapply</code></strong>:</li>
+</ol>
+<p>A multivariate version of <code>sapply</code>, allowing iteration over multiple inputs simultaneously.</p>
+<p>Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>   x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>   y <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mapply</span>(sum, x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5 7 9</code></pre>
+</div>
+</div>
+<p>So why Use <code>sapply</code> in our example?</p>
+<p>The <code>sapply</code> function is well-suited for our example because: 1. The <code>asset_returns</code> object is a <strong>list</strong>, where each element corresponds to the returns of a single asset. 2. We want to extract a single value (the return for a given state) from each list element. 3. <code>sapply</code> simplifies the output into a named vector, making it easier to use for further computations.</p>
+<p>Let’s revisit the <code>get_returns</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>get_returns <span class="ot">&lt;-</span> <span class="cf">function</span>(state, states, asset_returns) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  index <span class="ot">&lt;-</span> <span class="fu">which</span>(states <span class="sc">==</span> state)  <span class="co"># Find the index of the selected state</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(asset_returns, <span class="st">`</span><span class="at">[</span><span class="st">`</span>, index)  <span class="co"># Extract the return for the state from each asset</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>sapply(asset_returns, \</code>[`, index)<code>applies the subsetting operator (</code>[<code>) to each element of the</code>asset_returns<code>list, using</code>index` as the argument. The result is a named vector of returns for the specified state, with names corresponding to the assets.</p>
+<p>By understanding <code>sapply</code> and its related functions, you gain access to powerful tools for working with lists and other data structures in R. These functions are essential for writing efficient, modular, and readable R code.</p>
+</section>
+<section id="compute-portfolio-return" class="level4">
+<h4 class="anchored" data-anchor-id="compute-portfolio-return">Compute Portfolio Return</h4>
+<p>The portfolio return is calculated as the weighted sum of the individual asset returns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>compute_portfolio_return <span class="ot">&lt;-</span> <span class="cf">function</span>(weights, returns) {</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(weights <span class="sc">*</span> returns)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This function multiplies each asset’s return by its respective weight and sums the result, yielding the total portfolio return.</p>
+</section>
+<section id="putting-everything-together-simulate-portfolio-performance" class="level4">
+<h4 class="anchored">Putting Everything Together: Simulate Portfolio Performance</h4>
+<p>We now combine the functions we created earlier into a larger function, <code>simulate_portfolio</code>, that simulates portfolio performance over multiple time periods. Each simulation’s results are stored in a <strong>list</strong>, leveraging modularity for clarity and reusability. Modular code makes it easier to debug, document, and extend.</p>
+<p>R provides several ways to iterate over data, with <strong>for-loops</strong> being a fundamental and widely used method. In a for-loop, R sequentially applies the specified code to each element of a sequence or range.</p>
+<p>Here’s a basic example of a for-loop in R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a simple for-loop</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2
+[1] 3
+[1] 4
+[1] 5</code></pre>
+</div>
+</div>
+<p>For-loops are intuitive and work well for many tasks. However, when iterating over larger datasets, it’s important to write efficient loops. One key best practice is <strong>preallocating space</strong> for the output of the loop. Without preallocation, R has to repeatedly resize the output object, which can slow down the computation significantly.</p>
+<p>In our <code>simulate_portfolio</code> function, we preallocate space for the results using <code>vector("list", n_periods)</code>. This creates a list of length <code>n_periods</code> before entering the loop. Preallocation ensures that each iteration simply fills an existing slot in the list, avoiding costly memory reallocation.</p>
+<p>Here’s how it looks in our function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>simulate_portfolio <span class="ot">&lt;-</span> <span class="cf">function</span>(n_periods, weights, states, probabilities, asset_returns) {</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Preallocate space for the results</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, n_periods)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_periods) {</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate a random state</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    state <span class="ot">&lt;-</span> <span class="fu">simulate_state</span>(states, probabilities)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Retrieve the returns for the selected state</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    returns <span class="ot">&lt;-</span> <span class="fu">get_returns</span>(state, states, asset_returns)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute the portfolio return</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    portfolio_return <span class="ot">&lt;-</span> <span class="fu">compute_portfolio_return</span>(weights, returns)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the results for this iteration in the preallocated list</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>    results[[i]] <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">state =</span> state,</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">returns =</span> returns,</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">portfolio_return =</span> portfolio_return</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>  results</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In R, for-loops and lists are often used together but serve distinct purposes: - <strong>For-loops</strong>: Provide a mechanism for iterating over elements or ranges, applying code to each iteration step. They are versatile and easy to understand but can become slow without preallocation for large datasets. - <strong>Lists</strong>: Offer a flexible data structure for storing diverse types of output (e.g., vectors, data frames, or even other lists). They work well with for-loops when preallocated and are essential for modular code and functional programming.</p>
+<p>In our example, the for-loop performs the iteration over <code>n_periods</code>, while the list (<code>results</code>) stores the output for each period. This combination strikes a balance between simplicity and efficiency.</p>
+<p>Let me unpack the <code>simulate_portfolio</code>function a bit further.</p>
+<p>The <code>simulate_portfolio</code> function runs a simulation for <code>n_periods</code>. Each iteration:</p>
+<ol type="1">
+<li>Simulates a random state using <code>simulate_state</code>.</li>
+<li>Retrieves the returns for all assets in that state using <code>get_returns</code>.</li>
+<li>Computes the portfolio return using <code>compute_portfolio_return</code>.</li>
+<li>Stores the results (state, returns, portfolio return) in the preallocated <code>results</code> list.</li>
+</ol>
+<p>The function returns a list where each element contains:</p>
+<ul>
+<li><strong>The random state</strong>: The economic scenario for the period.</li>
+<li><strong>The asset returns</strong>: A named vector of returns for each asset.</li>
+<li><strong>The portfolio return</strong>: The weighted average return for the portfolio.</li>
+</ul>
+<p>Here’s an example of what the output might look like for a single simulation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output for one period</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="st">"Medium"</span>,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">returns =</span> <span class="fu">c</span>(<span class="at">asset_1 =</span> <span class="fl">0.04</span>, <span class="at">asset_2 =</span> <span class="fl">0.03</span>, <span class="at">asset_3 =</span> <span class="fl">0.02</span>),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">portfolio_return =</span> <span class="fl">0.032</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$state
+[1] "Medium"
+
+$returns
+asset_1 asset_2 asset_3 
+   0.04    0.03    0.02 
+
+$portfolio_return
+[1] 0.032</code></pre>
+</div>
+</div>
+<p>By preallocating space and combining modular functions, this approach ensures efficient and readable code, while also allowing students to explore each step of the simulation in isolation or as part of the larger process.</p>
+<p>This refined section introduces iteration concepts, explains the importance of preallocation, and highlights the synergy between for-loops and lists. Let me know if you’d like further enhancements!</p>
+<p>We now define the portfolio weights, which must sum to 1. This says that we have invested 50 % of our wealth into asset 1, 30 % into asset 2 and 20 % into asset 3.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>)  <span class="co"># Weights for the three assets</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now simulate the portfolio performance over any numebr of periods using the functions we created. Let#s say we do a simulation for 1000 periods.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)  <span class="co"># For reproducibility</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>n_periods <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>simulation_results <span class="ot">&lt;-</span> <span class="fu">simulate_portfolio</span>(n_periods, weights, states, probabilities, asset_returns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we have a huge pile of data stored in an object with the name <code>simulated_results</code>. What do we do with this?</p>
+<p>We extract the portfolio returns from the simulation and compute summary statistics such as the mean and variance of the returns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract portfolio returns</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>portfolio_returns <span class="ot">&lt;-</span> <span class="fu">sapply</span>(simulation_results, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"portfolio_return"</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute summary statistics</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>mean_return <span class="ot">&lt;-</span> <span class="fu">mean</span>(portfolio_returns)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>variance_return <span class="ot">&lt;-</span> <span class="fu">var</span>(portfolio_returns)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">mean =</span> mean_return, <span class="at">variance =</span> variance_return)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$mean
+[1] 0.036705
+
+$variance
+[1] 0.001380402</code></pre>
+</div>
+</div>
+<p>Here we have summarized the distribution of our random variables using the concepts we learned before, thereby documenting their average return and thus the average return of the portfolio as well as how spread out these returns are.</p>
+<p>We can also create a histogram to visualize the full distribution of the simulated portfolio returns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(portfolio_returns, <span class="at">breaks =</span> <span class="dv">3</span>, <span class="at">main =</span> <span class="st">"Portfolio Returns"</span>, <span class="at">xlab =</span> <span class="st">"Return"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let us explore the list structure we have chosen here to demonstarte how it helps us to access simulation details.</p>
+<p>Each element of simulation_results is itself a list, containing:</p>
+<ul>
+<li>The random state.</li>
+<li>The returns for each asset in that state.</li>
+<li>The computed portfolio return.</li>
+</ul>
+<p>For example, to inspect the first simulation we would type</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>simulation_results[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$state
+[1] "Low"
+
+$returns
+asset_1 asset_2 asset_3 
+  -0.02   -0.05    0.01 
+
+$portfolio_return
+[1] -0.023</code></pre>
+</div>
+</div>
+<p>Let us also compute state frequencies to check whether our random number generator has actually implemented what we have given him in terms of probabilities as arguments to the <code>sample()</code>function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>state_counts <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">sapply</span>(simulation_results, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"state"</span>))</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>state_frequencies <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(state_counts)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>state_frequencies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  High    Low Medium 
+ 0.277  0.196  0.527 </code></pre>
+</div>
+</div>
+<p>Here’s the refined passage with the formula and explanation added:</p>
+<hr>
+<p>Finally, we can compare the results of our simulation to key statistics of the portfolio, such as the <strong>expected portfolio return</strong>. These statistics can also be computed theoretically using the definitions of expected value and portfolio return.</p>
+<p>The <strong>expected return</strong> of each asset is calculated as: <span class="math display">\[E(r^i) = \sum_{j=1}^m p_j \cdot r^i_j\]</span> where:</p>
+<ul>
+<li><span class="math inline">\(r^i_j\)</span> is the return of asset <span class="math inline">\(i\)</span> in state <span class="math inline">\(j\)</span>,</li>
+<li><span class="math inline">\(p_j\)</span> is the probability of state <span class="math inline">\(j\)</span>,</li>
+<li><span class="math inline">\(m\)</span> is the total number of states.</li>
+</ul>
+<p>The <strong>expected portfolio return</strong> is then the weighted sum of the expected returns of the individual assets: <span class="math display">\[E(R_{\text{portfolio}}) = \sum_{i=1}^n w^i \cdot E(r^i)\]</span> where:</p>
+<ul>
+<li><span class="math inline">\(w^i\)</span> is the weight of asset <span class="math inline">\(i\)</span> in the portfolio,</li>
+<li><span class="math inline">\(n\)</span> is the total number of assets.</li>
+</ul>
+<p>The following R code computes the expected portfolio return using the formulas above:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute expected returns for each asset</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>expected_returns <span class="ot">&lt;-</span> <span class="fu">sapply</span>(asset_returns, <span class="cf">function</span>(asset) <span class="fu">sum</span>(asset <span class="sc">*</span> probabilities))</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the expected portfolio return</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>expected_portfolio_return <span class="ot">&lt;-</span> <span class="fu">sum</span>(weights <span class="sc">*</span> expected_returns)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the result</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>expected_portfolio_return</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0377</code></pre>
+</div>
+</div>
+<p>Let me unpack this a bit:</p>
+<ol type="1">
+<li><strong>Expected Returns of Individual Assets</strong>:</li>
+</ol>
+<ul>
+<li>The <code>sapply</code> function iterates over the <code>asset_returns</code> list, which contains the returns for each asset across the states.</li>
+<li>For each asset, it computes the weighted sum of its returns using the probabilities of the states:</li>
+</ul>
+<p><code>sum(asset * probabilities)</code></p>
+<p>This corresponds directly to the formula <span class="math inline">\(E(r^i) = \sum_{j=1}^m p_j \cdot r^i_j\)</span>.</p>
+<ol start="2" type="1">
+<li><strong>Expected Portfolio Return</strong>:</li>
+</ol>
+<ul>
+<li>The <code>weights</code> vector contains the portfolio allocation for each asset.</li>
+<li>The <code>sum(weights * expected_returns)</code> computation takes the weighted sum of the expected returns of the individual assets:</li>
+</ul>
+<p><code>sum(weights * expected_returns)</code></p>
+<p>This corresponds to the formula <span class="math inline">\(E(R_{\text{portfolio}}) = \sum_{i=1}^n w^i \cdot E(r^i)\)</span>.</p>
+<p>By computing these values theoretically, we can validate the results of our simulation and gain confidence in both our simulation setup and the mathematical underpinnings of portfolio theory.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Now You Try">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Now You Try
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now that we’ve calculated the <strong>expected portfolio return</strong> both theoretically and through simulation, take the next step and compute the <strong>theoretical variance</strong> of the portfolio.</p>
+<p>Recall the formula for the variance of a portfolio: <span class="math display">\[
+\text{Var}(R_{\text{portfolio}}) = \sum_{i=1}^n (w^i)^2 \cdot \text{Var}(r^i) + \sum_{i \neq j} w^i \cdot w^j \cdot \text{Cov}(r^i, r^j)
+\]</span> where: - <span class="math inline">\(\text{Var}(r^i) = \sum_{j=1}^m p_j \cdot (r^i_j - E(r^i))^2\)</span> is the variance of asset <span class="math inline">\(i\)</span>, - <span class="math inline">\(\text{Cov}(r^i, r^j) = \sum_{j=1}^m p_j \cdot (r^i_j - E(r^i)) \cdot (r^j_j - E(r^j))\)</span> is the covariance between assets <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.</p>
+<section id="steps-to-get-started" class="level3">
+<h3 class="anchored" data-anchor-id="steps-to-get-started">Steps to Get Started</h3>
+<ol type="1">
+<li><p><strong>Compute the Variance of Each Asset</strong>: Use the formula for variance to calculate <span class="math inline">\(\text{Var}(r^i)\)</span> for each asset based on the <code>asset_returns</code> and <code>probabilities</code>.</p></li>
+<li><p><strong>Compute the Covariance Between Pairs of Assets</strong>: Calculate <span class="math inline">\(\text{Cov}(r^i, r^j)\)</span> for all pairs of assets.</p></li>
+<li><p><strong>Combine Variances and Covariances</strong>: Use the portfolio weights and the formula above to compute <span class="math inline">\(\text{Var}(R_{\text{portfolio}})\)</span>.</p></li>
+</ol>
+</section>
+<section id="tips" class="level3">
+<h3 class="anchored" data-anchor-id="tips">Tips</h3>
+<ul>
+<li>Use <code>sapply</code> to efficiently compute variances and covariances across assets.</li>
+<li>Store the covariance values in a matrix for easier calculations.</li>
+</ul>
+<p>Once you’ve completed the theoretical calculations, compare the theoretical portfolio variance to the variance obtained from your simulation. Does it match? What could explain any differences?</p>
+</section>
+</div>
+</div>
+<p>Here’s a refined and streamlined version of the section, with improved structure, clarity, and flow, while keeping the main content intact. I also adjusted some arguments to improve accuracy and teaching focus:</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="the-binomial-distribution-and-its-role-in-finance" class="level2">
+<h2 class="anchored" data-anchor-id="the-binomial-distribution-and-its-role-in-finance">The Binomial Distribution and its role in Finance</h2>
+<p>In this final section, we explore the <strong>binomial distribution</strong>, a discrete distribution with significant applications in Finance. It forms the foundation for one of the most important models of asset p rice dynamics: <strong>binomial lattices</strong>. This discussion not only deepens our understanding of probability but also introduces tools in R to work with parametric distributions.</p>
+<section id="bernoulli-and-binomial-random-variables" class="level3">
+<h3 class="anchored" data-anchor-id="bernoulli-and-binomial-random-variables">Bernoulli and Binomial Random Variables</h3>
+<section id="bernoulli-random-variable-the-building-block" class="level4">
+<h4 class="anchored" data-anchor-id="bernoulli-random-variable-the-building-block">Bernoulli Random Variable: The Building Block</h4>
+<p>A <strong>Bernoulli experiment</strong> has two possible outcomes, commonly labeled as “success” and “failure.” The corresponding <strong>Bernoulli random variable</strong> takes a value of 1 for success and 0 for failure, with a success probability <span class="math inline">\(p\)</span> and failure probability <span class="math inline">\(1-p\)</span>.</p>
+<p>If <span class="math inline">\(X \sim \text{Bernoulli}(p)\)</span>, then: - <span class="math inline">\(E(X) = p\)</span>(expected value), - <span class="math inline">\(\text{Var}(X) = p(1-p)\)</span> (variance).</p>
+<p>Try deriving these properties from the definitions of expectation and variance!</p>
+</section>
+<section id="binomial-random-variable-extending-the-bernoulli" class="level4">
+<h4 class="anchored" data-anchor-id="binomial-random-variable-extending-the-bernoulli">Binomial Random Variable: Extending the Bernoulli</h4>
+<p>The <strong>binomial random variable</strong> is the sum of <span class="math inline">\(n\)</span> independent Bernoulli random variables, modeling the total number of successes in <span class="math inline">\(n\)</span> trials. If <span class="math inline">\(X \sim \text{Binomial}(n, p)\)</span>, then: - <span class="math inline">\(E(X) = n \cdot p\)</span>, - <span class="math inline">\(\text{Var}(X) = n \cdot p \cdot (1-p)\)</span>.</p>
+<p>The probability of exactly <span class="math inline">\(k\)</span> successes is given by: <span class="math display">\[P(X = k) = \binom{n}{k} p^k (1-p)^{n-k},\]</span> where <span class="math inline">\(\binom{n}{k} = \frac{n!}{k!(n-k)!}\)</span> is the <strong>binomial coefficient</strong>.</p>
+</section>
+<section id="intuition-through-an-example" class="level4">
+<h4 class="anchored" data-anchor-id="intuition-through-an-example">Intuition Through an Example</h4>
+<p>Let’s consider rolling a fair die five times, with success defined as rolling a six. The number of sixes follows a binomial distribution with <span class="math inline">\(n = 5\)</span> and <span class="math inline">\(p = 1/6\)</span>. Here’s how we compute probabilities:</p>
+<ul>
+<li><strong>All Sixes</strong> (<span class="math inline">\(X = 5\)</span>):<br>
+<span class="math inline">\(P(X = 5) = (1/6)^5\)</span>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0001286008</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>No Sixes</strong> (<span class="math inline">\(X = 0\)</span>):<br>
+<span class="math inline">\(P(X = 0) = (5/6)^5\)</span>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4018776</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>Exactly One Six</strong> (<span class="math inline">\(X = 1\)</span>):<br>
+<span class="math inline">\(P(X = 1) = 5 \cdot (5/6)^4 \cdot (1/6)\)</span>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>  <span class="dv">5</span> <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">4</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4018776</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="working-with-the-binomial-distribution-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-the-binomial-distribution-in-r">Working with the Binomial Distribution in R</h3>
+<p>R provides built-in functions for parametric distributions. For the binomial distribution: 1. <code>dbinom(x, n, p)</code>: Probability <span class="math inline">\(P(X = x)\)</span>. 2. <code>pbinom(x, n, p)</code>: Cumulative probability <span class="math inline">\(P(X \leq x)\)</span>. 3. <code>rbinom(N, n, p)</code>: Generate <span class="math inline">\(N\)</span> random samples from a binomial distribution. 4. <code>qbinom(r, n, p)</code>: Quantile function.</p>
+<section id="simulating-and-comparing-approaches" class="level4">
+<h4 class="anchored" data-anchor-id="simulating-and-comparing-approaches">Simulating and Comparing Approaches</h4>
+<p>To illustrate, let’s simulate rolling a die five times and compare it with the binomial model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom simulation</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>roll_die_five <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">5</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(res <span class="sc">==</span> <span class="dv">6</span>)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate 100,000 trials</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>sim_rolls <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>, <span class="fu">roll_die_five</span>())</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Binomial distribution simulation</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>sim_roll_with_rbinom <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plot the distributions and compare:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot histogram for custom simulation</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sim_rolls, </span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(sim_rolls) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>), </span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Custom Simulation"</span>, </span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Sixes"</span>, </span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"lightblue"</span>, </span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">border =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot histogram for rbinom simulation</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sim_roll_with_rbinom, </span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fu">max</span>(sim_roll_with_rbinom) <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>), </span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"R's rbinom Function"</span>, </span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Sixes"</span>, </span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"lightgreen"</span>, </span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">border =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="modeling-asset-price-dynamics-with-binomial-trees" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-asset-price-dynamics-with-binomial-trees">Modeling Asset Price Dynamics with Binomial Trees</h3>
+<section id="real-world-asset-price-dynamics" class="level4">
+<h4 class="anchored" data-anchor-id="real-world-asset-price-dynamics">Real-World Asset Price Dynamics</h4>
+<p>In practice, asset prices fluctuate due to market forces, dividends, interest rates, and other uncertainties. <strong>Binomial trees</strong> are a powerful and simple way to model these dynamics over time. Unlike single-period models, binomial trees capture the evolution of prices across multiple periods.</p>
+</section>
+<section id="constructing-the-binomial-model" class="level4">
+<h4 class="anchored" data-anchor-id="constructing-the-binomial-model">Constructing the Binomial Model</h4>
+<p>For a basic period (e.g., a day), assume:</p>
+<ul>
+<li>The price can either increase by a factor <span class="math inline">\(u\)</span> or decrease by a factor <span class="math inline">\(d\)</span>.</li>
+<li>The probabilities of up and down movements are <span class="math inline">\(p\)</span> and <span class="math inline">\(1-p\)</span>.</li>
+</ul>
+<p>If the initial price is <span class="math inline">\(S_0\)</span>, then after <span class="math inline">\(n\)</span> periods: <span class="math display">\[S_n = S_0 \cdot u^i \cdot d^{n-i},\]</span> where <span class="math inline">\(i\)</span> is the number of up movements.</p>
+</section>
+<section id="calibrating-the-model" class="level4">
+<h4 class="anchored" data-anchor-id="calibrating-the-model">Calibrating the Model</h4>
+<p>Given annualized return (<span class="math inline">\(\nu\)</span>) and volatility (<span class="math inline">\(\sigma\)</span>), we set: <span class="math display">\[u = e^{\sigma \sqrt{\Delta t}}, \quad d = e^{-\sigma \sqrt{\Delta t}}, \quad p = \frac{1}{2} + \frac{\nu}{2\sigma} \sqrt{\Delta t},\]</span> where <span class="math inline">\(\Delta t\)</span> is the fraction of a year (e.g., 1/250 for daily).</p>
+</section>
+<section id="building-the-binomial-tree-in-r" class="level4">
+<h4 class="anchored" data-anchor-id="building-the-binomial-tree-in-r">Building the Binomial Tree in R</h4>
+<p>Here’s a function to generate a binomial tree:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, up, down, steps) {</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> steps <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> steps <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(steps <span class="sc">+</span> <span class="dv">1</span>)) {</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>i) {</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>      tree[i, j] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> up<span class="sc">^</span>(j <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> down<span class="sc">^</span>((i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> (j <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tree)</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Test the function with three steps:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">binomial_tree</span>(<span class="at">S0 =</span> <span class="dv">100</span>, <span class="at">up =</span> <span class="fl">1.1</span>, <span class="at">down =</span> <span class="fl">0.9</span>, <span class="at">steps =</span> <span class="dv">3</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>tree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1]  [,2]  [,3]  [,4]
+[1,] 100.0   0.0   0.0   0.0
+[2,]  90.0 110.0   0.0   0.0
+[3,]  81.0  99.0 121.0   0.0
+[4,]  72.9  89.1 108.9 133.1</code></pre>
+</div>
+</div>
+</section>
+<section id="simulating-sp500-prices" class="level4">
+<h4 class="anchored" data-anchor-id="simulating-sp500-prices">Simulating SP500 Prices</h4>
+<p>Using historical SP500 data, calculate: - <span class="math inline">\(\nu\)</span>: Average annual log return. - <span class="math inline">\(\sigma\)</span>: Annualized volatility.</p>
+<p>Then, simulate the binomial price process and visualize the probability distribution of final prices:</p>
+<p>we need to work this out still using concrete returns.</p>
+<!-- ```{r} -->
+<!-- # Simulate a year of daily prices -->
+<!-- tree <- binomial_tree(S0 = 100, up = u, down = d, steps = 250) -->
+<!-- outcomes <- tree[dim(tree)[1], ] -->
+<!-- plot(outcomes, dbinom(0:250, size = 250, prob = p), type = "h") -->
+<!-- ``` -->
+</section>
+</section>
+<section id="subsection-leveraging-an-llm-to-enhance-learning-from-binomial-models" class="level3">
+<h3 class="anchored" data-anchor-id="subsection-leveraging-an-llm-to-enhance-learning-from-binomial-models">Subsection: Leveraging an LLM to Enhance Learning from Binomial Models</h3>
+<section id="using-an-llm-for-advanced-financial-modeling" class="level4">
+<h4 class="anchored" data-anchor-id="using-an-llm-for-advanced-financial-modeling"><strong>Using an LLM for Advanced Financial Modeling</strong></h4>
+<p>An LLM like ChatGPT can significantly enhance your learning experience from this lecture by helping you: 1. <strong>Understand Complex Concepts</strong>: Get detailed explanations of topics like binomial trees, asset price dynamics, and probability distributions. 2. <strong>Generate Customized Code</strong>: Create tailored R scripts to experiment with different stocks, time horizons, or assumptions. 3. <strong>Validate Your Work</strong>: Debug your code or verify theoretical calculations. 4. <strong>Extend the Model</strong>: Explore advanced variations, such as incorporating dividends or multi-asset portfolios.</p>
+<hr>
+</section>
+<section id="using-an-llm-to-enhance-you-understanding-debugging-and-extending-the-binomial-tree-model" class="level4">
+<h4 class="anchored" data-anchor-id="using-an-llm-to-enhance-you-understanding-debugging-and-extending-the-binomial-tree-model">Using an LLM to enhance you understanding: Debugging and Extending the Binomial Tree Model</h4>
+<p>Imagine you’ve written an R function to generate a binomial tree but are unsure if the logic is correct. You can ask the LLM to review your code, explain its functionality, and suggest improvements.</p>
+<p>For example: <strong>Prompt to the LLM</strong>:</p>
+<blockquote class="blockquote">
+<p>“I wrote this function to generate a binomial tree in R. Can you check if it’s correct? If not, how can I fix it?”</p>
+</blockquote>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, up, down, steps) {</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> steps <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> steps <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(steps <span class="sc">+</span> <span class="dv">1</span>)) {</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>i) {</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>      tree[i, j] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> up<span class="sc">^</span>(j <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> down<span class="sc">^</span>((i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> (j <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tree)</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The LLM can: - Analyze the logic and verify the implementation. - Suggest optimizations, like avoiding redundant calculations. - Explain how to test the function with sample inputs and interpret the results.</p>
+<hr>
+</section>
+<section id="use-case-generating-advanced-visualizations" class="level4">
+<h4 class="anchored" data-anchor-id="use-case-generating-advanced-visualizations"><strong>Use Case: Generating Advanced Visualizations</strong></h4>
+<p>You want to visualize not just the final outcomes of the binomial model but also the entire tree structure over time. While this isn’t covered in the lecture, you can ask: &gt; “How can I visualize the full binomial tree structure generated by my function?”</p>
+<p>The LLM can suggest: - Using packages like <code>DiagrammeR</code> or <code>igraph</code> for structured visualizations. - Overlaying probabilities or expected values on the tree for deeper insights.</p>
+<hr>
+</section>
+<section id="use-case-customizing-the-project" class="level4">
+<h4 class="anchored" data-anchor-id="use-case-customizing-the-project"><strong>Use Case: Customizing the Project</strong></h4>
+<p>You’ve completed the project but want to explore additional scenarios. For example: - Use different assets (e.g., cryptocurrencies or ETFs). - Model dividends or transaction costs. - Extend the tree to multiple assets for portfolio modeling.</p>
+<p><strong>Prompt to the LLM</strong>: &gt; “How can I extend my binomial tree model to include transaction costs of 0.1% for every price change?”</p>
+<p>The LLM can guide you step-by-step: 1. Modify the price calculation at each node to subtract transaction costs. 2. Adjust the recursion logic to account for the modified prices. 3. Validate the results and interpret the impact of transaction costs.</p>
+<hr>
+</section>
+<section id="why-this-matters" class="level4">
+<h4 class="anchored" data-anchor-id="why-this-matters"><strong>Why This Matters</strong></h4>
+<p>Using an LLM allows you to: - Gain insights beyond the lecture material. - Accelerate your coding and problem-solving skills. - Explore advanced scenarios without requiring pre-existing expertise.</p>
+<p>By leveraging these tools effectively, you can turn theoretical concepts into practical, actionable skills that prepare you for real-world challenges in Finance and beyond.</p>
+<hr>
+<p>Would you like this subsection expanded or tailored further to specific aspects of the lecture?</p>
+</section>
+</section>
+<section id="project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees" class="level3">
+<h3 class="anchored" data-anchor-id="project-proposal-simulating-and-analyzing-real-world-asset-price-dynamics-with-binomial-trees">Project Proposal: Simulating and Analyzing Real-World Asset Price Dynamics with Binomial Trees</h3>
+<section id="objective" class="level4">
+<h4 class="anchored" data-anchor-id="objective"><strong>Objective</strong></h4>
+<p>Create a project where students use <strong>real-world stock price data</strong> (retrieved via <code>tidyquant</code>) to: 1. Build a <strong>binomial tree model</strong> for a selected stock’s price dynamics. 2. Calibrate the model using historical data (e.g., average annual return and volatility). 3. Simulate the stock’s potential price distribution over a defined time horizon. 4. Analyze and visualize the results to compare simulated outcomes with theoretical values.</p>
+<p>This project ties together the lecture’s concepts, emphasizes practical applications, and encourages exploration of real data.</p>
+</section>
+</section>
+<section id="step-by-step-structure-for-the-project" class="level3">
+<h3 class="anchored" data-anchor-id="step-by-step-structure-for-the-project"><strong>Step-by-Step Structure for the Project</strong></h3>
+<section id="step-1-data-retrieval" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-data-retrieval"><strong>Step 1: Data Retrieval</strong></h4>
+<ol type="1">
+<li>Use the <code>tidyquant</code> package to download historical stock price data for a user-selected stock (e.g., “AAPL” or “MSFT”).</li>
+<li>Compute <strong>daily log returns</strong> and <strong>annualized statistics</strong>:
+<ul>
+<li>Average annual log return (( )).</li>
+<li>Annualized volatility (( )).</li>
+</ul></li>
+</ol>
+</section>
+<section id="example-code" class="level4">
+<h4 class="anchored" data-anchor-id="example-code">Example Code:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyquant packages ──────────────────────── tidyquant 1.0.9 ──
+✔ PerformanceAnalytics 2.0.4      ✔ TTR                  0.24.4
+✔ quantmod             0.4.26     ✔ xts                  0.14.1
+── Conflicts ────────────────────────────────────────── tidyquant_conflicts() ──
+✖ zoo::as.Date()                 masks base::as.Date()
+✖ zoo::as.Date.numeric()         masks base::as.Date.numeric()
+✖ PerformanceAnalytics::legend() masks graphics::legend()
+✖ quantmod::summary()            masks base::summary()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ purrr::%||%()   masks base::%||%()
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::first()  masks xts::first()
+✖ dplyr::lag()    masks stats::lag()
+✖ dplyr::last()   masks xts::last()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve historical stock prices</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"AAPL"</span>, <span class="at">from =</span> <span class="st">"2018-01-01"</span>, <span class="at">to =</span> <span class="st">"2023-01-01"</span>)</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute daily log returns</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> stock_data <span class="sc">%&gt;%</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_return =</span> <span class="fu">log</span>(adjusted <span class="sc">/</span> <span class="fu">lag</span>(adjusted)))</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Annualized statistics</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">&lt;-</span> <span class="fu">mean</span>(stock_data<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">252</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(stock_data<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">252</span>)</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>nu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2312935</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3350539</code></pre>
+</div>
+</div>
+</section>
+<section id="step-2-calibrate-the-binomial-tree-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-calibrate-the-binomial-tree-parameters"><strong>Step 2: Calibrate the Binomial Tree Parameters</strong></h4>
+<ol type="1">
+<li>Define the time step as daily (<span class="math inline">\(\Delta t = 1/252\)</span>).</li>
+<li>Compute the <strong>up factor</strong> ($ u <span class="math inline">\(), **down factor** (\)</span> d <span class="math inline">\(), and **probability** (\)</span>p$) using the formulas:
+<ul>
+<li><span class="math inline">\(u = e^{\sigma \sqrt{\Delta t}}\)</span></li>
+<li><span class="math inline">\(d = e^{-\sigma \sqrt{\Delta t}}\)</span></li>
+<li><span class="math inline">\(p = \frac{1}{2} + \frac{\nu}{2\sigma} \sqrt{\Delta t}\)</span>.</li>
+</ul></li>
+</ol>
+</section>
+<section id="example-code-1" class="level4">
+<h4 class="anchored" data-anchor-id="example-code-1">Example Code:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>delta_t <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">252</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">exp</span>(sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">+</span> (nu <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> sigma)) <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t)</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.021331</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9791148</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.521743</code></pre>
+</div>
+</div>
+</section>
+<section id="step-3-build-the-binomial-tree" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-build-the-binomial-tree"><strong>Step 3: Build the Binomial Tree</strong></h4>
+<ol type="1">
+<li>Write a function to generate a binomial tree for a given stock.</li>
+<li>Use the calibrated parameters to simulate the stock price evolution over a given horizon (e.g., 1 year with 252 steps).</li>
+</ol>
+</section>
+<section id="example-code-2" class="level4">
+<h4 class="anchored" data-anchor-id="example-code-2">Example Code:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>binomial_tree <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, u, d, p, steps) {</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> steps <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> steps <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(steps <span class="sc">+</span> <span class="dv">1</span>)) {</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>i) {</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>      tree[i, j] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>(j <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> d<span class="sc">^</span>((i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> (j <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>  tree</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a binomial tree for 1 year</span></span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>S0 <span class="ot">&lt;-</span> <span class="dv">100</span>  <span class="co"># Starting stock price</span></span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">binomial_tree</span>(S0, u, d, p, <span class="at">steps =</span> <span class="dv">252</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="step-4-simulate-and-visualize-final-price-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-simulate-and-visualize-final-price-distribution"><strong>Step 4: Simulate and Visualize Final Price Distribution</strong></h4>
+<ol type="1">
+<li>Extract the last row of the binomial tree to analyze final stock price outcomes.</li>
+<li>Use the <strong>binomial distribution</strong> to compute the probabilities for each outcome.</li>
+<li>Plot the <strong>probability mass function (PMF)</strong> and compare it to the simulated distribution.</li>
+</ol>
+</section>
+<section id="example-code-3" class="level4">
+<h4 class="anchored" data-anchor-id="example-code-3">Example Code:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract final prices and probabilities</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>final_prices <span class="ot">&lt;-</span> tree[<span class="fu">dim</span>(tree)[<span class="dv">1</span>], ]</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">252</span>, <span class="at">size =</span> <span class="dv">252</span>, <span class="at">prob =</span> p)</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot PMF</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(final_prices, probabilities, <span class="at">type =</span> <span class="st">"h"</span>, </span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Probability Mass Function"</span>, </span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Final Stock Price"</span>, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-5-comparison-and-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="step-5-comparison-and-analysis"><strong>Step 5: Comparison and Analysis</strong></h4>
+<ol type="1">
+<li>Compare the expected value of the final stock price from the model to the expected value based on the annualized return.</li>
+<li>Discuss discrepancies and assumptions (e.g., independence of returns, constant volatility).</li>
+</ol>
+</section>
+</section>
+<section id="deliverables" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables"><strong>Deliverables</strong></h3>
+<ol type="1">
+<li><strong>Code Implementation</strong>: A complete script that retrieves data, calibrates the model, builds the binomial tree, and visualizes the results.</li>
+<li><strong>Report</strong>:
+<ul>
+<li>Explanation of the binomial model and its calibration.</li>
+<li>Interpretation of the results (e.g., insights from the PMF, expected value, etc.).</li>
+<li>Reflection on the limitations of the model and suggestions for improvement.</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="why-this-project" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-project"><strong>Why This Project?</strong></h3>
+<ul>
+<li><strong>Practical Relevance</strong>: Students work with real data, gaining insights into real-world financial modeling.</li>
+<li><strong>Integration of Concepts</strong>: Combines probability, binomial distributions, asset price dynamics, and R programming.</li>
+<li><strong>Exploration Opportunities</strong>: Students can tweak parameters, test different stocks, or extend the model (e.g., incorporating dividends or multi-asset portfolios).</li>
+</ul>
+<p>Would you like me to expand any section or provide additional example code?</p>
+</section>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><span class="math inline">\(\mathbb{E}(X) = (-1) \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = 0\)</span> <span class="math inline">\(\mathbb{E}(Y) = 1 \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = \frac{2}{3}\)</span> <span class="math inline">\(\mathbb{E}(XY) = (-1)(1) \cdot \frac{1}{3} + (0)(0) \cdot \frac{1}{3} + (1)(1) \cdot \frac{1}{3} = 0\)</span> <span class="math inline">\(\mathrm{Cov}(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y) = 0 - (0 \cdot \frac{2}{3}) = 0\)</span> Thus, <span class="math inline">\(\mathrm{Cov}(X, Y) = 0\)</span>, even though <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are not independent<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>To detect and measure non-linear relationships, alternative statistical tools are required: 1. <strong>Correlation Ratio <span class="math inline">\((\eta^2)\)</span></strong>: Measures the proportion of variance in one variable that can be explained by a non-linear function of the other. 2. <strong>Mutual Information</strong>: Captures all forms of dependencies (linear and non-linear) by quantifying the shared information between two random variables. 3. <strong>Kendall’s Tau / Spearman’s Rank Correlation</strong>: Rank-based measures that can detect monotonic (but not necessarily linear) relationships. 4. <strong>Distance Correlation</strong>: A measure capable of capturing both linear and non-linear relationships by analyzing distances between data points.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

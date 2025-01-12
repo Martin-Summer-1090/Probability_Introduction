@@ -8,8 +8,7 @@ bibliography: references.bib
 Random variables are the main mathematical tools that allow us to 
 quantify and analyze uncertainty in Finance for complex
 portfolios and other financial contexts like risk management and
-credit risk analysis. Whether we are modeling the returns of a portfolio, 
-assessing risk, or simulating market dynamics, 
+In all of these contexts
 random variables provide the foundation for probabilistic reasoning.
 
 Throughout the previous lectures, we have encountered concepts such as 
@@ -54,13 +53,15 @@ $X:\mathcal{S} \to \mathbb{R}$ from the sample space
 the real numbers.
 :::
 
+A random variable is thus a **function** defined
+on the sample space of a random experiment.
 This formal definition allows us to generalize and analyze a wide variety of 
 real-world scenarios. For instance:
 
 - In the coin-flipping example from Lecture 2, the number 
 of heads in 10 flips was a random variable.
-- In the investment game from Lecture 3, the outcome of 
-each coin flip (profit or loss) was implicitly treated as a random variable.
+- The number of multiple brithdays in a group of $n$ people
+is also an example of a random variable.
 
 By explicitly recognizing these as random variables, we 
 can now apply a systematic framework to quantify their behavior and 
@@ -84,43 +85,57 @@ continuous random
 variables in the next lecture. Here we stick with the
 concept of a discrete random variable.
 
+In the case of a discrete sample space we can theoretically 
+tabulate and random variable $X$ by enumerating in some
+order all points in the sample space and associating with
+each the corresponding value of $X$.
+
 ## Probability Distributions and Cumulative Probability Distributions
 
 A random variable is characterized by its **probability distribution**, which 
 describes how probabilities are assigned to its possible values.
 
 ::: {.callout-tip title="Definition: Probability Mass Function of a Discrete Random Variable" #pmf-discrete}
-The probability distribution of a discrete random variable is described 
-by its **probability mass function (PMF)**:
+Let $X$ be a random variable and $x_1, x_2, ...$ the values which it
+assumes. The aggregate of all sample points on which $X$ assumes
+a fixed value $x_i$ is form the event $X = x_i$. It's
+probability is denoted by $P(X = x_i)$. The function:
 \begin{equation*}
-P(X = x) = p(x)
+P(X = x_i) = p(x_i), \,\, i=1,2,...
 \end{equation*}
-where $p(x)$ satisfies:
+is called the **probability distribution** of the random variable $X$.
 
-- $0 \leq p(x) \leq 1$ for all $x$.
-- $\sum_{x} p(x) = 1$.
+where $p(x_i)$ satisfies:
+
+- $0 \leq p(x_i) \leq 1 \,\, \text{for}\,\, i = 1,2, ...$
+- $\sum_{i} p(x_i) = 1$.
 :::
 
-
-We can visualize a PMF.
+We can visualize the probability distribution of
+a discrete random variable using R in a standard example:
 Consider a random variable $X$ that represents the outcome of 
-rolling a fair six-sided die. The PMF is:
-$P(X = x) = \frac{1}{6}, \quad x = 1, 2, 3, 4, 5, 6$.
+rolling a fair six-sided die. The probability distribution is:
+$P(X = x_i) = \frac{1}{6}, \quad i = 1, 2, 3, 4, 5, 6$.
 
-This can be visualized as a bar plot:
+This can be visualized as:
 
 ```{r pmf-visualization}
-x <- 1:6
-prob <- rep(1/6, 6)
-barplot(prob, names.arg = x, col = "blue", 
-        main = "Probability Mass Function", 
+
+# Plot bars
+
+plot(1:6, rep(1/6,6), type = "h", 
+        main = "Probability Distribution", 
         xlab = "Outcome", 
         ylab = "Probability")
+
+# Add blue filled points at the top of each bar
+
+points(1:6, rep(1/6, 6), pch = 16, col = "blue")
 ```
 
 This plot shows that each outcome has an equal probability of $\frac{1}{6}$
-symbolized as a bar. The width of these bars has no meaning. The bars could
-be thinner or thicker while displaying the same information.
+symbolized as a bar. For better readability of the graph we symbolized the
+function values at $1/6$ by a blue filled dot. 
 
 Let me discuss some common confusions that arise often with understanding the
 concept of a random variable.
@@ -129,7 +144,7 @@ concept of a random variable.
 as an individual outcome. It is a function that assigns values to outcomes.
 The confusion is partially created by the name. Maybe a better term would
 be a random mapping. Anyway, keep in mind that a random variable is a 
-function.
+function defined on the sample space.
 
 2. **Probability Distribution vs. Histogram**: A probability distribution 
 represents theoretical probabilities. Don't mix this concept up with
@@ -149,7 +164,10 @@ For instance:
 - The number of defective products in a batch of 20.
 - The number of rainy days in a week.
 
-Simulate and visualize the PMF of these examples in R. Use the `barplot()` function to create intuitive visualizations.
+Simulate and visualize the Probability
+distribution of these examples in R. You can take
+the visualization approach we took here. You could
+also try to make use of R's `barplot()` function.
 :::
 
 A related concept to the probability mass function (PMF), is the
@@ -159,22 +177,18 @@ the random variable $X$ takes a value less than or equal to a specific
 value $x$:
 
 ::: {.callout-tip title="Definition: Cumulative Distribution Function (CDF)" #cdf-discrete}
-The **cumulative distribution function (CDF)** of a discrete random 
-variable $X$ is defined as:
-$$F(x) = P(X \leq x) = \sum_{t \leq x} P(X = t),$$
-
-where $F(x)$ is non-decreasing and satisfies:
-
-- $F(x) \in [0, 1]$ for all $x$.
-- $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to \infty} F(x) = 1$.
+The **cumulative distribution function** - abbreviated CDF - shows 
+the probability that a 
+random variable $X$ take a value less than or equal to a given 
+value $x_i$. It is usually denoted as $F(x_i) = P(X \leq x_i)$ 
+where $F$ is non-decreasing and $0 \leq F(x_i) \leq 1$ for $i = 1,2,...$
 :::
 
-Consider again 
-the random variable $X$ representing the outcome of rolling a 
-fair six-sided die. The PMF is:
-$$P(X = x) = \frac{1}{6}, \quad x = 1, 2, 3, 4, 5, 6.$$
+In the case of a discrete random variable the cumulative distribution function
+(CDF) is a step function, increasing by jump discontinuities. The points where
+the jumps occur are exactly at the values the random variable can take.
 
-The CDF, $F(x)$, can be computed as:
+The CDF, $F(x)$, can be computed in this case as:
 
 - $F(1) = P(X \leq 1) = P(X = 1) = \frac{1}{6}$,
 - $F(2) = P(X \leq 2) = P(X = 1) + P(X = 2) = \frac{1}{6} + \frac{1}{6} = \frac{2}{6}$,
@@ -187,62 +201,111 @@ The CDF can be visualized as a step function, showing the cumulative probabiliti
 ```{r cdf-visualization}
 x <- 1:6
 cdf <- cumsum(rep(1/6, 6))
-plot(x, cdf, type = "s", col = "blue", lwd = 2, 
+
+# Plot the empty plot frame
+plot(0:6, c(0, cdf), type = "n", 
      main = "Cumulative Distribution Function", 
      xlab = "Outcome", 
-     ylab = "F(x)")
+     ylab = "F(x)", 
+     xlim = c(0, 6.5), ylim = c(0, 1))
+
+# Draw the first horizontal bar
+segments(0, 0, 1, 0, col = "blue", lwd = 2)
+points(0, 0, pch = 16, col = "blue")  # Closed circle at (0, 0)
+points(1, 0, pch = 1, col = "blue", cex = 1.2)  # Open circle at (1, 0)
+
+# Draw the stepwise CDF
+for (i in 1:(length(x) - 1)) {
+  # Draw the horizontal bar for each step
+  segments(x[i], cdf[i], x[i + 1], cdf[i], col = "blue", lwd = 2)
+  
+  # Add the closed circle at the start of the segment
+  points(x[i], cdf[i], pch = 16, col = "blue")  # Filled circle
+  
+  # Add the open circle at the end of the segment
+  points(x[i + 1], cdf[i], pch = 1, col = "blue", cex = 1.2)  # Open circle
+}
+
+# Draw the last horizontal bar and closed circle at the end
+segments(6, cdf[6], 6.5, cdf[6], col = "blue", lwd = 2)
+points(6, cdf[6], pch = 16, col = "blue")  # Closed circle at (6, 1)
+
 ```
+
+::: {.callout-tip}
+## A Remark on Constructing Complex Graphs in R
+
+This visualization of the cumulative distribution function (CDF) is a great example of how graphs in R can be constructed step by step using layers and overlays. Let's break it down to understand how the graph is built:
+
+We start with a blank canvas and create an empty plot frame using `plot()` with `type = "n"`. The `type = "n"` argument ensures that no points or lines are drawn initially, allowing us to control exactly what is added to the plot later. This blank canvas defines the axes, labels, and range, providing a foundation for the layers to come.
+
+The first horizontal line is drawn using `segments()`, starting from `(0, 0)` to `(1, 0)`. We add a filled circle (`pch = 16`) at the start `(0, 0)` and an open circle (`pch = 1`) at the end `(1, 0)` using `points()`. This step visually initializes the CDF at the correct starting point.
+
+Each step of the CDF is added one at a time using a loop. For each step:
+- A horizontal line is drawn to represent the constant value of the CDF over that interval.
+- A closed circle is placed at the beginning of the line to indicate that the value is included in the CDF at that point.
+- An open circle is added at the end to show that the value is not included yet, highlighting the jump discontinuity.
+
+The final horizontal line is added separately to show the end of the CDF. A closed circle is placed at the end of the last step to signify the inclusion of the final value in the distribution.
+:::
 
 
 Here are some key points to keep in mind when working with cumulative 
 distribution functions (CDFs):
 
 - The CDF gives cumulative probabilities ($P(X \leq x)$), not individual 
-probabilities like the PMF.
+probabilities.
 - The CDF is always non-decreasing and reaches 1 for the largest 
 possible value of $X$.
-- While the CDF for discrete variables has a step-like shape, it can also be smooth for continuous variables.
+- The CDF for discrete variables is a step-function with jumps at the
+values the random variable can take.
 
-If you're ever unsure, visualize the CDF to better understand 
-how probabilities accumulate!
-
-The concepts of a probability mass function (PMF) and cumulative 
+The concepts of a probability distribution function and cumulative 
 distribution function (CDF) can be extended to more than one random variable. 
 When working with multiple random variables, we are often interested in 
 their **joint distribution**, which describes how they behave 
 together, and **conditional distributions**, which describe how 
 one variable behaves given specific information about another.
-I discuss here the generalisation to two to avoid the tedious and
-sometimes confusing index notation that would be needed when we
-go beyond two dimensions. Two dimensions can be furthermore
-visualized helping our intuition. All of the follwing generalizes
+I discuss here the generalization to two random
+variables. All of the following discussion generalizes
 to more than two random variables.
 
 ::: {.callout-tip title="Joint Probability Mass Function" #joint-pmf-discrete}
 
-The **joint PMF** of two discrete random variables $X$ and $Y$ is defined as:
-$$P(X = x, Y = y) = p(x, y),$$
-where $p(x, y)$ satisfies:
+Consider now two discrete random variables $X$ and $Y$ defined on the
+same sample space. and let $x_1,x_2, ...$ and $y_1,y_2,...$ the values
+which they assume. Let $f(x_i)$ and $g(y_j)$ be the corresponding
+distribution functions. The aggregate of points in which the two condistions
+$X=x_i$ and $Y=y_j$ are satisfied forms an event whose probability is 
+denoted by
+$$P(X = x_i, Y = y_j) = p(x_i, y_j), \,\, i,j,=1,2,...$$
+is called the **joint probability distribution** of $X$ and $Y$.
+where $p(x_i, y_j)$ satisfies:
 
-- $0 \leq p(x, y) \leq 1$ for all $x, y$,
-- $\sum_{x} \sum_{y} p(x, y) = 1$.
+- $0 \leq p(x_i, y_j) \leq 1$ for $i,j = 1,2, ...$,
+- $\sum_{i,j} p(x_i, y_j) = 1$ for $i,j=1,2,...$..
 :::
 
 Let me give an example:
 Imagine rolling two fair six-sided dice. Let $X$ and $Y$ represent 
 the outcomes of the first and second dice, respectively. The joint PMF is:
-$$P(X = x, Y = y) = \frac{1}{36}, \quad x, y = 1, 2, 3, 4, 5, 6.$$
+$$P(X = x_i, Y = y_j) = \frac{1}{36}, \quad x_i, y_j = 1, 2, 3, 4, 5, 6.$$
 
-This joint PMF captures the probability of every possible pair of outcomes, 
+This joint probability distribution 
+captures the probability of every possible pair of outcomes, 
 such as $(X = 2, Y = 5)$.
 
-A visualization tool for two dimensional PMFs is the heatmap. The $x$ and $y$ axis
+One visualization tool for two dimensional probability
+sirtibutionsis the **heatmap**. The $x$ and $y$ axis
 of the heat map symbolized the values of $X$ and $Y$ whereas the third dimension 
-visualizes the probability of each pair of values $(X,Y)$ by a colur code. So, for
-examplem when the dice are fair we should have a probability of $1/36$ for each
-basic outcome, so you should see only one uniform color. To illustrate
+visualizes the probability of each pair of values $(x_i,y_j)$ by a color code. 
+So, for
+example when the dice are fair we should have a probability of $1/36$ for each
+basic outcome, so you should see only one uniform color. 
+
+To illustrate
 this visualization concept, imagine an example where the dice are
-biased:
+biased and not fair, so the probabilities of outcomes can differ:
 
 
 ```{r}
@@ -279,88 +342,85 @@ legend(
 
 ```
 
-Here you see immediately that something must be going on with the dice.
+Here you see immediately that something is fishy with the dice.
 Would the dice be fair there should be a uniform color all over the
 heatmap with a color at the value of $1/36$ or $0.03$. Try it!
 
-In a similar way as in the case of the PMF we can define:
 
-::: {.callout-tip title="Joint Cumulative Distribution Function" #joint-cdf-discrete}
+With this notation we can also define the notion of
+a conditional probability for discrete random
+variables.
 
-The **joint CDF** of two random variables $X$ and $Y$ is defined as:
-$$F(x, y) = P(X \leq x, Y \leq y).$$
-
-This function provides the cumulative probability for pairs of random variables 
-being less than or equal to specified values.
-
+::: {.callout-tip title="Definition: Conditional Probability"}
+The **conditional probability** of an event $Y=y_j$, given
+$X=x_i$ with $f(x_i) > 0$ is defined as
+$$
+P(Y = y_j | X = x_i) = \frac{p(x_i,y_j)}{f(x_i)}
+$$
 :::
 
+In this way a number is associated with every value of $X$ and so 
+defines a function on $X$. This function is called
 
-Finally when we have more than one random variable we encounter
-conditional distributions. 
+::: {.callout-tip title="Definition: Conditional Distribution"}
 
-::: {.callout-tip title="Conditional PMF" #cond-pmd-discrete}
-
-When we have additional information about one random variable, we can refine our understanding of the other through a **conditional distribution**.
-
-The conditional PMF of $X$ given $Y = y$ is:
-
-$$P(X = x \mid Y = y) = \frac{P(X = x, Y = y)}{P(Y = y)},$$
-provided $P(Y = y) > 0$.
-
+The **conditional distribution** of $Y$ for given $X$ and
+denoted by
+$$
+P(Y = y_j|X)
+$$
 :::
 
+Let's note a few improtant points about conditional distributions:
 
-Can joint PMFs include dependent variables?
-Yes, **joint PMFs** can include dependent variables. 
-In fact, joint PMFs are a powerful tool for describing 
-the relationship between two (or more) discrete random variables, whether 
-they are **independent** or **dependent**.
+1. In general, the conditional probability distribution of $Y$ given $X = x_i$ (denoted $p(y_j \mid x_i)$) 
+differs from the marginal probability distribution $g(y_j)$. This means that 
+knowing the value of $X$ provides information about $Y$, which indicates 
+stochastic dependence between $X$ and $Y$. The strongest form of dependence 
+occurs when $Y$ is a deterministic function of $X$, i.e., $Y = h(X)$ for some 
+function $h$. In this case, $X$ completely determines $Y$, and 
+their relationship is entirely predictable.
 
-::: {.callout-tip title="Independent Random Variables" #independent-rv-discrete}
+On the other hand, if the joint probability distribution $p(x_i, y_j)$ factorizes as:
+$$
+p(x_i, y_j) = f(x_i) g(y_j) \quad \text{for all pairs } (x_i, y_j),
+$$
+then $X$ and $Y$ are **independent**. This implies that the occurrence of one
+event (e.g., $X = x_i$) has no influence on the probability of the 
+other (e.g., $Y = y_j$). The joint distribution in this case takes the form 
+of a multiplication table, where the probabilities are products of the marginal 
+probabilities. When $X$ and $Y$ are independent, their interaction is
+minimal, and no inference can be drawn about one variable from the other.
 
-For independent random variables $X$ and $Y$, the joint PMF satisfies:
-$P(X = x, Y = y) = P(X = x) \cdot P(Y = y)$
+2. The joint distribution $p(x_i, y_j)$ uniquely determines the 
+marginal distributions $f(x_i)$ and $g(y_j)$, as these can be computed 
+by summing over the appropriate dimensions:
+$$
+f(x_i) = \sum_j p(x_i, y_j), \quad g(y_j) = \sum_i p(x_i, y_j).
+$$
+However, the reverse is not true: the marginal 
+distributions $f(x_i)$ and $g(y_j)$ alone do not determine 
+the joint distribution $p(x_i, y_j)$. For example, different 
+joint distributions can have the same marginals but encode 
+different types of dependence or independence between $X$ and $Y$.
 
-:::
+3. Note that two random variables $X$ and $Y$ can have the same marginal 
+distribution $f(x_i) = g(y_j)$ but may or may not be independent. 
+For instance:
+- If $X$ and $Y$ are independent, their joint distribution will 
+factorize as described earlier.
+- If $X$ and $Y$ are dependent, their joint distribution will 
+include nontrivial interactions between the variables.
 
-The probabilities of $X$ and $Y$ are completely separate and don't influence
-each other. Example: Rolling two fair dice where 
-the outcome of one die does not influence the other.
+For instance, consider $X$ and $Y$ that both represent the outcomes of 
+rolling two fair dice. If $X$ and $Y$ are independent, the joint 
+probabilities $p(x_i, y_j)$ will simply be products of the marginal 
+probabilities. However, if $X = Y$ (e.g., the two dice always show 
+the same value), the joint distribution will reflect perfect dependence, 
+and $X$ and $Y$ are no longer independent despite having identical marginal 
+distributions.
 
-For dependent random variables, the joint PMF does not satisfy the 
-independence condition. Instead, the joint PMF captures the 
-interaction between $X$ and $Y$. For example:
-$P(X = x, Y = y) \neq P(X = x) \cdot P(Y = y)$.
-
-
-The probabilities of $X$ and $Y$ are intertwined, reflecting their dependency.
-A classical example is the drawing two cards from a deck without replacement.
-Let $X$ be the value of the first card, and $Y$ the value of the second card.
-Once the first card is drawn, the probabilities for $Y$ change because there 
-is one less card in the deck. An example nearer to finance is the case of 
-a portfolio of financial assets each with risky payoff. You can then model
-each asset as a random variable. In a portfolio the different assets will
-in general not be independent. Common factors, such as general market sentiment,
-macroeconomic conditions, dependecne in production through supply chains etc.,
-may drive the uncertainty of several assets simultaneously.
-
-The dependency between \(X\) and \(Y\) can also be 
-described using **conditional probabilities**:
-
-::: {.callout-tip title="Dependent Random Variables" #independent-rv-discrete}
-For dependent random variables $X$ and $Y$ the joint PMF
-satisfies
-\begin{equation*}
-P(X = x, Y = y) = P(X = x \mid Y = y) \cdot P(Y = y).
-\end{equation*}
-
-:::
-
-This representation emphasizes how the probability of $X$ depends on $Y$.
-For instance, in the dice example, if one die is biased to always 
-match the other, $P(X = x \mid Y = y) = 1$ when $x = y$.
-
+Here is a visualization of this situation:
 
 ```{r}
 # Define a joint PMF for dependent dice: one die matches the other

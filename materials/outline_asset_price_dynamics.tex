@@ -1,0 +1,119 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{Lecture 4: Discrete Random Variables and the Binomial Lattice Model}
+\author{}
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	
+	\section*{Introduction to the Binomial Lattice Model}
+	\begin{itemize}
+		\item \textbf{Conceptual Foundation:}
+		\begin{itemize}
+			\item Define the binomial lattice model as a discrete-time model for asset price dynamics.
+			\item Recap Bernoulli and binomial random variables and connect them to price movements: up and down steps driven by Bernoulli trials.
+		\end{itemize}
+		\item \textbf{Mathematical Framework:}
+		\begin{itemize}
+			\item Asset price $S_t$ at time $t$ evolves as:
+			\[
+			S_{t+1} = 
+			\begin{cases} 
+				u S_t & \text{with probability } p, \\
+				d S_t & \text{with probability } 1-p,
+			\end{cases}
+			\]
+			where $u > 1$, $d < 1$, and $p$ is the probability of an upward movement.
+		\end{itemize}
+	\end{itemize}
+	
+	\section*{Calibrating Parameters for Small Time Steps}
+	\begin{itemize}
+		\item \textbf{Role of Calibration:}
+		\begin{itemize}
+			\item Calibrate $u$, $d$, and $p$ to ensure consistency with the expected return and volatility for small time intervals ($\Delta t$).
+		\end{itemize}
+		\item \textbf{Approximation for Small $\Delta t$:}
+		\[
+		u = e^{\sigma \sqrt{\Delta t}}, \quad d = e^{-\sigma \sqrt{\Delta t}}, \quad p = \frac{e^{r \Delta t} - d}{u - d},
+		\]
+		where $\sigma$ is volatility and $r$ is the risk-free rate.
+		\item Highlight the intuitive link between the discrete-time model and continuous models (to be expanded in Lecture 5).
+	\end{itemize}
+	
+	\section*{Implementing the Model in R}
+	\begin{itemize}
+		\item \textbf{Programming Concepts:}
+		\begin{itemize}
+			\item Start by implementing a simple binomial tree in R:
+			\begin{itemize}
+				\item Generate the tree structure (price paths) iteratively or recursively.
+				\item Compute probabilities along paths to calculate option values or expected prices.
+			\end{itemize}
+			\item Use this example to introduce:
+			\begin{itemize}
+				\item \textbf{Control and Flow Structures:}
+				\begin{itemize}
+					\item \texttt{if} statements for branching logic.
+					\item Loops (\texttt{for}, \texttt{while}, \texttt{repeat}) for iterative computations.
+				\end{itemize}
+				\item \textbf{Modularization:}
+				\begin{itemize}
+					\item Break the program into smaller functions:
+					\begin{enumerate}
+						\item A function to compute $u$, $d$, and $p$.
+						\item A function to generate the binomial tree.
+						\item A function to calculate prices or option values.
+					\end{enumerate}
+					\item Combine functions into a cohesive program.
+				\end{itemize}
+				\item \textbf{Lists in R:}
+				\begin{itemize}
+					\item Use lists to store and organize data such as the levels of the binomial tree, probabilities, and computed prices.
+				\end{itemize}
+			\end{itemize}
+		\end{itemize}
+		\item \textbf{Application and Visualization:}
+		\begin{itemize}
+			\item Simulate an asset price evolution over $N$ time steps.
+			\item Visualize the lattice structure using \texttt{plot} or \texttt{ggplot2} (optional).
+		\end{itemize}
+		\item \textbf{Discussion Points:}
+		\begin{itemize}
+			\item Emphasize the flexibility of R for modeling and simulation.
+			\item Highlight the importance of organizing and reusing code through modularization.
+		\end{itemize}
+	\end{itemize}
+	
+	\section*{Transition to Lecture 5: Continuous Models and Wiener Processes}
+	\begin{itemize}
+		\item \textbf{Bridge to Continuous Random Variables:}
+		\begin{itemize}
+			\item \textbf{Limit of the Binomial Model:}
+			\begin{itemize}
+				\item As $\Delta t \to 0$, the binomial model converges to the continuous-time geometric Brownian motion.
+			\end{itemize}
+			\item Introduce continuous random variables and the normal distribution as the limiting distribution for the binomial model.
+		\end{itemize}
+		\item \textbf{Preview of Continuous Models:}
+		\begin{itemize}
+			\item \textbf{Random Walks and Wiener Processes:}
+			\begin{itemize}
+				\item Define the random walk and its relationship to the Wiener process.
+				\item Discuss stock log returns modeled as $\mathcal{N}(\mu \Delta t, \sigma^2 \Delta t)$.
+			\end{itemize}
+			\item \textbf{Applications:}
+			\begin{itemize}
+				\item Highlight how these concepts generalize asset price modeling for Lecture 5.
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	
+\end{document}
