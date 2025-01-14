@@ -7,7 +7,7 @@ bibliography: references.bib
 
 Random variables are the main mathematical tools that allow us to 
 quantify and analyze uncertainty in Finance for complex
-portfolios and other financial contexts like risk management and
+portfolios and other financial contexts like risk management.
 In all of these contexts
 random variables provide the foundation for probabilistic reasoning.
 
@@ -36,8 +36,8 @@ By the end of this lecture, you will:
 
 1. Understand the definition and properties of random variables.
 2. Learn how to compute and interpret expected value, variance, and covariance.
-3. Apply R programming to simulate random variables and analyze financial scenarios.
-4. Construct a binomial tree to model asset price dynamics.
+3. Apply R programming to simulate random variables and to construct a binomial 
+tree to model asset price dynamics.
 
 ## Random Variables and Distributions
 
@@ -170,7 +170,7 @@ the visualization approach we took here. You could
 also try to make use of R's `barplot()` function.
 :::
 
-A related concept to the probability mass function (PMF), is the
+A related concept to the probability distribution, is the
 **cumulative distribution function** (CDF). It can also be used to
 describe a discrete random variable. The CDF provides the probability that 
 the random variable $X$ takes a value less than or equal to a specific 
@@ -270,10 +270,10 @@ I discuss here the generalization to two random
 variables. All of the following discussion generalizes
 to more than two random variables.
 
-::: {.callout-tip title="Joint Probability Mass Function" #joint-pmf-discrete}
+::: {.callout-tip title="Joint Probability Distribution" #joint-pmf-discrete}
 
 Consider now two discrete random variables $X$ and $Y$ defined on the
-same sample space. and let $x_1,x_2, ...$ and $y_1,y_2,...$ the values
+same sample space and let $x_1,x_2, ...$ and $y_1,y_2,...$ the values
 which they assume. Let $f(x_i)$ and $g(y_j)$ be the corresponding
 distribution functions. The aggregate of points in which the two condistions
 $X=x_i$ and $Y=y_j$ are satisfied forms an event whose probability is 
@@ -296,7 +296,7 @@ captures the probability of every possible pair of outcomes,
 such as $(X = 2, Y = 5)$.
 
 One visualization tool for two dimensional probability
-sirtibutionsis the **heatmap**. The $x$ and $y$ axis
+distributions the **heatmap**. The $x$ and $y$ axis
 of the heat map symbolized the values of $X$ and $Y$ whereas the third dimension 
 visualizes the probability of each pair of values $(x_i,y_j)$ by a color code. 
 So, for
@@ -412,6 +412,8 @@ factorize as described earlier.
 - If $X$ and $Y$ are dependent, their joint distribution will 
 include nontrivial interactions between the variables.
 
+Add example: Financial Crisis
+
 For instance, consider $X$ and $Y$ that both represent the outcomes of 
 rolling two fair dice. If $X$ and $Y$ are independent, the joint 
 probabilities $p(x_i, y_j)$ will simply be products of the marginal 
@@ -456,1367 +458,940 @@ Keep in mind:
 - These concepts are foundational for understanding dependencies 
 in financial modeling, such as asset correlations or portfolio risk.
 
-## Expected Value, Variance, Covariance
+## The Binomial Distribution: A Fundamental Model of Chance
 
-When working with random variables, we often need to summarize their 
-behavior in a way that allows us to make decisions, compare outcomes, or 
-model uncertainty. This is where the concepts of expected value, variance, 
-and covariance come into play:
+In our very first lecture we modeled the flipping of a fair coin using 
+probability theory and R. When we modeled the coin flip with R and tried
+to visualize, we flipped the coin many times.
 
-  - **Expected value** provides a measure of the central tendency of a random 
-  variable, giving us a "weighted average" that reflects the most likely or 
-  typical outcome over the long run. It allows us to predict the average result 
-  in situations with uncertainty.
+Say we flip the coins 10 times. How many heads do you expect 
+to see? What’s the likelihood of getting exactly three heads? These 
+questions, simple yet profound, are at the heart of the 
+**binomial distribution** —one of the most important and 
+versatile models of a discrete random variable.
 
-  - **Variance** and its square root, the **standard error**, quantify the spread 
-  or variability of a random variable's outcomes. These measures are crucial
-  for understanding risk in contexts like finance, where variability 
-  often corresponds to uncertainty or volatility.
+The binomial distribution arises whenever we repeat a simple experiment, 
+known as a Bernoulli trial, multiple times under the same conditions. 
+Each trial has two possible outcomes, often labeled as "success" and "failure." 
+By counting the number of successes in a fixed number of trials, the 
+binomial distribution provides a complete picture of the probabilities 
+associated with all possible outcomes.
 
-  - **Covariance** extends this idea to pairs of random variables, capturing how 
-  changes in one variable are related to changes in another. This is 
-  particularly important in portfolio theory, where understanding how asset 
-  returns move together enables better diversification and risk management.
+But why is the binomial distribution so crucial? For one, it is 
+ubiquitous in applications. From predicting election outcomes to 
+evaluating the reliability of systems and understanding financial
+risks, the binomial model underpins countless real-world phenomena. 
+More importantly, it serves as a foundational tool for understanding 
+the behavior of discrete random variables, providing a framework to compute 
+probabilities, analyze expectations, and quantify variability.
 
-Together, these tools provide a mathematical framework for understanding, 
-summarizing, and modeling uncertainty, making them indispensable 
-in fields ranging from finance to engineering to data science.
+In this section, we’ll explore the binomial distribution in depth. We’ll 
+derive its probability mass function, visualize its cumulative distribution 
+function, and compute key statistics like the mean and variance. Through 
+this concrete example, you’ll not only solidify your understanding 
+of random variables but also gain a versatile tool for modeling uncertainty 
+in diverse contexts.
 
-So let us dive into the formal definitions.
+## Expected Value, Variance, and Standard Error: Understanding Random Variables
 
-### Expected Value
+In Lecture 1, we flipped a fair coin and asked: "What’s the likelihood of 
+heads? How many heads would we expect in multiple flips?" Now, let’s 
+deepen our understanding by connecting these questions to key 
+concepts 
+in probability: **expected value**, **variance**, and **standard error**.
 
-The **expected value** of a random variable is a summary 
-measure 
-that captures the central tendency of its distribution. It represents 
-the long-run average value of the variable if the experiment is 
-repeated many times.
+Consider a single flip of a fair coin. Let’s define a random variable $X$, where:
+- $X = 1$ if the coin lands heads (success),
+- $X = 0$ if the coin lands tails (failure).
 
-::: {.callout-tip title="Definition: Expected Value" #expected-value-discrete}
-The expected value $\mathrm{E}(X)$ of a discrete random variable $X$ is the 
-probability-weighted sum of all its possible values:
+This is an example of a **Bernoulli random variable**, the simplest discrete 
+random variable.
+
+::: {.callout-tip title="Bernoulli Random Variable" #bernoulli-distr}
+A discrete random variable $X$ is called a **Bernoulli random variable** if
+Its probability mass function (PMF) is:
 $$
-\mathrm{E}(X) = \sum_{i=1}^{n} x_i p(x_i),
+P(X = 1) = p, \quad P(X = 0) = 1 - p,
 $$
-where $x_i$ are the possible values of $X$ and $p(x_i)$ are their associated 
-probabilities.
+where $p$ is the probability of success.
 :::
 
-Note that for countably infinite outcomes, convergence conditions are 
-required, but 
-we focus on finite cases here.
+The fair coin with $p=0.5$ is a special instance of such a random
+variable.
 
-As an example, consider a fair six-sided die. 
-The possible outcomes are $\{1, 2, 3, 4, 5, 6\}$, each with 
-probability $1/6$. The expected value is:
+### General Concept: Expected Value
 
-```{r}
-# Expected value of a fair die
-
-outcomes <- 1:6
-
-probabilities <- rep(1/6, 6)
-
-expected_value <- sum(outcomes * probabilities)
-
-expected_value # output
-```
-
-Although the expected value is 3.5, this value will never actually occur 
-in a single roll—it is a theoretical average that represents the 
-long-term central tendency of the outcomes if the die is rolled repeatedly. 
-In other words, the expected value is not necessarily a possible outcome but 
-rather a weighted average that balances all possible outcomes according to 
-their probabilities. This highlights a common misunderstanding: the expected 
-value is not a prediction of what will happen in a single trial, but a 
-summary of what we can expect over many repetitions of the experiment.
-
-### Variance and Standard Error
-
-While the expected value provides the central tendency, 
-the **variance** measures the spread of a 
-random variable around its expected
-value.
-
-::: {.callout-tip title="Definition: Variance" #variance-discrete}
-The **variance** of $X$ is the expected value of the squared deviations 
-from its expected value:
+::: {.callout-tip title="Definition: Expected value" #expectde-value}
+Let $X$ be a random variable assuming the values $x_1,x_2,x_3, ...$ with 
+probabilities $p(x_1), p(x_2, p(x_3), ...$. The **expected value** of 
+$X$ is defined by
 $$
-\mathrm{Var}(X) = \mathrm{E}[(X - \mathrm{E}(X))^2].
+\mathbb{E}[X] = \sum_{x_i} x_i \cdot p(x_i)
 $$
+provided the series converges absolutely. In this case we say that $X$ has
+finite expectation. If $\sum |x_i| p(x_i)$ diverges we say that $X$ has
+no finite expectation.
 :::
 
-For discrete random variables, this can be computed as:
+It is sometimes convenient - and we have done so repeatedly in this lecture -
+as limits of observable fequencies in repeated, independent random experiments. 
+This would lead to the follwoing intuitive interpretation of exectation. Let
+the experiment be repeated $n$ times under identical conditions and denote
+by $X_1,X_2,...,X_n$ the values of $X$ that were actually observed, then
+for large $n$ the average of these values should be close to $\mathbb{E}[X]$.
+
+While the terms *mean*, *average* and *expectation* are synonymous, expectation
+is usually used in relation to random variables, whereas mean and average is used
+in relation to empirical data.
+
+Let us compute the expected value of the Bernoulli random
+variable $X$:
 $$
-\mathrm{Var}(X) = \sum_{i=1}^{n} \left(x_i - \mathrm{E}(X)\right)^2 p(x_i).
+\mathbb{E}[X] = 1 \cdot p + 0 \cdot (1-p) = p.
 $$
+Thus, the expected value of $X$ is $p$. For a fair coin ($p = 0.5$), $\mathbb{E}[X] = 0.5$. This means that in the long run, half of the flips are expected to result in heads.
 
-Using algebra, variance can also be written as:
+
+While the expected value gives the central tendency, the **variance** quantifies 
+the spread of a random variable’s possible outcomes around its expected value.
+
+::: {.callout-tip title="Definition: Expected value" #expectde-value}
+Let $X$ be a random variable assuming the values $x_1,x_2,x_3, ...$ with 
+probabilities $p(x_1), p(x_2, p(x_3), ...$. The **variance** of 
+$X$ is defined by
 $$
-\mathrm{Var}(X) = \mathrm{E}[X^2] - (\mathrm{E}[X])^2.
-$$
-
-
-The **standard error** is the square root of the variance:
-$$
-\mathrm{SE}(X) = \sqrt{\mathrm{Var}(X)}.
-$$
-What is the advantage to think in terms of standard errors rather than in terms
-of variance itself, when we think about the variability of a random
-variable? To see why, suppose $X$ represents the **daily high temperature** 
-in a specific city during the month of July, measured in **degrees Celsius ($^\circ C$)**. 
-For simplicity, let's assume $X$ is modeled as a random variable with the 
-following characteristics based on historical data:
-
-1. **Mean (Expected Value)**:  
-   The average high temperature in July is $\mathbb{E}(X) = 25 \,^\circ C$.
-
-2. **Variance**:  
-   The variance of daily high temperatures is:
-   $$\mathrm{Var}(X) = 9 \, (\text{^\circ C}^2)$$.
-
-   While mathematically meaningful, the variance is expressed in squared 
-   degrees Celsius $^\circ C^2$, which is unintuitive. People 
-   don't typically think about "squared temperature."
-
-3. **Standard Error**:  
-   Taking the square root of the variance gives:
-   $$\mathrm{SE}(X) = \sqrt{\mathrm{Var}(X)} = \sqrt{9} = 3 \,^\circ C.$$
-A variance of $9 \,^\circ C^2$ is difficult to relate to because we don't 
-experience temperature in squared units. A standard error of $3 \,^\circ C$, 
-however, 
-directly informs us that the daily high temperature typically deviates from the 
-average ($25 \,^\circ C$) by about $3 \,^\circ C$.
-
-#### Example
-Using the fair die example, calculate the variance and standard error:
-
-```{r}
-# Variance and standard deviation of a fair die
-E_X_squared <- sum(outcomes^2 * probabilities)
-variance <- E_X_squared - (expected_value^2)
-std_dev <- sqrt(variance)
-
-variance  # Output: 2.916667
-std_dev   # Output: 1.707825
-```
-
-### Covariance
-
-The **covariance** measures the linear relationship between two random variables. 
-
-::: {.callout-tip title="Definition: Covariance" #covariance-discrete}
-For two random variables $X$ and $Y$ their **covariance** is defined as
-It is defined as:
-$$
-\mathrm{Cov}(X, Y) = \mathrm{E}[(X - \mathrm{E}(X))(Y - \mathrm{E}(Y))].
+\text{Var}(X) = \mathbb{E}[(X - \mathbb{E}[X])^2].
 $$
 :::
 
-Alternatively:
+For discrete random variables, this can be written as:
 $$
-\mathrm{Cov}(X, Y) = \mathrm{E}[XY] - \mathrm{E}[X]\mathrm{E}[Y].
+\text{Var}(X) = \sum_{x_i} (x_i - \mathbb{E}[X])^2 \cdot p(x_i).
 $$
-If $X$ and $Y$ are independent, then $\mathrm{Cov}(X, Y) = 0$. However, the 
-converse is not true: a covariance of 0 does not imply independence.
+Let's look again at how this applies to the Bernoulli variable.
+For our Bernoulli random variable $X$, substituting $\mathbb{E}[X] = p$:
+$$
+\text{Var}(X) = (1 - p)^2 \cdot p + (0 - p)^2 \cdot (1-p) = p(1-p).
+$$
+For a fair coin ($p = 0.5$):
+$$
+\text{Var}(X) = 0.5 \cdot 0.5 = 0.25.
+$$
 
-Example:
-Consider two dice, $X$ and $Y$, rolled simultaneously. Let $X$ represent the outcome of the first die and $Y$ the second. If the dice are independent, the covariance is 0:
+The **standard error** (SE) is the square root of the variance:
+$$
+\text{SE}(X) = \sqrt{\text{Var}(X)}.
+$$
+For our fair coin:
+$$
+\text{SE}(X) = \sqrt{0.25} = 0.5.
+$$
+The standard error is often more convenient than the variance because it is expressed in the
+same units as the expected value. It thus gives as a clear sense how much the random
+variable is spread around the mean in the units of the mean. Here is an example.
 
-```{r}
-# Covariance of two independent dice
-joint_pmf <- outer(probabilities, probabilities)
-E_XY <- sum(outcomes %*% t(outcomes) * joint_pmf)
-covariance <- E_XY - (expected_value^2)
-covariance  # Output: 0
+Suppose a stock's daily return, $X$, is modeled as a random variable with an 
+expected return of 0.002 (0.2%) and a variance of $\text{Var}(X)=0.0004$ (0.04%).
+The variance is expressed in squared units of the return. While mathematically 
+precise, it is not immediately interpretable because we don’t think of returns 
+in squared terms. The standard error is 0.02 (2%) is expressed in the 
+same units as the return. This tells us that daily returns typically 
+deviate by about 2% from the expected return of 0.2%. This demonstrates why 
+the standard error is often preferred when communicating uncertainty—it 
+translates mathematical variability into a form that aligns with practical 
+understanding.
+
+## Extending to the Binomial Random Variable
+
+Now let’s build on this foundation. Suppose we flip the coin $n$ times and 
+count the total number of heads. This total 
+is a **binomial random variable** $X$, with parameters:
+- $n$: number of trials,
+- $p$: probability of heads.
+
+::: {.callout-tip title="Definition: Binomial Random Variable" #binomial-dist}
+A **binomial random variable** is a discrete random variable with the
+$X$ with probability distribution
+$$
+P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k = 0, 1, \dots, n,
+$$
+where $\binom{n}{k}$ is the number of ways to choose $k$ successes in $n$ trials.
+:::
+
+The outcomes of a binomial random variable can be visualized as a
+**binomial lattice**. In the following figure @fig-coin-lattice we visualize the case where
+a coin is tossed twice.
+
+```{r fig-coin-lattice, out.width='90%', fig.align='center', fig.cap='A binomial lattice', echo=FALSE}
+knitr::include_graphics('figures/coin_lattice.png')
 ```
 
-Now, consider a scenario where $X$ and $Y$ are dependent but still have a 
-covariance of 0. Let $X$ represent a random variable that takes the 
-values $\{-1, 0, 1\}$, and let $Y$ be defined as $Y = X^2$. 
-The joint distribution of $(X, Y)$ is as follows:
+Note that we the order of occurence of Heads and Tails does not matter. We only
+count how many times they occur. Therefore the sequence `HT` ends in the same
+node as `TH`.
 
-| $X$ |   $Y$     | Probability |
-|--------|--------|-------------|
-| -1     | 1      | $1/3$       |
-|  0     | 0      | $1/3$       |
-|  1     | 1      | $1/3$       |
-
-The random variables $X$ and $Y$ are clearly dependent because $Y$ is fully 
-determined by $X$. However, their covariance is 0. 
-Check it!^[$\mathbb{E}(X) = (-1) \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = 0$
-$\mathbb{E}(Y) = 1 \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} = \frac{2}{3}$
-$\mathbb{E}(XY) = (-1)(1) \cdot \frac{1}{3} + (0)(0) \cdot \frac{1}{3} + (1)(1) \cdot \frac{1}{3} = 0$
-$\mathrm{Cov}(X, Y) = \mathbb{E}(XY) - \mathbb{E}(X)\mathbb{E}(Y) = 0 - (0 \cdot \frac{2}{3}) = 0$ Thus, $\mathrm{Cov}(X, Y) = 0$, even though $X$ and $Y$ are not independent]
-
-This example highlights that while independence guarantees a covariance of 0, the reverse is not true.
-The **correlation coefficient** normalizes the covariance to a dimensionless measure:
+We can compute its expected value and variance of a binomial random variable
+using what we’ve learned:
 $$
-\rho(X, Y) = \frac{\mathrm{Cov}(X, Y)}{\mathrm{SD}(X) \cdot \mathrm{SD}(Y)}.
+\mathbb{E}[X] = n \cdot p, \quad \text{Var}(X) = n \cdot p \cdot (1-p), \quad \text{SE}(X) = \sqrt{n \cdot p \cdot (1-p)}.
 $$
-The correlation coefficient ranges from $-1$ (perfect negative correlation) to $1$ (perfect positive correlation).
+For $n = 10$, $p = 0.5$:
+$$
+\mathbb{E}[X] = 10 \cdot 0.5 = 5, \quad \text{Var}(X) = 10 \cdot 0.5 \cdot 0.5 = 2.5, \quad \text{SE}(X) = \sqrt{2.5} \approx 1.58.
+$$
 
-What does it mean if covariance is called a **linear** measure of
-dependence? Let me explain:
-The **covariance** measures the degree to which two random variables 
-change together, focusing specifically on their **linear relationship**. 
-But what does it mean for the relationship to be linear, and what happens 
-if the relationship is not linear?
+To solidify these concepts, let’s compute and visualize the probability
+distribution of a binomial random variable for $n = 10$, $p = 0.5$. This 
+shows the probabilities of obtaining 0, 1, 2, …, 10 heads.
 
-A linear relationship implies that one random variable can 
-be expressed approximately as a linear function of the other:
+```{r}
+# R Code to Compute and Plot PMF
+n <- 10
+p <- 0.5
+k <- 0:n
+pmf <- dbinom(k, size = n, prob = p)
 
-$$Y = aX + b$$
+plot(k, pmf, type = "h", lwd = 2, main = "PMF of Binomial(10, 0.5)",
+     xlab = "Number of Heads (k)", ylab = "P(X = k)", col = "black")
+points(k, pmf, pch = 19, col = "blue")
+```
 
-where $a$ and $b$ are constants. If two variables are positively linearly related, an increase in one variable tends to be associated with a proportional increase in the other. Conversely, if they are negatively linearly related, an increase in one variable tends to correspond to a proportional decrease in the other.
+**Key Observations**:
+- The PMF is symmetric around the expected value $\mathbb{E}[X] = 5$ because $p = 0.5$.
+- The spread is captured by the variance and standard error, with most probabilities concentrated around the mean.
 
-Covariance captures this pattern by examining how the deviations of $X$ and $Y$ from their respective means 
-$(X - \mathbb{E}[X])$ and $(Y - \mathbb{E}[Y])$ vary together.
+### Summary
 
-- A **positive covariance** indicates that larger values of $X$ are associated with larger values of $Y$.
-- A **negative covariance** indicates that larger values of $X$ are associated with smaller values of $Y$.
-- A **covariance near zero** suggests no linear relationship, though other forms of relationships might still exist.
+The coin example demonstrates the power of the **binomial distribution** in 
+modeling simple experiments and deriving key properties:
+- **Expected value** provides the long-run average.
+- **Variance** and **standard error** measure variability.
+- The PMF describes the probabilities of all possible outcomes.
 
-Covariance is limited to linear relationships. If the dependence between 
-two random variables is non-linear—such as quadratic, exponential, or 
-periodic—covariance might be zero, even though the variables are strongly related.
+These concepts form the foundation for understanding random variables 
+and their distributions, bridging theory and real-world applications.
 
-For example:
+## Covariance
 
-- If $Y = X^2$, the relationship is perfectly deterministic. However, if 
-$X$ is symmetrically distributed around zero the covariance could still be zero.
-- For a sinusoidal relationship like $Y = \sin(X)$, covariance would also fail to capture the dependence.
+When we have more than one random variable we can summarize how they
+vary together. The concept that does this for us is
+**covariance**. Here is the definition:
 
+::: {.callout-tip title="Definition: Covariance" #covariance}
+The covaraince of two random variables $X$ and $Y$ is defined by
+$$
+\text{Cov}(X,Y) = \mathbb{E}(X - \mathbb{E}[X])(Y-\mathbb{E}[Y])
+$$
+Alternatively we can write
+$$
+\text{Cov}(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+$$
+This definition is meaningful whenever $X$ and $Y$ have finite variance.
+:::
 
+Note the following key points about covariance:
+ -If $\text{Cov}(X,Y)>0$: $X$ and $Y$ tend to increase together (positive relationship). 
+ -If $\text{Cov}(X,Y)<0$: $X$ and $Y$ tend to move in opposite directions (negative relationship).
+ -If $\text{Cov}(X,Y)=0$: $X$ and $Y$ are linearly uncorrelated, though they may still have a nonlinear relationship.
 
-### Intuition for Covariance
-To understand covariance, think of it as quantifying how closely the relationship between two variables resembles a straight-line pattern. The stronger the alignment with a straight line (positive or negative slope), the larger the magnitude of the covariance. However, when the relationship follows a curve or more complex pattern, covariance might fail to reflect the dependence, and other tools may be needed.^[To detect and measure non-linear relationships, alternative statistical tools are required:
-1. **Correlation Ratio $(\eta^2)$**: Measures the proportion of variance in one variable that can be explained by a non-linear function of the other.
-2. **Mutual Information**: Captures all forms of dependencies (linear and non-linear) by quantifying the shared information between two random variables.
-3. **Kendall's Tau / Spearman's Rank Correlation**: Rank-based measures that can detect monotonic (but not necessarily linear) relationships.
-4. **Distance Correlation**: A measure capable of capturing both linear and non-linear relationships by analyzing distances between data points.]
+## Variance of the Sum of Random Variables
 
-### A Note on Terminology
+The variance of the sum of two random variables, $X$ and $Y$, is a natural place 
+where covariance arises. Let’s explore why this happens.
 
-Some of you might have wondered why I use distinct terminology like mean and
-expected value or standard deviation and standard error. Why do I do this?
+For two random variables $X$ and $Y$, the variance of their sum is:
+$$
+\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2 \cdot \text{Cov}(X, Y).
+$$
 
-Let me explain:
-In probability and statistics, certain terms are often used 
-interchangeably, leading to potential confusion. To ensure 
-clarity, we distinguish between **empirical measures**, which 
-describe observed data, and **theoretical measures**, which 
-describe properties of random variables and probability distributions.
+Why does Covariance appear here?
+When adding $X$ and $Y$, the variance accounts not only for the 
+individual variances of $X$ and $Y$, but also for how they interact.  
+The term $2 \cdot \text{Cov}(X, Y)$ reflects this interaction:
+- If $X$ and $Y$ are positively correlated, the variability of their sum increases.
+- If $X$ and $Y$ are negatively correlated, it decreases.
 
-In an empirical context, when working with data we speak of
+Consider independent variables as a special case:
+If $X$ and $Y$ are independent, $\text{Cov}(X, Y) = 0$, and the formula simplifies:
+$$
+\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y).
+$$
 
-- **Mean**: The arithmetic average of observed data points. It provides a 
-measure of central tendency for the sample or population.
-- **Standard Deviation**: A measure of the spread or variability of the 
-observed data around the mean.
+As an example let's go back to our previous case of tossing two coins:
 
-These quantities are calculated directly from data and are specific to 
-the observed sample.
+**Example: Two Coin Tosses**:
+Let $X$ and $Y$ represent the outcomes of two coin tosses ($X, Y = 1$ for heads, $0$ for tails).
 
-In a theoretical context, when we work with random variables and distributions we
-speak of
+- **Case 1: Independent Tosses**
+  - Variance of each toss:
+    $$
+    \text{Var}(X) = p(1-p), \quad \text{Var}(Y) = p(1-p).
+    $$
+  - Covariance:
+    $$
+    \text{Cov}(X, Y) = 0.
+    $$
+  - Variance of the sum:
+    $$
+    \text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) = 2p(1-p).
+    $$
 
-- **Expected Value**: The theoretical long-run average of a random 
-variable, derived from its probability distribution. It represents 
-the "center" of the distribution in a probabilistic sense.
+- **Case 2: Dependent Tosses**
+  - Suppose $P(Y = 1 \mid X = 1) = 0.7$ and $P(Y = 1 \mid X = 0) = 0.3$.
+  - In this case, $\text{Cov}(X, Y) > 0$, and the variance of $X + Y$ increases 
+  due to the positive relationship between $X$ and $Y$.
 
-- **Standard Deviation**: The theoretical spread of a random variable’s values 
-around its expected value, also derived from the probability distribution.
+These insights can be extende to more than two random variables.
+For a sum of $n$ random variables $X_1, X_2, \dots, X_n$, the variance becomes:
+$$
+\text{Var}\left(\sum_{i=1}^n X_i\right) = \sum_{i=1}^n \text{Var}(X_i) + \sum_{i \neq j} \text{Cov}(X_i, X_j).
+$$
+This shows how the covariances between pairs of random variables collectively influence the overall variance.
 
-These measures rely on the underlying distribution of the random variable 
-and are not directly observable. 
+In the special case of identically independently distributed variables we get:
+If $X_1, X_2, \dots, X_n$ are i.i.d.:
+$$
+\text{Var}\left(\sum_{i=1}^n X_i\right) = n \cdot \text{Var}(X).
+$$
 
-Why does this distinction matter?
+## Working with the Binomial Distribution in R
 
-1. **Clarity in Context**: Empirical measures describe what we observe, while theoretical measures describe the underlying process or model.
-2. **Foundation for Inference**: Understanding the relationship between empirical and theoretical measures is key to making statistical inferences.
-3. **Precision in Communication**: Using terms consistently helps avoid ambiguity in academic and professional discussions.
+R provides built-in functions for working with the binomial distribution. 
+These functions follow a **generic syntax** that is consistent across 
+many other distributions, making them powerful tools for statistical 
+analysis. The key functions are:
 
-### Summary Table
+**Probability Distribution**
+The probability distribution gives the probability of observing a 
+specific number of successes in a binomial experiment:
+`dbinom(x, size, prob)`
+with
+- `x`: Number of successes.
+- `size`: Number of trials ($n$).
+- `prob`: Probability of success ($p$).
 
-| **Context**             | **Measure**            | **Term**              | **Definition/Role**                                                          |
-|--------------------------|------------------------|------------------------|-------------------------------------------------------------------------------|
-| **Empirical Data**       | Central Tendency      | Mean                  | The average of observed data points.                                          |
-|                          | Spread                | Standard Deviation     | The dispersion of data points around the mean.                                |
-| **Probability Distributions** | Central Tendency      | Expected Value         | The theoretical average of a random variable based on its probability distribution. |
-|                          | Spread                | Standard Deviation     | The spread of a random variable's values around its expected value.           |
-| **Sampling Distributions** | Spread of Estimate    | Standard Error         | The standard deviation of a sample statistic, indicating estimation precision. |
+**Cumulative Distribution Function (CDF)**
 
-By maintaining this distinction, we connect the descriptive analysis of data with the theoretical underpinnings of probability and the tools of inferential statistics.
+The CDF gives the probability of observing up to a 
+certain number of successes:
+`pbinom(x, size, prob)`
+with
+- `x`: Upper limit of the number of successes.
+- `size`: Number of trials ($n$).
+- `prob`: Probability of success ($p$).
 
+**Quantile Function**
 
-## Random Variables: Simulating Portfolio Returns with Discrete Outcomes
+The quantile function computes the smallest number of successes 
+for which the cumulative probability exceeds a specified value:
+`qbinom(p, size, prob)`
+with
+- `p`: Cumulative probability.
+- `size`: Number of trials ($n$).
+- `prob`: Probability of success ($p$).
 
-In this section, we build a simple portfolio simulation using discrete 
-random variables to model asset returns. Based on this cas study
-we will push the frontier of your R knowledge a bit further
-giving you the tools to efficiently write more complex
-programs in R.
+**Random Number Generation**
 
-This example demonstrates modular R programming, flow control s
-tructures like `if-else` statements and loops, and the use 
-of lists for organizing and processing data.
+This function generates random samples from the binomial distribution:
+`rbinom(n, size, prob)`
+with
+ -`n`: Number of random values to generate.
+- `size`: Number of trials ($n$).
+- `prob`: Probability of success ($p$).
 
-### Asset Returns: A Key Concept in Finance
+R uses a generic accross different distributions:
+The `d`, `p`, `q`, and `r` prefixes used in these functions are part 
+of a generic framework in R:
 
-Before we model investment problems using probability and random 
-variables, let’s establish some essential financial concepts. 
+- `d` for density/PMF.
+- `p` for cumulative probability (CDF).
+- `q` for quantiles.
+- `r` for random number generation.
 
-In Finance, an **asset** refers to any investment instrument 
-that can be bought or sold, such as stocks, bonds, real 
-estate, or even a savings account. Assets are the 
-building blocks of investment decisions.
+This structure is consistent across other distributions in R, such as the 
+normal (dnorm, pnorm, qnorm, rnorm) or 
+Poisson (dpois, ppois, qpois, rpois) distributions. 
+Understanding this generic syntax simplifies working with various 
+probability distributions.
 
-When you invest in an asset, you expect to receive some form of 
-payoff in the future. Let:
+## Programming in R: The binomial lattic model
 
-- $X_0$: The amount of money invested today.
-- $X_1$: The amount received at a future time, say one year from now.
+The **binomial lattice model** is a simple yet powerful framework for 
+simulating asset price dynamics under uncertainty. It is widely used in 
+financial modeling, particularly in pricing derivative securities like options, 
+as it captures the probabilistic nature of price movements in discrete time. 
+At each time step, an asset can either move up or down by a specified factor, 
+creating a lattice of possible price paths. It is an excellent application case
+for discrete random variables but alos for an introduction to writing
+more complex programs in R.
 
-The **total return** ($R$) is the ratio of the amount received to the 
-amount invested:
-$$R = \frac{X_1}{X_0}$$
+In this lecture, we will apply the binomial lattice model to simulate the 
+dynamics of a stock index, such as the S&P 500. This example 
+provides a practical use case to reinforce programming concepts 
+while exploring a key tool in financial mathematics. 
 
-Often, practitioners refer to the **rate of return** ($r$), which 
-measures the proportionate change in value:
-$$r = \frac{X_1 - X_0}{X_0}$$
+You will learn how to:
+- Write more complex R programs, including functions for creating and exploring the lattice.
+- Use control structures like loops (`for`, `while`, `repeat`) and conditional statements (`if`, `else`).
+- Understand and leverage R's powerful **list structure** for organizing and manipulating data.
+- Apply modular programming principles to write reusable, maintainable code.
 
-The two measures are closely related:
-$$R = 1 + r \quad \text{or equivalently,} \quad X_1 = (1 + r) X_0$$
+By the end of this session, you’ll not only have a deeper understanding of the 
+binomial lattice model but also the computational tools to extend this 
+approach to more complex scenarios in financial modeling.
 
-The rate of return ($r$) behaves similarly to an interest rate, describing 
-the growth (or decline) of your investment relative to the initial outlay.
+## The binomial lattice model
 
-In many cases, the rate of return is not known in advance. For example:
+To define the binomia lattice model, we need to establish
+a basic period length, say 1 week. The model describes a situation
+where we know the price at the beginning of the period. The
+price at the beginning of the next period is one of only two
+possible values. Usually these possibilities are defined
+as multiples of the price in the previous period, a multiple
+$u$ (for up) and $d$ (for down). Both $u$ and $d$ are positive with
+$u > 1$ and $d < 1$. Hence when the price at the beginning of the period is
+$S$, it will be $uS$ or $dS$ at the beginning of the next period. The
+probabilities of these outcomes are given by $p$ and $1-p$. This model
+continues for several periods.
 
-- A stock's future price may depend on market conditions.
-- A bond may carry the risk of default, affecting its final payoff.
-- Real estate returns depend on fluctuating property values and rental income.
+By now you will recognize that the outcomes of this model
+will be well described by a binomial random variable. The model
+is equivalent to tossing a coin multiple times.
 
-This uncertainty in returns is a fundamental aspect of investment. 
-To analyze it rigorously, we model rates of 
-return as **random variables**.
+This model may seem too simplistic for describing the price dynamics
+of a stock index, because there are only two possible outcomes per
+period. But if the perido length is small many values are
+possible after a small number of steps.
 
-Random variables provide a mathematical framework for capturing uncertainty. 
-For instance:
+Because the model is multiplicative, the price will
+never become negative. We can thus work with the logarithm
+of the price as our fundamental variable.
 
-- $X_1$, the future payoff of an asset, is modeled as a random variable 
-because its value depends on uncertain factors.
-- Since $R = \frac{X_1}{X_0}$ and $r = \frac{X_1 - X_0}{X_0}$, both 
-the total return ($R$) and rate of return ($r$) are also random variables.
+Accordinglly, we define $\nu$ as the expected annual
+growth rate
+$$
+\nu = \mathbb[\ln(S_T/S_0)]
+$$
+where $S_0$ is the initial stock price and $S_T$ is the price at the
+end of the year. Likewise we define the variance as
+$$
+\sigma^2=\text{var}[\ln(S_T/S_0)$]
+$$
 
-Modeling returns as random variables allows us to:
+If the period length $\Delta t$ is chosen small compared to 1, the parameters
+of the binomial lattice can be selected as:
+\begin{eqnarray}
+p &=& \frac{1}{2} + \frac{1}{2}\left(\frac{\nu}{\sigma}\right) \sqrt{\Delta t} \\
+u &=& \exp(\sigma \sqrt{\Delta t}) \\
+d &=& \exp(- \sigma \sqrt{\Delta t})
+\end{eqnarray}
 
-1. **Describe the range of possible outcomes**: For example, $X_1$ could 
-be high, low, or anywhere in between.
-2. **Quantify likelihoods**: We assign probabilities to outcomes, such 
-as a 20% chance of a large gain or a 5% chance of a significant loss.
-3. **Analyze investment risk and reward**: Using tools like expected value, 
-variance, and covariance, we can measure and manage the trade-off between 
-risk and return.
+### Modelling the Dynamics of the SP500
 
-### Analyzing Returns with Discrete and Continuous Models
+As a use case we make a model which we calibrate to the SP500,
+a broad stock market index that we have used already before in our
+lectures. Let#s get the S&P data using the `tidyquant`package:
+```{r}
+#| message: false
 
-In this lecture, we focus on **discrete models**, where the possible outcomes 
-of returns are finite and can be explicitly listed. For example, a stock 
-might have three possible states—high, medium, or low returns—with 
-assigned probabilities. Continuous models, where returns can 
-take any value within a range, will be introduced in the next lecture.
+# Load necessary libraries
+library(tidyquant)
+```
 
-### Portfolio Setup
+```{r}
+# Retrieve S&P 500 data (adjust ticker as needed)
+sp500_data <- tq_get("SPY", from = "2000-01-01", to = "2025-01-01", get = "stock.prices")
 
-We model the returns of three assets using discrete random variables. 
-Each asset has three possible returns, and their joint outcomes 
-are determined by a random 
-state (e.g., economic scenarios: "High", "Medium", "Low"). 
-These states have associated probabilities.
+# Extract adjusted prices and dates
+dates <- sp500_data$date
+adjusted_prices <- sp500_data$adjusted
 
-Where do these probabilities come from?
-In probability theory, probabilities are treated as fundamental 
-quantities, much like length or area in geometry. They are 
-simply "given" and form the foundation for analyzing uncertainty. 
-For example, we might assume that the probability of 
-a "High" economic scenario is 30%, while "Medium" and "Low" 
-scenarios occur with probabilities of 50% and 20%, respectively.
+# Find the first trading day of each year
+years <- unique(format(dates, "%Y"))  # Extract unique years
+annual_indices <- sapply(years, function(year) {
+  which(format(dates, "%Y") == year)[1]  # Get the first trading day of the year
+})
 
-However, in practical applications, these probabilities are 
-rarely known a priori. Assigning probabilities to real-world events is 
-a complex task that often requires the use of data and statistical models. 
-In Finance, this is the domain of econometrics and related disciplines. 
+# Extract prices and dates for the first trading day of each year
+annual_prices <- adjusted_prices[annual_indices]
+annual_dates <- dates[annual_indices]
 
-For instance:
+# Compute annual log returns
+log_returns <- diff(log(annual_prices))  # Compute log(S_T / S_0)
 
-- Historical data on market conditions might be analyzed to estimate the 
-likelihood of different economic scenarios.
-- Expert judgment or forecasts (e.g., from central banks or financial analysts) 
-might supplement data to refine these probabilities.
-- Bayesian methods can combine prior beliefs with new data to 
-update probabilities dynamically.
-
-In our example, we assume the probabilities are already known to 
-focus on understanding how probability theory can be applied to 
-investment problems. This assumption simplifies the analysis and 
-allows us to explore key concepts like expected value and variance 
-without the added complexity of estimating probabilities.
-
-It’s important to recognize that the choice of probabilities—whether 
-derived from data, expert judgment, or theoretical models—directly 
-influences the results of any analysis. In real-world applications, 
-the validity of conclusions often hinges on how well these probabilities 
-capture the underlying uncertainties.
-
-So let us start our example by first defining 
-asset returns and probabilities using R:
-
-```{r asset-returns-and-probabilities-portfolio-example}
-
-# Define states and their probabilities
-
-states <- c("High", "Medium", "Low")
-probabilities <- c(0.3, 0.5, 0.2)  # Must sum to 1
-
-# Define asset returns for each state
-
-asset_returns <- list(
-  asset_1 = c(0.08, 0.04, -0.02), # Returns for Asset 1
-  asset_2 = c(0.12, 0.03, -0.05), # Returns for Asset 2
-  asset_3 = c(0.05, 0.02, 0.01)   # Returns for Asset 3
+# Combine into a data frame
+annual_log_returns <- data.frame(
+  year = format(annual_dates[-1], "%Y"),  # Corresponding years for log returns
+  log_return = log_returns
 )
 
-```
+# Parameters for weekly time step (1/52 years)
+delta_t <- 1 / 52  # Weekly time step
+nu <- mean(annual_log_returns$log_return, na.rm = TRUE)  # Mean log return
+sigma_squared <- var(annual_log_returns$log_return, na.rm = TRUE)  # Variance
+sigma <- sqrt(sigma_squared)  # Standard deviation
 
+# Calibrate binomial model parameters
+p <- 0.5 + 0.5 * (nu / sigma) * sqrt(delta_t)
+u <- exp(sigma * sqrt(delta_t))
+d <- exp(-sigma * sqrt(delta_t))
 
-### Writing Modular Functions
-
-To model portfolio returns, we break the problem into smaller tasks and write 
-modular functions. This approach makes the code more manageable, reusable, 
-and easier to debug. Modularizing your code is a principle
-you should follow always when writing smaller or larger
-programs. One strategy how this can be done is 
-breaking down a bigger task into smaller ones and 
-implement the smaller tasks as functions.
-
-In our case where we want to implement a
-portfolio simulation we need:
-
-1. Simulate a Random State
-2. Get the Asset Returen for each state
-3. Compute the portfolio returns
-4. Simulate portfolio performance
-
-Let me go through these steps function by function.
-
-#### Simulate a Random State
-
-We begin by simulating a random economic 
-state (e.g., "High," "Medium," or "Low") based on the 
-probabilities assigned to each state.
-
-```{r simulate-states}
-simulate_state <- function(states, probabilities) {
-  sample(states, size = 1, replace = TRUE, prob = probabilities)
-}
-```
-
-The `simulate_state` function uses R’s `sample()` function to randomly 
-choose one of the states based on their respective probabilities.
-This is a tool you already know. I do not have to say much more
-on the sample function. 
-
-As a remark, observe that it is a good idea to give to your
-functions names that you or somebody can easily understand. A good
-approach is to think in verbs, what is the function doing? When
-you need more than one word an often used convention in
-coding is to use and underscore to connect words.
-
-Our function is constructed such that it can take any finite state
-vector and any given state probabilities as input.
-
-#### Get Asset Returns for a State
-
-Once a state is selected, we retrieve the corresponding returns 
-for each asset. To accomplish this, we use the flexibility and 
-power of R’s **list** structure.
-
-Let us recall the list structure which we have touched only
-very briefly in previous lectures.
-
-A **list** in R is a data structure that can hold multiple 
-objects of different types and lengths. Lists are highly 
-versatile, making them particularly useful for functional 
-programming. For example, you can store vectors, matrices, 
-data frames, and even other lists within a single list.
-
-Here’s an example of creating and accessing a list:
-
-```{r creating-a-list-example}
-# Create a list
-
-my_list <- list(
-  vector = c(1, 2, 3),
-  matrix = matrix(1:4, nrow = 2),
-  data_frame = data.frame(a = 1:2, b = 3:4)
+# View calibrated parameters
+parameters <- list(
+  nu = nu,
+  sigma = sigma,
+  p = p,
+  u = u,
+  d = d
 )
 
-# Access elements of the list
+parameters
 
-my_list$vector   # By name
-my_list[[2]]     # By position
-my_list[["matrix"]] # Equivalent to my_list[[2]]
 ```
+We retrieve a series of daily prices, extract a series
+of annual price changes from there and then compute the
+parameters and pack them into a list. The precise reason why we
+can calibrate the model like this and why this works, we
+will see in lecture 5-
 
-Lists allow you to organize related but heterogeneous data in a structured way. 
-For example, in our case, the returns for each asset are stored 
-as individual vectors within a list, where each vector corresponds to one asset.
+### For loops and lookup tables: Building the lattice
 
-Lists are particularly advantageous in programming because of their:
+```{r lattice-build}
+# Set the step number
+n <- 3
 
-1. **Flexibility**: They can hold objects of different types and sizes, making 
-them a universal container.
-2. **Indexing**: Elements can be accessed using names or positions, 
-enabling both clarity and adaptability.
-3. **Extensibility**: Lists can easily grow or change in structure 
-without altering the overall program logic.
-4. **Integration with Functions**: R functions like `lapply`, `sapply`, and `map` 
-are designed to work seamlessly with lists, promoting concise and efficient code.
+# Set the starting price S0 (choose most recent price)
 
-The `get_returns` function uses a list (`asset_returns`) to store 
-the possible returns for each asset across states. Here’s the function:
+S0 <- adjusted_prices[length(adjusted_prices)]
 
-```{r get_returns_function}
-get_returns <- function(state, states, asset_returns) {
-  index <- which(states == state)
-  sapply(asset_returns, `[`, index)
-}
-```
+# Initialize the lattice as a list
+lattice <- vector("list", n + 1)
 
-Let’s break it down step by step:
-
-1. **Input Arguments**:
-
-   - `state`: The randomly chosen state (e.g., "High").
-   - `states`: A vector of all possible states (e.g., `c("High", "Medium", "Low")`).
-   - `asset_returns`: A list where each element is a vector of returns
-                      for an asset, corresponding to each state.
-
-2. **Find the Index of the State**:
-
-The `which` function finds the position of the selected 
-state within the `states` vector:
-
-`index <- which(states == state)`
-
-For example, if `state = "Medium"` and `states = c("High", "Medium", "Low")`,
-the result will be `index = 2`.
-
-3. **Extract Returns Using `sapply`**:
-
-The `sapply` function applies the
-subsetting operator `[` to each element of the `asset_returns` list:
-
-`sapply(asset_returns, `[`, index)`
-
-   - `sapply(asset_returns, ...)` iterates over each element of the list.
-   -  The operator `[`, with `index` as the argument, extracts the value at 
-   the `index` position from each vector in the list.
-
-   For example, if:
-
-`asset_returns <- list(
-     asset_1 = c(0.08, 0.04, -0.02),
-     asset_2 = c(0.12, 0.03, -0.05),
-     asset_3 = c(0.05, 0.02, 0.01)
-   )`
-   
-   and `index = 2`, the result will be:
-
-`c(asset_1 = 0.04, asset_2 = 0.03, asset_3 = 0.02)`
-
-The `sapply` function is part of a family of functions in R designed for
-iterating over elements of lists (or other objects like vectors). These
-functions enable you to apply a specified operation to each element of a
-list in a concise and readable way. This approach often replaces
-traditional `for` loops and promotes a functional programming style.
-
-`sapply()`is one member of a family of R's functions written for
-operations on lists.
-
-Here’s an overview of the main functions in this family:
-
-1. **`lapply`**:
-
-Applies a function to each element of a list and returns a list of the results. It is
-useful when the output needs to remain as a list.
-
-Example:
-
-```{r}
-my_list <- list(a = 1:3, b = 4:6, c = 7:9)
-lapply(my_list, sum)
-```
-
-2. **`sapply`**: A simplified version of `lapply` that attempts to return
-results as a vector or matrix, if possible.
-If simplification isn’t feasible, it falls back to returning a list.
-
-Example:
-
-```{r}
-my_list <- list(a = 1:3, b = 4:6, c = 7:9)
-sapply(my_list, sum)
-```
-
-
-3. **`vapply`**: Similar to `sapply`, but requires you to specify the type
-of the returned result (e.g., numeric, character).
-Useful for ensuring type consistency and avoiding unexpected results.
-
-Example:
-
-```{r}
-vapply(my_list, sum, numeric(1))
-```
-
-4. **`tapply`**: Applies a function to subsets of a vector, grouped by a
-factor or factors. It is a very powerful workhorses for data analysis,
-commonly used for grouped computations.
-
-Example:
-
-```{r}
-   x <- c(1, 2, 3, 4, 5, 6)
-   groups <- factor(c("A", "A", "B", "B", "C", "C"))
-   tapply(x, groups, sum)
-```
-
-5. **`mapply`**:
-
-A multivariate version of `sapply`, allowing iteration over multiple inputs
-simultaneously.
-
-Example:
-
-```{r}
-   x <- 1:3
-   y <- 4:6
-   mapply(sum, x, y)
-```
-
-So why Use `sapply` in our example?
-
-The `sapply` function is well-suited for our example because:
-1. The `asset_returns` object is a **list**, where each element corresponds to
-the returns of a single asset.
-2. We want to extract a single value (the return for a given state)
-from each list element.
-3. `sapply` simplifies the output into a named vector, making it
-easier to use for further computations.
-
-Let’s revisit the `get_returns` function:
-
-```{r}
-get_returns <- function(state, states, asset_returns) {
-  index <- which(states == state)  # Find the index of the selected state
-  sapply(asset_returns, `[`, index)  # Extract the return for the state from each asset
-}
-```
-
-`sapply(asset_returns, \`[\`, index)` applies the subsetting operator (`[`) to each element of the `asset_returns` list, using `index` as the argument. The result is a named vector of returns
-for the specified state, with names corresponding to the assets.
-
-By understanding `sapply` and its related functions, you gain access to powerful
-tools for working with lists and other data structures in R. These functions
-are essential for writing efficient, modular, and readable R code.
-
-#### Compute Portfolio Return
-
-The portfolio return is calculated as the weighted sum of the individual
-asset returns.
-
-```{r}
-compute_portfolio_return <- function(weights, returns) {
-  sum(weights * returns)
-}
-```
-
-This function multiplies each asset’s return by its respective weight and
-sums the result, yielding the total portfolio return.
-
-#### Putting Everything Together: Simulate Portfolio Performance
-
-We now combine the functions we created earlier into a larger
-function, `simulate_portfolio`, that simulates portfolio performance
-over multiple time periods. Each simulation’s results are stored
-in a **list**, leveraging modularity for clarity and reusability.
-Modular code makes it easier to debug, document, and extend.
-
-R provides several ways to iterate over data, with **for-loops** being
-a fundamental and widely used method. In a for-loop, R sequentially
-applies the specified code to each element of a sequence or range.
-
-Here’s a basic example of a for-loop in R:
-
-```{r}
-# Example of a simple for-loop
-for (i in 1:5) {
-  print(i)
-}
-```
-
-For-loops are intuitive and work well for many tasks. However, when
-iterating over larger datasets, it’s important to write efficient loops.
-One key best practice is **preallocating space** for the output of the loop.
-Without preallocation, R has to repeatedly resize the output object, which
-can slow down the computation significantly.
-
-In our `simulate_portfolio` function, we preallocate space for
-the results using `vector("list", n_periods)`. This creates
-a list of length `n_periods` before entering the loop. Preallocation
-ensures that each iteration simply fills an existing slot in the list,
-avoiding costly memory reallocation.
-
-Here’s how it looks in our function:
-
-```{r simulate-portfolio-function}
-
-simulate_portfolio <- function(n_periods, weights, states, probabilities, asset_returns) {
-
-  # Preallocate space for the results
-  results <- vector("list", n_periods)
-
-  for (i in 1:n_periods) {
-    # Simulate a random state
-    state <- simulate_state(states, probabilities)
-
-    # Retrieve the returns for the selected state
-    returns <- get_returns(state, states, asset_returns)
-
-    # Compute the portfolio return
-    portfolio_return <- compute_portfolio_return(weights, returns)
-
-    # Store the results for this iteration in the preallocated list
-    results[[i]] <- list(
-      state = state,
-      returns = returns,
-      portfolio_return = portfolio_return
-    )
+# Build the lattice
+for (step in 0:n) {
+  prices <- numeric(step + 1)
+  for (i in 0:step) {
+    prices[i + 1] <- S0 * u^i * d^(step - i)
   }
+  lattice[[step + 1]] <- prices
+}
 
-  results
+# View the lattice
+lattice
+
+```
+
+This code snippet uses **`for` loops** and a **lookup table** to build 
+a binomial lattice. Both are important concepts when writing R programs-
+
+Let’s break it down step by step, focusing on the programming concepts involved.
+
+#### for` Loops in R**
+
+A `for` loop in R iterates over a sequence of values, executing a block of 
+code for each value. Its syntax is:
+
+```{r}
+#| eval: false
+
+for (variable in sequence) {
+  # Code to execute in each iteration
 }
 ```
 
-In R, for-loops and lists are often used together but serve distinct purposes:
-- **For-loops**: Provide a mechanism for iterating over elements or ranges, applying code to each iteration step. They are versatile and easy to understand but can become slow without preallocation for large datasets.
-- **Lists**: Offer a flexible data structure for storing diverse types of output (e.g., vectors, data frames, or even other lists). They work well with for-loops when preallocated and are essential for modular code and functional programming.
+In our code we have two loops: An outer loop `for (step in 0:n) {`.
+This loop iterates through each step of the lattice, from `0` to `n` 
+(the total number of time steps in the model).
+The variable `step` represents the current level of the lattice.
 
-In our example, the for-loop performs the iteration
-over `n_periods`, while the list (`results`) stores the output for
-each period. This combination strikes a balance between simplicity and efficiency.
+The inner loop `for (i in 0:step) {`: For each level of the 
+lattice (`step`), this loop iterates over the possible nodes (prices) at 
+that level. The variable `i` represents the number of upward moves at 
+this level.
 
-Let me unpack the `simulate_portfolio`function a bit further.
+#### Lookup tables
 
-The `simulate_portfolio` function runs a simulation for `n_periods`.
-Each iteration:
+A **lookup table** is a data structure that stores values for quick 
+access, allowing computations to refer to pre-calculated data 
+instead of recomputing it repeatedly.
 
-1. Simulates a random state using `simulate_state`.
-2. Retrieves the returns for all assets in that state using `get_returns`.
-3. Computes the portfolio return using `compute_portfolio_return`.
-4. Stores the results (state, returns, portfolio return) in the preallocated `results` list.
-
-The function returns a list where each element contains:
-
-- **The random state**: The economic scenario for the period.
-- **The asset returns**: A named vector of returns for each asset.
-- **The portfolio return**: The weighted average return for the portfolio.
-
-Here’s an example of what the output might look like for a single simulation:
+In this example, the **lattice itself is the lookup table**. It stores the 
+prices at each step and node of the lattice in a list structure:
 
 ```{r}
-# Output for one period
-list(
-  state = "Medium",
-  returns = c(asset_1 = 0.04, asset_2 = 0.03, asset_3 = 0.02),
-  portfolio_return = 0.032
+#| eval: false
+  lattice[[step + 1]] <- prices
+```
+
+Each element of `lattice` corresponds to a time step. `lattice[[step + 1]]` 
+stores a numeric vector containing all possible prices at the `step` level of 
+the lattice.
+
+Now here’s how the code uses `for` loops and a lookup table to 
+build the binomial lattice:
+
+We first initialize the lattice by `lattice <- vector("list", n + 1)`.
+A list of size `n + 1` is created to store the prices for each step of 
+the lattice (from step `0` to step `n`). Lists are ideal here because they 
+allow each element to store a vector of prices, with the number of prices 
+varying at each step.
+
+Preallocating space for the output is good practice when writing `for` loops in R (or any other programming language) because it significantly improves performance and readability. Here's why:
+It **avoids repeated memory allocation**: If you grow an object inside a 
+loop (e.g., using `c()` to append values), R reallocates memory every time 
+the object changes size. This is computationally expensive, especially for large loops.
+By preallocating the required space, memory is allocated only once, and the 
+values are directly written into the reserved space, saving computation time.
+
+Preallocation makes the structure of the output clear before the loop begins
+and **improves code readability**. Readers can immediately understand the size 
+and type of the expected result.
+
+Finally it **avoids unnecessary complexity**: Growing objects dynamically 
+can make the code harder to follow and debug.
+
+Preallocation ensures better performance and cleaner, more professional code!
+
+Let's look closer into what our loops do:
+
+The **Outer Loop**:
+Iterates over each step of the lattice.
+At each step, a new vector `prices` is created to store 
+the prices for that level.
+
+The **Inner Loop** computes the price for each node at the current step.
+For node `i`, the price is calculated using:
+$$
+S_i = S_0 \cdot u^i \cdot d^{\text{step} - i}
+$$
+The result is stored in the `prices` vector, with indices adjusted for R’s 1-based indexing (`i + 1`).
+
+After computing all prices for the current step, the `prices` vector is 
+added to the `lattice` lookup table at index `step + 1`.
+
+The final `lattice` contains all possible prices at each step, structured as a list:
+  - `lattice[[1]]`: Prices at step 0 (initial price, `S0`).
+  - `lattice[[2]]`: Prices at step 1 (two possible prices: up and down).
+  - And so on, up to `lattice[[n + 1]]`.
+
+#### Visualizing the lattice
+
+```{r}
+# load ggplot2 library
+
+library(ggplot2)
+
+# Prepare data for plotting
+plot_data <- data.frame(
+  Step = rep(0:n, times = seq_len(n + 1)),  # x-coordinates
+  Price = unlist(lattice),                 # y-coordinates
+  Label = round(unlist(lattice), 2)        # Labels with rounded prices
 )
+
+# Create edges for connections
+edges <- do.call(rbind, lapply(1:n, function(step) {
+  data.frame(
+    x = rep(step - 1, times = step),           # Starting x-coordinates
+    xend = rep(step, times = step),           # Ending x-coordinates
+    y = lattice[[step]],                      # Starting y-coordinates
+    yend = c(lattice[[step + 1]][-1], lattice[[step + 1]][-length(lattice[[step + 1]])]) # Ending y-coordinates
+  )
+}))
+
+# Plot
+ggplot() +
+  # Add edges
+  geom_segment(data = edges, aes(x = x, y = y, xend = xend, yend = yend),
+               color = "gray", linetype = "dashed") +
+  # Add nodes
+  geom_point(data = plot_data, aes(x = Step, y = Price), color = "blue", size = 2) +
+  # Add price labels
+  geom_text(data = plot_data, aes(x = Step, y = Price, label = Label),
+            color = "black", vjust = -0.5, size = 3) +
+  labs(title = "Enriched Binomial Lattice with Prices for S&P 500",
+       x = "Step", y = "Price") +
+  theme_minimal()
+
 ```
 
-By preallocating space and combining modular functions, this approach ensures
-efficient and readable code, while also allowing students to explore each step
-of the simulation in isolation or as part of the larger process.
 
+### Flow Control: Exploring the Lattice
 
-This refined section introduces iteration concepts, explains the
-importance of preallocation, and highlights the synergy between for-loops and lists. Let me know if you’d like further enhancements!
-
-We now define the portfolio weights, which must sum to 1. This says that we have
-invested 50 % of our wealth into asset 1, 30 % into asset 2 and 20 % into
-asset 3.
+Use a `while` loop to traverse the lattice and compute specific properties (e.g., maximum or minimum price).
 
 ```{r}
-weights <- c(0.5, 0.3, 0.2)  # Weights for the three assets
-```
-
-We can now simulate the portfolio performance over
-any numebr of periods using the functions we created.
-Let#s say we do a simulation for 1000 periods.
-
-```{r}
-set.seed(42)  # For reproducibility
-n_periods <- 1000
-
-simulation_results <- simulate_portfolio(n_periods, weights, states, probabilities, asset_returns)
-```
-
-Now we have a huge pile of data stored in an object with the name `simulated_results`. What
-do we do with this?
-
-We extract the portfolio returns from the simulation and
-compute summary statistics such as the mean and variance of the returns.
-
-```{r}
-# Extract portfolio returns
-
-portfolio_returns <- sapply(simulation_results, `[[`, "portfolio_return")
-
-# Compute summary statistics
-
-mean_return <- mean(portfolio_returns)
-variance_return <- var(portfolio_returns)
-
-list(mean = mean_return, variance = variance_return)
-```
-
-Here we have summarized the distribution of our random variables using the
-concepts we learned before, thereby documenting their average return and thus
-the average return of the portfolio as well as how spread out these returns
-are.
-
-We can also create a histogram to visualize the
-full distribution of the simulated portfolio returns.
-
-```{r}
-hist(portfolio_returns, breaks = 3, main = "Portfolio Returns", xlab = "Return")
-```
-
-Let us explore the list structure we have chosen here to demonstarte how it
-helps us to access simulation details.
-
-Each element of simulation_results is itself a list, containing:
-
-- The random state.
-- The returns for each asset in that state.
-- The computed portfolio return.
-
-For example, to inspect the first simulation we would
-type
-
-```{r}
-simulation_results[[1]]
-```
-
-Let us also compute state frequencies to check whether our random
-number generator has actually implemented what we have given him
-in terms of probabilities as arguments to the `sample()`function.
-
-```{r}
-state_counts <- table(sapply(simulation_results, `[[`, "state"))
-state_frequencies <- prop.table(state_counts)
-state_frequencies
-```
-
-Here’s the refined passage with the formula and explanation added:
-
----
-
-Finally, we can compare the results of our simulation to key statistics of the portfolio, such as the **expected portfolio return**. These statistics can also be computed theoretically using the definitions of expected value and portfolio return.
-
-The **expected return** of each asset is calculated as:
-$$E(r^i) = \sum_{j=1}^m p_j \cdot r^i_j$$
-where:
-
-- $r^i_j$ is the return of asset $i$ in state $j$,
-- $p_j$ is the probability of state $j$,
-- $m$ is the total number of states.
-
-The **expected portfolio return** is then the weighted sum of the expected
-returns of the individual assets:
-$$E(R_{\text{portfolio}}) = \sum_{i=1}^n w^i \cdot E(r^i)$$
-where:
-
-- $w^i$ is the weight of asset $i$ in the portfolio,
-- $n$ is the total number of assets.
-
-The following R code computes the expected portfolio return using the formulas above:
-
-```{r expected return}
-# Compute expected returns for each asset
-expected_returns <- sapply(asset_returns, function(asset) sum(asset * probabilities))
-
-# Compute the expected portfolio return
-expected_portfolio_return <- sum(weights * expected_returns)
-
-# Display the result
-expected_portfolio_return
-```
-
-Let me unpack this a bit:
-
-1. **Expected Returns of Individual Assets**:
-
-- The `sapply` function iterates over the `asset_returns` list, which contains the returns for each asset across the states.
-- For each asset, it computes the weighted sum of its returns using the probabilities of the states:
-
-`sum(asset * probabilities)`
-
-This corresponds directly to the formula $E(r^i) = \sum_{j=1}^m p_j \cdot r^i_j$.
-
-2. **Expected Portfolio Return**:
-
-- The `weights` vector contains the portfolio allocation for each asset.
-- The `sum(weights * expected_returns)` computation takes the weighted sum of the expected returns of the individual assets:
-
-`sum(weights * expected_returns)`
-
-This corresponds to the formula $E(R_{\text{portfolio}}) = \sum_{i=1}^n w^i \cdot E(r^i)$.
-
-By computing these values theoretically, we can validate the results of our
-simulation and gain confidence in both our simulation setup and the
-mathematical underpinnings of portfolio theory.
-
-::: {.callout-note title="Now You Try"}
-Now that we’ve calculated the **expected portfolio return** both theoretically and through simulation, take the next step and compute the **theoretical variance** of the portfolio.
-
-Recall the formula for the variance of a portfolio:
-$$
-\text{Var}(R_{\text{portfolio}}) = \sum_{i=1}^n (w^i)^2 \cdot \text{Var}(r^i) + \sum_{i \neq j} w^i \cdot w^j \cdot \text{Cov}(r^i, r^j)
-$$
-where:
-- $\text{Var}(r^i) = \sum_{j=1}^m p_j \cdot (r^i_j - E(r^i))^2$ is the variance of asset $i$,
-- $\text{Cov}(r^i, r^j) = \sum_{j=1}^m p_j \cdot (r^i_j - E(r^i)) \cdot (r^j_j - E(r^j))$ is the covariance between assets $i$ and $j$.
-
-### Steps to Get Started
-1. **Compute the Variance of Each Asset**:
-   Use the formula for variance to calculate $\text{Var}(r^i)$ for each asset based on the `asset_returns` and `probabilities`.
-
-2. **Compute the Covariance Between Pairs of Assets**:
-   Calculate $\text{Cov}(r^i, r^j)$ for all pairs of assets.
-
-3. **Combine Variances and Covariances**:
-   Use the portfolio weights and the formula above to compute $\text{Var}(R_{\text{portfolio}})$.
-
-### Tips
-- Use `sapply` to efficiently compute variances and covariances across assets.
-- Store the covariance values in a matrix for easier calculations.
-
-Once you’ve completed the theoretical calculations, compare the theoretical portfolio variance to the variance obtained from your simulation. Does it match? What could explain any differences?
-
-:::
-
-
-Here’s a refined and streamlined version of the section, with improved structure, clarity, and flow, while keeping the main content intact. I also adjusted some arguments to improve accuracy and teaching focus:
-
----
-
-## The Binomial Distribution and its role in Finance
-
-In this final section, we explore the **binomial distribution**, a 
-discrete distribution with significant applications in Finance. It 
-forms the foundation for one of the most important models of asset p
-rice dynamics: **binomial lattices**. This discussion not only 
-deepens our understanding of probability but also introduces 
-tools in R to work with parametric distributions.
-
-### Bernoulli and Binomial Random Variables
-
-#### Bernoulli Random Variable: The Building Block
-
-A **Bernoulli experiment** has two possible outcomes, commonly 
-labeled as "success" and "failure." The corresponding **Bernoulli random variable** takes 
-a value of 1 for success and 0 for failure, with a success probability $p$ and failure probability 
-$1-p$. 
-
-If $X \sim \text{Bernoulli}(p)$, then:
-- $E(X) = p$(expected value),
-- $\text{Var}(X) = p(1-p)$ (variance).
-
-Try deriving these properties from the definitions of expectation and variance!
-
-#### Binomial Random Variable: Extending the Bernoulli
-
-The **binomial random variable** is the sum of $n$ independent Bernoulli 
-random variables, modeling the total number of successes in $n$ trials. 
-If $X \sim \text{Binomial}(n, p)$, then:
-- $E(X) = n \cdot p$,
-- $\text{Var}(X) = n \cdot p \cdot (1-p)$.
-
-The probability of exactly $k$ successes is given by:
-$$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k},$$
-where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the **binomial coefficient**.
-
-#### Intuition Through an Example
-
-Let’s consider rolling a fair die five times, with success defined as 
-rolling a six. The number of sixes follows a binomial distribution 
-with $n = 5$ and $p = 1/6$. Here’s how we compute probabilities:
-
-- **All Sixes** ($X = 5$):  
-  $P(X = 5) = (1/6)^5$.  
-
-```{r}
-  (1/6)^5
-```
-
-- **No Sixes** ($X = 0$):  
-  $P(X = 0) = (5/6)^5$.  
-
-```{r}
-  (5/6)^5
-```
-
-- **Exactly One Six** ($X = 1$):  
-  $P(X = 1) = 5 \cdot (5/6)^4 \cdot (1/6)$.  
-
-```{r}
-  5 * (5/6)^4 * (1/6)
-```
-
-### Working with the Binomial Distribution in R
-
-R provides built-in functions for parametric distributions. For the binomial distribution:
-1. `dbinom(x, n, p)`: Probability $P(X = x)$.
-2. `pbinom(x, n, p)`: Cumulative probability $P(X \leq x)$.
-3. `rbinom(N, n, p)`: Generate $N$ random samples from a binomial distribution.
-4. `qbinom(r, n, p)`: Quantile function.
-
-#### Simulating and Comparing Approaches
-
-To illustrate, let’s simulate rolling a die five times 
-and compare it with the binomial model:
-
-```{r}
-# Custom simulation
-
-roll_die_five <- function() {
-  res <- sample(1:6, 5, replace = TRUE)
-  sum(res == 6)
+# Traverse lattice to find maximum price
+max_price <- -Inf
+step <- 1
+
+while (step <= length(lattice)) {
+  max_price <- max(max_price, max(lattice[[step]]))
+  step <- step + 1
 }
 
-# Simulate 100,000 trials
-
-sim_rolls <- replicate(10^5, roll_die_five())
-
-# Binomial distribution simulation
-
-sim_roll_with_rbinom <- rbinom(10^5, 5, 1/6)
-```
-
-Plot the distributions and compare:
-
-```{r}
-# Plot histogram for custom simulation
-
-hist(sim_rolls, 
-     breaks = seq(-0.5, max(sim_rolls) + 0.5, by = 1), 
-     main = "Custom Simulation", 
-     xlab = "Number of Sixes", 
-     col = "lightblue", 
-     border = "black")
-
-# Plot histogram for rbinom simulation
-
-hist(sim_roll_with_rbinom, 
-     breaks = seq(-0.5, max(sim_roll_with_rbinom) + 0.5, by = 1), 
-     main = "R's rbinom Function", 
-     xlab = "Number of Sixes", 
-     col = "lightgreen", 
-     border = "black")
+max_price
 
 ```
 
----
-
-### Modeling Asset Price Dynamics with Binomial Trees
-
-#### Real-World Asset Price Dynamics
-
-In practice, asset prices fluctuate due to market forces, 
-dividends, interest rates, and other uncertainties. **Binomial trees** 
-are a powerful and simple way to model these dynamics over time. Unlike 
-single-period models, binomial trees capture the evolution of prices 
-across multiple periods.
-
-#### Constructing the Binomial Model
-
-For a basic period (e.g., a day), assume:
-
-- The price can either increase by a factor $u$ or decrease by a factor $d$.
-- The probabilities of up and down movements are $p$ and $1-p$.
-
-If the initial price is $S_0$, then after $n$ periods:
-$$S_n = S_0 \cdot u^i \cdot d^{n-i},$$
-where $i$ is the number of up movements.
-
-#### Calibrating the Model
-
-Given annualized return ($\nu$) and volatility ($\sigma$), we set:
-$$u = e^{\sigma \sqrt{\Delta t}}, \quad d = e^{-\sigma \sqrt{\Delta t}}, \quad p = \frac{1}{2} + \frac{\nu}{2\sigma} \sqrt{\Delta t},$$
-where $\Delta t$ is the fraction of a year (e.g., 1/250 for daily).
-
-#### Building the Binomial Tree in R
-
-Here’s a function to generate a binomial tree:
+Use conditional statements to annotate whether a price exceeds a certain threshold.
 
 ```{r}
+# Annotate prices exceeding 4100
+threshold <- 4100
 
-binomial_tree <- function(S0, up, down, steps) {
-  tree <- matrix(0, nrow = steps + 1, ncol = steps + 1)
-  for (i in 1:(steps + 1)) {
-    for (j in 1:i) {
-      tree[i, j] <- S0 * up^(j - 1) * down^((i - 1) - (j - 1))
+for (step in 0:n) {
+  for (i in seq_along(lattice[[step + 1]])) {
+    if (lattice[[step + 1]][i] > threshold) {
+      print(paste("Price exceeds threshold at step", step, ":", lattice[[step + 1]][i]))
     }
   }
-  return(tree)
 }
+
 ```
 
-Test the function with three steps:
+Refactor the code into reusable functions:
+
+ - build_lattice(S0, u, d, n): Creates the binomial lattice.
+ - annotate_lattice(lattice, threshold): Annotates lattice with conditions.
+    
+```{r}
+build_lattice <- function(S0, u, d, n) {
+  lattice <- vector("list", n + 1)
+  for (step in 0:n) {
+    prices <- numeric(step + 1)
+    for (i in 0:step) {
+      prices[i + 1] <- S0 * u^i * d^(step - i)
+    }
+    lattice[[step + 1]] <- prices
+  }
+  return(lattice)
+}
+
+annotate_lattice <- function(lattice, threshold) {
+  for (step in seq_along(lattice)) {
+    for (price in lattice[[step]]) {
+      if (price > threshold) {
+        print(paste("Price exceeds threshold at step", step - 1, ":", price))
+      }
+    }
+  }
+}
+
+```
+
+Using R Lists
+
+Explain how the list structure allows flexible storage and access to lattice data.
+Show how lists simplify operations like traversing, annotating, or transforming the lattice.
+
+## Compare with the Binomial Distribution
 
 ```{r}
+# number of simulations
 
-tree <- binomial_tree(S0 = 100, up = 1.1, down = 0.9, steps = 3)
-tree
+simulations <- 1000
+
+# Simulate prices using the binomial lattice
+simulate_price <- function() {
+  upward_moves <- rbinom(1, size = n, prob = p)  # Simulate number of up moves
+  S0 * u^upward_moves * d^(n - upward_moves)     # Compute final price
+}
+
+simulated_prices <- replicate(simulations, simulate_price())
+
+# Compute the simulated distribution
+simulated_data <- as.data.frame(table(simulated_prices))
+colnames(simulated_data) <- c("Price", "Count")
+simulated_data$Price <- as.numeric(as.character(simulated_data$Price))
+simulated_data$Probability <- simulated_data$Count / sum(simulated_data$Count)
+
+# Binomial distribution for comparison
+binomial_counts <- dbinom(0:n, size = n, prob = p)  # Theoretical probabilities
+binomial_prices <- S0 * u^(0:n) * d^(n:0)           # Prices corresponding to outcomes
+theoretical_data <- data.frame(
+  Price = binomial_prices,
+  Probability = binomial_counts
+)
+
+# Plot simulated vs theoretical distribution
+ggplot() +
+  # Simulated probabilities as bars
+  geom_bar(data = simulated_data, aes(x = Price, y = Probability, fill = "Simulated"), 
+           stat = "identity", alpha = 0.6, width = 1) +
+  # Theoretical probabilities as points
+  geom_point(data = theoretical_data, aes(x = Price, y = Probability, color = "Theoretical"),
+             size = 3) +
+  labs(title = "Simulated vs Theoretical Distribution of Binomial Lattice Prices",
+       x = "Price", y = "Probability", fill = "Legend", color = "Legend") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = "blue") +
+  scale_color_manual(values = "red") +
+  theme(legend.position = "top")
+
 ```
 
-#### Simulating SP500 Prices
-
-Using historical SP500 data, calculate:
-- $\nu$: Average annual log return.
-- $\sigma$: Annualized volatility.
-
-Then, simulate the binomial price process and visualize the probability
-distribution of final prices:
-
-we need to work this out still using concrete returns.
-
-<!-- ```{r} -->
-<!-- # Simulate a year of daily prices -->
-<!-- tree <- binomial_tree(S0 = 100, up = u, down = d, steps = 250) -->
-<!-- outcomes <- tree[dim(tree)[1], ] -->
-<!-- plot(outcomes, dbinom(0:250, size = 250, prob = p), type = "h") -->
-<!-- ``` -->
 
 ### Subsection: Leveraging an LLM to Enhance Learning from Binomial Models
 
-#### **Using an LLM for Advanced Financial Modeling**
+Since this lecture was a lot about programing I would like to show you here
+as a use case for how the LLM can enhance your learning experience, a case
+where you can use the LLM to debug your code, taking the binomial lattice
+example as a case in point.
 
-An LLM like ChatGPT can significantly enhance your learning experience from this lecture by helping you:
-1. **Understand Complex Concepts**: Get detailed explanations of topics like binomial trees, asset price dynamics, and probability distributions.
-2. **Generate Customized Code**: Create tailored R scripts to experiment with different stocks, time horizons, or assumptions.
-3. **Validate Your Work**: Debug your code or verify theoretical calculations.
-4. **Extend the Model**: Explore advanced variations, such as incorporating dividends or multi-asset portfolios.
+Debugging is a critical skill when learning to program, and large 
+language models (LLMs) like ChatGPT can serve as valuable assistants 
+in this process. Below is a suggested outline for a subsection demonstrating how 
+you can use an LLM to debug the binomial lattice programming example.
 
----
+#### **Using an LLM to Debug: The Binomial Lattice Example**
 
-#### Using an LLM to enhance you understanding: Debugging and Extending the Binomial Tree Model
+When building the binomial lattice, you might encounter issues like incorrect 
+outputs, errors in indexing, or unexpected behavior in your code. 
 
-Imagine you’ve written an R function to generate a binomial tree but are unsure if the logic is correct. You can ask the LLM to review your code, explain its functionality, and suggest improvements.
+Here’s how an LLM can help:
 
-For example:
-**Prompt to the LLM**:
+**1. Understanding Error Messages**
 
-> "I wrote this function to generate a binomial tree in R. Can you check if it’s correct? If not, how can I fix it?"
-```r
-binomial_tree <- function(S0, up, down, steps) {
-  tree <- matrix(0, nrow = steps + 1, ncol = steps + 1)
-  for (i in 1:(steps + 1)) {
-    for (j in 1:i) {
-      tree[i, j] <- S0 * up^(j - 1) * down^((i - 1) - (j - 1))
-    }
-  }
-  return(tree)
-}
-```
+Here is a typical scenario:
+Suppose you encounter the error:
+`Error in rep(0:n, times = 1:n + 1) : invalid 'times' argument`.
 
-The LLM can:
-- Analyze the logic and verify the implementation.
-- Suggest optimizations, like avoiding redundant calculations.
-- Explain how to test the function with sample inputs and interpret the results.
+Here is how the LLM helps. 
 
----
+- Ask the LLM for an explanation:
+  > "I encountered the error `invalid 'times' argument` in R. Here’s the code: `rep(0:n, times = 1:n + 1)`. What’s wrong?"
 
-#### **Use Case: Generating Advanced Visualizations**
+- Expected Response:
+  - The LLM will explain that `1:n + 1` is interpreted as `(1:n) + 1` due to operator precedence and suggest wrapping it in parentheses: `times = (1:n) + 1`.
 
-You want to visualize not just the final outcomes of the binomial model but also the entire tree structure over time. While this isn’t covered in the lecture, you can ask:
-> "How can I visualize the full binomial tree structure generated by my function?"
+**2. Fixing Logic Errors**
 
-The LLM can suggest:
-- Using packages like `DiagrammeR` or `igraph` for structured visualizations.
-- Overlaying probabilities or expected values on the tree for deeper insights.
+Here is another scenario:
+Your binomial lattice produces unexpected prices at certain 
+nodes, possibly due to incorrect calculations in the inner loop.
 
----
+You can use the LLM in the following way in such a scenario:
 
-#### **Use Case: Customizing the Project**
+- Describe the issue to the LLM and share the relevant code snippet:
+  > "My R program for generating a binomial lattice gives wrong prices. Here’s the code for the inner loop:  
+  `prices[i + 1] <- S0 * u^i * d^(step - i)`
+  What could be wrong?"
 
-You’ve completed the project but want to explore additional scenarios. For example:
-- Use different assets (e.g., cryptocurrencies or ETFs).
-- Model dividends or transaction costs.
-- Extend the tree to multiple assets for portfolio modeling.
-
-**Prompt to the LLM**:
-> "How can I extend my binomial tree model to include transaction costs of 0.1% for every price change?"
-
-The LLM can guide you step-by-step:
-1. Modify the price calculation at each node to subtract transaction costs.
-2. Adjust the recursion logic to account for the modified prices.
-3. Validate the results and interpret the impact of transaction costs.
-
----
-
-#### **Why This Matters**
-
-Using an LLM allows you to:
-- Gain insights beyond the lecture material.
-- Accelerate your coding and problem-solving skills.
-- Explore advanced scenarios without requiring pre-existing expertise.
-
-By leveraging these tools effectively, you can turn theoretical concepts into practical, actionable skills that prepare you for real-world challenges in Finance and beyond.
-
----
-
-Would you like this subsection expanded or tailored further to specific aspects of the lecture?
-
-### Project Proposal: Simulating and Analyzing Real-World Asset Price Dynamics with Binomial Trees
-
-#### **Objective**
-Create a project where students use **real-world stock price data** (retrieved via `tidyquant`) to:
-1. Build a **binomial tree model** for a selected stock’s price dynamics.
-2. Calibrate the model using historical data (e.g., average annual return and volatility).
-3. Simulate the stock's potential price distribution over a defined time horizon.
-4. Analyze and visualize the results to compare simulated outcomes with theoretical values.
-
-This project ties together the lecture’s concepts, emphasizes practical applications, and encourages exploration of real data.
-
-### **Step-by-Step Structure for the Project**
-
-#### **Step 1: Data Retrieval**
-1. Use the `tidyquant` package to download historical stock price data for a user-selected stock (e.g., "AAPL" or "MSFT").
-2. Compute **daily log returns** and **annualized statistics**:
-   - Average annual log return (\( \nu \)).
-   - Annualized volatility (\( \sigma \)).
-
-#### Example Code:
-
-```{r}
-library(tidyquant)
-library(tidyverse)
-
-# Retrieve historical stock prices
-stock_data <- tq_get("AAPL", from = "2018-01-01", to = "2023-01-01")
-
-# Compute daily log returns
-stock_data <- stock_data %>%
-  mutate(log_return = log(adjusted / lag(adjusted)))
-
-# Annualized statistics
-nu <- mean(stock_data$log_return, na.rm = TRUE) * 252
-sigma <- sd(stock_data$log_return, na.rm = TRUE) * sqrt(252)
-
-nu
-sigma
-```
-
-#### **Step 2: Calibrate the Binomial Tree Parameters**
-
-1. Define the time step as daily ($\Delta t = 1/252$).
-2. Compute the **up factor** ($ u $), **down factor** ($ d $), and **probability** ($p$) using the formulas:
-   - $u = e^{\sigma \sqrt{\Delta t}}$
-   - $d = e^{-\sigma \sqrt{\Delta t}}$
-   - $p = \frac{1}{2} + \frac{\nu}{2\sigma} \sqrt{\Delta t}$.
-
-#### Example Code:
-
-```{r}
-delta_t <- 1 / 252
-u <- exp(sigma * sqrt(delta_t))
-d <- exp(-sigma * sqrt(delta_t))
-p <- 0.5 + (nu / (2 * sigma)) * sqrt(delta_t)
-
-u
-d
-p
-```
-
-#### **Step 3: Build the Binomial Tree**
-
-1. Write a function to generate a binomial tree for a given stock.
-2. Use the calibrated parameters to simulate the stock price evolution over a given horizon (e.g., 1 year with 252 steps).
-
-#### Example Code:
-
-```{r}
-binomial_tree <- function(S0, u, d, p, steps) {
-  tree <- matrix(0, nrow = steps + 1, ncol = steps + 1)
-  
-  for (i in 1:(steps + 1)) {
-    for (j in 1:i) {
-      tree[i, j] <- S0 * u^(j - 1) * d^((i - 1) - (j - 1))
-    }
-  }
-  
-  tree
-}
-
-# Generate a binomial tree for 1 year
-S0 <- 100  # Starting stock price
-tree <- binomial_tree(S0, u, d, p, steps = 252)
-```
-
----
-
-#### **Step 4: Simulate and Visualize Final Price Distribution**
-
-1. Extract the last row of the binomial tree to analyze final stock price outcomes.
-2. Use the **binomial distribution** to compute the probabilities for each outcome.
-3. Plot the **probability mass function (PMF)** and compare it to the simulated distribution.
-
-#### Example Code:
-
-```{r}
-# Extract final prices and probabilities
-final_prices <- tree[dim(tree)[1], ]
-probabilities <- dbinom(0:252, size = 252, prob = p)
-
-# Plot PMF
-plot(final_prices, probabilities, type = "h", 
-     main = "Probability Mass Function", 
-     xlab = "Final Stock Price", ylab = "Probability")
-```
-
----
-
-#### **Step 5: Comparison and Analysis**
-1. Compare the expected value of the final stock price from the model to the expected value based on the annualized return.
-2. Discuss discrepancies and assumptions (e.g., independence of returns, constant volatility).
+- Expected Response:
+  - The LLM identifies possible issues, like `i` or `step` being out of range or incorrectly calculated, and suggests debugging steps such as printing intermediate values or checking the inputs.
 
 
-### **Deliverables**
-1. **Code Implementation**: A complete script that retrieves data, calibrates the model, builds the binomial tree, and visualizes the results.
-2. **Report**:
-   - Explanation of the binomial model and its calibration.
-   - Interpretation of the results (e.g., insights from the PMF, expected value, etc.).
-   - Reflection on the limitations of the model and suggestions for improvement.
+**3. Optimizing and Explaining Code**
 
----
+Suppose
+you want to understand why lists are used for the lattice instead of 
+other data structures.
 
-### **Why This Project?**
-- **Practical Relevance**: Students work with real data, gaining insights into real-world financial modeling.
-- **Integration of Concepts**: Combines probability, binomial distributions, asset price dynamics, and R programming.
-- **Exploration Opportunities**: Students can tweak parameters, test different stocks, or extend the model (e.g., incorporating dividends or multi-asset portfolios).
+You can ask the LLM:
 
-Would you like me to expand any section or provide additional example code?
+- Ask for an explanation:
+  > "Why is a list used to store the binomial lattice in R? Would a matrix or data frame work better?"
+
+- Expected Response:
+  - The LLM explains that a list is suitable because each level of the lattice has a variable number of nodes, which isn’t easily handled by a matrix or data frame without introducing unnecessary complexity.
+
+**4. Debugging Visualization Issues**
+
+Assume
+you’re trying to plot the lattice, but the `geom_segment` lines 
+don’t connect the nodes as expected.
+
+- Describe the visualization issue:
+  > "I’m plotting a binomial lattice using `geom_segment` in ggplot2, but the edges don’t connect the nodes correctly. Here’s my edge-building code:  
+  ```r
+  edges <- data.frame(x = ..., y = ..., xend = ..., yend = ...)
+  ```  
+  What could be wrong?"
+
+- Expected Response:
+  - The LLM checks the code logic and might point out mismatches between `x`, `y`, `xend`, and `yend` or issues with the structure of the `edges` data frame.
+
+**General Tips for Using an LLM for Debugging**:
+
+1. **Be Specific**: Clearly describe the problem and provide the relevant code snippet. The more context you provide, the better the assistance.
+2. **Iterate**: If the initial response doesn’t fully address your issue, refine your question or provide additional details.
+3. **Verify Suggestions**: Test the LLM’s suggestions in your R environment to ensure they solve the problem.
+
+## Project: Portfolio Simulation and Analysis with Discrete Random Variables
+
+## Project Overview
+
+In this project, you will simulate and analyze the performance of 
+a portfolio composed of three assets under uncertain economic conditions. 
+You will model the asset returns using discrete random variables, compute 
+key portfolio metrics like expected return and variance, and understand the 
+economic intuition behind portfolio diversification. This project will also 
+reinforce key programming concepts such as modular functions, control 
+structures, and R’s list structure.
+
+## Project Objectives
+By the end of this project, you should be able to:
+1. Apply the concept of random variables to model asset returns under uncertainty.
+2. Simulate portfolio performance over multiple periods.
+3. Compute and interpret key portfolio metrics: expected return, variance, and covariance.
+4. Use modular programming, control structures, and lists in R to build efficient and reusable code.
+5. Understand the trade-offs between risk and return in portfolio theory.
+
+## Project Tasks
+
+### Task 1: Define the Portfolio
+1. Define three economic states: `"High"`, `"Medium"`, and `"Low"`, and their probabilities: 30%, 50%, and 20%.
+2. Assign discrete returns for three assets under each state:
+   - Asset 1: `c(0.08, 0.04, -0.02)`
+   - Asset 2: `c(0.12, 0.03, -0.05)`
+   - Asset 3: `c(0.05, 0.02, 0.01)`
+3. Specify portfolio weights: 50% for Asset 1, 30% for Asset 2, and 20% for Asset 3.
+
+### Task 2: Simulate Portfolio Performance
+1. Write modular functions to:
+   - Simulate a random economic state based on the given probabilities.
+   - Retrieve asset returns for the simulated state using a list structure.
+   - Compute the portfolio return as the weighted sum of asset returns.
+2. Simulate portfolio performance over 1,000 periods and store the results in a list. Each element should include:
+   - The simulated state.
+   - Returns for each asset.
+   - The portfolio return.
+
+### Task 3: Analyze Portfolio Performance
+1. Compute summary statistics for the simulated portfolio returns:
+   - Mean return.
+   - Variance of returns.
+2. Compare the simulated mean return with the **theoretical expected portfolio return**, calculated as:
+   $$
+   E(R_{\text{portfolio}}) = \sum_{i=1}^n w^i \cdot E(r^i)
+   $$
+3. (Optional) Compute the theoretical portfolio variance:
+   $$
+   \text{Var}(R_{\text{portfolio}}) = \sum_{i=1}^n (w^i)^2 \cdot \text{Var}(r^i) + \sum_{i \neq j} w^i \cdot w^j \cdot \text{Cov}(r^i, r^j)
+   $$
+
+### Task 4: Visualize Results
+1. Create a histogram of the simulated portfolio returns.
+2. Calculate and display the frequency of each economic state in the simulation to verify that the probabilities were correctly implemented.
+
+### Task 5: Reflection and Extensions
+1. Reflect on the relationship between diversification and risk. How does combining assets with different return profiles reduce portfolio variance?
+2. **Extensions (Optional)**:
+   - Add a fourth asset to the portfolio and observe its impact on portfolio metrics.
+   - Explore how changing portfolio weights affects expected return and variance.
+
+## Deliverables
+1. Well-documented R script implementing the project tasks.
+2. A short report summarizing:
+   - Key findings from the simulation and analysis.
+   - Comparison between simulated and theoretical metrics.
+   - Visualizations (e.g., histogram, state frequencies).
+
+
+
+
+
+
+
+
