@@ -1,0 +1,135 @@
+---
+title: "Project 3: Evaluating Credit Risk Using Conditional Probabilities"
+format: html
+editor: source
+---
+
+## Introduction
+
+In this project, we analyze the likelihood of a borrower defaulting on a loan using **conditional probabilities** and **Bayes' Rule**. 
+This project demonstrates the application of theoretical probability concepts and their practical 
+implementation in R, providing insights into real-world financial risk assessment.
+
+---
+
+## Problem Setup
+
+### Scenario
+A bank is evaluating a loan application using historical data to estimate the likelihood of default. 
+The borrower has a low credit score, and the bank has the following data:
+
+1. **Default Rates**:
+   - Probability of default for all customers: $P(D) = 0.04$.
+   - Probability of non-default for all customers: $P(ND) = 0.96$.
+
+2. **Evidence**:
+   - Probability of a low credit score given default: $P(L|D) = 0.7$.
+   - Probability of a low credit score given non-default: $P(L|ND) = 0.1$.
+
+We aim to calculate the **posterior probability** of default given a low credit 
+score, $P(D|L)$, using **Bayes' Rule**.
+
+---
+
+## Step-by-Step Solution
+
+### Step 1: Compute $P(D|L)$ Using Bayes' Rule
+
+Bayes' Rule is given by:
+$P(D|L) = \frac{P(L|D) \cdot P(D)}{P(L|D) \cdot P(D) + P(L|ND) \cdot P(ND)}$
+
+Substitute the given values:
+$P(D|L) = \frac{0.7 \cdot 0.04}{0.7 \cdot 0.04 + 0.1 \cdot 0.96} = \frac{0.028}{0.028 + 0.096} = \frac{0.028}{0.124} \approx 0.226$
+
+Thus, the probability that the borrower will default given their low credit score is approximately **22.6%**.
+
+---
+
+### Step 2: Simulate the Scenario in R
+
+We simulate customer data to verify the theoretical result. The following steps outline the simulation process:
+
+#### Simulating Defaults and Credit Scores
+
+```{r}
+set.seed(123)  # For reproducibility
+
+# Parameters
+p_default <- 0.04
+p_low_given_default <- 0.7
+p_low_given_non_default <- 0.1
+n_customers <- 10000
+
+# Simulate defaults
+default <- sample(c(1, 0), size = n_customers, replace = TRUE, 
+                  prob = c(p_default, 1 - p_default))
+
+# Simulate low credit scores
+prob_low_credit <- default * p_low_given_default + 
+  (1 - default) * p_low_given_non_default
+low_credit <- rbinom(n_customers, size = 1, prob = prob_low_credit)
+
+# Combine data into a data frame
+data <- data.frame(Default = default, LowCredit = low_credit)
+
+```
+
+#### Compute Simulated $P(D|L)$
+
+```{r}
+# Calculate P(D|L) from the simulated data
+p_d_given_l_sim <- sum(data$Default == 1 & data$LowCredit == 1) / 
+  sum(data$LowCredit == 1)
+p_d_given_l_sim
+```
+
+The simulated probability $P(D|L)$ should closely match the theoretical 
+value of approximately **22.6%**.
+
+---
+
+### Step 3: Visualize Results
+
+To compare the theoretical and simulated results, we create a simple bar plot:
+
+```{r}
+# Theoretical result
+p_d_given_l_theory <- 0.7 * 0.04 / (0.7 * 0.04 + 0.1 * 0.96)
+
+# Bar plot
+barplot(
+  c(Simulated = p_d_given_l_sim, Theoretical = p_d_given_l_theory), 
+  main = "Probability of Default Given Low Credit Score", 
+  ylab = "P(Default | Low Credit)", 
+  col = c("blue", "red")
+)
+```
+
+The bar plot visually compares the simulated and theoretical probabilities, helping to validate our calculations.
+
+---
+
+## Extensions
+
+To deepen understanding, consider these additional analyses:
+
+1. **Impact of Changing $P(D)$**:
+   - How does $P(D|L)$ change if the overall default rate ($P(D)$) increases or decreases?
+
+2. **Sensitivity Analysis**:
+   - Explore how changes in $P(L|D)$ and $P(L|ND)$ affect $P(D|L)$.
+
+3. **Real-World Context**:
+   - Discuss how similar probability models are used in credit risk assessment and other financial applications.
+
+---
+
+## Summary
+
+In this project, we:
+1. Used **Bayes' Rule** to compute the posterior probability of default given a low credit score.
+2. Simulated customer data to verify theoretical results.
+3. Visualized and compared theoretical and simulated probabilities.
+
+This exercise reinforced key probability concepts and demonstrated their practical application in finance. It also provided hands-on practice with R programming for probability analysis.
+

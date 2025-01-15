@@ -1,0 +1,127 @@
+
+---
+title: "Project: Financial Identifier Collisions Solutions"
+format: html
+---
+
+## Project: Financial Identifier Collisions
+
+In this project, we explore the likelihood of "collisions" in financial transaction identifiers. By simulating transaction identifiers and analyzing the probability of collisions, we can understand the challenges of designing secure financial systems.
+
+---
+
+### Exercise 1: Simulate Transaction Identifiers
+
+#### Task
+Write a function to simulate transaction identifiers, where each identifier is randomly chosen from a pool of size \(M\).
+
+#### Solution
+```{r}
+# Function to simulate transaction identifiers
+simulate_identifiers <- function(n, M) {
+  sample(1:M, n, replace = TRUE)
+}
+
+# Example: Simulate 1000 identifiers from a pool of size 1,000,000
+set.seed(123)
+identifiers <- simulate_identifiers(1000, 1e6)
+identifiers
+```
+
+**Comments**:
+- \(n\) represents the number of transactions.
+- \(M\) represents the size of the identifier pool.
+
+---
+
+### Exercise 2: Check for Collisions
+
+#### Task
+Write a function to check if a collision occurred in a set of identifiers.
+
+#### Solution
+```{r}
+# Function to check for collisions
+has_collision <- function(identifiers) {
+  any(duplicated(identifiers))
+}
+
+# Example: Check for collisions
+has_collision(identifiers)
+```
+
+**Comments**:
+- This function returns `TRUE` if there are duplicate identifiers, `FALSE` otherwise.
+
+---
+
+### Exercise 3: Estimate Collision Probability
+
+#### Task
+Simulate \(n\) transactions multiple times and estimate the probability of at least one collision.
+
+#### Solution
+```{r}
+# Function to estimate collision probability
+collision_probability <- function(n, M, trials = 10000) {
+  results <- replicate(trials, {
+    identifiers <- simulate_identifiers(n, M)
+    has_collision(identifiers)
+  })
+  mean(results)
+}
+
+# Example: Estimate collision probability for n = 1000, M = 1,000,000
+collision_probability(1000, 1e6)
+```
+
+**Comments**:
+- Repeat the simulation for different values of \(n\) and \(M\) to analyze the relationship between transaction volume, pool size, and collision probability.
+
+---
+
+### Exercise 4: Visualize Collision Probability
+
+#### Task
+Plot the collision probability as a function of \(n\) for different values of \(M\).
+
+#### Solution
+```{r}
+# Parameters
+n_values <- seq(100, 10000, by = 100)
+M_values <- c(1e6, 1e9)
+
+# Compute probabilities
+results <- lapply(M_values, function(M) sapply(n_values, collision_probability, M = M))
+
+# Plot results
+plot(n_values, results[[1]], type = "l", col = "blue", ylim = c(0, 1),
+     xlab = "Number of Transactions (n)", ylab = "Collision Probability",
+     main = "Collision Probability vs. Number of Transactions")
+lines(n_values, results[[2]], col = "red")
+legend("bottomright", legend = c("M = 1e6", "M = 1e9"), col = c("blue", "red"), lty = 1)
+```
+
+**Comments**:
+- Larger identifier pools (\(M\)) significantly reduce the probability of collisions, even for high transaction volumes.
+
+---
+
+### Exercise 5: Discuss Financial Implications
+
+#### Task
+Reflect on the impact of identifier collisions in financial systems.
+
+#### Solution
+1. **Risk of Collisions**:
+   - Collisions can cause transaction processing errors, misattribution of funds, or vulnerabilities to fraud.
+   - Systems with small identifier pools (\(M\)) are particularly vulnerable when transaction volumes (\(n\)) are high.
+
+2. **Mitigation Strategies**:
+   - Increase the size of the identifier pool (\(M\)) to reduce collision probability.
+   - Use cryptographic hash functions (e.g., SHA-256) to ensure a large output space.
+
+---
+
+### Conclusion
+This project demonstrates how probability concepts like the birthday problem are applied to real-world challenges in financial systems. By simulating transaction identifiers and analyzing collision probabilities, students gain practical insights into the design of secure and efficient financial infrastructure.

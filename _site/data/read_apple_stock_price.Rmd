@@ -1,0 +1,26 @@
+---
+title: "Reading the Apple stock price from using tidyquant"
+output: html_notebook
+author: Martin Summer
+date: "`r Sys.Date()`"
+---
+
+```{r, message = F}
+library(tidyverse)
+library(tidyquant)
+library(xlsx)
+```
+
+```{r read-apple-price}
+aapl_prices  <- tq_get("AAPL", get = "stock.prices", from = " 1990-01-01")
+```
+
+```{r}
+aapl_prices
+```
+```{r write-apple-stock-csv}
+write_csv(aapl_prices, "~/Presentations/Belgrade_Probability_Lectures/Lectures_2023/data/aapl_prices.csv")
+write.xlsx(aapl_prices, "~/Presentations/Belgrade_Probability_Lectures/Lectures_2023/data/aapl_prices.xlsx")
+saveRDS(aapl_prices, "~/Presentations/Belgrade_Probability_Lectures/Lectures_2023/data/aapl_prices.RDS")
+```
+
