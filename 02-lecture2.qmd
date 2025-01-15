@@ -17,7 +17,7 @@ theory.
 
 As in the previous lecture R will help us to better understand these
 concepts in practice. We will substantially enlarge our knowledge
-of R in this lecture to buid more complex simulations as well as
+of R in this lecture to build more complex simulations as well as
 to enhance our ability to manipulate data for probabilistic analysis.
 As a finance context we will use stock market data as our leading
 example.
@@ -58,9 +58,13 @@ surveys or fluctuations in stock prices.
 
 Let us now formalize the foundational concepts of this theory:
 
-Random Experiment
-: A process with a set of possible outcomes, where 
+::: {.callout-tip #random-experiment}
+
+# Definition: Random Experiment:
+
+A process with a set of possible outcomes, where 
 the specific outcome cannot be predicted with certainty beforehand.
+:::
 
 To clarify this concept, we define uncertain outcomes in advance.
 We pin down the possible outcomes by agreeing *on the outset* what
@@ -81,21 +85,31 @@ are *rise*, *fall* and *unchanged*.
 This collection of all possible outcomes in probability
 theory is called the
 
-Sample space
-: The collection of all possible outcomes of an experiment is 
+::: {.callout-tip #sample-space}
+
+# Definition: Sample space
+
+The collection of all possible outcomes of an experiment is 
 called the **sample space** and is denoted as the set 
 ${\cal S}$
+
+:::
 
 In the example before when we look at rises and falls in the stock
 price we would have ${\cal S} = \{rise, fall \}$
 
-Basic outcome, event, simple event
-: A **basic outcome** is a single possible result of a random experiment.
+::: {.callout-tip #outcome-event-simple-event}
+
+# Definition: Basic outcome, event, simple event
+
+A **basic outcome** is a single possible result of a random experiment.
 An **event** is a subset of the sample space, representing one or more 
 outcomes. A **simple event** is an event containing exactly one basic outcome.
 
+:::
+
 **Example:** For 
-{\cal S} = \{rise,fall\}$, the event $\{\text{rise}\}$ is a simple event, while the 
+${\cal S} = \{\text{rise},\text{fall} \}$, the event $\{\text{rise}\}$ is a simple event, while the 
 event $\{\text{rise, fall}\}$ includes all outcomes and corresponds to the entire 
 sample space.
 
@@ -104,24 +118,27 @@ But the
 theory of probability actually does not depend on how we measure it
 precisely. In the theory of probability this measure is an abstract concept.
 
-Probability
-: For a given (discrete) sample space ${\cal S}, 
+::: {.callout-tip #probability}
+
+# Definition: Probability
+
+For a given (discrete) sample space ${\cal S}$, 
 **Probability** is a function that assigns a value to each event,
-representing its likelihood. The function has to fulfill three properties:
+representing its likelihood. 
+The function has to fulfill three properties:
+
 1. $P({\cal S}) = 1$.
 2. For any event $A \in {\cal S}$,  $0 \leq P(A) \leq 1$. The probability of an event can never be
 negative or larger than 1.
 3. For mutually exclusive events $A$ and $B$, $P(A \cup B) \leq P(A) + P(B)$.
 
+:::
+
 Thus when we
 talk about probability in a precise and meaningful sense we can only do so in relation to
 a given sample space or to a certain conceptual experiment.
-In theory, probability is an abstract measure of uncertainty that does 
-not depend on how it is observed or estimated. While practical applications 
-may involve approximating probabilities using data, the mathematical 
-theory assumes probabilities are predefined and satisfy specific rules.
 
-I have itroduced here probabilities with relation
+I have introduced here probabilities with relation
 to a *discrete* sample space.  The sample spaces discussed 
 in Lecture 1 include 
 finite sets, which can be small or large, such as the extensive 
@@ -133,7 +150,7 @@ tossing a coin as often as
 necessary to see Heads for the first time. We can begin writing 
 down the basic outcomes as:
 $E_1=H, E_2=TH, E_3 = TTH, E_4 = TTTH, ...$. An event where Heads never appear, 
-denoted $E0$, may also be considered. In this case, when the basic
+denoted $E_0$, may also be considered. In this case, when the basic
 events can be arranged into a simple sequence.
 A sample space is called *discrete* if it contains only finitely many points, or infinitely many
 points which can be arranged into a simple sequence.
@@ -143,11 +160,7 @@ technical tools required there is no essential difference between the two cases.
 In our discussion
 of probability in this lecture we consider mostly discrete sample spaces, however 
 we will
-also discuss some basic non-discrete sample spaces later in the lectures. Now let us
-state more formally what we mean by probability.
-
-Before we go on let me further clarify what we mean when we say that in the theory,
-probability is an abstract measure of uncertainty which we take as given.
+also discuss some basic non-discrete sample spaces later in the lectures. 
 
 ## Probability in theory and applications of probability {#probability-theory-and-applications}
 
@@ -174,9 +187,14 @@ probabilities effectively.
 Let's go through them and illustrate the concepts in the context of the
 examples we have already developed in lecture 1.
 
-Union
-: The **union of two events** $A$ and $B$ represents all outcomes
+::: {.callout-tip #set-union}
+
+# Definition: Set Union 
+
+The **union of two events** $A$ and $B$ represents all outcomes
 that belong to $A$, $B$ or in both. It is written $A \cup B$.
+
+:::
 
 Let us use the example of the experiment of rolling a die. The sample space ${\cal S}$ is
 the set of all possible outcomes of rolling the dice ${\cal S}=\{1,2,3,4,5,6\}$. Assume one
@@ -214,11 +232,13 @@ The sample space ${\cal S}$ is the gray set containing all possible outcomes of 
 random experiment. Graphically the union of $A$ and $B$, $A \cup B$ is a subset of
 the sample space, the entire colored area.
 
+::: {.callout-tip #set-intersection}
 
-
-Intersection
-: The **intersection of two events** are all outcomes that are both 
+# Intersection
+The **intersection of two events** are all outcomes that are both 
 in $A$ and in $B$. It is written as $A \cap B$.
+
+:::
 
 In R we would implement this operation by using the
 function `intersect()` and apply it to our
@@ -240,17 +260,24 @@ The intersection of $A$ and $B$, $A \cap B$ is the orange area containing the di
 points. Indeed two is both in $A$ and in $B$, which is exactly 
 the meaning of set intersection.
 
-Complement
-: The **complement** of an event $A$ within the sample space ${\cal S}$ is
-the set of all outcomes that are in ${\cal S}$ but not in $A$.
-It is written as ${\cal S} \setminus A$.
+::: {.callout-tip #set-minus}
 
-Lets say we want to get the complement, or the set difference of $A \cup B$ with respect to the
+# Complement
+
+The **complement** of an event $A$ within the sample space ${\cal S}$ is
+the set of all outcomes that are in ${\cal S}$ but not in $A$.
+It is written as ${\cal S} \setminus A$
+
+:::
+
+Lets say we want to get the complement, or the set difference of $A \cup B$ 
+with respect to the
 sample space ${\cal S}$.
 
-The R implementation of the set differecne operation is the function
-`setdiff()`. This is how we would tell R to compute the setdifference
-of the union of $a$ and $B$ and the sample space ${\cal S}$ in our example
+The R implementation of the set difference operation is the function
+`setdiff()`. This is how we would tell R to compute the set difference
+of the union of $A$ and $B$ and the sample space ${\cal S}$ 
+in our example
 of the die:
 
 
@@ -262,18 +289,22 @@ setdiff(S, union(A,B))
 
 This can again be visualized in @fig-set-minus
 
-```{r set-minus, out.width='80%', fig.align='center', fig.cap='The meaning of complement', echo = F}
+```{r fig-set-minus, out.width='80%', fig.align='center', fig.cap='The meaning of complement', echo = F}
 knitr::include_graphics('figures/set_minus.png')
 ```
 
 This complement is the dice shown in the light redish area, i.e. all the elements of ${\cal S}$
 which are not in $A \cup B$.
 
+::: {.callout-tip #mutually-exclusive}
 
-Mutually Exclusive
-: Two events $A$ and $B$ are **mutually exclusive** if they can not
+# Mutually Exclusive
+
+Two events $A$ and $B$ are **mutually exclusive** if they can not
 occur simultaneously. This means $A \cap B = \emptyset$, their
 intersection is empty.
+
+:::
 
 An example in our context is the set of even outcomes $B=\{2,4,6\}$ and the set of
 odd outcomes, let us call it $C=\{1,3,5\}$. If we intersect these sets
@@ -292,7 +323,7 @@ there is no numeric value in the intersection of $B$ and $C$.
 
 Let us discuss set operations a bit further by thinking about the
 probability of the union of two events $A$ and $B$ within the context
-of our visual examples. Remember that we had $A = \{1,2,3 \}$ and $B = \{ 2,4,6\}.
+of our visual examples. Remember that we had $A = \{1,2,3 \}$ and $B = \{ 2,4,6\}$.
 Look at @fig-set-union-mutually-exclusive 
 
 ```{r fig-set-union-mutually-exclusive, out.width='80%', fig.align='center', fig.cap='The meaning of set union', echo = F}
@@ -305,7 +336,7 @@ Such double counting must be avoided and thus we have to subtract $P(A \cap B)$
 the intersection, so that: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$. Now you see
 what the qualification *mutually exclusive* does in our probability rule 3. 
 When $A$ and $B$ are mutually exclusive $A \cap B = \emptyset$ and in this case
-$P(A \union B) = P(A) + P(B)$. We can add up the probabilities because when events
+$P(A \cup B) = P(A) + P(B)$. We can add up the probabilities because when events
 are mutually exclusive we can not double count events by adding up individual 
 probabilities.
 
@@ -317,13 +348,9 @@ in point 3 in the definition of probability. How would rule 3 have to be
 changed?
 :::
 
-Here’s a tip you could share with your students to encourage effective use of a Large Language Model (LLM) for deepening their understanding of the concepts and definitions introduced in this section:
-
-
-
 ## Using an LLM to Deepen Your Understanding of Set Theory in Probability
 
-An LLM like ChatGPT can be an incredibly helpful tool to explore concepts 
+An LLM like ChatGPT can be a helpful tool to explore concepts 
 and solidify your understanding. Here are some example of what you could do:
 
 ### Ask for Clarifications  
@@ -510,8 +537,13 @@ frequency and probability.
 
 The Weak Law of Large Numbers provides a rigorous mathematical foundation for the frequency interpretation of probability. It states:
 
-*As the number of independent and identically distributed (i.i.d.) trials increases, the relative frequency of an event converges to its true probability with high probability.*
+::: {.callout-tip}
+# Weak Law of Large Numbers
 
+As the number of independent and identically distributed (i.i.d.) trials 
+increases, the relative frequency of an event converges to its true 
+probability with high probability.
+:::
 
 Now let us pause here and restate what the weak law says: The law says that
 
@@ -526,7 +558,7 @@ probabilities as trials increase.
 2. The weak law does not guarantee exact convergence in finite samples - it 
 describes **long run** outcomes of repeating identical experiments many times.
 
-Let#s go back to the exmple of the fair coin we played with in
+Let's go back to the exmple of the fair coin we played with in
 lecture 1: There we constructed a fair coin toss where 
 $P(\text{Heads})=0.5$. When we have just a few tosses, say 10 times, you might 
 observe 6 Heads (60%), which is close to but not exactly 50%. As you increase
@@ -669,23 +701,22 @@ both occurring is the product of their individual probabilities.
 
 We now formalize this concept:
 
-**Independence:**  
+::: {.callout-tip}
+## Independence
+
 Two events $A$ and $B$ are **independent** if and only if:
 $P(A \cap B) = P(A) \times P(B)$.
+:::
 
 This definition formalizes the idea that the occurrence of one event does not 
 affect the likelihood of the other. Independence is an assumption 
 we often make in theoretical models like the Weak Law of Large Numbers and many other probabilistic frameworks.
-
-### Important Note: Independence vs. Multiplication Rule
 
 While independence allows us to use the multiplication rule
 $P(A \cap B) = P(A) \times P(B)$, it is critical to remember that 
 the reverse is not true:  
 - Just because you can multiply probabilities does not necessarily mean the events are independent.  
 - For independence to hold, the probabilities of the events must truly be unaffected by one another.
-
-### Why Is Independence Important Here?
 
 Independence is a key assumption in the Weak Law of Large Numbers, where 
 we consider a series of **independent and identically distributed (i.i.d.) trials**. 
@@ -695,7 +726,7 @@ concept in many probabilistic models and calculations.
 
 ## Some more concepts from R: Reading Data, R Objects, Subsetting and Modifying Values {#moreR}
 
-But now enough of dices and coins. Let us try out and 
+Let us try out and 
 apply some of the new ideas we just have
 learned and use the opportunity to learn some more important 
 R concepts in the context
@@ -719,7 +750,10 @@ understanding how to access and manipulate data is essential.
 For this example, I’ve prepared a dataset recording daily stock 
 price information for Apple in a CSV file (`aapl_prices.csv`). This file 
 contains the opening, high, low, and closing prices, trading volume, 
-and adjusted closing prices for each day starting in January 1990.
+and adjusted closing prices^[The **adjusted closing price** of a stock is a modified version of the closing price that reflects the effects of any corporate actions, such as stock splits, dividends, and rights offerings. 
+It provides a more accurate representation of the stock's value over time, especially 
+when analyzing historical data or calculating investment returns.]
+for each day starting in January 1990.
 
 To load this file into R, we use the `read.csv()` function:
 
@@ -927,7 +961,6 @@ quotation marks, like `"1"` R would interpret the value as a string not as a num
 one can get confused in R because both objects and characters appear as text in R code. Object
 names are without quotation marks strings always are between quotation marks.
 
-
 We can also reshape the vector into a matrix, which introduces dimensions:
 
 ```{r vector-to-matrix}
@@ -935,7 +968,8 @@ dim(price_changes) <- c(3, 1)
 price_changes
 ```
 
-This transforms the vector into a matrix with 3 rows and 1 column.^[With the attribute system R allows you to represent more data types. R uses, for example
+This transforms the vector into a matrix with 3 rows and 1 column.
+With the attribute system R allows you to represent more data types. R uses, for example
 a special class to represent dates and times. The data variable in our stock data is - for
 example - represents as a type of this kind.
 
@@ -952,12 +986,12 @@ class(now)
 ```
 
 `POSIXct` is a widely used framework for representing dates and times. But we will skip the
-details here.]
+details here.
 
 ### Extending R Objects: Factors, Data Frames, and Lists {#robjects-extended}
 
 In the previous section, we explored **atomic vectors**, the foundation 
-of many R objects. However, real-world data often requires more 
+of many R objects. However, real-world data often require more 
 sophisticated structures. Let’s extend our 
 understanding by examining **factors**, **data frames**, and **lists**, 
 using examples from stock price analysis.
@@ -996,6 +1030,78 @@ Factors are internally stored as integers but behave like characters when displa
 attributes(ordered_days)
 
 ```
+
+Factors are powerful not only for categorizing data but also for performing analyses based on these categories. Let’s analyze how often Apple’s stock price decreased on Mondays in the given dataset.
+
+Suppose we take our original data about the Apple stock price and remove
+the ùp_day`column, we had creatde before:
+
+```{r data-preview}
+# Preview of the dataset
+aapl_prices$up_day <- NULL
+head(aapl_prices)
+```
+
+To identify days when the price decreased, we can compute the daily price change 
+and create a factor to categorize the changes (`"up"`, `"down"`, `"unchanged"`). 
+Then, we can use factors to tabulate occurrences for each day of the week.
+
+We start by adding week days and price change factors:
+
+```{r add-factors}
+# Convert date to Date type and extract weekdays
+aapl_prices$date <- as.Date(aapl_prices$date)
+aapl_prices$weekday <- factor(weekdays(aapl_prices$date), 
+                             levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"))
+
+# Compute daily price change and categorize as up, down, or unchanged
+
+# Create a lookup table as a named character vector
+lookup_table <- c(
+  "up" = "up",
+  "down" = "down",
+  "unchanged" = "unchanged"
+)
+
+# Calculate price differences
+price_diff <- aapl_prices$close - aapl_prices$open
+
+# Create a character vector based on conditions
+price_change <- rep(NA, length(price_diff))
+price_change[price_diff > 0] <- lookup_table["up"]
+price_change[price_diff < 0] <- lookup_table["down"]
+price_change[price_diff == 0] <- lookup_table["unchanged"]
+
+# Convert the result to a factor
+aapl_prices$price_change <- factor(price_change, levels = names(lookup_table))
+
+# View the updated data
+head(aapl_prices)
+
+```
+
+The factor structure allows us quick tabulations, like this:
+
+```{r tabulate-changes}
+# Tabulate price changes by weekday
+tabulated_data <- table(aapl_prices$weekday, aapl_prices$price_change)
+tabulated_data
+```
+
+Then we can use our table to see how many down moves we count on Mondays
+in our data set.
+
+```{r monday-down}
+# Extract the number of down moves on Mondays
+down_on_mondays <- tabulated_data["Monday", "down"]
+down_on_mondays
+```
+
+This analysis reveals how many times Apple’s stock price decreased on Mondays 
+in the dataset. Using factors, we can categorize data and extract meaningful 
+insights, making them an invaluable tool for financial analysis and beyond.
+They are a powerful tool in exploratory data analysis involving
+categorical data.
 
 #### Data Frames: Organizing Stock Price Data {#dataframes}
 
@@ -1075,17 +1181,28 @@ nested_list
 To see how these structures work together, consider this 
 small example. We’ll summarize Apple’s stock price movements over a week and organize the results in a list:
 
-```{r practical-example}
-# Simulate weekly price movements
-week_movements <- sample(c(-1, 0, 1), size = 5, replace = TRUE, 
-                         prob = c(0.3, 0.4, 0.3))
-days <- factor(c("Monday", "Tuesday", "Wednesday", 
-                 "Thursday", "Friday"), ordered = TRUE)
+Here's the adjusted example using your actual dataset `aapl_prices`. This example simulates weekly price movements while working within the context of your existing data structure:
 
-# Create a data frame
-weekly_data <- data.frame(
-  day = days,
-  price_change = week_movements
+We will create a weekly summary based on simulated daily price movements and analyze the results using a summary list. This demonstrates how to summarize factor data combined with numerical summaries.
+
+```{r}
+# Extract the first five rows of the dataset to simulate one week of data
+weekly_data <- head(aapl_prices, 5)
+
+# Add a factor for days of the week
+weekly_data$day <- factor(
+  c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
+  levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
+  ordered = TRUE
+)
+
+# Simulate price changes (-1 = down, 0 = unchanged, 1 = up)
+set.seed(42)  # For reproducibility
+weekly_data$price_change <- sample(
+  c(-1, 0, 1), 
+  size = nrow(weekly_data), 
+  replace = TRUE, 
+  prob = c(0.3, 0.4, 0.3)
 )
 
 # Summarize the data
@@ -1095,8 +1212,20 @@ summary_list <- list(
   total_change = sum(weekly_data$price_change)
 )
 
+# Display the summary list
 summary_list
 ```
+
+Here is an explanation of the individual steps:
+
+1. **Extract Weekly Data:** The `head` function selects the first five rows from `aapl_prices` to simulate a single trading week.
+2. **Add Days as Factors:** A new column `day` assigns ordered factors representing the days of the week.
+3. **Simulate Price Movements:** Random price movements (`-1`, `0`, `1`) are generated using `sample`, with probabilities for down, unchanged, and up movements.
+4. **Create a Summary List:**
+   - `week_data` holds the weekly data frame.
+   - `positive_days` calculates the number of days with an upward price movement.
+   - `total_change` sums the net price movements across the week.
+
 
 This example combines:
 
@@ -1104,7 +1233,6 @@ This example combines:
 - A **data frame** (`weekly_data`) to organize daily price changes.
 - A **list** (`summary_list`) to store the data frame and summary statistics.
 
-#### Why These Structures Matter
 
 Factors, data frames, and lists are essential for organizing and analyzing real-world data. In financial analysis, they allow us to:
 
