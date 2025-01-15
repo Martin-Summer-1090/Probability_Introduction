@@ -29,22 +29,7 @@ This lecture explores the fundamentals of probability, including:
 
 We will aim for a more formal discussion of probability concepts and expand on their practical applications using R, with stock market data as our leading example.
 
-
-# Recap: Lecture 1 Highlights
-
-Key takeaways from Lecture 1:
-
-- **Intuitive probability:** Using equally likely cases to measure uncertainty.
-- **Coincidence problems:** Solving complex problems with simple assumptions of independence.
-- **R applications:** Simulating random experiments and visualizing results.
-- **Empirical relative frequency:** Estimating probabilities by repeating random processes.
-
-
 # Probability Terminology
-
-Probability provides a rigorous framework for understanding uncertainty.
-
-
 
 ## Random Experiment {#random-experiment}
 
@@ -70,7 +55,7 @@ Possible outcomes depend on the agreed scope:
 
 ### Definition: Sample Space
 
-The collection of all possible outcomes of an experiment, denoted by the set ${\cal S}$.
+The collection of all possible outcomes of a random experiment, denoted by the set ${\cal S}$.
 
 :::
 
@@ -107,7 +92,7 @@ In the theory of probability:
   1. $P({\cal S}) = 1$
   2. $0 \leq P(A) \leq 1$ for all events $A$
   3. For mutually exclusive events $A$ and $B$:  
-     $P(A \cup B) \leq P(A) + P(B)$
+     $P(A \cup B) = P(A) + P(B)$
 
 
 
@@ -136,8 +121,6 @@ In practice:
 
 Probability theory relies on the language of sets to describe relationships between events.  
 Understanding key set operations is essential for working with probabilities effectively.
-
-We will illustrate these concepts using examples from Lecture 1.
 
 ---
 
@@ -451,9 +434,7 @@ Ask the LLM to take the role of a peer or instructor for a simulated conversatio
 “Pretend you are my study partner. Let’s discuss the complement of events and its significance in probability.”  
 :::
 
----
-
-# Engage with the Material
+## Engage with the Material
 
 By actively engaging with the LLM through these kinds of prompts, you can:  
 - Practice concepts
@@ -461,8 +442,6 @@ By actively engaging with the LLM through these kinds of prompts, you can:
 - Deepen your understanding of the material  
 
 Try it alone or with your group!
-
-Here’s the content divided into Quarto slides, organized for clarity and proper pacing during the presentation:
 
 # Probability and Frequency {#frequency}
 
@@ -496,12 +475,16 @@ As the number of independent and identically distributed (i.i.d.) trials increas
 ## Understanding the Weak Law
 
 What the WLLN says:
-1. Frequencies approximate probabilities over many trials.
-2. Convergence occurs with high likelihood as trials increase.
+
+ 1. Frequencies approximate probabilities over many trials.
+
+ 2. Convergence occurs with high likelihood as trials increase.
 
 What the WLLN does **not** say:
-1. Frequencies **are not** probabilities.
-2. Exact convergence is not guaranteed in finite samples—it describes long-run behavior.
+
+ 1. Frequencies **are not** probabilities.
+
+ 2. Exact convergence is not guaranteed in finite samples—it describes long-run behavior.
 
 ---
 
@@ -609,8 +592,6 @@ $$P(A \cap B) = P(A) \times P(B)$$
 2. Independence must be verified—it cannot be assumed just because probabilities multiply.
 3. Independence underpins the WLLN and many other probabilistic frameworks.
 
-Here’s how to structure the content into Quarto slides:
-
 
 # Some More Concepts from R {#moreR}
 
@@ -700,7 +681,8 @@ is.vector(price_changes)
 Simulate a week of stock price movements with `sample()`:
 
 ```{r simulate-week}
-week_movements <- sample(price_changes, size = 7, replace = TRUE)
+week_movements <- sample(price_changes, 
+                         size = 7, replace = TRUE)
 week_movements
 ```
 
@@ -721,17 +703,7 @@ week_movements_weighted
 Here, probabilities represent the likelihood of a decrease, no change, or an increase.
 
 
-
-# More About Atomic Vectors and R Objects {#moreRatomic}
-
-In this section, we’ll cover:
-- Atomic vectors and their properties
-- Working with factors and data frames
-- Using R to analyze stock price data
-
----
-
-## Atomic Vectors: Overview
+## More about Atomic Vectors
 
 R supports six types of atomic vectors:
 
@@ -741,19 +713,6 @@ R supports six types of atomic vectors:
 4. **Logical**: Boolean values (`TRUE`, `FALSE`).
 5. **Complex**: Numbers with imaginary components (not covered here).
 6. **Raw**: Binary data (not covered here).
-
----
-
-## Example: Price Changes as Atomic Vectors
-
-We can represent stock price changes as an atomic vector:
-
-```{r price-changes-example}
-price_changes <- c(-1, 0, 1)
-is.vector(price_changes)
-```
-
-This vector stores numeric data representing possible changes.
 
 ---
 
@@ -775,14 +734,17 @@ Factors represent categorical data.
 Example: Representing weekdays:
 
 ```{r factors-example}
-days <- factor(c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"))
+days <- factor(c("Monday", "Tuesday", 
+                 "Wednesday", "Thursday", "Friday"))
 days
 ```
 
 Factors can also be ordered:
 
 ```{r ordered-factors}
-ordered_days <- factor(days, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), ordered = TRUE)
+ordered_days <- factor(days, levels = 
+  c("Monday", "Tuesday", "Wednesday", 
+    "Thursday", "Friday"), ordered = TRUE)
 ordered_days
 ```
 
@@ -795,13 +757,14 @@ To analyze Apple stock data, we can add weekday and price change factors:
 ```{r add-factors-weekdays}
 aapl_prices$date <- as.Date(aapl_prices$date)
 aapl_prices$weekday <- factor(weekdays(aapl_prices$date), 
-                              levels = c("Monday", "Tuesday", 
-                                         "Wednesday", "Thursday", "Friday"))
+  levels = c("Monday", "Tuesday", 
+  "Wednesday", "Thursday", "Friday"))
 
 # Calculate daily price changes
 price_diff <- aapl_prices$close - aapl_prices$open
-aapl_prices$price_change <- factor(ifelse(price_diff > 0, "up", 
-                                          ifelse(price_diff < 0, "down", "unchanged")))
+aapl_prices$price_change <- 
+  factor(ifelse(price_diff > 0, "up", 
+         ifelse(price_diff < 0, "down", "unchanged")))
 ```
 
 ---
@@ -811,7 +774,8 @@ aapl_prices$price_change <- factor(ifelse(price_diff > 0, "up",
 Factors make it easy to tabulate categorical data:
 
 ```{r tabulate-changes}
-tabulated_data <- table(aapl_prices$weekday, aapl_prices$price_change)
+tabulated_data <- table(aapl_prices$weekday, 
+                        aapl_prices$price_change)
 tabulated_data
 ```
 
@@ -844,7 +808,8 @@ Columns in a data frame can store different types of data, such as doubles, char
 We can add a logical column to indicate days when the stock closed higher:
 
 ```{r add-logical-column}
-aapl_prices$up_day <- aapl_prices$close > aapl_prices$open
+aapl_prices$up_day <- 
+  aapl_prices$close > aapl_prices$open
 head(aapl_prices[c("date", "close", "up_day")], n = 5)
 ```
 
@@ -901,7 +866,6 @@ nested_list
 
 Nested lists enable complex data structures, allowing flexible data organization.
 
----
 
 # Factors, Data Frames, and Lists in Practice {#combined-practice}
 
@@ -918,14 +882,14 @@ We’ll summarize Apple’s weekly stock price movements using a combination of:
 ```{r}
 # Extract the first five rows of data
 weekly_data <- head(aapl_prices, 5)
-
 # Add a factor for days of the week
 weekly_data$day <- factor(
-  c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
-  levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),
+  c("Monday", "Tuesday", "Wednesday", 
+    "Thursday", "Friday"),
+  levels = c("Monday", "Tuesday", 
+             "Wednesday", "Thursday", "Friday"),
   ordered = TRUE
 )
-
 # Simulate price changes
 set.seed(42)
 weekly_data$price_change <- sample(
@@ -963,7 +927,6 @@ summary_list
    - `positive_days`: Counts days with upward movements.
    - `total_change`: Sums net price changes.
 
----
 
 # Combining Structures for Financial Analysis
 
@@ -977,7 +940,7 @@ These tools are invaluable for real-world financial analysis.
 
 ---
 
-# Example: Will Apple's Stock Price Move Up or Down? {#apple-up-down}
+# Back to probability: Will Apple's Stock Price Move Up or Down? {#apple-up-down}
 
 Revisit the dataset:
 
@@ -1001,11 +964,6 @@ dim(aapl_prices)
 - `aapl_prices` is a `data.frame` (class: list).
 - Contains `r dim(aapl_prices)[1]` trading days.
 
-This dataset forms the basis for probabilistic and financial analyses.
-
-Here’s how to organize the content into Quarto slides for a presentation:
-
----
 
 
 # Subsetting Data: Accessing Specific Elements
@@ -1142,7 +1100,8 @@ The probability is approximately `r round(mean(aapl_prices$diff_pos, na.rm = TRU
    - `mean()` calculates the proportion of `TRUE` values.
    - Equivalent to:
 ```{r}
-  sum(aapl_prices$diff_pos, na.rm = TRUE) / sum(!is.na(aapl_prices$diff_pos))
+  sum(aapl_prices$diff_pos, na.rm = TRUE) / 
+  sum(!is.na(aapl_prices$diff_pos))
 ```
 
 3. **Flexibility**:
@@ -1222,7 +1181,8 @@ Filter valid trading volumes and extract leading digits:
 ```{r extract-leading-digits}
 volumes <- aapl_prices$volume
 valid_volumes <- volumes[volumes > 0 & !is.na(volumes)]
-leading_digits <- as.numeric(substr(as.character(valid_volumes), 1, 1))
+leading_digits <- as.numeric(
+  substr(as.character(valid_volumes), 1, 1))
 ```
 
 ---
@@ -1255,31 +1215,6 @@ knitr::kable(benford)
 
 ---
 
-# Enhancing Learning with an LLM
-
-### Debugging and Exploring Data
-
-1. **Explain Error Messages**:
-   - Example:
-     ```plaintext
-     Error in table(leading_digits): all arguments must have the same length
-     ```
-   - **Prompt**:
-     “Can you explain this error and suggest how to fix it?”
-
-2. **Explore Best Practices**:
-   - **Prompt**:
-     “Are there better ways to extract leading digits in R?”
-
-3. **Ask “What-If” Questions**:
-   - **Prompt**:
-     “What happens if I include zero values when applying Benford’s Law?”
-
-4. **Summarize Key Concepts**:
-   - **Prompt**:
-     “Can you summarize the main differences between empirical and theoretical probabilities?”
-
----
 
 # Summary
 
@@ -1394,57 +1329,6 @@ Your main tasks:
 
 3. **Relate to Probabilities**:
    - Discuss how large sample sizes enhance reliability.
-
----
-
-### **Step 6: Submit Your Work**
-
-Deliverables:
-1. **Analysis Report**:
-   - Summarize your approach, findings, and interpretation of anomalies.
-   - Include visualizations and tables.
-2. **R Script**:
-   - Submit a well-commented R script.
-
----
-
-## **Deliverables**
-
-### 1. Analysis Report
-- Summarize:
-  - Data preparation and analysis.
-  - Revenue vs. expenditure distribution comparison.
-  - Interpretation of anomalies.
-
-### 2. R Script
-- Provide clear, well-commented code that reproduces your analysis.
-
----
-
-# **What You’ll Learn**
-
-- How to apply **Benford’s Law** to real-world data.
-- Techniques for detecting anomalies in financial datasets.
-- Critical thinking in data analysis:
-  - Understanding when deviations may signal fraud.
-- Enhanced R programming skills:
-  - Data cleaning, manipulation, and visualization.
-
----
-
-## **Tips for Success**
-
-- **Double-check your dataset**:
-  - Ensure valid data by filtering out zeros and missing values.
-- **Use an LLM for assistance**:
-  - Debugging code.
-  - Interpreting unexpected results.
-- **Visualize thoroughly**:
-  - Bar charts are essential for comparing empirical and theoretical distributions.
-- **Think critically**:
-  - Not all deviations indicate fraud—consider alternative explanations.
-
----
 
 # Ready to Detect Anomalies?
 
