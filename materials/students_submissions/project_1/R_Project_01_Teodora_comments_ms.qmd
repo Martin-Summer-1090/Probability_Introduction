@@ -1,0 +1,165 @@
+Group: Vladimir Glamocanin, Nevena Stefanovic, David Popov, Igor Milosevic, Teodora Predojevic
+```{r}
+# 1.5.2 -> Simulate transaction identifiers
+simulate_identifiers <- function(n_transactions, pool_size) {
+  # Generate random identifiers for n_transactions in a space from 1 to pool_size
+  identifiers <- sample(1:pool_size, n_transactions, replace = TRUE)
+
+  # Print the generated identifiers
+  print(paste("Generated identifiers for", n_transactions, "transactions from a pool of size", pool_size, ":"))
+  # print(identifiers)
+
+  # Check if there is a collision (duplicate)
+  collision_exists <- any(duplicated(identifiers))
+
+  if (collision_exists) {
+    print("A collision occurred (duplicate identifier detected).")
+  } else {
+    print("No collision, all identifiers are unique.")
+  }
+
+  # Returns TRUE if there is a collision, FALSE if there is none
+  return(collision_exists)
+}
+
+# Testing the function with 100 transactions and pool_size = 10^6
+simulate_identifiers(100, 1e6)
+
+```
+
+```{r}
+# 1.5.3
+# Function to calculate the collision probability
+collision_probability <- function(n_transactions, pool_size, n_simulations) {
+
+  # Initialize the counter for collisions
+  collision_count <- 0
+
+  # Print initial simulation parameters
+  print(paste("Calculating collision probability for", n_transactions, "transactions and a pool size of", pool_size, "across", n_simulations, "simulations:"))
+
+  for (i in 1:n_simulations) {
+
+    # Call the simulate_identifiers function to check for a collision in this simulation
+    if (simulate_identifiers(n_transactions, pool_size)) {
+
+      # If a collision occurs, increment the collision counter
+      collision_count <- collision_count + 1
+    }
+
+    # Print progress every 100 simulations (or any chosen interval)
+    if (i %% 100 == 0) {
+      print(paste(i, "simulations completed..."))
+    }
+  }
+
+  # Calculate and print the collision probability result
+  probability <- collision_count / n_simulations
+  print(paste("Collision probability is:", round(probability, 4)))
+
+  # Return the collision probability
+  return(probability)
+}
+
+# Example: Calculate the collision probability for 100 transactions and a pool size of 10^6 with 1000 simulations
+# collision_probability(100, 1e6, 1000)
+
+# Example with a larger number of simulations
+# collision_probability(100, 1e6, 1000000)
+# collision_probability(100, 1e6, 1000000000)
+
+# Example: Calculate the collision probability for 100 transactions and a pool size of 10^9 with 1000 simulations
+collision_probability(100, 1e9, 1000)
+
+# Example with a larger number of simulations
+# collision_probability(100, 1e9, 1000000)
+# collision_probability(100, 1e9, 1000000000)
+
+```
+
+```{r}
+# 1.5.4 -> Visualize the results
+library(ggplot2) 
+
+plot_collision_probabilities <- function(n_transactions_list, pool_size, n_simulations) {
+  results <- data.frame(
+    Transactions = integer(),
+    Probability = numeric()
+  )
+
+  for (n_transactions in n_transactions_list) {
+    prob <- collision_probability(n_transactions, pool_size, n_simulations)
+    results <- rbind(results, data.frame(Transactions = n_transactions, Probability = prob))
+  }
+
+  ggplot(results, aes(x = Transactions, y = Probability)) +
+    geom_line() +
+    labs(
+      title = "Collision Probability as a Function of Number of Transactions",
+      x = "Number of Transactions",
+      y = "Collision Probability"
+    )
+}
+
+# Visualization for a pool size of 10^6 and varying numbers of transactions
+n_transactions_list <- seq(10, 1000, by = 10)
+plot_collision_probabilities(n_transactions_list, 1e6, 100)
+
+```
+
+
+1.5.5 -> Investigate the system design
+The larger the space m, the lower the chance of collisions.
+If the number of transactions n becomes large relative to m, collisions become practically inevitable.
+
+```{r}
+# 1.5.6 -> Financial implications
+collision_risk <- collision_probability(100, 1e6, 1e5)
+print(collision_risk)
+```
+1.5.6
+Consequences of a Collision:
+
+1. Failed Transactions: Collisions can lead to rejected or delayed transactions, disrupting customer operations.
+2. Fraud Risks: Malicious actors might exploit collisions to duplicate or manipulate transactions.
+3. Data Integrity Issues: Collisions can overwrite valid data, causing financial discrepancies and audit challenges.
+
+Mitigation Strategies:
+
+1. Increase Identifier Pool Size (m): Expanding m significantly reduces collision probabilities.
+2. Use Hashing: Implement cryptographic hash functions (e.g., SHA-256) to map transactions into a larger space.
+3. Batch Processing: Divide transactions into smaller, independent batches.
+4. Collision Detection: Use algorithms to identify and resolve duplicates in real-time.
+
+
+Comments MS:
+
+Let me first thank and congratulate the group for this excellent work which impressed me.
+
+Here are a few comments that you might consider:
+
+- simulating transaction identifiers: very well documented, your function gives immediate feedback on
+collisions. I like that you do an example and your example is also well chosen for a testing purpose.
+
+- Here is a way how you could improve your code: The use of `print()` for every identifier slows down
+the code considerably and it is a drag on performance, especially for large simulations. You could
+consider limiting printing be introducing an option like `verbose`and print only when the
+`verbose`falg is set.
+
+- Computation of collision probability: I like your feature of including a progress feedback during the
+computation. I should have done this as well in my proposed solution. I applaud your modular design, well done.
+The examples show flexibility.
+
+Here are some sugegstions for improvements: Don't use reported printing inside the loop. This clutters output and is not particularly helpful. Try to use a vecorized approach (`raplicate()`) to reduce runtime and speed up code. Consider testing for the edge cases $n=0$, $n=1$ and $n > M$.
+
+- visualization: Very nice. I suggest though that instead of appending rows to a data frame in a loop (rbind()), initialize the data frame and fill it directly for better performance. Example:
+
+```{r}
+results <- data.frame(Transactions = n_transactions_list, Probability = numeric(length(n_transactions_list)))
+results$Probability <- sapply(n_transactions_list, collision_probability, pool_size = pool_size, n_simulations = n_simulations)
+```
+
+Consider clarifying units in the labels.
+
+
+

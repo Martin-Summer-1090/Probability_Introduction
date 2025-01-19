@@ -210,7 +210,14 @@ to attach a new bond event tree to each outcome of the initial tree.
 - Note the time index. In the example the realizations of basic outcomes
 for the portfolio happen simultaneously. So the walk from the origin to
 the end of the tree along a path is taking place in one time step and only
-the outcomes at $t=1$ are observed.
+the outcomes at $t=1$ are observed. There is one subtlety in this representation
+which I would like to explicitly point out. The tree suggests a sequence - the
+first bond realizes its state and then the second. This is true but it does not
+mean at the same time that the bond holders observe this sequence. From their
+point of you they only see outcomes at the indicated time steps. (at the 
+dashed lines, if you will). This information structure suggests that we should
+think of these state realizations of the bonds as occurring **simulateously**. 
+Think of it as if yo u would toss tow coins at once.
 
 - At the edges we write the probability of the outcomes. For example $P(N)$ is
 the probability of the first bond (represented by the upper tree) is not
@@ -293,7 +300,7 @@ of 0.6 due to systemic dependence.
 
 To express this formally we need a piece of new notation. The convention
 in probability theory is that the notation is - for example - $P(N | D)$. This
-would read as * bond 2 does not default given bond 1 has defaulted *. The event
+would read as *bond 2 does not default given bond 1 has defaulted*. The event
 we are interested in is written first separated by a $|$ from the conditioning
 event, which is in our case the outcome that bond 1 defaults.
 
@@ -385,471 +392,184 @@ example of the financial crisis, which we discussed before
 we really did not much more than introducing one piece of new
 notation to indicate that the probabilities now have changed.
 
-### An illustration using old and new R concepts
 
-This is an excellent moment in this lecture to make use of R to 
-illustrate the concept and play with it. On the way we introduce some
-not yet covered R concepts.
+Let's revisit our example represented in @fig-pooling-and-tranching-dependent. 
 
-Let us stay with the example of defaultable bonds and use the
-freedom and the opprotunity of simulating probabilistic examples
-on the computer.
+Each branch represents a possible state of the restructured bond portfolio, 
+denoted as $R_{NN}$, $R_{ND}$, $R_{DN}$, and $R_{DD}$:
+- $R_{NN}$: Neither bond defaults.
+- $R_{ND}$: Bond $1$ does not default, but bond $2$ defaults.
+- $R_{DN}$: Bond $1$ defaults, but bond $2$ does not default.
+- $R_{DD}$: Both bonds default.
 
-Let us make use of the `sample()` function first to create a portfolio of
-bonds. The relevant data for this portfolio should be recorded in a
-dataframe.
-
-To make the data reproducible we need to specify a random seed. 
-Just like in Python, the set.seed() function in R ensures 
-reproducibility of random numbers. When generating random 
-data (like our simulated bond portfolio), R uses a 
-pseudo-random number generator. By setting 
-a "seed" value, you tell R to start its random number generator 
-from a specific point. This guarantees that every time you run 
-the code, you'll get the same random results, which is crucial for 
-debugging, sharing code, or 
-teaching concepts. 
-
-The `set.seed()`functions requires and argument. We can for instance
-use a sequence of numbers, which can be arbitrary like `123`or `42`or
-`2025`. What is important is that using the same seed will always
-give you the same numbers and thus make your example
-reproducible.
-
-Here is an example for illustration. Let's go back to our
-old coin tossing example and let us toss our coin 10 times
-one time using the `set.seed()`function and one time not.
-
-```{r set-seed-example}
-
-# tossing a fair coin 10 times, two different runs without set.seed()
-
-example_without_1 <- sample(c("H","T"), size =10, replace = T)
-example_without_2 <- sample(c("H","T"), size =10, replace = T)
-
-cat("Without set.seed():\n ")
-print(example_without_1)
-print(example_without_2)
-
-# tossing a fair coin 5 times, two different rund with set.seed()
-
-set.seed(123)
-example_with_1 <- sample(c("H","T"), size =10, replace = T)
-set.seed(123)
-example_with_2 <- sample(c("H","T"), size =10, replace = T)
-
-cat("With set.seed():\n")
-print(example_with_1)
-print(example_with_2)
-
-```
-
-Now let us go to our bind portfolio simulation. Let us simulate our data
-first:
-
-```{r simulate bond portfolio}
-# set a random seed for reproduceability
-set.seed(123)
-
-# Number of bonds
-
-N <- 5000 
-
-# Simulate portfolio data
-
-portfolio <- data.frame(
-  BondID = 1:N,
-  CreditRating = sample(c("AAA", "BBB", "Junk"), N, replace = TRUE, prob = c(0.5, 0.3, 0.2)),
-  Sector = sample(c("Finance", "Energy", "Real Estate"), N, replace = TRUE),
-  Defaulted = NA  # Initialize with NA for later assignment
-)
-```
-
-Let me unpack this a bit:
-
-First we create a dataframe using the `data.frame()`function of R.  
-It is used to create a structured dataset in R, similar to a table in Excel or 
-a DataFrame in Python's pandas library. Here, we are simulating a dataset 
-called portfolio, which represents a collection of financial bonds. 
-Each row corresponds to a bond, and each column represents an attribute 
-(or variable) of that bond.
-
-In the first column of our dataframe we store unique bond IDs by just assigning
-them a sequence of integers starting at 1 and counting to $N$, the total
-number of bonds in the portfolio. Remember the
-colon operator `:` we have already used before to create such sequences.
-
-In the next column of our dataframe we assign a credit rating randomly
-using a probability of 0.5 that the rating will be "AAA", 0.3 that it will be
-"BBB" and 0.2 that it will be "Junk". You know already how to do this using the
-sample function. Note that we have set `replace = TRUE`: This allows sampling 
-with replacement, so the same credit rating can appear multiple times
-
-Finally we imagine that the bonds are issued by different sectors, Finance, Energy and
-Real Estate in the
-economy which we also assign randomly with equal probability for each sector
-using the sample function.
-
-The final column creates a vector of unknown values, because we
-would like to assign these values in a separate step to
-be consistent with actual rating probabilities.
-
-The way we do this is to assign the value `NA` to the variable
-`Defaulted`for the moment. What does this variable mean in R?
-
-The NA character is a special symbol in R. It stands for “not available” 
-and can be used as a placeholder for missing information. 
-R will treat NA exactly as you should want missing information treated. 
-For example, what result would you expect if you add 1 to a piece of 
-missing information?
-
-```{r explain-na}
-1 + NA
-```
-
-R will return a second piece of missing information. It would not be correct to say that 
-`1 + NA = 1` because there is a good chance that the missing quantity is not zero. 
-You do not have enough information to determine the result.
-
-There are two functions which are very useful to know about, when working
-with data that contain `NA` which will be the case in almost all practical
-circumstances.
-
-While `NA` is useful for indicating missing information it can be annoying
-in practical data work. Assume you had a vector of 100 numbers and only one value,
-say at the beginning is `NA`.
-
-```{r example-for-na.rm()}
-c(NA, 1:100)
-mean(c(NA,1:100))
-```
-
-This is clearly annoying and we would like to enforce a different behavior. Most
-R functions, such as `mean()` and others come with the option `na.rm` that controls
-R's behavior when data contain missing information. Here is how it works in the case
-of mean:
-
-```{r example-for-na.rm()-cont}
-mean(c(NA,1:100), na.rm = TRUE)
-```
-
-
-A second useful function when working with missing data is
-`is.na()`. This is the case because the identity operator
-`==` used in logical subsetting does not work with `NA`.
-
-
-```{r example-for-is.na()}
-c(1,2,3,NA) == NA
-
-is.na(c(1,2,3,NA))
-```
-
-So while the first approach will just yield `NA`, the second will 
-identify which value in our vector is missing.
-
-Now putting it all together this will give us a dataframe where
-the data.frame() function combines these columns into a structured dataset, 
-where:
-      - BondID is an integer sequence labeling each bond.
-      - CreditRating is a randomly assigned credit rating, weighted by the specified probabilities.
-      - Sector is a randomly assigned economic sector.
-      - Defaulted a vector with missing values yet to be determined.
-
-You can inspect the first rows of this dataframe by
-
-```{r inspect-simulated-bond-data}
-
-head(portfolio)
-
-```
-
-Now we assign different default probabilities for the different credit ratings
-such that the simulated data show similar values than with actual ratings.
-
-```{r default-probabilities-per-rating}
-```
-
-
-```{r default-probabilities-per-rating}
-default_probabilities <- data.frame(
-  CreditRating = c("AAA", "BBB", "Junk"),
-  DefaultProb = c(0.0001, 0.002, 0.05)  # Default probabilities
-)
-```
-
-We do this in a separate rating dataframe, organizing
-compactly our rating information. To see what is happening here
-observe that a `data.frame` is created to store default probabilities for 
-each credit rating. `CreditRating` is a character column containing the 
-categories: `"AAA"`, `"BBB"`, and `"Junk"`. `DefaultProb` is a numeric 
-column with the corresponding default probabilities: 
-AAA: $0.01\%$, BBB: $0.2\%$, Junk: $5\%$ This dataframe
-organizes the default probabilities in a clear and structured way, 
-making the probabilities easy to reference if needed later.
-
-
-Now we can use the
-power of R's subsetting rules to fill the last column
-in our portfolio dataframe such that we get realistic 
-values. Let me show you the code and then unpack the
-elements step by step:
-
-```{r assign-prob-per-rating-class}
-
-
-portfolio$Defaulted[portfolio$CreditRating == "AAA"] <- 
-  sample(c(TRUE, FALSE), sum(portfolio$CreditRating == "AAA"), replace = TRUE, 
-         prob = c(0.0001, 0.9999))
-
-portfolio$Defaulted[portfolio$CreditRating == "BBB"] <- 
-  sample(c(TRUE, FALSE), sum(portfolio$CreditRating == "BBB"), replace = TRUE, 
-         prob = c(0.002, 0.998))
-
-portfolio$Defaulted[portfolio$CreditRating == "Junk"] <- 
-  sample(c(TRUE, FALSE), sum(portfolio$CreditRating == "Junk"), replace = TRUE, 
-         prob = c(0.05, 0.95))
-
-
-```
-
-Here's a step-by-step explanation of the code, unpacking the logic and reinforcing R subsetting rules:
-Let's look at the AAA bonds first.
-
-Here we see the code line `portfolio$CreditRating == "AAA"`. This line
-checks each row in the `CreditRating` column to see if the value is `"AAA"`.
-It returns a **logical vector** (e.g., `TRUE` for `"AAA"` rows, `FALSE` otherwise).
-Here you see two important R concepts at work. To check whether two expressions
-are equal the appropriate symbol is `==`. It returns a logical `TRUE` when the
-equality holds and `FALSE`otherwise. 
-
-We use this logical vector created by the assignment to assign a probability
-to the `Defaulted`column whenever the rating is `AAA`. So the operation
-selects the `Defaulted` column for rows where `CreditRating` is `"AAA"` and
-default status to these rows based on a random sample. 
-
-Now for the random sample we use the `sample()` function we encountered
-before. It generates random values `TRUE`for default and `FALSE`for non-default,
-the two possible outcomes. It samples with replacement as many times as we
-have an `AAA`rating. This count is achieved by `sum(portfolio$CreditRating == "AAA")`
-using R's coercion rules. It returns the count because each `TRUE` is forced to
-1 and contributes one count to the total whereas `FALSE`is forced to 0 and contributes nothing
-to the count. Finally `prob = c(0.0001, 0.9999)` specifies the probabilities for
-for this class. Note that here we could also have used the complement rule by
-writing `prob = c(0.0001, 1 - 0.0001)`
-
-Now we do the same thing for `BBB` bonds and the `Junk`bonds, which have
-each different probabilities from the `AAA`binds and from each other.
-
-Here you have in one example the  **General Rules for R Subsetting** reviewed
-
-1. **Logical Conditions**:
-   - Use conditions like `==` to create logical vectors.
-   - Example: `portfolio$CreditRating == "AAA"` checks for equality 
-     and returns a logical vector.
-   
-2. **Row Selection**:
-   - Logical vectors are used to select rows in a data frame.
-   - Example: `portfolio$Defaulted[...]` updates only the rows where the condition is `TRUE`.
-
-3. **Column Access**:
-   - Use `$` to access specific columns in a data frame.
-   - Example: `portfolio$Defaulted`.
-
-4. **Combining Logical Subsetting and Assignment**:
-   - Subset rows using logical conditions, then assign values to those rows.
-   - Example: `portfolio$Defaulted[portfolio$CreditRating == "AAA"] <- sample(...)`
-
-::: {.callout-note}
-## Now you try
-
-Here are some more assignment exercises for you to try:
-
-1. **Explore Subsetting**:
-   - Print all AAA bonds using:
-     
-     `portfolio[portfolio$CreditRating == "AAA", ]`
-     
-   - Verify the number of rows using:
-     
-     `sum(portfolio$CreditRating == "AAA")`
-
-2. **Check Assigned Values**:
-   
-    Confirm that `Defaulted` is only updated for the relevant rows:
-    
-    `table(portfolio$Defaulted[portfolio$CreditRating == "AAA"])`
-     
-:::
-
-Let's check how our `portfolio`dataframe looks now after the assignment.
-
-```{r portfolio-res}
-head(portfolio)
-```
-
-
-Now let us go on to the illustration of the conditional probability
-concept. If we choose a bond at random from this portfolio we should 
-get a probability
-of
-
-\vspace{0.5cm}
-$P(D) = \frac{\text{number of defaultet bonds}}{\text{total number of bonds}}$
-and 
-$P(N) = \frac{\text{number of non-defaultet bonds}}{\text{total number of bonds}}$
-
-Let's check these numbers in our sample, using the R subsetting rules and a new
-operator, the `$` sign, which plays an important role in R data manipulation. Let me
-do the calculation and then explain:
-
-```{r}
-PD <- mean(portfolio$Defaulted == TRUE)
-PN <- 1 - PD
-
-PD
-PN
-```
-
-Let me explain this bit of code. The name of our dataframe is `portfolio`. We
-may refer to this as an R-object in the R language. An operator that is
-frequently used in R to select a column from a dataframe is the colon 
-operator `$`. If we tell R `portfolio$Defaulted`, R will select the
-column `Defaulted`from the dataframe portfolio. The same operator is
-used to select elements in an R list. This is no coincidence, since a
-dataframe is formally a list in the R language. You can see this by
-
-```{r dataframes-as-list}
-typeof(portfolio)
-class(portfolio)
-```
-
-If you look at the type of a data frame, you will see that it is a list. 
-In fact, each data frame is a list with class data.frame. 
-You can see what types of objects are grouped together by a 
-list (or data frame) with the `str()` function:
-
-```{r str-function}
-str(portfolio)
-```
-
-Now the numbers of the unconditional probabilities of a bind defaulting or
-not defaulting (note that we applied the complement rule here to compute
-this probability) is as it should be given the parametrisation of our
-example.
-
-We now want to restrict our attention to the subset of our portfolio
-consisting of junk bonds. What is the probability that a bond
-chosen from this sub-population is in default?
-
-```{r conditional-default-probability-junk-bonds}
-
-# Calculate conditional probability: P(Default | CreditRating = "Junk")
-
-junk_bonds <- portfolio[portfolio$CreditRating == "Junk", ]
-
-P_Default_given_Junk <- mean(junk_bonds$Defaulted)
-
-cat("P(Default | CreditRating = 'Junk'):", P_Default_given_Junk, "\n")
-```
-
-Now you see perhaps with your own hands how conditional probability
-works in terms of R's subsetting rules. **Among** the subset of bonds
-which are classified as junk, how many are also defaulted and what is
-their relative frequency among the junk bonds? This would be in 
-set notation:
-\begin{equation*}
-\frac{P(\text{set of all defaulted bonds} \cap \text{set of all junk bonds})}{P(\text{set of all junk bonds})}
-\end{equation*}
-To provide an appropriate notation for this we have used:
-$P(\text{defaulted} \, | \,\text{junk})$
-This is read as the probability of event $A$ (the bond is defaulted) assuming the
-event $B$ (the bond is a junk bond).
-
-Thus taking a conditional probability of various events with respect to
-a particular event $B$ amounts to choosing $B$ as a new sample sapce with
-the probabilities proportional to the original ones. The proportionality
-factor $P(B)$ is necessary in order to make the probabilities in the
-new sample space sum up to 1. All general theorems on probabilities are
-valid also for conditional probabilities with respect to any
-particular event $B$.
-
-Note that for conditional probabilities we have for two events $A$ and $B$, that
-$P(A|B) \neq P(B|A)$.
-To see this assume that $P(A) \neq P(B)$ and $P(A) \neq 0$ and
-$P(B)\neq 0$. 
-
-We then get:
-\begin{equation*}
-P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{P(B \cap A)}{P(B)}
-\end{equation*}
-since $P(A \cap B) = P(B \cap A)$.
-It follows that
-\begin{equation*}
-\frac{P(B \cap A)}{P(B)} \neq \frac{P(B \cap A)}{P(A)} = P(B|A)
-\end{equation*}
-since we
-have assumed that $P(A) \neq P(B)$. 
-Therefore $P(A|B) \neq P(B|A)$.
-
-Let's illustrate this remark with the example of our bond portfolio.
-
-```{r conditional-probability-reverse}
-
-# Calculate conditional probability: P(CreditRating = "Junk" | Default)
-
-defaulted_bonds <- portfolio[portfolio$Defaulted == TRUE, ]
-
-P_Junk_given_Default <- mean(defaulted_bonds$CreditRating == "Junk")
-
-cat("P(Junk | Default):", P_Junk_given_Default, "\n")
-
-```
-
-Now you can see clearly that $P(\text{Default} \, |\, \text{Junk} ) =$ 
-`r P_Default_given_Junk` which
-is clearly different from $P(\text{Junk} \, |\, \text{Default} ) =$ 
-`r P_Junk_given_Default`.
-
-The formula for conditional probability which we
-wrote down in the definition of [Conditional Probability](#conditional-probability)
- is often
-used in the form of the **multiplication rule**:
-
-::: {.callout-tip title="Definition: Multiplication rule" #multiplication-rule}
-Given events $A$ and $B$, it holds that: $P(A \cap B) = P(A \mid B)\times P(B)$
-:::
-
-which is just an equivalent way to write the formula
-for conditional probability. The multiplication rule can be
-thought of the
-AND rule of probability theory. 
-
-With the multiplication rule we can gain a deeper insight into 
-the meaning of independence. Remember that two events $A$ and  $B$ are independent
-if
-\begin{equation*}
-P(A \cap B) = P(B \cap A) = P(A) \times P(B).
-\end{equation*}
-
-If we combine this rule with the
-concept of conditional probability, we see that if two 
-events $A$ and $B$ are independent, then
-\begin{equation*}
-P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A) \times P(B)}{P(B)} = P(A)
-\end{equation*}
-and
-\begin{equation*}
-P(B|A) = \frac{P(B \cap A)}{P(A)} = \frac{P(A) \times P(B)}{P(A)} = P(B)
-\end{equation*}
-
-This formula says that if two events are independent the probability of $A$ is
-not influenced by the event $B$ occurring and the probability of event $B$ is not
-influenced by the event $A$ occurring.
-
-Here’s a proposal for a draft subsection devoted to introducing advanced R concepts (Environments, Scoping Rules, Closures) while reinforcing conditional probability ideas. The examples are tied to a financial and conditional probability context, ensuring continuity with your lecture themes.
+Here is the complete, revised, and **consistent passage**, addressing all inconsistencies while aligning it with the updated notation for bond types ($B_1$ and $B_2$) and conditional/joint probabilities:
 
 ---
+
+### The Probability Tree and Conditional Probabilities
+
+The tree is labeled with **edge probabilities**, which correspond to the marginal and conditional probabilities of events at each level:
+
+- At $t=0$: $P(B_1 = N) = 0.9$ and $P(B_1 = D) = 0.1$.
+- At $t=1$: The probabilities for $B_2$ defaulting given $B_1$'s outcome are:
+  - $P(B_2 = N \,|\, B_1 = N) = 0.956$, $P(B_2 = D \,|\, B_1 = N) = 0.044$.
+  - $P(B_2 = N \,|\, B_1 = D) = 0.4$, $P(B_2 = D \,|\, B_1 = D) = 0.6$.
+
+---
+
+### Defining Probabilities in R
+
+We start by defining the probabilities from the probability tree:
+
+```{r}
+# Define the probabilities
+
+# Marginal probabilities for B_1
+P_N <- 0.9  # Probability that B_1 does not default
+P_D <- 0.1  # Probability that B_1 defaults
+
+# Conditional probabilities for B_2 given B_1
+P_N_given_N <- 0.86/0.9  # Probability that B_2 does not default given B_1 does not default
+P_D_given_N <- 0.04/0.9  # Probability that B_2 defaults given B_1 does not default
+P_N_given_D <- 0.4    # Probability that B_2 does not default given B_1 defaults
+P_D_given_D <- 0.6    # Probability that B_2 defaults given B_1 defaults
+```
+
+---
+
+### Computing Joint Probabilities
+
+The joint probabilities, $P(A \cap B)$, are calculated using the **multiplication rule**:
+$$
+P(A \cap B) = P(A \,|\, B) \cdot P(B).
+$$
+These correspond to probabilities computed along the edges of the tree.
+
+```{r}
+# Calculate joint probabilities
+
+P_NN <- P_N * P_N_given_N  # Both bonds do not default
+P_ND <- P_N * P_D_given_N  # B_1 does not default, B_2 defaults
+P_DN <- P_D * P_N_given_D  # B_1 defaults, B_2 does not default
+P_DD <- P_D * P_D_given_D  # Both bonds default
+```
+
+---
+
+### Constructing the Contingency Table
+
+We can summarize the joint probabilities in a **contingency table**, which also includes marginal probabilities:
+
+```{r}
+# Load necessary library
+library(kableExtra)
+
+# Define marginal probabilities
+P_N_total <- P_N
+P_D_total <- P_D
+P_N_given_total <- P_NN + P_DN
+P_D_given_total <- P_ND + P_DD
+
+# Create the contingency table
+contingency_table <- matrix(
+  c(
+    P_DD, P_DN, P_D_total,    # Row 1: Bond 1 Default
+    P_ND, P_NN, P_N_total,    # Row 2: Bond 1 No Default
+    P_D_given_total, P_N_given_total, 1  # Row 3: Column totals
+  ),
+  nrow = 3,
+  byrow = TRUE,
+  dimnames = list(
+    c("Bond 1: Default (D)", "Bond 1: No Default (N)", "Total"),
+    c("Bond 2: Default (D)", "Bond 2: No Default (N)", "Total")
+  )
+)
+
+# Create a styled table
+kable_output <- knitr::kable(
+  contingency_table,
+  caption = "Contingency Table of Joint and Marginal Probabilities",
+  format = "html",
+  escape = FALSE,
+  col.names = c("", "Default (D)", "No Default (N)", "Total")
+) %>%
+  kableExtra::column_spec(1, bold = TRUE)
+
+# Render the table
+kable_output
+```
+
+---
+
+### Symmetry of Conditional Probabilities
+
+Using the contingency table, we compute conditional probabilities and highlight their asymmetry:
+
+```{r}
+# Conditional probability of B_2 defaulting given B_1 defaults
+P_D_given_D <- P_DD / P_D_total
+
+# Conditional probability of B_1 defaulting given B_2 defaults
+P_B1_given_B2 <- P_DD / P_D_given_total
+
+cat("P(B_2 = D | B_1 = D):", P_D_given_D, "\n")
+cat("P(B_1 = D | B_2 = D):", P_B1_given_B2, "\n")
+```
+
+Here, we observe that:
+$$
+P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D).
+$$
+
+This asymmetry reflects the inherent directionality in conditional probability.
+
+---
+
+### Simulating a Bond Portfolio
+
+We can extend this theoretical framework to simulate a bond portfolio with defaults and compute conditional probabilities empirically:
+
+```{r}
+# Number of bonds
+N <- 5000 
+
+# Simulate joint outcomes
+simulate_defaults <- function(n, probs) {
+  outcomes <- c("B_DD", "B_DN", "B_ND", "B_NN")
+  draws <- sample(outcomes, n, replace = TRUE, prob = c(probs))
+  return(draws)
+}
+
+# Generate portfolio data
+portfolio <- data.frame(
+  BondID = 1:N,
+  BondType = sample(c("B_1", "B_2"), N, replace = TRUE, prob = c(0.5, 0.5))
+)
+
+# Assign joint default outcomes
+joint_outcomes <- simulate_defaults(N, c(P_DD, P_DN, P_ND, P_NN))
+portfolio$JointOutcome <- joint_outcomes
+portfolio$X_Defaulted <- ifelse(portfolio$JointOutcome %in% 
+                                  c("B_DD", "B_DN"), TRUE, FALSE)
+portfolio$Y_Defaulted <- ifelse(portfolio$JointOutcome %in% 
+                                  c("B_DD", "B_ND"), TRUE, FALSE)
+
+# Preview the portfolio
+head(portfolio)
+```
+
+---
+
+### Key Insights
+
+1. **Dependence in Default Risks**:
+   - Conditional probabilities highlight the dependence between $B_1$ and $B_2$:
+     - $P(B_2 = D \,|\, B_1 = D) = 0.6$, while $P(B_2 = D) = 0.1$.
+
+2. **Symmetry Does Not Hold**:
+   - $P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D)$.
+
+These examples demonstrate the importance of modeling dependencies explicitly in finance, especially in risk assessment. Let me know if further refinements are needed!
 
 ## Advanced R Concepts: Environments, Scoping Rules, and Closures
 
@@ -923,9 +643,9 @@ conditional_default <- function(rating) {
   
   # Lookup table for default rates
   local_default_rates <- c(
-    AAA = default_rates["AAA"],  # Local default for AAA
-    BBB = default_rates["BBB"],  # Local default for BBB
-    Junk = default_rates["Junk"] # Local default for Junk
+    AAA = unname(default_rates["AAA"]),  # Local default for AAA
+    BBB = unname(default_rates["BBB"]),  # Local default for BBB
+    Junk = unname(default_rates["Junk"]) # Local default for Junk
   )
   
   # Return the default rate using vectorized subsetting
@@ -940,7 +660,7 @@ cat("Default rate for AAA bonds:", conditional_default("AAA"), "\n")
 
 ```
 
-Her you see how R is using **Lexical scoping**. This 
+Here you see how R is using **Lexical scoping**. This 
 ensures that R looks for variables in the closest environment first, then 
 moves outward (from local to global). Nested functions can use both local 
 and global variables.
@@ -1037,6 +757,7 @@ factory. Each calculator "remembers" the `event_probability` it was initialized 
 
 These calculators are then used to compute joint probabilities by providing 
 the corresponding conditional probabilities:
+
 - `junk_joint <- junk_calculator(0.1)`:
   - $P(\text{Default} \cap \text{Junk}) = P(\text{Default | Junk}) \times P(\text{Junk})$.
   - $0.1 \times 0.05 = 0.005$ (0.5%).
@@ -1142,8 +863,8 @@ most recent trading day. We have written the data into an R object called
 head(sp500_data)
 ```
 
-The otput says that the data object is a `tibble()`. Don't worry about this
-detail at the moment and think of a `tibble()`as something equivalent to a
+The output says that the data object is a `tibble`. Don't worry about this
+detail at the moment and think of a `tibble`as something equivalent to a
 dataframe.
 
 Now let us visualize the data using base R's `plot()` function. Use the help
@@ -1180,7 +901,8 @@ the Fed St. Louis^[See https://fred.stlouisfed.org/]
 ```{r retrieveing spfundamentals}
 
 # Get corporate profits data from FRED
-corporate_profits <- tq_get("CP", from = "2000-01-01", to = "2011-12-31", get = "economic.data")
+corporate_profits <- tq_get("CP", from = "2000-01-01", 
+                            to = "2011-12-31", get = "economic.data")
 
 # Visualize corporate profits
 plot(
@@ -1276,7 +998,8 @@ returns.
 ```{r corporate profits extended}
 
 # Get corporate profits data from FRED
-corporate_profits <- tq_get("CP", from = "2000-01-01", to = "2019-12-31", get = "economic.data")
+corporate_profits <- tq_get("CP", from = "2000-01-01", 
+                            to = "2019-12-31", get = "economic.data")
 
 # Visualize corporate profits with a vertical line at 2011
 plot(
@@ -1323,8 +1046,6 @@ It is formalized as:
 \begin{equation*}
 P(B|A) = \frac{P(A|B) P(B)}{P(A)}
 \end{equation*}
-
-Here 
 
 Here:
 
@@ -1406,7 +1127,7 @@ The speck-of-sand example illustrates how Bayesian updating works:
 
 1. Start with a **prior** $P(B)$.
 2. Receive new **evidence** $P(A|B)$.
-3. Update the probability of the hypothesis given the evidence $(P(B|A)$.
+3. Update the probability of the hypothesis given the evidence $P(B|A)$.
 
 Bayes' theorem quantifies this intuitive process of revising 
 beliefs based on data.

@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Martin Summer">
+
+<title>Project: Financial Identifier Collisions: Comments and one suggested Solutions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="project_financial_identifier_collisions_files/libs/clipboard/clipboard.min.js"></script>
+<script src="project_financial_identifier_collisions_files/libs/quarto-html/quarto.js"></script>
+<script src="project_financial_identifier_collisions_files/libs/quarto-html/popper.min.js"></script>
+<script src="project_financial_identifier_collisions_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="project_financial_identifier_collisions_files/libs/quarto-html/anchor.min.js"></script>
+<link href="project_financial_identifier_collisions_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="project_financial_identifier_collisions_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="project_financial_identifier_collisions_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="project_financial_identifier_collisions_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="project_financial_identifier_collisions_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Project: Financial Identifier Collisions: Comments and one suggested Solutions</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Martin Summer </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">17 January, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="project-designing-transaction-identifyers-for-digital-payment-systems" class="level2">
+<h2 class="anchored" data-anchor-id="project-designing-transaction-identifyers-for-digital-payment-systems">Project: Designing transaction identifyers for digital payment systems</h2>
+<p>In this project, we explore the likelihood of “collisions” in financial transaction identifiers. By simulating transaction identifiers and analyzing the probability of collisions, we can understand the challenges of designing secure financial systems.</p>
+<hr>
+<section id="exercise-1-simulate-transaction-identifiers" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-simulate-transaction-identifiers">Exercise 1: Simulate Transaction Identifiers</h3>
+<section id="task-simulate-transaction-identifiers" class="level4">
+<h4 class="anchored" data-anchor-id="task-simulate-transaction-identifiers">Task: Simulate transaction identifiers</h4>
+<p>We write an R function. The number <span class="math inline">\(n\)</span> of identifiers and the size of the pool from which the identifiers are chosen <span class="math inline">\(M\)</span> should be the parameters of the function. By choosing specific values for <span class="math inline">\(n\)</span> and <span class="math inline">\(M\)</span> we can then play with this simulation and check various parameter setups.</p>
+</section>
+<section id="my-proposed-solution" class="level4">
+<h4 class="anchored" data-anchor-id="my-proposed-solution">My proposed solution</h4>
+<p>Here is my function. Remember the R syntax for functions:</p>
+<p><code>function name &lt;- function(arg1, arg2, ...){ here goes the function body}</code></p>
+<p>We us for simulation the <code>sample()</code>function. We choose from the numbers <code>1:M</code> in total <span class="math inline">\(n\)</span> numbers. We set <code>replace = TRUE</code> because it should be possible that in the random draw a number can be drawn more than once (sampling with replacements).</p>
+<p>You can do this like in the lecture notes or in the examples we had on or slides:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate transaction identifiers</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>simulate_identifiers <span class="ot">&lt;-</span> <span class="cf">function</span>(n, M) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>M, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It is always a good idea to test a function with an example to see whether the function does what you want. It is also a good idea to think upfront what you expect the function will do.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Simulate 100 identifiers from a pool of size 1,000,000</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>identifiers <span class="ot">&lt;-</span> <span class="fu">simulate_identifiers</span>(<span class="dv">100</span>, <span class="fl">1e6</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>identifiers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 969167 188942 134058 124022 685285 226318 365209 648795 985797 193627
+ [11] 569692 589449 832867 497690 402858 583422 183204 883281 669543 277324
+ [21] 944672 613997 402313 554826 449435 749877 401205 668896 377049  90077
+ [31] 268360 738879 815826  53241 684185 368917 917545 931930 761055 990324
+ [41] 895750 707016 356182 451743 994513 370482  43042 208909 268278 951027
+ [51] 546100 390233 564183 140712 783007 533614 914496 157582 807392 407619
+ [61] 457718 595791 307365 517171 638130 633068 117066 356479 747732 864017
+ [71] 867118 332707 506734 163678 933656  25559 669575 800719 416410 352238
+ [81] 952480 407707 607237 339728 507680 302647 690084 759022 741373 148441
+ [91] 424758 626825 452322 171704 227183 436420  37544 915038 230361 346571</code></pre>
+</div>
+</div>
+<p><strong>Comments</strong>: - <span class="math inline">\(n\)</span> represents the number of transactions. - <span class="math inline">\(M\)</span> represents the size of the identifier pool.</p>
+<p>All numbers are in the range we have set. So this looks about right. We can even formally test this eyeballing statement.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(identifiers <span class="sc">&lt;=</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 100</code></pre>
+</div>
+</div>
+<p>Here <code>identifiers &lt; = 100</code> is a logical condition. R checks for each identifier whether it fulfills the condition and returns <code>TRUE</code>when the condition is fulfilled. When we apply <code>sum()</code> to this vector of logicals induces R to transform the <code>TRUE</code>s to 1 and the <code>FALSE</code>s to 0 and in this way counts the entries for which the condition is true. If our function works correctly the condition must hold for each simulated identifier, otherwise we would have at least one choice not from the set poolsize.</p>
+<hr>
+</section>
+</section>
+<section id="check-for-collisions" class="level3">
+<h3 class="anchored" data-anchor-id="check-for-collisions">Check for Collisions</h3>
+<section id="task" class="level4">
+<h4 class="anchored" data-anchor-id="task">Task</h4>
+<p>Write a function to check if a collision occurred in a set of identifiers.</p>
+</section>
+<section id="proposed-solution" class="level4">
+<h4 class="anchored" data-anchor-id="proposed-solution">Proposed solution</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to check for collisions</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>has_collision <span class="ot">&lt;-</span> <span class="cf">function</span>(identifiers) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">any</span>(<span class="fu">duplicated</span>(identifiers))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This function checks whether our simulated identifiers contain duplicates first by using the <code>duplicated()</code> function. The syntax is <code>duplicated(x)</code>where <code>x</code>is a vector or a dataframe. and it returns a logical vector</p>
+<p>For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example vector</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find duplicates</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>duplicates <span class="ot">&lt;-</span> <span class="fu">duplicated</span>(x)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(duplicates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE</code></pre>
+</div>
+</div>
+<p>Explanation:</p>
+<ul>
+<li><code>duplicated(x)</code> checks each element in x and compares it to earlier elements.</li>
+<li><code>TRUE</code> at position 4 means the value 2 is a duplicate of the 2 at position 2.</li>
+<li><code>TRUE</code> at position 6 means the value 1 is a duplicate of the 1 at position 1.</li>
+</ul>
+<p>In R, the <code>any()</code> function checks if at least one value in a logical vector is <code>TRUE</code>. It is commonly used to test conditions across multiple elements of a vector or array.</p>
+<p>So applying <code>any</code>to the output of <code>duplictes()</code> reveals if we have at least one collision.</p>
+<p>Let us test our function now:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Check for collisions</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">has_collision</span>(identifiers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p><strong>Comments</strong>: - This function returns <code>TRUE</code> if there are duplicate identifiers, <code>FALSE</code> otherwise.</p>
+<hr>
+</section>
+</section>
+<section id="estimate-collision-probability" class="level3">
+<h3 class="anchored" data-anchor-id="estimate-collision-probability">Estimate Collision Probability</h3>
+<section id="task-1" class="level4">
+<h4 class="anchored" data-anchor-id="task-1">Task</h4>
+<p>Simulate <span class="math inline">\(n\)</span> transactions multiple times and estimate the probability of at least one collision.</p>
+</section>
+<section id="proposed-solution-1" class="level4">
+<h4 class="anchored" data-anchor-id="proposed-solution-1">Proposed solution</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to estimate collision probability</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>collision_probability <span class="ot">&lt;-</span> <span class="cf">function</span>(n, M, <span class="at">trials =</span> <span class="dv">10000</span>) {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(trials, {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    identifiers <span class="ot">&lt;-</span> <span class="fu">simulate_identifiers</span>(n, M)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">has_collision</span>(identifiers)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(results)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s break down this R code step by step:</p>
+<ol type="1">
+<li><strong>Function Definition:</strong></li>
+</ol>
+<p><code>collision_probability &lt;- function(n, M, trials = 10000) {</code></p>
+<ul>
+<li>This defines a function called <code>collision_probability</code>.</li>
+<li><strong>Arguments:</strong>
+<ul>
+<li><code>n</code>: The number of identifiers to generate.</li>
+<li><code>M</code>: The size of the identifier space (how many unique identifiers are possible).</li>
+<li><code>trials</code>: The number of simulations to run (default is <code>10,000</code>).</li>
+</ul></li>
+</ul>
+<p>The function uses simulation to estimate the collision probability.</p>
+<ol start="2" type="1">
+<li><strong>Using <code>replicate</code>:</strong></li>
+</ol>
+<ul>
+<li><p><code>replicate(trials, { ... })</code> repeats the code inside the <code>{}</code> block <code>trials</code> times, storing the results in a vector.</p></li>
+<li><p>Inside the block:</p>
+<ol type="1">
+<li><strong>Generate Identifiers:</strong></li>
+</ol></li>
+</ul>
+<p><code>identifiers &lt;- simulate_identifiers(n, M)</code></p>
+<ul>
+<li>Calls the <code>simulate_identifiers</code> function to generate <code>n</code> random identifiers from a space of size <code>M</code>.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Check for Collisions:</strong></li>
+</ol>
+<p><code>has_collision(identifiers)</code></p>
+<ul>
+<li>Calls the <code>has_collision</code> function to check if there are duplicates in the <code>identifiers</code> vector.</li>
+<li>Returns <code>TRUE</code> if a collision is found and <code>FALSE</code> otherwise.</li>
+</ul>
+<p>So, after <code>replicate</code>, <code>results</code> is a logical vector (e.g., <code>c(TRUE, FALSE, TRUE, ...)</code>), where each element corresponds to whether a collision occurred in one trial.</p>
+<p><strong>Calculating the Probability:</strong></p>
+<p><code>mean(results)</code></p>
+<ul>
+<li><code>mean()</code> calculates the average of the logical vector <code>results</code>.</li>
+<li>In R, <code>TRUE</code> is treated as <code>1</code> and <code>FALSE</code> as <code>0</code>.</li>
+<li>The mean of <code>results</code> is the proportion of trials where a collision occurred, i.e., the estimated collision probability.</li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Returning the Result:</strong> The function returns the average collision probability across all trials.</li>
+</ol>
+</section>
+</section>
+<section id="example-walkthrough" class="level3">
+<h3 class="anchored" data-anchor-id="example-walkthrough">Example Walkthrough:</h3>
+<p>Let’s assume: - <code>simulate_identifiers(n, M)</code> generates <code>n</code> random integers between <code>1</code> and <code>M</code>. - <code>has_collision(identifiers)</code> checks for duplicates.</p>
+<p>If we call:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collision_probability</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">M =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6956</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>The function runs <code>simulate_identifiers(5, 10)</code> 10,000 times, generating sets of 5 random identifiers from the range 1 to 10.</li>
+<li>For each set, <code>has_collision()</code> checks if there are duplicates.</li>
+<li>The function counts how many of the 10,000 trials had a collision and divides that count by 10,000 to estimate the probability.</li>
+</ol>
+<hr>
+</section>
+<section id="intuition" class="level3">
+<h3 class="anchored" data-anchor-id="intuition">Intuition:</h3>
+<ul>
+<li>If <code>n</code> is large relative to <code>M</code>, the likelihood of a collision increases (like the Birthday Paradox).</li>
+<li>If <code>n</code> is small relative to <code>M</code>, the likelihood of a collision decreases.</li>
+</ul>
+<p>This function uses simulation to approximate this probability.</p>
+<p>Some of you pointed out that the parameters we suggested in the example lead to a ver long runtime or overwhelm the computer. let’s check the runtime of my proposed solution for the highest parametervalues proposed in the description of the project. I can do this in R by taking the system time with the function <code>Sys.time()</code>, store it and when the computation is finished take the time again. The difference gives me an estimate of my computation time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Estimate collision probability for n = 10^6, M = 10^9</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>start_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">collision_probability</span>(<span class="fl">1e6</span>, <span class="fl">1e9</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>elapsed_time <span class="ot">&lt;-</span> end_time <span class="sc">-</span> start_time</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Collision probability:"</span>, prob, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Collision probability: 1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Elapsed time:"</span>, elapsed_time, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Elapsed time: 14.38461 </code></pre>
+</div>
+</div>
+<p><strong>Comments</strong>: - Repeat the simulation for different values of <span class="math inline">\(n\)</span> and <span class="math inline">\(M\)</span> to analyze the relationship between transaction volume, pool size, and collision probability.</p>
+</section>
+<section id="visualize-collision-probability" class="level3">
+<h3 class="anchored" data-anchor-id="visualize-collision-probability">Visualize Collision Probability</h3>
+<section id="task-2" class="level4">
+<h4 class="anchored" data-anchor-id="task-2">Task</h4>
+<p>Plot the collision probability as a function of <span class="math inline">\(n\)</span> for different values of <span class="math inline">\(M\)</span>.</p>
+</section>
+<section id="solution" class="level4">
+<h4 class="anchored" data-anchor-id="solution">Solution</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>n_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">10000</span>, <span class="at">by =</span> <span class="dv">100</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>M_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1e6</span>, <span class="fl">1e9</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute probabilities</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">lapply</span>(M_values, <span class="cf">function</span>(M) <span class="fu">sapply</span>(n_values, collision_probability, <span class="at">M =</span> M, <span class="at">trials =</span> <span class="dv">100</span>))</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n_values, results[[<span class="dv">1</span>]], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Transactions (n)"</span>, <span class="at">ylab =</span> <span class="st">"Collision Probability"</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Collision Probability vs. Number of Transactions"</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n_values, results[[<span class="dv">2</span>]], <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"M = 1e6"</span>, <span class="st">"M = 1e9"</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>), <span class="at">lty =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_financial_identifier_collisions_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>elapsed_time <span class="ot">&lt;-</span> end_time <span class="sc">-</span> start_time</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Elapsed time:"</span>, elapsed_time, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Elapsed time: 5.945184 </code></pre>
+</div>
+</div>
+<p><strong>Comments</strong>: - Larger identifier pools <span class="math inline">\(M\)</span> significantly reduce the probability of collisions, even for high transaction volumes.</p>
+<p>Let’s break this code into smaller steps and carefully explain each part.</p>
+<ol type="1">
+<li><strong>Tracking Execution Time</strong></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| </span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>start_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>This saves the current time into the variable <code>start_time</code>. It will later be used to measure how long the entire script takes to execute.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Define Parameters</strong></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>n_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">10000</span>, <span class="at">by =</span> <span class="dv">100</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>M_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1e6</span>, <span class="fl">1e9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>n_values</code>:</strong> A sequence of numbers representing different sample sizes (<code>n</code>) for testing collision probability.
+<ul>
+<li><code>seq(100, 10000, by = 100)</code> creates a sequence starting at 100, ending at 10,000, increasing in steps of 100. For example: <code>100, 200, 300, ..., 10000</code>.</li>
+</ul></li>
+<li><strong><code>M_values</code>:</strong> A vector of two values (<code>1e6</code> and <code>1e9</code>) representing the size of the identifier space, i.e., (M = 10^6) and (M = 10^9).</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Compute Collision Probabilities</strong></li>
+</ol>
+<p><code>results &lt;- lapply(M_values, function(M) sapply(n_values, collision_probability, M = M, trials = 100))</code></p>
+<p><strong>What’s happening here?</strong></p>
+<ul>
+<li><code>lapply</code>: Loops over each value in <code>M_values</code> (i.e., <code>1e6</code> and <code>1e9</code>).</li>
+<li>For each <span class="math inline">\(M\)</span>, it applies an anonymous function:</li>
+</ul>
+<p><code>function(M) sapply(n_values, collision_probability, M = M, trials = 100)</code></p>
+<ul>
+<li>Inside this function:
+<ul>
+<li><code>sapply</code>: Loops over each value in <code>n_values</code> (e.g., <code>100, 200, ..., 10000</code>).</li>
+<li>For each <code>n</code> in <code>n_values</code>, it calls the <code>collision_probability</code> function:</li>
+</ul></li>
+</ul>
+<p><code>collision_probability(n, M = M, trials = 100)</code></p>
+<ul>
+<li>Estimates the collision probability for <code>n</code> identifiers and a space of size <code>M</code>, running 100 trials.</li>
+</ul>
+<p><strong>Result:</strong></p>
+<ul>
+<li><code>results</code>: A list with one element per <code>M</code> value:</li>
+<li><code>results[[1]]</code>: Collision probabilities for <span class="math inline">\(M = 10^6\)</span>, one for each value in <code>n_values</code>.</li>
+<li><code>results[[2]]</code>: Collision probabilities for <span class="math inline">\(M = 10^9\)</span>, one for each value in <code>n_values</code>.</li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Plotting the Results</strong></li>
+</ol>
+<p><strong>Plot Setup:</strong></p>
+<ul>
+<li><code>n_values</code>: X-axis (number of transactions, <span class="math inline">\(n\)</span>.</li>
+<li><code>results[[1]]</code>: Y-axis values for <span class="math inline">\(M = 10^6\)</span>.</li>
+<li><code>type = "l"</code>: Creates a line plot.</li>
+<li><code>col = "blue"</code>: Line color for <span class="math inline">\(M = 10^6\)</span> is blue.</li>
+<li><code>ylim = c(0, 1)</code>: Y-axis limits are set between 0 and 1.</li>
+<li>Labels:
+<ul>
+<li><code>xlab</code>: Label for the x-axis (“Number of Transactions (n)”).</li>
+<li><code>ylab</code>: Label for the y-axis (“Collision Probability”).</li>
+<li><code>main</code>: Plot title.</li>
+</ul></li>
+</ul>
+<p>Add a Second Line:</p>
+<p><code>lines(n_values, results[[2]], col = "red")</code></p>
+<ul>
+<li>Adds the line for <span class="math inline">\(M = 10^9\)</span> (red line) to the existing plot.</li>
+</ul>
+<p>Add a Legend:</p>
+<p><code>legend("bottomright", legend = c("M = 1e6", "M = 1e9"), col = c("blue", "red"), lty = 1)</code></p>
+<ul>
+<li>Places a legend in the bottom-right corner of the plot:
+<ul>
+<li><code>legend</code>: Labels for the two lines (“M = 1e6” and “M = 1e9”).</li>
+<li><code>col</code>: Colors corresponding to the lines.</li>
+<li><code>lty = 1</code>: Line type (solid lines).</li>
+</ul></li>
+</ul>
+<p>Measure Elapsed Time</p>
+<ul>
+<li><strong><code>end_time</code>:</strong> Records the time when the script finishes.</li>
+<li><strong><code>elapsed_time</code>:</strong> Calculates the difference between <code>end_time</code> and <code>start_time</code> to measure how long the script took to run.</li>
+<li><strong><code>cat</code>:</strong> Prints the elapsed time in a readable format.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="summary-of-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="summary-of-workflow">Summary of Workflow:</h3>
+<ol type="1">
+<li>Define a range of sample sizes (<code>n_values</code>) and identifier space sizes (<code>M_values</code>).</li>
+<li>Simulate collision probabilities for each combination of <code>n</code> and <code>M</code> using <code>lapply</code> and <code>sapply</code>.</li>
+<li>Store the results in a list (<code>results</code>).</li>
+<li>Plot the collision probabilities for different <code>M</code> values on the same graph.</li>
+<li>Measure and print the time it took to execute the script.</li>
+</ol>
+<hr>
+</section>
+<section id="example-output" class="level3">
+<h3 class="anchored" data-anchor-id="example-output">Example Output:</h3>
+<p>The plot will show two curves: - A blue curve for <span class="math inline">\(M = 10^6\)</span>. - A red curve for <span class="math inline">\(M = 10^9\)</span>.</p>
+<p>The X-axis represents the number of transactions, and the Y-axis represents the probability of a collision. The graph will show that as <span class="math inline">\(n\)</span> increases, the probability of a collision rises, and this happens more quickly for smaller</p>
+<p><span class="math inline">\(M\)</span>.</p>
+<p>Here’s the revised section <strong>“Strategies to Cope with Big Computations”</strong>, ensuring that the numbers align with the previous solutions and adding detailed explanations for each strategy:</p>
+<hr>
+</section>
+<section id="strategies-to-cope-with-big-computations" class="level3">
+<h3 class="anchored" data-anchor-id="strategies-to-cope-with-big-computations">Strategies to Cope with Big Computations</h3>
+<p>When brute-force simulations become too slow or resource-intensive, consider the following strategies to simplify and optimize computations while maintaining meaningful insights:</p>
+<ol type="1">
+<li><strong>Simplify Parameters</strong></li>
+</ol>
+<p>Reducing the size of the identifier pool <span class="math inline">\(M\)</span>, the number of transactions <span class="math inline">\(n\)</span>, or the number of trials can make simulations feasible on less powerful m achines. While this sacrifices some detail, it allows for faster exploration of general trends.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduced parameters for faster simulation</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>reduced_M_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1e6</span>, <span class="fl">1e9</span>) <span class="co"># Same as original to match results</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>reduced_n_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">5000</span>, <span class="dv">500</span>) <span class="co"># Smaller range and step size</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>reduced_trials <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># Fewer trials for speed</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute probabilities with reduced parameters</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>reduced_results <span class="ot">&lt;-</span> <span class="fu">lapply</span>(reduced_M_values, <span class="cf">function</span>(M) {</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(reduced_n_values, collision_probability, <span class="at">M =</span> M, <span class="at">trials =</span> reduced_trials)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Explanation:</strong> - By halving the range of <code>n</code> and increasing the step size (e.g., 500 instead of 100), we reduce the number of calculations. - Reducing the number of trials (e.g., from 10,000 to 100) speeds up each probability estimate. - This approach is useful for quick testing or exploratory data analysis.</p>
+<p><strong>Parallel Processing</strong></p>
+<p>Use multiple CPU cores to distribute the computational load, dramatically reducing execution time. This approach is especially effective for simulations with high numbers of trials.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallel collision probability (using the parallel package, which is already in R base)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>parallel_collision_probability <span class="ot">&lt;-</span> <span class="cf">function</span>(n, M, <span class="at">trials =</span> <span class="dv">1000</span>) {</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a cluster with available CPU cores</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Export necessary variables and functions to the cluster</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clusterExport</span>(cl, <span class="fu">c</span>(<span class="st">"simulate_identifiers"</span>, <span class="st">"has_collision"</span>, <span class="st">"n"</span>, <span class="st">"M"</span>))</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Parallelize trials</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">parSapply</span>(cl, <span class="dv">1</span><span class="sc">:</span>trials, <span class="cf">function</span>(x) {</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    identifiers <span class="ot">&lt;-</span> <span class="fu">simulate_identifiers</span>(n, M)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">has_collision</span>(identifiers)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Stop the cluster</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopCluster</span>(cl)</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the mean collision probability</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(results)</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Estimate probability for a specific n and M</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>probability <span class="ot">&lt;-</span> <span class="fu">parallel_collision_probability</span>(n, M, <span class="at">trials =</span> <span class="dv">5000</span>)</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Collision probability for n ="</span>, n, <span class="st">"and M ="</span>, M, <span class="st">"is"</span>, probability, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Collision probability for n = 1000 and M = 1e+06 is 0.3854 </code></pre>
+</div>
+</div>
+<p><strong>Explanation:</strong> - <strong>Parallel processing:</strong> Distributes the computation of trials across multiple CPU cores, significantly speeding up the simulation. - <strong>Cluster management:</strong> The <code>parallel</code> package allows the creation of a cluster of worker processes that execute the code in parallel. - Use this method for large-scale simulations where runtime is a bottleneck.</p>
+<ol start="3" type="1">
+<li><strong>Analytical Approximation</strong></li>
+</ol>
+<p>Instead of relying on simulation, use mathematical formulas to estimate the collision probability directly. For this problem, the <strong>birthday problem formula</strong> provides an accurate approximation:</p>
+<p><span class="math display">\[
+P(\text{collision}) = 1 - e^{-\frac{n^2}{2M}}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analytical collision probability formula</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>analytical_collision_probability <span class="ot">&lt;-</span> <span class="cf">function</span>(n, M) {</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>n<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> M))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Analytical estimation for different n values</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>n_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">10000</span>, <span class="dv">100</span>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>analytical_results <span class="ot">&lt;-</span> <span class="fu">sapply</span>(n_values, analytical_collision_probability, <span class="at">M =</span> M)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot analytical results</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n_values, analytical_results, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">col =</span> <span class="st">"green"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Transactions (n)"</span>, <span class="at">ylab =</span> <span class="st">"Collision Probability"</span>,</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Analytical Approximation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_financial_identifier_collisions_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Explanation:</strong> - The formula is derived from probability theory and avoids simulation entirely. - <strong>Advantages:</strong> It’s extremely fast, as it only requires a single calculation for each (n) and (M). - <strong>Limitations:</strong> Assumes ideal random sampling and may not capture nuances in more complex systems.</p>
+</section>
+<section id="summary-of-strategies" class="level3">
+<h3 class="anchored" data-anchor-id="summary-of-strategies">Summary of Strategies</h3>
+<ol type="1">
+<li><strong>Simplify Parameters:</strong>
+<ul>
+<li>Reduce the computational load by using smaller parameter ranges or fewer trials.</li>
+<li>Best for quick exploratory analysis.</li>
+</ul></li>
+<li><strong>Parallel Processing:</strong>
+<ul>
+<li>Leverage multiple CPU cores to speed up large-scale simulations.</li>
+<li>Ideal for scenarios with high computational demands and sufficient hardware resources.</li>
+</ul></li>
+<li><strong>Analytical Approximation:</strong>
+<ul>
+<li>Use mathematical models for direct calculations.</li>
+<li>Fastest method but depends on assumptions that might not always apply.</li>
+</ul></li>
+</ol>
+<p>By combining these strategies, you can adapt your approach to match the computational resources available while maintaining the integrity of your analysis.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

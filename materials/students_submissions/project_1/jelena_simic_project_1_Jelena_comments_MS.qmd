@@ -1,0 +1,117 @@
+---
+title: "Jelena_Simic_Project_1"
+format: html
+editor: visual
+---
+
+## Student: Jelena Simic
+
+### Project: Designing transaction identifiers for digital payment systems
+
+Calculating the SHA-256 hash function
+
+```{r}
+# install.packages("digest")
+# install.packages("purrr")
+library(digest)
+library(purrr)
+```
+
+Firstly we define functions
+
+**get_transaction_id** which gives as result n random transaction_ids from M range of numbers. Those transaction identificators are not yet hashed!
+
+```{r}
+get_transaction_id <- function(M, n) {
+  sample(1:M, n) # tacka 1 - uzimam random n brojeva izmedju 1 i M 
+}
+```
+
+**hash_transaction_id** which hashes our transactions given the id and on the type of hashing algorithm
+
+```{r}
+hash_transaction_id <- function(id, hashing_alg="sha256") {
+  digest(id, algo=hashing_alg)
+}
+```
+
+Comment MS: Very nice idea. I was not aware that base R has the digest function in its arsenal. So i already learned something new here! Great. In this example, it would of course have been enough just to have some identifiers, they need not be hash values.
+
+**generate_result** that takes our 2 previous functions combines it, checks for duplicates after hashing and then, after doing that 1000 times checks for average number of times that hashed function failed.
+
+-   Problem (?) - Should I check how many times was the hashed string been duplicated? For example if id2, id3, id4 are all hashed into x234, any(duplicated(hashed)) will just say hey it was duplicated but not how many times. Is this info important?
+
+Comment MS: No, it is enough to check whether at least one collision has occured. This has to do with the question we are trying to answer: Calculate the probability that **at least two items (e.g., birthdays, transactions, identifiers) collide**. The presence of even a single collision is enough to satisfy this condition.
+
+-   The problem does not ask about the **number of collisions** but simply whether collisions occur or not.
+
+-   If a collision exists, we can conclude the event has occurred, regardless of how many pairs are involved.
+
+The mathematical framework focuses on the **probability of the first collision**:
+
+-   Let nnn be the number of items (e.g., people, transactions).
+
+-   Let MMM be the total number of possible identifiers (e.g., 365 days for birthdays).
+
+-   The calculation estimates the likelihood of the first collision, not subsequent collisions.
+
+The probability of additional collisions does not change the outcome of whether **at least one collision** has occurred. For example:
+
+-   If n=23n = 23n=23 and M=365M = 365M=365, we only care if a pair of birthdays matches, not if multiple pairs match.
+
+Hope this clarifies the question.
+
+```{r}
+generate_result <- function(M, n, hashing_alg = "sha256", trials = 1000) {
+  res <- replicate(trials, {
+    transactions <- get_transaction_id(M, n)
+    hashed <- sapply(transactions, 
+                     function(id) {hash_transaction_id(id, hashing_alg)})
+    any(duplicated(hashed))
+  })
+  mean(res)
+}
+# generate_result(10^6, 1000)
+```
+
+This is our simulation window. We have some values for M -\> M_s and values for n -\> n_s. We want to play around and see if for any number of transactions taken from how many big of a pool range can we get a duplicate somewhere?
+
+It's extremely slow, especially when n \>= 10\^6. I could have probably optimized it a bit.
+
+Maybe solution idea, but could be even slower (didn't check), to have a map of hashed values that are being added as soon as it hashes. (Map: key: hashed value of transaction id, value: counter how many times it occured already). If after adding it to the map value is \> 1, we can break our further computation and return true because duplication occurred.
+
+```{r}
+M_s <- c(10^6, 10^9)
+n_s <- c(10^3, 10^6, 10^9)
+pairs <- subset(expand.grid(M=M_s, n=n_s), M > n)
+simulation <- function(M_s, n_s) {
+  means <- pmap_dbl(pairs, function(M, n) generate_result(M, n), .progress=TRUE)
+  # means <- apply(pairs, 1, function(pair) {
+  #   M <- pair[1]
+  #   n <- pair[2]
+  #   print(M)
+  #   print(n)
+  #   generate_result(M, n)
+  # })
+  means
+}
+results <- simulation(M_s, n_s)
+```
+
+![](images/paste-0A3F24FC.png)
+
+Lower numbers like n = 1000, can be calculated, and usual result is 0 duplications occurred.
+
+```{r}
+
+generate_result(M = 10^6, n = 10^3, hashing_alg = "sha256")
+```
+
+```{r}
+
+generate_result(M = 10^6, n = 10^4, hashing_alg = "sha256")
+```
+
+Comment MS: This is fine. It is true that with M\^6 the computation time gets large. But problems like this occur all the time in practice. In my "worked solution" I have added some remarks how you could cope with problems like this. I encourage you to have a look at these remarks and the examples I give there.
+
+Maybe, when you find time try to play also a bit with the visualization opportunities. In my view visualizing a problem can truly help deep understanding and it is also fun. In my worked solution there are examples in base R. Using the `ggplot2`\` is also a great visualization tool.

@@ -1,0 +1,21 @@
+---
+title: "lecture2_notes"
+editor: source
+---
+
+```{r}
+# Define the coin
+coin <- c(1, 0)
+# Toss the coin n times
+n <- 1000
+results <- replicate(n, sample(coin, size = 1))
+# Calculate cumulative frequency of Heads
+heads_freq <- cumsum(results == 1) / (1:n)
+# Plot the convergence
+plot(1:n, heads_freq, type = "l", ylim = c(0.4, 0.6),
+xlab = "Number of Tosses", ylab = "Frequency of Heads"
+main = "Convergence of Relative Frequency to True Prob
+40
+abline(h = 0.5, col = "red", lty = 2)
+```
+

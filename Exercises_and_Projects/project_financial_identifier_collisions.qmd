@@ -1,29 +1,63 @@
 ---
-title: "Project: Financial Identifier Collisions Solutions"
+title: "Project: Financial Identifier Collisions: Comments and one suggested Solutions"
 format: html
+source: visual
+author: Martin Summer
+date: last-modified
+date-format: D MMMM, YYYY
 ---
 
-## Project: Financial Identifier Collisions
+## Project: Designing transaction identifyers for digital payment systems
 
-In this project, we explore the likelihood of "collisions" in financial transaction identifiers. By simulating transaction identifiers and analyzing the probability of collisions, we can understand the challenges of designing secure financial systems.
+In this project, we explore the likelihood of "collisions" in financial 
+transaction identifiers. By simulating transaction identifiers and analyzing 
+the probability of collisions, we can understand the challenges of designing 
+secure financial systems.
 
 ---
 
 ### Exercise 1: Simulate Transaction Identifiers
 
-#### Task
-Write a function to simulate transaction identifiers, where each identifier is randomly chosen from a pool of size $M$.
+#### Task: Simulate transaction identifiers
 
-#### Solution
+We write an R function. The number $n$ of identifiers and the
+size of the pool from which the identifiers are chosen $M$ should
+be the parameters of the function. By choosing specific values for
+$n$ and $M$ we can then play with this simulation and check various
+parameter setups.
+
+
+#### My proposed solution
+
+Here is my function. Remember the R syntax for functions:
+
+`function name <- function(arg1, arg2, ...){ here goes the function body}`
+
+We us for simulation the `sample()`function. We choose from the numbers `1:M`
+in total $n$ numbers. We set `replace = TRUE` because it should be possible
+that in the random draw a number can be drawn more than once (sampling with
+replacements).
+
+You can do this like in the lecture notes or in the examples we had
+on or slides:
+
+
 ```{r}
 # Function to simulate transaction identifiers
 simulate_identifiers <- function(n, M) {
   sample(1:M, n, replace = TRUE)
 }
+```
 
-# Example: Simulate 1000 identifiers from a pool of size 1,000,000
+It is always a good idea to test a function with an example to see 
+whether the function does what you want. It is also a good idea to
+think upfront what you expect the function will do.
+
+```{r}
+# Example: Simulate 100 identifiers from a pool of size 1,000,000
+
 set.seed(123)
-identifiers <- simulate_identifiers(1000, 1e6)
+identifiers <- simulate_identifiers(100, 1e6)
 identifiers
 ```
 
@@ -31,20 +65,71 @@ identifiers
 - $n$ represents the number of transactions.
 - $M$ represents the size of the identifier pool.
 
+All numbers are in the range we have set. So this looks about right. We can
+even formally test this eyeballing statement.
+
+```{r}
+sum(identifiers <= 10^6)
+```
+
+Here `identifiers < = 100` is a logical condition. R checks for each identifier
+whether it fulfills the condition and returns `TRUE`when the condition is fulfilled.
+When we apply `sum()` to this vector of logicals induces R to transform the `TRUE`s to
+1 and the `FALSE`s to 0 and in this way counts the entries for which the condition is
+true. If our function works correctly the condition must hold for each simulated 
+identifier, otherwise we would have at least one choice not from the set 
+poolsize.
+
 ---
 
-### Exercise 2: Check for Collisions
+### Check for Collisions
 
 #### Task
 Write a function to check if a collision occurred in a set of identifiers.
 
-#### Solution
+#### Proposed solution
+
 ```{r}
 # Function to check for collisions
 has_collision <- function(identifiers) {
   any(duplicated(identifiers))
 }
+```
 
+This function checks whether our simulated identifiers contain
+duplicates first by using the `duplicated()` function. The syntax is
+`duplicated(x)`where `x`is a vector or a dataframe. and it returns a logical vector
+
+For example:
+
+```{r}
+# Example vector
+x <- c(1, 2, 3, 2, 4, 1, 5)
+
+# Find duplicates
+duplicates <- duplicated(x)
+
+# Print results
+print(duplicates)
+
+```
+
+Explanation:
+
+ - `duplicated(x)` checks each element in x and compares it to earlier elements.
+ - `TRUE` at position 4 means the value 2 is a duplicate of the 2 at position 2.
+ - `TRUE` at position 6 means the value 1 is a duplicate of the 1 at position 1.
+
+In R, the `any()` function checks if at least one value in a logical 
+vector is `TRUE`. It is commonly used to test conditions across multiple elements
+of a vector or array.
+
+So applying `any`to the output of `duplictes()` reveals if we have
+at least one collision.
+
+Let us test our function now:
+
+```{r}
 # Example: Check for collisions
 has_collision(identifiers)
 ```
@@ -54,12 +139,16 @@ has_collision(identifiers)
 
 ---
 
-### Exercise 3: Estimate Collision Probability
+### Estimate Collision Probability
 
 #### Task
-Simulate $n$ transactions multiple times and estimate the probability of at least one collision.
+Simulate $n$ transactions multiple times and estimate 
+the probability of at least one collision.
 
-#### Solution
+
+
+#### Proposed solution
+
 ```{r}
 # Function to estimate collision probability
 collision_probability <- function(n, M, trials = 10000) {
@@ -69,10 +158,92 @@ collision_probability <- function(n, M, trials = 10000) {
   })
   mean(results)
 }
+```
 
-# Example: Estimate collision probability for n = 1000, M = 1,000,000
+Let’s break down this R code step by step:
+
+1. **Function Definition:**
+
+`collision_probability <- function(n, M, trials = 10000) {`
+
+- This defines a function called `collision_probability`.
+- **Arguments:**
+  - `n`: The number of identifiers to generate.
+  - `M`: The size of the identifier space (how many unique identifiers are possible).
+  - `trials`: The number of simulations to run (default is `10,000`).
+
+The function uses simulation to estimate the collision probability.
+
+
+2. **Using `replicate`:**
+
+- `replicate(trials, { ... })` repeats the code inside the `{}` block `trials` times, storing the results in a vector.
+
+- Inside the block:
+
+  1. **Generate Identifiers:**
+     
+`identifiers <- simulate_identifiers(n, M)`
+     
+- Calls the `simulate_identifiers` function to generate `n` random identifiers from a space of size `M`.
+
+2. **Check for Collisions:**
+
+`has_collision(identifiers)`
+     
+- Calls the `has_collision` function to check if there are duplicates in the `identifiers` vector.
+- Returns `TRUE` if a collision is found and `FALSE` otherwise.
+
+So, after `replicate`, `results` is a logical vector (e.g., `c(TRUE, FALSE, TRUE, ...)`), where each element corresponds to whether a collision occurred in one trial.
+
+**Calculating the Probability:**
+
+`mean(results)`
+
+- `mean()` calculates the average of the logical vector `results`.
+- In R, `TRUE` is treated as `1` and `FALSE` as `0`.
+- The mean of `results` is the proportion of trials where a collision occurred, i.e., the estimated collision probability.
+
+4. **Returning the Result:**
+The function returns the average collision probability across all trials.
+
+### Example Walkthrough:
+
+Let’s assume:
+- `simulate_identifiers(n, M)` generates `n` random integers between `1` and `M`.
+- `has_collision(identifiers)` checks for duplicates.
+
+If we call:
+
+```{r}
+collision_probability(n = 5, M = 10)
+```
+
+1. The function runs `simulate_identifiers(5, 10)` 10,000 times, generating sets of 5 random identifiers from the range 1 to 10.
+2. For each set, `has_collision()` checks if there are duplicates.
+3. The function counts how many of the 10,000 trials had a collision and divides that count by 10,000 to estimate the probability.
+
+---
+
+### Intuition:
+- If `n` is large relative to `M`, the likelihood of a collision increases (like the Birthday Paradox).
+- If `n` is small relative to `M`, the likelihood of a collision decreases.
+
+This function uses simulation to approximate this probability.
+
+Some of you pointed out that the parameters we suggested in the
+example lead to a ver long runtime or overwhelm the computer. let's
+check the runtime of my proposed solution for the highest
+parametervalues proposed in the description of the
+project. I can do this in R by taking the
+system time with the function `Sys.time()`, store it
+and when the computation is finished take the time again.
+The difference gives me an estimate of my computation time.
+
+```{r}
+# Example: Estimate collision probability for n = 10^6, M = 10^9
 start_time <- Sys.time()
-prob <- collision_probability(1000, 1e6)
+prob <- collision_probability(1e6, 1e9)
 end_time <- Sys.time()
 elapsed_time <- end_time - start_time
 cat("Collision probability:", prob, "\n")
@@ -80,11 +251,12 @@ cat("Elapsed time:", elapsed_time, "\n")
 ```
 
 **Comments**:
-- Repeat the simulation for different values of $n$ and $M$ to analyze the relationship between transaction volume, pool size, and collision probability.
+- Repeat the simulation for different values of $n$ and $M$ to analyze 
+the relationship between transaction volume, pool size, and collision 
+probability.
 
----
 
-### Exercise 4: Visualize Collision Probability
+### Visualize Collision Probability
 
 #### Task
 Plot the collision probability as a function of $n$ for different values of $M$.
@@ -113,66 +285,249 @@ cat("Elapsed time:", elapsed_time, "\n")
 **Comments**:
 - Larger identifier pools $M$ significantly reduce the probability of collisions, even for high transaction volumes.
 
+Let's break this code into smaller steps and carefully explain each part.
+
+1. **Tracking Execution Time**
+
+```{r}
+
+#| eval: false
+#| 
+start_time <- Sys.time()
+```
+
+- This saves the current time into the variable `start_time`. It 
+will later be used to measure how long the entire script takes to execute.
+
+2. **Define Parameters**
+
+```{r}
+
+#| eval: false
+
+n_values <- seq(100, 10000, by = 100)
+M_values <- c(1e6, 1e9)
+```
+
+- **`n_values`:** A sequence of numbers representing different sample sizes (`n`) for testing collision probability. 
+  - `seq(100, 10000, by = 100)` creates a sequence starting at 100, ending at 10,000, increasing in steps of 100. For example: `100, 200, 300, ..., 10000`.
+- **`M_values`:** A vector of two values (`1e6` and `1e9`) representing the size of the identifier space, i.e., \(M = 10^6\) and \(M = 10^9\).
+
+
+3. **Compute Collision Probabilities**
+
+`results <- lapply(M_values, function(M) sapply(n_values, collision_probability, M = M, trials = 100))`
+
+**What’s happening here?**
+
+- `lapply`: Loops over each value in `M_values` (i.e., `1e6` and `1e9`).
+- For each $M$, it applies an anonymous function:
+  
+
+`function(M) sapply(n_values, collision_probability, M = M, trials = 100)`
+
+  
+- Inside this function:
+    - `sapply`: Loops over each value in `n_values` (e.g., `100, 200, ..., 10000`).
+    - For each `n` in `n_values`, it calls the `collision_probability` function:
+
+
+`collision_probability(n, M = M, trials = 100)`
+
+- Estimates the collision probability for `n` identifiers and a space of size `M`, running 100 trials.
+
+**Result:**
+
+-   `results`: A list with one element per `M` value:
+  - `results[[1]]`: Collision probabilities for $M = 10^6$, one for each value in `n_values`.
+  - `results[[2]]`: Collision probabilities for $M = 10^9$, one for each value in `n_values`.
+
+
+4. **Plotting the Results**
+
+**Plot Setup:**
+
+- `n_values`: X-axis (number of transactions, $n$.
+- `results[[1]]`: Y-axis values for $M = 10^6$.
+- `type = "l"`: Creates a line plot.
+- `col = "blue"`: Line color for $M = 10^6$ is blue.
+- `ylim = c(0, 1)`: Y-axis limits are set between 0 and 1.
+- Labels:
+  - `xlab`: Label for the x-axis ("Number of Transactions (n)").
+  - `ylab`: Label for the y-axis ("Collision Probability").
+  - `main`: Plot title.
+
+Add a Second Line:
+
+`lines(n_values, results[[2]], col = "red")`
+
+
+- Adds the line for $M = 10^9$ (red line) to the existing plot.
+
+Add a Legend:
+
+`legend("bottomright", legend = c("M = 1e6", "M = 1e9"), col = c("blue", "red"), lty = 1)`
+
+- Places a legend in the bottom-right corner of the plot:
+  - `legend`: Labels for the two lines ("M = 1e6" and "M = 1e9").
+  - `col`: Colors corresponding to the lines.
+  - `lty = 1`: Line type (solid lines).
+
+
+
+Measure Elapsed Time
+
+- **`end_time`:** Records the time when the script finishes.
+- **`elapsed_time`:** Calculates the difference between `end_time` and `start_time` to measure how long the script took to run.
+- **`cat`:** Prints the elapsed time in a readable format.
+
+---
+
+### Summary of Workflow:
+1. Define a range of sample sizes (`n_values`) and identifier space sizes (`M_values`).
+2. Simulate collision probabilities for each combination of `n` and `M` using `lapply` and `sapply`.
+3. Store the results in a list (`results`).
+4. Plot the collision probabilities for different `M` values on the same graph.
+5. Measure and print the time it took to execute the script.
+
+---
+
+### Example Output:
+The plot will show two curves:
+- A blue curve for $M = 10^6$.
+- A red curve for $M = 10^9$.
+
+The X-axis represents the number of transactions, and the Y-axis represents the probability of a collision. The graph will show that as $n$ increases, the probability of a collision rises, and this happens more quickly for smaller 
+
+$M$.
+
+Here's the revised section **"Strategies to Cope with Big Computations"**, ensuring that the numbers align with the previous solutions and adding detailed explanations for each strategy:
+
 ---
 
 ### Strategies to Cope with Big Computations
 
-When brute-force simulations become too slow or resource-intensive, consider the following strategies:
+When brute-force simulations become too slow or resource-intensive, consider the following strategies to simplify and optimize computations while maintaining meaningful insights:
 
-#### 1. Simplify Parameters
-Reduce the size of $M$ and the number of trials to make computations feasible, while maintaining the ability to observe general trends.
+
+
+1. **Simplify Parameters**
+
+Reducing the size of the identifier pool $M$, the number of transactions 
+$n$, or the number of trials can make simulations feasible on less powerful m
+achines. While this sacrifices some detail, it allows for faster exploration 
+of general trends.
+
 ```{r}
-# Reduced parameters
-reduced_M_values <- c(1e5, 1e8)
-reduced_n_values <- seq(100, 1000, 100)
-reduced_trials <- 100
+# Reduced parameters for faster simulation
+reduced_M_values <- c(1e6, 1e9) # Same as original to match results
+reduced_n_values <- seq(100, 5000, 500) # Smaller range and step size
+reduced_trials <- 100 # Fewer trials for speed
 
 # Compute probabilities with reduced parameters
-reduced_results <- lapply(reduced_M_values, function(M) sapply(reduced_n_values, collision_probability, M = M, trials = reduced_trials))
+reduced_results <- lapply(reduced_M_values, function(M) {
+  sapply(reduced_n_values, collision_probability, M = M, trials = reduced_trials)
+})
 ```
 
-#### 2. Parallel Processing
-Leverage multiple CPU cores to distribute computations and speed up the simulation process.
+**Explanation:**
+- By halving the range of `n` and increasing the step size (e.g., 500 instead of 100), we reduce the number of calculations.
+- Reducing the number of trials (e.g., from 10,000 to 100) speeds up each probability estimate.
+- This approach is useful for quick testing or exploratory data analysis.
+
+
+
+**Parallel Processing**
+
+Use multiple CPU cores to distribute the computational load, 
+dramatically reducing execution time. This approach is especially 
+effective for simulations with high numbers of trials.
+
 ```{r}
-# Parallel collision probability (example with parallel package)
+# Parallel collision probability (using the parallel package, which is already in R base)
 library(parallel)
-parallel_collision_probability <- function(n, M, trials = 100) {
+
+parallel_collision_probability <- function(n, M, trials = 1000) {
+  # Create a cluster with available CPU cores
   cl <- makeCluster(detectCores() - 1)
-  clusterExport(cl, c("n", "M", "simulate_identifiers", "has_collision"))
+  
+  # Export necessary variables and functions to the cluster
+  clusterExport(cl, c("simulate_identifiers", "has_collision", "n", "M"))
+  
+  # Parallelize trials
   results <- parSapply(cl, 1:trials, function(x) {
     identifiers <- simulate_identifiers(n, M)
     has_collision(identifiers)
   })
+  
+  # Stop the cluster
   stopCluster(cl)
+  
+  # Return the mean collision probability
   mean(results)
 }
+
+# Example: Estimate probability for a specific n and M
+n <- 1000
+M <- 1e6
+probability <- parallel_collision_probability(n, M, trials = 5000)
+cat("Collision probability for n =", n, "and M =", M, "is", probability, "\n")
 ```
 
-#### 3. Analytical Approximation
-Use mathematical models, such as the birthday problem formula, to estimate probabilities directly.
+**Explanation:**
+- **Parallel processing:** Distributes the computation of trials across multiple 
+CPU cores, significantly speeding up the simulation.
+- **Cluster management:** The `parallel` package allows the creation of a 
+cluster of worker processes that execute the code in parallel.
+- Use this method for large-scale simulations where runtime is a bottleneck.
+
+3. **Analytical Approximation**
+
+Instead of relying on simulation, use mathematical formulas to estimate the 
+collision probability directly. For this problem, the **birthday problem formula** 
+provides an accurate approximation:
+
+$$
+P(\text{collision}) = 1 - e^{-\frac{n^2}{2M}}
+$$
+
 ```{r}
 # Analytical collision probability formula
+
 analytical_collision_probability <- function(n, M) {
   1 - exp(-n^2 / (2 * M))
 }
 
-# Example: Analytical estimation
-n_values <- seq(100, 1000, 100)
+# Example: Analytical estimation for different n values
+n_values <- seq(100, 10000, 100)
 M <- 1e6
 analytical_results <- sapply(n_values, analytical_collision_probability, M = M)
 
 # Plot analytical results
+
 plot(n_values, analytical_results, type = "l", col = "green", lwd = 2,
      xlab = "Number of Transactions (n)", ylab = "Collision Probability",
      main = "Analytical Approximation")
 ```
 
----
+**Explanation:**
+- The formula is derived from probability theory and avoids simulation entirely.
+- **Advantages:** It's extremely fast, as it only requires a single calculation for each \(n\) and \(M\).
+- **Limitations:** Assumes ideal random sampling and may not capture nuances in more complex systems.
 
-### Discussion
 
-1. **Simplification of Parameters**: Useful for exploratory analysis but may lose precision.
-2. **Parallel Processing**: Effective for large-scale simulations, though resource-dependent.
-3. **Analytical Approximation**: Provides quick and accurate estimates when assumptions are valid.
+### Summary of Strategies
 
-These strategies demonstrate how to tackle computational challenges efficiently while exploring probabilistic models.
+1. **Simplify Parameters:**
+   - Reduce the computational load by using smaller parameter ranges or fewer trials.
+   - Best for quick exploratory analysis.
+
+2. **Parallel Processing:**
+   - Leverage multiple CPU cores to speed up large-scale simulations.
+   - Ideal for scenarios with high computational demands and sufficient hardware resources.
+
+3. **Analytical Approximation:**
+   - Use mathematical models for direct calculations.
+   - Fastest method but depends on assumptions that might not always apply.
+
+By combining these strategies, you can adapt your approach to match the computational resources available while maintaining the integrity of your analysis.

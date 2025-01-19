@@ -1,0 +1,243 @@
+---
+title: "Unique identifiers in Finance"
+format: html
+editor: visual
+---
+
+## In this project, you will:
+
+1.  Simulate a system assigning transaction identifiers.
+
+2.  Investigate the probability of identifier collisions under different scenarios.
+
+3.  Discuss implications for system design and security.
+
+### **1. Simulate transaction identifiers**
+
+-   Write a function to simulate transaction identifiers, where each identifier is randomly chosen from a pool of size M (e.g. M=10^6^ or M=10^9^)
+
+-   Using your function, simulate n transactions and check for duplicates using R’s `duplicated()` function.
+
+```{r}
+
+# Select number of simulations
+set.seed(123)
+n <- 10000
+M <- 1:10^6
+
+simulate_ti <- function(n, M) {
+  # Simulate n transaction identifiers from a pool of size M
+  identifiers <- sample(M, size = n, replace = TRUE)
+  return(identifiers)
+}
+
+# Simulate transaction identifiers
+identifiers <- simulate_ti(n, M)
+
+# Check for duplicates
+duplicates <- duplicated(identifiers)
+
+# Output results
+print(sum(duplicates))  # Number of duplicate identifiers
+print(any(duplicates))  # Check if there are any duplicate identifiers
+```
+
+For 10^6^ pool size (M) and an assumed **10,000** transaction (n), on average, it can be expected to be **56** duplicates. While for a 10^9^ pool size this would yield **0** duplicates. Additionally, when a 10^9^ pool is used, **100,000** transactions (10x of the first scenario) will produce on average only **4** duplicates). This shows that the increase in pool size drastically reduces the probabilities of matching values.
+
+*These values are found using a set.seed(123) function to avoid value variations from run to run (the random sampling has fixed random values)*
+
+### **2. Compute collision probabilities**
+
+-   Simulate nn transactions multiple times and estimate the collision probability as the fraction of simulations with at least one collision.
+
+-   Use this function to compute the collision probability for n=10^3^ ,n=10^6^ ,n=10^9^ and M=10^6^, M=10^9^
+
+```{r}
+simulate_collisions <- function(n, M, simulations = 100) {
+  # Vectorized approach to simulate all transactions in one step
+  collision_results <- replicate(simulations, {
+    identifiers <- sample(1:M, size = n, replace = TRUE)
+    any(duplicated(identifiers))
+  })
+  
+  # Return the fraction of simulations with at least one collision
+  return(mean(collision_results))
+}
+
+# Parameters
+set.seed(123)
+simulations <- 100
+n_values <- c(10^3, 10^6)  # Reduced n values for speed testing
+M_values <- c(10^6, 10^9)
+
+# Compute collision probabilities using mapply
+results <- expand.grid(n = n_values, M = M_values, simulations = simulations)
+results$collision_prob <- mapply(simulate_collisions, results$n, results$M, MoreArgs = list(simulations = simulations))
+
+# Display results
+print(results)
+```
+
+When the number of transactions (n) is 10^3^ (lowest value) and the pool size (M) is 10^9^ (highest value) there is 0% chance of collision when this experiment is run 100 times. This means that this combination would ensure no collision happens.
+
+![](images/clipboard-1257109065.png)However, for different combinations of n and M values, the probabilities are 46% for n= 10^3^ and M = 10^6^ , which means there is a high likelihood of collision. Lastly, when the n increases to 10^6^ transactions, the probability of collision goes to 100% regardless of the pool size.
+
+As a test, increasing the number of simulations to 1000 (10x more), the outputs do not change much. The most notable change is that the (n) = 10^3^ and (M) = 10^9^ case will not be exactly 0%, but 0.1%, which is notable as it means collision can happen. This does have a large implication as there is a possibility of this occurring in certain circumstances.
+
+![](images/clipboard-61510904.png)
+
+*the speed of computation also is greatly impacted by larger number of trials.*
+
+### **2.1 Visualize the results**
+
+Plot the collision probability as a function of n for different values of M. We did not cover Rs plotting functions in the lecture so far. We only showed some examples which we did not explain. But we explained how you could research R’s help system and how you could ask an LLM for help. With any of these resources you should be able to come up with some reasonable visualization.
+
+```{r}
+
+# Plotting function for the theoretical probability
+theoretical_prediction <- function(n, M) {
+  1 - prod(  ( (M):(M-n+1) ) / rep(M, n)   )
+}
+
+# generate various valus of n
+n_vector <- (1:9) * 10^4
+
+results = sapply(n_vector, theoretical_prediction, M = 10^9)
+
+print(results)
+
+# Function to plot both simulated and theoretical values
+plot(n_vector, results, type = "l", col = "blue", pch = 19, 
+     main = "Probability with space 10^9", 
+     xlab = "Number of transactions", 
+     ylab = "Probability")
+
+
+simulated_results <- sapply(n_vector, simulate_collisions, M = 10^9)
+# Add the second line
+lines(n_vector, simulated_results, col = "red", lwd = 2)
+
+# Add a legend
+legend("topleft", legend = c("Predicted results", "Simulated results"), 
+       col = c("blue", "red"), lty = 1, lwd = 2)
+```
+
+For plotting, two functions were created:
+
+1.  Function for simulated results from the previous code snippet(s) and
+2.  Function with a mathematical approximation (theoretical value) of the probability of colission.
+
+Both of these functions were used to graph the chart. As evident, the probabilities of collision come very close to simulated values, which is expected.
+
+### **2.2 Investigate the system design**
+
+-   Reflect on how the size of the pool M influences the collision risk.
+
+-   What happens when the transaction volume n increases significantly?
+
+```{r}
+
+# Plotting function for the simulated probability
+theoretical_prediction <- function(M, n) {
+  1 - prod(  ( (M):(M-n+1) ) / rep(M, n)   )
+}
+
+M <- (1:9) * 10^6
+
+results = sapply(M, theoretical_prediction, n = 10^3)
+
+print(results)
+
+
+plot(M, results, type = "l", col = "blue", pch = 19, 
+     main = "Probability with transaction n = 10^3", 
+     xlab = "Pool size", 
+     ylab = "Probability")
+
+
+simulated_results <- sapply(M, simulate_collisions, n = 10^3)
+# Add the second line
+lines(M, simulated_results, col = "red", lwd = 2)
+
+# Add a legend
+legend("topleft", legend = c("Predicted results", "Simulated results"), 
+       col = c("blue", "red"), lty = 1, lwd = 2)
+
+results = sapply(M, theoretical_prediction, n = 10^7)
+
+print(results)
+
+
+plot(M, results, type = "l", col = "blue", pch = 19, 
+     main = "Probability with transaction n = 10^7", 
+     xlab = "Pool size", 
+     ylab = "Probability")
+
+
+simulated_results <- sapply(M, simulate_collisions, n = 10^3)
+# Add the second line
+lines(M, simulated_results, col = "red", lwd = 2)
+
+# Add a legend
+legend("topleft", legend = c("Predicted results", "Simulated results"), 
+       col = c("blue", "red"), lty = 1, lwd = 2)
+```
+
+The first chart shows that increasing the M variable (pool) will (rapidly) decrease the probability of collision. The theoretical (predicted) and simulated values also come somewhat close.
+
+The second chart shows that when the transaction volume increases significantly (from 10^3^ to 10^7^), the probability become 100% of collision.\
+
+### **3. Financial implications**
+
+-   Imagine a financial institution processing transactions with M=10^6^ identifiers.
+
+-   If the daily transaction volume grows to n=10^5^, what is the risk of a collision?
+
+-   Discuss potential consequences of a collision (e.g., failed transactions, fraud risks) and propose ways to mitigate these risks (e.g., increasing M).
+
+```{r}
+simulate_collisions <- function(n, M, simulations) {
+  # Vectorized approach to simulate all transactions in one step
+  collision_results <- replicate(simulations, {
+    identifiers <- sample(1:M, size = n, replace = TRUE)
+    any(duplicated(identifiers))
+  })
+  
+  # Return the fraction of simulations with at least one collision
+  return(mean(collision_results))
+}
+
+# Parameters
+set.seed(123)
+simulations <- 100
+n_values <- c(10^5)  # Reduced n values for speed testing
+M_values <- c(10^6)
+
+# Compute collision probabilities using mapply
+results <- expand.grid(n = n_values, M = M_values, simulations = simulations)
+results$collision_prob <- mapply(simulate_collisions, results$n, results$M, MoreArgs = list(simulations = simulations))
+
+# Display results
+print(results)
+```
+
+Having n = 10^5^ number of transactions and M = 10^6^ means that it is basically certain that the collision will occur.
+
+The risk of collision can be:
+
+-   **Rejecting transactions** - which might not pose a large issue as it will most likely mean that transactions have to be re-run again. However, rejecting a transaction for a client due to internal error can impact the credibility of the institution and have a risk of a client not using the institution's services in the future.
+
+-   **Fraud risk** - is a critical issue as a hacker can match a transaction id and reroute the payment to another account. Additionally, there might be a risk of stealing the customer's information and abusing it in other ways through cyber security hacking techniques (social engineering, phishing, other frauds).
+
+Risk mitigation:\
+The most obvious suggestion is having a larger pool of identifiers (as large as possible), but 10^10^ would statistically make collisions close to impossible. A 10^9^ pool size would still have around an 0.1% probability of collision, which might cause big risk.
+
+Other suggestions for risk mitigation:
+
+-   Make identifiers valid only until the transaction settles, then only keep it for reporting purposes but not allow changing the transaction data at all.
+
+-   Multi-level encryption, where transactions can have n identifiers to match instead of 1 (M)
+
+-   Require 2FA verification for clients when conducting payments
+
+-   If there are multiple institutions generating similar UIDs, it is possible to add a prefix before the UID to distinguish the transaction for that specific institutions.
