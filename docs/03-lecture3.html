@@ -708,12 +708,12 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(portfolio)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  BondID BondType JointOutcome X_Defaulted Y_Defaulted
-1      1      B_2         B_NN       FALSE       FALSE
-2      2      B_1         B_DD        TRUE        TRUE
+1      1      B_1         B_DD        TRUE        TRUE
+2      2      B_2         B_NN       FALSE       FALSE
 3      3      B_2         B_DD        TRUE        TRUE
-4      4      B_2         B_DD        TRUE        TRUE
+4      4      B_2         B_NN       FALSE       FALSE
 5      5      B_1         B_NN       FALSE       FALSE
-6      6      B_2         B_NN       FALSE       FALSE</code></pre>
+6      6      B_2         B_DD        TRUE        TRUE</code></pre>
 </div>
 </div>
 <hr>
@@ -736,11 +736,11 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X = D):"</span>, <span class="fu">round</span>(P_X_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(X = D): 0.0998 </code></pre>
+<pre><code>P(X = D): 0.1026 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(Y = D):"</span>, <span class="fu">round</span>(P_Y_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Y = D): 0.0988 </code></pre>
+<pre><code>P(Y = D): 0.1 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Conditional Probabilities:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -748,11 +748,11 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X = D | Y = D):"</span>, <span class="fu">round</span>(P_X_given_Y_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(X = D | Y = D): 0.6032 </code></pre>
+<pre><code>P(X = D | Y = D): 0.586 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(Y = D | X = D):"</span>, <span class="fu">round</span>(P_Y_given_X_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Y = D | X = D): 0.5972 </code></pre>
+<pre><code>P(Y = D | X = D): 0.5712 </code></pre>
 </div>
 </div>
 <p>This simulation provides an intuitive approach to understanding conditional probabilities. By simulating joint outcomes for the bond portfolio, we can empirically calculate conditional probabilities as relative frequencies, making the concept more tangible.</p>
