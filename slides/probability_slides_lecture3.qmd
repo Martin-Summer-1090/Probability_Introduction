@@ -1,0 +1,608 @@
+---
+title: "An Introduction to Probability"
+subtitle: "Conditional Probability"
+author: "Martin Summer"
+date: last-modified
+date-format: D MMMM, YYYY
+format:
+  beamer:
+    theme: metropolis
+    slide-level: 2
+    fig-align: center
+    fig-width: 6     # Default width for all figures
+    fig-height: 4    # Default height for all figures
+execute:
+  echo: true
+  eval: true
+  warning: false
+  error: false
+  message: false
+---
+
+# Conditional Probability
+
+- **Conditional probability** is a basic tool of probability theory.
+- Particularly relevant in **Finance** for analyzing dependencies and risk.
+- Often obscured by complex terminology despite simple ideas.
+
+
+# Motivation: A Striking Scenario
+
+- Imagine evaluating the safety of a **bond portfolio**:
+  - Bonds are highly rated and diversified.
+  - During a global recession:
+    - Defaults occur, unraveling the portfolio.
+    - Losses mount unexpectedly.
+
+- Key lesson: **Underestimating event connections** leads to catastrophic risks.
+- **Conditional probability** enables us to model dependencies effectively.
+
+
+
+# Why Conditional Probability Matters
+
+- Mastering conditional probability is crucial for:
+  - Pricing financial instruments.
+  - Assessing credit risk.
+  - Making informed investment decisions.
+
+- Neglecting it can lead to systemic failures:
+  - Example: The **2007-2008 financial crisis**.
+
+
+# Case Study: The Financial Crisis (2007-2008)
+
+- Revealed the dangers of assuming independence between events.
+- Highlighted failures in **structured finance**:
+  - Underestimation of dependencies.
+  - Misjudgment of risk profiles.
+
+- Reference: For a comprehensive discussion, see [Tooze 2018].
+
+
+# Understanding Structured Finance
+
+- **Bonds**:
+  - Financial instruments with fixed payments and default risks.
+  - Ratings by agencies like Moody’s and Standard & Poor’s:
+    - High grade (AAA, AA) to speculative (BB, B) and default danger (CCC, C).
+
+```{r echo=FALSE}
+library(knitr)
+ratings_table <- data.frame(
+  "Rating Category" = c("High grade", "", "Medium grade", "", "Speculative grade", "", "Default danger", "", ""),
+  "Moody's" = c("Aaa", "Aa", "A", "Baa", "Ba", "B", "Caa", "Ca", "C"),
+  "Standard & Poor's" = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC", "CC", "C/D")
+)
+kable(ratings_table, align = "lcc", col.names = c("Rating Category", "Moody's", "Standard & Poor's"))
+```
+
+
+
+# Pooling and Tranching: An Innovation
+
+- **Structured finance**:
+  - Pools risky assets.
+  - Divides cash flows into **tranches** with distinct risk profiles.
+  - Enables creation of investment-grade securities from speculative-grade assets.
+
+- Example products:
+  - **Mortgage-backed securities (MBS)**.
+  - Variants using similar financial engineering concepts.
+
+
+# Simplified Example
+
+- Based on Karl Schmedder's course on probability.
+- Illustrates **structured finance** and its relation to probability.
+- Develops an intuitive understanding of pooling, tranching, and conditional dependencies.
+
+
+# A Simple Event Tree for One Bond
+
+- Consider a single bond paying €1 at maturity in the future.
+  - Default probability: 10% ($P(D) = 0.1$).
+  - Non-default probability: 90% ($P(N) = 0.9$).
+
+- Payoff structure:
+  - No Default ($N$): €1.
+  - Default ($D$): €0.
+
+- Graphically represented as an event tree:
+
+```{r fig-single_bond_event_tree, echo=FALSE}
+  knitr::include_graphics('../figures/single_bond_event_tree.png')
+```
+
+
+# Understanding the Event Tree
+
+- Nodes represent states of the bond:
+  - $t=0$: Initial state.
+  - $t=1$: Outcomes ($N$ or $D$).
+
+- Probabilities:
+  - $P(N) = 0.9$.
+  - $P(D) = 0.1$.
+
+- Analogy:
+  - Coin toss with unequal probabilities:
+    - Heads: 90% (No Default).
+    - Tails: 10% (Default).
+
+- Probabilistic interpretation:
+  - Random experiment with outcomes $N$ and $D$.
+
+
+# Combining Two Bonds: Independence Assumption
+
+- Portfolio of two bonds.
+- **Independence Assumption**:
+  - Defaults occur independently.
+  - Default of one bond does not influence the other.
+
+- Simplifies calculations:
+  - Default probabilities remain uncorrelated.
+  - Example: $P(D_1 \cap D_2) = P(D_1) \cdot P(D_2)$.
+
+- Historically justified by:
+  - Diversification.
+  - Uncorrelated defaults under normal conditions.
+
+
+# Systemic Risks: Challenges to Independence
+
+- Systemic risks disrupt independence:
+  - Defaults become correlated during crises.
+  - Shared macroeconomic factors increase joint defaults.
+
+- Example: 2008 financial crisis:
+  - Rising mortgage defaults driven by economic downturn.
+  - Increased correlation in bond defaults.
+
+- Critical thinking reveals:
+  - Diversification alone cannot guarantee safety.
+  - Assumption of independence is fragile.
+
+# Event Tree for Two Bonds
+
+- Two independent bonds:
+  - Combine event trees of individual bonds.
+  - Visualized as a double event tree.
+  
+---
+
+```{r fig-two_bond_event_tree, echo=FALSE}
+knitr::include_graphics('../figures/two_bonds_event_tree.png')
+```
+
+
+
+- Outcomes:
+  - Each path represents a combination of defaults or no defaults.
+  - Example: $B_{NN} = \begin{pmatrix}1 \\ 1\end{pmatrix}$ (both bonds pay €1).
+
+
+# Pooling and Tranching: Independent Risks
+
+- Re-engineering risk profiles:
+  - Pool payoffs of two bonds.
+  - Create two new securities:
+    1. Pays €1 except when both bonds default.
+    2. Pays €0 except when both bonds do not default.
+
+- Probabilities:
+  - Both bonds default: $P(D_1 \cap D_2) = 0.1 \cdot 0.1 = 0.01$.
+  - Both bonds do not default: $P(N_1 \cap N_2) = 0.9 \cdot 0.9 = 0.81$.
+  
+---
+
+```{r fig-pooling-and-tranching, echo=FALSE}
+knitr::include_graphics('../figures/pooling_and_tranching.png')
+```
+
+
+
+# Pooling and Tranching: Dependent Risks
+
+- What happens if independence does not hold?
+  - Default probabilities change:
+    - $P(D_2 \mid D_1) = 0.6$.
+    - $P(D_2 \mid N_1) = 0.044$.
+
+- Increased correlation during systemic events:
+  - Shared risks drive joint defaults.
+  
+---
+
+```{r fig-pooling-and-tranching-dependent, echo=FALSE}
+knitr::include_graphics('../figures/two_bonds_event_tree_dependent_events.png')
+```
+
+
+
+# Impact of Dependence on Risk Profiles
+
+- Dependent risks change probabilities:
+  - Both bonds default: $P(D_1) \cdot P(D_2 \mid D_1) = 0.1 \cdot 0.6 = 0.06$.
+  - Six times higher than under independence.
+
+- Structured finance products fail:
+  - Investment-grade tranches lose their safety.
+  - Junk plus junk remains junk.
+
+# Lessons from Structured Finance
+
+1. **Diversification**:
+   - Assets must be from independent sectors.
+2. **Macroeconomic Stability**:
+   - Low systemic risk is crucial.
+3. **Transparent Modeling**:
+   - Dependencies must be accounted for.
+
+- Neglecting these led to flawed models and systemic failures during the 2008 crisis.
+
+# Conditional Probability
+
+- Conditional probability formalizes how the probability of one event changes when another event is known to occur.
+- It provides a framework for understanding dependencies quantitatively.
+
+# Definition: Conditional Probability
+
+::: {.callout-tip title="Definition: Conditional Probability"}
+Let $B$ be an event with positive probability. For an arbitrary event $A$, the **conditional probability** of $A$ given $B$ is:
+$$
+P(A \,|\, B) = \frac{P(A \cap B)}{P(B)}, \quad \text{provided } P(B) \neq 0
+$$
+:::
+
+
+# Undefined Conditional Probabilities
+
+- Conditional probabilities are **undefined** when the conditioning event $B$ has $P(B) = 0$.
+- This distinction is:
+  - Irrelevant for **discrete sample spaces**.
+  - Crucial in the **general theory**.
+
+# Clarifying Conditional Probabilities
+
+- Conditional probabilities represent a **notation** change:
+  - Probabilities adjust to reflect known conditions.
+- Example: Revisit the financial crisis scenario:
+  - Highlighted how dependencies can amplify systemic risk.
+  
+# The Probability Tree and Conditional Probabilities
+
+- A **probability tree** is labeled with **edge probabilities**:
+  - Representing marginal and conditional probabilities at each level.
+  - At $t=0$
+    - $P(B_1 = N) = 0.9$, $P(B_1 = D) = 0.1$
+  - At $t=1$
+    - $P(B_2 = N \,|\, B_1 = N) = 0.956$, $P(B_2 = D \,|\, B_1 = N) = 0.044$
+    - $P(B_2 = N \,|\, B_1 = D) = 0.4$, $P(B_2 = D \,|\, B_1 = D) = 0.6$.
+    
+
+# Defining Probabilities in R
+
+- Probabilities defined from the **probability tree**:
+
+```{r}
+# Define the probabilities
+
+# Marginal probabilities for B_1
+P_N <- 0.9  # Probability that B_1 does not default
+P_D <- 0.1  # Probability that B_1 defaults
+
+# Conditional probabilities for B_2 given B_1
+P_N_given_N <- 0.8604/0.9  
+# B_2 does not default given B_1 does not default
+P_D_given_N <- 0.0396/0.9  
+# B_2 defaults given B_1 does not default
+P_N_given_D <- 0.4         
+# B_2 does not default given B_1 defaults
+P_D_given_D <- 0.6         
+# B_2 defaults given B_1 defaults
+```
+
+
+# Computing Joint Probabilities
+
+- Joint probabilities, $P(A \cap B)$, are calculated using the **multiplication rule**:
+$$
+P(A \cap B) = P(A \,|\, B) \cdot P(B).
+$$
+
+```{r}
+# Calculate joint probabilities
+
+P_NN <- P_N * P_N_given_N  # Both bonds do not default
+P_ND <- P_N * P_D_given_N  # B_1 does not default, B_2 defaults
+P_DN <- P_D * P_N_given_D  # B_1 defaults, B_2 does not default
+P_DD <- P_D * P_D_given_D  # Both bonds default
+```
+
+# Simulating a Bond Portfolio
+
+- Simulate a bond portfolio to calculate conditional probabilities empirically:
+  - Joint outcomes.
+  - Unconditional and conditional probabilities.
+  
+---
+
+```{r}
+# Number of bonds
+N <- 5000 
+
+# Simulate joint outcomes
+simulate_defaults <- function(n, probs) {
+  outcomes <- c("B_DD", "B_DN", "B_ND", "B_NN")
+  draws <- sample(outcomes, n, replace = TRUE, prob = c(probs))
+  return(draws)
+}
+
+# Generate portfolio data
+portfolio <- data.frame(
+  BondID = 1:N,
+  BondType = sample(c("B_1", "B_2"), N, replace = TRUE, prob = c(0.5, 0.5))
+)
+
+# Assign joint default outcomes
+joint_outcomes <- simulate_defaults(N, c(P_DD, P_DN, P_ND, P_NN))
+portfolio$JointOutcome <- joint_outcomes
+portfolio$X_Defaulted <- ifelse(portfolio$JointOutcome %in% 
+                                  c("B_DD", "B_DN"), TRUE, FALSE)
+portfolio$Y_Defaulted <- ifelse(portfolio$JointOutcome %in% 
+                                  c("B_DD", "B_ND"), TRUE, FALSE)
+
+# Preview the portfolio
+head(portfolio)
+```
+
+
+# Unconditional and Conditional Probabilities
+
+- Compute probabilities from simulated data:
+
+```{r}
+# Compute unconditional probabilities
+P_X_D <- mean(portfolio$X_Defaulted)  # P(X = D)
+P_Y_D <- mean(portfolio$Y_Defaulted)  # P(Y = D)
+
+# Compute conditional probabilities
+P_X_given_Y_D <- mean(portfolio$X_Defaulted[portfolio$Y_Defaulted == TRUE])  
+# P(X = D | Y = D)
+P_Y_given_X_D <- mean(portfolio$Y_Defaulted[portfolio$X_Defaulted == TRUE])  
+# P(Y = D | X = D)
+
+# Display results
+cat("Unconditional Probabilities:\n")
+cat("P(X = D):", round(P_X_D, 4), "\n")
+cat("P(Y = D):", round(P_Y_D, 4), "\n\n")
+
+cat("Conditional Probabilities:\n")
+cat("P(X = D | Y = D):", round(P_X_given_Y_D, 4), "\n")
+cat("P(Y = D | X = D):", round(P_Y_given_X_D, 4), "\n")
+```
+
+
+# Key Insights from Simulation
+
+1. **Dependence in Default Risks**:
+   - $P(B_2 = D \,|\, B_1 = D) = 0.6$, while $P(B_2 = D) = 0.1$.
+   - Conditional probabilities capture dependencies.
+
+2. **Symmetry Does Not Hold**:
+   - $P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D)$.
+
+
+# Why Simulating Helps
+
+- **Empirical Approach**:
+  - Joint outcomes provide tangible examples of conditional probabilities.
+
+- **Simplified Calculations**:
+  - Focus on subsets of data to compute $P(X = D \,|\, Y = D)$ and $P(Y = D \,|\, X = D)$:
+    - Identify outcomes where $Y = D$.
+    - Calculate relative frequency of $X = D$ within this subset.
+
+- **Intuitive Understanding**:
+  - Highlights conditional probabilities as **ratios within subsets**.
+  - Reinforces connections between theory and data.
+
+# Advanced R Concepts
+
+In this section, we explore advanced R programming concepts:
+
+1. **Environments**: How R evaluates and stores variables.
+2. **Scoping Rules**: How R resolves variable names.
+3. **Closures**: Functions that retain the environment where they were created.
+
+# Environments
+
+- An **environment** in R stores objects (variables, functions, etc.).
+- The **global environment** stores user-created objects.
+- Local variables can override global ones in specific functions.
+
+---
+
+### Example: Global and Local Variables
+
+```{r example-global-local}
+# Global interest rate
+interest_rate <- 0.05  
+
+# Function to calculate interest
+calculate_interest <- function(principal, rate = interest_rate) {
+  interest <- principal * rate
+  return(interest)
+}
+
+# Global calculation
+global_interest <- calculate_interest(1000)
+
+# Local override
+local_interest <- calculate_interest(1000, rate = 0.07)
+
+cat("Global Interest:", global_interest, "\n")
+cat("Local Interest:", local_interest, "\n")
+```
+
+# Scoping Rules
+
+- R uses **lexical scoping** to find variables:
+  - Searches the closest environment first.
+  - Moves outward to enclosing environments.
+
+### Example: Nested Functions
+
+```{r}
+# Global default rates
+default_rates <- c(AAA = 0.01, BBB = 0.02, Junk = 0.05)
+
+# Function for conditional default
+conditional_default <- function(rating) {
+  local_default_rates <- c(
+    AAA = unname(default_rates["AAA"]),
+    BBB = unname(default_rates["BBB"]),
+    Junk = unname(default_rates["Junk"])
+  )
+  return(local_default_rates[rating])
+}
+
+cat("Default rate for Junk bonds:", conditional_default("Junk"), "\n")
+```
+
+
+# Lookup Tables
+
+- **Lookup tables** map inputs to outputs.
+- Example: Default probabilities for credit ratings.
+
+### Benefits:
+1. Centralizes data for easy updates.
+2. Avoids repetitive conditional statements.
+
+# Closures
+
+- **Closures** are functions that retain their creation environment.
+- Used to create dynamic and reusable functions.
+
+---
+
+### Example: Probability Calculator Factory
+
+```{r example-probability-calculator-factory}
+# Function factory
+probability_calculator_factory <- function(event_probability) {
+  function(conditional_probability) {
+    joint_probability <- event_probability * conditional_probability
+    return(joint_probability)
+  }
+}
+
+# Create calculators
+junk_calculator <- probability_calculator_factory(0.05)
+bbb_calculator <- probability_calculator_factory(0.02)
+
+# Calculate joint probabilities
+junk_joint <- junk_calculator(0.1)
+bbb_joint <- bbb_calculator(0.2)
+
+cat("Joint probability for Junk bonds:", junk_joint, "\n")
+```
+
+
+# Analyzing Closures
+
+1. **Function Factory**:
+   - Takes `event_probability` as input.
+   - Returns a function for calculating joint probabilities.
+
+2. **Reusable Calculators**:
+   - `junk_calculator` for Junk bonds.
+   - `bbb_calculator` for BBB bonds.
+
+3. **Encapsulation**:
+   - Parameters are "locked in" during function creation.
+
+
+
+# Bayes' Rule: A Cornerstone of Probability
+
+- Bayes' Rule provides a systematic method for updating probabilities based on new evidence.
+- Formula:
+  $$
+  P(B|A) = \frac{P(A|B) P(B)}{P(A)}
+  $$
+- Explanation:
+  - $A$: Observed evidence.
+  - $B$: Hypothesis or prior belief.
+
+
+# Deriving Bayes' Rule
+
+- From the Multiplication Rule:
+  1. $P(B|A)P(A) = P(A \cap B)$
+  2. $P(A|B)P(B) = P(A \cap B)$
+  - Equating and dividing by $P(A)$:
+    $$
+    P(B|A) = \frac{P(A|B)P(B)}{P(A)}
+    $$
+- Significance: Ties prior beliefs to evidence using conditional probabilities.
+
+
+# Speck of Sand: An Intuitive Illustration
+
+- A square of area 1 represents the sample space.
+- Circle $B$ represents the event with area $P(B)$.
+- A speck of sand falls randomly in the square.
+
+```{r where-is-the-speck, echo=FALSE}
+knitr::include_graphics('../figures/where_speck.png')
+```
+
+
+# Updating Beliefs
+
+- New Information:
+  - The speck is known to land in another circle $A$ inside the square.
+- Question:
+  - What is $P(B|A)$, the probability that the speck is in $B$, given it is inside $A$?
+
+```{r where-is-the-speck-now, echo=FALSE}
+knitr::include_graphics('../figures/speck_in_D.png')
+```
+
+# Overlap Between $A$ and $B$
+
+- The updated probability $P(B|A)$ depends on the overlap of $B$ and $A$:
+  $$
+  P(B|A) = \frac{\text{Area of } A \cap B}{\text{Area of } A} = \frac{P(A \cap B)}{P(A)}
+  $$
+
+# Small Overlap: Low Probability
+
+```{r where-is-the-speck-now-small-overlap, echo=FALSE}
+knitr::include_graphics('../figures/small_overlap.png')
+```
+
+# Large Overlap: High Probability
+
+```{r where-is-the-speck-now-big-overlap, echo=FALSE}
+knitr::include_graphics('../figures/big_overlap.png')
+```
+
+# Bayesian Interpretation
+
+- Terms:
+  - $P(B)$: Prior probability.
+  - $P(A|B)$: Likelihood.
+  - $P(A)$: Normalizing constant.
+- Process:
+  1. Start with prior $P(B)$.
+  2. Add evidence $P(A|B)$.
+  3. Compute updated belief $P(B|A)$.
+
+
+
+
