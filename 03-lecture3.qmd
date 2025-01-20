@@ -533,44 +533,69 @@ reflects the fundamental property of conditional
 probability and underscores the importance of clearly 
 defining the conditioning event in probabilistic reasoning.
 
-
-### Simulating a Bond Portfolio
+## Simulating a bond portfolio
 
 We can extend this theoretical framework to simulate a bond portfolio with defaults and compute conditional probabilities empirically:
 
+We first set up the parameters as in our tree or as in the
+contingency table.
+
 ```{r}
-# Number of bonds
-N <- 5000 
+# Set up simulation parameters
+N <- 5000  # Total number of bonds
+P_DD <- 0.06  # P(X = D, Y = D)
+P_DN <- 0.04  # P(X = D, Y = N)
+P_ND <- 0.04  # P(X = N, Y = D)
+P_NN <- 0.86  # P(X = N, Y = N)
 
-# Simulate joint outcomes
-simulate_defaults <- function(n, probs) {
-  outcomes <- c("B_DD", "B_DN", "B_ND", "B_NN")
-  draws <- sample(outcomes, n, replace = TRUE, prob = c(probs))
-  return(draws)
-}
-
-# Generate portfolio data
-portfolio <- data.frame(
-  BondID = 1:N,
-  BondType = sample(c("B_1", "B_2"), N, replace = TRUE, prob = c(0.5, 0.5))
-)
-
-# Assign joint default outcomes
-joint_outcomes <- simulate_defaults(N, c(P_DD, P_DN, P_ND, P_NN))
-portfolio$JointOutcome <- joint_outcomes
-portfolio$X_Defaulted <- ifelse(portfolio$JointOutcome %in% 
-                                  c("B_DD", "B_DN"), TRUE, FALSE)
-portfolio$Y_Defaulted <- ifelse(portfolio$JointOutcome %in% 
-                                  c("B_DD", "B_ND"), TRUE, FALSE)
-
-# Preview the portfolio
-head(portfolio)
+# Verify probabilities sum to 1
+stopifnot(abs(P_DD + P_DN + P_ND + P_NN - 1) < 1e-6)
 ```
 
----
+Now we simulate joint outcomes based on our
+contingency table:
 
-Now let us compute the conditional and uncodnitional default
-probabilities from these data:
+```{r}
+# Simulate joint outcomes based on the contingency table
+simulate_defaults <- function(N, probs) {
+  sample(
+    c("DD", "DN", "ND", "NN"), 
+    size = N, 
+    replace = TRUE, 
+    prob = probs
+  )
+}
+
+```
+
+This sets the ground for generating the portfolio data in a special
+dataframe:
+
+```{r}
+
+# Generate portfolio data
+
+portfolio <- data.frame(
+  BondID = 1:N,
+  BondType = sample(c("B1", "B2"), N, replace = TRUE, prob = c(0.5, 0.5))
+)
+
+```
+
+The portfolio dataframe serves as the dataset where conditional probabilities are derived by filtering rows based on specific conditions, such as whether a default has occurred.
+
+Let us now assign the joint defaults:
+
+```{r}
+
+# Assign joint default outcomes
+portfolio$JointOutcome <- simulate_defaults(N, c(P_DD, P_DN, P_ND, P_NN))
+portfolio$X_Defaulted <- portfolio$JointOutcome %in% c("DD", "DN")
+portfolio$Y_Defaulted <- portfolio$JointOutcome %in% c("DD", "ND")
+```
+
+Now we can compute the unconditional and the conditional probabilties from
+our simulated data:
 
 ```{r}
 # Compute unconditional probabilities
@@ -578,10 +603,8 @@ P_X_D <- mean(portfolio$X_Defaulted)  # P(X = D)
 P_Y_D <- mean(portfolio$Y_Defaulted)  # P(Y = D)
 
 # Compute conditional probabilities
-P_X_given_Y_D <- mean(portfolio$X_Defaulted[portfolio$Y_Defaulted == TRUE])  
-# P(X = D | Y = D)
-P_Y_given_X_D <- mean(portfolio$Y_Defaulted[portfolio$X_Defaulted == TRUE])  
-# P(Y = D | X = D)
+P_X_given_Y_D <- mean(portfolio$X_Defaulted[portfolio$Y_Defaulted])  # P(X = D | Y = D)
+P_Y_given_X_D <- mean(portfolio$Y_Defaulted[portfolio$X_Defaulted])  # P(Y = D | X = D)
 
 # Display results
 cat("Unconditional Probabilities:\n")
@@ -592,45 +615,23 @@ cat("Conditional Probabilities:\n")
 cat("P(X = D | Y = D):", round(P_X_given_Y_D, 4), "\n")
 cat("P(Y = D | X = D):", round(P_Y_given_X_D, 4), "\n")
 
+# Verify calibration matches input probabilities
+calibration_check <- table(portfolio$JointOutcome) / N
+expected_probs <- c(P_DD, P_DN, P_ND, P_NN)
+
+calibration_result <- data.frame(
+  JointOutcome = names(calibration_check),
+  Frequency = as.numeric(calibration_check),
+  Expected = expected_probs
+)
+
+print(calibration_result)
+
 ```
 
-
-This simulation provides an intuitive approach to understanding 
-conditional probabilities. By simulating joint outcomes for the 
-bond portfolio, we can empirically calculate conditional probabilities 
-as relative frequencies, making the concept more tangible. 
-
-For example, to compute the conditional probability $P(X = D \,|\, Y = D)$, we 
-first identify the subset of simulated outcomes where $Y = D$. Within this subset, we calculate the relative frequency of cases where $X = D$. 
-
-This perspective highlights that conditional probabilities 
-are calculated not on the entire dataset, but on a relevant 
-subset that satisfies the conditioning event. By focusing only 
-on rows (or simulated outcomes) where the condition $Y = D$ holds, 
-we avoid unnecessary complexity and make the dependency between 
-events clearer. This approach complements theoretical definitions 
-by emphasizing the practical interpretation of conditional 
-probabilities as ratios within subsets, a viewpoint that is 
-often easier for students to grasp. 
-
-In contrast to the earlier theoretical examples, which rely on 
-abstract calculations, this method directly ties conditional 
-probability to observable outcomes in the data, providing a 
-more intuitive and relatable learning experience. This 
-tangible connection between the formula and simulated data 
-reinforces the understanding of conditional probability as a 
-measure of dependence between events.
-
-### Key Insights
-
-1. **Dependence in Default Risks**:
-   - Conditional probabilities highlight the dependence between $B_1$ and $B_2$:
-     - $P(B_2 = D \,|\, B_1 = D) = 0.6$, while $P(B_2 = D) = 0.1$.
-
-2. **Symmetry Does Not Hold**:
-   - $P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D)$.
-
-These examples demonstrate the importance of modeling dependencies explicitly in finance, especially in risk assessment. Let me know if further refinements are needed!
+Note that computing conditional probabilities involves focusing on a subset of the data where a specific condition holds. For example, to compute P(X = D | Y = D),
+we calculate the relative frequency of X_Defaulted being TRUE within the subset
+of rows where Y_Defaulted is TRUE.
 
 ## Advanced R Concepts: Environments, Scoping Rules, and Closures
 

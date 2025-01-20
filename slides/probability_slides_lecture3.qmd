@@ -321,58 +321,94 @@ P_DN <- P_D * P_N_given_D  # B_1 defaults, B_2 does not default
 P_DD <- P_D * P_D_given_D  # Both bonds default
 ```
 
-# Simulating a Bond Portfolio
+# Simulating Bond Portfolio Defaults
 
-- Simulate a bond portfolio to calculate conditional probabilities empirically:
-  - Joint outcomes.
-  - Unconditional and conditional probabilities.
-  
+### Goal:
+- Simulate a bond portfolio with two types of bonds (`B1` and `B2`).
+- Reproduce a portfolio where default probabilities align with the given contingency table.
+
+### Key Concepts:
+- Joint probabilities from the contingency table.
+- Unconditional and conditional probabilities.
+
+# Set up simulation parameters
+
+```{r}
+#| eval: false
+
+N <- 5000  # Total number of bonds
+P_DD <- 0.06  # P(X = D, Y = D)
+P_DN <- 0.04  # P(X = D, Y = N)
+P_ND <- 0.04  # P(X = N, Y = D)
+P_NN <- 0.86  # P(X = N, Y = N)
+
+# Verify probabilities sum to 1
+stopifnot(abs(P_DD + P_DN + P_ND + P_NN - 1) < 1e-6)
+```
+
 ---
 
 ```{r}
-# Number of bonds
-N <- 5000 
-
-# Simulate joint outcomes
-simulate_defaults <- function(n, probs) {
-  outcomes <- c("B_DD", "B_DN", "B_ND", "B_NN")
-  draws <- sample(outcomes, n, replace = TRUE, prob = c(probs))
-  return(draws)
+#| eval: false
+#| 
+# Simulate joint outcomes based on the contingency table
+simulate_defaults <- function(N, probs) {
+  sample(
+    c("DD", "DN", "ND", "NN"), 
+    size = N, 
+    replace = TRUE, 
+    prob = probs
+  )
 }
+
+```
+
+---
+
+```{r}
+#| eval: false
 
 # Generate portfolio data
 portfolio <- data.frame(
   BondID = 1:N,
-  BondType = sample(c("B_1", "B_2"), N, replace = TRUE, prob = c(0.5, 0.5))
+  BondType = sample(c("B1", "B2"), N, 
+                    replace = TRUE, prob = c(0.5, 0.5))
 )
 
 # Assign joint default outcomes
-joint_outcomes <- simulate_defaults(N, c(P_DD, P_DN, P_ND, P_NN))
-portfolio$JointOutcome <- joint_outcomes
-portfolio$X_Defaulted <- ifelse(portfolio$JointOutcome %in% 
-                                  c("B_DD", "B_DN"), TRUE, FALSE)
-portfolio$Y_Defaulted <- ifelse(portfolio$JointOutcome %in% 
-                                  c("B_DD", "B_ND"), TRUE, FALSE)
+portfolio$JointOutcome <- 
+  simulate_defaults(N, c(P_DD, P_DN, P_ND, P_NN))
+portfolio$X_Defaulted <- 
+  portfolio$JointOutcome %in% c("DD", "DN")
+portfolio$Y_Defaulted <- 
+  portfolio$JointOutcome %in% c("DD", "ND")
 
-# Preview the portfolio
-head(portfolio)
 ```
 
 
-# Unconditional and Conditional Probabilities
-
-- Compute probabilities from simulated data:
+---
 
 ```{r}
+#| eval: false
+
 # Compute unconditional probabilities
 P_X_D <- mean(portfolio$X_Defaulted)  # P(X = D)
 P_Y_D <- mean(portfolio$Y_Defaulted)  # P(Y = D)
 
 # Compute conditional probabilities
-P_X_given_Y_D <- mean(portfolio$X_Defaulted[portfolio$Y_Defaulted == TRUE])  
+P_X_given_Y_D <- 
+  mean(portfolio$X_Defaulted[portfolio$Y_Defaulted])  
 # P(X = D | Y = D)
-P_Y_given_X_D <- mean(portfolio$Y_Defaulted[portfolio$X_Defaulted == TRUE])  
+P_Y_given_X_D <- 
+  mean(portfolio$Y_Defaulted[portfolio$X_Defaulted])  
 # P(Y = D | X = D)
+
+```
+
+---
+
+```{r}
+#| eval: false
 
 # Display results
 cat("Unconditional Probabilities:\n")
@@ -382,32 +418,41 @@ cat("P(Y = D):", round(P_Y_D, 4), "\n\n")
 cat("Conditional Probabilities:\n")
 cat("P(X = D | Y = D):", round(P_X_given_Y_D, 4), "\n")
 cat("P(Y = D | X = D):", round(P_Y_given_X_D, 4), "\n")
+
 ```
 
+---
 
-# Key Insights from Simulation
+```{r}
+#| eval: false
 
-1. **Dependence in Default Risks**:
-   - $P(B_2 = D \,|\, B_1 = D) = 0.6$, while $P(B_2 = D) = 0.1$.
-   - Conditional probabilities capture dependencies.
+# Verify calibration matches input probabilities
+calibration_check <- table(portfolio$JointOutcome) / N
+expected_probs <- c(P_DD, P_DN, P_ND, P_NN)
 
-2. **Symmetry Does Not Hold**:
-   - $P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D)$.
+calibration_result <- data.frame(
+  JointOutcome = names(calibration_check),
+  Frequency = as.numeric(calibration_check),
+  Expected = expected_probs
+)
 
+print(calibration_result)
 
-# Why Simulating Helps
+```
 
-- **Empirical Approach**:
-  - Joint outcomes provide tangible examples of conditional probabilities.
+---
 
-- **Simplified Calculations**:
-  - Focus on subsets of data to compute $P(X = D \,|\, Y = D)$ and $P(Y = D \,|\, X = D)$:
-    - Identify outcomes where $Y = D$.
-    - Calculate relative frequency of $X = D$ within this subset.
+### Key Takeaways
+- **Conditional Probability**:
+  - Computed as the relative frequency in a subset of rows where the condition holds.
+  - E.g., $P(X = D \,|\, Y = D)$ focuses only on rows where `Y_Defaulted` is `TRUE`.
 
-- **Intuitive Understanding**:
-  - Highlights conditional probabilities as **ratios within subsets**.
-  - Reinforces connections between theory and data.
+- **Calibration**:
+  - Simulated frequencies align closely with expected probabilities from the contingency table.
+
+- **Practical Application**:
+  - Demonstrates how dependency structures in default risks are modeled.
+
 
 # Advanced R Concepts
 

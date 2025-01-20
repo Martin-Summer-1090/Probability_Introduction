@@ -1,0 +1,185 @@
+---
+title: "Notes_lecture_3"
+editor: source
+date: today
+---
+
+```{r}
+# Define the probabilities
+
+# Marginal probabilities for B_1
+P_N <- 0.9  # Probability that B_1 does not default
+P_D <- 0.1  # Probability that B_1 defaults
+
+# Conditional probabilities for B_2 given B_1
+P_N_given_N <- 0.8604/0.9  # Probability that B_2 does not default given B_1 does not default
+P_D_given_N <- 0.0396/0.9  # Probability that B_2 defaults given B_1 does not default
+P_N_given_D <- 0.4    # Probability that B_2 does not default given B_1 defaults
+P_D_given_D <- 0.6    # Probability that B_2 defaults given B_1 defaults
+```
+
+```{r}
+# Number of bonds
+N <- 5000 
+
+# Simulate joint outcomes
+simulate_defaults <- function(n, probs) {
+  outcomes <- c("B_DD", "B_DN", "B_ND", "B_NN")
+  draws <- sample(outcomes, n, replace = TRUE, prob = c(probs))
+  return(draws)
+}
+```
+
+```{r}
+# Generate portfolio data
+portfolio <- data.frame(
+  BondID = 1:N,
+  BondType = sample(c("B_1", "B_2"), N, replace = TRUE, prob = c(0.5, 0.5))
+)
+```
+
+```{r}
+# Assign joint default outcomes
+joint_outcomes <- simulate_defaults(N, c(P_DD, P_DN, P_ND, P_NN))
+portfolio$JointOutcome <- joint_outcomes
+portfolio$X_Defaulted <- ifelse(portfolio$JointOutcome %in% 
+                                  c("B_DD", "B_DN"), TRUE, FALSE)
+portfolio$Y_Defaulted <- ifelse(portfolio$JointOutcome %in% 
+                                  c("B_DD", "B_ND"), TRUE, FALSE)
+```
+
+```{r}
+# Global interest rate
+interest_rate <- 0.05  # 5%
+
+# Function to calculate interest payments
+calculate_interest <- function(principal, rate = interest_rate) {
+  interest <- principal * rate  # Uses the rate passed to the function
+  return(interest)
+}
+
+# Global calculation
+global_interest <- calculate_interest(1000)  # Uses global interest_rate
+cat("Global Interest:", global_interest, "\n")
+
+# Local override
+local_interest <- calculate_interest(1000, rate = 0.07)  # Overrides global interest_rate
+cat("Local Interest:", local_interest, "\n")
+```
+
+```{r}
+# Define global default rates for credit ratings
+
+default_rates <- c(
+  AAA = 0.01,  # Global default rate for AAA bonds
+  BBB = 0.02,  # Global default rate for BBB bonds
+  Junk = 0.05  # Global default rate for Junk bonds
+)
+
+# Function to calculate conditional default probability
+conditional_default <- function(rating) {
+  
+  # Lookup table for default rates
+  local_default_rates <- c(
+    AAA = unname(default_rates["AAA"]),  # Local default for AAA
+    BBB = unname(default_rates["BBB"]),  # Local default for BBB
+    Junk = unname(default_rates["Junk"]) # Local default for Junk
+  )
+  
+  # Return the default rate using vectorized subsetting
+  
+  return(local_default_rates[rating])
+}
+
+# Test the function
+cat("Default rate for Junk bonds:", conditional_default("Junk"), "\n")
+cat("Default rate for BBB bonds:", conditional_default("BBB"), "\n")
+cat("Default rate for AAA bonds:", conditional_default("AAA"), "\n")
+```
+
+```{r}
+library(tidyquant)
+```
+
+```{r}
+# Fetch S&P 500 data from 2000 to 2011
+
+sp500_data <- tq_get("SPY", from = "2000-01-01", to = "2011-12-31")
+```
+```{r}
+# Base R plot
+plot(
+  sp500_data$date, sp500_data$adjusted,
+  type = "l",                # Line plot
+  col = "blue",              # Line color
+  lwd = 2,                   # Line width
+  xlab = "Date",             # X-axis label
+  ylab = "Adjusted Price",   # Y-axis label
+  main = "S&P 500 Price Trends (2000–2011)" # Title
+)
+
+# Add grid lines for better readability
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray")
+```
+
+```{r}
+# Get corporate profits data from FRED
+corporate_profits <- tq_get("CP", from = "2000-01-01", 
+                            to = "2011-12-31", get = "economic.data")
+
+# Visualize corporate profits
+plot(
+  corporate_profits$date, corporate_profits$price,
+  type = "l",
+  col = "blue",
+  lwd = 2,
+  xlab = "Year",
+  ylab = "Corporate Profits (Index)",
+  main = "Corporate Profits (2000–2011)"
+)
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray")
+
+```
+
+```{r}
+# Set the path to the downloaded CSV file
+file_path <- "../data/sp-500-pe-ratio-price-to-earnings-chart.csv"
+
+# Read the CSV file into R
+pe_data <- read.csv(file_path, stringsAsFactors = FALSE, skip = 16,
+                    col.names = c("Date", "PE_ratio"))
+
+# Convert the date column to Date class
+pe_data$Date <- as.Date(pe_data$Date, format = "%Y-%m-%d")
+
+# Filter data for the desired date range
+pe_data_filtered <- subset(pe_data, Date >= as.Date("2000-01-01") & 
+                             Date <= as.Date("2011-12-31"))
+
+# Calculate the average P/E ratio over the specified period
+average_pe <- mean(pe_data_filtered$PE_ratio, na.rm = TRUE)
+
+# Plot the P/E ratio for the y-axis
+plot(
+  pe_data_filtered$Date, pe_data_filtered$PE_ratio,
+  type = "l",                   # Line plot
+  col = "blue",                 # Line color
+  lwd = 2,                      # Line width
+  xlab = "Year",                # X-axis label
+  ylab = "P/E Ratio", # Y-axis label
+  main = "S&P 500 P/E Ratio (2000–2011)", # Plot title
+)
+
+# Add a horizontal line for the average P/E ratio
+abline(h = average_pe, col = "red", lwd = 2, lty = 2)
+
+# Add a legend to the plot
+legend(
+  "topright",                   # Legend position
+  legend = c("P/E Ratio", "Average P/E Ratio"), # Labels
+  col = c("blue", "red"),       # Line colors
+  lty = c(1, 2),                # Line types
+  lwd = c(2, 2)                 # Line widths
+)
+```
+
