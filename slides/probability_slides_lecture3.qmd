@@ -603,6 +603,40 @@ knitr::include_graphics('../figures/big_overlap.png')
   2. Add evidence $P(A|B)$.
   3. Compute updated belief $P(B|A)$.
 
+## Project Overview
 
+### Problem Description
+
+- A bank is evaluating a loan application.
+- Goal: Estimate the likelihood of default using historical data.
+- Key probabilities provided:
+  1. **Default Rates**:
+     - $P(D) = 0.04$ (default probability).
+     - $P(ND) = 0.96$ (non-default probability).
+  2. **Low Credit Score**:
+     - $P(L|D) = 0.7$ (probability of low credit score given default).
+     - $P(L|ND) = 0.1$ (probability of low credit score given non-default).
+- Objective:
+  - Compute the posterior probability of default given a low credit score, $P(D|L)$.
+
+---
+
+## Key Questions
+
+1. Compute $P(D|L)$ Theoretically:
+   - Use Bayes' Rule:
+     $$
+     P(D|L) = \frac{P(L|D) \cdot P(D)}{P(L|D) \cdot P(D) + P(L|ND) \cdot P(ND)}
+     $$
+
+2. Simulate the Scenario in R:
+   - Create a dataset of 10,000 customers.
+   - Assign default status based on $P(D)$ and simulate credit scores.
+
+3. Compute $P(D|L)$ Empirically:
+   - Calculate $P(D|L)$ using simulated data and compare with the theoretical result.
+
+4. Visualize Results:
+   - Plot theoretical vs. simulated probabilities.
 
 
