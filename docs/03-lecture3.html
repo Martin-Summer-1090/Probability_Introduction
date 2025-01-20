@@ -737,11 +737,11 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X = D):"</span>, <span class="fu">round</span>(P_X_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(X = D): 0.104 </code></pre>
+<pre><code>P(X = D): 0.1002 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(Y = D):"</span>, <span class="fu">round</span>(P_Y_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Y = D): 0.1072 </code></pre>
+<pre><code>P(Y = D): 0.101 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Conditional Probabilities:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -749,11 +749,11 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X = D | Y = D):"</span>, <span class="fu">round</span>(P_X_given_Y_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(X = D | Y = D): 0.5821 </code></pre>
+<pre><code>P(X = D | Y = D): 0.5941 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(Y = D | X = D):"</span>, <span class="fu">round</span>(P_Y_given_X_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Y = D | X = D): 0.6 </code></pre>
+<pre><code>P(Y = D | X = D): 0.5988 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify calibration matches input probabilities</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>calibration_check <span class="ot">&lt;-</span> <span class="fu">table</span>(portfolio<span class="sc">$</span>JointOutcome) <span class="sc">/</span> N</span>
@@ -768,10 +768,10 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(calibration_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  JointOutcome Frequency Expected
-1           DD    0.0624     0.06
-2           DN    0.0416     0.04
-3           ND    0.0448     0.04
-4           NN    0.8512     0.86</code></pre>
+1           DD    0.0600     0.06
+2           DN    0.0402     0.04
+3           ND    0.0410     0.04
+4           NN    0.8588     0.86</code></pre>
 </div>
 </div>
 <p>Note that computing conditional probabilities involves focusing on a subset of the data where a specific condition holds. For example, to compute P(X = D | Y = D), we calculate the relative frequency of X_Defaulted being TRUE within the subset of rows where Y_Defaulted is TRUE.</p>
