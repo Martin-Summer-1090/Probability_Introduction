@@ -1,5 +1,7 @@
 ---
+output: hmtl
 bibliography: references.bib
+prefer-html: true
 ---
 
 # Conditional Probability
@@ -294,7 +296,7 @@ the increased likelihood of joint defaults during systemic events.
 
 Suppose we now assume that the probability of Bond 2 defaulting changes rather than staying unchanged under the condition that Bond 1 has defaulted:
 
-- If Bond 1 does **not** default, Bond 2 defaults with probability 0.1 (as before).
+- If Bond 1 does **not** default, Bond 2 defaults with a lower probability than before, here 0.044 instead of 0.1.
 - If Bond 1 **does** default, Bond 2 defaults with a higher probability 
 of 0.6 due to systemic dependence.
 
@@ -356,7 +358,7 @@ speculative grade and the magic from
 pooling and tranching suddenly disappears. Junk plus junk remains junk after 
 all.
 
-For pooling and tranching to reduce overall risk and create safe tranches:
+For pooling and tranching to reduce overall risk and create safe tranches we need:
 
 1. **Diversification:** Assets must come from independent sectors with minimal systemic risk.
 2. **Stable Macroeconomic Conditions:** Systemic risks must be low to maintain independence assumptions.
@@ -392,19 +394,7 @@ example of the financial crisis, which we discussed before
 we really did not much more than introducing one piece of new
 notation to indicate that the probabilities now have changed.
 
-
-Let's revisit our example represented in @fig-pooling-and-tranching-dependent. 
-
-Each branch represents a possible state of the restructured bond portfolio, 
-denoted as $R_{NN}$, $R_{ND}$, $R_{DN}$, and $R_{DD}$:
-- $R_{NN}$: Neither bond defaults.
-- $R_{ND}$: Bond $1$ does not default, but bond $2$ defaults.
-- $R_{DN}$: Bond $1$ defaults, but bond $2$ does not default.
-- $R_{DD}$: Both bonds default.
-
-Here is the complete, revised, and **consistent passage**, addressing all inconsistencies while aligning it with the updated notation for bond types ($B_1$ and $B_2$) and conditional/joint probabilities:
-
----
+Let's revisit our example.
 
 ### The Probability Tree and Conditional Probabilities
 
@@ -429,8 +419,8 @@ P_N <- 0.9  # Probability that B_1 does not default
 P_D <- 0.1  # Probability that B_1 defaults
 
 # Conditional probabilities for B_2 given B_1
-P_N_given_N <- 0.86/0.9  # Probability that B_2 does not default given B_1 does not default
-P_D_given_N <- 0.04/0.9  # Probability that B_2 defaults given B_1 does not default
+P_N_given_N <- 0.8604/0.9  # Probability that B_2 does not default given B_1 does not default
+P_D_given_N <- 0.0396/0.9  # Probability that B_2 defaults given B_1 does not default
 P_N_given_D <- 0.4    # Probability that B_2 does not default given B_1 defaults
 P_D_given_D <- 0.6    # Probability that B_2 defaults given B_1 defaults
 ```
@@ -467,8 +457,8 @@ library(kableExtra)
 # Define marginal probabilities
 P_N_total <- P_N
 P_D_total <- P_D
-P_N_given_total <- P_NN + P_DN
-P_D_given_total <- P_ND + P_DD
+P_N_given_total <- round(P_NN + P_DN,2)
+P_D_given_total <- round(P_ND + P_DD,2)
 
 # Create the contingency table
 contingency_table <- matrix(
@@ -499,31 +489,50 @@ kable_output <- knitr::kable(
 kable_output
 ```
 
----
-
-### Symmetry of Conditional Probabilities
-
-Using the contingency table, we compute conditional probabilities and highlight their asymmetry:
+Note that conditional probabilities are in general not
+symmetric.
 
 ```{r}
-# Conditional probability of B_2 defaulting given B_1 defaults
-P_D_given_D <- P_DD / P_D_total
+# Recalculate marginal probabilities
+P_B2_D <- P_N * P_D_given_N + P_D * P_D_given_D
 
-# Conditional probability of B_1 defaulting given B_2 defaults
-P_B1_given_B2 <- P_DD / P_D_given_total
+# Recompute conditional probabilities
+P_B2_given_B1 <- P_DD / P_D_total  # P(B_2 = D | B_1 = D)
+P_B1_given_B2 <- P_DD / P_B2_D     # P(B_1 = D | B_2 = D)
 
-cat("P(B_2 = D | B_1 = D):", P_D_given_D, "\n")
-cat("P(B_1 = D | B_2 = D):", P_B1_given_B2, "\n")
+# Display results
+cat("P(B_2 = D | B_1 = D):", round(P_B2_given_B1, 4), "\n")
+cat("P(B_1 = D | B_2 = D):", round(P_B1_given_B2, 4), "\n")
+
 ```
 
-Here, we observe that:
+The example above demonstrates that conditional probabilities 
+are, in general, not symmetric. Using the constructed 
+contingency table and the probability tree, we calculated 
+two conditional probabilities:
+
+- $P(B_2 = D \,|\, B_1 = D)$: the probability that bond $B_2$ defaults given that bond $B_1$ defaults.
+- $P(B_1 = D \,|\, B_2 = D)$: the probability that bond $B_1$ defaults given that bond $B_2$ defaults.
+
+These probabilities are computed as follows:
 $$
-P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D).
+P(B_2 = D \,|\, B_1 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_1 = D)}
+$$
+and
+$$
+P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 $$
 
-This asymmetry reflects the inherent directionality in conditional probability.
+Despite using the same joint 
+probability, $P(B_1 = D \cap B_2 = D)$, the 
+denominators differ: one uses $P(B_1 = D)$, while the 
+other uses $P(B_2 = D)$. Because these marginal probabilities 
+are generally not equal, the resulting conditional 
+probabilities are also unequal. This asymmetry 
+reflects the fundamental property of conditional 
+probability and underscores the importance of clearly 
+defining the conditioning event in probabilistic reasoning.
 
----
 
 ### Simulating a Bond Portfolio
 
@@ -559,6 +568,58 @@ head(portfolio)
 ```
 
 ---
+
+Now let us compute the conditional and uncodnitional default
+probabilities from these data:
+
+```{r}
+# Compute unconditional probabilities
+P_X_D <- mean(portfolio$X_Defaulted)  # P(X = D)
+P_Y_D <- mean(portfolio$Y_Defaulted)  # P(Y = D)
+
+# Compute conditional probabilities
+P_X_given_Y_D <- mean(portfolio$X_Defaulted[portfolio$Y_Defaulted == TRUE])  
+# P(X = D | Y = D)
+P_Y_given_X_D <- mean(portfolio$Y_Defaulted[portfolio$X_Defaulted == TRUE])  
+# P(Y = D | X = D)
+
+# Display results
+cat("Unconditional Probabilities:\n")
+cat("P(X = D):", round(P_X_D, 4), "\n")
+cat("P(Y = D):", round(P_Y_D, 4), "\n\n")
+
+cat("Conditional Probabilities:\n")
+cat("P(X = D | Y = D):", round(P_X_given_Y_D, 4), "\n")
+cat("P(Y = D | X = D):", round(P_Y_given_X_D, 4), "\n")
+
+```
+
+
+This simulation provides an intuitive approach to understanding 
+conditional probabilities. By simulating joint outcomes for the 
+bond portfolio, we can empirically calculate conditional probabilities 
+as relative frequencies, making the concept more tangible. 
+
+For example, to compute the conditional probability $P(X = D \,|\, Y = D)$, we 
+first identify the subset of simulated outcomes where $Y = D$. Within this subset, we calculate the relative frequency of cases where $X = D$. 
+
+This perspective highlights that conditional probabilities 
+are calculated not on the entire dataset, but on a relevant 
+subset that satisfies the conditioning event. By focusing only 
+on rows (or simulated outcomes) where the condition $Y = D$ holds, 
+we avoid unnecessary complexity and make the dependency between 
+events clearer. This approach complements theoretical definitions 
+by emphasizing the practical interpretation of conditional 
+probabilities as ratios within subsets, a viewpoint that is 
+often easier for students to grasp. 
+
+In contrast to the earlier theoretical examples, which rely on 
+abstract calculations, this method directly ties conditional 
+probability to observable outcomes in the data, providing a 
+more intuitive and relatable learning experience. This 
+tangible connection between the formula and simulated data 
+reinforces the understanding of conditional probability as a 
+measure of dependence between events.
 
 ### Key Insights
 
@@ -1073,7 +1134,7 @@ Within this square, there is a circle $B$, with area equal to $P(B)$.
 You have a tiny speck of sand on your finger, which accidentally falls 
 somewhere within the square. The location of the speck is entirely random.
 
-```{r where-is-the-speck, out.width='50%', fig.align='center', fig.cap='Where is the speck of sand?', echo = F}
+```{r where-is-the-speck, eval=knitr::is_html_output(), out.width='50%', fig.align='center', fig.cap='Where is the speck of sand?', echo = F}
 knitr::include_graphics('figures/where_speck.png')
 ```
 
@@ -1085,7 +1146,7 @@ since the speck could have landed anywhere within the square with equal likeliho
 Now, suppose you are told that the speck landed within another circle $A$ that 
 also lies inside the square:
 
-```{r where-is-the-speck-now, out.width='50%', fig.align='center', fig.cap='In fact we learn that the speck is inside circle $A$', echo = F}
+```{r where-is-the-speck-now, eval=knitr::is_html_output(), out.width='50%', fig.align='center', fig.cap='In fact we learn that the speck is inside circle $A$', echo = F}
 knitr::include_graphics('figures/speck_in_D.png')
 ```
 
@@ -1104,13 +1165,13 @@ P(B|A) = \frac{\text{Area of } A \cap B}{\text{Area of } A} = \frac{P(A \cap B)}
 
 - If $A$ and $B$ overlap only slightly, $P(B|A)$ will be small:
   
-```{r where-is-the-speck-now-small-overlap, out.width='50%', fig.align='center', fig.cap='Small overlap between $A$ and $B$', echo = F}
+```{r where-is-the-speck-now-small-overlap, eval=knitr::is_html_output(), out.width='50%', fig.align='center', fig.cap='Small overlap between $A$ and $B$', echo = F}
 knitr::include_graphics('figures/small_overlap.png')
 ```
 
 - If the overlap is large, $P(B|A)$ will be large:
 
-```{r where-is-the-speck-now-big-overlap, out.width='50%', fig.align='center', fig.cap='Large overlap between $A$ and $B$', echo = F}
+```{r where-is-the-speck-now-big-overlap, eval=knitr::is_html_output(), out.width='50%', fig.align='center', fig.cap='Large overlap between $A$ and $B$', echo = F}
 knitr::include_graphics('figures/big_overlap.png')
 ```
 

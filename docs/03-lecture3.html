@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>lecture3</title>
+<title>3&nbsp; Conditional Probability – An Introduction to Probability</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -77,18 +77,53 @@ div.csl-indent {
 }</style>
 
 
-<script src="03-lecture3_files/libs/clipboard/clipboard.min.js"></script>
-<script src="03-lecture3_files/libs/quarto-html/quarto.js"></script>
-<script src="03-lecture3_files/libs/quarto-html/popper.min.js"></script>
-<script src="03-lecture3_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="03-lecture3_files/libs/quarto-html/anchor.min.js"></script>
-<link href="03-lecture3_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="03-lecture3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="03-lecture3_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="03-lecture3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="03-lecture3_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="03-lecture3_files/libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="03-lecture3_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06-references.html" rel="next">
+<link href="./02-lecture2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -122,30 +157,161 @@ window.Quarto = {
 
 </head>
 
-<body class="fullcontent">
+<body class="nav-sidebar floating slimcontent">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-lecture3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conditional Probability</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">An Introduction to Probability</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-lecture1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">First probability ideas and first steps in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-lecture2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability: Basic Definitions and Rules</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-lecture3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conditional Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-neglecting-conditional-probability-may-be-expensive-a-case-study." id="toc-why-neglecting-conditional-probability-may-be-expensive-a-case-study." class="nav-link active" data-scroll-target="#why-neglecting-conditional-probability-may-be-expensive-a-case-study."><span class="header-section-number">3.1</span> Why neglecting conditional probability may be expensive: A case study.</a>
+  <ul class="collapse">
+  <li><a href="#bonds-and-credit-risk" id="toc-bonds-and-credit-risk" class="nav-link" data-scroll-target="#bonds-and-credit-risk"><span class="header-section-number">3.1.1</span> Bonds and Credit Risk</a></li>
+  <li><a href="#pooling-and-tranching-the-innovation" id="toc-pooling-and-tranching-the-innovation" class="nav-link" data-scroll-target="#pooling-and-tranching-the-innovation"><span class="header-section-number">3.1.2</span> Pooling and Tranching: The Innovation</a></li>
+  <li><a href="#a-simple-event-tree-for-one-bond" id="toc-a-simple-event-tree-for-one-bond" class="nav-link" data-scroll-target="#a-simple-event-tree-for-one-bond"><span class="header-section-number">3.1.3</span> A Simple Event Tree for One Bond</a></li>
+  <li><a href="#combining-two-bonds-with-independence-assumption" id="toc-combining-two-bonds-with-independence-assumption" class="nav-link" data-scroll-target="#combining-two-bonds-with-independence-assumption"><span class="header-section-number">3.1.4</span> Combining Two Bonds with Independence Assumption</a></li>
+  <li><a href="#pooling-and-tranching" id="toc-pooling-and-tranching" class="nav-link" data-scroll-target="#pooling-and-tranching"><span class="header-section-number">3.1.5</span> Pooling and Tranching</a></li>
+  <li><a href="#pooling-and-tranching-without-independent-risks" id="toc-pooling-and-tranching-without-independent-risks" class="nav-link" data-scroll-target="#pooling-and-tranching-without-independent-risks"><span class="header-section-number">3.1.6</span> Pooling and Tranching without Independent Risks</a></li>
+  </ul></li>
+  <li><a href="#conditional-probability" id="toc-conditional-probability" class="nav-link" data-scroll-target="#conditional-probability"><span class="header-section-number">3.2</span> Conditional Probability</a>
+  <ul class="collapse">
+  <li><a href="#the-probability-tree-and-conditional-probabilities" id="toc-the-probability-tree-and-conditional-probabilities" class="nav-link" data-scroll-target="#the-probability-tree-and-conditional-probabilities"><span class="header-section-number">3.2.1</span> The Probability Tree and Conditional Probabilities</a></li>
+  <li><a href="#defining-probabilities-in-r" id="toc-defining-probabilities-in-r" class="nav-link" data-scroll-target="#defining-probabilities-in-r"><span class="header-section-number">3.2.2</span> Defining Probabilities in R</a></li>
+  <li><a href="#computing-joint-probabilities" id="toc-computing-joint-probabilities" class="nav-link" data-scroll-target="#computing-joint-probabilities"><span class="header-section-number">3.2.3</span> Computing Joint Probabilities</a></li>
+  <li><a href="#constructing-the-contingency-table" id="toc-constructing-the-contingency-table" class="nav-link" data-scroll-target="#constructing-the-contingency-table"><span class="header-section-number">3.2.4</span> Constructing the Contingency Table</a></li>
+  <li><a href="#simulating-a-bond-portfolio" id="toc-simulating-a-bond-portfolio" class="nav-link" data-scroll-target="#simulating-a-bond-portfolio"><span class="header-section-number">3.2.5</span> Simulating a Bond Portfolio</a></li>
+  <li><a href="#key-insights" id="toc-key-insights" class="nav-link" data-scroll-target="#key-insights"><span class="header-section-number">3.2.6</span> Key Insights</a></li>
+  </ul></li>
+  <li><a href="#advanced-r-concepts-environments-scoping-rules-and-closures" id="toc-advanced-r-concepts-environments-scoping-rules-and-closures" class="nav-link" data-scroll-target="#advanced-r-concepts-environments-scoping-rules-and-closures"><span class="header-section-number">3.3</span> Advanced R Concepts: Environments, Scoping Rules, and Closures</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-environments" id="toc-introduction-to-environments" class="nav-link" data-scroll-target="#introduction-to-environments"><span class="header-section-number">3.3.1</span> Introduction to Environments</a></li>
+  <li><a href="#scoping-rules" id="toc-scoping-rules" class="nav-link" data-scroll-target="#scoping-rules"><span class="header-section-number">3.3.2</span> Scoping Rules</a></li>
+  <li><a href="#closures" id="toc-closures" class="nav-link" data-scroll-target="#closures"><span class="header-section-number">3.3.3</span> Closures</a></li>
+  </ul></li>
+  <li><a href="#bayes-rule-one-of-the-great-ideas-in-probability" id="toc-bayes-rule-one-of-the-great-ideas-in-probability" class="nav-link" data-scroll-target="#bayes-rule-one-of-the-great-ideas-in-probability"><span class="header-section-number">3.4</span> Bayes’ Rule: One of the Great Ideas in Probability</a>
+  <ul class="collapse">
+  <li><a href="#a-simple-example-revising-beliefs-about-market-valuation" id="toc-a-simple-example-revising-beliefs-about-market-valuation" class="nav-link" data-scroll-target="#a-simple-example-revising-beliefs-about-market-valuation"><span class="header-section-number">3.4.1</span> A simple example: Revising beliefs about market valuation</a></li>
+  <li><a href="#bayes-rule-intuitive-understanding-with-a-speck-of-sand" id="toc-bayes-rule-intuitive-understanding-with-a-speck-of-sand" class="nav-link" data-scroll-target="#bayes-rule-intuitive-understanding-with-a-speck-of-sand"><span class="header-section-number">3.4.2</span> Bayes’ Rule: Intuitive Understanding with a Speck of Sand</a></li>
+  </ul></li>
+  <li><a href="#using-an-llm-to-explore-conditional-probability" id="toc-using-an-llm-to-explore-conditional-probability" class="nav-link" data-scroll-target="#using-an-llm-to-explore-conditional-probability"><span class="header-section-number">3.5</span> Using an LLM to Explore Conditional Probability</a>
+  <ul class="collapse">
+  <li><a href="#example-dialogue" id="toc-example-dialogue" class="nav-link" data-scroll-target="#example-dialogue"><span class="header-section-number">3.5.1</span> Example Dialogue</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.6</span> Summary</a>
+  <ul class="collapse">
+  <li><a href="#probability-concepts" id="toc-probability-concepts" class="nav-link" data-scroll-target="#probability-concepts"><span class="header-section-number">3.6.1</span> Probability Concepts</a></li>
+  <li><a href="#r-concepts" id="toc-r-concepts" class="nav-link" data-scroll-target="#r-concepts"><span class="header-section-number">3.6.2</span> R Concepts</a></li>
+  </ul></li>
+  <li><a href="#project-evaluating-credit-risk-using-conditional-probabilities" id="toc-project-evaluating-credit-risk-using-conditional-probabilities" class="nav-link" data-scroll-target="#project-evaluating-credit-risk-using-conditional-probabilities"><span class="header-section-number">3.7</span> Project: Evaluating Credit Risk Using Conditional Probabilities</a>
+  <ul class="collapse">
+  <li><a href="#problem-description" id="toc-problem-description" class="nav-link" data-scroll-target="#problem-description"><span class="header-section-number">3.7.1</span> Problem Description</a></li>
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions"><span class="header-section-number">3.7.2</span> Questions</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
 
-<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Conditional Probability</span></h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="conditional-probability" class="level1">
-<h1>Conditional Probability</h1>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <p>In this lecture we are going to discuss the concept of <strong>conditional probability</strong>. The notion of conditional probability is a basic tool of probability theory which has particular relevance in Finance. The ideas of conditional probability are very simple but often obscured by a clumsy terminology.</p>
 <p>To intuitively appreciate the significance of conditional probability first, let us start with a simple but striking scenario from the world of finance. Imagine you are an investor trying to evaluate the safety of a bond portfolio. On paper, the bonds are rated highly by reputable agencies, and the portfolio looks diversified—a dream investment. However, during a global recession, a few defaults occur, and to your surprise, the entire portfolio begins to unravel, causing significant losses. How could this happen?</p>
 <p>This seemingly safe portfolio turned risky because it underestimated the connections between events—a core idea tied to conditional probability. Conditional probability helps us analyze how the risk of one event changes given another has occurred. It enables us to model dependencies, a critical factor in real-world scenarios, particularly during financial crises.</p>
 <p>Understanding these relationships isn’t just an intellectual exercise—it’s crucial for preventing catastrophic losses. Whether you’re pricing complex financial instruments, assessing credit risk, or making investment decisions, mastering conditional probability allows you to account for interconnected risks and avoid misleading conclusions based on oversimplified assumptions.</p>
-<section id="why-neglecting-conditional-probability-may-be-expensive-a-case-study." class="level2">
-<h2 class="anchored" data-anchor-id="why-neglecting-conditional-probability-may-be-expensive-a-case-study.">Why neglecting conditional probability may be expensive: A case study.</h2>
+<section id="why-neglecting-conditional-probability-may-be-expensive-a-case-study." class="level2 page-columns page-full" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="why-neglecting-conditional-probability-may-be-expensive-a-case-study."><span class="header-section-number">3.1</span> Why neglecting conditional probability may be expensive: A case study.</h2>
 <p>With this motivation in mind let us turn to a historical example that demonstrates the importance of understanding conditional probability: the financial crisis of 2007-2008. This crisis revealed how wrong assumptions about independence and neglect of dependence in events and conditional probabilities can lead to systemic failures in structured finance.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>To understand the real world aspects of this example it is necessarry to understand some basic ideas of structured finance and the engineering of specific risk profiles from a portfolio of risky securities in the first place. I will explain the finance context with a simple and stylized example and then discuss how understanding conditional probability may help us to make better financial decisions.</p>
-<section id="bonds-and-credit-risk" class="level3">
-<h3 class="anchored" data-anchor-id="bonds-and-credit-risk">Bonds and Credit Risk</h3>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp; See <span class="citation" data-cites="Tooze2018">Tooze (<a href="06-references.html#ref-Tooze2018" role="doc-biblioref">2018</a>)</span>: For an engaging and comprehensive exploration of the great financial crisis of 2007 - 2008 and its causes and aftermath. It is highly recommended for deeper study.</p></div></div><p>To understand the real world aspects of this example it is necessarry to understand some basic ideas of structured finance and the engineering of specific risk profiles from a portfolio of risky securities in the first place. I will explain the finance context with a simple and stylized example and then discuss how understanding conditional probability may help us to make better financial decisions.</p>
+<section id="bonds-and-credit-risk" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="bonds-and-credit-risk"><span class="header-section-number">3.1.1</span> Bonds and Credit Risk</h3>
 <p>A <strong>bond</strong> is a financial instrument where the issuer agrees to pay the holder a specific amount, the <strong>face value</strong> or <strong>par value</strong>, at maturity. Bonds are widely used as fixed-income securities but carry the risk of default if the issuer faces financial difficulties.</p>
 <p>To quantify this risk, bonds are rated by agencies such as Moody’s and Standard &amp; Poor’s. Investment-grade bonds are considered low-risk, while speculative or “junk” bonds are riskier and more likely to default. Here is a summary of their rating schemes and what the ratings mean in words:</p>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th>Rating Category</th>
@@ -207,20 +373,20 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
-<section id="pooling-and-tranching-the-innovation" class="level3">
-<h3 class="anchored" data-anchor-id="pooling-and-tranching-the-innovation">Pooling and Tranching: The Innovation</h3>
+<section id="pooling-and-tranching-the-innovation" class="level3 page-columns page-full" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="pooling-and-tranching-the-innovation"><span class="header-section-number">3.1.2</span> Pooling and Tranching: The Innovation</h3>
 <p>Structured finance emerged in the early 2000s as a way to manage risk through <strong>pooling</strong> and <strong>tranching</strong>. By pooling risky assets and dividing cash flows into “tranches” with distinct risk profiles, financial engineers created new bonds, including investment-grade securities, from portfolios of bonds which individually would be rated as speculative grade or junk bonds. A major product of this innovation was the <strong>mortgage-backed security (MBS)</strong>. Many other products were then invented using similar financial engineering ideas.</p>
 <p>Let us develop an intuitive understanding of structured finance and its relation to probability through a simplified example, which I learned from Karl Schmedder’s course.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-</section>
-<section id="a-simple-event-tree-for-one-bond" class="level3">
-<h3 class="anchored" data-anchor-id="a-simple-event-tree-for-one-bond">A Simple Event Tree for One Bond</h3>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;See https://www.coursera.org/learn/introductiontoprobability</p></div></div></section>
+<section id="a-simple-event-tree-for-one-bond" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="a-simple-event-tree-for-one-bond"><span class="header-section-number">3.1.3</span> A Simple Event Tree for One Bond</h3>
 <p>Consider a single bond you can own today that pays €1 at maturity at some point in the future. Time is often abbreviated as <span class="math inline">\(t\)</span> and the points in time are symbolized by letting <span class="math inline">\(t\)</span> take different values like <span class="math inline">\(t=0\)</span> for today and <span class="math inline">\(t=1\)</span> for a future point in time, say a year from today.</p>
 <p>This bond has a 10% chance of default, meaning there is a 90% chance it will not default. With a default probability of 10%, this bond would likely receive a speculative grade rating, such as ‘B’ or ‘B-’ in the rating tables presented earlier. This poor rating reflects the significant risk of non-payment associated with such a bond, which could deter risk-averse investors and highlight its ‘junk’ bond status. The payoff is structured as follows:</p>
 <ul>
 <li>If the bond does not default (<span class="math inline">\(N\)</span>), the payoff is €1.</li>
 <li>If the bond defaults (<span class="math inline">\(D\)</span>), the payoff is €0.</li>
 </ul>
-<p>This situation can be graphically represented as a simple probability tree of <a href="#fig-single_bond_event_tree" class="quarto-xref">Figure&nbsp;1</a></p>
+<p>This situation can be graphically represented as a simple probability tree of <a href="#fig-single_bond_event_tree" class="quarto-xref">Figure&nbsp;<span>3.1</span></a></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-single_bond_event_tree" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -229,7 +395,7 @@ window.Quarto = {
 <img src="figures/single_bond_event_tree.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-single_bond_event_tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Event tree for one bond
+Figure&nbsp;3.1: Event tree for one bond
 </figcaption>
 </figure>
 </div>
@@ -243,15 +409,15 @@ Figure&nbsp;1: Event tree for one bond
 </ul>
 <p>You could see this in analogy to the toss of a coin with the difference that both sides of the coin show with different probability. With this analogy - using the concepts of the last two lectures - you can understand the bond in probabilistic terms as a random experiment with a sample space consisting of two basic outcomes, <span class="math inline">\(N\)</span> and <span class="math inline">\(D\)</span> with given probabilities <span class="math inline">\(P(N)\)</span> and <span class="math inline">\(P(D)\)</span>.</p>
 </section>
-<section id="combining-two-bonds-with-independence-assumption" class="level3">
-<h3 class="anchored" data-anchor-id="combining-two-bonds-with-independence-assumption">Combining Two Bonds with Independence Assumption</h3>
+<section id="combining-two-bonds-with-independence-assumption" class="level3 page-columns page-full" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="combining-two-bonds-with-independence-assumption"><span class="header-section-number">3.1.4</span> Combining Two Bonds with Independence Assumption</h3>
 <p>We now combine two such bonds into a portfolio. The assumption of <strong>independence</strong> implies that the defaults of these bonds occur independently of each other. This means that the default of one bond has no influence on the probability of the other bond defaulting. Under the assumption of independence you would treat the default probability of one bond as unconnected with the default probability of the other.</p>
 <p>While this assumption simplifies calculations, it was historically used by financial engineers to justify creating tranches from risky portfolios. The reasoning was that diversification reduces the likelihood of joint defaults, making some tranches appear safer.</p>
 <p>At the time, financial engineers relied on historical data and market conditions to argue for this independence. Defaults were often uncorrelated under normal economic conditions, and diversification was seen as a proven strategy for mitigating risk. For example, if bond defaults were driven by isolated events (such as company-specific issues), the assumption of independence seemed reasonable. Moreover, the packaging of diverse assets from different industries into portfolios strengthened the appearance of safety, as individual economic shocks were less likely to affect the entire portfolio simultaneously.</p>
 <p>However, this reasoning neglected systemic risks. During economic downturns or financial crises, defaults often become highly correlated due to shared macroeconomic pressures, such as declining housing markets or credit tightening. For instance, in the lead-up to the 2008 financial crisis, rising mortgage defaults were driven by broader economic factors that impacted many bonds simultaneously. With this in mind it would be not plausible to assume that bonds can be stacked together in a portfolio without the default risks of one being not pushed up by the default risk of others.</p>
 <p>Even without the formal use of probability theory, financial engineers could have questioned whether diversification truly guaranteed independence in the context of systemic risks.</p>
 <p>The idea that junk plus junk could be transformed into investment-grade bonds through pooling should have raised skepticism. Careful critical thinking—considering broader economic dependencies—would have revealed that this transformation was too good to be true. By ignoring these dependencies, financial engineers failed to see how small cracks in the system could cascade into systemic failures.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<p>But let us not jump ahead and try to see how the tree for two bonds looks like when we <strong>assume</strong> independence in <a href="#fig-two_bond_event_tree" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp; A famous voice at the time warning about the flawed reasoning was Raghuram Rajan, former chief economist of the International Monetary Fund. He warned that rather than reducing risk through diversification, CDOs and other derivatives spread risk and uncertainty about the value of the underlying assets more widely. </p></div></div><p>But let us not jump ahead and try to see how the tree for two bonds looks like when we <strong>assume</strong> independence in <a href="#fig-two_bond_event_tree" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-two_bond_event_tree" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -260,7 +426,7 @@ Figure&nbsp;1: Event tree for one bond
 <img src="figures/two_bonds_event_tree.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two_bond_event_tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Event tree for two bonds with independent default risk
+Figure&nbsp;3.2: Event tree for two bonds with independent default risk
 </figcaption>
 </figure>
 </div>
@@ -276,8 +442,8 @@ B_{\text{state of bond 1 at} \, t = 1 \, \text{state of bond 2 at} \, t=1} = \bi
 \end{equation*}\]</span> So, for example, <span class="math inline">\(B_{NN} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}\)</span> means that bond 1 does not default and bond two does not default (<span class="math inline">\(B_{NN}\)</span>). Bond 1 has in this case a payoff of 1 and bond 2 also has a payoff of 1.</p></li>
 </ul>
 </section>
-<section id="pooling-and-tranching" class="level3">
-<h3 class="anchored" data-anchor-id="pooling-and-tranching">Pooling and Tranching</h3>
+<section id="pooling-and-tranching" class="level3" data-number="3.1.5">
+<h3 data-number="3.1.5" class="anchored" data-anchor-id="pooling-and-tranching"><span class="header-section-number">3.1.5</span> Pooling and Tranching</h3>
 <p>When you look at this portfolio <strong>under the independence assumption</strong> there seems to be room for re-engineering the risk profile of this portfolio. In all outcomes but in the one where both bonds default you can guarantee a payoff of 1. There remains an adverse outcome, where both bonds default in which case you can’t pay out anything. But <strong>under the assumption of independence</strong> this risk is small. The probability of this event - remember our treatment of independent events in the first lecture - would be: <span class="math inline">\(P(D) \times P(D) = 0.1 \times 0.1 = 0.01\)</span>. Pretty low, actually. For example assume that the probability of default refer to the probability of the bond defaulting over a year, the usual time frame taken in ratings, this would be a one in a hundred years event. In <span class="math inline">\(99%\)</span> we would get a sure payoff of 1. So under this restructuring the first restructured bond would qualify as an investment grade bond.</p>
 <p>So this is the idea. We <strong>pool</strong> the payoffs of both securities and define two new securities by changing their payoff profile. The first one pays always 1 except when both bonds default in which case this bond pays 0. The other one will always pay 0 except in the case where both bonds do not default. This is under independence an event with probability <span class="math inline">\(P(N) \times P(N) = 0.81\)</span>. Rember the complementarity rule? This says that the second restructured bond will thus have a default probability of <span class="math inline">\(19\)</span> % instead of <span class="math inline">\(10%\)</span> it would be speculative grade or close to toxic junk now.</p>
 <p>Here is picture how you can visualize this piece fo financial magic. This picture can be read in exactly the same way as the previous picture. There is only one additional element. We have written the payoff of the original bonds by <span class="math inline">\(B\)</span>. Underneath these original bonds we draw a black horizontal like, think of it as the financial engineering lab that does the restructuring and below we get new bonds, with different payout promises, which we denote by <span class="math inline">\(R\)</span> (for <em>restructured</em>).</p>
@@ -289,7 +455,7 @@ B_{\text{state of bond 1 at} \, t = 1 \, \text{state of bond 2 at} \, t=1} = \bi
 <img src="figures/pooling_and_tranching.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pooling-and-tranching-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Event tree for two bonds with independent default risk with pooling and tranching
+Figure&nbsp;3.3: Event tree for two bonds with independent default risk with pooling and tranching
 </figcaption>
 </figure>
 </div>
@@ -297,12 +463,12 @@ Figure&nbsp;3: Event tree for two bonds with independent default risk with pooli
 </div>
 <p>What is done here is that the aggregate payoffs of both bonds are collected in a pool and new securities - called R - in this picture are issued against the pool. One, the upper one is now an investment grade asset paying 1 in every state except one and the other is a toxic junk bond paying always 0 except in one state. Note that the investment grade status could be engineered under the assumption that the risks are independent.</p>
 </section>
-<section id="pooling-and-tranching-without-independent-risks" class="level3">
-<h3 class="anchored" data-anchor-id="pooling-and-tranching-without-independent-risks">Pooling and Tranching without Independent Risks</h3>
+<section id="pooling-and-tranching-without-independent-risks" class="level3" data-number="3.1.6">
+<h3 data-number="3.1.6" class="anchored" data-anchor-id="pooling-and-tranching-without-independent-risks"><span class="header-section-number">3.1.6</span> Pooling and Tranching without Independent Risks</h3>
 <p>Now, let us consider a hypothetical question: <strong>How would the event tree change if the independence assumption does not hold?</strong> Dependence would alter the probabilities in a way that reflects the increased likelihood of joint defaults during systemic events.</p>
 <p>Suppose we now assume that the probability of Bond 2 defaulting changes rather than staying unchanged under the condition that Bond 1 has defaulted:</p>
 <ul>
-<li>If Bond 1 does <strong>not</strong> default, Bond 2 defaults with probability 0.1 (as before).</li>
+<li>If Bond 1 does <strong>not</strong> default, Bond 2 defaults with a lower probability than before, here 0.044 instead of 0.1.</li>
 <li>If Bond 1 <strong>does</strong> default, Bond 2 defaults with a higher probability of 0.6 due to systemic dependence.</li>
 </ul>
 <p>To express this formally we need a piece of new notation. The convention in probability theory is that the notation is - for example - <span class="math inline">\(P(N | D)\)</span>. This would read as <em>bond 2 does not default given bond 1 has defaulted</em>. The event we are interested in is written first separated by a <span class="math inline">\(|\)</span> from the conditioning event, which is in our case the outcome that bond 1 defaults.</p>
@@ -315,7 +481,7 @@ Figure&nbsp;3: Event tree for two bonds with independent default risk with pooli
 <img src="figures/two_bonds_event_tree_dependent_events.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pooling-and-tranching-dependent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Event tree for two bonds with independent default risk with pooling and tranching with dependent default risk
+Figure&nbsp;3.4: Event tree for two bonds with independent default risk with pooling and tranching with dependent default risk
 </figcaption>
 </figure>
 </div>
@@ -326,7 +492,7 @@ Figure&nbsp;4: Event tree for two bonds with independent default risk with pooli
 <p>Another example is during a financial crisis, such as the 2008 global financial meltdown. A bank’s default on its obligations can lead to cascading defaults in other institutions due to counterparty risks or a general loss of confidence in the financial system. In such cases, the probability of a second default is no longer independent of the first because the events are tied to the same underlying macroeconomic factors.</p>
 <p>These examples highlight that the assumption of independence between bond defaults might hold under normal market conditions but breaks down during systemic crises. Such dependencies must be carefully modeled to avoid underestimating risk, as was the case in structured finance products leading up to the 2008 crisis.</p>
 <p>A prudent risk manager must keep such a scenario in mind when he analyzes a portfolio. Think about it in the context of the toy example. In the first case the default risk of the first asset created by pooling and tranching was <span class="math inline">\(P(D) \times P(D) = 0.1 \times 0.1 = 0.01\)</span>. Under a scenario with dependent risks this changes to <span class="math inline">\(P(D) \times P(D | D) = 0.1 \times 0.6 = 0.06\)</span>, a risk larger by a factor of 6! While in the first case the first restructured bond would be rated as investment grade, in the second case the same restructured bond would be rated as speculative grade and the magic from pooling and tranching suddenly disappears. Junk plus junk remains junk after all.</p>
-<p>For pooling and tranching to reduce overall risk and create safe tranches:</p>
+<p>For pooling and tranching to reduce overall risk and create safe tranches we need:</p>
 <ol type="1">
 <li><strong>Diversification:</strong> Assets must come from independent sectors with minimal systemic risk.</li>
 <li><strong>Stable Macroeconomic Conditions:</strong> Systemic risks must be low to maintain independence assumptions.</li>
@@ -335,8 +501,8 @@ Figure&nbsp;4: Event tree for two bonds with independent default risk with pooli
 <p>The neglect of these conditions led to a flawed sense of security in structured finance, which contributed to the 2008 financial crisis.</p>
 </section>
 </section>
-<section id="conditional-probability-1" class="level2">
-<h2 class="anchored" data-anchor-id="conditional-probability-1">Conditional Probability</h2>
+<section id="conditional-probability" class="level2 page-columns page-full" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">3.2</span> Conditional Probability</h2>
 <p>Conditional probability provides us with a concept to formalize how the probability of one event changes when another event is known to occur, providing a framework for understanding dependencies quantitatively.</p>
 <p>Here is the mathematical definition:</p>
 <div id="conditional-probability" class="callout callout-style-default callout-tip callout-titled" title="Definition: Conditional probability">
@@ -355,13 +521,10 @@ P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 </div>
 </div>
 <p>Note that conditional probabilities remain undefined when the conditioning event <span class="math inline">\(B\)</span> has probability 0.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<p>Let us clarify a few things about this concept. As in the example of the financial crisis, which we discussed before we really did not much more than introducing one piece of new notation to indicate that the probabilities now have changed.</p>
-<p>Let’s revisit our example represented in <a href="#fig-pooling-and-tranching-dependent" class="quarto-xref">Figure&nbsp;4</a>.</p>
-<p>Each branch represents a possible state of the restructured bond portfolio, denoted as <span class="math inline">\(R_{NN}\)</span>, <span class="math inline">\(R_{ND}\)</span>, <span class="math inline">\(R_{DN}\)</span>, and <span class="math inline">\(R_{DD}\)</span>: - <span class="math inline">\(R_{NN}\)</span>: Neither bond defaults. - <span class="math inline">\(R_{ND}\)</span>: Bond <span class="math inline">\(1\)</span> does not default, but bond <span class="math inline">\(2\)</span> defaults. - <span class="math inline">\(R_{DN}\)</span>: Bond <span class="math inline">\(1\)</span> defaults, but bond <span class="math inline">\(2\)</span> does not default. - <span class="math inline">\(R_{DD}\)</span>: Both bonds default.</p>
-<p>Here is the complete, revised, and <strong>consistent passage</strong>, addressing all inconsistencies while aligning it with the updated notation for bond types (<span class="math inline">\(B_1\)</span> and <span class="math inline">\(B_2\)</span>) and conditional/joint probabilities:</p>
-<hr>
-<section id="the-probability-tree-and-conditional-probabilities" class="level3">
-<h3 class="anchored" data-anchor-id="the-probability-tree-and-conditional-probabilities">The Probability Tree and Conditional Probabilities</h3>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;As pointed out in <span class="citation" data-cites="Feller1968">Feller (<a href="06-references.html#ref-Feller1968" role="doc-biblioref">1968</a>)</span> p 115, this has no consequences in the case of discrete sample spaces but is important in the general theory.</p></div></div><p>Let us clarify a few things about this concept. As in the example of the financial crisis, which we discussed before we really did not much more than introducing one piece of new notation to indicate that the probabilities now have changed.</p>
+<p>Let’s revisit our example.</p>
+<section id="the-probability-tree-and-conditional-probabilities" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="the-probability-tree-and-conditional-probabilities"><span class="header-section-number">3.2.1</span> The Probability Tree and Conditional Probabilities</h3>
 <p>The tree is labeled with <strong>edge probabilities</strong>, which correspond to the marginal and conditional probabilities of events at each level:</p>
 <ul>
 <li>At <span class="math inline">\(t=0\)</span>: <span class="math inline">\(P(B_1 = N) = 0.9\)</span> and <span class="math inline">\(P(B_1 = D) = 0.1\)</span>.</li>
@@ -373,8 +536,8 @@ P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 </ul>
 <hr>
 </section>
-<section id="defining-probabilities-in-r" class="level3">
-<h3 class="anchored" data-anchor-id="defining-probabilities-in-r">Defining Probabilities in R</h3>
+<section id="defining-probabilities-in-r" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="defining-probabilities-in-r"><span class="header-section-number">3.2.2</span> Defining Probabilities in R</h3>
 <p>We start by defining the probabilities from the probability tree:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the probabilities</span></span>
@@ -384,15 +547,15 @@ P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>P_D <span class="ot">&lt;-</span> <span class="fl">0.1</span>  <span class="co"># Probability that B_1 defaults</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional probabilities for B_2 given B_1</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>P_N_given_N <span class="ot">&lt;-</span> <span class="fl">0.86</span><span class="sc">/</span><span class="fl">0.9</span>  <span class="co"># Probability that B_2 does not default given B_1 does not default</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>P_D_given_N <span class="ot">&lt;-</span> <span class="fl">0.04</span><span class="sc">/</span><span class="fl">0.9</span>  <span class="co"># Probability that B_2 defaults given B_1 does not default</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>P_N_given_N <span class="ot">&lt;-</span> <span class="fl">0.8604</span><span class="sc">/</span><span class="fl">0.9</span>  <span class="co"># Probability that B_2 does not default given B_1 does not default</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>P_D_given_N <span class="ot">&lt;-</span> <span class="fl">0.0396</span><span class="sc">/</span><span class="fl">0.9</span>  <span class="co"># Probability that B_2 defaults given B_1 does not default</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>P_N_given_D <span class="ot">&lt;-</span> <span class="fl">0.4</span>    <span class="co"># Probability that B_2 does not default given B_1 defaults</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>P_D_given_D <span class="ot">&lt;-</span> <span class="fl">0.6</span>    <span class="co"># Probability that B_2 defaults given B_1 defaults</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 </section>
-<section id="computing-joint-probabilities" class="level3">
-<h3 class="anchored" data-anchor-id="computing-joint-probabilities">Computing Joint Probabilities</h3>
+<section id="computing-joint-probabilities" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="computing-joint-probabilities"><span class="header-section-number">3.2.3</span> Computing Joint Probabilities</h3>
 <p>The joint probabilities, <span class="math inline">\(P(A \cap B)\)</span>, are calculated using the <strong>multiplication rule</strong>: <span class="math display">\[
 P(A \cap B) = P(A \,|\, B) \cdot P(B).
 \]</span> These correspond to probabilities computed along the edges of the tree.</p>
@@ -406,8 +569,8 @@ P(A \cap B) = P(A \,|\, B) \cdot P(B).
 </div>
 <hr>
 </section>
-<section id="constructing-the-contingency-table" class="level3">
-<h3 class="anchored" data-anchor-id="constructing-the-contingency-table">Constructing the Contingency Table</h3>
+<section id="constructing-the-contingency-table" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="constructing-the-contingency-table"><span class="header-section-number">3.2.4</span> Constructing the Contingency Table</h3>
 <p>We can summarize the joint probabilities in a <strong>contingency table</strong>, which also includes marginal probabilities:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary library</span></span>
@@ -416,8 +579,8 @@ P(A \cap B) = P(A \,|\, B) \cdot P(B).
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define marginal probabilities</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>P_N_total <span class="ot">&lt;-</span> P_N</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>P_D_total <span class="ot">&lt;-</span> P_D</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>P_N_given_total <span class="ot">&lt;-</span> P_NN <span class="sc">+</span> P_DN</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>P_D_given_total <span class="ot">&lt;-</span> P_ND <span class="sc">+</span> P_DD</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>P_N_given_total <span class="ot">&lt;-</span> <span class="fu">round</span>(P_NN <span class="sc">+</span> P_DN,<span class="dv">2</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>P_D_given_total <span class="ot">&lt;-</span> <span class="fu">round</span>(P_ND <span class="sc">+</span> P_DD,<span class="dv">2</span>)</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the contingency table</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>contingency_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
@@ -447,7 +610,7 @@ P(A \cap B) = P(A \,|\, B) \cdot P(B).
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Render the table</span></span>
 <span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>kable_output</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Contingency Table of Joint and Marginal Probabilities</caption>
 <thead>
 <tr class="header">
@@ -460,20 +623,20 @@ P(A \cap B) = P(A \,|\, B) \cdot P(B).
 <tbody>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold;">Bond 1: Default (D)</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.0600</td>
+<td style="text-align: right;">0.0400</td>
 <td style="text-align: right;">0.1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold;">Bond 1: No Default (N)</td>
-<td style="text-align: right;">0.04</td>
-<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.0396</td>
+<td style="text-align: right;">0.8604</td>
 <td style="text-align: right;">0.9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold;">Total</td>
-<td style="text-align: right;">0.10</td>
-<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">0.1000</td>
+<td style="text-align: right;">0.9000</td>
 <td style="text-align: right;">1.0</td>
 </tr>
 </tbody>
@@ -482,35 +645,39 @@ P(A \cap B) = P(A \,|\, B) \cdot P(B).
 
 </div>
 </div>
-<hr>
-</section>
-<section id="symmetry-of-conditional-probabilities" class="level3">
-<h3 class="anchored" data-anchor-id="symmetry-of-conditional-probabilities">Symmetry of Conditional Probabilities</h3>
-<p>Using the contingency table, we compute conditional probabilities and highlight their asymmetry:</p>
+<p>Note that conditional probabilities are in general not symmetric.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional probability of B_2 defaulting given B_1 defaults</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>P_D_given_D <span class="ot">&lt;-</span> P_DD <span class="sc">/</span> P_D_total</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recalculate marginal probabilities</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>P_B2_D <span class="ot">&lt;-</span> P_N <span class="sc">*</span> P_D_given_N <span class="sc">+</span> P_D <span class="sc">*</span> P_D_given_D</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional probability of B_1 defaulting given B_2 defaults</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>P_B1_given_B2 <span class="ot">&lt;-</span> P_DD <span class="sc">/</span> P_D_given_total</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(B_2 = D | B_1 = D):"</span>, P_D_given_D, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Recompute conditional probabilities</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>P_B2_given_B1 <span class="ot">&lt;-</span> P_DD <span class="sc">/</span> P_D_total  <span class="co"># P(B_2 = D | B_1 = D)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>P_B1_given_B2 <span class="ot">&lt;-</span> P_DD <span class="sc">/</span> P_B2_D     <span class="co"># P(B_1 = D | B_2 = D)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(B_2 = D | B_1 = D):"</span>, <span class="fu">round</span>(P_B2_given_B1, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>P(B_2 = D | B_1 = D): 0.6 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(B_1 = D | B_2 = D):"</span>, P_B1_given_B2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(B_1 = D | B_2 = D):"</span>, <span class="fu">round</span>(P_B1_given_B2, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(B_1 = D | B_2 = D): 0.6 </code></pre>
+<pre><code>P(B_1 = D | B_2 = D): 0.6024 </code></pre>
 </div>
 </div>
-<p>Here, we observe that: <span class="math display">\[
-P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D).
+<p>The example above demonstrates that conditional probabilities are, in general, not symmetric. Using the constructed contingency table and the probability tree, we calculated two conditional probabilities:</p>
+<ul>
+<li><span class="math inline">\(P(B_2 = D \,|\, B_1 = D)\)</span>: the probability that bond <span class="math inline">\(B_2\)</span> defaults given that bond <span class="math inline">\(B_1\)</span> defaults.</li>
+<li><span class="math inline">\(P(B_1 = D \,|\, B_2 = D)\)</span>: the probability that bond <span class="math inline">\(B_1\)</span> defaults given that bond <span class="math inline">\(B_2\)</span> defaults.</li>
+</ul>
+<p>These probabilities are computed as follows: <span class="math display">\[
+P(B_2 = D \,|\, B_1 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_1 = D)}
+\]</span> and <span class="math display">\[
+P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 \]</span></p>
-<p>This asymmetry reflects the inherent directionality in conditional probability.</p>
-<hr>
+<p>Despite using the same joint probability, <span class="math inline">\(P(B_1 = D \cap B_2 = D)\)</span>, the denominators differ: one uses <span class="math inline">\(P(B_1 = D)\)</span>, while the other uses <span class="math inline">\(P(B_2 = D)\)</span>. Because these marginal probabilities are generally not equal, the resulting conditional probabilities are also unequal. This asymmetry reflects the fundamental property of conditional probability and underscores the importance of clearly defining the conditioning event in probabilistic reasoning.</p>
 </section>
-<section id="simulating-a-bond-portfolio" class="level3">
-<h3 class="anchored" data-anchor-id="simulating-a-bond-portfolio">Simulating a Bond Portfolio</h3>
+<section id="simulating-a-bond-portfolio" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="simulating-a-bond-portfolio"><span class="header-section-number">3.2.5</span> Simulating a Bond Portfolio</h3>
 <p>We can extend this theoretical framework to simulate a bond portfolio with defaults and compute conditional probabilities empirically:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of bonds</span></span>
@@ -542,17 +709,59 @@ P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D).
 <div class="cell-output cell-output-stdout">
 <pre><code>  BondID BondType JointOutcome X_Defaulted Y_Defaulted
 1      1      B_1         B_NN       FALSE       FALSE
-2      2      B_2         B_NN       FALSE       FALSE
-3      3      B_2         B_NN       FALSE       FALSE
-4      4      B_2         B_DD        TRUE        TRUE
-5      5      B_2         B_DD        TRUE        TRUE
-6      6      B_1         B_NN       FALSE       FALSE</code></pre>
+2      2      B_1         B_NN       FALSE       FALSE
+3      3      B_1         B_ND       FALSE        TRUE
+4      4      B_2         B_NN       FALSE       FALSE
+5      5      B_2         B_NN       FALSE       FALSE
+6      6      B_1         B_ND       FALSE        TRUE</code></pre>
 </div>
 </div>
 <hr>
+<p>Now let us compute the conditional and uncodnitional default probabilities from these data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute unconditional probabilities</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>P_X_D <span class="ot">&lt;-</span> <span class="fu">mean</span>(portfolio<span class="sc">$</span>X_Defaulted)  <span class="co"># P(X = D)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>P_Y_D <span class="ot">&lt;-</span> <span class="fu">mean</span>(portfolio<span class="sc">$</span>Y_Defaulted)  <span class="co"># P(Y = D)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute conditional probabilities</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>P_X_given_Y_D <span class="ot">&lt;-</span> <span class="fu">mean</span>(portfolio<span class="sc">$</span>X_Defaulted[portfolio<span class="sc">$</span>Y_Defaulted <span class="sc">==</span> <span class="cn">TRUE</span>])  </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># P(X = D | Y = D)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>P_Y_given_X_D <span class="ot">&lt;-</span> <span class="fu">mean</span>(portfolio<span class="sc">$</span>Y_Defaulted[portfolio<span class="sc">$</span>X_Defaulted <span class="sc">==</span> <span class="cn">TRUE</span>])  </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># P(Y = D | X = D)</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Unconditional Probabilities:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unconditional Probabilities:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X = D):"</span>, <span class="fu">round</span>(P_X_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X = D): 0.1004 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(Y = D):"</span>, <span class="fu">round</span>(P_Y_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(Y = D): 0.1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Conditional Probabilities:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Conditional Probabilities:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X = D | Y = D):"</span>, <span class="fu">round</span>(P_X_given_Y_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X = D | Y = D): 0.59 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(Y = D | X = D):"</span>, <span class="fu">round</span>(P_Y_given_X_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(Y = D | X = D): 0.5876 </code></pre>
+</div>
+</div>
+<p>This simulation provides an intuitive approach to understanding conditional probabilities. By simulating joint outcomes for the bond portfolio, we can empirically calculate conditional probabilities as relative frequencies, making the concept more tangible.</p>
+<p>For example, to compute the conditional probability <span class="math inline">\(P(X = D \,|\, Y = D)\)</span>, we first identify the subset of simulated outcomes where <span class="math inline">\(Y = D\)</span>. Within this subset, we calculate the relative frequency of cases where <span class="math inline">\(X = D\)</span>.</p>
+<p>This perspective highlights that conditional probabilities are calculated not on the entire dataset, but on a relevant subset that satisfies the conditioning event. By focusing only on rows (or simulated outcomes) where the condition <span class="math inline">\(Y = D\)</span> holds, we avoid unnecessary complexity and make the dependency between events clearer. This approach complements theoretical definitions by emphasizing the practical interpretation of conditional probabilities as ratios within subsets, a viewpoint that is often easier for students to grasp.</p>
+<p>In contrast to the earlier theoretical examples, which rely on abstract calculations, this method directly ties conditional probability to observable outcomes in the data, providing a more intuitive and relatable learning experience. This tangible connection between the formula and simulated data reinforces the understanding of conditional probability as a measure of dependence between events.</p>
 </section>
-<section id="key-insights" class="level3">
-<h3 class="anchored" data-anchor-id="key-insights">Key Insights</h3>
+<section id="key-insights" class="level3" data-number="3.2.6">
+<h3 data-number="3.2.6" class="anchored" data-anchor-id="key-insights"><span class="header-section-number">3.2.6</span> Key Insights</h3>
 <ol type="1">
 <li><strong>Dependence in Default Risks</strong>:
 <ul>
@@ -569,78 +778,78 @@ P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D).
 <p>These examples demonstrate the importance of modeling dependencies explicitly in finance, especially in risk assessment. Let me know if further refinements are needed!</p>
 </section>
 </section>
-<section id="advanced-r-concepts-environments-scoping-rules-and-closures" class="level2">
-<h2 class="anchored" data-anchor-id="advanced-r-concepts-environments-scoping-rules-and-closures">Advanced R Concepts: Environments, Scoping Rules, and Closures</h2>
+<section id="advanced-r-concepts-environments-scoping-rules-and-closures" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="advanced-r-concepts-environments-scoping-rules-and-closures"><span class="header-section-number">3.3</span> Advanced R Concepts: Environments, Scoping Rules, and Closures</h2>
 <p>In this section, we will explore some advanced R programming concepts that are essential for understanding how R evaluates and stores variables, as well as how you can create reusable and dynamic functions. We will demonstrate these concepts through examples related to conditional probability and financial modeling.</p>
-<section id="introduction-to-environments" class="level3">
-<h3 class="anchored" data-anchor-id="introduction-to-environments">Introduction to Environments</h3>
+<section id="introduction-to-environments" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="introduction-to-environments"><span class="header-section-number">3.3.1</span> Introduction to Environments</h3>
 <p>An <strong>environment</strong> in R is where objects (variables, functions, etc.) are stored and looked up. R uses environments to determine where a variable exists and what its value is. The most common environment is the <strong>global environment</strong>, where user-created variables and functions are stored.</p>
 <p><strong>Example: Setting Global and Local Variables</strong></p>
 <p>Suppose we are modeling interest rates in a financial portfolio. Globally, we set the baseline interest rate. Locally, we may override this rate for specific calculations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global interest rate</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>interest_rate <span class="ot">&lt;-</span> <span class="fl">0.05</span>  <span class="co"># 5%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate interest payments</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>calculate_interest <span class="ot">&lt;-</span> <span class="cf">function</span>(principal, <span class="at">rate =</span> interest_rate) {</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  interest <span class="ot">&lt;-</span> principal <span class="sc">*</span> rate  <span class="co"># Uses the rate passed to the function</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(interest)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Global calculation</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>global_interest <span class="ot">&lt;-</span> <span class="fu">calculate_interest</span>(<span class="dv">1000</span>)  <span class="co"># Uses global interest_rate</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Global Interest:"</span>, global_interest, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global interest rate</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>interest_rate <span class="ot">&lt;-</span> <span class="fl">0.05</span>  <span class="co"># 5%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate interest payments</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>calculate_interest <span class="ot">&lt;-</span> <span class="cf">function</span>(principal, <span class="at">rate =</span> interest_rate) {</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  interest <span class="ot">&lt;-</span> principal <span class="sc">*</span> rate  <span class="co"># Uses the rate passed to the function</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(interest)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Global calculation</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>global_interest <span class="ot">&lt;-</span> <span class="fu">calculate_interest</span>(<span class="dv">1000</span>)  <span class="co"># Uses global interest_rate</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Global Interest:"</span>, global_interest, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Global Interest: 50 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local override</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>local_interest <span class="ot">&lt;-</span> <span class="fu">calculate_interest</span>(<span class="dv">1000</span>, <span class="at">rate =</span> <span class="fl">0.07</span>)  <span class="co"># Overrides global interest_rate</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Local Interest:"</span>, local_interest, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local override</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>local_interest <span class="ot">&lt;-</span> <span class="fu">calculate_interest</span>(<span class="dv">1000</span>, <span class="at">rate =</span> <span class="fl">0.07</span>)  <span class="co"># Overrides global interest_rate</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Local Interest:"</span>, local_interest, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Local Interest: 70 </code></pre>
 </div>
 </div>
 <p><strong>Global variables</strong> are available everywhere, but <strong>local variables</strong> (like <code>rate</code>) take precedence within a function. Understanding this behavior is crucial for writing clear and predictable code.</p>
 </section>
-<section id="scoping-rules" class="level3">
-<h3 class="anchored" data-anchor-id="scoping-rules">Scoping Rules</h3>
+<section id="scoping-rules" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="scoping-rules"><span class="header-section-number">3.3.2</span> Scoping Rules</h3>
 <p>R follows specific <strong>scoping rules</strong> to determine where and how to find variables. These rules become important when working with nested functions.</p>
 <p><strong>Example: Variable Lookup in Nested Functions</strong></p>
 <p>Let’s calculate conditional probabilities using nested functions. We simulate a financial scenario where we compute probabilities of default for different credit ratings.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define global default rates for credit ratings</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>default_rates <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">AAA =</span> <span class="fl">0.01</span>,  <span class="co"># Global default rate for AAA bonds</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">BBB =</span> <span class="fl">0.02</span>,  <span class="co"># Global default rate for BBB bonds</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Junk =</span> <span class="fl">0.05</span>  <span class="co"># Global default rate for Junk bonds</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate conditional default probability</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>conditional_default <span class="ot">&lt;-</span> <span class="cf">function</span>(rating) {</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Lookup table for default rates</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  local_default_rates <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">AAA =</span> <span class="fu">unname</span>(default_rates[<span class="st">"AAA"</span>]),  <span class="co"># Local default for AAA</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">BBB =</span> <span class="fu">unname</span>(default_rates[<span class="st">"BBB"</span>]),  <span class="co"># Local default for BBB</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">Junk =</span> <span class="fu">unname</span>(default_rates[<span class="st">"Junk"</span>]) <span class="co"># Local default for Junk</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the default rate using vectorized subsetting</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(local_default_rates[rating])</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the function</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Default rate for Junk bonds:"</span>, <span class="fu">conditional_default</span>(<span class="st">"Junk"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define global default rates for credit ratings</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>default_rates <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">AAA =</span> <span class="fl">0.01</span>,  <span class="co"># Global default rate for AAA bonds</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">BBB =</span> <span class="fl">0.02</span>,  <span class="co"># Global default rate for BBB bonds</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Junk =</span> <span class="fl">0.05</span>  <span class="co"># Global default rate for Junk bonds</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate conditional default probability</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>conditional_default <span class="ot">&lt;-</span> <span class="cf">function</span>(rating) {</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Lookup table for default rates</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  local_default_rates <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">AAA =</span> <span class="fu">unname</span>(default_rates[<span class="st">"AAA"</span>]),  <span class="co"># Local default for AAA</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">BBB =</span> <span class="fu">unname</span>(default_rates[<span class="st">"BBB"</span>]),  <span class="co"># Local default for BBB</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">Junk =</span> <span class="fu">unname</span>(default_rates[<span class="st">"Junk"</span>]) <span class="co"># Local default for Junk</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the default rate using vectorized subsetting</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(local_default_rates[rating])</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the function</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Default rate for Junk bonds:"</span>, <span class="fu">conditional_default</span>(<span class="st">"Junk"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Default rate for Junk bonds: 0.05 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Default rate for BBB bonds:"</span>, <span class="fu">conditional_default</span>(<span class="st">"BBB"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Default rate for BBB bonds:"</span>, <span class="fu">conditional_default</span>(<span class="st">"BBB"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Default rate for BBB bonds: 0.02 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Default rate for AAA bonds:"</span>, <span class="fu">conditional_default</span>(<span class="st">"AAA"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Default rate for AAA bonds:"</span>, <span class="fu">conditional_default</span>(<span class="st">"AAA"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Default rate for AAA bonds: 0.01 </code></pre>
 </div>
@@ -650,36 +859,36 @@ P(B_2 = D \,|\, B_1 = D) \neq P(B_1 = D \,|\, B_2 = D).
 <p>In the example, we used a named vector local_default_rates to store the default probabilities for different credit ratings: “AAA”, “BBB”, and “Junk”. Each credit rating serves as a key, and the corresponding default probability serves as the value. When we pass the rating (e.g., “Junk”) to the function, R uses it to subset the vector and directly return the associated probability. This approach is efficient and avoids the need for verbose or complex conditional statements.</p>
 <p>By using a lookup table, we also demonstrate an important principle of programming: separation of data and logic. The mapping of ratings to probabilities is encapsulated in a single data structure (local_default_rates), making the function simpler and easier to modify. For instance, if the default probabilities change, you only need to update the values in the vector—no changes to the function logic are required. This approach is especially useful in financial modeling, where mappings like these are common and can evolve over time.</p>
 </section>
-<section id="closures" class="level3">
-<h3 class="anchored" data-anchor-id="closures">Closures</h3>
+<section id="closures" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="closures"><span class="header-section-number">3.3.3</span> Closures</h3>
 <p>A <strong>closure</strong> is a function that remembers the environment in which it was created. Closures are powerful for creating dynamic, reusable functions, such as calculators for different conditional probabilities.</p>
 <p><strong>Example: Probability Calculator Factory</strong></p>
 <p>This code demonstrates a powerful concept in R: <strong>closures</strong>. A closure is a function that “remembers” the environment in which it was created, allowing you to dynamically generate new functions with specific behaviors. Let’s create a function factory that generates specific probability calculators based on a given event.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function factory for conditional probability calculators</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>probability_calculator_factory <span class="ot">&lt;-</span> <span class="cf">function</span>(event_probability) {</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(conditional_probability) {</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    joint_probability <span class="ot">&lt;-</span> event_probability <span class="sc">*</span> conditional_probability</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(joint_probability)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create calculators for different events</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>junk_calculator <span class="ot">&lt;-</span> <span class="fu">probability_calculator_factory</span>(<span class="fl">0.05</span>)  <span class="co"># Junk bonds</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>bbb_calculator <span class="ot">&lt;-</span> <span class="fu">probability_calculator_factory</span>(<span class="fl">0.02</span>)   <span class="co"># BBB bonds</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate joint probabilities</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>junk_joint <span class="ot">&lt;-</span> <span class="fu">junk_calculator</span>(<span class="fl">0.1</span>)  <span class="co"># P(Default | Junk) * P(Junk)</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>bbb_joint <span class="ot">&lt;-</span> <span class="fu">bbb_calculator</span>(<span class="fl">0.2</span>)    <span class="co"># P(Default | BBB) * P(BBB)</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Joint probability for Junk bonds:"</span>, junk_joint, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function factory for conditional probability calculators</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>probability_calculator_factory <span class="ot">&lt;-</span> <span class="cf">function</span>(event_probability) {</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(conditional_probability) {</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    joint_probability <span class="ot">&lt;-</span> event_probability <span class="sc">*</span> conditional_probability</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(joint_probability)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create calculators for different events</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>junk_calculator <span class="ot">&lt;-</span> <span class="fu">probability_calculator_factory</span>(<span class="fl">0.05</span>)  <span class="co"># Junk bonds</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>bbb_calculator <span class="ot">&lt;-</span> <span class="fu">probability_calculator_factory</span>(<span class="fl">0.02</span>)   <span class="co"># BBB bonds</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate joint probabilities</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>junk_joint <span class="ot">&lt;-</span> <span class="fu">junk_calculator</span>(<span class="fl">0.1</span>)  <span class="co"># P(Default | Junk) * P(Junk)</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>bbb_joint <span class="ot">&lt;-</span> <span class="fu">bbb_calculator</span>(<span class="fl">0.2</span>)    <span class="co"># P(Default | BBB) * P(BBB)</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Joint probability for Junk bonds:"</span>, junk_joint, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Joint probability for Junk bonds: 0.005 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Joint probability for BBB bonds:"</span>, bbb_joint, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Joint probability for BBB bonds:"</span>, bbb_joint, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Joint probability for BBB bonds: 0.004 </code></pre>
 </div>
@@ -733,28 +942,28 @@ Now you try
 </div>
 </section>
 </section>
-<section id="bayes-rule-one-of-the-great-ideas-in-probability" class="level2">
-<h2 class="anchored" data-anchor-id="bayes-rule-one-of-the-great-ideas-in-probability">Bayes’ Rule: One of the Great Ideas in Probability</h2>
+<section id="bayes-rule-one-of-the-great-ideas-in-probability" class="level2 page-columns page-full" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="bayes-rule-one-of-the-great-ideas-in-probability"><span class="header-section-number">3.4</span> Bayes’ Rule: One of the Great Ideas in Probability</h2>
 <p>Bayes’ Rule stands among the ten great ideas in probability. Its power lies in solving a fundamental problem: how to infer underlying chances from observed frequencies. This insight filled a critical gap left by Bernoulli’s weak law of large numbers, which explained how observed frequencies converge to probabilities but left unanswered the question of how to reason from those frequencies back to the chances that generated them.</p>
 <p>At its core, Bayes’ Rule provides a framework for updating our beliefs in light of new information. But what does it mean to assign a probability to a belief? This idea rests on another deep insight in probability theory: judgments about uncertainty can be measured, and when those judgments are coherent, they follow the rules of probability. <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
-<p>The key breakthrough of Bayes’ Rule is that it ties these coherent judgments—our initial beliefs, or priors—to evidence, using conditional probability. This process transforms subjective judgments into a systematic method for reasoning under uncertainty, with profound applications across science, finance, and everyday decision-making.</p>
-<section id="a-simple-example-revising-beliefs-about-market-valuation" class="level3">
-<h3 class="anchored" data-anchor-id="a-simple-example-revising-beliefs-about-market-valuation">A simple example: Revising beliefs about market valuation</h3>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;This idea goes back to the work of Frank Ramsey (1903–1930). He was a British mathematician, philosopher, and economist whose profound contributions spanned multiple fields despite his tragically short life. In probability, he established the foundation for subjective probability theory, showing that coherent judgments about uncertainty adhere to the axioms of probability. Ramsey also made groundbreaking advances in decision theory, logic, and economics, including the famous Ramsey pricing in public economics and his foundational work in mathematical logic. For more, on Ramsey’s ideas of connecting judegment to probability see chapter 2 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>The key breakthrough of Bayes’ Rule is that it ties these coherent judgments—our initial beliefs, or priors—to evidence, using conditional probability. This process transforms subjective judgments into a systematic method for reasoning under uncertainty, with profound applications across science, finance, and everyday decision-making.</p>
+<section id="a-simple-example-revising-beliefs-about-market-valuation" class="level3 page-columns page-full" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="a-simple-example-revising-beliefs-about-market-valuation"><span class="header-section-number">3.4.1</span> A simple example: Revising beliefs about market valuation</h3>
 <p>We discussed the big financial crisis of 2007-2008 earlier in this lecture. Imagine now you are an investor in the year 2011, just a bit later. The market is gripped by fear of another financial crisis, this time triggered by tensions in the Eurozone.</p>
 <p>Let’s imagine how you could have asessed the market situation by looking at financial data. This is also an excellent opportunity to introdcue you to one of many great opportunities to load real world data directly into R using add on packages. The package we are going to use here is called <code>tidyquant</code>. To be able to use it you must first install it using the <code>install.packages()</code>function of base R or the package installer pane in RStudio. Let us do that - assuming that this package has been installed. You might remember how to load a package from before.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now tidyquant has many functions allowing you to retrieve and transform real world financial data. We do not go into any detail here. This is something you can do yourself using the excellent documentation of this package, the many examples on the web or by interrogating your LLM.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. One of the core workhorse functions in tidyquant is the function <code>tq_get()</code> which allows you to retrieve data.</p>
-<p>One thing an anlyst might be interested in is how the stock market as measured by a broad index does at the moment compared to its historical values. Let’s say you are looking back 11 years from 2011 into the past and see how the S&amp;P500 does now compared to this history. This is how you would use <code>tidyquant</code> to do this:</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;Check out https://cran.r-project.org/web/packages/tidyquant/index.html</p></div></div><p>One thing an anlyst might be interested in is how the stock market as measured by a broad index does at the moment compared to its historical values. Let’s say you are looking back 11 years from 2011 into the past and see how the S&amp;P500 does now compared to this history. This is how you would use <code>tidyquant</code> to do this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch S&amp;P 500 data from 2000 to 2011</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sp500_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"SPY"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, <span class="at">to =</span> <span class="st">"2011-12-31"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch S&amp;P 500 data from 2000 to 2011</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>sp500_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"SPY"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, <span class="at">to =</span> <span class="st">"2011-12-31"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In order to do load data you need the string of the name of the series you are interested in, which you can learn from the documentation. In our case this is “SPY” for the SP500. You can also specify a time range or just the beginning of the series. In the latter case it will give you all the data from the beginning up to the current or most recent trading day. We have written the data into an R object called <code>sp500_data</code> and now you might inspect it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sp500_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 8
   symbol date        open  high   low close   volume adjusted
@@ -770,19 +979,19 @@ Now you try
 <p>The output says that the data object is a <code>tibble</code>. Don’t worry about this detail at the moment and think of a <code>tibble</code>as something equivalent to a dataframe.</p>
 <p>Now let us visualize the data using base R’s <code>plot()</code> function. Use the help facilities or your LLM to find out abut the syntax details.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Base R plot</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  sp500_data<span class="sc">$</span>date, sp500_data<span class="sc">$</span>adjusted,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,                <span class="co"># Line plot</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,              <span class="co"># Line color</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,                   <span class="co"># Line width</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Date"</span>,             <span class="co"># X-axis label</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Adjusted Price"</span>,   <span class="co"># Y-axis label</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"S&amp;P 500 Price Trends (2000–2011)"</span> <span class="co"># Title</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid lines for better readability</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NULL</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Base R plot</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  sp500_data<span class="sc">$</span>date, sp500_data<span class="sc">$</span>adjusted,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,                <span class="co"># Line plot</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,              <span class="co"># Line color</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,                   <span class="co"># Line width</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Date"</span>,             <span class="co"># X-axis label</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Adjusted Price"</span>,   <span class="co"># Y-axis label</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"S&amp;P 500 Price Trends (2000–2011)"</span> <span class="co"># Title</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid lines for better readability</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NULL</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -793,73 +1002,73 @@ Now you try
 </div>
 <p>We see that the index is about the same level as it was 10 years ago. The index alone does not tell you very much. How about relating this to some relevant market fundamentals?</p>
 <p>One powerful feature of <code>tidyquant()</code> is that it can fetch data from various data sources. Here I get, for the sake of this example, data on corporate profits from the FRED database of the Fed St.&nbsp;Louis<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get corporate profits data from FRED</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>corporate_profits <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"CP"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">to =</span> <span class="st">"2011-12-31"</span>, <span class="at">get =</span> <span class="st">"economic.data"</span>)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize corporate profits</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  corporate_profits<span class="sc">$</span>date, corporate_profits<span class="sc">$</span>price,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Corporate Profits (Index)"</span>,</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Corporate Profits (2000–2011)"</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NULL</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;See https://fred.stlouisfed.org/</p></div></div><div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get corporate profits data from FRED</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>corporate_profits <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"CP"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">to =</span> <span class="st">"2011-12-31"</span>, <span class="at">get =</span> <span class="st">"economic.data"</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize corporate profits</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  corporate_profits<span class="sc">$</span>date, corporate_profits<span class="sc">$</span>price,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Corporate Profits (Index)"</span>,</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Corporate Profits (2000–2011)"</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NULL</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="03-lecture3_files/figure-html/retrieveing%20spfundamentals-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="03-lecture3_files/figure-html/retrieveing spfundamentals-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Profits have roughly tripled over the same period. The market does seem to be undervalued. Let’s put this into perspective by looking at Price-Earning data or P/E ratios.</p>
 <p>Now we run into a problem which you will often encounter when working with data. It is rare that a tool covers all cases. P/E rations seem to be difficult to retrieve with <code>tidyquant</code>. These data do however exist on the web, for example at the website Macrotrends.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
-<p>To retrieve data from this site, I had to download the data locally first before I could get them into R. Let’s look at them a bit closer now using again R’s visualization tools.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;The P/E ratio for the SP500 can be found for instance here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart</p></div></div><p>To retrieve data from this site, I had to download the data locally first before I could get them into R. Let’s look at them a bit closer now using again R’s visualization tools.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the path to the downloaded CSV file</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="st">"data/sp-500-pe-ratio-price-to-earnings-chart.csv"</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the CSV file into R</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>pe_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(file_path, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>, <span class="at">skip =</span> <span class="dv">16</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Date"</span>, <span class="st">"PE_ratio"</span>))</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the date column to Date class</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>pe_data<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(pe_data<span class="sc">$</span>Date, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter data for the desired date range</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>pe_data_filtered <span class="ot">&lt;-</span> <span class="fu">subset</span>(pe_data, Date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2000-01-01"</span>) <span class="sc">&amp;</span> </span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>                             Date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2011-12-31"</span>))</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average P/E ratio over the specified period</span></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>average_pe <span class="ot">&lt;-</span> <span class="fu">mean</span>(pe_data_filtered<span class="sc">$</span>PE_ratio, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the P/E ratio for the y-axis</span></span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  pe_data_filtered<span class="sc">$</span>Date, pe_data_filtered<span class="sc">$</span>PE_ratio,</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,                   <span class="co"># Line plot</span></span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,                 <span class="co"># Line color</span></span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,                      <span class="co"># Line width</span></span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,                <span class="co"># X-axis label</span></span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"P/E Ratio"</span>, <span class="co"># Y-axis label</span></span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"S&amp;P 500 P/E Ratio (2000–2011)"</span>, <span class="co"># Plot title</span></span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a horizontal line for the average P/E ratio</span></span>
-<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> average_pe, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a legend to the plot</span></span>
-<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
-<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">"topright"</span>,                   <span class="co"># Legend position</span></span>
-<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P/E Ratio"</span>, <span class="st">"Average P/E Ratio"</span>), <span class="co"># Labels</span></span>
-<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>),       <span class="co"># Line colors</span></span>
-<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),                <span class="co"># Line types</span></span>
-<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)                 <span class="co"># Line widths</span></span>
-<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the path to the downloaded CSV file</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="st">"data/sp-500-pe-ratio-price-to-earnings-chart.csv"</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the CSV file into R</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>pe_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(file_path, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>, <span class="at">skip =</span> <span class="dv">16</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Date"</span>, <span class="st">"PE_ratio"</span>))</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the date column to Date class</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>pe_data<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(pe_data<span class="sc">$</span>Date, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter data for the desired date range</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>pe_data_filtered <span class="ot">&lt;-</span> <span class="fu">subset</span>(pe_data, Date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2000-01-01"</span>) <span class="sc">&amp;</span> </span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>                             Date <span class="sc">&lt;=</span> <span class="fu">as.Date</span>(<span class="st">"2011-12-31"</span>))</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average P/E ratio over the specified period</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>average_pe <span class="ot">&lt;-</span> <span class="fu">mean</span>(pe_data_filtered<span class="sc">$</span>PE_ratio, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the P/E ratio for the y-axis</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>  pe_data_filtered<span class="sc">$</span>Date, pe_data_filtered<span class="sc">$</span>PE_ratio,</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,                   <span class="co"># Line plot</span></span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,                 <span class="co"># Line color</span></span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,                      <span class="co"># Line width</span></span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,                <span class="co"># X-axis label</span></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"P/E Ratio"</span>, <span class="co"># Y-axis label</span></span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"S&amp;P 500 P/E Ratio (2000–2011)"</span>, <span class="co"># Plot title</span></span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a horizontal line for the average P/E ratio</span></span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> average_pe, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a legend to the plot</span></span>
+<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">"topright"</span>,                   <span class="co"># Legend position</span></span>
+<span id="cb42-35"><a href="#cb42-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P/E Ratio"</span>, <span class="st">"Average P/E Ratio"</span>), <span class="co"># Labels</span></span>
+<span id="cb42-36"><a href="#cb42-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>),       <span class="co"># Line colors</span></span>
+<span id="cb42-37"><a href="#cb42-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),                <span class="co"># Line types</span></span>
+<span id="cb42-38"><a href="#cb42-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)                 <span class="co"># Line widths</span></span>
+<span id="cb42-39"><a href="#cb42-39" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -872,43 +1081,43 @@ Now you try
 <p>As a cautious investor, you form the hypothesis that these low valuations are deceptive. You believe that corporate profits, which are at record highs of 1672 compared to the historical average of 1119, will revert to the mean. When this happens, earnings will drop, pushing the P/E ratio from a seemingly cheap to expensive.</p>
 <p>With this belief in mind, you decide to hold off on investing, waiting for valuations to normalize. However, as the years pass—2012, 2013, 2014, and beyond— corporate profits remain elevated, and the market continues to rally. Each year, your cautious stance leaves you with underwhelming returns.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get corporate profits data from FRED</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>corporate_profits <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"CP"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">to =</span> <span class="st">"2019-12-31"</span>, <span class="at">get =</span> <span class="st">"economic.data"</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize corporate profits with a vertical line at 2011</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  corporate_profits<span class="sc">$</span>date, corporate_profits<span class="sc">$</span>price,</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Corporate Profits (Index)"</span>,</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Corporate Profits (2000–2019)"</span></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a vertical line at 2011</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">as.Date</span>(<span class="st">"2011-01-01"</span>), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid lines for readability</span></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NULL</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get corporate profits data from FRED</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>corporate_profits <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"CP"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">to =</span> <span class="st">"2019-12-31"</span>, <span class="at">get =</span> <span class="st">"economic.data"</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize corporate profits with a vertical line at 2011</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  corporate_profits<span class="sc">$</span>date, corporate_profits<span class="sc">$</span>price,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span>,</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Year"</span>,</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Corporate Profits (Index)"</span>,</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Corporate Profits (2000–2019)"</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a vertical line at 2011</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">as.Date</span>(<span class="st">"2011-01-01"</span>), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid lines for readability</span></span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NULL</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="03-lecture3_files/figure-html/corporate%20profits%20extended-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="03-lecture3_files/figure-html/corporate profits extended-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>By 2019, you’re forced to confront the possibility that your belief about corporate profit mean-reversion might be wrong.</p>
-<section id="the-need-for-updating-probability-asessments" class="level4">
-<h4 class="anchored" data-anchor-id="the-need-for-updating-probability-asessments">The Need for Updating Probability Asessments</h4>
+<section id="the-need-for-updating-probability-asessments" class="level4" data-number="3.4.1.1">
+<h4 data-number="3.4.1.1" class="anchored" data-anchor-id="the-need-for-updating-probability-asessments"><span class="header-section-number">3.4.1.1</span> The Need for Updating Probability Asessments</h4>
 <p>This scenario highlights the importance of updating beliefs in the face of new evidence. Initially, your hypothesis about profit margins reverting to the mean was reasonable, based on historical data. But as year after year passed without mean-reversion, the accumulating evidence should have prompted you to revise your prior beliefs.</p>
 <p>Bayes’ Rule offers a principled way to do this. It allows you to combine your initial belief (the prior probability) with new evidence (e.g., sustained elevated profit margins) to calculate an updated belief (the posterior probability). This process ensures that your decisions adapt as reality unfolds, helping you avoid the dangers of clinging to outdated assumptions.</p>
 </section>
 </section>
-<section id="bayes-rule-intuitive-understanding-with-a-speck-of-sand" class="level3">
-<h3 class="anchored" data-anchor-id="bayes-rule-intuitive-understanding-with-a-speck-of-sand">Bayes’ Rule: Intuitive Understanding with a Speck of Sand</h3>
+<section id="bayes-rule-intuitive-understanding-with-a-speck-of-sand" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="bayes-rule-intuitive-understanding-with-a-speck-of-sand"><span class="header-section-number">3.4.2</span> Bayes’ Rule: Intuitive Understanding with a Speck of Sand</h3>
 <p>Bayes’ rule, one of the cornerstone ideas of probability, provides a systematic method for updating probabilities based on new evidence. It is formalized as: <span class="math display">\[\begin{equation*}
 P(B|A) = \frac{P(A|B) P(B)}{P(A)}
 \end{equation*}\]</span></p>
@@ -924,8 +1133,8 @@ P(B|A) = \frac{P(A|B) P(B)}{P(A)}
 <li>Equating the two expressions for <span class="math inline">\(P(A \cap B)\)</span> and dividing by <span class="math inline">\(P(A)\)</span>: <span class="math inline">\(P(B|A) = \frac{P(A|B)P(B)}{P(A)}\)</span></li>
 </ol>
 <p>Bayes’ rule is often challenging to grasp intuitively. To build understanding, let’s explore a simple and vivid example involving a speck of sand.</p>
-<section id="the-speck-of-sand-an-intuitive-illustration" class="level4">
-<h4 class="anchored" data-anchor-id="the-speck-of-sand-an-intuitive-illustration">The Speck of Sand: An Intuitive Illustration</h4>
+<section id="the-speck-of-sand-an-intuitive-illustration" class="level4" data-number="3.4.2.1">
+<h4 data-number="3.4.2.1" class="anchored" data-anchor-id="the-speck-of-sand-an-intuitive-illustration"><span class="header-section-number">3.4.2.1</span> The Speck of Sand: An Intuitive Illustration</h4>
 <p>Imagine a square of area 1, representing our entire sample space. Within this square, there is a circle <span class="math inline">\(B\)</span>, with area equal to <span class="math inline">\(P(B)\)</span>. You have a tiny speck of sand on your finger, which accidentally falls somewhere within the square. The location of the speck is entirely random.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -939,8 +1148,8 @@ P(B|A) = \frac{P(A|B) P(B)}{P(A)}
 </div>
 <p>The probability that the speck lands in <span class="math inline">\(B\)</span> is simply the area of <span class="math inline">\(B\)</span>, <span class="math inline">\(P(B)\)</span>, since the speck could have landed anywhere within the square with equal likelihood.</p>
 </section>
-<section id="updating-beliefs-with-new-information" class="level4">
-<h4 class="anchored" data-anchor-id="updating-beliefs-with-new-information">Updating Beliefs with New Information</h4>
+<section id="updating-beliefs-with-new-information" class="level4" data-number="3.4.2.2">
+<h4 data-number="3.4.2.2" class="anchored" data-anchor-id="updating-beliefs-with-new-information"><span class="header-section-number">3.4.2.2</span> Updating Beliefs with New Information</h4>
 <p>Now, suppose you are told that the speck landed within another circle <span class="math inline">\(A\)</span> that also lies inside the square:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -954,8 +1163,8 @@ P(B|A) = \frac{P(A|B) P(B)}{P(A)}
 </div>
 <p>How does this new information affect the probability that the speck is in <span class="math inline">\(B\)</span> ? Mathematically, we now want to compute <span class="math inline">\(P(B|A)\)</span>, the probability that the speck is in <span class="math inline">\(B\)</span>, given that it is inside <span class="math inline">\(A\)</span>.</p>
 </section>
-<section id="overlap-between-a-and-b" class="level4">
-<h4 class="anchored" data-anchor-id="overlap-between-a-and-b">Overlap Between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span></h4>
+<section id="overlap-between-a-and-b" class="level4" data-number="3.4.2.3">
+<h4 data-number="3.4.2.3" class="anchored" data-anchor-id="overlap-between-a-and-b"><span class="header-section-number">3.4.2.3</span> Overlap Between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span></h4>
 <p>Intuitively, the updated probability <span class="math inline">\(P(B|A)\)</span> depends on the overlap of <span class="math inline">\(B\)</span> and <span class="math inline">\(A\)</span>. Specifically, it is the fraction of <span class="math inline">\(A\)</span> that lies within <span class="math inline">\(B\)</span>, expressed as: <span class="math display">\[\begin{equation*}
 P(B|A) = \frac{\text{Area of } A \cap B}{\text{Area of } A} = \frac{P(A \cap B)}{P(A)}
 \end{equation*}\]</span></p>
@@ -986,8 +1195,8 @@ P(B|A) = \frac{\text{Area of } A \cap B}{\text{Area of } A} = \frac{P(A \cap B)}
 </div>
 </div>
 </section>
-<section id="bayesian-interpretation" class="level4">
-<h4 class="anchored" data-anchor-id="bayesian-interpretation">Bayesian Interpretation</h4>
+<section id="bayesian-interpretation" class="level4" data-number="3.4.2.4">
+<h4 data-number="3.4.2.4" class="anchored" data-anchor-id="bayesian-interpretation"><span class="header-section-number">3.4.2.4</span> Bayesian Interpretation</h4>
 <p>In Bayesian reasoning:</p>
 <ul>
 <li><span class="math inline">\(P(B)\)</span> is the <strong>prior probability</strong>, representing our belief in the hypothesis <span class="math inline">\(B\)</span> before observing the data.</li>
@@ -1004,8 +1213,8 @@ P(B|A) = \frac{\text{Area of } A \cap B}{\text{Area of } A} = \frac{P(A \cap B)}
 </section>
 </section>
 </section>
-<section id="using-an-llm-to-explore-conditional-probability" class="level2">
-<h2 class="anchored" data-anchor-id="using-an-llm-to-explore-conditional-probability">Using an LLM to Explore Conditional Probability</h2>
+<section id="using-an-llm-to-explore-conditional-probability" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="using-an-llm-to-explore-conditional-probability"><span class="header-section-number">3.5</span> Using an LLM to Explore Conditional Probability</h2>
 <p>In each lecture I try to involve a use case showing you how you could leverage the power of LLMs to deepen your learning experience. Conditional probability is an excellent topic to explore with the LLM. Understanding conditional probability can be challenging because our intuitions about likelihoods often conflict with the precise rules of probability theory. Unlike geometric intuition which is hardwired in the human mind through the needs of our visual system, we humans lack an innate intuitive understanding of probability. This is something that has to be acquired through training and practice. An LLM like ChatGPT can serve as a dialogue partner to help you explore this gap and refine your understanding.</p>
 <p>Here is a suggested use case: You can use an LLM to simulate and analyze scenarios where our intuition might mislead us. Here’s how to structure a dialogue with the model:</p>
 <ol type="1">
@@ -1028,8 +1237,8 @@ P(B|A) = \frac{\text{Area of } A \cap B}{\text{Area of } A} = \frac{P(A \cap B)}
 <li>Modify the problem (e.g., change the disease prevalence or test accuracy) and ask the model to recompute probabilities. Compare how small changes in assumptions affect outcomes.</li>
 </ul></li>
 </ol>
-<section id="example-dialogue" class="level3">
-<h3 class="anchored" data-anchor-id="example-dialogue">Example Dialogue</h3>
+<section id="example-dialogue" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="example-dialogue"><span class="header-section-number">3.5.1</span> Example Dialogue</h3>
 <p>Here’s an example interaction you could try:</p>
 <p><strong>You</strong>: “I think the probability of actually having the disease should be very high since the test is 95% accurate. Is this correct?”</p>
 <p><strong>Model</strong>: “Let’s compute it formally using Bayes’ Rule: <span class="math display">\[\begin{equation*}
@@ -1046,23 +1255,23 @@ P(D|T) = \frac{P(T|D) \cdot P(D)}{P(T|D) \cdot P(D) + P(T|ND) \cdot P(ND)}
 <p>Leverage this approach to build a stronger connection between the theory and its real-world applications.</p>
 </section>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<section id="probability-concepts" class="level3">
-<h3 class="anchored" data-anchor-id="probability-concepts">Probability Concepts</h3>
+<section id="summary" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.6</span> Summary</h2>
+<section id="probability-concepts" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="probability-concepts"><span class="header-section-number">3.6.1</span> Probability Concepts</h3>
 <p>In this lecture, we covered the following key probability concepts: - <strong>Conditional Probability</strong>: Understanding the probability of an event occurring given that another event has occurred, and its relevance in real-world scenarios, especially in finance. - <strong>Dependence and Independence</strong>: How events can be dependent or independent and the role of conditional probabilities in analyzing their relationships. - <strong>Bayes’ Rule</strong>: Using conditional probabilities to update beliefs based on new evidence.</p>
 <p>These concepts were illustrated with practical examples, including a discussion of the financial crisis of 2007-2008 to highlight the risks of neglecting dependencies in probability modeling.</p>
 </section>
-<section id="r-concepts" class="level3">
-<h3 class="anchored" data-anchor-id="r-concepts">R Concepts</h3>
+<section id="r-concepts" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="r-concepts"><span class="header-section-number">3.6.2</span> R Concepts</h3>
 <p>During the lecture, we used R to: - <strong>Simulate Conditional Probabilities</strong>: Generate random data and compute conditional probabilities to illustrate theoretical concepts. - <strong>Visualize Dependencies</strong>: Create intuitive visualizations of event overlaps and relationships between probabilities. - <strong>Practical Applications</strong>: Implement real-world examples to explore conditional probabilities and Bayes’ Rule, showcasing how to use R for data analysis in finance.</p>
 <p>This lecture bridged theoretical probability concepts with practical computational tools in R, enabling a deeper understanding of the material and its applications.</p>
 </section>
 </section>
-<section id="project-evaluating-credit-risk-using-conditional-probabilities" class="level2">
-<h2 class="anchored" data-anchor-id="project-evaluating-credit-risk-using-conditional-probabilities">Project: Evaluating Credit Risk Using Conditional Probabilities</h2>
-<section id="problem-description" class="level3">
-<h3 class="anchored" data-anchor-id="problem-description">Problem Description</h3>
+<section id="project-evaluating-credit-risk-using-conditional-probabilities" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="project-evaluating-credit-risk-using-conditional-probabilities"><span class="header-section-number">3.7</span> Project: Evaluating Credit Risk Using Conditional Probabilities</h2>
+<section id="problem-description" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="problem-description"><span class="header-section-number">3.7.1</span> Problem Description</h3>
 <p>A bank is evaluating a loan application using historical data to estimate the likelihood of default. The borrower has a low credit score, and the bank has the following data:</p>
 <ol type="1">
 <li><strong>Default Rates</strong>:
@@ -1079,8 +1288,8 @@ P(D|T) = \frac{P(T|D) \cdot P(D)}{P(T|D) \cdot P(D) + P(T|ND) \cdot P(ND)}
 <p>The goal is to determine the posterior probability of default given the borrower’s low credit score, <span class="math inline">\(P(D|L)\)</span>, using <strong>Bayes’ Rule</strong>. Additionally, you will verify this theoretical result by simulating customer data and analyzing outcomes.</p>
 <hr>
 </section>
-<section id="questions" class="level3">
-<h3 class="anchored" data-anchor-id="questions">Questions</h3>
+<section id="questions" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="questions"><span class="header-section-number">3.7.2</span> Questions</h3>
 <ol type="1">
 <li><strong>Compute <span class="math inline">\(P(D|L)\)</span> Theoretically</strong>:
 <ul>
@@ -1101,12 +1310,8 @@ P(D|T) = \frac{P(T|D) \cdot P(D)}{P(T|D) \cdot P(D) + P(T|ND) \cdot P(ND)}
 </ul></li>
 </ol>
 
-</section>
-</section>
-</section>
 
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-DiaconisSkyrms2019" class="csl-entry" role="listitem">
 Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. Princeton University Press.
 </div>
@@ -1116,20 +1321,12 @@ Feller, William. 1968. <em>An Introduction to Probability Theory and Its Applica
 <div id="ref-Tooze2018" class="csl-entry" role="listitem">
 Tooze, Adam. 2018. <em>Crashed. How a Decade of Financial Crisis Changed the World</em>. Viking.
 </div>
-</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+</div>
+</section>
+</section>
 
-<ol>
-<li id="fn1"><p> See <span class="citation" data-cites="Tooze2018">Tooze (<a href="#ref-Tooze2018" role="doc-biblioref">2018</a>)</span>: For an engaging and comprehensive exploration of the great financial crisis of 2007 - 2008 and its causes and aftermath. It is highly recommended for deeper study.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>See https://www.coursera.org/learn/introductiontoprobability<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p> A famous voice at the time warning about the flawed reasoning was Raghuram Rajan, former chief economist of the International Monetary Fund. He warned that rather than reducing risk through diversification, CDOs and other derivatives spread risk and uncertainty about the value of the underlying assets more widely. <a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>As pointed out in <span class="citation" data-cites="Feller1968">Feller (<a href="#ref-Feller1968" role="doc-biblioref">1968</a>)</span> p 115, this has no consequences in the case of discrete sample spaces but is important in the general theory.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>This idea goes back to the work of Frank Ramsey (1903–1930). He was a British mathematician, philosopher, and economist whose profound contributions spanned multiple fields despite his tragically short life. In probability, he established the foundation for subjective probability theory, showing that coherent judgments about uncertainty adhere to the axioms of probability. Ramsey also made groundbreaking advances in decision theory, logic, and economics, including the famous Ramsey pricing in public economics and his foundational work in mathematical logic. For more, on Ramsey’s ideas of connecting judegment to probability see chapter 2 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>Check out https://cran.r-project.org/web/packages/tidyquant/index.html<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>See https://fred.stlouisfed.org/<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>The P/E ratio for the SP500 can be found for instance here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main>
-<!-- /main column -->
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1550,6 +1747,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-lecture2.html" class="pagination-link" aria-label="Probability: Basic Definitions and Rules">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability: Basic Definitions and Rules</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06-references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">References</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
