@@ -1026,6 +1026,378 @@ If $X_1, X_2, \dots, X_n$ are i.i.d.:
 $$
 \text{Var}\left(\sum_{i=1}^n X_i\right) = n \cdot \text{Var}(X).
 $$
+## Example: The CAPM formula and the Role of Covariance in comparing stocks
+
+The Capital asset pricing model (CAPM) is a simple market mode, that relates 
+individual stock returns to the market average. The CAPM formula is given by:
+
+$$
+r_{jt} = \alpha_j + \beta_j m_t + \epsilon_{jt}
+$$
+
+- The **left-hand side**, $r_{jt}$, is the **excess return** of equity $j$ at 
+time $t$. This measures the return of the asset minus a measure of the 
+risk-free rate, which represents the return on holding low-risk debt, 
+such as a U.S. Treasury bill. For simplicity, we will omit the risk-free rate 
+in this explanation.
+- $m_t$ is the **market return**, which captures the aggregate 
+return on the market at time $t$. A common choice when looking at
+US data is 
+the S&P 500, which weights companies according to their market 
+capitalization (the total value of their stock).
+- $\epsilon_{jt}$ is an **error term**, a random variable that 
+captures the part of the excess return not explained by the market return. 
+It has the following properties:
+  1. $\mathbb{E}[\epsilon_{jt}] = 0$, meaning it has no systematic bias.
+  2. $\mathbb{E}[m_t \epsilon_{jt}] = 0$, meaning it is uncorrelated with the market return.
+
+The term $\beta_j$ in the CAPM formula reflects 
+the **sensitivity of the excess return of equity $j$ to the market return $m_t$**. 
+It is calculated using the **covariance** between the returns of 
+the asset and the market. Specifically:
+
+$$
+\beta_j = \frac{\text{Cov}(r_j, m)}{\text{Var}(m)}
+$$
+
+Where:
+- $\text{Cov}(r_j, m)$ is the covariance between the excess return of equity $j$ and the market return.
+- $\text{Var}(m)$ is the variance of the market return.
+
+This shows that $\beta_j$ represents the degree to which the 
+return of equity $j$ moves with the market. 
+A higher $\beta_j$ implies that the equity's return 
+is more sensitive to market movements, indicating a higher systematic risk.
+
+The CAPM formula is built on the assumption that the excess return of an asset can be linearly decomposed into:
+   
+   - A systematic component ($\beta_j m_t$), which is related to market movements.
+   - An idiosyncratic component ($\epsilon_{jt}$), which is specific to the asset and uncorrelated with the market.
+   
+To estimate $\beta_j$, consider the following relationship:
+
+$$
+\mathbb{E}[r_{jt}] = \mathbb{E}[\alpha_j] + \beta_j \mathbb{E}[m_t] + \mathbb{E}[\epsilon_{jt}]
+$$
+
+Since $\mathbb{E}[\epsilon_{jt}] = 0$, we have:
+
+$$
+\mathbb{E}[r_{jt}] = \alpha_j + \beta_j \mathbb{E}[m_t]
+$$
+
+The covariance appears when analyzing the relationship 
+between $r_{jt}$ and $m_t$ over time. Multiplying both 
+sides of $r_{jt} = \alpha_j + \beta_j m_t + \epsilon_{jt}$ by $m_t$ and 
+taking expectations:
+
+$$
+\mathbb{E}[r_{jt} m_t] = \mathbb{E}[\alpha_j m_t] + \mathbb{E}[\beta_j m_t^2] + \mathbb{E}[\epsilon_{jt} m_t]
+$$
+
+- Since $\alpha_j$ is constant, $\mathbb{E}[\alpha_j m_t] = \alpha_j \mathbb{E}[m_t]$.
+- The error term is uncorrelated with the market return, so $\mathbb{E}[\epsilon_{jt} m_t] = 0$.
+
+This simplifies to:
+
+$$
+\mathbb{E}[r_{jt} m_t] = \alpha_j \mathbb{E}[m_t] + \beta_j \mathbb{E}[m_t^2]
+$$
+
+The covariance formula $\text{Cov}(r_j, m)$ can be used to isolate $\beta_j$:
+
+$$
+\text{Cov}(r_j, m) = \mathbb{E}[r_{jt} m_t] - \mathbb{E}[r_{jt}]\mathbb{E}[m_t]
+$$
+
+By substituting and rearranging, we recover the key relationship for $\beta_j$:
+
+$$
+\beta_j = \frac{\text{Cov}(r_j, m)}{\text{Var}(m)}
+$$
+
+The covariance explicitly links the asset's return with the market 
+return and determines the value of $\beta_j$, capturing how much of 
+the asset's return can be attributed to systematic market risk. 
+This makes covariance fundamental to the CAPM framework.
+
+This simple model allows for a meaningful comparison between stocks
+based on their insurance properties, as well as whether the create
+value $\alpha_j >0$, because the stock is providing value above what the
+model predicts or destroy value $\alpha_j < 0$ because the stock
+provides less value than what the model predicts based on the
+performance of the market.
+
+Let's compare 20 biggest stocks from the SP500. We 
+read their data as of January 2025 using the `tidyquant()`
+package:
+
+```{r}
+#| messages: false
+#| warning: false
+
+library(tidyquant)
+
+# Define the tickers for the 20 biggest stocks and the S&P 500 index
+# Ticker-Company Mapping:
+# NVDA - NVIDIA Corporation
+# AAPL - Apple Inc.
+# MSFT - Microsoft Corporation
+# AMZN - Amazon.com, Inc.
+# GOOGL - Alphabet Inc. (Class A)
+# META - Meta Platforms, Inc.
+# TSLA - Tesla, Inc.
+# UNH - UnitedHealth Group Incorporated
+# JNJ - Johnson & Johnson
+# V - Visa Inc.
+# XOM - Exxon Mobil Corporation
+# JPM - JPMorgan Chase & Co.
+# WMT - Walmart Inc.
+# MA - Mastercard Incorporated
+# PG - Procter & Gamble Company
+# HD - The Home Depot, Inc.
+# BAC - Bank of America Corporation
+# CVX - Chevron Corporation
+# LLY - Eli Lilly and Company
+# ^GSPC - S&P 500 Index
+
+tickers <- c("NVDA", "AAPL", "MSFT", "AMZN", "GOOGL", "META", "TSLA", 
+             "UNH", "JNJ", "V", "XOM", "JPM", "WMT", "MA", "PG", "HD", 
+             "BAC", "CVX", "LLY")
+
+# Add the S&P 500 index ticker (SPY is a common ETF that tracks the index)
+tickers <- c(tickers, "^GSPC")
+
+# Get historical data starting from 2015
+price_data <- tq_get(
+  tickers, 
+  get = "stock.prices", 
+  from = "2015-01-01"
+)
+```
+
+Now let's do some definitions and data filtering first:
+
+```{r}
+# Define the market ticker for the S&P 500
+
+market_ticker <- "^GSPC"
+
+# Filter the market and stock data from the previously downloaded dataset
+
+market_data <- price_data[price_data$symbol == market_ticker, ]
+stocks_data <- price_data[price_data$symbol != market_ticker, ]
+```
+
+Here we first assign the string `^GSPC` (the Yahoo Finance ticker symbol for the S&P 500 index) 
+to the variable `market_ticker`. 
+Then we filter rows from the `price_data` data frame where the `symbol` column 
+matches the `market_ticker` (`^GSPC`), isolating data for the S&P 500 index.
+The result is stored in the variable `market_data`, which contains
+historical price data for the market.
+
+We then filter rows from the `price_data` data frame where the `symbol` 
+column does **not** match `^GSPC`. The result is stored in the 
+variable `stocks_data`, which contains historical price data for all 
+individual stocks (excluding the S&P 500 index).
+
+Next we dos ome data preparation work:
+
+```{r}
+# Ensure the date column is properly formatted
+
+price_data$date <- as.Date(price_data$date)
+
+# Calculate daily returns for market and stocks
+
+returns_data <- do.call(rbind, lapply(split(price_data, price_data$symbol), 
+                                      function(df) {
+  # Convert to xts object for dailyReturn
+  xts_data <- xts::xts(df$adjusted, order.by = df$date)
+  df$daily_return <- quantmod::dailyReturn(xts_data, type = "log")
+  return(df)
+}))
+
+# Separate market and stock returns
+
+market_returns <- returns_data[returns_data$symbol == market_ticker, 
+                               c("date", "daily_return")]
+stock_returns <- returns_data[returns_data$symbol != market_ticker, ]
+
+# Merge market returns with each stock's returns
+
+merged_data <- merge(stock_returns, market_returns, by = "date", 
+                     suffixes = c("", "_market"))
+```
+
+Let's unpack this a bit:
+
+First, we ensure the date column is properly formatted. We
+convert the `date` column in `price_data` to the `Date` format.
+The `xts` package (used for time-series analysis) requires its `order.by` argument to be a `Date`, `POSIXct`, or numeric value for proper time indexing. 
+
+Next we calculate daily returns for market and stocks. We
+
+  1. Split `price_data` by stock symbol. The `split()`function divides `price_data` 
+  into a list of data frames, one for each stock (or market) identified by the `symbol` column.
+
+  2. For each stock, we create an `xts` object using the `adjusted` prices (as values) and `date` (as the time index). The `xts` format is necessary for `dailyReturn()`.
+
+Now we are ready toc ompute the daily returns. We use 
+the `dailyReturn()` function from the `quantmod` package to 
+calculate log returns. Logarithmic returns are defined as:
+       $$
+       r_t = \ln\left(\frac{P_t}{P_{t-1}}\right)
+       $$
+where $P_t$ is the adjusted closing price at time $t$.
+The `dailyReturn()` function outputs a time series of returns, which is 
+added as a new column (`daily_return`) to the stock’s data frame.
+
+We then recombine the list of modified data frames (each containing `daily_return`) 
+into a single data frame, `returns_data` using the `do.call()`function.
+
+We now split `returns_data` into two subsets:
+
+  - `market_returns`: Contains only the market index returns (e.g., S&P 500).
+  - `stock_returns`: Contains the returns for all individual stocks.
+
+To Aligns the return of each stock with the corresponding market returns by their `date`.
+we use:
+
+  - `merge()`:
+     - Combines `stock_returns` and `market_returns` based on their shared `date` column.
+     - Ensures that stock and market returns are matched by the same trading day.
+
+  - Suffixes:
+     - `suffixes = c("", "_market")`: Adds `_market` to columns 
+     from `market_returns` in case of naming conflicts.
+     - For example: `daily_return` from `market_returns` 
+     becomes `daily_return_market`.
+
+As a final output we get `merged_data` which is a data frame containing:
+
+  - `symbol`: The stock ticker.
+  - `date`: The trading date.
+  - `daily_return`: The stock's daily return.
+  - `daily_return_market`: The corresponding market's daily return.
+
+This structure is ready for regression analysis, such as fitting the CAPM.
+
+Now we fit a CAPM model to each stock:
+
+```{r}
+# Fit CAPM for each stock
+capm_results <- do.call(rbind, 
+                lapply(split(merged_data, merged_data$symbol), function(df) {
+  model <- lm(daily_return ~ daily_return_market, data = df)
+  data.frame(
+    symbol = unique(df$symbol),
+    alpha = coef(model)["(Intercept)"],
+    beta = coef(model)["daily_return_market"]
+  )
+}))
+```
+
+
+This code fits the **Capital Asset Pricing Model (CAPM)** for each stock in 
+the dataset and extracts the alpha ($\alpha$) and beta ($\beta$) coefficients 
+for each stock.
+
+We start by splitting the data by stock symbol, which results in a 
+list of data frames, where each data frame contains the 
+data for one specific stock.
+
+Then we apply CAPM regression to each stock
+using `lapply()`:
+
+  - `lm(daily_return ~ daily_return_market, data = df)`: Fits a linear regression model where:
+    - `daily_return` is the dependent variable (stock's excess return).
+    - `daily_return_market` is the independent variable (market's excess return).
+  - This corresponds to the CAPM formula:
+    $$
+    r_{jt} = \alpha_j + \beta_j m_t + \epsilon_{jt}
+    $$
+  - The regression estimates:
+    - $\alpha_j$ (the intercept): The abnormal return of the stock independent of the market.
+    - $\beta_j$ (the slope): The sensitivity of the stock's return to market movements.
+
+- For each stock:
+  - The regression results are used to extract $\alpha$ and $\beta$.
+
+Finally we create a data frame for each stock
+where
+
+- `unique(df$symbol)`: Retrieves the stock's ticker symbol (e.g., `AAPL`, `GOOGL`).
+- `coef(model)["(Intercept)"]`: Extracts $\alpha_j$ (the intercept) from the regression model.
+- `coef(model)["daily_return_market"]`: Extracts $\beta_j$ (the slope) from the regression model.
+- `data.frame(...)`: Creates a data frame with three columns:
+  - `symbol`: The stock ticker.
+  - `alpha`: The stock's alpha ($\alpha_j$).
+  - `beta`: The stock's beta ($\beta_j$).
+
+Our final output is then a data frame with the CAPM regression results for 
+all stocks, where each row contains:
+
+  - `symbol`: The stock ticker.
+  - `alpha`: The estimated \(\alpha_j\) (abnormal return).
+  - `beta`: The estimated \(\beta_j\) (market sensitivity).
+
+Now we plot these data in a two dimensional figure, which shows the
+stocks in a $(\beta, \alpha)$ space.
+
+```{r}
+# Plot results
+plot(
+  capm_results$beta, 
+  capm_results$alpha,
+  xlab = "Beta (Systematic Risk)", 
+  ylab = "Alpha (Abnormal Return)", 
+  main = "CAPM Alpha and Beta for S&P 500 Stocks",
+  pch = 19,  # Circle symbols
+  cex = 1,   # Uniform size for all points
+  col = "blue"
+)
+
+# Add grid lines
+grid(col = "lightgray", lty = "dotted", lwd = 0.8)
+
+# Add stock symbols as text labels
+text(
+  capm_results$beta, 
+  capm_results$alpha, 
+  labels = capm_results$symbol, 
+  pos = 4, 
+  cex = 0.7
+)
+
+# Add dashed lines for beta = 0 and alpha = 0
+abline(h = 0, lty = 2, col = "red", lwd = 1)  # Horizontal line at alpha = 0
+abline(v = 1, lty = 2, col = "red", lwd = 1) # Vertical line at beta = 1
+
+```
+
+This picture immediately allows you to asess market sensitivity and arbitrage 
+opportunities. For example over the period 2015 - 2025 bothe Amazon (AMZ) and
+Google (GOOGL) have similar market sensitivity ($beta$) but Amazon has
+generated much more money independent of the overall market.
+
+Eli Lilly and Company (LLY) an
+American pharmaceutical company^[Eli Lilly and Company, doing business as Lilly, is an American multinational pharmaceutical company headquartered in Indianapolis, Indiana, with offices in 18 countries. Its products are sold in approximately 125 countries. The company was founded in 1876 by Eli Lilly, a pharmaceutical chemist and Union Army veteran of the American Civil War for whom the company was later named.] exhibits
+remarkably low market sensitivity while generating high $\alpha$.
+
+Some companies like Exxon Mobil Corporation (XOM) or Chevron Corporation (CVX)
+appear to have destoryed value over this period, because their $alpha$ is 
+negative.
+
+Information like this can, for example, be used to to build portfolios
+that maximize mean returns and minimize variance in the face of
+uncertain future market conditions. It can also used in strategies
+like pairs trading, where you find two stocks with similar $\beta$ and 
+buy higher $\ælpha$ while shortening the other.
+
+This is an example where a simple property of random variables, covariance, can
+be used to get an intepretable model that translates raw data into information
+directly relevant for dcision making.
 
 ## Working with the Binomial Distribution in R
 

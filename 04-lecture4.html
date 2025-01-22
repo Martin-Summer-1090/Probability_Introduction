@@ -929,7 +929,274 @@ Definition: Covariance
 \]</span> This shows how the covariances between pairs of random variables collectively influence the overall variance.</p>
 <p>In the special case of identically independently distributed variables we get: If <span class="math inline">\(X_1, X_2, \dots, X_n\)</span> are i.i.d.: <span class="math display">\[
 \text{Var}\left(\sum_{i=1}^n X_i\right) = n \cdot \text{Var}(X).
+\]</span> ## Example: The CAPM formula and the Role of Covariance in comparing stocks</p>
+<p>The Capital asset pricing model (CAPM) is a simple market mode, that relates individual stock returns to the market average. The CAPM formula is given by:</p>
+<p><span class="math display">\[
+r_{jt} = \alpha_j + \beta_j m_t + \epsilon_{jt}
 \]</span></p>
+<ul>
+<li>The <strong>left-hand side</strong>, <span class="math inline">\(r_{jt}\)</span>, is the <strong>excess return</strong> of equity <span class="math inline">\(j\)</span> at time <span class="math inline">\(t\)</span>. This measures the return of the asset minus a measure of the risk-free rate, which represents the return on holding low-risk debt, such as a U.S. Treasury bill. For simplicity, we will omit the risk-free rate in this explanation.</li>
+<li><span class="math inline">\(m_t\)</span> is the <strong>market return</strong>, which captures the aggregate return on the market at time <span class="math inline">\(t\)</span>. A common choice when looking at US data is the S&amp;P 500, which weights companies according to their market capitalization (the total value of their stock).</li>
+<li><span class="math inline">\(\epsilon_{jt}\)</span> is an <strong>error term</strong>, a random variable that captures the part of the excess return not explained by the market return. It has the following properties:
+<ol type="1">
+<li><span class="math inline">\(\mathbb{E}[\epsilon_{jt}] = 0\)</span>, meaning it has no systematic bias.</li>
+<li><span class="math inline">\(\mathbb{E}[m_t \epsilon_{jt}] = 0\)</span>, meaning it is uncorrelated with the market return.</li>
+</ol></li>
+</ul>
+<p>The term <span class="math inline">\(\beta_j\)</span> in the CAPM formula reflects the <strong>sensitivity of the excess return of equity <span class="math inline">\(j\)</span> to the market return <span class="math inline">\(m_t\)</span></strong>. It is calculated using the <strong>covariance</strong> between the returns of the asset and the market. Specifically:</p>
+<p><span class="math display">\[
+\beta_j = \frac{\text{Cov}(r_j, m)}{\text{Var}(m)}
+\]</span></p>
+<p>Where: - <span class="math inline">\(\text{Cov}(r_j, m)\)</span> is the covariance between the excess return of equity <span class="math inline">\(j\)</span> and the market return. - <span class="math inline">\(\text{Var}(m)\)</span> is the variance of the market return.</p>
+<p>This shows that <span class="math inline">\(\beta_j\)</span> represents the degree to which the return of equity <span class="math inline">\(j\)</span> moves with the market. A higher <span class="math inline">\(\beta_j\)</span> implies that the equity’s return is more sensitive to market movements, indicating a higher systematic risk.</p>
+<p>The CAPM formula is built on the assumption that the excess return of an asset can be linearly decomposed into:</p>
+<ul>
+<li>A systematic component (<span class="math inline">\(\beta_j m_t\)</span>), which is related to market movements.</li>
+<li>An idiosyncratic component (<span class="math inline">\(\epsilon_{jt}\)</span>), which is specific to the asset and uncorrelated with the market.</li>
+</ul>
+<p>To estimate <span class="math inline">\(\beta_j\)</span>, consider the following relationship:</p>
+<p><span class="math display">\[
+\mathbb{E}[r_{jt}] = \mathbb{E}[\alpha_j] + \beta_j \mathbb{E}[m_t] + \mathbb{E}[\epsilon_{jt}]
+\]</span></p>
+<p>Since <span class="math inline">\(\mathbb{E}[\epsilon_{jt}] = 0\)</span>, we have:</p>
+<p><span class="math display">\[
+\mathbb{E}[r_{jt}] = \alpha_j + \beta_j \mathbb{E}[m_t]
+\]</span></p>
+<p>The covariance appears when analyzing the relationship between <span class="math inline">\(r_{jt}\)</span> and <span class="math inline">\(m_t\)</span> over time. Multiplying both sides of <span class="math inline">\(r_{jt} = \alpha_j + \beta_j m_t + \epsilon_{jt}\)</span> by <span class="math inline">\(m_t\)</span> and taking expectations:</p>
+<p><span class="math display">\[
+\mathbb{E}[r_{jt} m_t] = \mathbb{E}[\alpha_j m_t] + \mathbb{E}[\beta_j m_t^2] + \mathbb{E}[\epsilon_{jt} m_t]
+\]</span></p>
+<ul>
+<li>Since <span class="math inline">\(\alpha_j\)</span> is constant, <span class="math inline">\(\mathbb{E}[\alpha_j m_t] = \alpha_j \mathbb{E}[m_t]\)</span>.</li>
+<li>The error term is uncorrelated with the market return, so <span class="math inline">\(\mathbb{E}[\epsilon_{jt} m_t] = 0\)</span>.</li>
+</ul>
+<p>This simplifies to:</p>
+<p><span class="math display">\[
+\mathbb{E}[r_{jt} m_t] = \alpha_j \mathbb{E}[m_t] + \beta_j \mathbb{E}[m_t^2]
+\]</span></p>
+<p>The covariance formula <span class="math inline">\(\text{Cov}(r_j, m)\)</span> can be used to isolate <span class="math inline">\(\beta_j\)</span>:</p>
+<p><span class="math display">\[
+\text{Cov}(r_j, m) = \mathbb{E}[r_{jt} m_t] - \mathbb{E}[r_{jt}]\mathbb{E}[m_t]
+\]</span></p>
+<p>By substituting and rearranging, we recover the key relationship for <span class="math inline">\(\beta_j\)</span>:</p>
+<p><span class="math display">\[
+\beta_j = \frac{\text{Cov}(r_j, m)}{\text{Var}(m)}
+\]</span></p>
+<p>The covariance explicitly links the asset’s return with the market return and determines the value of <span class="math inline">\(\beta_j\)</span>, capturing how much of the asset’s return can be attributed to systematic market risk. This makes covariance fundamental to the CAPM framework.</p>
+<p>This simple model allows for a meaningful comparison between stocks based on their insurance properties, as well as whether the create value <span class="math inline">\(\alpha_j &gt;0\)</span>, because the stock is providing value above what the model predicts or destroy value <span class="math inline">\(\alpha_j &lt; 0\)</span> because the stock provides less value than what the model predicts based on the performance of the market.</p>
+<p>Let’s compare 20 biggest stocks from the SP500. We read their data as of January 2025 using the <code>tidyquant()</code> package:</p>
+<div class="cell" data-messages="false">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the tickers for the 20 biggest stocks and the S&amp;P 500 index</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ticker-Company Mapping:</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># NVDA - NVIDIA Corporation</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># AAPL - Apple Inc.</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># MSFT - Microsoft Corporation</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># AMZN - Amazon.com, Inc.</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># GOOGL - Alphabet Inc. (Class A)</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># META - Meta Platforms, Inc.</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># TSLA - Tesla, Inc.</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># UNH - UnitedHealth Group Incorporated</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># JNJ - Johnson &amp; Johnson</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># V - Visa Inc.</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># XOM - Exxon Mobil Corporation</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># JPM - JPMorgan Chase &amp; Co.</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># WMT - Walmart Inc.</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># MA - Mastercard Incorporated</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co"># PG - Procter &amp; Gamble Company</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># HD - The Home Depot, Inc.</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co"># BAC - Bank of America Corporation</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># CVX - Chevron Corporation</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co"># LLY - Eli Lilly and Company</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co"># ^GSPC - S&amp;P 500 Index</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>tickers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"NVDA"</span>, <span class="st">"AAPL"</span>, <span class="st">"MSFT"</span>, <span class="st">"AMZN"</span>, <span class="st">"GOOGL"</span>, <span class="st">"META"</span>, <span class="st">"TSLA"</span>, </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>             <span class="st">"UNH"</span>, <span class="st">"JNJ"</span>, <span class="st">"V"</span>, <span class="st">"XOM"</span>, <span class="st">"JPM"</span>, <span class="st">"WMT"</span>, <span class="st">"MA"</span>, <span class="st">"PG"</span>, <span class="st">"HD"</span>, </span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>             <span class="st">"BAC"</span>, <span class="st">"CVX"</span>, <span class="st">"LLY"</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the S&amp;P 500 index ticker (SPY is a common ETF that tracks the index)</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>tickers <span class="ot">&lt;-</span> <span class="fu">c</span>(tickers, <span class="st">"^GSPC"</span>)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Get historical data starting from 2015</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>price_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  tickers, </span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">get =</span> <span class="st">"stock.prices"</span>, </span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="st">"2015-01-01"</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s do some definitions and data filtering first:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the market ticker for the S&amp;P 500</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>market_ticker <span class="ot">&lt;-</span> <span class="st">"^GSPC"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the market and stock data from the previously downloaded dataset</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>market_data <span class="ot">&lt;-</span> price_data[price_data<span class="sc">$</span>symbol <span class="sc">==</span> market_ticker, ]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>stocks_data <span class="ot">&lt;-</span> price_data[price_data<span class="sc">$</span>symbol <span class="sc">!=</span> market_ticker, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we first assign the string <code>^GSPC</code> (the Yahoo Finance ticker symbol for the S&amp;P 500 index) to the variable <code>market_ticker</code>. Then we filter rows from the <code>price_data</code> data frame where the <code>symbol</code> column matches the <code>market_ticker</code> (<code>^GSPC</code>), isolating data for the S&amp;P 500 index. The result is stored in the variable <code>market_data</code>, which contains historical price data for the market.</p>
+<p>We then filter rows from the <code>price_data</code> data frame where the <code>symbol</code> column does <strong>not</strong> match <code>^GSPC</code>. The result is stored in the variable <code>stocks_data</code>, which contains historical price data for all individual stocks (excluding the S&amp;P 500 index).</p>
+<p>Next we dos ome data preparation work:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the date column is properly formatted</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>price_data<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(price_data<span class="sc">$</span>date)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate daily returns for market and stocks</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>returns_data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">split</span>(price_data, price_data<span class="sc">$</span>symbol), </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                                      <span class="cf">function</span>(df) {</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to xts object for dailyReturn</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  xts_data <span class="ot">&lt;-</span> xts<span class="sc">::</span><span class="fu">xts</span>(df<span class="sc">$</span>adjusted, <span class="at">order.by =</span> df<span class="sc">$</span>date)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>daily_return <span class="ot">&lt;-</span> quantmod<span class="sc">::</span><span class="fu">dailyReturn</span>(xts_data, <span class="at">type =</span> <span class="st">"log"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate market and stock returns</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>market_returns <span class="ot">&lt;-</span> returns_data[returns_data<span class="sc">$</span>symbol <span class="sc">==</span> market_ticker, </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"daily_return"</span>)]</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>stock_returns <span class="ot">&lt;-</span> returns_data[returns_data<span class="sc">$</span>symbol <span class="sc">!=</span> market_ticker, ]</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge market returns with each stock's returns</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>merged_data <span class="ot">&lt;-</span> <span class="fu">merge</span>(stock_returns, market_returns, <span class="at">by =</span> <span class="st">"date"</span>, </span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>                     <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"_market"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s unpack this a bit:</p>
+<p>First, we ensure the date column is properly formatted. We convert the <code>date</code> column in <code>price_data</code> to the <code>Date</code> format. The <code>xts</code> package (used for time-series analysis) requires its <code>order.by</code> argument to be a <code>Date</code>, <code>POSIXct</code>, or numeric value for proper time indexing.</p>
+<p>Next we calculate daily returns for market and stocks. We</p>
+<ol type="1">
+<li><p>Split <code>price_data</code> by stock symbol. The <code>split()</code>function divides <code>price_data</code> into a list of data frames, one for each stock (or market) identified by the <code>symbol</code> column.</p></li>
+<li><p>For each stock, we create an <code>xts</code> object using the <code>adjusted</code> prices (as values) and <code>date</code> (as the time index). The <code>xts</code> format is necessary for <code>dailyReturn()</code>.</p></li>
+</ol>
+<p>Now we are ready toc ompute the daily returns. We use the <code>dailyReturn()</code> function from the <code>quantmod</code> package to calculate log returns. Logarithmic returns are defined as: <span class="math display">\[
+       r_t = \ln\left(\frac{P_t}{P_{t-1}}\right)
+       \]</span> where <span class="math inline">\(P_t\)</span> is the adjusted closing price at time <span class="math inline">\(t\)</span>. The <code>dailyReturn()</code> function outputs a time series of returns, which is added as a new column (<code>daily_return</code>) to the stock’s data frame.</p>
+<p>We then recombine the list of modified data frames (each containing <code>daily_return</code>) into a single data frame, <code>returns_data</code> using the <code>do.call()</code>function.</p>
+<p>We now split <code>returns_data</code> into two subsets:</p>
+<ul>
+<li><code>market_returns</code>: Contains only the market index returns (e.g., S&amp;P 500).</li>
+<li><code>stock_returns</code>: Contains the returns for all individual stocks.</li>
+</ul>
+<p>To Aligns the return of each stock with the corresponding market returns by their <code>date</code>. we use:</p>
+<ul>
+<li><code>merge()</code>:
+<ul>
+<li>Combines <code>stock_returns</code> and <code>market_returns</code> based on their shared <code>date</code> column.</li>
+<li>Ensures that stock and market returns are matched by the same trading day.</li>
+</ul></li>
+<li>Suffixes:
+<ul>
+<li><code>suffixes = c("", "_market")</code>: Adds <code>_market</code> to columns from <code>market_returns</code> in case of naming conflicts.</li>
+<li>For example: <code>daily_return</code> from <code>market_returns</code> becomes <code>daily_return_market</code>.</li>
+</ul></li>
+</ul>
+<p>As a final output we get <code>merged_data</code> which is a data frame containing:</p>
+<ul>
+<li><code>symbol</code>: The stock ticker.</li>
+<li><code>date</code>: The trading date.</li>
+<li><code>daily_return</code>: The stock’s daily return.</li>
+<li><code>daily_return_market</code>: The corresponding market’s daily return.</li>
+</ul>
+<p>This structure is ready for regression analysis, such as fitting the CAPM.</p>
+<p>Now we fit a CAPM model to each stock:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit CAPM for each stock</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>capm_results <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">lapply</span>(<span class="fu">split</span>(merged_data, merged_data<span class="sc">$</span>symbol), <span class="cf">function</span>(df) {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">lm</span>(daily_return <span class="sc">~</span> daily_return_market, <span class="at">data =</span> df)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">symbol =</span> <span class="fu">unique</span>(df<span class="sc">$</span>symbol),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fu">coef</span>(model)[<span class="st">"(Intercept)"</span>],</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">beta =</span> <span class="fu">coef</span>(model)[<span class="st">"daily_return_market"</span>]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This code fits the <strong>Capital Asset Pricing Model (CAPM)</strong> for each stock in the dataset and extracts the alpha (<span class="math inline">\(\alpha\)</span>) and beta (<span class="math inline">\(\beta\)</span>) coefficients for each stock.</p>
+<p>We start by splitting the data by stock symbol, which results in a list of data frames, where each data frame contains the data for one specific stock.</p>
+<p>Then we apply CAPM regression to each stock using <code>lapply()</code>:</p>
+<ul>
+<li><code>lm(daily_return ~ daily_return_market, data = df)</code>: Fits a linear regression model where:
+<ul>
+<li><code>daily_return</code> is the dependent variable (stock’s excess return).</li>
+<li><code>daily_return_market</code> is the independent variable (market’s excess return).</li>
+</ul></li>
+<li>This corresponds to the CAPM formula: <span class="math display">\[
+r_{jt} = \alpha_j + \beta_j m_t + \epsilon_{jt}
+\]</span></li>
+<li>The regression estimates:
+<ul>
+<li><span class="math inline">\(\alpha_j\)</span> (the intercept): The abnormal return of the stock independent of the market.</li>
+<li><span class="math inline">\(\beta_j\)</span> (the slope): The sensitivity of the stock’s return to market movements.</li>
+</ul></li>
+<li>For each stock:
+<ul>
+<li>The regression results are used to extract <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</li>
+</ul></li>
+</ul>
+<p>Finally we create a data frame for each stock where</p>
+<ul>
+<li><code>unique(df$symbol)</code>: Retrieves the stock’s ticker symbol (e.g., <code>AAPL</code>, <code>GOOGL</code>).</li>
+<li><code>coef(model)["(Intercept)"]</code>: Extracts <span class="math inline">\(\alpha_j\)</span> (the intercept) from the regression model.</li>
+<li><code>coef(model)["daily_return_market"]</code>: Extracts <span class="math inline">\(\beta_j\)</span> (the slope) from the regression model.</li>
+<li><code>data.frame(...)</code>: Creates a data frame with three columns:
+<ul>
+<li><code>symbol</code>: The stock ticker.</li>
+<li><code>alpha</code>: The stock’s alpha (<span class="math inline">\(\alpha_j\)</span>).</li>
+<li><code>beta</code>: The stock’s beta (<span class="math inline">\(\beta_j\)</span>).</li>
+</ul></li>
+</ul>
+<p>Our final output is then a data frame with the CAPM regression results for all stocks, where each row contains:</p>
+<ul>
+<li><code>symbol</code>: The stock ticker.</li>
+<li><code>alpha</code>: The estimated (_j) (abnormal return).</li>
+<li><code>beta</code>: The estimated (_j) (market sensitivity).</li>
+</ul>
+<p>Now we plot these data in a two dimensional figure, which shows the stocks in a <span class="math inline">\((\beta, \alpha)\)</span> space.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  capm_results<span class="sc">$</span>beta, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  capm_results<span class="sc">$</span>alpha,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Beta (Systematic Risk)"</span>, </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Alpha (Abnormal Return)"</span>, </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"CAPM Alpha and Beta for S&amp;P 500 Stocks"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">19</span>,  <span class="co"># Circle symbols</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="dv">1</span>,   <span class="co"># Uniform size for all points</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"blue"</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid lines</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col =</span> <span class="st">"lightgray"</span>, <span class="at">lty =</span> <span class="st">"dotted"</span>, <span class="at">lwd =</span> <span class="fl">0.8</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Add stock symbols as text labels</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  capm_results<span class="sc">$</span>beta, </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  capm_results<span class="sc">$</span>alpha, </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> capm_results<span class="sc">$</span>symbol, </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">pos =</span> <span class="dv">4</span>, </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.7</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Add dashed lines for beta = 0 and alpha = 0</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)  <span class="co"># Horizontal line at alpha = 0</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="co"># Vertical line at beta = 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This picture immediately allows you to asess market sensitivity and arbitrage opportunities. For example over the period 2015 - 2025 bothe Amazon (AMZ) and Google (GOOGL) have similar market sensitivity (<span class="math inline">\(beta\)</span>) but Amazon has generated much more money independent of the overall market.</p>
+<p>Eli Lilly and Company (LLY) an American pharmaceutical company<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> exhibits remarkably low market sensitivity while generating high <span class="math inline">\(\alpha\)</span>.</p>
+<p>Some companies like Exxon Mobil Corporation (XOM) or Chevron Corporation (CVX) appear to have destoryed value over this period, because their <span class="math inline">\(alpha\)</span> is negative.</p>
+<p>Information like this can, for example, be used to to build portfolios that maximize mean returns and minimize variance in the face of uncertain future market conditions. It can also used in strategies like pairs trading, where you find two stocks with similar <span class="math inline">\(\beta\)</span> and buy higher <span class="math inline">\(\ælpha\)</span> while shortening the other.</p>
+<p>This is an example where a simple property of random variables, covariance, can be used to get an intepretable model that translates raw data into information directly relevant for dcision making.</p>
 </section>
 <section id="working-with-the-binomial-distribution-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="working-with-the-binomial-distribution-in-r">Working with the Binomial Distribution in R</h2>
@@ -1005,63 +1272,63 @@ d &amp;=&amp; \exp(- \sigma \sqrt{\Delta t})
 <h3 class="anchored" data-anchor-id="modelling-the-dynamics-of-the-sp500">Modelling the Dynamics of the SP500</h3>
 <p>As a use case we make a model which we calibrate to the SP500, a broad stock market index that we have used already before in our lectures. Let#s get the S&amp;P data using the <code>tidyquant</code>package:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve S&amp;P 500 data (adjust ticker as needed)</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sp500_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"SPY"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, <span class="at">to =</span> <span class="st">"2025-01-01"</span>, <span class="at">get =</span> <span class="st">"stock.prices"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract adjusted prices and dates</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> sp500_data<span class="sc">$</span>date</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>adjusted_prices <span class="ot">&lt;-</span> sp500_data<span class="sc">$</span>adjusted</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the first trading day of each year</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">format</span>(dates, <span class="st">"%Y"</span>))  <span class="co"># Extract unique years</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>annual_indices <span class="ot">&lt;-</span> <span class="fu">sapply</span>(years, <span class="cf">function</span>(year) {</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">which</span>(<span class="fu">format</span>(dates, <span class="st">"%Y"</span>) <span class="sc">==</span> year)[<span class="dv">1</span>]  <span class="co"># Get the first trading day of the year</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract prices and dates for the first trading day of each year</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>annual_prices <span class="ot">&lt;-</span> adjusted_prices[annual_indices]</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>annual_dates <span class="ot">&lt;-</span> dates[annual_indices]</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute annual log returns</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>log_returns <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(annual_prices))  <span class="co"># Compute log(S_T / S_0)</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into a data frame</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>annual_log_returns <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">format</span>(annual_dates[<span class="sc">-</span><span class="dv">1</span>], <span class="st">"%Y"</span>),  <span class="co"># Corresponding years for log returns</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">log_return =</span> log_returns</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for weekly time step (1/52 years)</span></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>delta_t <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">52</span>  <span class="co"># Weekly time step</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">&lt;-</span> <span class="fu">mean</span>(annual_log_returns<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># Mean log return</span></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>sigma_squared <span class="ot">&lt;-</span> <span class="fu">var</span>(annual_log_returns<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># Variance</span></span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma_squared)  <span class="co"># Standard deviation</span></span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Calibrate binomial model parameters</span></span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> (nu <span class="sc">/</span> sigma) <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t)</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">exp</span>(sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="co"># View calibrated parameters</span></span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">nu =</span> nu,</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> sigma,</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> p,</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">u =</span> u,</span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> d</span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve S&amp;P 500 data (adjust ticker as needed)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sp500_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"SPY"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, <span class="at">to =</span> <span class="st">"2025-01-01"</span>, <span class="at">get =</span> <span class="st">"stock.prices"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract adjusted prices and dates</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> sp500_data<span class="sc">$</span>date</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>adjusted_prices <span class="ot">&lt;-</span> sp500_data<span class="sc">$</span>adjusted</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the first trading day of each year</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">format</span>(dates, <span class="st">"%Y"</span>))  <span class="co"># Extract unique years</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>annual_indices <span class="ot">&lt;-</span> <span class="fu">sapply</span>(years, <span class="cf">function</span>(year) {</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">which</span>(<span class="fu">format</span>(dates, <span class="st">"%Y"</span>) <span class="sc">==</span> year)[<span class="dv">1</span>]  <span class="co"># Get the first trading day of the year</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract prices and dates for the first trading day of each year</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>annual_prices <span class="ot">&lt;-</span> adjusted_prices[annual_indices]</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>annual_dates <span class="ot">&lt;-</span> dates[annual_indices]</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute annual log returns</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>log_returns <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(annual_prices))  <span class="co"># Compute log(S_T / S_0)</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into a data frame</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>annual_log_returns <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">format</span>(annual_dates[<span class="sc">-</span><span class="dv">1</span>], <span class="st">"%Y"</span>),  <span class="co"># Corresponding years for log returns</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">log_return =</span> log_returns</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for weekly time step (1/52 years)</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>delta_t <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">52</span>  <span class="co"># Weekly time step</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">&lt;-</span> <span class="fu">mean</span>(annual_log_returns<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># Mean log return</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>sigma_squared <span class="ot">&lt;-</span> <span class="fu">var</span>(annual_log_returns<span class="sc">$</span>log_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># Variance</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma_squared)  <span class="co"># Standard deviation</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Calibrate binomial model parameters</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> (nu <span class="sc">/</span> sigma) <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t)</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">exp</span>(sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>sigma <span class="sc">*</span> <span class="fu">sqrt</span>(delta_t))</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co"># View calibrated parameters</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">nu =</span> nu,</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> sigma,</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> p,</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">u =</span> u,</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> d</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$nu
-[1] 0.06734657
+[1] 0.06734654
 
 $sigma
-[1] 0.176833
+[1] 0.1768332
 
 $p
 [1] 0.5264071
@@ -1078,39 +1345,39 @@ $d
 <section id="for-loops-and-lookup-tables-building-the-lattice" class="level3">
 <h3 class="anchored" data-anchor-id="for-loops-and-lookup-tables-building-the-lattice">For loops and lookup tables: Building the lattice</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the step number</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the starting price S0 (choose most recent price)</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>S0 <span class="ot">&lt;-</span> adjusted_prices[<span class="fu">length</span>(adjusted_prices)]</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the lattice as a list</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>lattice <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, n <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the lattice</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (step <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>n) {</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  prices <span class="ot">&lt;-</span> <span class="fu">numeric</span>(step <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>step) {</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    prices[i <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>i <span class="sc">*</span> d<span class="sc">^</span>(step <span class="sc">-</span> i)</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  lattice[[step <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> prices</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co"># View the lattice</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>lattice</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the step number</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the starting price S0 (choose most recent price)</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>S0 <span class="ot">&lt;-</span> adjusted_prices[<span class="fu">length</span>(adjusted_prices)]</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the lattice as a list</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>lattice <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, n <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the lattice</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (step <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>n) {</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  prices <span class="ot">&lt;-</span> <span class="fu">numeric</span>(step <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>step) {</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    prices[i <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>i <span class="sc">*</span> d<span class="sc">^</span>(step <span class="sc">-</span> i)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  lattice[[step <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> prices</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co"># View the lattice</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>lattice</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [1] 586.08
 
 [[2]]
-[1] 571.8828 600.6297
+[1] 571.8827 600.6297
 
 [[3]]
-[1] 558.0294 586.0800 615.5406
+[1] 558.0294 586.0800 615.5407
 
 [[4]]
-[1] 544.5117 571.8828 600.6297 630.8217</code></pre>
+[1] 544.5116 571.8827 600.6297 630.8218</code></pre>
 </div>
 </div>
 <p>This code snippet uses <strong><code>for</code> loops</strong> and a <strong>lookup table</strong> to build a binomial lattice. Both are important concepts when writing R programs-</p>
@@ -1119,9 +1386,9 @@ $d
 <h4 class="anchored" data-anchor-id="for-loops-in-r">for` Loops in R**</h4>
 <p>A <code>for</code> loop in R iterates over a sequence of values, executing a block of code for each value. Its syntax is:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> sequence) {</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Code to execute in each iteration</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> sequence) {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Code to execute in each iteration</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In our code we have two loops: An outer loop <code>for (step in 0:n) {</code>. This loop iterates through each step of the lattice, from <code>0</code> to <code>n</code> (the total number of time steps in the model). The variable <code>step</code> represents the current level of the lattice.</p>
 <p>The inner loop <code>for (i in 0:step) {</code>: For each level of the lattice (<code>step</code>), this loop iterates over the possible nodes (prices) at that level. The variable <code>i</code> represents the number of upward moves at this level.</p>
@@ -1131,7 +1398,7 @@ $d
 <p>A <strong>lookup table</strong> is a data structure that stores values for quick access, allowing computations to refer to pre-calculated data instead of recomputing it repeatedly.</p>
 <p>In this example, the <strong>lattice itself is the lookup table</strong>. It stores the prices at each step and node of the lattice in a list structure:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>  lattice[[step <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> prices</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>  lattice[[step <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> prices</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Each element of <code>lattice</code> corresponds to a time step. <code>lattice[[step + 1]]</code> stores a numeric vector containing all possible prices at the <code>step</code> level of the lattice.</p>
 <p>Now here’s how the code uses <code>for</code> loops and a lookup table to build the binomial lattice:</p>
@@ -1151,44 +1418,44 @@ S_i = S_0 \cdot u^i \cdot d^{\text{step} - i}
 <section id="visualizing-the-lattice" class="level4">
 <h4 class="anchored" data-anchor-id="visualizing-the-lattice">Visualizing the lattice</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load ggplot2 library</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Step =</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">times =</span> <span class="fu">seq_len</span>(n <span class="sc">+</span> <span class="dv">1</span>)),  <span class="co"># x-coordinates</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Price =</span> <span class="fu">unlist</span>(lattice),                 <span class="co"># y-coordinates</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Label =</span> <span class="fu">round</span>(<span class="fu">unlist</span>(lattice), <span class="dv">2</span>)        <span class="co"># Labels with rounded prices</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create edges for connections</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="cf">function</span>(step) {</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">rep</span>(step <span class="sc">-</span> <span class="dv">1</span>, <span class="at">times =</span> step),           <span class="co"># Starting x-coordinates</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">xend =</span> <span class="fu">rep</span>(step, <span class="at">times =</span> step),           <span class="co"># Ending x-coordinates</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> lattice[[step]],                      <span class="co"># Starting y-coordinates</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">yend =</span> <span class="fu">c</span>(lattice[[step <span class="sc">+</span> <span class="dv">1</span>]][<span class="sc">-</span><span class="dv">1</span>], lattice[[step <span class="sc">+</span> <span class="dv">1</span>]][<span class="sc">-</span><span class="fu">length</span>(lattice[[step <span class="sc">+</span> <span class="dv">1</span>]])]) <span class="co"># Ending y-coordinates</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>}))</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add edges</span></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data =</span> edges, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">xend =</span> xend, <span class="at">yend =</span> yend),</span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add nodes</span></span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> plot_data, <span class="fu">aes</span>(<span class="at">x =</span> Step, <span class="at">y =</span> Price), <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add price labels</span></span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> plot_data, <span class="fu">aes</span>(<span class="at">x =</span> Step, <span class="at">y =</span> Price, <span class="at">label =</span> Label),</span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Enriched Binomial Lattice with Prices for S&amp;P 500"</span>,</span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Step"</span>, <span class="at">y =</span> <span class="st">"Price"</span>) <span class="sc">+</span></span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load ggplot2 library</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for plotting</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Step =</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">times =</span> <span class="fu">seq_len</span>(n <span class="sc">+</span> <span class="dv">1</span>)),  <span class="co"># x-coordinates</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Price =</span> <span class="fu">unlist</span>(lattice),                 <span class="co"># y-coordinates</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Label =</span> <span class="fu">round</span>(<span class="fu">unlist</span>(lattice), <span class="dv">2</span>)        <span class="co"># Labels with rounded prices</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create edges for connections</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="cf">function</span>(step) {</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">rep</span>(step <span class="sc">-</span> <span class="dv">1</span>, <span class="at">times =</span> step),           <span class="co"># Starting x-coordinates</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">xend =</span> <span class="fu">rep</span>(step, <span class="at">times =</span> step),           <span class="co"># Ending x-coordinates</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> lattice[[step]],                      <span class="co"># Starting y-coordinates</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">yend =</span> <span class="fu">c</span>(lattice[[step <span class="sc">+</span> <span class="dv">1</span>]][<span class="sc">-</span><span class="dv">1</span>], lattice[[step <span class="sc">+</span> <span class="dv">1</span>]][<span class="sc">-</span><span class="fu">length</span>(lattice[[step <span class="sc">+</span> <span class="dv">1</span>]])]) <span class="co"># Ending y-coordinates</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add edges</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data =</span> edges, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">xend =</span> xend, <span class="at">yend =</span> yend),</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add nodes</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> plot_data, <span class="fu">aes</span>(<span class="at">x =</span> Step, <span class="at">y =</span> Price), <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add price labels</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> plot_data, <span class="fu">aes</span>(<span class="at">x =</span> Step, <span class="at">y =</span> Price, <span class="at">label =</span> Label),</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Enriched Binomial Lattice with Prices for S&amp;P 500"</span>,</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Step"</span>, <span class="at">y =</span> <span class="st">"Price"</span>) <span class="sc">+</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04-lecture4_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1199,32 +1466,32 @@ S_i = S_0 \cdot u^i \cdot d^{\text{step} - i}
 <h3 class="anchored" data-anchor-id="flow-control-exploring-the-lattice">Flow Control: Exploring the Lattice</h3>
 <p>Use a <code>while</code> loop to traverse the lattice and compute specific properties (e.g., maximum or minimum price).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Traverse lattice to find maximum price</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>max_price <span class="ot">&lt;-</span> <span class="sc">-</span><span class="cn">Inf</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>step <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (step <span class="sc">&lt;=</span> <span class="fu">length</span>(lattice)) {</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  max_price <span class="ot">&lt;-</span> <span class="fu">max</span>(max_price, <span class="fu">max</span>(lattice[[step]]))</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  step <span class="ot">&lt;-</span> step <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>max_price</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Traverse lattice to find maximum price</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>max_price <span class="ot">&lt;-</span> <span class="sc">-</span><span class="cn">Inf</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>step <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (step <span class="sc">&lt;=</span> <span class="fu">length</span>(lattice)) {</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  max_price <span class="ot">&lt;-</span> <span class="fu">max</span>(max_price, <span class="fu">max</span>(lattice[[step]]))</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  step <span class="ot">&lt;-</span> step <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>max_price</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 630.8217</code></pre>
+<pre><code>[1] 630.8218</code></pre>
 </div>
 </div>
 <p>Use conditional statements to annotate whether a price exceeds a certain threshold.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Annotate prices exceeding 4100</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="dv">4100</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (step <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>n) {</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(lattice[[step <span class="sc">+</span> <span class="dv">1</span>]])) {</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (lattice[[step <span class="sc">+</span> <span class="dv">1</span>]][i] <span class="sc">&gt;</span> threshold) {</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Price exceeds threshold at step"</span>, step, <span class="st">":"</span>, lattice[[step <span class="sc">+</span> <span class="dv">1</span>]][i]))</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Annotate prices exceeding 4100</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="dv">4100</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (step <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>n) {</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(lattice[[step <span class="sc">+</span> <span class="dv">1</span>]])) {</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (lattice[[step <span class="sc">+</span> <span class="dv">1</span>]][i] <span class="sc">&gt;</span> threshold) {</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Price exceeds threshold at step"</span>, step, <span class="st">":"</span>, lattice[[step <span class="sc">+</span> <span class="dv">1</span>]][i]))</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Refactor the code into reusable functions:</p>
 <ul>
@@ -1232,27 +1499,27 @@ S_i = S_0 \cdot u^i \cdot d^{\text{step} - i}
 <li>annotate_lattice(lattice, threshold): Annotates lattice with conditions.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>build_lattice <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, u, d, n) {</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  lattice <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, n <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (step <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>n) {</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    prices <span class="ot">&lt;-</span> <span class="fu">numeric</span>(step <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>step) {</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      prices[i <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>i <span class="sc">*</span> d<span class="sc">^</span>(step <span class="sc">-</span> i)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    lattice[[step <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> prices</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(lattice)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>annotate_lattice <span class="ot">&lt;-</span> <span class="cf">function</span>(lattice, threshold) {</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (step <span class="cf">in</span> <span class="fu">seq_along</span>(lattice)) {</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (price <span class="cf">in</span> lattice[[step]]) {</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (price <span class="sc">&gt;</span> threshold) {</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Price exceeds threshold at step"</span>, step <span class="sc">-</span> <span class="dv">1</span>, <span class="st">":"</span>, price))</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>build_lattice <span class="ot">&lt;-</span> <span class="cf">function</span>(S0, u, d, n) {</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  lattice <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, n <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (step <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>n) {</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    prices <span class="ot">&lt;-</span> <span class="fu">numeric</span>(step <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>step) {</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>      prices[i <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>i <span class="sc">*</span> d<span class="sc">^</span>(step <span class="sc">-</span> i)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    lattice[[step <span class="sc">+</span> <span class="dv">1</span>]] <span class="ot">&lt;-</span> prices</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(lattice)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>annotate_lattice <span class="ot">&lt;-</span> <span class="cf">function</span>(lattice, threshold) {</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (step <span class="cf">in</span> <span class="fu">seq_along</span>(lattice)) {</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (price <span class="cf">in</span> lattice[[step]]) {</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (price <span class="sc">&gt;</span> threshold) {</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Price exceeds threshold at step"</span>, step <span class="sc">-</span> <span class="dv">1</span>, <span class="st">":"</span>, price))</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using R Lists</p>
 <p>Explain how the list structure allows flexible storage and access to lattice data. Show how lists simplify operations like traversing, annotating, or transforming the lattice.</p>
@@ -1261,51 +1528,51 @@ S_i = S_0 \cdot u^i \cdot d^{\text{step} - i}
 <section id="compare-with-the-binomial-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="compare-with-the-binomial-distribution">Compare with the Binomial Distribution</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of simulations</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>simulations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate prices using the binomial lattice</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>simulate_price <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  upward_moves <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p)  <span class="co"># Simulate number of up moves</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  S0 <span class="sc">*</span> u<span class="sc">^</span>upward_moves <span class="sc">*</span> d<span class="sc">^</span>(n <span class="sc">-</span> upward_moves)     <span class="co"># Compute final price</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>simulated_prices <span class="ot">&lt;-</span> <span class="fu">replicate</span>(simulations, <span class="fu">simulate_price</span>())</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the simulated distribution</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(simulated_prices))</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(simulated_data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Price"</span>, <span class="st">"Count"</span>)</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>simulated_data<span class="sc">$</span>Price <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(simulated_data<span class="sc">$</span>Price))</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>simulated_data<span class="sc">$</span>Probability <span class="ot">&lt;-</span> simulated_data<span class="sc">$</span>Count <span class="sc">/</span> <span class="fu">sum</span>(simulated_data<span class="sc">$</span>Count)</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Binomial distribution for comparison</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>binomial_counts <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">size =</span> n, <span class="at">prob =</span> p)  <span class="co"># Theoretical probabilities</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>binomial_prices <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span>n) <span class="sc">*</span> d<span class="sc">^</span>(n<span class="sc">:</span><span class="dv">0</span>)           <span class="co"># Prices corresponding to outcomes</span></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>theoretical_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">Price =</span> binomial_prices,</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">Probability =</span> binomial_counts</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot simulated vs theoretical distribution</span></span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Simulated probabilities as bars</span></span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> simulated_data, <span class="fu">aes</span>(<span class="at">x =</span> Price, <span class="at">y =</span> Probability, <span class="at">fill =</span> <span class="st">"Simulated"</span>), </span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theoretical probabilities as points</span></span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> theoretical_data, <span class="fu">aes</span>(<span class="at">x =</span> Price, <span class="at">y =</span> Probability, <span class="at">color =</span> <span class="st">"Theoretical"</span>),</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Simulated vs Theoretical Distribution of Binomial Lattice Prices"</span>,</span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Price"</span>, <span class="at">y =</span> <span class="st">"Probability"</span>, <span class="at">fill =</span> <span class="st">"Legend"</span>, <span class="at">color =</span> <span class="st">"Legend"</span>) <span class="sc">+</span></span>
-<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of simulations</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>simulations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate prices using the binomial lattice</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>simulate_price <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  upward_moves <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="at">size =</span> n, <span class="at">prob =</span> p)  <span class="co"># Simulate number of up moves</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  S0 <span class="sc">*</span> u<span class="sc">^</span>upward_moves <span class="sc">*</span> d<span class="sc">^</span>(n <span class="sc">-</span> upward_moves)     <span class="co"># Compute final price</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>simulated_prices <span class="ot">&lt;-</span> <span class="fu">replicate</span>(simulations, <span class="fu">simulate_price</span>())</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the simulated distribution</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(simulated_prices))</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(simulated_data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Price"</span>, <span class="st">"Count"</span>)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>simulated_data<span class="sc">$</span>Price <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(simulated_data<span class="sc">$</span>Price))</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>simulated_data<span class="sc">$</span>Probability <span class="ot">&lt;-</span> simulated_data<span class="sc">$</span>Count <span class="sc">/</span> <span class="fu">sum</span>(simulated_data<span class="sc">$</span>Count)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Binomial distribution for comparison</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>binomial_counts <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, <span class="at">size =</span> n, <span class="at">prob =</span> p)  <span class="co"># Theoretical probabilities</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>binomial_prices <span class="ot">&lt;-</span> S0 <span class="sc">*</span> u<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span>n) <span class="sc">*</span> d<span class="sc">^</span>(n<span class="sc">:</span><span class="dv">0</span>)           <span class="co"># Prices corresponding to outcomes</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>theoretical_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">Price =</span> binomial_prices,</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">Probability =</span> binomial_counts</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot simulated vs theoretical distribution</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Simulated probabilities as bars</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> simulated_data, <span class="fu">aes</span>(<span class="at">x =</span> Price, <span class="at">y =</span> Probability, <span class="at">fill =</span> <span class="st">"Simulated"</span>), </span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theoretical probabilities as points</span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> theoretical_data, <span class="fu">aes</span>(<span class="at">x =</span> Price, <span class="at">y =</span> Probability, <span class="at">color =</span> <span class="st">"Theoretical"</span>),</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Simulated vs Theoretical Distribution of Binomial Lattice Prices"</span>,</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Price"</span>, <span class="at">y =</span> <span class="st">"Probability"</span>, <span class="at">fill =</span> <span class="st">"Legend"</span>, <span class="at">color =</span> <span class="st">"Legend"</span>) <span class="sc">+</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04-lecture4_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04-lecture4_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1353,7 +1620,7 @@ S_i = S_0 \cdot u^i \cdot d^{\text{step} - i}
 <p>Assume you’re trying to plot the lattice, but the <code>geom_segment</code> lines don’t connect the nodes as expected.</p>
 <ul>
 <li><p>Describe the visualization issue: &gt; “I’m plotting a binomial lattice using <code>geom_segment</code> in ggplot2, but the edges don’t connect the nodes correctly. Here’s my edge-building code:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> ..., <span class="at">y =</span> ..., <span class="at">xend =</span> ..., <span class="at">yend =</span> ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> ..., <span class="at">y =</span> ..., <span class="at">xend =</span> ..., <span class="at">yend =</span> ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>What could be wrong?”</p></li>
 <li><p>Expected Response:</p>
 <ul>
@@ -1461,7 +1728,13 @@ E(R_{\text{portfolio}}) = \sum_{i=1}^n w^i \cdot E(r^i)
 </section>
 </section>
 
-</main>
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Eli Lilly and Company, doing business as Lilly, is an American multinational pharmaceutical company headquartered in Indianapolis, Indiana, with offices in 18 countries. Its products are sold in approximately 125 countries. The company was founded in 1876 by Eli Lilly, a pharmaceutical chemist and Union Army veteran of the American Civil War for whom the company was later named.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
