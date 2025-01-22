@@ -5,7 +5,7 @@ bibliography: references.bib
 
 # Random Variables
 
-Random variables are the main mathematical tools that allow us to 
+Random variables are the main mathematical tool that allows us to 
 quantify and analyze uncertainty in Finance for complex
 portfolios and other financial contexts like risk management.
 In all of these contexts
@@ -412,7 +412,125 @@ factorize as described earlier.
 - If $X$ and $Y$ are dependent, their joint distribution will 
 include nontrivial interactions between the variables.
 
-Add example: Financial Crisis
+At this stage it might be a good idea to recall the example on
+structured finance from lecture 3. The random variables hidden
+in this example are default indicators $X$ for bond 1 and $Y$ with
+$X: \{D,N\} \mapsto \{0,1\}$ and $Y: \{D,N\} \mapsto \{0,1\}$
+
+In the case of 
+*independence* we had a contingency table like this:
+
+```{r}
+#| code-fold: true
+
+# Marginal probabilities for B_1
+P_N <- 0.9  # Probability that B_1 does not default
+P_D <- 0.1  # Probability that B_1 defaults
+
+# Conditional probabilities for B_2 given B_1
+P_N_given_N <- 0.81  # Probability that B_2 does not default given B_1 does not default
+P_D_given_N <- 0.09   # Probability that B_2 defaults given B_1 does not default
+P_N_given_D <- 0.09    # Probability that B_2 does not default given B_1 defaults
+P_D_given_D <- 0.01    # Probability that B_2 defaults given B_1 defaults
+
+
+# Load necessary library
+library(kableExtra)
+
+# Define marginal probabilities
+P_N_total <- P_N
+P_D_total <- P_D
+P_N_given_total <- round(P_N_given_N + P_D_given_N,2)
+P_D_given_total <- round(P_N_given_D + P_D_given_D,2)
+
+# Create the contingency table
+contingency_table <- matrix(
+  c(
+    P_D_given_D, P_D_given_N, P_D_total,    # Row 1: Bond 1 Default
+    P_N_given_D, P_N_given_N, P_N_total,    # Row 2: Bond 1 No Default
+    P_D_given_total, P_N_given_total, 1  # Row 3: Column totals
+  ),
+  nrow = 3,
+  byrow = TRUE,
+  dimnames = list(
+    c("Bond 1: Default (D)", "Bond 1: No Default (N)", "Total"),
+    c("Bond 2: Default (D)", "Bond 2: No Default (N)", "Total")
+  )
+)
+
+# Create a styled table
+kable_output <- knitr::kable(
+  contingency_table,
+  caption = "Contingency Table of Joint and Marginal Probabilities: Independence",
+  format = "html",
+  escape = FALSE,
+  col.names = c("", "Default (D)", "No Default (N)", "Total")
+) %>%
+  kableExtra::column_spec(1, bold = TRUE)
+
+# Render the table
+kable_output
+```
+
+The joint probabilities in this case are just the product of
+the marginal probabilities and the contingency table is similar
+to a multiplication table.
+
+In the case of *dependence* this case changes. The new contingency
+table now looks like this:
+
+```{r}
+#| code-fold: true
+
+# Load necessary library
+library(kableExtra)
+
+# Updated values from the table
+P_D_given_D <- 0.06  # Probability that Y defaults given X defaults
+P_N_given_D <- 0.04  # Probability that Y does not default given X defaults
+P_D_given_N <- 0.04  # Probability that Y defaults given X does not default
+P_N_given_N <- 0.86  # Probability that Y does not default given X does not default
+P_D_total <- 0.1     # Marginal probability that Y defaults
+P_N_total <- 0.9     # Marginal probability that Y does not default
+
+# Define totals
+P_D_given_total <- P_D_given_D + P_D_given_N
+P_N_given_total <- P_N_given_D + P_N_given_N
+
+# Create the contingency table
+contingency_table <- matrix(
+  c(
+    P_D_given_D, P_D_given_N, P_D_total,    # Row 1: X Default
+    P_N_given_D, P_N_given_N, P_N_total,    # Row 2: X No Default
+    P_D_given_total, P_N_given_total, 1     # Row 3: Column totals
+  ),
+  nrow = 3,
+  byrow = TRUE,
+  dimnames = list(
+    c("X: Default (d)", "X: No Default (n)", "Total"),
+    c("Y: Default (d)", "Y: No Default (n)", "Total")
+  )
+)
+
+# Create a styled table
+kable_output <- knitr::kable(
+  contingency_table,
+  caption = "Contingency Table of Joint and Marginal Probabilities: Dependence",
+  format = "html",
+  escape = FALSE
+) %>%
+  kableExtra::column_spec(1, bold = TRUE)
+
+# Render the table
+kable_output
+
+```
+
+Note that in both cases the marginal probabilities look the same. So in the
+case of structured finance, a superficial analysis looking at each bond
+in isolation and *assuming* independence might make a fatally wrong risk
+asessment.
+
 
 For instance, consider $X$ and $Y$ that both represent the outcomes of 
 rolling two fair dice. If $X$ and $Y$ are independent, the joint 
@@ -507,35 +625,23 @@ Consider a single flip of a fair coin. Let’s define a random variable $X$, whe
 This is an example of a **Bernoulli random variable**, the simplest discrete 
 random variable.
 
-::: {.callout-tip title="Bernoulli Random Variable" #bernoulli-distr}
-A discrete random variable $X$ is called a **Bernoulli random variable** if
-Its probability mass function (PMF) is:
-$$
-P(X = 1) = p, \quad P(X = 0) = 1 - p,
-$$
-where $p$ is the probability of success.
-:::
-
-The fair coin with $p=0.5$ is a special instance of such a random
-variable.
-
-### General Concept: Expected Value
-
-::: {.callout-tip title="Definition: Expected value" #expectde-value}
-Let $X$ be a random variable assuming the values $x_1,x_2,x_3, ...$ with 
-probabilities $p(x_1), p(x_2, p(x_3), ...$. The **expected value** of 
+::: {.callout-tip title="Definition: Expected value" #expected-value}
+Let $X$ be a random variable assuming the values $x_1,x_2,x_3, \dots$ with 
+probabilities $p(x_1), p(x_2), p(x_3), \dots$. The **expected value** of 
 $X$ is defined by
 $$
 \mathbb{E}[X] = \sum_{x_i} x_i \cdot p(x_i)
 $$
-provided the series converges absolutely. In this case we say that $X$ has
-finite expectation. If $\sum |x_i| p(x_i)$ diverges we say that $X$ has
+provided the series converges absolutely. In this case, we say that $X$ has
+finite expectation. If $\sum |x_i| p(x_i)$ diverges, we say that $X$ has
 no finite expectation.
 :::
 
 It is sometimes convenient - and we have done so repeatedly in this lecture -
-as limits of observable fequencies in repeated, independent random experiments. 
-This would lead to the follwoing intuitive interpretation of exectation. Let
+to interpret probabilities as limits of observable 
+frequencies in repeated, independent random experiments. 
+
+This would lead to the following intuitive interpretation of expectation. Let
 the experiment be repeated $n$ times under identical conditions and denote
 by $X_1,X_2,...,X_n$ the values of $X$ that were actually observed, then
 for large $n$ the average of these values should be close to $\mathbb{E}[X]$.
@@ -635,6 +741,70 @@ using what we’ve learned:
 $$
 \mathbb{E}[X] = n \cdot p, \quad \text{Var}(X) = n \cdot p \cdot (1-p), \quad \text{SE}(X) = \sqrt{n \cdot p \cdot (1-p)}.
 $$
+Let us briefly derive these results from the definitions:
+
+To derive the **expected value** and **variance** of a binomial random variable 
+$X$, we use the definitions and properties of expectation and variance step-by-step.
+
+A binomial random variable $X$ represents the number of successes in $n$  
+independent trials, where each trial has:
+
+- Probability of success: $p$,
+- Probability of failure: $1 - p$.
+
+The probability density function of $X$ is given by:
+$$
+P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k = 0, 1, 2, \dots, n.
+$$
+The expected value is defined as:
+$$
+\mathbb{E}[X] = \sum_{k=0}^n k \cdot P(X = k).
+$$
+
+Substituting:
+$$
+\mathbb{E}[X] = \sum_{k=0}^n k \cdot \binom{n}{k} p^k (1-p)^{n-k}.
+$$
+The binomial random variable $X$  can be viewed as the sum of $n$ independent Bernoulli random variables $X_i$, where each $X_i$ is 1 for success and 0 for failure. That is:
+$$
+X = \sum_{i=1}^n X_i,
+$$
+where $\mathbb{E}[X_i] = p$.
+
+By the **linearity of expectation**:
+$$
+\mathbb{E}[X] = \mathbb{E}\left[\sum_{i=1}^n X_i\right] = \sum_{i=1}^n \mathbb{E}[X_i] = n \cdot p.
+$$
+The variance of $X$ is defined as:
+$$
+\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2.
+$$
+We know $X = \sum_{i=1}^n X_i$. Using the property of variance 
+for independent random variables:
+$$
+\text{Var}(X) = \text{Var}\left(\sum_{i=1}^n X_i\right) = \sum_{i=1}^n \text{Var}(X_i).
+$$
+
+For a Bernoulli random variable $X_i$:
+$$
+\text{Var}(X_i) = \mathbb{E}[X_i^2] - (\mathbb{E}[X_i])^2.
+$$
+
+Since $X_i$ takes values 0 and 1:
+$$
+X_i^2 = X_i, \quad \text{so } \mathbb{E}[X_i^2] = \mathbb{E}[X_i] = p.
+$$
+
+Thus:
+$$
+\text{Var}(X_i) = p - p^2 = p(1-p).
+$$
+
+Now summing over all $n$ trials:
+$$
+\text{Var}(X) = \sum_{i=1}^n \text{Var}(X_i) = n \cdot p(1-p).
+$$
+
 For $n = 10$, $p = 0.5$:
 $$
 \mathbb{E}[X] = 10 \cdot 0.5 = 5, \quad \text{Var}(X) = 10 \cdot 0.5 \cdot 0.5 = 2.5, \quad \text{SE}(X) = \sqrt{2.5} \approx 1.58.
@@ -646,23 +816,24 @@ shows the probabilities of obtaining 0, 1, 2, …, 10 heads.
 
 ```{r}
 # R Code to Compute and Plot PMF
-n <- 10
+n <- 20
 p <- 0.5
 k <- 0:n
 pmf <- dbinom(k, size = n, prob = p)
 
-plot(k, pmf, type = "h", lwd = 2, main = "PMF of Binomial(10, 0.5)",
+plot(k, pmf, type = "h", lwd = 2, main = "PMF of Binomial(20, 0.5)",
      xlab = "Number of Heads (k)", ylab = "P(X = k)", col = "black")
 points(k, pmf, pch = 19, col = "blue")
 ```
 
 **Key Observations**:
-- The PMF is symmetric around the expected value $\mathbb{E}[X] = 5$ because $p = 0.5$.
-- The spread is captured by the variance and standard error, with most probabilities concentrated around the mean.
+- The probability density function is symmetric around the expected value $\mathbb{E}[X] = 10$ because $p = 0.5$.
+- The spread is captured by the variance and standard error, with most probabilities concentrated around the mean. The standard error is 
+`r round(sqrt(0.5*(1-0.5)*20),1)`
 
-### Summary
-
-The coin example demonstrates the power of the **binomial distribution** in 
+The **binomial distribution** shows the power and versatility of the basic
+coin model we introduced right at the beginning of this course. It is the
+basic building block of this distribution and is very powerful in
 modeling simple experiments and deriving key properties:
 - **Expected value** provides the long-run average.
 - **Variance** and **standard error** measure variability.
@@ -690,9 +861,98 @@ This definition is meaningful whenever $X$ and $Y$ have finite variance.
 :::
 
 Note the following key points about covariance:
- -If $\text{Cov}(X,Y)>0$: $X$ and $Y$ tend to increase together (positive relationship). 
- -If $\text{Cov}(X,Y)<0$: $X$ and $Y$ tend to move in opposite directions (negative relationship).
- -If $\text{Cov}(X,Y)=0$: $X$ and $Y$ are linearly uncorrelated, though they may still have a nonlinear relationship.
+
+-If $\text{Cov}(X,Y)>0$: $X$ and $Y$ tend to increase together (positive relationship). 
+ 
+-If $\text{Cov}(X,Y)<0$: $X$ and $Y$ tend to move in opposite directions (negative relationship).
+ 
+-If $\text{Cov}(X,Y)=0$: $X$ and $Y$ are linearly uncorrelated, 
+though they may still have a nonlinear relationship.
+
+Covariance is often referred to as a *linear* measure of dependence. What does
+this mean?
+Covariance quantifies how the deviations of $X$ and $Y$ from their 
+respective means are aligned. If $X$ and $Y$ tend to 
+deviate in the same direction (both above or below their means), 
+the product $(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])$ will typically 
+be positive, leading to a positive covariance. Conversely, if 
+they deviate in opposite directions, this product will typically 
+be negative, leading to a negative covariance.
+
+Covariance captures only **linear relationships** because it 
+measures the degree to which $X$ and $Y$ co-vary in a straight-line manner. 
+If $X$ and $Y$ are related nonlinearly (e.g., 
+quadratic, exponential), their covariance might still 
+be zero even though a relationship exists. 
+
+Here’s an example to visualize covariance using two binomially distributed random variables:
+
+```{r}
+# Simulating two binomial random variables
+set.seed(123)
+n <- 1000
+X <- rbinom(n, size = 10, prob = 0.5)  # Binomial(n=10, p=0.5)
+Y <- X + rbinom(n, size = 10, prob = 0.3)  # Dependent variable
+
+# Covariance
+cov_xy <- cov(X, Y)
+
+# Scatterplot with regression line
+plot(X, Y, main = "Scatterplot of X and Y with Regression Line",
+     xlab = "X (Binomial Random Variable)", ylab = "Y (Dependent Variable)",
+     pch = 16, col = rgb(0.2, 0.4, 0.6, 0.6))
+abline(lm(Y ~ X), col = "red", lwd = 2)  # Add regression line
+legend("topright", legend = paste("Covariance =", round(cov_xy, 2)))
+```
+
+Here is what this visualization shows:
+
+- The scatterplot shows the relationship between $X$ (independent binomial variable) and $Y$ (a dependent binomial variable).
+- The points are scattered around a straight line, which indicates a general linear trend. Covariance quantifies how well the variations in $X$ align with those in $Y$.
+- The red line is added to highlight the linear relationship between the two variables.
+   - If the covariance is large (positive or negative), the points will cluster more tightly around this line, indicating a stronger linear alignment.
+   - If covariance is close to zero, the scatterplot will show a diffuse cloud of points with no clear linear trend.
+
+Covariance describes only the linear component of the relationship. If $X$ and 
+$Y$ have a nonlinear dependency, the scatterplot may show a pattern (e.g., a curve) that the regression line and covariance fail to capture.
+
+Covariance is not a good measure of dependence when the 
+relationship between $X$ and $Y$ is nonlinear. 
+
+For example, if $Y = X^2$, $X$ and $Y$ exhibit a strong quadratic 
+relationship, but their covariance might be close to zero because 
+the deviations $(X - \mathbb{E}[X])$ and $(Y - \mathbb{E}[Y])$ do not 
+align linearly.
+
+Here is again a visualization:
+
+```{r}
+# Simulating a stronger nonlinear relationship with binomial random variables
+set.seed(123)
+n <- 1000
+X <- rbinom(n, size = 10, prob = 0.5)  # Binomial(n=10, p=0.5)
+Y <- (X - 5)^2  # Pronounced U-shaped relationship
+
+# Covariance
+cov_xy <- cov(X, Y)
+
+# Scatterplot with LaTeX-style labels
+plot(X, Y, main = expression("Scatterplot of " * Y == (X - 5)^2),
+     xlab = expression(X ~ "(Binomial Random Variable)"),
+     ylab = expression(Y ~ "= (X - 5)^2"),
+     pch = 16, col = rgb(0.2, 0.4, 0.6, 0.6))
+abline(lm(Y ~ X), col = "red", lwd = 2)  # Add regression line
+legend("topright", legend = paste("Covariance =", round(cov_xy, 2)))
+
+```
+
+To capture nonlinear dependence, measures like 
+the **mutual information** or a **rank correlation coefficient** 
+(e.g., Spearman's or Kendall's) are more appropriate.
+
+By understanding the limitations of covariance, we can use it 
+effectively for its intended purpose while recognizing when 
+other tools are needed to describe more complex relationships.
 
 ## Variance of the Sum of Random Variables
 
@@ -707,9 +967,22 @@ $$
 Why does Covariance appear here?
 When adding $X$ and $Y$, the variance accounts not only for the 
 individual variances of $X$ and $Y$, but also for how they interact.  
+
 The term $2 \cdot \text{Cov}(X, Y)$ reflects this interaction:
 - If $X$ and $Y$ are positively correlated, the variability of their sum increases.
 - If $X$ and $Y$ are negatively correlated, it decreases.
+
+This property reflects a basic principle of insurance: 
+Diversification reduces risk. In an insurance pool, 
+risks (e.g., claims or losses) that are negatively 
+correlated—or at least uncorrelated—reduce the overall 
+variability of total claims. 
+When risks are positively correlated (e.g., 
+claims rise simultaneously due to shared external 
+factors like natural disasters), the total risk 
+increases, making diversification less effective. 
+By managing correlation, insurers aim to stabilize 
+payouts and maintain predictability.
 
 Consider independent variables as a special case:
 If $X$ and $Y$ are independent, $\text{Cov}(X, Y) = 0$, and the formula simplifies:
@@ -761,41 +1034,45 @@ These functions follow a **generic syntax** that is consistent across
 many other distributions, making them powerful tools for statistical 
 analysis. The key functions are:
 
-**Probability Distribution**
+**d is for the probability density function**
 The probability distribution gives the probability of observing a 
 specific number of successes in a binomial experiment:
 `dbinom(x, size, prob)`
 with
+
 - `x`: Number of successes.
 - `size`: Number of trials ($n$).
 - `prob`: Probability of success ($p$).
 
-**Cumulative Distribution Function (CDF)**
+**p is for the cumulative distribution function**
 
 The CDF gives the probability of observing up to a 
 certain number of successes:
 `pbinom(x, size, prob)`
 with
+
 - `x`: Upper limit of the number of successes.
 - `size`: Number of trials ($n$).
 - `prob`: Probability of success ($p$).
 
-**Quantile Function**
+**q is for the quantile function**
 
 The quantile function computes the smallest number of successes 
 for which the cumulative probability exceeds a specified value:
 `qbinom(p, size, prob)`
 with
+
 - `p`: Cumulative probability.
 - `size`: Number of trials ($n$).
 - `prob`: Probability of success ($p$).
 
-**Random Number Generation**
+**r is for random number generation**
 
 This function generates random samples from the binomial distribution:
 `rbinom(n, size, prob)`
 with
- -`n`: Number of random values to generate.
+
+- `n`: Number of random values to generate.
 - `size`: Number of trials ($n$).
 - `prob`: Probability of success ($p$).
 
@@ -858,10 +1135,41 @@ By now you will recognize that the outcomes of this model
 will be well described by a binomial random variable. The model
 is equivalent to tossing a coin multiple times.
 
+This binomial lattice model is fundamentally linked to 
+the binomial distribution. Consider the price after $n$ periods. 
+Each period represents a trial where the price either moves up ($u$) or down 
+($d$), with probabilities $p$ and $1−p$, respectively. The total price after 
+$n$ periods depends on the number of upward movements, 
+denoted by $k$, and is given by:
+
+$S_n = S_0 \times  u^k \times d^{n−k}$,
+
+where $k$ is the number of "up" movements and $n−k$ is the 
+number of "down" movements.
+
+The distribution of $k$ follows a binomial distribution:
+$$
+P(k) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k = 0, 1, 2, \dots, n
+$$
+which describes the likelihood of observing $k$ upward movements out of $n$ 
+trials.
+
 This model may seem too simplistic for describing the price dynamics
 of a stock index, because there are only two possible outcomes per
-period. But if the perido length is small many values are
-possible after a small number of steps.
+period. 
+
+But when you make the connection to and the
+the binomial distribution you will realize how this restriction becomes
+less severe when $\Delta t$ the time steps are small: 
+the random variable $k$, representing 
+the count of up movements, directly determines the p
+ossible price levels of the asset. 
+
+Over many periods $n$, this simple two-step structure generates 
+a range of prices consistent with the binomial distribution. 
+This relationship also explains why the model becomes increasingly 
+flexible and realistic as the number of periods grows, enabling 
+it to approximate more complex price dynamics.
 
 Because the model is multiplicative, the price will
 never become negative. We can thus work with the logarithm
