@@ -245,7 +245,7 @@ window.Quarto = {
   <li><a href="#covariance" id="toc-covariance" class="nav-link" data-scroll-target="#covariance"><span class="header-section-number">4.6</span> Covariance</a></li>
   <li><a href="#variance-of-the-sum-of-random-variables" id="toc-variance-of-the-sum-of-random-variables" class="nav-link" data-scroll-target="#variance-of-the-sum-of-random-variables"><span class="header-section-number">4.7</span> Variance of the Sum of Random Variables</a></li>
   <li><a href="#working-with-the-binomial-distribution-in-r" id="toc-working-with-the-binomial-distribution-in-r" class="nav-link" data-scroll-target="#working-with-the-binomial-distribution-in-r"><span class="header-section-number">4.8</span> Working with the Binomial Distribution in R</a></li>
-  <li><a href="#programming-in-r-the-binomial-lattic-model" id="toc-programming-in-r-the-binomial-lattic-model" class="nav-link" data-scroll-target="#programming-in-r-the-binomial-lattic-model"><span class="header-section-number">4.9</span> Programming in R: The binomial lattic model</a>
+  <li><a href="#programming-in-r-the-binomial-lattice-model" id="toc-programming-in-r-the-binomial-lattice-model" class="nav-link" data-scroll-target="#programming-in-r-the-binomial-lattice-model"><span class="header-section-number">4.9</span> Programming in R: The binomial lattice model</a>
   <ul class="collapse">
   <li><a href="#the-binomial-lattice-model" id="toc-the-binomial-lattice-model" class="nav-link" data-scroll-target="#the-binomial-lattice-model"><span class="header-section-number">4.9.1</span> The binomial lattice model</a></li>
   <li><a href="#modelling-the-dynamics-of-the-sp500" id="toc-modelling-the-dynamics-of-the-sp500" class="nav-link" data-scroll-target="#modelling-the-dynamics-of-the-sp500"><span class="header-section-number">4.9.2</span> Modelling the Dynamics of the SP500</a></li>
@@ -1413,8 +1413,8 @@ r_{jt} = \alpha_j + \beta_j m_t + \epsilon_{jt}
 </ul>
 <p>This structure is consistent across other distributions in R, such as the normal (dnorm, pnorm, qnorm, rnorm) or Poisson (dpois, ppois, qpois, rpois) distributions. Understanding this generic syntax simplifies working with various probability distributions.</p>
 </section>
-<section id="programming-in-r-the-binomial-lattic-model" class="level2" data-number="4.9">
-<h2 data-number="4.9" class="anchored" data-anchor-id="programming-in-r-the-binomial-lattic-model"><span class="header-section-number">4.9</span> Programming in R: The binomial lattic model</h2>
+<section id="programming-in-r-the-binomial-lattice-model" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="programming-in-r-the-binomial-lattice-model"><span class="header-section-number">4.9</span> Programming in R: The binomial lattice model</h2>
 <p>The <strong>binomial lattice model</strong> is a simple yet powerful framework for simulating asset price dynamics under uncertainty. It is widely used in financial modeling, particularly in pricing derivative securities like options, as it captures the probabilistic nature of price movements in discrete time. At each time step, an asset can either move up or down by a specified factor, creating a lattice of possible price paths. It is an excellent application case for discrete random variables but also for an introduction to writing more complex programs in R.</p>
 <p>In this lecture, we will apply the binomial lattice model to simulate the dynamics of a stock index which we have now used several times in this lecture: the S&amp;P 500. This example provides a practical use case to reinforce programming concepts while exploring a key tool in financial mathematics.</p>
 <p>You will learn how to:</p>
@@ -1621,13 +1621,13 @@ $d
 [1] 586.08
 
 [[2]]
-[1] 571.8827 600.6297
+[1] 571.8828 600.6297
 
 [[3]]
 [1] 558.0294 586.0800 615.5407
 
 [[4]]
-[1] 544.5116 571.8827 600.6297 630.8218</code></pre>
+[1] 544.5116 571.8828 600.6297 630.8217</code></pre>
 </div>
 </div>
 <p>This code snippet uses <strong><code>for</code> loops</strong> and a <strong>lookup table</strong> to build a binomial lattice. Both are important concepts when writing R programs-</p>
@@ -1877,7 +1877,7 @@ S_i = S_0 \cdot u^i \cdot d^{\text{step} - i}
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>max_price</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 630.8218</code></pre>
+<pre><code>[1] 630.8217</code></pre>
 </div>
 </div>
 <p>This code traverses through a <strong>binomial lattice</strong> (stored as a list of price vectors) to find the <strong>maximum price</strong> across all steps. Along the way, it introduces the concept of an R <code>while</code> loop, which is a fundamental control structure used for iterative computations.</p>
@@ -2197,7 +2197,7 @@ S_i = S_0 \cdot u^i \cdot d^{\text{step} - i}
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>max_price <span class="ot">&lt;-</span> <span class="fu">find_max_price</span>(lattice)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Maximum price in the lattice:"</span>, max_price, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Maximum price in the lattice: 662.5315 </code></pre>
+<pre><code>Maximum price in the lattice: 662.5314 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_threshold</span>(lattice, <span class="at">threshold =</span> <span class="dv">4100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
