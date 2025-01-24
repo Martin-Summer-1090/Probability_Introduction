@@ -60,7 +60,7 @@ real-world scenarios. For instance:
 
 - In the coin-flipping example from Lecture 2, the number 
 of heads in 10 flips was a random variable.
-- The number of multiple brithdays in a group of $n$ people
+- The number of multiple birthdays in a group of $n$ people
 is also an example of a random variable.
 
 By explicitly recognizing these as random variables, we 
@@ -90,26 +90,6 @@ tabulate and random variable $X$ by enumerating in some
 order all points in the sample space and associating with
 each the corresponding value of $X$.
 
-## Probability Distributions and Cumulative Probability Distributions
-
-A random variable is characterized by its **probability distribution**, which 
-describes how probabilities are assigned to its possible values.
-
-::: {.callout-tip title="Definition: Probability Mass Function of a Discrete Random Variable" #pmf-discrete}
-Let $X$ be a random variable and $x_1, x_2, ...$ the values which it
-assumes. The aggregate of all sample points on which $X$ assumes
-a fixed value $x_i$ is form the event $X = x_i$. It's
-probability is denoted by $P(X = x_i)$. The function:
-\begin{equation*}
-P(X = x_i) = p(x_i), \,\, i=1,2,...
-\end{equation*}
-is called the **probability distribution** of the random variable $X$.
-
-where $p(x_i)$ satisfies:
-
-- $0 \leq p(x_i) \leq 1 \,\, \text{for}\,\, i = 1,2, ...$
-- $\sum_{i} p(x_i) = 1$.
-:::
 
 We can visualize the probability distribution of
 a discrete random variable using R in a standard example:
@@ -1122,7 +1102,7 @@ the asset's return can be attributed to systematic market risk.
 This makes covariance fundamental to the CAPM framework.
 
 This simple model allows for a meaningful comparison between stocks
-based on their insurance properties, as well as whether the create
+based on their insurance properties, as well as whether they create
 value $\alpha_j >0$, because the stock is providing value above what the
 model predicts or destroy value $\alpha_j < 0$ because the stock
 provides less value than what the model predicts based on the
@@ -1217,7 +1197,10 @@ returns_data <- do.call(rbind, lapply(split(price_data, price_data$symbol),
   df$daily_return <- quantmod::dailyReturn(xts_data, type = "log")
   return(df)
 }))
+```
 
+
+```{r}
 # Separate market and stock returns
 
 market_returns <- returns_data[returns_data$symbol == market_ticker, 
@@ -1228,6 +1211,10 @@ stock_returns <- returns_data[returns_data$symbol != market_ticker, ]
 
 merged_data <- merge(stock_returns, market_returns, by = "date", 
                      suffixes = c("", "_market"))
+```
+
+
+```{r}
 ```
 
 Let's unpack this a bit:
@@ -1576,7 +1563,7 @@ days in a year.
 ### Modelling the Dynamics of the SP500
 
 
-#### Calibrating the model paraemters from data
+#### Calibrating the model parameters from data
 
 As a use case we make a model which we calibrate to the SP500,
 a broad stock market index that we have used already before in our
@@ -2765,13 +2752,4 @@ combining assets with different return profiles reduce portfolio variance?
 
 2. Add a fourth asset to the portfolio and observe its impact on portfolio metrics.
    Explore how changing portfolio weights affects expected return and variance.
-
-
-
-
-
-
-
-
-
 
