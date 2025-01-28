@@ -1,0 +1,187 @@
+---
+title: "Evaluating Credit Risk Using Conditional Probabilities"
+format: html
+execute:
+  echo: true
+---
+
+## Project: Evaluating Credit Risk Using Conditional Probabilities
+
+### Problem Description
+
+A bank is evaluating a loan application using historical data to estimate the likelihood of default. The borrower has a low credit score, and the bank has the following data:
+
+1. **Default Rates**:
+   - Probability of default for all customers: $P(D) = 0.04$.
+   - Probability of non-default for all customers: $P(ND) = 0.96$.
+
+2. **Evidence**:
+   - Probability of a low credit score given default: $P(L|D) = 0.7$.
+   - Probability of a low credit score given non-default: $P(L|ND) = 0.1$.
+
+The goal is to determine the posterior probability of default given the borrower’s low credit score, $P(D|L)$, using **Bayes' Rule**. Additionally, we will verify this theoretical result by simulating customer data and analyzing outcomes.
+
+---
+
+### Questions
+
+1. **Compute $P(D|L)$ Theoretically**:
+   - Use Bayes' Rule to calculate the posterior probability of default given a low credit score.
+
+2. **Simulate the Scenario in R**:
+   - Simulate a dataset of 10,000 customers where each customer is randomly assigned a default status based on $P(D)$.
+   - Based on the assigned default status, simulate whether each customer has a low credit score using $P(L|D)$ and $P(L|ND)$.
+
+3. **Compute $P(D|L)$ from Simulated Data**:
+   - Use the simulated data to compute $P(D|L)$ and compare it to the theoretical result.
+
+4. **Visualize Results**:
+   - Create a simple bar plot comparing the simulated and theoretical probabilities.
+
+---
+
+## Solution
+
+### Question 1: Compute $P(D|L)$ Theoretically
+
+Using Bayes' Rule, we can compute $P(D|L)$ as:
+
+$$P(D|L) = \frac{P(L|D) \cdot P(D)}{P(L)}$$
+
+where:
+
+$$P(L) = P(L|D) \cdot P(D) + P(L|ND) \cdot P(ND)$$
+
+Substitute the given probabilities:
+
+```{r}
+# Given probabilities
+P_D <- 0.04              # P(D)
+P_ND <- 0.96             # P(ND)
+P_L_given_D <- 0.7       # P(L|D)
+P_L_given_ND <- 0.1      # P(L|ND)
+
+# Compute P(L)
+P_L <- P_L_given_D * P_D + P_L_given_ND * P_ND
+
+# Compute P(D|L)
+P_D_given_L <- (P_L_given_D * P_D) / P_L
+
+# Output the result
+cat("Theoretical P(D|L):", P_D_given_L, "\n")
+```
+
+### Question 2: Simulate the Scenario in R
+
+We simulate a dataset of 10,000 customers without using binomial distributions or conditional statements:
+
+```{r}
+# Set seed for reproducibility
+set.seed(123)
+
+# Number of customers
+n_customers <- 10000
+
+# Generate random numbers for default assignment
+random_defaults <- runif(n_customers)
+default_status <- numeric(n_customers)
+
+# Assign defaults based on P(D)
+for (i in 1:n_customers) {
+  if (random_defaults[i] <= P_D) {
+    default_status[i] <- 1  # Default
+  } else {
+    default_status[i] <- 0  # Non-Default
+  }
+}
+
+# Generate random numbers for low credit score assignment
+random_low_credit <- runif(n_customers)
+low_credit <- numeric(n_customers)
+
+# Assign low credit scores based on default status
+for (i in 1:n_customers) {
+  if (default_status[i] == 1) {
+    if (random_low_credit[i] <= P_L_given_D) {
+      low_credit[i] <- 1  # Low Credit Score
+    } else {
+      low_credit[i] <- 0
+    }
+  } else {
+    if (random_low_credit[i] <= P_L_given_ND) {
+      low_credit[i] <- 1  # Low Credit Score
+    } else {
+      low_credit[i] <- 0
+    }
+  }
+}
+
+# Create a data frame of simulated customers
+simulated_data <- data.frame(
+  Default = default_status,
+  LowCredit = low_credit
+)
+
+# Display the first few rows
+head(simulated_data)
+```
+
+### Question 3: Compute $P(D|L)$ from Simulated Data
+
+Using the simulated data, calculate the empirical $P(D|L)$:
+
+```{r}
+# Filter customers with low credit scores
+low_credit_customers <- simulated_data[simulated_data$LowCredit == 1, ]
+
+# Compute the proportion of low-credit customers who defaulted
+empirical_P_D_given_L <- mean(low_credit_customers$Default)
+
+# Output the result
+cat("Empirical P(D|L):", empirical_P_D_given_L, "\n")
+```
+
+### Question 4: Visualize Results
+
+We compare the theoretical and empirical probabilities using a bar plot:
+
+```{r}
+# Create a vector of probabilities
+probabilities <- c(Theoretical = P_D_given_L, Empirical = empirical_P_D_given_L)
+
+# Bar plot
+barplot(probabilities, 
+        col = c("blue", "green"), 
+        ylim = c(0, 1), 
+        main = "Comparison of Theoretical and Empirical P(D|L)",
+        ylab = "Probability",
+        names.arg = c("Theoretical", "Empirical"))
+
+# Add legend
+legend("topright", 
+       legend = c("Theoretical", "Empirical"), 
+       fill = c("blue", "green"))
+```
+
+---
+
+## Discussion
+
+### Key Observations:
+
+1. **Theoretical vs. Empirical Results**:
+   - Theoretical $P(D|L)$ was derived using Bayes' Rule and represents the expected result if all probabilities are accurate.
+   - Empirical $P(D|L)$ closely aligns with the theoretical result, validating the simulation process.
+
+2. **Significance of Conditional Probability**:
+   - This project demonstrates how conditional probabilities can provide valuable insights for credit risk evaluation.
+   - A low credit score significantly increases the likelihood of default, as indicated by the posterior probability $P(D|L)$.
+
+3. **Practical Applications**:
+   - Banks can use similar methods to tailor lending decisions, focusing on customers with high $P(D|L)$.
+
+4. **Limitations**:
+   - The simulation assumes probabilities are fixed and accurately represent the population.
+   - Real-world scenarios may include additional factors (e.g., economic conditions, borrower history) that influence default rates.
+
+---

@@ -1,0 +1,158 @@
+---
+title: "Homework 2- Benford's Law analysis"
+format: html
+editor: visual
+author: TheGreenGroup *(Jelena Simić, Andreja Čobeljić, Aleksandar Protić, Aleksandar Šoškić, Lucian Lungu)
+---
+
+## Homework 2- Benford's Law analysis
+
+```{r}
+# Load the Dataset
+#company_financials <- read.csv("/Users/llucian/Desktop/MCF/R\ -\ Probability\ -\ Martin\ #Summer/2/company_financials.csv")
+
+company_financials <- read.csv("~/Code/R/Probability_Introduction/data/company_financials.csv")
+
+
+# Function to extract first digits and calculate frequencies
+process_benford <- function(column) {
+  first_digit <- as.numeric(substr(as.character(column), 1, 1))
+  first_digit <- first_digit[first_digit %in% 1:9]  # Filter valid digits
+  counts <- table(factor(first_digit, levels = 1:9))  # Force all digits 1-9
+  observed_freq <- counts / sum(counts)
+  return(list(counts = counts, observed_freq = observed_freq))
+}
+
+# Process Revenue and Expenditure
+rev_results <- process_benford(company_financials$Revenue)
+exp_results <- process_benford(company_financials$Expenditure)
+
+# Benford's expected frequencies (same for both)
+benford_freq <- c(0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046)
+
+# Combine data for plotting
+df_rev <- data.frame(
+  Digit = 1:9,
+  Observed = as.numeric(rev_results$observed_freq),
+  Type = "Revenue"
+)
+
+df_exp <- data.frame(
+  Digit = 1:9,
+  Observed = as.numeric(exp_results$observed_freq),
+  Type = "Expenditure"
+)
+
+df_combined <- rbind(df_rev, df_exp)
+df_combined$Expected <- rep(benford_freq, 2)  # Add expected frequencies
+
+# Plot with facets
+library(ggplot2)
+ggplot(df_combined, aes(x = Digit)) +
+  geom_bar(aes(y = Observed, fill = "Observed"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Expected, fill = "Expected"), stat = "identity", position = "dodge", alpha = 0.5) +
+  facet_wrap(~Type, ncol = 1) +  # Separate panels for Revenue/Expenditure
+  labs(title = "Benford's Law Analysis: Revenue & Expenditure", y = "Frequency") +
+  scale_fill_manual(name = "Legend", values = c("Observed" = "blue", "Expected" = "red")) +
+  scale_x_continuous(breaks = 1:9)
+
+# Chi-Square Tests for both columns
+chisq_rev <- chisq.test(x = rev_results$counts, p = benford_freq)
+chisq_exp <- chisq.test(x = exp_results$counts, p = benford_freq)
+
+# Print results
+cat("----- Revenue Chi-Square Test -----\n")
+print(chisq_rev)
+cat("\n----- Expenditure Chi-Square Test -----\n")
+print(chisq_exp)
+```
+
+**Conclusions Based on a Sample Size of 200 Entries:**
+
+### 1. **Strong Evidence of Non-Conformity to Benford’s Law**
+
+-   Both **Revenue** (χ2=45.191,p=3.385×10−7χ2=45.191,p=3.385×10−7) and **Expenditure** (χ2=39.816,p=3.467×10−6χ2=39.816,p=3.467×10−6) show *extremely statistically significant deviations* from Benford’s expected frequencies.
+
+-   **Interpretation**: With 200 entries, the Chi-square test assumptions (expected counts ≥ 5) are satisfied, making these results robust. The tiny pp-values (\< 0.0001) indicate that the observed first-digit distributions are highly unlikely to align with Benford’s Law by random chance.
+
+------------------------------------------------------------------------
+
+### 2. **Practical Implications of Deviations**
+
+-   **Revenue**: The larger Chi-square value (45.19 vs. 39.82 for Expenditure) suggests a stronger deviation. For example:
+
+    -   Digit "1" (expected \~30.1%) might be under- or overrepresented.
+
+    -   Higher digits (e.g., 7, 8, 9) may appear more or less frequently than expected.
+
+-   **Expenditure**: Similar deviations but slightly less pronounced. Look for anomalies like:
+
+    -   Unexpected spikes in digits like "4" or "5" (common in manipulated data).
+
+    -   Missing digits (e.g., "7" or "9") that rarely appear naturally.
+
+------------------------------------------------------------------------
+
+### 3. **Potential Explanations**
+
+-   **Natural Causes**:
+
+    -   **Narrow Data Range**: If revenues/expenditures cluster within a single order of magnitude (e.g., \$20k–\$90k), Benford’s Law may not apply.
+
+    -   **Industry-Specific Patterns**: Fixed pricing (e.g., contracts at \$50k) or regulatory constraints could skew distributions.
+
+-   **Red Flags**:
+
+    -   **Rounding**: Excess round numbers (e.g., \$10,000) disproportionately favor certain digits.
+
+    -   **Human Intervention**: Fraudulent adjustments often overuse mid-range digits (e.g., "4" or "5") to avoid suspicion.
+
+------------------------------------------------------------------------
+
+### Final Takeaway:
+
+The results strongly suggest **non-random, systematic patterns** in the financial data. While not conclusive proof of wrongdoing, they warrant:
+
+-   Further scrutiny of transactions starting with overrepresented digits.
+
+
+
+# Comments MS:
+
+Many thanks for this excellent submission. I add a few comments which you might find
+useful here:
+
+
+1. **Thoroughness and Execution**:
+   - Your implementation of Benford's Law is well done. The code to extract first digits and calculate observed frequencies is robust, and your comparison with Benford's expected frequencies is clear and methodical.
+
+2. **Observations and Results**:
+   - The deviations you found for both revenues and expenditures are indeed significant. A closer examination of the results reveals that the deviations are stronger for revenues than expenditures in certain aspects, particularly for the leading digits 1 and 2. However, expenditures show substantial deviations for digits like 4 and 5. These differences are interesting and warrant further investigation.
+
+3. **Systematic Exploration of Deviations**:
+   - To determine whether deviations are systematically stronger for revenues or expenditures, I recommend calculating a formal measure of fit for both distributions. One approach is to use the **chi-squared goodness-of-fit test**:
+     - Compare the observed frequencies with the expected frequencies for each dataset.
+     - This test will quantify how well each dataset conforms to Benford's Law and help decide which exhibits stronger deviations.
+   - Additionally, computing a metric such as the **total absolute deviation** (sum of absolute differences between observed and expected frequencies) could provide a straightforward comparison.
+   - Having said this, I should add that we did not disucss in any way statistics or tests or anything
+   of that kind. So in case you are familiar with these concepts, which for an experienced groups as
+   yours is likely, this might be an interesting point for further investigation. If inferential statistics and formal statistical testing does not tell you very much at this stage, don't worry and
+just ignore the testing part of my comments.
+
+4. **Possible Explanations for Deviations**:
+   - Deviations in expenditures are often expected due to systematic factors like budgeting practices, rounding, or transaction limits. These constraints tend to disrupt natural distributions.
+   - Deviations in revenues are less intuitive and could arise from:
+     - **Aggregation effects**: If revenues are reported as monthly or quarterly aggregates instead of individual transactions, the resulting numbers may not conform to Benford's Law.
+     - **Reporting bias**: Companies might report rounded revenues or avoid specific figures for tax or regulatory reasons.
+     - **Domain-specific factors**: Industry-specific patterns in revenue generation might lead to deviations.
+
+5. **Suggestions for Further Investigation**:
+   - Analyze subsets of the data (e.g., revenues and expenditures by industry or company size) to check if certain groups align more closely with Benford's Law.
+   - Use visualizations, such as bar plots of observed vs. expected frequencies, to illustrate where and how deviations occur.
+   - Perform statistical tests (e.g., chi-squared) and include the results to substantiate your conclusions.
+
+6. **Strengths of the Submission**:
+   - Your methodical approach and clean implementation make this submission stand out. By systematically comparing deviations and exploring their potential causes, you demonstrate both technical skill and critical thinking.
+
+This is an excellent piece of work that lays a solid foundation for further exploration. With the additional steps outlined above, your analysis could provide even deeper insights into the applicability of Benford's Law to this dataset. Well done!
+

@@ -1,0 +1,130 @@
+---
+title: "Homework 3 - Conditional Probability"
+format: html
+editor: visual
+author: TheGreenGroup *(Jelena Simić, Andreja Čobeljić, Aleksandar Protić, Aleksandar Šoškić, Lucian Lungu)
+---
+
+## Homework 3 - Conditional Probability
+
+```{r}
+# Step 1: Define probabilities
+# Base probabilities
+P_Default <- 0.05
+P_HighCreditScore <- 0.7
+P_Default_given_HighCreditScore <- 0.02
+P_Default_given_LowCreditScore <- 0.15
+
+# Step 2: Calculate complementary probabilities
+P_LowCreditScore <- 1 - P_HighCreditScore
+
+# Step 3: Verify Total Probability Rule
+P_Default_calculated <- (P_Default_given_HighCreditScore * P_HighCreditScore) +
+                        (P_Default_given_LowCreditScore * P_LowCreditScore)
+cat("Calculated P(Default):", P_Default_calculated, "\n")
+
+# Step 4: Simulate loan applications and outcomes
+set.seed(123)
+n <- 1000
+credit_scores <- rbinom(n, 1, P_HighCreditScore)
+defaults <- sapply(credit_scores, function(score) {
+  if (score == 1) {
+    rbinom(1, 1, P_Default_given_HighCreditScore)
+  } else {
+    rbinom(1, 1, P_Default_given_LowCreditScore)
+  }
+})
+
+# Step 5: Analyze results
+default_rate <- mean(defaults)
+cat("Simulated Default Rate:", default_rate, "\n")
+
+# Step 6: Visualize results
+library(ggplot2)
+data <- data.frame(
+  CreditScore = ifelse(credit_scores == 1, "High", "Low"),
+  Default = defaults
+)
+ggplot(data, aes(x = CreditScore, fill = factor(Default))) +
+  geom_bar(position = "fill") +
+  labs(title = "Default Rates by Credit Score",
+       x = "Credit Score",
+       y = "Proportion",
+       fill = "Default") +
+  theme_minimal()
+
+# Step 7: Sensitivity Analysis
+sensitivity_analysis <- function(p_high, p_default_high, p_default_low) {
+  p_low <- 1 - p_high
+  p_default <- (p_default_high * p_high) + (p_default_low * p_low)
+  cat("P(Default) with P(HighCreditScore):", p_high, 
+      "P(Default | HighCreditScore):", p_default_high, 
+      "P(Default | LowCreditScore):", p_default_low, 
+      "is", p_default, "\n")
+}
+# Example: Vary probabilities
+sensitivity_analysis(0.8, 0.01, 0.2)
+sensitivity_analysis(0.6, 0.03, 0.1)
+
+# Step 8: Compare with Real-World Data
+# Hypothetical real-world data
+real_world_defaults <- c(rep(1, 40), rep(0, 960)) # 4% default rate
+real_world_rate <- mean(real_world_defaults)
+cat("Real-World Default Rate:", real_world_rate, "\n")
+
+# Compare simulated and real-world rates
+cat("Difference between simulated and real-world default rates:",
+    abs(default_rate - real_world_rate), "\n")
+
+# Step 9: What-If Scenarios
+# Scenario: Economic downturn increases default probabilities
+P_Default_given_HighCreditScore_downturn <- 0.05
+P_Default_given_LowCreditScore_downturn <- 0.25
+defaults_downturn <- sapply(credit_scores, function(score) {
+  if (score == 1) {
+    rbinom(1, 1, P_Default_given_HighCreditScore_downturn)
+  } else {
+    rbinom(1, 1, P_Default_given_LowCreditScore_downturn)
+  }
+})
+default_rate_downturn <- mean(defaults_downturn)
+cat("Simulated Default Rate during Economic Downturn:", default_rate_downturn, "\n")
+```
+# Comments MS:
+
+### Comments on the Submission
+
+1. **Technical Execution**:
+   - Your solution to the conditional probability problem is highly commendable. The code is clean, well-structured, and logically implemented. The calculations for probabilities, simulations, and verifications align perfectly with the requirements of the problem.
+   - Using `rbinom()` and the appropriate conditional logic for simulations demonstrates a solid understanding of R's functionality and the underlying statistical concepts. Note that in
+   my "worked" solution I avoided this obvious approach only because I could not universally
+   assume knoweldge of the binomial distribution and its handling in R.
+
+2. **Opportunities for Improvement: Communication and Engagement**:
+   - While the computational work is excellent, the document could be significantly improved by integrating more explanatory text between the code chunks. Adding context, clarifications, and commentary would make the document not only more engaging but also much easier for others to understand and evaluate.
+   - For example:
+     - Introduce the problem more comprehensively at the beginning. Explain the scenario (e.g., loan default probabilities) in simple terms for an audience that may not be familiar with the problem setup.
+     - Add brief explanations before each step to describe the purpose of the calculations. For instance, when verifying the Total Probability Rule, explain why this step is important and how it ties back to the problem.
+     - Summarize results after each major block of code to emphasize key findings. For instance, when you calculate the simulated default probabilities, include a short paragraph analyzing how they compare to the theoretical probabilities.
+
+3. **Importance of Communication in Data Science**:
+   - The ability to communicate results effectively is a vital skill in data science and analytics. Tools like Quarto offer a fantastic opportunity to combine code, results, and narrative seamlessly. This integration helps not just in presenting findings but also in persuading and educating your audience.
+   - A stronger focus on communication would also help address an important shift from rote computational work to more holistic problem-solving. Rather than just solving the problem, consider how you can tell the story of your solution and make it accessible to a wider audience.
+
+4. **Suggestions for Improvement**:
+   - Introduce more narrative flow throughout the document:
+     - Before code chunks: Provide a brief explanation of the logic and intent behind the code.
+     - After code chunks: Summarize and interpret the results, connecting them back to the problem.
+   - Use visualizations to further enhance communication. For example:
+     - Include a bar chart showing the distribution of credit scores (e.g., high vs. low).
+     - Add a visualization comparing theoretical and simulated probabilities of default.
+   - Include a concluding section summarizing your key results and their implications. For instance, you might reflect on what the results tell us about the importance of credit scores in predicting defaults.
+
+5. **Strengths of the Submission**:
+   - The technical foundation of your work is strong, and your implementation of conditional probability concepts is accurate and clear.
+   - Your use of simulation adds depth to the analysis and validates the theoretical results effectively.
+
+6. **Final Thoughts**:
+   - By focusing on adding more text and explanation to your Quarto document, you can transform it into a highly engaging and professional report. Remember, the goal is not just to solve the problem but to communicate the solution in a way that is accessible, insightful, and impactful.
+
+This submission is excellent in its computational approach and has great potential to become even more impressive with enhanced narrative and visual elements. Keep up the great work!

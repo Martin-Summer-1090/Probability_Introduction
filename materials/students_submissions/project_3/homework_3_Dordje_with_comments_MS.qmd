@@ -1,0 +1,240 @@
+---
+title: "homework_3"
+format: html
+---
+
+# Problem Description
+
+-   A bank is evaluating a loan application.
+
+-   Goal: Estimate the likelihood of default using historical data.
+
+-   Key probabilities provided:
+
+    1.  Default Rates:
+
+    -   $P(D) = 0.04$ (default probability).
+    -   $P(ND) = 0.96$ (non-default probability).
+
+    2.  Low Credit Score:
+
+    -   $P(L|D) = 0.7$ (probability of low credit score given default).
+    -   $P(L|ND) = 0.1$ (probability of low credit score given non-default).
+
+-   Objective:
+
+    -   Compute the posterior probability of default given a low credit score, $P(D|L)$
+
+```{r}
+set.seed(123)
+# D and ND are disjoint
+P_D = 0.04
+P_ND = 0.96
+
+P_L_given_D = 0.7
+# P_H_given_D = 0.3 # Probability that high score has been given when given Default?
+
+P_L_given_ND = 0.1
+# P_H_given_ND = 0.9 # Probability of High Score has been given when given Non-Default?
+```
+
+## Compute 𝑃 (𝐷\|𝐿) Theoretically
+
+Use Bayes’ Rule (given):
+
+$$
+  P(D|L) = \frac{P(L|D) \cdot P(D)}{P(L|D) \cdot P(D) + P(L|ND) \cdot P(ND)}
+$$
+
+### Calculate formula
+
+Bayes Rule:
+
+$P(D|L) = \frac{P(D \cap L)}{P(L)}$
+
+Then:
+
+$P(L|D) = \frac{P(D \cap L)}{P(D)}$
+
+$P(D \cap L) = P(L|D) \cdot P(D)$
+
+Replace:
+
+$P(D|L) = \frac{P(L|D) \cdot P(D)}{P(L)}$
+
+Now: $P(L) = ?$
+
+Given that D and ND are disjoint events (0.04 + 0.96 = 1), we can apply **law of total probability** to calculate $P(L)$.
+
+### Law of total probability - Theory
+
+Let $B_1,B_2,…,B_n$ be a partition of the sample space $S$. Meaning: - The events $B_1,B_2,…,B_n$ are mutually exclusive (no two events can occur simultaneously). - The events collectively cover the entire sample space $(B_1 \cup B_2 \cup \dots \cup B_n = S)$
+
+If $P(B_i) >0$ for all $i$, then the probability of an event $A$ can be expressed as: $$P(A)=\sum_{i=1}^{n}P(A∣B_i) \cdot P(B_i)$$
+
+### P(L)
+
+$$
+P(L) = P(L|D) \cdot P(D) + P(L|ND) \cdot P(ND)
+$$
+
+Hence the formula:
+
+$$P(D|L) = \frac{P(L|D) \cdot P(D)}{P(L|D) \cdot P(D) + P(L|ND) \cdot P(ND)}$$
+
+```{r}
+P_L = (P_L_given_D * P_D + P_L_given_ND * P_ND)
+print(P_L)
+
+P_D_given_L = (P_L_given_D * P_D) / (P_L_given_D * P_D + P_L_given_ND * P_ND)
+print(P_D_given_L)
+```
+
+## Simulate the Scenario in R:
+
+Create a dataset of 10,000 customers. Assign default status based on 𝑃 (𝐷) and simulate credit scores.
+
+```{r}
+
+N <- 10000
+
+status_space <- c("D", "ND")
+status_prob <- c(D = P_D, ND = P_ND)
+print(as.numeric(status_prob))
+
+generated_dataset = data.frame(
+  Customer_ID = 1:N,
+  Status = sample(
+    status_space,
+    size = N,
+    replace = TRUE,
+    prob = as.numeric(status_prob)
+  )
+)
+
+head(generated_dataset, 10)
+
+```
+
+### Simulate Score
+
+We used `sample` function for generating dataset, but we also considered `rbinom`
+
+```{r}
+## Step 2: Simulate the Scenario
+# defaults <- rbinom(N, 1, P_D) # 1 = Default, 0 = Non-Default
+
+## Simulate low credit scores based on default status
+#low_credit_scores <- ifelse(defaults == 1, 
+#                            rbinom(N, 1, P_L_given_D),  # P(L|D) if default
+#                            rbinom(N, 1, P_L_given_ND)) # P(L|ND) if non-default
+```
+
+```{r}
+
+credit_score_sample_space <- c('Low', 'High')
+credit_score_with_non_default_prob <- c(P_L_given_ND, 1.0 - P_L_given_ND)
+credit_score_with_default_prob <- c(P_L_given_D, 1.0 - P_L_given_D)
+
+generated_dataset$Credit_Risk_Score <- ifelse(
+  generated_dataset$Status == 'ND',
+  # If Non-Default, use 0.1 for Low and 0.9 for High
+  sample(credit_score_sample_space, size = N, replace = TRUE, prob = credit_score_with_non_default_prob),
+  # If Default, use 0.7 for Low and 0.3 for High
+  sample(credit_score_sample_space, size = N, replace = TRUE, prob = credit_score_with_default_prob)
+)
+generated_dataset
+```
+
+## Compute 𝑃 (𝐷\|𝐿) Empirically:
+
+Calculate 𝑃 (𝐷\|𝐿) using simulated data and compare with the theoretical result.
+
+```{r}
+
+credit_scores <- table(generated_dataset$Credit_Risk_Score) / N
+
+print(credit_scores)
+
+dataset_low_scores <- generated_dataset[generated_dataset$Credit_Risk_Score == 'Low',]
+
+status_when_credit_low <- table(dataset_low_scores$Status) / length(dataset_low_scores$Status)
+print(status_when_credit_low)
+```
+
+## Visualize Results:
+
+Plot theoretical vs. simulated probabilities.
+
+```{r}
+
+result = data.frame(
+  Default_When_Credit_Low_Theor = P_D_given_L,
+  Default_When_Credit_Low_Emp = as.numeric(status_when_credit_low["D"])
+)
+
+print(result)
+```
+
+It's more or less self explanatory, but the theoretical and empirical probabilities are almost the same.
+
+```{r}
+barplot(c(P_D_given_L, as.numeric(status_when_credit_low["D"])),
+        names.arg = c("Theoretical", "Simulated"),
+        col = c("blue", "red"),
+        main = "Comparison of Theoretical and Simulated P(D|L)",
+        ylab = "Probability",
+        ylim = c(0, max(P_D_given_L, as.numeric(status_when_credit_low["D"])) + 0.1))
+```
+
+# Comments MS:
+
+### Comments on the Submission
+
+1. **Technical Execution**:
+   - Your implementation of the problem is well-structured and accurate. The theoretical calculations and use of Bayes' Rule are precise, and your simulation-based approach complements the theoretical results effectively.
+   - Setting `set.seed(123)` ensures reproducibility, which is a good practice in any simulation-based analysis.
+
+2. **Avoiding Output Overflow**:
+   - One aspect to improve in your simulation function is managing the output. Currently, running the simulation displays the entire output, which can lead to overflow problems when working with large datasets.
+   - To prevent this, consider suppressing the output of the main simulation loop. For example, you can use the following modification:
+   
+```{r}
+     # Example: Avoid output overflow by suppressing unnecessary print statements
+     simulate_defaults <- function(n, P_H, P_D_given_H, P_D_given_L) {
+       # Simulate credit scores
+       credit_scores <- rbinom(n, 1, P_H)
+       # Suppress output by storing results in a vector
+       defaults <- sapply(credit_scores, function(score) {
+         if (score == 1) {
+           rbinom(1, 1, P_D_given_H)
+         } else {
+           rbinom(1, 1, P_D_given_L)
+         }
+       })
+       return(mean(defaults)) # Return summary statistics instead of full output
+     }
+```
+
+   - This would be one approach to ensure that your simulation produces only summary statistics (e.g., the mean default rate) rather than printing the results for every iteration, making it more scalable and efficient.
+
+3. **The Law of Total Probability**:
+   - Your explanation of the law of total probability is mathematically correct, but it’s worth noting 
+   that this "law" is essentially a reformulation of the fundamental rules of conditional probability. While it is standard textbook terminology, some (myself included) find this added terminology more confusing than enlightening.
+   - Rather than focusing on the terminology, you could emphasize the conceptual foundation: the law simply reflects the partitioning of a probability space into mutually exclusive events (e.g., high vs. low credit scores in this case) and summing over those partitions.
+   - An alternative approach could be to write something like: "Using the properties of conditional probabilities, we sum the contributions of each mutually exclusive case (low and high credit scores) to the overall probability of default." This avoids overloading readers with potentially redundant terminology.
+
+4. **Opportunities for Further Explanation**:
+   - Similar to the suggestions in previous comments, adding more narrative context to your document would enhance its readability and impact. For example:
+     - Before introducing Bayes' Rule, briefly explain why it is relevant in this scenario and how it helps address the question.
+     - When simulating the defaults, include a short discussion of how the simulation validates the theoretical results and what discrepancies (if any) arise due to randomness.
+   - Including visualizations (e.g., histograms or bar plots) to summarize simulation outcomes and compare them with theoretical probabilities would make the analysis more engaging.
+
+5. **Strengths of the Submission**:
+   - The overall flow of your document and the use of R functions demonstrate a solid understanding of both the mathematical concepts and their computational implementation.
+   - The integration of theory and simulation is handled well, showcasing your ability to validate theoretical results using empirical methods.
+
+6. **Final Thoughts**:
+   - This is a strong submission that could be further improved by refining the simulation to avoid output overflow and adding a more engaging narrative around the analysis. By framing the results with thoughtful explanations and minimizing redundant terminology, you can make your document both more professional and accessible.
+
+Excellent work overall, and I encourage you to continue building on these strengths!

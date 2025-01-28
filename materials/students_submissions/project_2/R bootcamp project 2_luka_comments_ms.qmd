@@ -1,0 +1,168 @@
+---
+title: "Project 2"
+author: "Luka Tumbas"
+format: pdf
+editor: visual
+---
+
+We will first load and look at the data needed.
+
+```{r}
+#| label: Reading the data
+#company_financials <- read.csv("C:/Users/lukat/Downloads/company_financials.csv")
+company_financials <- read.csv("company_financials.csv")
+
+head(company_financials,10)
+```
+
+Now look at the structure of the object.
+
+```{r}
+str(company_financials)
+```
+
+Let's now summarize some of this data to get a feel for the revenue and expenditure numbers in the dataset.
+
+```{r}
+Revenue_summary <- summary(company_financials$Revenue)
+Expenditure_summary <- summary(company_financials$Expenditure)
+print("Revenue Summary")
+head(Revenue_summary)
+print("Expenditure Summary")
+head(Expenditure_summary)
+```
+
+We are now ready to analyze if the dataset conforms to Benfords law. Let us do that for Revenue first. We will extract the revenue data and filter out any NA values.
+
+```{r}
+Revenue <- company_financials$Revenue #Extract the revenue
+
+Valid_revenue <- Revenue[!is.na(Revenue)] #Filter out 0 and NA revenue values
+
+```
+
+Now let us find the leading digits for the revenue.
+
+```{r}
+revenue_leading_digits <- as.numeric(substr(as.character(Valid_revenue), 1, 1))
+```
+
+We will do the same thing for the expenditures now.
+
+```{r}
+Expenditure <- company_financials$Expenditure #Extract the expenditure
+
+Valid_expenditure <- Expenditure[!is.na(Expenditure)] #Filter out 0 and NA expenditure values
+
+expenditure_leading_digits <- as.numeric(substr(as.character(Valid_expenditure), 1, 1))
+```
+
+Now, let us compute the frequencies with which each digit occurs within revenue and expenditures, and crate a data frame to see how those frequencies compare with what is expected of them according to Benford's law.
+
+```{r}
+# First let us tabulate empirical frequencies
+emp_freq_revenue <- table(revenue_leading_digits) / length(revenue_leading_digits)
+emp_freq_expenditure <- table(expenditure_leading_digits) / length(expenditure_leading_digits)
+
+# Create a data frame with empirical and Benford probabilities
+Benford <- data.frame(
+  Digit = 1:9,
+  Empirical_Freq_Revenue = as.numeric(emp_freq_revenue[1:9]),
+  Empirical_Freq_Expenditure = as.numeric(emp_freq_expenditure[1:9]),
+  Benford_Prob = log10(1 + 1 / (1:9)))
+```
+
+Finally, to see the Benford data frame we just created, we will import the knitr package and call the table
+
+```{r}
+library(knitr)
+knitr::kable(Benford)
+```
+
+We can also plot the data.
+
+```{r}
+library(ggplot2)
+ggplot(Benford, aes(x = Digit)) +
+  geom_line(aes(y = Empirical_Freq_Revenue, color = "Empirical Revenue"), linewidth = 1) +
+  geom_line(aes(y = Empirical_Freq_Expenditure, color = "Empirical Expenditure"), linewidth = 1, linetype = "dashed") +
+  geom_line(aes(y = Benford_Prob, color = "Benford Probabilities"), linewidth = 1, linetype = "dotted") +
+  labs(
+    title = "Comparison of Empirical Frequencies and Benford's Probabilities",
+    x = "Digit",
+    y = "Frequency/Probability",
+    color = "Legend"
+  ) +
+  scale_color_manual(values = c("Empirical Revenue" = "blue", "Empirical Expenditure" = "red", "Benford Probabilities" = "black")) +
+  scale_x_continuous(breaks = 1:9) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+Comments and conclusions:
+
+As we can see, both from the table and the plot, both the revenue and expenditures do not exactly follow Benford's law. This could be due to some of the following reasons:
+
+-   The dataset has been tampered with and numbers have been altered to, perhaps, show, more favorable business results (slightly increased revenues, decreased expenditures). Since we do not know anything about the industry in which these companies do business, we may only hint at such a possibility. We can also see (through summary statistics , but also by glancing at individual companies) that the profit margins are quite high. This is also dependent on the industry type, but profit margins of \>80% are very rare to be seen across an industry. Thus, we may conclude that the dataset has been tampered with.
+
+-   This dataset may represent only the most successful companies (in terms of profit margins) across several industries, so it is not a complete dataset. Thus, it will not follow Benford's law, as there are obviously several cutoff points if that is the case.
+
+-   The dataset might simply be too small to follow Benford's law. When we compared the previous dataset (aapl_prices), we had about 9000 observations. In our case, we only have 200, which can be considered too small for it to be used to compute relative frequeincies to measure probability.
+
+    In conclusion, we can conclude that the dataset does not follow Benford's law, but we are unsure if the data has been tampered with or if the dataset is simply too small to compute accurate realtive frequencies. Had we had a larger dataset both in amount and quality of data (industry, dates, company names, etc.), we might have been able to give a more accurate interpretation on if the dataset behaves in accordance with Benford's law.
+
+Comments MS:
+
+Your submission is excellent, and these suggestions aim to refine and expand 
+your already strong analysis. 
+
+-   Your visual analysis is clear and well-executed. To really quantify conformity
+of distributions would need more formal statistical testing though, something we did
+not discuss in this course. In case you are interested what could be done further here
+you might consider applying a **Chi-Square Goodness-of-Fit Test**. This test would quantify how well the observed distributions conform to Benford’s Law and provide statistical evidence for or against conformity. You could calculate this for both revenue and expenditure to compare them systematically.
+
+-   You did a good job preparing the data, but it would be helpful to explicitly 
+document your steps when filtering invalid entries (e.g., removing `NA`s or non-positive values). 
+This not only improves reproducibility but also clarifies how the data 
+cleaning process might influence your findings.
+
+-   While visual comparisons are a great starting point, including a table of absolute or relative differences between observed and theoretical frequencies for each leading digit would make your analysis more concrete. For example:
+
+
+        Digit | Observed Frequency | Expected Frequency | Absolute Difference
+        --------------------------------------------------------------
+          1   |        0.31        |        0.30        |       0.01
+          2   |        0.18        |        0.18        |       0.00
+
+
+This helps pinpoint specific digits that deviate most and could indicate anomalies.
+
+
+
+-   Your use of `ggplot2` for visualization is excellent. The clean syntax and flexibility of `ggplot` make it an ideal choice for projects like this. Consider adding annotations or labels to your plots to highlight key insights, such as the leading digit with the largest deviation.
+
+-   You noted potential issues in the expenditure data, which is a strong observation. It might be useful to investigate specific digits (e.g., those with the largest deviations) or subsets of the data. For example:
+
+  -   Are there particular ranges of expenditure that deviate more?
+  -   Could rounding practices or reporting thresholds explain some of the anomalies?
+
+-   Your analysis would benefit from a brief discussion of what deviations might imply in real-world terms. For instance:
+
+  -   Are the deviations in expenditure suggestive of anomalies, such as fraud or manipulation?
+  -   Could legitimate practices (e.g., rounding, aggregation) explain the observed patterns?
+  -   Connecting your findings to the purpose of financial forensics would give your conclusions greater depth and relevance.
+
+-   It’s great that you analyzed revenue and expenditure separately. Adding a direct comparison—both visually and numerically—could provide further insights. For example, which data set conforms more closely to Benford’s Law, and why might this be the case?
+
+- Try to avoid strong wording and premature conclusions such as "data have been tampered with". While
+the analysis gives you a weak signal of something going on it is not yet clear evidence
+of tampering of any sorts.
+
+-   Consider adding a brief explanation for each step in your code. For instance, when creating plots or filtering data, a short comment or markdown note could clarify your intent.
+
+ 
+-   If possible, identify specific entries or companies that contribute most to the deviations in expenditure. Highlighting these can provide a starting point for deeper investigation.
+
+ 
+-   A plot showing the absolute differences between observed and theoretical frequencies for each leading digit could complement your existing bar plots.
+

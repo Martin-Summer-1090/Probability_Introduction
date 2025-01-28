@@ -1,0 +1,317 @@
+---
+title: "Project 2"
+format: html
+editor: visual
+---
+
+## **2.9 Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law\*\***
+
+### **2.9.1 Overview**
+
+This project challenges you to apply Benford’s Law to detect potential anomalies in financial data. By analyzing the leading digits of revenue and expenditure data for a set of companies, you will explore whether these datasets follow the natural logarithmic distribution predicted by Benford’s Law. Through this project, you will reinforce your understanding of empirical probabilities and their applications, while also practicing critical data analysis skills in R.
+
+### **2.9.2 Objectives**
+
+1.  Analyze the distribution of leading digits in revenue and expenditure data.
+
+2.  Compare empirical distributions with the theoretical predictions of Benford’s Law.
+
+3.  Identify and interpret deviations from Benford’s Law.
+
+4.  Reflect on the implications of your findings in the context of financial forensics.
+
+### **2.9.3 Steps**
+
+**Step 1: Understand the Research Question** Your main tasks are: 1. To determine if the leading digits of revenues and expenditures conform to Benford’s Law. 2. To interpret deviations, particularly in expenditure data, which may suggest anomalies such as fraud or manipulation.
+
+**Step 2: Obtain and Inspect the Dataset**
+
+1.  **Download the Dataset**:
+
+    -   **Mock Dataset**: You will receive a CSV file named `company_financials.csv`, containing simulated data for revenues and expenditures of 200 companies. This dataset includes some subtle anomalies in the expenditures.
+
+2.  **Inspect the Data**:
+
+    -   Load the dataset in R and examine its structure using functions like `head()`, `summary()`, and `str()`.
+
+    -   Ensure you understand the data columns:
+
+        -   `CompanyID`: A unique identifier for each company.
+
+        -   `Revenue`: The revenue of the company (in dollars).
+
+        -   `Expenditure`: The expenditure of the company (in dollars).
+
+**Step 3: Prepare the Data**
+
+1.  **Filter Valid Data**:
+
+    -   Exclude invalid entries:
+
+        -   Non-positive values (e.g., 0 or negative numbers).
+
+        -   Missing values (`NA`).
+
+2.  **Extract Leading Digits**:
+
+    -   Use string manipulation to extract the first digit from each valid value:
+
+**Step 4: Analyze the Data**
+
+1.  **Compute Empirical Frequencies**:
+
+    -   Tabulate the frequencies of the leading digits for revenues and expenditures:
+
+2.  **Compare with Benford’s Law**:
+
+    -   Create data frames for comparison:
+
+3.  **Visualize the Results**:
+
+    -   Plot bar charts comparing empirical and theoretical distributions for revenues and expenditures.
+
+**Step 5: Interpret the Results**
+
+1.  **Evaluate Conformity**:
+
+    -   Does the revenue data closely match Benford’s predictions?
+
+    -   Do expenditures show significant deviations?
+
+2.  **Hypothesize Causes**:
+
+    -   What might explain deviations in expenditures? Consider:
+
+        -   Rounded or artificial values.
+
+        -   Anomalies such as fraud.
+
+3.  **Probability Context**:
+
+    -   Relate empirical frequencies to probabilities and discuss the implications of large sample sizes.
+
+------------------------------------------------------------------------
+
+Project work
+
+1.  Downloading and Importing the data:
+
+```{r}
+stock_prices <- read.csv("/Users/milos/Desktop/My folder/MCF/Bootcamp/Probability in R/company_financials.csv")
+
+```
+
+2.  Inspect the data
+
+```{r}
+head(stock_prices, n = 10)
+```
+
+The head() method shows the first 10 rows (with n = 10 parameter) and it can give an idea of what columns (datapoints exist) and their data types, scale, etc.
+
+```{r}
+summary(stock_prices) 
+```
+
+The summary() method shows for each data point (column). So for strings summary() shows a number of rows (n-1 - subtracting the header). While for numerical data points it gives basic descriptive statistics like minimum, maximum, man, median, 1st, 3rd quarter values. Numerical statistics are especially useful to fully understand the scale of data.
+
+```{r}
+str(stock_prices)
+```
+
+The str() (structure) method gives the number of observations and variables. This tells us the structure of the data (in this case, panel data that's 200 x 3). Additionally each column has a clear datatype shown.
+
+```{r}
+typeof(stock_prices)
+```
+
+3.  Prepare the data
+
+    a\. Filter valid data (exclude non-positive, zero and NA values)
+
+```{r}
+# Filter made to make sure the dataset is clean. This dataset doesn't have any issues, but good to have a filter in place for other datasets.
+revenue <- stock_prices$Revenue
+expenditure <- stock_prices$Expenditure
+filtered_prices <- revenue > 0 & !is.na(revenue) & expenditure > 0 & !is.na(expenditure)
+
+cleaned_data <- stock_prices[filtered_prices, ]
+
+print(cleaned_data)
+```
+
+b\. **Extract Leading Digits**:
+
+**4. Analyze the Data**
+
+**a. Compute Empirical Frequencies**:
+
+-   Tabulate the frequencies of the leading digits for revenues and expenditures:
+
+```{r}
+cleaned_data_numeric <- cleaned_data[, c(2, 3)] 
+print(cleaned_data_numeric)
+```
+
+```{r}
+
+# Convert to numeric matrix or vector
+numeric_vector_clean <- as.matrix(cleaned_data_numeric)
+
+# Or alternatively
+revenue_column <- cleaned_data_numeric[, 1]
+expenditure_column <- cleaned_data_numeric[, 2]
+
+revenue_column
+expenditure_column
+```
+
+**b. Compare with Benford’s Law**:
+
+```{r}
+# Function to get first digit
+get_first_digit <- function(x) {
+  as.numeric(substr(as.character(abs(x)), 1, 1))
+}
+
+# Perform Benford's law analysis for Revenue
+revenue_first_digits <- get_first_digit(revenue_column)
+revenue_emp_freq <- table(revenue_first_digits) / length(revenue_first_digits)
+revenue_benford <- data.frame(
+  Digit = 1:9,
+  Empirical_Freq = as.numeric(revenue_emp_freq[1:9]),
+  Benford_Prob = log10(1 + 1 / (1:9))
+)
+
+# Perform Benford's law analysis for Expenditure
+expenditure_first_digits <- get_first_digit(expenditure_column)
+expenditure_emp_freq_exp <- table(expenditure_first_digits) / length(expenditure_first_digits)
+expenditure_benford <- data.frame(
+  Digit = 1:9,
+  Empirical_Freq = as.numeric(expenditure_emp_freq[1:9]), 
+  Benford_Prob = log10(1 + 1 / (1:9))
+)
+
+# Print tables
+knitr::kable(revenue_benford)
+knitr::kable(expenditure_benford)
+```
+
+**c. Visualize the Results**:
+
+-   Plot bar charts comparing empirical and theoretical distributions for revenues and expenditures.
+
+```{r}
+#install.packages("ggplot2") #for installing necessary library, after that not needed
+#install.packages("tidyr") 
+#install.packages("gridExtra")
+```
+
+Each graph compares the Benford theoretical results with out empirical results. One graph concerns Revenue, while the other expenditure
+
+```{r}
+library(ggplot2)
+library(tidyr)
+library(gridExtra)
+
+# Function to create Benford plot
+create_benford_plot <- function(benford_data, title) {
+  # Reshape data for plotting
+  benford_long <- tidyr::pivot_longer(benford_data, 
+                                      cols = c(Benford_Prob, Empirical_Freq), 
+                                      names_to = "Type", 
+                                      values_to = "Value")
+  
+  # Line plot with both probabilities
+  ggplot(benford_long, aes(x = Digit, y = Value, color = Type, group = Type)) +
+    geom_line(size = 1) +
+    geom_point(size = 3) +
+    labs(
+      title = title,
+      x = "Digit",
+      y = "Probability / Frequency"
+    ) +
+    scale_color_manual(values = c("Benford_Prob" = "blue", "Empirical_Freq" = "red"),
+                       labels = c("Benford Probability", "Empirical Frequency")) +
+    theme_minimal() +
+    theme(legend.title = element_blank())
+}
+
+# Create plots
+revenue_plot <- create_benford_plot(revenue_benford, "Revenue: Benford's Law Analysis")
+expenditure_plot <- create_benford_plot(expenditure_benford, "Expenditure: Benford's Law Analysis")
+
+# Arrange plots side by side
+grid.arrange(revenue_plot, expenditure_plot, ncol = 2)
+```
+
+**Step 5: Interpret the Results**
+
+1.  **Evaluate Conformity**:
+
+Does the revenue data closely match Benford’s predictions?
+
+For lower digits it seem that the data is very close to Benford's theoretical values, however as the digits increase, the empirical probability does begin to deviate somewhat from the theoretical results. Still, by visual inspection, the data does seem to follow the overall pattern for Benford's law.
+
+Do expenditures show significant deviations?
+
+```{r}
+# For Revenue
+revenue_benford$Diff <- (revenue_benford$Empirical_Freq - revenue_benford$Benford_Prob) * 100
+
+# Print differences
+cat("Differences for Revenue (in %):", revenue_benford$Diff, "\n")
+cat("Mean of Revenue % change:", mean(revenue_benford$Diff, na.rm = TRUE), "\n") #adding na.rm to avoid the fucntion crashing for 0 values
+cat("Median of Revenue % change:", median(revenue_benford$Diff, na.rm = TRUE), "\n") #adding na.rm to avoid the fucntion crashing for 0 values
+cat("Max of Revenue % change:", max(revenue_benford$Diff, na.rm = TRUE), "\n")
+cat("Min of Revenue % change:", min(revenue_benford$Diff, na.rm = TRUE), "\n")
+
+
+# For Expenditure
+expenditure_benford$Diff <- (expenditure_benford$Empirical_Freq - expenditure_benford$Benford_Prob) * 100
+
+# Print differences
+cat("Differences for Expenditure (in %):", expenditure_benford$Diff, "\n")
+cat("Mean of Expenditure % change:", mean(expenditure_benford$Diff, na.rm = TRUE), "\n") 
+cat("Median of Expenditure % change:", mean(expenditure_benford$Diff, na.rm = TRUE), "\n") 
+cat("Max of Revenue % change:", max(expenditure_benford$Diff, na.rm = TRUE), "\n")
+cat("Min of Revenue % change:", min(expenditure_benford$Diff, na.rm = TRUE), "\n")
+```
+
+The statistics above show the difference between Benford's probability and the empirical probability (in %) by:
+
+-   Showing all the individual differences across leading digits 1-9
+
+-   The mean value of the differences. Here, as opposed to the visual inspection (chart) it is evident that the mean of expenditure is actually smaller than for the revenue.
+
+-   The median (to eliminate outlier values) shows that the expenditures are closer to the Benford's probability than the revenues are.
+
+-   Max & Min show the largest positive and negative deviations from Benford's probability. Here, the maximum and the minimum deviation for the revenue is larger than the maximum deviation from the expenditure.
+
+Worth noting is that to additionally eliminate the impact of large outliers, calculating a harmonic mean might also be beneficial, but this statistic might inflate low values (close to predicted), so it should also be interpreted with caution.
+
+Lastly, a chi-square test is good for having a more reliable understanding of the significance of the divergence of predicted and empirical data.
+
+1.  **Hypothesize Causes**:
+
+    -   What might explain deviations in expenditures? Consider:
+
+        -   Rounded or artificial values.
+
+        -   Anomalies such as fraud.
+
+        -   Financial data that is artificially bounded (e.g., prices capped by regulation, or fixed currency exchange rates) will deviate from Benford's distribution.
+
+        <!-- -->
+
+        -   Small or narrowly distributed datasets, such as daily changes in the price of a single stock, may not exhibit Benford-like behavior. In the dataset we have, more observations might further improve it's relation to Benford's values.
+
+        -   In areas like accounting or valuation, human intervention can skew the numbers away from the natural distribution.
+
+2.  **Probability Context**:
+
+    -   Relate empirical frequencies to probabilities and discuss the implications of large sample sizes.
+
+Smaller data-sets have a high probability of not being closely related to the theoretical probabilities. With increases in sample size, there should be a convergence of theoretical and empirical probabilities.
+
+Finding the sufficiently large number of observations might be difficult, as it might vary from dataset to dataset, but for observations of 1000 population data-points, a rule among statisticians is that 30% of the values should be a part of the sample data set. Source: <https://wp.stolaf.edu/iea/sample-size/#:~:text=For%20populations%20under%201%2C000%2C%20a,ensure%20representativeness%20of%20the%20sample.>

@@ -1,0 +1,118 @@
+---
+title: "Project 2"
+author: "Luka Tumbas"
+format: pdf
+editor: visual
+---
+
+We will first load and look at the data needed.
+
+```{r}
+#| label: Reading the data
+#company_financials <- read.csv("C:/Users/lukat/Downloads/company_financials.csv")
+company_financials <- read.csv("company_financials.csv")
+
+head(company_financials,10)
+```
+
+Now look at the structure of the object.
+
+```{r}
+str(company_financials)
+```
+
+Let's now summarize some of this data to get a feel for the revenue and expenditure numbers in the dataset.
+
+```{r}
+Revenue_summary <- summary(company_financials$Revenue)
+Expenditure_summary <- summary(company_financials$Expenditure)
+print("Revenue Summary")
+head(Revenue_summary)
+print("Expenditure Summary")
+head(Expenditure_summary)
+```
+
+We are now ready to analyze if the dataset conforms to Benfords law. Let us do that for Revenue first. We will extract the revenue data and filter out any NA values.
+
+```{r}
+Revenue <- company_financials$Revenue #Extract the revenue
+
+Valid_revenue <- Revenue[!is.na(Revenue)] #Filter out 0 and NA revenue values
+
+```
+
+Now let us find the leading digits for the revenue.
+
+```{r}
+revenue_leading_digits <- as.numeric(substr(as.character(Valid_revenue), 1, 1))
+```
+
+We will do the same thing for the expenditures now.
+
+```{r}
+Expenditure <- company_financials$Expenditure #Extract the expenditure
+
+Valid_expenditure <- Expenditure[!is.na(Expenditure)] #Filter out 0 and NA expenditure values
+
+expenditure_leading_digits <- as.numeric(substr(as.character(Valid_expenditure), 1, 1))
+```
+
+Now, let us compute the frequencies with which each digit occurs within revenue and expenditures, and crate a data frame to see how those frequencies compare with what is expected of them according to Benford's law.
+
+```{r}
+# First let us tabulate empirical frequencies
+emp_freq_revenue <- table(revenue_leading_digits) / length(revenue_leading_digits)
+emp_freq_expenditure <- table(expenditure_leading_digits) / length(expenditure_leading_digits)
+
+# Create a data frame with empirical and Benford probabilities
+Benford <- data.frame(
+  Digit = 1:9,
+  Empirical_Freq_Revenue = as.numeric(emp_freq_revenue[1:9]),
+  Empirical_Freq_Expenditure = as.numeric(emp_freq_expenditure[1:9]),
+  Benford_Prob = log10(1 + 1 / (1:9)))
+```
+
+Finally, to see the Benford data frame we just created, we will import the knitr package and call the table
+
+```{r}
+library(knitr)
+knitr::kable(Benford)
+```
+
+We can also plot the data.
+
+```{r}
+library(ggplot2)
+ggplot(Benford, aes(x = Digit)) +
+  geom_line(aes(y = Empirical_Freq_Revenue, color = "Empirical Revenue"), linewidth = 1) +
+  geom_line(aes(y = Empirical_Freq_Expenditure, color = "Empirical Expenditure"), linewidth = 1, linetype = "dashed") +
+  geom_line(aes(y = Benford_Prob, color = "Benford Probabilities"), linewidth = 1, linetype = "dotted") +
+  labs(
+    title = "Comparison of Empirical Frequencies and Benford's Probabilities",
+    x = "Digit",
+    y = "Frequency/Probability",
+    color = "Legend"
+  ) +
+  scale_color_manual(values = c("Empirical Revenue" = "blue", "Empirical Expenditure" = "red", "Benford Probabilities" = "black")) +
+  scale_x_continuous(breaks = 1:9) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+Comments and conclusions:
+
+As we can see, both from the table and the plot, both the revenue and expenditures do not exactly follow Benford's law. This could be due to some of the following reasons:
+
+-   The dataset has been tampered with and numbers have been altered to, perhaps, show, more favorable business results (slightly increased revenues, decreased expenditures). Since we do not know anything about the industry in which these companies do business, we may only hint at such a possibility. We can also see (through summary statistics , but also by glancing at individual companies) that the profit margins are quite high. This is also dependent on the industry type, but profit margins of \>80% are very rare to be seen across an industry. Thus, we may conclude that the dataset has been tampered with.
+
+-   This dataset may represent only the most successful companies (in terms of profit margins) across several industries, so it is not a complete dataset. Thus, it will not follow Benford's law, as there are obviously several cutoff points if that is the case.
+
+-   The dataset might simply be too small to follow Benford's law. When we compared the previous dataset (aapl_prices), we had about 9000 observations. In our case, we only have 200, which can be considered too small for it to be used to compute relative frequeincies to measure probability.
+
+    In conclusion, we can conclude that the dataset does not follow Benford's law, but we are unsure if the data has been tampered with or if the dataset is simply too small to compute accurate realtive frequencies. Had we had a larger dataset both in amount and quality of data (industry, dates, company names, etc.), we might have been able to give a more accurate interpretation on if the dataset behaves in accordance with Benford's law.
+
+Comments MS:
+
+Very carefully and well done. I like that you employ the ggplot package for visualization although I only do baseR plots in class. I think that ggplot is the R tool to go to when doing visualization simply dues to its systematic syntax, which follows a clear and transparent logic which is easy to remember.
+
+I think the analysis gives some indications that something might be going on in the expenditure data but the eyballing of the distributional results as such does not yet back up a conclusion like this.
