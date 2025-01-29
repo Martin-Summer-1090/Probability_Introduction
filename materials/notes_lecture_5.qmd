@@ -1,0 +1,230 @@
+---
+title: "notes_lecture_5"
+editor: visual
+---
+
+```{r}
+set.seed(123)
+runif(10, 0, 1)
+```
+
+```{r}
+uniform_rv <- runif(10^6, 0, 1)
+mean(uniform_rv == 0.4566147)
+```
+
+```{r}
+mean(0 <= uniform_rv & uniform_rv <= 1/4)
+```
+
+```{r}
+punif(1/4)
+```
+
+```{r}
+library(tidyquant)
+```
+
+```{r}
+# Retrieve S&P 500 data (adjustable end date)
+end_date <- "2020-12-31"  # Replace this with any desired date
+sp500_data <- tq_get("^GSPC", from = "2015-01-01", to = end_date, get = "stock.prices")
+
+# Extract adjusted closing prices
+sp500_prices <- sp500_data$adjusted
+
+# Compute daily log returns using base R
+log_returns <- diff(log(sp500_prices))  # Log differences
+log_returns <- log_returns[!is.na(log_returns)]  # Remove NA values
+
+# Fit a normal distribution (NOT lognormal) to the log-returns
+fit_mu <- mean(log_returns)
+fit_sigma <- sd(log_returns)
+
+# Generate fitted normal density
+x <- seq(min(log_returns), max(log_returns), length.out = 1000)
+fitted_density <- dnorm(x, mean = fit_mu, sd = fit_sigma)
+
+# Normalize histogram
+# Compute histogram data without plotting
+hist_data <- hist(log_returns, breaks = 50, plot = FALSE)
+# Normalize counts
+hist_data$density <- hist_data$counts / sum(hist_data$counts) / 
+  diff(hist_data$breaks[1:2])  
+
+# Plot histogram using density scale
+plot(hist_data$mids, hist_data$density, type = "h", lwd = 6, col = "lightblue", 
+     main = "Empirical vs Fitted Normal Distribution (S&P 500 Log-Returns)", 
+     xlab = "Daily Log Returns", ylab = "Density", 
+     ylim = c(0, max(hist_data$density, fitted_density)))
+
+# Overlay fitted normal distribution (not lognormal!)
+lines(x, fitted_density, col = "red", lwd = 2)
+
+# Add a simple legend
+legend("topright", 
+       legend = c("Empirical Density", "Fitted Normal"), 
+       fill = c("lightblue", NA), 
+       lty = c(NA, 1), 
+       col = c("lightblue", "red"))
+
+```
+```{r}
+qnorm(0.001)
+```
+
+```{r}
+# Define parameters
+sigma_liquid <- 0.015  # 1.5% daily volatility (assumption)
+mu_liquid <- 0         # Negligible mean return
+alpha <- 0.05          # 95% confidence level
+
+# Compute 1-day VaR
+VaR_liquid <- qnorm(alpha, mean = mu_liquid, sd = sigma_liquid)
+
+# Output result
+sprintf("1-day 95%% VaR for a highly liquid portfolio: %.4f (or %.2f%%)", VaR_liquid, VaR_liquid * 100)
+```
+
+```{r}
+# Define parameters
+sigma_fund <- 0.02    # 2% daily volatility
+mu_fund <- 0.0002     # 0.02% daily return (assumed)
+N <- 10               # 10-day horizon
+portfolio_value <- 500 # $500 million
+
+# Compute 1-day VaR
+VaR_fund_1d <- qnorm(alpha, mean = mu_fund, sd = sigma_fund)
+
+# Compute 10-day VaR using square-root scaling
+VaR_fund_10d <- VaR_fund_1d * sqrt(N) * portfolio_value
+
+# Output result
+sprintf("10-day 95%% VaR for a $500M pension fund: $%.2f million", VaR_fund_10d)
+```
+
+```{r}
+
+# Define portfolio components
+sigma_stocks <- 0.025  # 2.5% daily volatility
+sigma_bonds <- 0.01    # 1.0% daily volatility
+w_stocks <- 0.5        # 50% allocation to stocks
+w_bonds <- 0.5         # 50% allocation to bonds
+correlation <- -0.3    # Negative correlation
+
+# Compute portfolio volatility
+portfolio_volatility <- sqrt(
+  (w_stocks * sigma_stocks)^2 +
+  (w_bonds * sigma_bonds)^2 +
+  2 * w_stocks * w_bonds * sigma_stocks * sigma_bonds * correlation
+)
+
+# Compute portfolio VaR
+VaR_portfolio <- qnorm(alpha, mean = 0, sd = portfolio_volatility) * portfolio_value
+
+# Compute individual VaRs
+VaR_stocks <- qnorm(alpha, mean = 0, sd = sigma_stocks) * (w_stocks * portfolio_value)
+VaR_bonds <- qnorm(alpha, mean = 0, sd = sigma_bonds) * (w_bonds * portfolio_value)
+
+# Output results
+sprintf("VaR without diversification: $%.2f million", VaR_stocks + VaR_bonds)
+sprintf("VaR with diversification: $%.2f million", VaR_portfolio)
+```
+
+```{r}
+# Load necessary packages
+library(ggplot2)  # For visualization
+
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Simulated historical daily log-returns (e.g., from a stock index)
+historical_returns <- rnorm(250, mean = 0.0005, sd = 0.01)  # 250 trading days
+
+# Estimate parameters (mean and standard deviation)
+mu <- mean(historical_returns)
+sigma <- sd(historical_returns)
+
+# Simulate 10,000 future return scenarios using Monte Carlo
+n_sim <- 10000
+simulated_returns <- rnorm(n_sim, mean = mu, sd = sigma)
+
+# Quick visualization of simulated returns
+ggplot(data.frame(returns = simulated_returns), aes(x = returns)) +
+  geom_histogram(bins = 50, fill = "blue", alpha = 0.5) +
+  labs(title = "Histogram of Simulated Portfolio Returns",
+       x = "Simulated Return", y = "Frequency")
+```
+
+```{r}
+# Compute portfolio losses (negative returns)
+simulated_losses <- -simulated_returns  # Losses are negative returns
+
+# Compute VaR at 95% and 99% confidence levels
+VaR_95 <- quantile(simulated_losses, probs = 0.95)
+VaR_99 <- quantile(simulated_losses, probs = 0.99)
+
+# Print results
+cat("Monte Carlo Estimated VaR:\n")
+cat("95% VaR:", round(VaR_95, 4), "\n")
+cat("99% VaR:", round(VaR_99, 4), "\n")
+```
+
+```{r}
+# Load necessary package
+library(future.apply)
+
+# Set up parallel processing using all available CPU cores
+plan(multisession)
+
+# Define Monte Carlo function for Value at Risk (VaR)
+monte_carlo_var <- function(n_sim, mu, sigma, confidence = 0.95) {
+  simulated_losses <- -rnorm(n_sim, mean = mu, sd = sigma)
+  return(quantile(simulated_losses, probs = confidence))
+}
+
+# Define number of simulations
+n_sim <- 100000  # Large-scale simulation
+
+# Measure time for sequential computation (single core)
+start_time_seq <- Sys.time()
+VaR_95_seq <- sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95))
+end_time_seq <- Sys.time()
+time_seq <- as.numeric(difftime(end_time_seq, start_time_seq, units = "secs"))  # Convert to numeric seconds
+
+# Measure time for parallel computation (multiple cores)
+start_time_par <- Sys.time()
+VaR_95_par <- future_sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95), future.seed = TRUE)
+end_time_par <- Sys.time()
+time_par <- as.numeric(difftime(end_time_par, start_time_par, units = "secs"))  # Convert to numeric seconds
+
+# Print timing results
+cat("Execution Time Comparison:\n")
+cat("Sequential Execution Time: ", round(time_seq, 2), " seconds\n")
+cat("Parallel Execution Time: ", round(time_par, 2), " seconds\n")
+cat("Speedup Factor: ", round(time_seq / time_par, 2), "x faster with parallel computing\n")
+
+```
+
+```{r}
+# Define larger-scale simulation
+n_sim <- 1e7  # 10 million simulations per iteration
+
+# Run the comparison again
+start_time_seq <- Sys.time()
+VaR_95_seq <- sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95))
+end_time_seq <- Sys.time()
+time_seq <- as.numeric(difftime(end_time_seq, start_time_seq, units = "secs"))
+
+start_time_par <- Sys.time()
+VaR_95_par <- future_sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95), future.seed = TRUE)
+end_time_par <- Sys.time()
+time_par <- as.numeric(difftime(end_time_par, start_time_par, units = "secs"))
+
+cat("Execution Time Comparison (Larger Simulations):\n")
+cat("Sequential Execution Time: ", round(time_seq, 2), " seconds\n")
+cat("Parallel Execution Time: ", round(time_par, 2), " seconds\n")
+cat("Speedup Factor: ", round(time_seq / time_par, 2), "x faster with parallel computing\n")
+```
+
