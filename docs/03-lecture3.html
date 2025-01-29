@@ -157,7 +157,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -295,7 +295,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -320,10 +320,10 @@ window.Quarto = {
 <p>To intuitively appreciate the significance of conditional probability first, let us start with a simple but striking scenario from the world of finance. Imagine you are an investor trying to evaluate the safety of a bond portfolio. On paper, the bonds are rated highly by reputable agencies, and the portfolio looks diversified—a dream investment. However, during a global recession, a few defaults occur, and to your surprise, the entire portfolio begins to unravel, causing significant losses. How could this happen?</p>
 <p>This seemingly safe portfolio turned risky because it underestimated the connections between events—a core idea tied to conditional probability. Conditional probability helps us analyze how the risk of one event changes given another has occurred. It enables us to model dependencies, a critical factor in real-world scenarios, particularly during financial crises.</p>
 <p>Understanding these relationships isn’t just an intellectual exercise—it’s crucial for preventing catastrophic losses. Whether you’re pricing complex financial instruments, assessing credit risk, or making investment decisions, mastering conditional probability allows you to account for interconnected risks and avoid misleading conclusions based on oversimplified assumptions.</p>
-<section id="why-neglecting-conditional-probability-may-be-expensive-a-case-study." class="level2" data-number="3.1">
+<section id="why-neglecting-conditional-probability-may-be-expensive-a-case-study." class="level2 page-columns page-full" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="why-neglecting-conditional-probability-may-be-expensive-a-case-study."><span class="header-section-number">3.1</span> Why neglecting conditional probability may be expensive: A case study.</h2>
 <p>With this motivation in mind let us turn to a historical example that demonstrates the importance of understanding conditional probability: the financial crisis of 2007-2008. This crisis revealed how wrong assumptions about independence and neglect of dependence in events and conditional probabilities can lead to systemic failures in structured finance.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>To understand the real world aspects of this example it is necessarry to understand some basic ideas of structured finance and the engineering of specific risk profiles from a portfolio of risky securities in the first place. I will explain the finance context with a simple and stylized example and then discuss how understanding conditional probability may help us to make better financial decisions.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp; See <span class="citation" data-cites="Tooze2018">Tooze (<a href="06-references.html#ref-Tooze2018" role="doc-biblioref">2018</a>)</span>: For an engaging and comprehensive exploration of the great financial crisis of 2007 - 2008 and its causes and aftermath. It is highly recommended for deeper study.</p></div></div><p>To understand the real world aspects of this example it is necessarry to understand some basic ideas of structured finance and the engineering of specific risk profiles from a portfolio of risky securities in the first place. I will explain the finance context with a simple and stylized example and then discuss how understanding conditional probability may help us to make better financial decisions.</p>
 <section id="bonds-and-credit-risk" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="bonds-and-credit-risk"><span class="header-section-number">3.1.1</span> Bonds and Credit Risk</h3>
 <p>A <strong>bond</strong> is a financial instrument where the issuer agrees to pay the holder a specific amount, the <strong>face value</strong> or <strong>par value</strong>, at maturity. Bonds are widely used as fixed-income securities but carry the risk of default if the issuer faces financial difficulties.</p>
@@ -390,11 +390,11 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
-<section id="pooling-and-tranching-the-innovation" class="level3" data-number="3.1.2">
+<section id="pooling-and-tranching-the-innovation" class="level3 page-columns page-full" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="pooling-and-tranching-the-innovation"><span class="header-section-number">3.1.2</span> Pooling and Tranching: The Innovation</h3>
 <p>Structured finance emerged in the early 2000s as a way to manage risk through <strong>pooling</strong> and <strong>tranching</strong>. By pooling risky assets and dividing cash flows into “tranches” with distinct risk profiles, financial engineers created new bonds, including investment-grade securities, from portfolios of bonds which individually would be rated as speculative grade or junk bonds. A major product of this innovation was the <strong>mortgage-backed security (MBS)</strong>. Many other products were then invented using similar financial engineering ideas.</p>
 <p>Let us develop an intuitive understanding of structured finance and its relation to probability through a simplified example, which I learned from Karl Schmedder’s course.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-</section>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;See https://www.coursera.org/learn/introductiontoprobability</p></div></div></section>
 <section id="a-simple-event-tree-for-one-bond" class="level3" data-number="3.1.3">
 <h3 data-number="3.1.3" class="anchored" data-anchor-id="a-simple-event-tree-for-one-bond"><span class="header-section-number">3.1.3</span> A Simple Event Tree for One Bond</h3>
 <p>Consider a single bond you can own today that pays €1 at maturity at some point in the future. Time is often abbreviated as <span class="math inline">\(t\)</span> and the points in time are symbolized by letting <span class="math inline">\(t\)</span> take different values like <span class="math inline">\(t=0\)</span> for today and <span class="math inline">\(t=1\)</span> for a future point in time, say a year from today.</p>
@@ -426,7 +426,7 @@ Figure&nbsp;3.1: Event tree for one bond
 </ul>
 <p>You could see this in analogy to the toss of a coin with the difference that both sides of the coin show with different probability. With this analogy - using the concepts of the last two lectures - you can understand the bond in probabilistic terms as a random experiment with a sample space consisting of two basic outcomes, <span class="math inline">\(N\)</span> and <span class="math inline">\(D\)</span> with given probabilities <span class="math inline">\(P(N)\)</span> and <span class="math inline">\(P(D)\)</span>.</p>
 </section>
-<section id="combining-two-bonds-with-independence-assumption" class="level3" data-number="3.1.4">
+<section id="combining-two-bonds-with-independence-assumption" class="level3 page-columns page-full" data-number="3.1.4">
 <h3 data-number="3.1.4" class="anchored" data-anchor-id="combining-two-bonds-with-independence-assumption"><span class="header-section-number">3.1.4</span> Combining Two Bonds with Independence Assumption</h3>
 <p>We now combine two such bonds into a portfolio. The assumption of <strong>independence</strong> implies that the defaults of these bonds occur independently of each other. This means that the default of one bond has no influence on the probability of the other bond defaulting. Under the assumption of independence you would treat the default probability of one bond as unconnected with the default probability of the other.</p>
 <p>While this assumption simplifies calculations, it was historically used by financial engineers to justify creating tranches from risky portfolios. The reasoning was that diversification reduces the likelihood of joint defaults, making some tranches appear safer.</p>
@@ -434,7 +434,7 @@ Figure&nbsp;3.1: Event tree for one bond
 <p>However, this reasoning neglected systemic risks. During economic downturns or financial crises, defaults often become highly correlated due to shared macroeconomic pressures, such as declining housing markets or credit tightening. For instance, in the lead-up to the 2008 financial crisis, rising mortgage defaults were driven by broader economic factors that impacted many bonds simultaneously. With this in mind it would be not plausible to assume that bonds can be stacked together in a portfolio without the default risks of one being not pushed up by the default risk of others.</p>
 <p>Even without the formal use of probability theory, financial engineers could have questioned whether diversification truly guaranteed independence in the context of systemic risks.</p>
 <p>The idea that junk plus junk could be transformed into investment-grade bonds through pooling should have raised skepticism. Careful critical thinking—considering broader economic dependencies—would have revealed that this transformation was too good to be true. By ignoring these dependencies, financial engineers failed to see how small cracks in the system could cascade into systemic failures.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<p>But let us not jump ahead and try to see how the tree for two bonds looks like when we <strong>assume</strong> independence in <a href="#fig-two_bond_event_tree" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp; A famous voice at the time warning about the flawed reasoning was Raghuram Rajan, former chief economist of the International Monetary Fund. He warned that rather than reducing risk through diversification, CDOs and other derivatives spread risk and uncertainty about the value of the underlying assets more widely. </p></div></div><p>But let us not jump ahead and try to see how the tree for two bonds looks like when we <strong>assume</strong> independence in <a href="#fig-two_bond_event_tree" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-two_bond_event_tree" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -518,7 +518,7 @@ Figure&nbsp;3.4: Event tree for two bonds with independent default risk with poo
 <p>The neglect of these conditions led to a flawed sense of security in structured finance, which contributed to the 2008 financial crisis.</p>
 </section>
 </section>
-<section id="conditional-probability" class="level2" data-number="3.2">
+<section id="conditional-probability" class="level2 page-columns page-full" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="conditional-probability"><span class="header-section-number">3.2</span> Conditional Probability</h2>
 <p>Conditional probability provides us with a concept to formalize how the probability of one event changes when another event is known to occur, providing a framework for understanding dependencies quantitatively.</p>
 <p>Here is the mathematical definition:</p>
@@ -538,7 +538,7 @@ P(A\,|\,B) = \frac{P(A \cap B)}{P(B)}\,\,\, \text{provided}\,\,\, P(B) \neq 0
 </div>
 </div>
 <p>Note that conditional probabilities remain undefined when the conditioning event <span class="math inline">\(B\)</span> has probability 0.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<p>Let us clarify a few things about this concept. As in the example of the financial crisis, which we discussed before we really did not much more than introducing one piece of new notation to indicate that the probabilities now have changed.</p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;As pointed out in <span class="citation" data-cites="Feller1968">Feller (<a href="06-references.html#ref-Feller1968" role="doc-biblioref">1968</a>)</span> p 115, this has no consequences in the case of discrete sample spaces but is important in the general theory.</p></div></div><p>Let us clarify a few things about this concept. As in the example of the financial crisis, which we discussed before we really did not much more than introducing one piece of new notation to indicate that the probabilities now have changed.</p>
 <p>Let’s revisit our example.</p>
 <section id="the-probability-tree-and-conditional-probabilities" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="the-probability-tree-and-conditional-probabilities"><span class="header-section-number">3.2.1</span> The Probability Tree and Conditional Probabilities</h3>
@@ -755,11 +755,11 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X = D):"</span>, <span class="fu">round</span>(P_X_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(X = D): 0.0964 </code></pre>
+<pre><code>P(X = D): 0.1028 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(Y = D):"</span>, <span class="fu">round</span>(P_Y_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Y = D): 0.1044 </code></pre>
+<pre><code>P(Y = D): 0.0956 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Conditional Probabilities:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -767,11 +767,11 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X = D | Y = D):"</span>, <span class="fu">round</span>(P_X_given_Y_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(X = D | Y = D): 0.5747 </code></pre>
+<pre><code>P(X = D | Y = D): 0.5879 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(Y = D | X = D):"</span>, <span class="fu">round</span>(P_Y_given_X_D, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P(Y = D | X = D): 0.6224 </code></pre>
+<pre><code>P(Y = D | X = D): 0.5467 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify calibration matches input probabilities</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>calibration_check <span class="ot">&lt;-</span> <span class="fu">table</span>(portfolio<span class="sc">$</span>JointOutcome) <span class="sc">/</span> N</span>
@@ -786,10 +786,10 @@ P(B_1 = D \,|\, B_2 = D) = \frac{P(B_1 = D \cap B_2 = D)}{P(B_2 = D)}.
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(calibration_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  JointOutcome Frequency Expected
-1           DD    0.0600     0.06
-2           DN    0.0364     0.04
-3           ND    0.0444     0.04
-4           NN    0.8592     0.86</code></pre>
+1           DD    0.0562     0.06
+2           DN    0.0466     0.04
+3           ND    0.0394     0.04
+4           NN    0.8578     0.86</code></pre>
 </div>
 </div>
 <p>Note that computing conditional probabilities involves focusing on a subset of the data where a specific condition holds. For example, to compute P(X = D | Y = D), we calculate the relative frequency of X_Defaulted being TRUE within the subset of rows where Y_Defaulted is TRUE.</p>
@@ -958,12 +958,12 @@ Now you try
 </div>
 </section>
 </section>
-<section id="bayes-rule-one-of-the-great-ideas-in-probability" class="level2" data-number="3.5">
+<section id="bayes-rule-one-of-the-great-ideas-in-probability" class="level2 page-columns page-full" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="bayes-rule-one-of-the-great-ideas-in-probability"><span class="header-section-number">3.5</span> Bayes’ Rule: One of the Great Ideas in Probability</h2>
 <p>Bayes’ Rule stands among the ten great ideas in probability. Its power lies in solving a fundamental problem: how to infer underlying chances from observed frequencies. This insight filled a critical gap left by Bernoulli’s weak law of large numbers, which explained how observed frequencies converge to probabilities but left unanswered the question of how to reason from those frequencies back to the chances that generated them.</p>
 <p>At its core, Bayes’ Rule provides a framework for updating our beliefs in light of new information. But what does it mean to assign a probability to a belief? This idea rests on another deep insight in probability theory: judgments about uncertainty can be measured, and when those judgments are coherent, they follow the rules of probability. <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
-<p>The key breakthrough of Bayes’ Rule is that it ties these coherent judgments—our initial beliefs, or priors—to evidence, using conditional probability. This process transforms subjective judgments into a systematic method for reasoning under uncertainty, with profound applications across science, finance, and everyday decision-making.</p>
-<section id="a-simple-example-revising-beliefs-about-market-valuation" class="level3" data-number="3.5.1">
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;This idea goes back to the work of Frank Ramsey (1903–1930). He was a British mathematician, philosopher, and economist whose profound contributions spanned multiple fields despite his tragically short life. In probability, he established the foundation for subjective probability theory, showing that coherent judgments about uncertainty adhere to the axioms of probability. Ramsey also made groundbreaking advances in decision theory, logic, and economics, including the famous Ramsey pricing in public economics and his foundational work in mathematical logic. For more, on Ramsey’s ideas of connecting judegment to probability see chapter 2 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>The key breakthrough of Bayes’ Rule is that it ties these coherent judgments—our initial beliefs, or priors—to evidence, using conditional probability. This process transforms subjective judgments into a systematic method for reasoning under uncertainty, with profound applications across science, finance, and everyday decision-making.</p>
+<section id="a-simple-example-revising-beliefs-about-market-valuation" class="level3 page-columns page-full" data-number="3.5.1">
 <h3 data-number="3.5.1" class="anchored" data-anchor-id="a-simple-example-revising-beliefs-about-market-valuation"><span class="header-section-number">3.5.1</span> A simple example: Revising beliefs about market valuation</h3>
 <p>We discussed the big financial crisis of 2007-2008 earlier in this lecture. Imagine now you are an investor in the year 2011, just a bit later. The market is gripped by fear of another financial crisis, this time triggered by tensions in the Eurozone.</p>
 <p>Let’s imagine how you could have asessed the market situation by looking at financial data. This is also an excellent opportunity to introdcue you to one of many great opportunities to load real world data directly into R using add on packages. The package we are going to use here is called <code>tidyquant</code>. To be able to use it you must first install it using the <code>install.packages()</code>function of base R or the package installer pane in RStudio. Let us do that - assuming that this package has been installed. You might remember how to load a package from before.</p>
@@ -971,7 +971,7 @@ Now you try
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now tidyquant has many functions allowing you to retrieve and transform real world financial data. We do not go into any detail here. This is something you can do yourself using the excellent documentation of this package, the many examples on the web or by interrogating your LLM.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. One of the core workhorse functions in tidyquant is the function <code>tq_get()</code> which allows you to retrieve data.</p>
-<p>One thing an anlyst might be interested in is how the stock market as measured by a broad index does at the moment compared to its historical values. Let’s say you are looking back 11 years from 2011 into the past and see how the S&amp;P500 does now compared to this history. This is how you would use <code>tidyquant</code> to do this:</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;Check out https://cran.r-project.org/web/packages/tidyquant/index.html</p></div></div><p>One thing an anlyst might be interested in is how the stock market as measured by a broad index does at the moment compared to its historical values. Let’s say you are looking back 11 years from 2011 into the past and see how the S&amp;P500 does now compared to this history. This is how you would use <code>tidyquant</code> to do this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch S&amp;P 500 data from 2000 to 2011</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1018,7 +1018,7 @@ Now you try
 </div>
 <p>We see that the index is about the same level as it was 10 years ago. The index alone does not tell you very much. How about relating this to some relevant market fundamentals?</p>
 <p>One powerful feature of <code>tidyquant()</code> is that it can fetch data from various data sources. Here I get, for the sake of this example, data on corporate profits from the FRED database of the Fed St.&nbsp;Louis<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-<div class="cell">
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;See https://fred.stlouisfed.org/</p></div></div><div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get corporate profits data from FRED</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>corporate_profits <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"CP"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>, </span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">to =</span> <span class="st">"2011-12-31"</span>, <span class="at">get =</span> <span class="st">"economic.data"</span>)</span>
@@ -1044,7 +1044,7 @@ Now you try
 </div>
 <p>Profits have roughly tripled over the same period. The market does seem to be undervalued. Let’s put this into perspective by looking at Price-Earning data or P/E ratios.</p>
 <p>Now we run into a problem which you will often encounter when working with data. It is rare that a tool covers all cases. P/E rations seem to be difficult to retrieve with <code>tidyquant</code>. These data do however exist on the web, for example at the website Macrotrends.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
-<p>To retrieve data from this site, I had to download the data locally first before I could get them into R. Let’s look at them a bit closer now using again R’s visualization tools.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;The P/E ratio for the SP500 can be found for instance here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart</p></div></div><p>To retrieve data from this site, I had to download the data locally first before I could get them into R. Let’s look at them a bit closer now using again R’s visualization tools.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the path to the downloaded CSV file</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="st">"data/sp-500-pe-ratio-price-to-earnings-chart.csv"</span></span>
@@ -1340,19 +1340,7 @@ Tooze, Adam. 2018. <em>Crashed. How a Decade of Financial Crisis Changed the Wor
 </div>
 </section>
 </section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p> See <span class="citation" data-cites="Tooze2018">Tooze (<a href="06-references.html#ref-Tooze2018" role="doc-biblioref">2018</a>)</span>: For an engaging and comprehensive exploration of the great financial crisis of 2007 - 2008 and its causes and aftermath. It is highly recommended for deeper study.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>See https://www.coursera.org/learn/introductiontoprobability<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p> A famous voice at the time warning about the flawed reasoning was Raghuram Rajan, former chief economist of the International Monetary Fund. He warned that rather than reducing risk through diversification, CDOs and other derivatives spread risk and uncertainty about the value of the underlying assets more widely. <a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>As pointed out in <span class="citation" data-cites="Feller1968">Feller (<a href="06-references.html#ref-Feller1968" role="doc-biblioref">1968</a>)</span> p 115, this has no consequences in the case of discrete sample spaces but is important in the general theory.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>This idea goes back to the work of Frank Ramsey (1903–1930). He was a British mathematician, philosopher, and economist whose profound contributions spanned multiple fields despite his tragically short life. In probability, he established the foundation for subjective probability theory, showing that coherent judgments about uncertainty adhere to the axioms of probability. Ramsey also made groundbreaking advances in decision theory, logic, and economics, including the famous Ramsey pricing in public economics and his foundational work in mathematical logic. For more, on Ramsey’s ideas of connecting judegment to probability see chapter 2 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>Check out https://cran.r-project.org/web/packages/tidyquant/index.html<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>See https://fred.stlouisfed.org/<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>The P/E ratio for the SP500 can be found for instance here: https://www.macrotrends.net/2577/sp-500-pe-ratio-price-to-earnings-chart<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

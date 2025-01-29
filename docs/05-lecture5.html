@@ -155,7 +155,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -279,7 +279,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -573,7 +573,7 @@ This rule aids in many practical applications, such as quality control, where v 
 <p>These results reinforce the importance of the 68-95-99.7 rule as a tool for interpreting data variability and making informed decisions.</p>
 </section>
 </section>
-<section id="lognormal-distribution" class="level2" data-number="5.3">
+<section id="lognormal-distribution" class="level2 page-columns page-full" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="lognormal-distribution"><span class="header-section-number">5.3</span> Lognormal Distribution</h2>
 <p>While the normal distribution models many natural and financial phenomena, it is not always suitable for modeling certain quantities—such as stock prices—that are constrained to be positive. This is where the <strong>lognormal distribution</strong> becomes essential. It serves as a natural model for variables that are strictly positive and exhibit multiplicative growth, such as asset prices in financial markets.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -591,10 +591,12 @@ f(y, \mu, \sigma) = \frac{1}{y \sigma \sqrt{2 \pi}} \exp\left(-\frac{(\ln y - \m
 \]</span></p>
 </div>
 </div>
-<section id="why-the-lognormal-distribution-for-stock-prices" class="level3" data-number="5.3.1">
+<section id="why-the-lognormal-distribution-for-stock-prices" class="level3 page-columns page-full" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="why-the-lognormal-distribution-for-stock-prices"><span class="header-section-number">5.3.1</span> Why the Lognormal Distribution for Stock Prices?</h3>
 <p>Stock prices, by their nature, cannot fall below zero and often grow in a multiplicative manner over time. If the logarithm of a stock price follows a normal distribution, then the stock price itself is lognormally distributed. This aligns with the widely used geometric Brownian motion model This aligns with the widely used geometric Brownian motion model for stock price dynamics.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>In finance, returns are a natural way to measure changes in stock prices over time. Remember that for a discrete time interval, the return is defined as: <span class="math display">\[
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Geometric Brownian Motion (GBM) is a stochastic process widely used to model stock prices. It follows the equation: <span class="math display">\[
+dS_t=μ\,S_t \,dt+σ\,S_t\,dW_t
+\]</span> where <span class="math inline">\(\mu\)</span> is the drift (expected return), <span class="math inline">\(\sigma\)</span> is the volatility, and <span class="math inline">\(W_t\)</span> is a Wiener process (also called a Brownian motion). A Wiener process is a continuous-time stochastic process with independent, normally distributed increments and is fundamental in modeling randomness in finance. GBM ensures that stock prices remain strictly positive. For a more extensive discussion see for example <span class="citation" data-cites="Luenberger2009">Luenberger (<a href="06-references.html#ref-Luenberger2009" role="doc-biblioref">2009</a>)</span></p></div></div><p>In finance, returns are a natural way to measure changes in stock prices over time. Remember that for a discrete time interval, the return is defined as: <span class="math display">\[
 R = \frac{S_t - S_0}{S_0},
 \]</span> where <span class="math inline">\(S_0\)</span> is the initial price and <span class="math inline">\(S_t\)</span> is the price at time <span class="math inline">\(t\)</span>. However, this formulation has limitations for very short time intervals or when returns are compounded over time.</p>
 <p>Instead, <strong>logarithmic returns</strong> (or continuously compounded returns) are defined as: <span class="math display">\[
@@ -1285,15 +1287,15 @@ What <code>future.apply</code> does is that it enables <strong>parallel executio
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Sequential Execution Time: "</span>, <span class="fu">round</span>(time_seq, <span class="dv">2</span>), <span class="st">" seconds</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Sequential Execution Time:  0.07  seconds</code></pre>
+<pre><code>Sequential Execution Time:  0.06  seconds</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Parallel Execution Time: "</span>, <span class="fu">round</span>(time_par, <span class="dv">2</span>), <span class="st">" seconds</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Parallel Execution Time:  1.26  seconds</code></pre>
+<pre><code>Parallel Execution Time:  1.24  seconds</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Speedup Factor: "</span>, <span class="fu">round</span>(time_seq <span class="sc">/</span> time_par, <span class="dv">2</span>), <span class="st">"x faster with parallel computing</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Speedup Factor:  0.06 x faster with parallel computing</code></pre>
+<pre><code>Speedup Factor:  0.05 x faster with parallel computing</code></pre>
 </div>
 </div>
 <p>Let’s break down the key steps in our parallel Monte Carlo simulation for VaR and explain why each part matters.</p>
@@ -1356,15 +1358,15 @@ It is key to understand that parallelization does not always improve speed. Smal
 </div>
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Sequential Execution Time: "</span>, <span class="fu">round</span>(time_seq, <span class="dv">2</span>), <span class="st">" seconds</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Sequential Execution Time:  6.21  seconds</code></pre>
+<pre><code>Sequential Execution Time:  6.26  seconds</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Parallel Execution Time: "</span>, <span class="fu">round</span>(time_par, <span class="dv">2</span>), <span class="st">" seconds</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Parallel Execution Time:  3.34  seconds</code></pre>
+<pre><code>Parallel Execution Time:  3.59  seconds</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Speedup Factor: "</span>, <span class="fu">round</span>(time_seq <span class="sc">/</span> time_par, <span class="dv">2</span>), <span class="st">"x faster with parallel computing</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Speedup Factor:  1.86 x faster with parallel computing</code></pre>
+<pre><code>Speedup Factor:  1.74 x faster with parallel computing</code></pre>
 </div>
 </div>
 <p>Now we see a doubling of speed achieved by our prallelisation. You can play around yourself to get a feeling for the performance enhancements you may gain for computationally large problems. Maybe you can go back to the very first probelm we dealt with in this coures financial-transaction-identifyer collision probability ofr large transaction volume and large output space <span class="math inline">\(M\)</span>.</p>
@@ -1457,15 +1459,15 @@ Attaching package: 'data.table'</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Data Frame Execution Time: "</span>, <span class="fu">round</span>(time_df, <span class="dv">4</span>), <span class="st">" seconds</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Data Frame Execution Time:  0.0112  seconds</code></pre>
+<pre><code>Data Frame Execution Time:  0.0116  seconds</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Data Table Execution Time: "</span>, <span class="fu">round</span>(time_dt, <span class="dv">4</span>), <span class="st">" seconds</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Data Table Execution Time:  0.0172  seconds</code></pre>
+<pre><code>Data Table Execution Time:  0.0176  seconds</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Speedup Factor: "</span>, <span class="fu">round</span>(time_df <span class="sc">/</span> time_dt, <span class="dv">2</span>), <span class="st">"x faster with data.table</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Speedup Factor:  0.65 x faster with data.table</code></pre>
+<pre><code>Speedup Factor:  0.66 x faster with data.table</code></pre>
 </div>
 </div>
 </section>
@@ -1614,14 +1616,7 @@ McNeil, Alexander, Paul Embrechts, and Rudiger Frey. 2015. <em>Quantitative Risk
 </section>
 </section>
 </section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Geometric Brownian Motion (GBM) is a stochastic process widely used to model stock prices. It follows the equation: <span class="math display">\[
-dS_t=μ\,S_t \,dt+σ\,S_t\,dW_t
-\]</span> where <span class="math inline">\(\mu\)</span> is the drift (expected return), <span class="math inline">\(\sigma\)</span> is the volatility, and <span class="math inline">\(W_t\)</span> is a Wiener process (also called a Brownian motion). A Wiener process is a continuous-time stochastic process with independent, normally distributed increments and is fundamental in modeling randomness in finance. GBM ensures that stock prices remain strictly positive. For a more extensive discussion see for example <span class="citation" data-cites="Luenberger2009">Luenberger (<a href="06-references.html#ref-Luenberger2009" role="doc-biblioref">2009</a>)</span><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

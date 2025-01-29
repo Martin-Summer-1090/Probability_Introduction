@@ -155,7 +155,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -286,7 +286,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -313,7 +313,7 @@ window.Quarto = {
 <p>Although humans have always been aware of chance—gambling and even venerating a goddess of chance—it was only much later that they considered measuring uncertainty mathematically. This is the starting point for classical probability.</p>
 <p>It is also a very good starting point to familiarize ourselves with some basic concepts and knowledge of R by building a simple chance process people apparently had used at all times: Tossing a coin. We will learn how to toss a coin using the computer.</p>
 <p>What does tossing a coin have to do with Finance? Consider this thought experiment: Imagine you are deciding to invest in a stock with an equal chance of increasing or decreasing in value. Simulating a coin toss on the computer, where heads and tails have equal chances, provides a simple yet powerful example. It introduces us to probability and R simultaneously. By linking this example to a financial scenario—such as a stock investment—we also begin connecting probability and R to computational Finance.</p>
-<section id="tossing-a-coin" class="level2" data-number="1.1">
+<section id="tossing-a-coin" class="level2 page-columns page-full" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="tossing-a-coin"><span class="header-section-number">1.1</span> Tossing a fair coin: First Probability ideas.</h2>
 <p>Lets start with a classic and basic example of a probability model: Tossing a fair coin. When probability theorists talk of a fair coin they mean that the coin has equal chances of coming up heads as coming up tails. When the coin is tossed it is uncertain whether it will ultimately come up Heads or Tails.</p>
 <div class="cell" data-layout-align="center">
@@ -356,10 +356,10 @@ Now you try
 <p>Idealizations of the kind we discussed for the toss of a coin are standard in probability and we will encounter them again and again. For example the movement of a stock price is often though of as a conceptual random experiment. When we try to agree on what is the appropriate sample space of this experiment, we can say that the price can not fall below 0 but it is hard to agree on what will be the highest possible price. In the probabilistic treatment of stock prices, which we will discuss later in our course, it is for instance common to assume that the sample space of this random experiment is the entire interval of non-negative real numbers <span class="math inline">\({\cal S} = [0, \infty)\)</span>.</p>
 <p>Many of us would hesitate to claim that the price might rise without bound. Yet many models in applied Finance are based on such an assumption. The models allow arbitrary price hikes but with arbitrary small probability as the price gets higher and higher. Practically it does not make sense to believe that a security price can become arbitrarily high. The use of arbitrarily small probabilities in a financial model might seem absurd but it does no practical harm and makes the model simple and convenient to use. Moreover, if we seriously introduced an upper bound on a security price at <span class="math inline">\(x\)</span> it would be also awkward to assume that it is impossible that it could be just a cent higher, an assumption equally unappealing than assuming it can get in principle arbitrarily high.</p>
 </section>
-<section id="classical-probability" class="level3" data-number="1.1.3">
+<section id="classical-probability" class="level3 page-columns page-full" data-number="1.1.3">
 <h3 data-number="1.1.3" class="anchored" data-anchor-id="classical-probability"><span class="header-section-number">1.1.3</span> Classical Probability: Measuring uncertainty</h3>
 <p><strong>Probability</strong> is a measure of how likely an event of an experiment is. But how could we measure chance? Here is the first big idea of probability theory and how the originators thought about it.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> How do you measure anything? If you think of length, for example, you take an arbitrary standard you agree on and then count. The originators of probability theory pursued the same idea with chance: To measure probability you choose equally probable cases and then count.</p>
-<p>The probability of an event <span class="math inline">\(A\)</span> according to the originators of the theory of probability is then <span class="math display">\[\begin{equation}
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;In this discussion I use chapter 1 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>The probability of an event <span class="math inline">\(A\)</span> according to the originators of the theory of probability is then <span class="math display">\[\begin{equation}
 P(A) = \frac{\text{Number of cases where $A$ occurs}}{\text{Total number of cases}}
 \end{equation}\]</span></p>
 <p>Thus, if we want to know the probability of the coin ending up Heads, we have to compute according to this notion <span class="math inline">\(1/2\)</span>, since the total number of cases is 2 (Heads or Tails).</p>
@@ -494,7 +494,7 @@ Answer by ChatGPT40
 <p>For this we will need the computer. Since we will talk to the computer in R, it is now the right time to look at the coin tossing example from the perspective of R and dive into some of its basic concepts.</p>
 </section>
 </section>
-<section id="tossing-coin-on-computer" class="level2" data-number="1.2">
+<section id="tossing-coin-on-computer" class="level2 page-columns page-full" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="tossing-coin-on-computer"><span class="header-section-number">1.2</span> Tossing a coin on the computer: First steps in R</h2>
 <section id="r-interface" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="r-interface"><span class="header-section-number">1.2.1</span> The R User Interface</h3>
@@ -552,7 +552,7 @@ Error: unexpected input in "5%3"
 </div>
 <p>Lets use these first steps in R to recap the probability concepts we have learned using this example of the six sided die: A <em>basic outcome</em> of tossing the coin is for example <code>1</code> if the upper side after tossing the coin happens to be Heads. The <em>sample space</em> of the experiment of tossing a coin is the set <span class="math inline">\({\cal S} = \{0,1\}\)</span>. In probability theory we often use the symbol <span class="math inline">\({\cal S}\)</span> or <span class="math inline">\(S\)</span> for sample space. In many probability texts the sample space is also often denoted by the symbol <span class="math inline">\(\Omega\)</span> the Greek letter for (big) Omega. A <em>random experiment</em> in this example is the tossing of the coin. The outcome is uncertain but once the coin is tossed the outcome can be determined precisely. The event that the outcome is a display of 2 is the empty set <span class="math inline">\(A = \emptyset\)</span>. The symbol <span class="math inline">\(\emptyset\)</span> comes from set theory and means the set containing no elements. This event can contain no elements because we can not get any other number than 0 or 1 by tossing the coin.</p>
 </section>
-<section id="objects" class="level3" data-number="1.2.2">
+<section id="objects" class="level3 page-columns page-full" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="objects"><span class="header-section-number">1.2.2</span> Objects</h3>
 <p>You can save data in R by storing them in <strong>objects</strong>. An object is a name, you can choose yourself to store data. For example, if you choose to store the value <code>1</code> in an object called <code>Heads</code>, you would type:</p>
 <div class="cell">
@@ -627,7 +627,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 </div>
 <p>you see that R adds 1 to 0 and then starts over again by adding 1 to 1.</p>
 <p>If the longer vectors is not a multiple of the shorter one, R recycles but the cuts off.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="cell">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;As of R version 4.2.0 (released in April 2022), the behavior regarding the recycling rule has changed. In older versions of R, a warning was issued when the length of one vector was not a multiple of the length of the other vector during arithmetic operations. The reasoning behind this change was to reduce unnecessary noise in the output. Many users found the warnings redundant in cases where the recycling rule was intentional and understood. However, this change means you need to be more cautious, as unexpected behavior might go unnoticed without the warning.</p></div></div><div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>coin <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 3 3 5</code></pre>
@@ -670,7 +670,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>In this case <code>sample</code> has chosen either 0 or 1 from the vector <code>x = (0,1)</code> at random.</p>
@@ -678,7 +678,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -686,11 +686,11 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 </div>
 <p>These are the random outcomes of our consecutive tosses. It is as if we had thrown an actual coin but in this case we have done the same thing on the computer. Isn’t it cool that this is possible at all? The <code>sample()</code> function will remain our good friend throughout this course.</p>
@@ -728,11 +728,11 @@ NULL</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -880,11 +880,11 @@ Now you try
 <p>One way to learn whether our coin is fair are <em>repetition</em> and <em>visualization</em>. These are tools we will need all the time, when working with data and when doing probability. While R has many useful functions, one of the great powers is that R is constantly extended by a huge community of users by providing packages.</p>
 <p>Packages are add on functions, which will not be available when you install R. They need to be installed and loaded before you can use them. Since packages are such a powerful tool in R we need to introduce what they are and how to use them in the beginning.</p>
 </section>
-<section id="packages" class="level3" data-number="1.2.9">
+<section id="packages" class="level3 page-columns page-full" data-number="1.2.9">
 <h3 data-number="1.2.9" class="anchored" data-anchor-id="packages"><span class="header-section-number">1.2.9</span> Packages</h3>
 <p>There are many visualization tools in R that come with the basic installation. Since the point we want to make here is about packages, we will use a visualization function which is part of the add on package <strong>ggplot2</strong>, a very popular package for making all kinds of graphs. ggplot2 is not part of the base-R distribution. It has to be therefore loaded before we can use it.</p>
 <p>There are many additional functions provided with this package. Indeed you could run a whole course on just that <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<p>Since we want to use functios now which are not in the base R distribution. we need to load the package which provides the functions we want. In this example we use the package <em>ggplot2</em>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;A very good starting point is for instance <span class="citation" data-cites="Healy2018">Healy (<a href="06-references.html#ref-Healy2018" role="doc-biblioref">2019</a>)</span>, in case you are interested. Also a good source is the first chapter in <span class="citation" data-cites="WickhamGrolemund2017">Wickham and Grolemund (<a href="06-references.html#ref-WickhamGrolemund2017" role="doc-biblioref">2017</a>)</span>.</p></div></div><p>Since we want to use functios now which are not in the base R distribution. we need to load the package which provides the functions we want. In this example we use the package <em>ggplot2</em>.</p>
 <p>When we use a package for the first time it needs to be installed. Once installed it does not have to be reinstalled when we use it at later coding sessions again.</p>
 <p>To install a package you need to be connected to the internet. If you have internet connection go to the command line and run at the command line: <code>install.packages("ggplot2")</code>.</p>
 <p>R displays what is happening while executing the command. Don’t worry if you don not know what all of these messages exactly mean and don’t panic that they are displayed in red. All packages can be installed like this. You have just to enter the correct name in the function <code>install.packages()</code>. The lower right pane in the RStudio software alternatively provides a tab called <strong>Packages</strong>. Using this tab, you can also install R packages interactively by clicking the install button on the upper left corner of the Packages tab.</p>
@@ -1029,14 +1029,14 @@ a vector of probability weights for obtaining the elements of the vector being s
 <p>Then comes a field called <strong>Details</strong> which gives a more in-depth description of the function. The next field is called <strong>Value</strong>. It describes what the function returns when you run it. Then we have a reference to related R functions under the field <strong>See</strong>. Finally there is a field called <strong>Examples</strong>. This field contains example code that is guaranteed to work. It shows a couple of different cases how you can use the function in practice.</p>
 </section>
 </section>
-<section id="coincidences" class="level2" data-number="1.3">
+<section id="coincidences" class="level2 page-columns page-full" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="coincidences"><span class="header-section-number">1.3</span> Application: Coincidences and the Blockchain</h2>
-<section id="birthday_problem" class="level3" data-number="1.3.1">
+<section id="birthday_problem" class="level3 page-columns page-full" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="birthday_problem"><span class="header-section-number">1.3.1</span> The birthday problem</h3>
 <p>In this section, we will apply our foundational knowledge of probability - which is at the moment just the informal and intuitive notion of counting equally probably cases - to a fascinating real-world problem known as the <em>birthday problem</em>:</p>
 <p>The starting question in the birthday problem is: What is the probability that at least two people in a room share the same birthday, when we neglect things like leap years, and when we assume that birthdays on any day of the year are equiprobable and the birthdays of the people in the room are independent. We have no twins for example.</p>
 <p>Perhaps some of you have already seen this problem before. If not, the result may surprise you. Even if you saw the birthday problem before, perhaps not many of you are aware that the significance of this problem reaches far beyond recreational math puzzles. This is because the birthday story is of course accidential. The mathematical formulation of the problem will reveal through the process of abstraction that this problem is at the heart a problem about the probability of coincidences. As such it has real world connections to cryptography and the blockchain security.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<p>Through this problem, we will:</p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;We follow here the discussion in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>Through this problem, we will:</p>
 <ul>
 <li>Explore how to frame probability questions mathematically.</li>
 <li>Use basic R functions to compute probabilities.</li>
@@ -1047,7 +1047,7 @@ a vector of probability weights for obtaining the elements of the vector being s
 <p>The <em>sample space</em> is the set of possible outcomes of the experiment. The sample space for our problem includes all possible combinations of birthdays for the group. For example, if there are 3 people, each with a birthday on any of 365 days, the sample space contains all possible sequences of three birthdays:</p>
 <p><span class="math inline">\((1,1,1),(1,1,2),…,(365,365,365)\)</span></p>
 <p>In general, for <span class="math inline">\(n\)</span> people, there are <span class="math inline">\(365^n\)</span> possible combinations, as each person’s birthday is independent of the others.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
-<p>Now given this sample space we can assign a probability to the event that two people chosen at random will have the same birthday. The denominator will this be <span class="math inline">\(365^n\)</span>. The nominator for this probability will be much more straightforward to figure out, if we compute the complement. We discussed before that the probability of the complement of an event is 1 minus the probability of the event: <span class="math inline">\(P(\text{not} A) = 1 - P(A)\)</span>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;Mathematically you can describe the sample space for the birthday problem as a set with <span class="math inline">\(365^n\)</span> ordered <span class="math inline">\(n\)</span>-tuples or sequences of birthdays: <span class="math inline">\({\cal S} = \{x | x \in 365^n \}\)</span> This is the sample space of this experiment, written as in set theoretic notation. It means the sample space is the set of all ordered <span class="math inline">\(n-tuples\)</span> from the Cartesian product <span class="math inline">\(365^n\)</span>. Remember that in mathematics, a Cartesian product is a mathematical operation that returns a set (or product set or simply product) from multiple sets (in this case the sample space, <span class="math inline">\({\cal S}\)</span>. That is, for sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the Cartesian product <span class="math inline">\(A \times B\)</span> is the set of all ordered pairs <span class="math inline">\((a,b)\)</span> where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in B\)</span>.</p></div></div><p>Now given this sample space we can assign a probability to the event that two people chosen at random will have the same birthday. The denominator will this be <span class="math inline">\(365^n\)</span>. The nominator for this probability will be much more straightforward to figure out, if we compute the complement. We discussed before that the probability of the complement of an event is 1 minus the probability of the event: <span class="math inline">\(P(\text{not} A) = 1 - P(A)\)</span>.</p>
 <p>Let <span class="math inline">\(A\)</span> denote the event that no two people share the same brithday. We can then use the complement rule to compute the probability of at least two people sharing a birthday: Compute the probability that no two people share a birthday. Subtract this probability from 1 to get the probability of at least one match.</p>
 <p>Here’s how we compute the probability of no matches:</p>
 <ol type="1">
@@ -1071,7 +1071,7 @@ P(\text{at least two people share birthday}) =
 </div>
 <p>We have used the operator <code>^</code> which is needed to compute powers. Now we see from our computation that with 23 people the probability is already larger than 50 %. Quite stunning. You can now verify yourself that with 50 people this probability is already at 97 %.</p>
 <p>Let’s visualize how the probability of at least one shared birthday grows with the size of the group. This time I will use base R’s plotting functionality and not use the <code>ggplot2</code> package.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
-<p>The plot below shows that the probability exceeds 50% with just 23 people and quickly approaches 100% as the group size increases.</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;I used <code>ggplot2</code> before to explain the concept of a package and how to load it to enhance R’s functionality. Base R containts a lot of powerful plotting functions which work independently of <code>gglot2</code>.</p></div></div><p>The plot below shows that the probability exceeds 50% with just 23 people and quickly approaches 100% as the group size increases.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the birthday_collisions function</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1099,8 +1099,8 @@ P(\text{at least two people share birthday}) =
 </div>
 </div>
 <p>I will not go in detail into the explanation of the code at this stage. For those of you who crave for an explanation, please look at the marginal note here or use the LLM for a step by step explanation.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-</section>
-<section id="determining-birthday-collisions-by-simulation" class="level3" data-number="1.3.2">
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;<code>birthday_collisions</code> Function: This function calculates the probability of at least one shared birthday for a group of <span class="math inline">\(n\)</span> people using the formula derived earlier. <code>group_sizes</code> and <code>collision_probs</code>: <code>group_sizes</code> defines a range of group sizes (1 to 50). <code>sapply</code> applies the <code>birthday_collisions</code> function to each group size, computing the collision probabilities. Visualization: A line plot (<code>type = "l"</code>) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (<code>abline</code>) highlights the 50% threshold for better visual context.</p></div></div></section>
+<section id="determining-birthday-collisions-by-simulation" class="level3 page-columns page-full" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="determining-birthday-collisions-by-simulation"><span class="header-section-number">1.3.2</span> Determining birthday collisions by simulation</h3>
 <p>Instead of deriving the probability analytically, we can simulate the birthday experiment if we use the relative frequency notion of probability which we informally had used in our visualization of coin tosses. Here’s how:</p>
 <ol type="1">
@@ -1142,7 +1142,7 @@ P(\text{at least two people share birthday}) =
 </ol>
 <p>This step requires some explanation of how R uses data types. We will learn about this more systematically in the next lecture. Here I give a quick and superficial explanation. R can force logical data types automatically to a numerical type when it applies arithmetic functions to a logical vector, forcing <code>TRUE</code> to 1 and <code>FALSE</code> to 0. Now, when you take the average (<code>mean()</code>) of a vector containing only 1 and 0 values you will get the proportion of 1’s or <code>TRUE</code> values. We will use such tricks often during the course of the lecture. For the moment I ask you to bear with this quick and superficial explanation of why this way of proceeding does what we want.</p>
 <p>Note that this code uses a function within a function, which makes the code very efficient.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
-<p>Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;As always there are many different ways to write this code a bit differently. Those of you who are more experienced in programming you can challenge yourself by using for instance the following approach: Create a single matrix where each row represents one trial, and each column corresponds to a birthday for one person in that trial.Use the <code>apply()</code>function for Row-Wise Operations checking for duplicates. The result should be a logical vector indicating whether each trial has a duplicate and then take the mean of this vector.</p></div></div><p>Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_birthday</span>(<span class="dv">23</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1166,7 +1166,7 @@ P(\text{at least two people share birthday}) =
 <p>By understanding and applying this simulation, you now have a practical tool to explore probability problems beyond purely mathematical derivations.</p>
 <p>The birthday problem has practical implications beyond recreational math. In cryptography, the same underlying principles are used to analyze the likelihood of hash collisions in blockchain systems and digital signatures. Let’s explore this connection further.</p>
 </section>
-<section id="hashfunctions" class="level3" data-number="1.3.3">
+<section id="hashfunctions" class="level3 page-columns page-full" data-number="1.3.3">
 <h3 data-number="1.3.3" class="anchored" data-anchor-id="hashfunctions"><span class="header-section-number">1.3.3</span> Hash-functions and the blockchain</h3>
 <p>The birthday problem provides the foundation for studying coincidences in various contexts. A critical application is in cryptography, where the concept of <strong>hash functions</strong> relies on similar probabilistic principles to ensure data security.</p>
 <p>A hash function is a mathematical tool that converts an input (e.g., a text, file, or number) of any size into a fixed-length output, often called a “hash value” or “digest.” For example, the widely used hash function SHA-256 maps its input to a 256-bit string. You can think of this hash value as a digital fingerprint: any change to the input, no matter how small, results in a completely different hash.</p>
@@ -1178,7 +1178,7 @@ P(\text{at least two people share birthday}) =
 <p>If the range of the hash-function is <span class="math inline">\(M\)</span> and the hash-function maps into a 256 bit string then there are <span class="math inline">\(2^{256}\)</span> basic outcomes. Since the hash-function maps a large string onto a smaller string it is possible that there are two different strings <span class="math inline">\(x \neq y\)</span> mapping to the same value <span class="math inline">\(\text{hash}(x)=\text{hash}(y)\)</span>. This would be a problem for message authentication because it would give the same “fingerprint” for two different strings.</p>
 <p>For a cryptographically secure hash function it is therefore required that the probability of such a collision should be small enough to exclude a collision in all practically relevant circumstances.</p>
 <p>The collision problem for hash functions is analogous to the birthday problem. Instead of asking how many people are needed in a room for a shared birthday, we ask: how many inputs (e.g., messages or files) need to be hashed before two of them produce the same hash value? This probability depends on the size of the hash space, which is determined by the number of bits<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> in the hash function’s output.</p>
-<p>Let <span class="math inline">\(M = 2^{256}\)</span> the number of possible hash values. The probability of no collisions after <span class="math inline">\(n\)</span> hashes is</p>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;A bit, short for binary digit, is defined as the most basic unit of data in telecommunications and computing. Each bit is represented by either a 1 or a 0</p></div></div><p>Let <span class="math inline">\(M = 2^{256}\)</span> the number of possible hash values. The probability of no collisions after <span class="math inline">\(n\)</span> hashes is</p>
 <p><span class="math display">\[\begin{equation*}
 P_{nc}(n) = 1 \times \left(1 - \frac{1}{M}\right)\times
 \left(1 - \frac{2}{M} \right) \times \cdots \times \left(1 - \frac{(n-1)}{M} \right)
@@ -1257,15 +1257,15 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 <li><strong>Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability</strong></li>
 </ol>
 </section>
-<section id="project-designing-transaction-identifyers-for-digital-payment-systems" class="level2" data-number="1.5">
+<section id="project-designing-transaction-identifyers-for-digital-payment-systems" class="level2 page-columns page-full" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="project-designing-transaction-identifyers-for-digital-payment-systems"><span class="header-section-number">1.5</span> Project: Designing transaction identifyers for digital payment systems</h2>
-<section id="introduction-real-world-importance-of-unique-identifiers-in-finance" class="level3" data-number="1.5.1">
+<section id="introduction-real-world-importance-of-unique-identifiers-in-finance" class="level3 page-columns page-full" data-number="1.5.1">
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="introduction-real-world-importance-of-unique-identifiers-in-finance"><span class="header-section-number">1.5.1</span> Introduction: Real-World Importance of Unique Identifiers in Finance</h3>
 <p>In modern financial systems, every transaction is assigned a unique identifier, allowing stakeholders to track, verify, and manage transaction details efficiently. These identifiers are critical for maintaining transparency, accountability, and security across high-volume transaction systems. However, as the volume of transactions grows, the risk of identifier collisions—where two different transactions are assigned the same identifier—increases.</p>
 <p>This issue is analogous to the birthday problem: as the number of transactions increases, the likelihood of collisions rises due to the combinatorial nature of the problem. A collision could result in processing errors or even security vulnerabilities, such as fraudulent transactions or misattribution of funds.</p>
 <p>To mitigate such risks, many financial systems employ hash functions, such as the widely used SHA-256, to map data to a large space of possible outputs. These hash functions, with their vast output range (e.g., <span class="math inline">\(2^{256}\)</span>), make collisions extremely unlikely, even for billions of transactions. By understanding the principles behind collision probabilities, financial institutions can design systems that maintain transaction integrity even under high workloads.</p>
 <p>In this project, we will explore this critical aspect of financial systems by simulating transaction identifiers and analyzing collision probabilities. This exercise demonstrates how theoretical probability concepts translate directly to practical challenges in computational finance.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
-<p>In this project, you will:</p>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com</p></div></div><p>In this project, you will:</p>
 <ol type="1">
 <li>Simulate a system assigning transaction identifiers.</li>
 <li>Investigate the probability of identifier collisions under different scenarios.</li>
@@ -1319,21 +1319,7 @@ Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science</em>. O’R
 </div>
 </section>
 </section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>In this discussion I use chapter 1 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>As of R version 4.2.0 (released in April 2022), the behavior regarding the recycling rule has changed. In older versions of R, a warning was issued when the length of one vector was not a multiple of the length of the other vector during arithmetic operations. The reasoning behind this change was to reduce unnecessary noise in the output. Many users found the warnings redundant in cases where the recycling rule was intentional and understood. However, this change means you need to be more cautious, as unexpected behavior might go unnoticed without the warning.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>A very good starting point is for instance <span class="citation" data-cites="Healy2018">Healy (<a href="06-references.html#ref-Healy2018" role="doc-biblioref">2019</a>)</span>, in case you are interested. Also a good source is the first chapter in <span class="citation" data-cites="WickhamGrolemund2017">Wickham and Grolemund (<a href="06-references.html#ref-WickhamGrolemund2017" role="doc-biblioref">2017</a>)</span>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>We follow here the discussion in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Mathematically you can describe the sample space for the birthday problem as a set with <span class="math inline">\(365^n\)</span> ordered <span class="math inline">\(n\)</span>-tuples or sequences of birthdays: <span class="math inline">\({\cal S} = \{x | x \in 365^n \}\)</span> This is the sample space of this experiment, written as in set theoretic notation. It means the sample space is the set of all ordered <span class="math inline">\(n-tuples\)</span> from the Cartesian product <span class="math inline">\(365^n\)</span>. Remember that in mathematics, a Cartesian product is a mathematical operation that returns a set (or product set or simply product) from multiple sets (in this case the sample space, <span class="math inline">\({\cal S}\)</span>. That is, for sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the Cartesian product <span class="math inline">\(A \times B\)</span> is the set of all ordered pairs <span class="math inline">\((a,b)\)</span> where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in B\)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>I used <code>ggplot2</code> before to explain the concept of a package and how to load it to enhance R’s functionality. Base R containts a lot of powerful plotting functions which work independently of <code>gglot2</code>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p><code>birthday_collisions</code> Function: This function calculates the probability of at least one shared birthday for a group of <span class="math inline">\(n\)</span> people using the formula derived earlier. <code>group_sizes</code> and <code>collision_probs</code>: <code>group_sizes</code> defines a range of group sizes (1 to 50). <code>sapply</code> applies the <code>birthday_collisions</code> function to each group size, computing the collision probabilities. Visualization: A line plot (<code>type = "l"</code>) is used to visualize how the collision probability increases with group size. A horizontal red dashed line (<code>abline</code>) highlights the 50% threshold for better visual context.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>As always there are many different ways to write this code a bit differently. Those of you who are more experienced in programming you can challenge yourself by using for instance the following approach: Create a single matrix where each row represents one trial, and each column corresponds to a birthday for one person in that trial.Use the <code>apply()</code>function for Row-Wise Operations checking for duplicates. The result should be a logical vector indicating whether each trial has a duplicate and then take the mean of this vector.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>A bit, short for binary digit, is defined as the most basic unit of data in telecommunications and computing. Each bit is represented by either a 1 or a 0<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
