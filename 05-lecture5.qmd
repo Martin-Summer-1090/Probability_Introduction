@@ -1313,7 +1313,644 @@ $$
 $$
 which is 1,25 %. The standard error of the mean return estimate is then larger
 than the mean return itself. If we use 4 years of data we can cut this standard
-deviation by a factor 2, which still must count as a very poor estimate. For an estimate
-to be considered good we need to be able to cut down the standard deviation to about 1/10th of the mean. 
+deviation by a factor 2, which still must count as a very poor estimate. For an 
+estimate
+to be considered good we need to be able to cut down the standard deviation 
+to about 1/10th of the mean. 
 This would require about $n = 43.3^2 = 1875$ or about 156 years of data.
+
+This is a well known problem in empirical finance which has even a name. It is
+called the **historical blur** problem for the measurement of $\bar{r}$. It is
+basically impossible to measure $\bar{r}$ to within workable accuracy using
+historical data. The problem can not be improved much by changing the
+period length. If longer periods are used, each sample is more reliable but 
+fewer independent samples are obtained in any year. If the period is smaller, 
+more samples are available but each is worse in terms of the ratio of standard 
+deviation to mean value.
+
+## Introdcution to Monte Carlo Simulation in Finance
+
+Monte Carlo simulation is a computational technique that uses 
+repeated random sampling to estimate uncertain outcomes. It is 
+particularly useful when dealing with **probabilistic models** 
+and **complex systems** where analytical solutions are difficult 
+or impossible to derive. It is also an excellent application context
+where we can discuss how to optimize speed and efficiency in R
+code.
+
+The term Monte Carlo Simulation originates from the 
+Manhattan Project during World War II, where scientists, 
+including Stanislaw Ulam and John von Neumann, used random 
+sampling techniques to model complex physical processes, such 
+as neutron diffusion in nuclear reactions. The name "Monte Carlo" 
+was inspired by the famous Monte Carlo Casino in Monaco, reflecting 
+the method's reliance on randomness and probability—just like 
+games of chance in a casino.
+
+Monte Carlo methods are used extensively in computational Finance.
+Financial markets are inherently uncertain, and Monte Carlo methods allow 
+us to model this uncertainty by simulating a large number of 
+possible outcomes. Some key applications in finance include:
+
+- **Risk estimation** (e.g., computing Value at Risk).  
+- **Pricing derivatives** (e.g., options pricing using risk-neutral Monte Carlo methods).  
+- **Portfolio optimization** (e.g., estimating expected returns and volatility distributions).  
+
+In this lecture, we focus on **estimating Value at Risk (VaR)** which we have
+discussed from a conceptual viewpoint in this lecture and where we have focussed
+on cases of normally distributed log returns of stocks. We also briefly touched
+on the approach of historical simulation, where past return data are used
+to estimated the risk
+
+In contrast to these methods Monte Carlo Simulation simulates future returns using
+random draws based on estimated statistical properties like mean and
+standard deviation. This is an apporach where the computer can shine.
+
+### Simulating Portfolio Returns for VaR Calculation Step-by-Step Implementation in R
+
+We will now implement a **basic Monte Carlo simulation** in R to estimate VaR. 
+
+The approach consists of:
+
+1. **Estimating the portfolio’s mean return and standard deviation** based on historical data.  
+2. **Generating thousands of random return scenarios** assuming a normal distribution.  
+3. **Calculating the simulated portfolio losses** and extracting the VaR from the loss distribution.  
+ 
+
+#### Step 1: Simulating Portfolio Returns
+
+
+We begin by assuming that **log-returns** of a portfolio 
+follow a normal distribution, which is a common assumption in 
+risk modeling. 
+
+Given **historical return data**, we estimate 
+the **mean** and **standard deviation**, then simulate 
+thousands of potential returns. I do not do an explicit
+estimation in the follwoing code chunk because we have done
+so explicitly at many parts in this lecture. This could be
+done with historical data (keeping the blur problem in mind) and then
+- since the normal distribution is fully characterized by mean and standard 
+deviation - we can use the normality assumption to pin down 
+a simulation distribution. For the sake of demonstration I do
+10000 simulations here fro somewhat typical returns parameter
+values. You can play with this. This can be in principle
+scaled up a lot. Note also that we set a random seed for 
+reproduceability here. For the visualization I take the
+`ggplot2` package, which I think, produced the visualy most
+appealing results in R.
+
+```{r}
+# Load necessary packages
+library(ggplot2)  # For visualization
+
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Simulated historical daily log-returns (e.g., from a stock index)
+historical_returns <- rnorm(250, mean = 0.0005, sd = 0.01)  # 250 trading days
+
+# Estimate parameters (mean and standard deviation)
+mu <- mean(historical_returns)
+sigma <- sd(historical_returns)
+
+# Simulate 10,000 future return scenarios using Monte Carlo
+n_sim <- 10000
+simulated_returns <- rnorm(n_sim, mean = mu, sd = sigma)
+
+# Quick visualization of simulated returns
+ggplot(data.frame(returns = simulated_returns), aes(x = returns)) +
+  geom_histogram(bins = 50, fill = "blue", alpha = 0.5) +
+  labs(title = "Histogram of Simulated Portfolio Returns",
+       x = "Simulated Return", y = "Frequency")
+```
+
+#### Step 2: Estimating Value at Risk (VaR)
+
+Once we have simulated thousands of possible portfolio returns, we 
+extract **Value at Risk (VaR)** from the distribution. 
+Since **VaR is the quantile of the loss distribution**, we 
+take the **left-tail quantile** (e.g., 5% or 1% quantile).
+
+```{r}
+# Compute portfolio losses (negative returns)
+simulated_losses <- -simulated_returns  # Losses are negative returns
+
+# Compute VaR at 95% and 99% confidence levels
+VaR_95 <- quantile(simulated_losses, probs = 0.95)
+VaR_99 <- quantile(simulated_losses, probs = 0.99)
+
+# Print results
+cat("Monte Carlo Estimated VaR:\n")
+cat("95% VaR:", round(VaR_95, 4), "\n")
+cat("99% VaR:", round(VaR_99, 4), "\n")
+```
+
+The raw VaR numbers reported in our Monte Carlo simulation—
+e.g., **95% VaR = 0.0151**—represent the potential **daily loss** as 
+a fraction of the portfolio value. However, to make this 
+result more intuitive, let’s express it in **real monetary terms**.
+
+Suppose we are managing a $10 billion USD portfolio. 
+The 95% VaR of 0.0151 means:  
+
+- **Daily Loss Interpretation**:  
+  
+Under normal market conditions, there is a 95% probability that the portfolio 
+will lose no more than  \$ 151 million USD in a single trading 
+day (1.51% of \$ 10 billion).  
+Conversely, there is a 5% chance that losses will exceed this amount.  
+
+- **Yearly Exceedance Frequency**:  
+
+Since 5% of trading days (approximately 12–13 days per year in 
+a 250-day trading year) fall in the worst-case loss category,  
+we expect to lose more than $151 million USD on about 12–13 days per year.  
+
+You can do this kind of translation for the 99% VaR for yourself. You can
+even support your intuition by leveraging the power of R to write a function
+yourself to make such interpretations dynamic for arbitrary 
+portfolio sizes and let R do the interpretation for you. Let us
+call this function `interpret_VaR`:
+
+```{r}
+# Function to interpret Monte Carlo VaR results
+interpret_var <- function(VaR_95, VaR_99, portfolio_value, trading_days = 250) {
+  # Compute monetary losses
+  VaR_95_dollars <- VaR_95 * portfolio_value
+  VaR_99_dollars <- VaR_99 * portfolio_value
+  
+  # Compute expected exceedance frequency
+  # ~5% exceedance
+  days_exceeding_95 <- trading_days * (1 - 0.95)
+  # ~1% exceedance
+  days_exceeding_99 <- trading_days * (1 - 0.99)  
+  
+  # Print interpretation
+  cat("Monte Carlo Value at Risk (VaR) Interpretation:\n")
+  cat("-------------------------------------------------\n")
+  cat("Portfolio Value: $", format(portfolio_value, big.mark = ","), "\n\n")
+  
+  cat("95% VaR Interpretation:\n")
+  cat("- Expected daily loss will not exceed", 
+      round(VaR_95 * 100, 2), "% in 95% of cases.\n")
+  cat("- This corresponds to a daily loss limit of approximately $", 
+      format(round(VaR_95_dollars, 2), big.mark = ","), ".\n")
+  cat("- However, about", 
+      round(days_exceeding_95, 1), "days per year, losses may exceed this level.\n\n")
+  
+  cat("99% VaR Interpretation:\n")
+  cat("- Expected daily loss will not exceed", 
+      round(VaR_99 * 100, 2), "% in 99% of cases.\n")
+  cat("- This corresponds to a daily loss limit of approximately $", 
+      format(round(VaR_99_dollars, 2), big.mark = ","), ".\n")
+  cat("- However, about", 
+      round(days_exceeding_99, 1), "days per year, losses may exceed this level.\n")
+}
+
+# Example usage: Assume a portfolio of $10 billion
+portfolio_value <- 10e9  # $10 billion
+
+# Call the function with Monte Carlo estimated VaR
+interpret_var(0.0151 , 0.0214 , portfolio_value)
+
+```
+
+#### Step 3: Optimizing the Monte Carlo Simulation
+
+A naive Monte Carlo approach can be slow for large-scale simulations. 
+To **optimize performance**, we introduce:
+
+- **Vectorization**: Using matrix operations instead of loops.
+- **Parallel computing**: Running simulations in parallel using the `future.apply` package.
+- **Efficient data handling**: Using `data.table` instead of standard data frames.
+
+
+These are excellent points! To **expand and refine** this section, I’ll structure it as follows:
+
+---
+
+### **Step 3: Optimizing the Monte Carlo Simulation**
+Monte Carlo simulations can become computationally expensive when scaled up, making **performance optimization** an important consideration. 
+
+We introduce three key techniques:  
+1. **Vectorization** – Using efficient matrix operations instead of loops.  
+2. **Parallel Computing (`future.apply`)** – Distributing tasks across multiple CPU cores.  
+3. **Efficient Data Handling (`data.table`)** – Reducing memory overhead and improving speed.  
+
+
+R has built in functionality for parallel computing. Here we will
+discuss parallel computing with `future.apply`.
+
+So what us `future.apply` and how does t help?
+The `future.apply` package allows us to run 
+**apply-type functions in parallel** across multiple CPU 
+cores, improving computational speed when processing large datasets.
+Normally, R executes code **sequentially** (one operation at a time).  
+What `future.apply` does is that it enables **parallel execution**, meaning 
+tasks run simultaneously across multiple CPU cores, reducing computation time.  
+
+Parallelization **is essential** when:
+
+- You need to **simulate millions of scenarios** (e.g., high-frequency Monte Carlo simulations).  
+- Your computations involve **nested loops** (e.g., pricing derivatives across many strike prices).  
+- You work with **large financial datasets** that slow down single-threaded processing.
+
+However, parallelization is not always beneficial for small-scale 
+problems due to **overhead costs** of setting up parallel workers.
+
+
+Let us compare sequential vs. parallel Monte Carlo Simulation to demonstrate
+these points.
+We first run a **single-core Monte Carlo simulation** and then 
+compare it to a **parallelized version**.
+
+```{r}
+# Load necessary package
+library(future.apply)
+
+# Set up parallel processing using all available CPU cores
+plan(multisession)
+
+# Define Monte Carlo function for Value at Risk (VaR)
+monte_carlo_var <- function(n_sim, mu, sigma, confidence = 0.95) {
+  simulated_losses <- -rnorm(n_sim, mean = mu, sd = sigma)
+  return(quantile(simulated_losses, probs = confidence))
+}
+
+# Define number of simulations
+n_sim <- 100000  # Large-scale simulation
+
+# Measure time for sequential computation (single core)
+start_time_seq <- Sys.time()
+VaR_95_seq <- sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95))
+end_time_seq <- Sys.time()
+time_seq <- as.numeric(difftime(end_time_seq, start_time_seq, units = "secs"))  # Convert to numeric seconds
+
+# Measure time for parallel computation (multiple cores)
+start_time_par <- Sys.time()
+VaR_95_par <- future_sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95), future.seed = TRUE)
+end_time_par <- Sys.time()
+time_par <- as.numeric(difftime(end_time_par, start_time_par, units = "secs"))  # Convert to numeric seconds
+
+# Print timing results
+cat("Execution Time Comparison:\n")
+cat("Sequential Execution Time: ", round(time_seq, 2), " seconds\n")
+cat("Parallel Execution Time: ", round(time_par, 2), " seconds\n")
+cat("Speedup Factor: ", round(time_seq / time_par, 2), "x faster with parallel computing\n")
+
+```
+
+Let’s break down the key steps in 
+our parallel Monte Carlo simulation for VaR 
+and explain why each part matters.  
+
+```{r}
+#| eval: false
+
+library(future.apply)
+plan(multisession)
+```
+
+`future.apply` is an enhanced version of `apply()` functions** that supports parallel execution.
+`plan(multisession)` tells R to use multiple CPU cores instead of executing code sequentially.
+Normally, R runs tasks one at a time (single-threaded).
+With `multisession`, R splits tasks across CPU cores, reducing 
+execution time for large simulations.
+
+```{r}
+#| eval: false
+monte_carlo_var <- function(n_sim, mu, sigma, confidence = 0.95) {
+  simulated_losses <- -rnorm(n_sim, mean = mu, sd = sigma)
+  return(quantile(simulated_losses, probs = confidence))
+}
+```
+
+We generate `n_sim` random portfolio losses from a normal distribution 
+(negating returns to represent losses).  
+We extract the VaR quantile from the simulated loss distribution. 
+This function encapsulates our Monte Carlo 
+simulation into a modular, reusable block of code.
+Later, we parallelize multiple independent simulations 
+using this function.
+
+```{r}
+#| eval: false
+
+start_time_seq <- Sys.time()
+VaR_95_seq <- sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95))
+end_time_seq <- Sys.time()
+time_seq <- as.numeric(difftime(end_time_seq, start_time_seq, units = "secs"))
+```
+ 
+We measure execution time for the sequential (single-core) simulation.  
+`sapply(1:10, function(x) ...)` runs 10 independent Monte Carlo simulations.  
+This serves as our baseline for performance comparison.
+We need to measure the cost of 
+computing independent Monte Carlo simulations one by one.
+
+```{r}
+#| eval: false
+start_time_par <- Sys.time()
+VaR_95_par <- future_sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95), future.seed = TRUE)
+end_time_par <- Sys.time()
+time_par <- as.numeric(difftime(end_time_par, start_time_par, units = "secs"))
+```
+
+We now run 10 Monte Carlo simulations in parallel, distributing them across CPU cores.
+`future.seed = TRUE` ensures statistically valid random number generation 
+across parallel workers.
+Unlike sequential execution, multiple CPU cores now share the workload.
+This should reduce execution time, but the actual gain 
+depends on the computational task and system configuration.
+
+The last step just compares performance
+
+At first glance, the results of our output seems counterintuitive—why is 
+parallel execution **slower** than sequential execution here?  
+It is key to understand that parallelization does not always improve speed.
+Small tasks don’t benefit from parallel execution.
+
+  - The **overhead cost** of setting up parallel workers (process spawning, memory sharing, inter-process communication) can **exceed the time saved** for small problems.  
+- **Parallelization shines for large-scale computations**.  
+
+Let’s increase the number of simulations to **10 million (`1e7`) per iteration** 
+to demonstrate when parallel computing becomes a necessity.
+
+```{r}
+# Define larger-scale simulation
+n_sim <- 1e7  # 10 million simulations per iteration
+
+# Run the comparison again
+start_time_seq <- Sys.time()
+VaR_95_seq <- sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95))
+end_time_seq <- Sys.time()
+time_seq <- as.numeric(difftime(end_time_seq, start_time_seq, units = "secs"))
+
+start_time_par <- Sys.time()
+VaR_95_par <- future_sapply(1:10, function(x) monte_carlo_var(n_sim, mu, sigma, 0.95), future.seed = TRUE)
+end_time_par <- Sys.time()
+time_par <- as.numeric(difftime(end_time_par, start_time_par, units = "secs"))
+
+cat("Execution Time Comparison (Larger Simulations):\n")
+cat("Sequential Execution Time: ", round(time_seq, 2), " seconds\n")
+cat("Parallel Execution Time: ", round(time_par, 2), " seconds\n")
+cat("Speedup Factor: ", round(time_seq / time_par, 2), "x faster with parallel computing\n")
+```
+
+Now we see a doubling of speed achieved by our prallelisation. You can play
+around yourself to get a feeling for the performance enhancements you may
+gain for computationally large problems. Maybe you can go back to the
+very first probelm we dealt with in this coures financial-transaction-identifyer
+collision probability ofr large transaction volume and large output space $M$.
+
+Let's visualize the execution time comparison of our example:
+
+```{r}
+# Load necessary package
+library(ggplot2)
+
+# Simulated execution times (adjust these with actual results if needed)
+execution_times <- data.frame(
+  Simulation_Size = factor(c("100,000 Sims", "10,000,000 Sims"), 
+                           levels = c("100,000 Sims", "10,000,000 Sims")),
+  Execution_Time = c(0.07 , 1.22, 6.17, 2.85),  # Replace with actual results
+  Method = rep(c("Sequential", "Parallel"), each = 2)
+)
+
+# Create bar plot
+ggplot(execution_times, aes(x = Simulation_Size, y = Execution_Time, fill = Method)) +
+  geom_bar(stat = "identity", position = "dodge", alpha = 0.7) +
+  labs(title = "Execution Time Comparison: Sequential vs. Parallel Monte Carlo Simulation",
+       x = "Simulation Size",
+       y = "Execution Time (seconds)") +
+  scale_fill_manual(values = c("blue", "red")) +
+  theme_minimal()
+
+```
+
+Here are the key Takeaways from the visualization:
+
+For small-scale simulations (100,000 draws), parallelization adds 
+overhead and is actually slower.
+For large-scale simulations (10 million draws), parallel computing 
+significantly reduces execution time.
+The break-even point depends on system resources, but the lesson 
+is clear: parallel computing is most useful for large problems.
+
+If we need even more computational power, tools such 
+as GPU-based parallelization can help:
+
+- `gpuR`: Allows running matrix operations on GPUs in R.
+- `torch (for R)`: Enables deep learning-like parallel computations on GPUs.
+- `cuda.ml`: Uses NVIDIA’s CUDA for ultra-fast numerical processing.
+
+These methods are beyond the scope of our discussion but become crucial 
+for high-frequency trading, derivative pricing, and deep 
+learning applications in finance.
+
+#### Efficient Data Handling with `data.table`
+
+`data.table`is an R package that increases the efficiency of data handling
+and becomes useful if you are dealing with big datasets. Monte Carlo Simulation
+is a typical context where such issues can arise quickly. In this case
+the use of `data.table`brings enhanced memory efficiency: Standard
+`data.frame` operations create copies of data, increasing memory usage. 
+`data.table` avoids this by modifying objects in place.  
+`data.table` is optimized for speed. It can process 
+millions of rows significantly faster than `data.frame`.  
+
+Let's discuss an example where we compare data frames and the
+`data.table`package.
+Let's compare performance for **storing and manipulating simulated losses**.
+
+```{r}
+# Load the data.table package
+library(data.table)
+
+# Generate a large dataset of simulated losses
+n_sim <- 1e6  # 1 million simulations
+simulated_losses <- -rnorm(n_sim, mean = mu, sd = sigma)
+
+# Store as a standard data frame
+df_losses <- data.frame(losses = simulated_losses)
+
+# Store as a data.table
+dt_losses <- data.table(losses = simulated_losses)
+
+# Measure time to compute quantiles using data.frame
+start_df <- Sys.time()
+VaR_95_df <- quantile(df_losses$losses, probs = 0.95)
+end_df <- Sys.time()
+time_df <- as.numeric(difftime(end_df, start_df, units = "secs"))  # Convert to numeric
+
+# Measure time to compute quantiles using data.table
+start_dt <- Sys.time()
+VaR_95_dt <- dt_losses[, quantile(losses, probs = 0.95)]
+end_dt <- Sys.time()
+time_dt <- as.numeric(difftime(end_dt, start_dt, units = "secs"))  # Convert to numeric
+
+# Print timing results
+cat("Execution Time Comparison for VaR Calculation:\n")
+cat("Data Frame Execution Time: ", round(time_df, 4), " seconds\n")
+cat("Data Table Execution Time: ", round(time_dt, 4), " seconds\n")
+cat("Speedup Factor: ", round(time_df / time_dt, 2), "x faster with data.table\n")
+
+```
+
+### Reporting and Documentation of R Code
+
+ Monte Carlo simulations often generate large volumes of data, and proper 
+ documentation and reporting are essential for: 
+ 
+- **Reproducibility**: Ensuring others (or future you) can 
+    understand and replicate your work.  
+- **Clarity**: Providing a clear summary of simulation results, 
+    assumptions, and methodology.  
+- **Communication**: Making results accessible to different 
+    stakeholders (e.g., researchers, risk managers).  
+
+---
+
+#### Writing Readable and Reproducible R Code  
+
+Here are three best practice tips:
+
+1. **Use clear function names and comments**  
+   - Avoid cryptic variable names.  
+   - Add comments to explain key steps.
+   
+2. **Include metadata in scripts**  
+   - Define **input parameters** at the beginning.  
+   - Set a **random seed** for reproducibility.  
+   
+3. **Use docstrings with `roxygen2`** (for functions in packages).
+
+The `roxygen2` package is a widely used tool for automatically 
+generating documentation for R functions, especially in package 
+development. Instead of manually writing separate documentation 
+files, roxygen2 allows you to write structured 
+docstrings directly above function definitions using 
+specially formatted comments (#').
+
+Why use `roxygen2`? Here are three reasons:
+
+1. Consistency – Ensures documentation is always in sync with the function code.
+2. Efficiency – Eliminates the need for manually maintaining help files.
+3. Integration – Works seamlessly with RStudio, devtools, and pkgdown for package development.
+
+`roxygen` works by extracting special comments (#') and converting them 
+into R help files.
+You can specify parameters, return values, usage examples, and references.
+The devtools::document() function compiles the documentation.
+
+For example, this is how a well documented Monte Carlo
+function could look like.
+
+```{r}
+#' Monte Carlo Simulation for Value at Risk (VaR)
+#'
+#' This function estimates Value at Risk using Monte Carlo simulations.
+#'
+#' @param n_sim Number of simulations
+#' @param mu Mean return of asset
+#' @param sigma Standard deviation of returns
+#' @param confidence Confidence level for VaR (default = 0.95)
+#' @return Estimated VaR
+#' @examples
+#' monte_carlo_var(10000, 0.0005, 0.01, 0.95)
+monte_carlo_var <- function(n_sim, mu, sigma, confidence = 0.95) {
+  simulated_losses <- -rnorm(n_sim, mean = mu, sd = sigma)
+  return(quantile(simulated_losses, probs = confidence))
+}
+```
+
+- This uses **`roxygen2`** syntax for automatic documentation generation.  
+- Calling `devtools::document()` in a package project 
+generates documentation from comments.  
+
+
+Once we run a Monte Carlo simulation, we need to **summarize and present** 
+the results effectively.  
+
+
+A structured summary table is often clearer than raw printouts.
+
+```{r}
+# Example results from Monte Carlo VaR estimation
+Confidence_Level <- c("95%", "99%")
+VaR_Percentage <- c(0.0151, 0.0214)  # Example VaR values
+Portfolio_Value <- 10e9  # Assume $10 billion portfolio
+
+# Compute VaR amount in monetary terms
+VaR_Amount <- VaR_Percentage * Portfolio_Value
+
+# Create a data frame
+results <- data.frame(
+  Confidence_Level = Confidence_Level,
+  VaR_Percentage = VaR_Percentage,
+  Portfolio_Value = Portfolio_Value,
+  VaR_Amount = VaR_Amount
+)
+
+# Print formatted table
+print(results)
+```
+
+Instead of manually copying outputs, **Quarto/RMarkdown** can 
+generate reports dynamically.
+
+Here’s the **Base R** version of the **Quarto (qmd) report snippet**, avoiding `ggplot2` and `dplyr`:
+
+This is how a rewritten example report snippet in Quarto (`.qmd`) would
+- for instance - look like:
+
+```{r}
+#| eval: false
+
+---
+title: "Monte Carlo Simulation Report"
+author: "Your Name"
+date: "`r Sys.Date()`"
+format: html
+---
+  
+# Load necessary base R functions
+  
+# Print results as an HTML table using knitr::kable
+library(knitr)
+kable(results, format = "html", caption = "Monte Carlo Estimated VaR")
+
+# Define execution times (example data)
+Simulation_Size <- c("100,000 Sims", "10,000,000 Sims")
+Execution_Time_Sequential <- c(0.07, 25.3)  # Hypothetical values
+Execution_Time_Parallel <- c(1.22, 5.8)
+
+# Create bar plot using base R
+barplot(
+  height = rbind(Execution_Time_Sequential, Execution_Time_Parallel),
+  beside = TRUE,
+  col = c("blue", "red"),
+  names.arg = Simulation_Size,
+  legend.text = c("Sequential", "Parallel"),
+  main = "Execution Time Comparison",
+  xlab = "Simulation Size",
+  ylab = "Execution Time (seconds)"
+)
+
+# Save summary table as CSV
+write.csv(results, "monte_carlo_var_results.csv", row.names = FALSE)
+
+# Save entire workspace (useful for large simulations)
+save.image("monte_carlo_workspace.RData")
+```
+
+In a report you would of course interweave text and code, but the
+example chunk gives you an idea. Quarto is very versatily and
+visually appealing. For instance the lecture notes for this code
+as well as the slides and all other materials are entirely written
+in Quarto.
+
+
 
