@@ -1,0 +1,361 @@
+---
+title: "Project 4 Group 1"
+author: "Luka Tumbas"
+format: html
+editor: visual
+---
+
+First of all we will construct our data frame necessary for analysis, with 3 Assets, 3 states and 1000 simulations.
+
+```{r}
+# Set seed for reproducibility
+set.seed(123)
+
+# Number of simulations
+n_simulations <- 1000
+
+# Economic states and probabilities
+economic_states <- c("High", "Medium", "Low")
+state_probabilities <- c(0.30, 0.50, 0.20)
+
+# Asset returns for each state
+returns <- data.frame(
+  Asset1 = c(0.08, 0.04, -0.02),
+  Asset2 = c(0.12, 0.03, -0.05),
+  Asset3 = c(0.05, 0.02, 0.01)
+)
+
+# Portfolio weights
+weights <- c(0.50, 0.30, 0.20)
+
+# Simulate 1000 economic states using sample function
+simulated_states <- sample(economic_states, n_simulations, replace = TRUE, prob = state_probabilities)
+
+# Generate data for all simulations using lapply
+simulated_data <- lapply(simulated_states, function(state) {
+  state_index <- which(economic_states == state)
+  asset_returns <- returns[state_index,]
+  portfolio_return <- sum(asset_returns * weights)
+  
+  # Return as a data frame
+  data.frame(State = state, 
+             Asset1_Return = as.numeric(asset_returns[1]), 
+             Asset2_Return = as.numeric(asset_returns[2]), 
+             Asset3_Return = as.numeric(asset_returns[3]), 
+             Portfolio_Return = portfolio_return, 
+             stringsAsFactors = FALSE)
+})
+
+# Convert list of data frames to a single data frame
+simulated_df <- do.call(rbind, simulated_data)
+
+# View the first few rows
+head(simulated_df)
+
+```
+
+Now that we have our data frame with 1000 states and returns, we can focus on analysis.
+
+```{r}
+# Let us compute the mean return for each Asset and the portfolio as a whole
+A1_mean_return <- mean(simulated_df$Asset1_Return)
+A2_mean_return <- mean(simulated_df$Asset2_Return)
+A3_mean_return <- mean(simulated_df$Asset3_Return)
+Portfolio_mean_return <- mean(simulated_df$Portfolio_Return)
+
+#Now let us print this
+cat(sprintf("The mean return of Asset1 is %.2f%%\n", A1_mean_return * 100))
+cat(sprintf("The mean return of Asset2 is %.2f%%\n", A2_mean_return * 100))
+cat(sprintf("The mean return of Asset3 is %.2f%%\n", A3_mean_return * 100))
+cat(sprintf("The mean return of the portfolio is %.2f%%\n", Portfolio_mean_return * 100))
+
+#Let's calculate the Asset and portfolio standard deviation now
+A1_st_dev <- sd(simulated_df$Asset1_Return)
+A2_st_dev <- sd(simulated_df$Asset2_Return)
+A3_st_dev <- sd(simulated_df$Asset3_Return)
+Portfolio_st_dev <- sd(simulated_df$Portfolio_Return)
+
+#And print this as well,but print some separator in between
+cat(rep("*", 39), "\n")
+cat(sprintf("Standard deviation of Asset1 returns is %.2f%%\n", A1_st_dev * 100))
+cat(sprintf("Standard deviation of Asset2 returns is %.2f%%\n", A2_st_dev * 100))
+cat(sprintf("Standard deviation of Asset3 returns is %.2f%%\n", A3_st_dev * 100))
+cat(sprintf("Standard deviation of the portfolio returns is %.2f%%\n", Portfolio_st_dev * 100))
+
+```
+
+Now to compute the expected portfolio return
+
+```{r}
+A1_expected_return <- sum(returns$Asset1 * state_probabilities)
+A2_expected_return <- sum(returns$Asset2 * state_probabilities)
+A3_expected_return <- sum(returns$Asset3 * state_probabilities)
+Portfolio_expected_return <- A1_expected_return*weights[1]+A2_expected_return*weights[2]+A3_expected_return*weights[3]
+#Let us print this as well
+cat(sprintf("The expected return of the portfolio is %.2f%%\n", Portfolio_expected_return * 100))
+```
+
+When we compare the mean portfolio return (3.75%) and the expected portfolio return(3.77%) we can see that they are basically the same, since we used the same state probabilities to compute them.
+
+Now we can look at the expected standard deviation.
+
+```{r}
+var_A1 <- sum((returns$Asset1 - A1_expected_return)^2 * state_probabilities)
+var_A2 <- sum((returns$Asset2 - A2_expected_return)^2 * state_probabilities)
+var_A3 <- sum((returns$Asset3 - A3_expected_return)^2 * state_probabilities)
+
+# Calculate covariance between assets
+cov_A1_A2 <- sum((returns$Asset1 - A1_expected_return) * (returns$Asset2 - A2_expected_return) * state_probabilities)
+cov_A1_A3 <- sum((returns$Asset1 - A1_expected_return) * (returns$Asset3 - A3_expected_return) * state_probabilities)
+cov_A2_A3 <- sum((returns$Asset2 - A2_expected_return) * (returns$Asset3 - A3_expected_return) * state_probabilities)
+
+# Portfolio variance formula
+expected_portfolio_variance <- (weights[1]^2 * var_A1) + (weights[2]^2 * var_A2) + (weights[3]^2 * var_A3) +
+  2 * (weights[1] * weights[2] * cov_A1_A2 + weights[1] * weights[3] * cov_A1_A3 + weights[2] * weights[3] * cov_A2_A3)
+expected_portfolio_st_dev <- sqrt(expected_portfolio_variance)
+
+cat(sprintf("The expected portfolio returns standard deviation is %.2f%%\n", expected_portfolio_st_dev * 100))
+```
+
+We also see that the expected standard deviation of the portfolio is very close to the simulated one, since we, once again, used the same state probabilities and did a relatively large number of simulations (1000).
+
+```{r}
+#We can also confirm this by comparing the theoretical probability of each state, and the relative frequency with which they appear in simulated_states
+
+# Calculate the observed frequency of each state
+simulated_states_freq <- table(simulated_states) / length(simulated_states)
+
+# Convert the frequency table into a data frame and ensure it aligns with economic_states
+observed_freq <- as.vector(simulated_states_freq[match(economic_states, names(simulated_states_freq))])
+
+# Create the data frame with the correct columns
+States_check <- data.frame(
+  State = economic_states,
+  Theoretical_probability = state_probabilities,
+  Observed_frequency = observed_freq
+)
+
+# View the first few rows
+head(States_check)
+```
+
+Now to create the histogram.
+
+```{r}
+library(ggplot2)
+
+# Create the histogram of simulated portfolio returns
+ggplot(simulated_df, aes(x = Portfolio_Return)) +
+  geom_histogram(binwidth = 0.01, fill = "skyblue", color = "black", alpha = 0.7) +
+  labs(
+    title = "Histogram of Simulated Portfolio Returns",
+    x = "Portfolio Return",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+We can see exactly what was calculated in the table above, how each state happened the exact number of time shown, with the corresponding portfolio returns.
+
+This is only a mock portfolio, and the payoffs do not paint a true-to-life picture, but it is still worthy of a few comments for practice. With that being said, is quite a conservative portfolio with mean returns close to the returns standard deviation, meaning that we might be better of reallocating our weights or investing in additional assets to secure better returns while maintaining the level of risk (returns standard deviation). Let us assume that this portfolio we have is invested into some European ETFs and government bonds.Good diversification practice would be to invest into the US stock market(could be more volatile but grants higher returns), or perhaps some emerging market ETFs, which tend to have different economic cycles to EU or US economies, thus lowering our risk when EU is in a 'low' state. We could see both of these things in action right now with the code below.
+
+```{r}
+
+set.seed(150)
+
+# Number of simulations
+n_simulations <- 1000
+
+# Economic states and probabilities
+economic_states <- c("High", "Medium", "Low")
+state_probabilities <- c(0.30, 0.50, 0.20)
+
+# Asset returns for each state
+returns <- data.frame(
+  Asset1 = c(0.08, 0.04, -0.02),
+  Asset2 = c(0.12, 0.03, -0.05),
+  Asset3 = c(0.05, 0.02, 0.01),
+  Asset4 = c(0.15, 0.10, -0.10), #ETF following the Nasdaq index for example
+  Asset5 = c(-0.04, 0.04, 0.08)  #ETF following some emerging market with difference business cycles
+)
+
+# Portfolio weights
+weights <- c(0.20, 0.20, 0.20, 0.25, 0.15)
+
+# Simulate 1000 economic states using sample function
+simulated_states <- sample(economic_states, n_simulations, replace = TRUE, prob = state_probabilities)
+
+# Generate data for all simulations using lapply
+simulated_data <- lapply(simulated_states, function(state) {
+  state_index <- which(economic_states == state)
+  asset_returns <- returns[state_index,]
+  portfolio_return <- sum(asset_returns * weights)
+  
+  # Return as a data frame
+  data.frame(State = state, 
+             Asset1_Return = as.numeric(asset_returns[1]), 
+             Asset2_Return = as.numeric(asset_returns[2]), 
+             Asset3_Return = as.numeric(asset_returns[3]),
+             Asset4_Return = as.numeric(asset_returns[4]),
+             Asset5_Return = as.numeric(asset_returns[5]),
+             Portfolio_Return = portfolio_return, 
+             stringsAsFactors = FALSE)
+})
+
+# Convert list of data frames to a single data frame
+simulated_df <- do.call(rbind, simulated_data)
+
+# View the first few rows
+head(simulated_df)
+
+
+# Let us compute the mean return for each Asset and the portfolio as a whole
+A1_mean_return <- mean(simulated_df$Asset1_Return)
+A2_mean_return <- mean(simulated_df$Asset2_Return)
+A3_mean_return <- mean(simulated_df$Asset3_Return)
+A4_mean_return <- mean(simulated_df$Asset4_Return)
+A5_mean_return <- mean(simulated_df$Asset5_Return)
+Portfolio_mean_return <- mean(simulated_df$Portfolio_Return)
+
+#Now let us print this
+cat(sprintf("The mean return of Asset1 is %.2f%%\n", A1_mean_return * 100))
+cat(sprintf("The mean return of Asset2 is %.2f%%\n", A2_mean_return * 100))
+cat(sprintf("The mean return of Asset3 is %.2f%%\n", A3_mean_return * 100))
+cat(sprintf("The mean return of Asset4 is %.2f%%\n", A4_mean_return * 100))
+cat(sprintf("The mean return of Asset5 is %.2f%%\n", A5_mean_return * 100))
+cat(sprintf("The mean return of the portfolio is %.2f%%\n", Portfolio_mean_return * 100))
+
+#Let's calculate the Asset and portfolio standard deviation now
+A1_st_dev <- sd(simulated_df$Asset1_Return)
+A2_st_dev <- sd(simulated_df$Asset2_Return)
+A3_st_dev <- sd(simulated_df$Asset3_Return)
+A4_st_dev <- sd(simulated_df$Asset4_Return)
+A5_st_dev <- sd(simulated_df$Asset5_Return)
+Portfolio_st_dev <- sd(simulated_df$Portfolio_Return)
+
+#And print this as well,but print some separator in between
+cat(rep("*", 39), "\n")
+cat(sprintf("Standard deviation of Asset1 returns is %.2f%%\n", A1_st_dev * 100))
+cat(sprintf("Standard deviation of Asset2 returns is %.2f%%\n", A2_st_dev * 100))
+cat(sprintf("Standard deviation of Asset3 returns is %.2f%%\n", A3_st_dev * 100))
+cat(sprintf("Standard deviation of Asset4 returns is %.2f%%\n", A4_st_dev * 100))
+cat(sprintf("Standard deviation of Asset5 returns is %.2f%%\n", A5_st_dev * 100))
+cat(sprintf("Standard deviation of the portfolio is %.2f%%\n", Portfolio_st_dev * 100))
+```
+Dear Luka,
+
+Let me give my comments directly here in your own document. This is excellent work.
+This submission is very well-structured, demonstrating independent and diligent work. 
+you have successfully implemented the simulation, correctly 
+structured the data, and used appropriate R functions efficiently. 
+Below are some suggestions for further refinement and enhancement.
+
+**1. Optimize Data Handling in Simulations**
+
+
+Currently, `lapply` is used to generate a list of data frames and 
+then combined with `do.call(rbind, ...)`. While this is a good 
+approach, it could be more memory-efficient by directly 
+initializing a data frame and filling it.
+
+**Suggested Alternative:** Instead of creating a list 
+of data frames, directly pre-allocate a data frame:
+
+```{r}
+
+simulated_df <- data.frame(State = character(n_simulations),
+                           Asset1_Return = numeric(n_simulations),
+                           Asset2_Return = numeric(n_simulations),
+                           Asset3_Return = numeric(n_simulations),
+                           Portfolio_Return = numeric(n_simulations),
+                           stringsAsFactors = FALSE)
+
+for (i in 1:n_simulations) {
+  state_index <- which(economic_states == simulated_states[i])
+  asset_returns <- returns[state_index, ]
+  portfolio_return <- sum(asset_returns * weights)
+  
+  simulated_df[i, ] <- c(simulated_states[i], asset_returns, portfolio_return)
+}
+```
+
+This approach reduces the overhead of handling lists and speeds 
+up execution for large simulations.
+
+---
+
+**2. Clarify Economic State Selection**
+
+The `which(economic_states == state)` line correctly finds 
+the state index. However, using `match()` would be more 
+direct and typically more efficient:
+
+```{r}
+state_index <- match(state, economic_states)
+```
+
+This improves readability and eliminates unnecessary logical checks.
+
+**3. Improve Theoretical Portfolio Metrics Calculation**
+
+While the portfolio return is correctly simulated, an 
+explicit theoretical expected return and variance comparison 
+would reinforce understanding.
+
+**Suggested Addition:**
+
+```{r}
+# Compute theoretical expected portfolio return
+expected_asset_returns <- colSums(returns * state_probabilities)
+expected_portfolio_return <- sum(weights * expected_asset_returns)
+
+# Compute theoretical portfolio variance
+var_assets <- colSums((returns - expected_asset_returns)^2 * state_probabilities)
+cov_matrix <- cov(returns) # Assuming returns is structured correctly
+theoretical_variance <- sum((weights^2) * var_assets) + sum(weights %*% cov_matrix %*% weights)
+
+# Print results
+cat("Theoretical Expected Portfolio Return:", expected_portfolio_return, "\n")
+cat("Theoretical Portfolio Variance:", theoretical_variance, "\n")
+```
+
+This addition would help compare simulated and theoretical results effectively.
+
+**4. Streamline State Frequency Calculation**
+
+The frequency calculation can be simplified using `prop.table()` 
+instead of a manual `sapply()` approach.
+
+**Current Approach:**
+```{r}
+state_frequencies <- sapply(economic_states, function(state) {
+  mean(simulated_df$State == state)
+})
+```
+**Improved Version:**
+```{r}
+state_frequencies <- prop.table(table(simulated_df$State))
+```
+
+This approach is more concise and avoids unnecessary logical operations.
+
+**5. Discussion on Diversification and Risk**
+
+The discussion on risk reduction through diversification 
+is well-founded. It could be further enhanced by calculating 
+correlation coefficients between asset returns to explicitly 
+show their relationship.
+
+**Suggested Addition:**
+```{r}
+cor_matrix <- cor(returns)
+print(cor_matrix)
+```
+
+This would give a numerical understanding of how asset returns interact.
+
+**Final Thoughts**
+This is an excellent submission that demonstrates a clear, independent 
+understanding of the problem. You correctly structured your work and efficiently 
+implemented the simulation. The feedback above focuses 
+on **efficiency improvements, theoretical comparisons and deeper analysis of diversification effects**—all of which could further refine an already strong solution. 

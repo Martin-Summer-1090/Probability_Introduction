@@ -1,0 +1,143 @@
+---
+title: "Portfolio Simulation and Analysis with Discrete Random Variables"
+author: "Martin Summer"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+In this document, we provide a worked solution to the **Portfolio Simulation and Analysis with Discrete Random Variables** project. The goal is to simulate portfolio performance under uncertain economic conditions and compute key portfolio metrics using R.
+
+## Define the Portfolio
+
+We begin by defining the economic states, asset returns, and portfolio weights.
+
+```{r}
+# Define economic states and probabilities
+economic_states <- c("High", "Medium", "Low")
+state_probs <- c(0.3, 0.5, 0.2)
+
+# Define asset returns under each state
+asset_returns <- list(
+  Asset1 = c(0.08, 0.04, -0.02),
+  Asset2 = c(0.12, 0.03, -0.05),
+  Asset3 = c(0.05, 0.02, 0.01)
+)
+
+# Define portfolio weights
+portfolio_weights <- c(Asset1 = 0.5, Asset2 = 0.3, Asset3 = 0.2)
+```
+
+## Simulate Portfolio Performance
+
+We now write functions to simulate random economic states, retrieve asset returns, and compute portfolio returns.
+
+```{r}
+# Function to simulate a random economic state
+simulate_state <- function() {
+  sample(economic_states, size = 1, prob = state_probs)
+}
+
+# Function to retrieve asset returns based on the simulated state
+get_asset_returns <- function(state) {
+  state_index <- which(economic_states == state)
+  sapply(asset_returns, function(x) x[state_index])
+}
+
+# Function to compute the portfolio return
+compute_portfolio_return <- function(asset_returns) {
+  sum(portfolio_weights * asset_returns)
+}
+
+# Simulate portfolio performance over 1,000 periods
+set.seed(123) # For reproducibility
+num_simulations <- 1000
+simulation_results <- replicate(num_simulations, {
+  state <- simulate_state()
+  returns <- get_asset_returns(state)
+  portfolio_return <- compute_portfolio_return(returns)
+  list(State = state, Returns = returns, PortfolioReturn = portfolio_return)
+}, simplify = FALSE)
+```
+
+## Analyze Portfolio Performance
+
+### Compute Summary Statistics
+
+```{r}
+# Extract portfolio returns
+portfolio_returns <- sapply(simulation_results, function(x) x$PortfolioReturn)
+
+# Compute mean return and variance
+mean_return <- mean(portfolio_returns)
+var_return <- var(portfolio_returns)
+
+# Display results
+mean_return
+var_return
+```
+
+### Compare with Theoretical Expected Return
+
+```{r}
+# Compute theoretical expected return
+expected_returns <- sapply(asset_returns, function(x) sum(x * state_probs))
+expected_portfolio_return <- sum(portfolio_weights * expected_returns)
+expected_portfolio_return
+```
+
+### Compute Theoretical Portfolio Variance
+
+```{r}
+# Compute variance of each asset
+var_assets <- sapply(asset_returns, function(x) sum((x - sum(x * state_probs))^2 * state_probs))
+
+# Compute covariances
+cov_matrix <- matrix(0, ncol = 3, nrow = 3)
+for (i in 1:3) {
+  for (j in 1:3) {
+    cov_matrix[i, j] <- sum((asset_returns[[i]] - expected_returns[i]) * 
+                             (asset_returns[[j]] - expected_returns[j]) * state_probs)
+  }
+}
+
+# Compute theoretical portfolio variance
+theoretical_variance <- sum(portfolio_weights^2 * var_assets) + 
+                        sum(outer(portfolio_weights, portfolio_weights) * cov_matrix)
+theoretical_variance
+```
+
+## Visualize Results
+
+```{r}
+library(ggplot2)
+
+# Histogram of simulated portfolio returns
+ggplot(data.frame(Returns = portfolio_returns), aes(x = Returns)) +
+  geom_histogram(bins = 30, fill = "blue", alpha = 0.7, color = "black") +
+  theme_minimal() +
+  labs(title = "Histogram of Simulated Portfolio Returns", x = "Portfolio Return", y = "Frequency")
+```
+
+```{r}
+# Calculate frequency of economic states
+state_frequencies <- table(sapply(simulation_results, function(x) x$State)) / num_simulations
+barplot(state_frequencies, main = "Frequency of Simulated Economic States", col = "lightblue")
+```
+
+## Reflection and Extensions
+
+- The simulation results confirm that diversification reduces variance while maintaining a reasonable expected return.
+- Adding a fourth asset would provide additional diversification benefits and reduce portfolio variance further.
+- Changing portfolio weights alters the risk-return tradeoff. Increasing allocation to higher-risk assets increases variance, while favoring lower-risk assets stabilizes returns.
+
+This concludes the worked solution for the project. Happy coding!
