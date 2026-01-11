@@ -148,9 +148,9 @@ $$
 
 ---
 
-## Leveraging ChatGPT for Learning
+## Leveraging LLMs for Learning
 
-- Enhance understanding with **large language models (LLMs)** like ChatGPT.
+- Enhance understanding with **large language models (LLMs)** like ChatGPT, Claude or Gemini.
 - Example prompt for ChatGPT:
   - Explore random experiments, sample spaces, basic outcomes, and events in Finance.
 
@@ -269,7 +269,7 @@ knitr::include_graphics('../figures/Screenshot_RStudio.png')
   - Often denoted as $\Omega$ in probability texts.
 - **Random experiment**: Tossing the coin, where the outcome is uncertain but can be precisely determined after the toss.
 - **Empty set**: The event that an impossible outcome occurs, e.g., the outcome that
-the coin torr result is $2$. In this case $A = \emptyset$.
+the coin toss result is $2$. In this case $A = \emptyset$.
   - $\emptyset$: A set containing no elements, as a coin toss cannot produce anything other than `0` or `1`.
 
 ---
@@ -338,7 +338,7 @@ coin * coin
 coin %*% coin
 ```
 
--The result is a vector with one row and one column ([1, ] and [ , 1]).
+- The result is a vector with one row and one column ([1, ] and [ , 1]).
 ---
 
 ## Element-Wise Execution
@@ -387,7 +387,7 @@ sqrt(4)
 
 - Arguments are the data passed to a function.
 
--Arguments can include raw data, R objects, or results from other functions.
+- Arguments can include raw data, R objects, or results from other functions.
 
 ---
 
@@ -840,7 +840,7 @@ knitr::include_graphics('../figures/prob_at_least_one_shared_birthday.png')
 Instead of deriving the probability analytically, we can simulate the birthday experiment if we use the relative frequency notion of probability which
 we informally had used in our visualization of coin tosses. Here’s how:
 
-1. Generate random birthdays for nn people using `sample(1:365, n, replace = TRUE)`.
+1. Generate random birthdays for $n$ people using `sample(1:365, n, replace = TRUE)`.
 2. Count how often at least two people share a birthday using the `duplicated() function`in combination with the logical function `any()`.
 3. Repeat the simulation many times (e.g., 10,000) using replicate() to estimate the probability.
 
@@ -848,7 +848,7 @@ we informally had used in our visualization of coin tosses. Here’s how:
 
 ## Determining birthday collisions by simulation
 
-```{r sim-brithday-function}
+```{r sim-birthday-function}
 
 sim_birthday <- function(n, trials = 10000) {
   results <- replicate(trials, {
