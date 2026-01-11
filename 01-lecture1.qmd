@@ -20,7 +20,7 @@ Finance student should study probability early in their education.
 
 Probability began as a mathematical theory, gaining practical value through real 
 and conceptual experiments. Its origins trace back to 16th and 17th century 
-Europe, where scholarly debates about gambling engaged some of history’s 
+Europe, where scholarly debates about gambling engaged some of history's 
 greatest minds, including Cardano, Pascal, Fermat, and Bernoulli.
 
 Although humans have always been aware of chance—gambling and even 
@@ -46,7 +46,7 @@ and R to computational Finance.
 
 ## Tossing a fair coin: First Probability ideas. {#tossing-a-coin}
 
-Lets start with a classic and basic example of a probability model: Tossing
+Let's start with a classic and basic example of a probability model: Tossing
 a fair coin. When probability theorists talk of a fair coin they mean
 that the coin has equal chances of coming up heads as coming up
 tails. When the coin is tossed it is uncertain whether it
@@ -71,7 +71,7 @@ in probability theory a **sample space**. While the sample space of tossing a co
 idealization it is exactly this idealization which simplifies the theory without affecting
 its applicability. The **basic outcomes** in the random experiment of 
 tossing a coin are that the 
-die lands such that the upward showing face shows Heads or Tails. Let us encode this
+coin lands such that the upward showing face shows Heads or Tails. Let us encode this
 outcome by 1 for "Heads" and 0 for "Tails". In the theory
 the collection of basic outcomes is denoted as a set. Thus the sample space of 
 tossing a coin is given as the set ${\cal S} = \{1,0\}$.
@@ -104,7 +104,7 @@ instead of two coins?
 
 Idealizations of the kind we discussed for the toss of a coin are standard in probability and
 we will encounter them again and again. For example the movement of a stock price is often 
-though of as a conceptual random experiment. When we try to agree on what is the
+thought of as a conceptual random experiment. When we try to agree on what is the
 appropriate sample space of this experiment, we can say that the price can not fall below
 0 but it is hard to agree on what will be the highest possible price. In the probabilistic
 treatment of stock prices, which we will discuss later in our course, it is for instance
@@ -189,7 +189,7 @@ Now let me show you how you can make use of a
 large language model, using ChatGPT as a use case, to support learning
 new concepts such as we have just introduced them here.
 
-We have discussed new two classical and famous random experiments
+We have discussed two new classical and famous random experiments
 you will probably find in every textbook on probability. Assume you
 would like to deepen your understanding of these concepts and also
 consider more complex examples in particular from Finance. This is
@@ -204,7 +204,7 @@ knitr::include_graphics('figures/prompt_gpt_example.png')
 Here is an answer I would get for this prompt:
 
 ::: {.callout-tip}
-## Answer by ChatGPT40
+## Answer by ChatGPT-4o
 
 Here are three detailed examples from finance to illustrate the concepts of a **random experiment**, **sample space**, **basic outcomes**, and **events**:
 
@@ -329,7 +329,7 @@ The colon operator `:` is a very useful function in R which we will need often. 
 to create sequences of every integer between two given integers.
 
 R needs a complete command to be able to execute it, when the return key is pressed. 
-Lets see what happens, if a command is incomplete, like for instance
+Let's see what happens, if a command is incomplete, like for instance
 ```> 5*```. 
 
 In this case R will show the expression followed by a `+` instead of showing a new prompt. This
@@ -344,9 +344,9 @@ the expression can be evaluated and a new prompt is shown in the console.
 
 
 If you type a command that R does not understand, you will be returned an error message. 
-Don't worry if you see an error message. It just is a way the computer tells you that he does 
+Don't worry if you see an error message. It just is a way the computer tells you that it does 
 not understand what you
-want him to do.
+want it to do.
 
 For instance, if you type ```5%3``` you will get an error message like this
 ```
@@ -368,12 +368,12 @@ encountered the same problem before you and got helpful advice how to fix it fro
 the internet. One site, we find particularly helpful for all kinds of questions related to R
 and R programming is https://stackoverflow.com/. Try it at the next opportunity.
 You can also show the error to the LLM prompt and ask how to fix it. In most cases
-chatGPT will give you a useful answer.
+ChatGPT will give you a useful answer.
 
 Now with this basic knowledge, we can already make the first step to create a 
 coin on the computer
 using R. If you think of a physical coin, the essential thing that matters is 
-that it can show Heads or Tails. Lets encode Heads by 1 and Tails by 0.
+that it can show Heads or Tails. Let's encode Heads by 1 and Tails by 0.
 If you toss the coin it will usually land on one of these faces 
 and the upward showing side of 
 the coin shows the outcome of the toss. 
@@ -385,8 +385,8 @@ one dimensional set of numbers.
 0:1
 ```
 
-Lets use these first steps in R to recap the probability concepts we have learned using this
-example of the six sided die:
+Let's use these first steps in R to recap the probability concepts we have learned using this
+example of the coin:
 A *basic outcome* of tossing the coin is for example ```1``` if the upper side after
 tossing the coin happens
 to be Heads. The *sample space* of  the experiment of tossing a coin is
@@ -435,7 +435,7 @@ Now to make our ```coin``` more tangible and useful, let us store it in an R obj
 typing the following command at the prompt. This command creates an object with name
 ```coin``` and assigns the vector ```0,1``` to it.
 
-```{r create-die}
+```{r create-coin}
 coin <- 0:1
 ```
 
@@ -464,19 +464,19 @@ You can see which objects are currently created and available for you in the Env
 of your session of by typing `ls()`. The UNIX users among you will recognize this command
 from the unix shell, where it displays the files in a directory.
 
-Before we learn how we can actually roll our die and perform a random experiment with it, let us 
+Before we learn how we can actually toss our coin and perform a random experiment with it, let us 
 briefly use the opportunity to explain a few things about how R does computations. We have
 already explained that we can use the object name to refer to the value. So for instance
 if we type
 
-```{r multiply-die}
+```{r multiply-coin}
 coin*coin
 ```
 
 This might irritate some of you because we have called the object a vector. In linear
 algebra multiplication of vectors is only allowed if there is an inner product. What happens
 here, if we use `*` the multiplication operator is that R does an element-wise multiplication
-of the six numbers of our die. Of course R allows to take an inner product as well, but this needs
+of the two numbers of our coin. Of course R allows to take an inner product as well, but this needs
 a different operator. To compute an inner product, we would type
 
 ```{r inner-product}
@@ -489,10 +489,10 @@ the use and the meaning of this notation in R.
 
 The element wise execution R usually uses also means that when you, for example type
 
-```{r elementwise-subtraction}
+```{r elementwise-addition}
 coin + 1
 ```
-R would subtract `1` from every component in the vector `coin`. 
+R would add `1` to every component in the vector `coin`. 
 
 Another specific behavior of R, you need to know about is called **recycling**. If you give
 R two vectors of different length in an operation, R will repeat the shorter vector as long as
@@ -504,8 +504,8 @@ coin + 1
 
 you see that R adds 1 to 0 and then starts over again by adding 1 to 1. 
 
-If the longer vectors is 
-not a multiple of the shorter one, R recycles but the cuts off.^[As of R 
+If the longer vector is 
+not a multiple of the shorter one, R recycles but then cuts off.^[As of R 
 version 4.2.0 (released in April 2022), the behavior regarding the recycling rule 
 has changed. In older versions of R, a warning was issued when the length of one 
 vector was not a multiple of the length of the other vector during arithmetic 
@@ -562,8 +562,8 @@ For simulating random experiments, R has the very useful function
 we can - for example - toss a coin on the computer and conduct actual random experiments. 
 
 The function takes
-as arguments a vector names `x` and a number named `size`. `sample` will return
-`size` elements randomly chosen from the vector `x`. Lets say:
+as arguments a vector named `x` and a number named `size`. `sample` will return
+`size` elements randomly chosen from the vector `x`. Let's say:
 
 ```{r illustrate-sample-function}
 sample(x = 0:1, size = 1)
@@ -573,9 +573,9 @@ In this case `sample` has chosen either 0 or 1 from the vector `x = (0,1)` at ra
 
 If we want
 to toss the coin in our computer we can thus pass the coin as an argument to `sample` and
-use the number `1` for the `size` argument. Lets do a few tosses with our die
+use the number `1` for the `size` argument. Let's do a few tosses with our coin
 
-```{r roll-die}
+```{r toss-coin}
 sample(x = coin, size = 1)
 sample(x = coin, size = 1)
 sample(x = coin, size = 1)
@@ -609,7 +609,7 @@ args(round)
 ```
 
 Note that the `digits` argument in the `round` function is already set to `0`. Frequently
-R functions come with optional arguments. These arguments are optional because the come with a 
+R functions come with optional arguments. These arguments are optional because they come with a 
 default value, which is `0` in case of the round function. 
 
 We recommend that you write out argument names as a rule. It gives clearer code and avoids
@@ -632,7 +632,7 @@ The name here is `my_function`, next comes the expression `function()` which nee
 The names of the function arguments have to be written between the parentheses. Then we
 have to write the actual code within the  braces `{}`.
 
-To do this for the die, lets write a function named `toss_coin`.
+To do this for the coin, let's write a function named `toss_coin`.
 
 ```{r function-toss-coin}
 toss_coin <- function(){coin <- 0:1 
@@ -641,7 +641,7 @@ toss_coin <- function(){coin <- 0:1
 
 Now we can toss our coin for a few times to show how the function works
 
-```{r roll-die-few-times}
+```{r toss-coin-few-times}
 toss_coin()
 toss_coin()
 toss_coin()
@@ -661,23 +661,23 @@ sample using the `args` function we see
 args(sample)
 ```
 
-Lets do not discuss all the details of this output but concentrate for a 
+Let's not discuss all the details of this output but concentrate for a 
 moment on the `replace` 
 argument. What does this mean? 
 
 As we saw previously we can use the sample function to
-model the rolling of our die. If we set the `size` argument to `1` we get the toss of one
+model the tossing of our coin. If we set the `size` argument to `1` we get the toss of one
 coin. If we set the `size` argument to `n`, we would simulate the tossing of `n` coins.
 But now the `replace` argument becomes crucial. As we can see in the output of the
 `args` function `replace` has a default value `FALSE`. This is a logical argument.
 It tells R, for example, that if we set `size = 2`, meaning that two coins are tossed, if the 
-first coin shows, say Heads - a value of 1-  the coin die cannot show Heads as well. 
+first coin shows, say Heads - a value of 1 - the second coin cannot show Heads as well. 
 
 This is clearly not
 what we have in mind when we model the tossing of two coins. It should be possible that 
 both coins show the same value. To enable this behavior of the sample function, we have to
 change the default value of the `replace` argument to `TRUE`. Then R chooses a random draw
-from all of the six possible values for all dice rolled.
+from all possible values for all coins tossed.
 
 Congratulations ! You have written your first R function for conducting a simple random
 experiment. Let me remind you once again: Think of the parentheses as a 
@@ -706,18 +706,18 @@ is parametrized in the wrong way.
 ### Arguments {#arguments}
 
 Imagine we remove the first line of code in our function body and changed the name
-die in the sample function to "ball".
+coin in the sample function to "ball".
 
 ```{r change-name}
 toss_coin2 <- function(){sample(ball, size = 1)}
 ```
 
-If we call the function now, we will get an error. The function call `roll_die2()` will 
+If we call the function now, we will get an error. The function call `toss_coin2()` will 
 result in 
 the error message `Error in sample(ball, size = 1) : object 'ball' not found` (try it!)
 
 We could supply ball when we call `toss_coin2` if we make ball an argument of the
-function. Lets do this:
+function. Let's do this:
 
 ```{r make-argument}
 toss_coin2 <- function(ball){sample(ball, size = 1)}
@@ -738,7 +738,7 @@ toss_coin2 <- function(ball= 0:1){sample(ball, size = 1)}
 
 Now if we type:
 
-```{r roll_die2}
+```{r toss_coin2}
 toss_coin2()
 ```
 
@@ -748,7 +748,7 @@ everything works, just as intended.
 
 So far we have worked by interacting with the console. But what if you want to edit
 your functions? It would be much easier, if you could use a draft of your code and
-work form there. This can be done by using a **script**. 
+work from there. This can be done by using a **script**. 
 
 You create a script by going to `File > New File > R script` in the menu bar of RStudio. Using
 scripts is the standard way to write code in R. It not only helps you to keep track of your code,
@@ -828,12 +828,12 @@ quarto as are the lecture slides.
 
 By using Quarto documents, you can create well-documented, interactive code 
 files that are both functional and easy to share with others. You can use quarto
-indpendently from R and combine it with other languages like
-phyton or julia. Ceck out: https://quarto.org/
+independently from R and combine it with other languages like
+Python or Julia. Check out: https://quarto.org/
 
 ### Using packages and finding Help {#packages_help}
 
-We have now a function which we can use to simulate the tossing of a coin, `coin_toss()`. 
+We have now a function which we can use to simulate the tossing of a coin, `toss_coin()`. 
 If the 
 coin is *fair* it should be the case  that if we toss the coin often, 
 Heads and Tails should occur
@@ -865,7 +865,7 @@ run a whole course on just that ^[A very good starting point is for
 instance @Healy2018, in case you are interested. Also a good source is the
 first chapter in @WickhamGrolemund2017.] 
 
-Since we want to use functios now which are not in the base R distribution.
+Since we want to use functions now which are not in the base R distribution.
 we need to load the package which provides the functions we want.
 In this example we use the package *ggplot2*.
 
@@ -879,7 +879,7 @@ go to the command line and run at the command line:
 
 R displays what is
 happening while executing the command.
-Don't worry if you don not know what all of these messages exactly mean and don't
+Don't worry if you do not know what all of these messages exactly mean and don't
 panic that they are displayed in red. 
 All packages can be installed like this. You have just to enter the
 correct name in the function `install.packages()`. The lower right pane in the RStudio software 
@@ -907,9 +907,9 @@ repeat a command many times.
 The number of times we want to repeat something is given as an argument 
 to the `replicate` function.
 
-Now lets roll our die 100 times and save the result in an object we call `tosses`:
+Now let's toss our coin 100 times and save the result in an object we call `tosses`:
 
-```{r replicate-die-rolls}
+```{r replicate-coin-tosses}
 set.seed(123)
 tosses <- replicate(100, toss_coin())
 ```
@@ -921,7 +921,7 @@ different outcome.
 
 I now show you a code for visualizing this outcome. The code contains some
 concepts that we did not yet discuss. Don't worry. We will learn them soon.
-The point here is to shwo you how we use the functions of the
+The point here is to show you how we use the functions of the
 package to produce a visualization of the outcome of 
 our 100 coin tosses.
 
@@ -944,13 +944,13 @@ ggplot(tosses_df, aes(x = Outcome)) +
 
 
 It looks like every value occurred roughly 50 times 
-but there is still quite some variation. Tail occured 
+but there is still quite some variation. Tails occurred 
 fewer times than Heads.
 
 Maybe
 we have to give it another trial with more replications. 
 With the computer we can do this with 
-a fingertip. Let us roll our die 1000 times and plot the result.
+a fingertip. Let us toss our coin 1000 times and plot the result.
 
 Here is how we would code this by recycling the code used before.
 
@@ -975,16 +975,16 @@ ggplot(tosses_df, aes(x = Outcome)) +
   theme_minimal()
 ```
 
-Now it looks much better: Each face comes up approximately 500 times.
-We will learn in our course why the picture get better as we
-increase the number of rolls of the die. For the moment, let us just state that
+Now it looks much better: Each side comes up approximately 500 times.
+We will learn in our course why the picture gets better as we
+increase the number of tosses of the coin. For the moment, let us just state that
 at least for this case it seems that there is no significant visual evidence that our 
-virtual die is loaded.
+virtual coin is loaded.
 
 But wait a minute. We have introduced the idea of classical probability by
 constructing equally probable cases and then count. Here we have repeated
 a random experiment over and over again to draw some conclusion on the
-underlying probabilities by visualizing the frequency polts of outcomes?
+underlying probabilities by visualizing the frequency plots of outcomes?
 These ideas are connected. We have just informally introduced a new idea
 in probability, the **relative frequency notion** of probability. How the
 two concepts are related and why this notion makes sense we will learn more
@@ -1072,10 +1072,10 @@ expects you to provide, as well as what R will do with this information. Here it
 ```
 Arguments
 x	
-either a vector of one or more elements from which to choose, or a positive integer. See ‘Details.’
+either a vector of one or more elements from which to choose, or a positive integer. See 'Details.'
 
 n	
-a positive number, the number of items to choose from. See ‘Details.’
+a positive number, the number of items to choose from. See 'Details.'
 
 size	
 a non-negative integer giving the number of items to choose.
@@ -1105,7 +1105,7 @@ couple of different cases how you can use the function in practice.
 In this section, we will apply our foundational knowledge of probability - 
 which is at the
 moment just the informal and intuitive notion of 
-counting equally probably cases -  to 
+counting equally probable cases -  to 
 a fascinating real-world problem known as the *birthday problem*:
 
 The starting question in the birthday problem is: What is the probability that at least two 
@@ -1118,7 +1118,7 @@ you have already seen this problem before. If not, the result may surprise you. 
 you saw the birthday problem before, perhaps not many of you are aware
 that the significance of this problem reaches far beyond recreational 
 math puzzles. This is because the birthday story is of course
-accidential. The mathematical formulation of the problem
+accidental. The mathematical formulation of the problem
 will reveal through the process of abstraction that this problem
 is at the heart a problem about the probability
 of coincidences. As such it has real world connections to
@@ -1146,18 +1146,18 @@ of 365 days, the sample space contains all possible sequences of three birthdays
 $(1,1,1),(1,1,2),…,(365,365,365)$
 
 In general, for $n$ people, there are $365^n$ possible combinations, as each 
-person’s birthday is independent of the others.^[Mathematically you can describe the sample space for the birthday problem as a set with  $365^n$ ordered $n$-tuples or sequences of birthdays: ${\cal S} = \{x | x \in 365^n \}$ This is the sample space of this experiment, written as  in set theoretic notation. It means the sample space is the set of all ordered  $n-tuples$ from the Cartesian product $365^n$. Remember that in mathematics, a Cartesian product is a mathematical  operation that returns a set (or product set or simply product) from multiple  sets (in this case the sample space, ${\cal S}$. That is, for sets $A$ and $B$, the Cartesian product $A \times B$ is the set of all ordered pairs  $(a,b)$ where $a \in A$ and $b \in B$.]
+person's birthday is independent of the others.^[Mathematically you can describe the sample space for the birthday problem as a set with  $365^n$ ordered $n$-tuples or sequences of birthdays: ${\cal S} = \{x | x \in 365^n \}$ This is the sample space of this experiment, written as  in set theoretic notation. It means the sample space is the set of all ordered  $n-tuples$ from the Cartesian product $365^n$. Remember that in mathematics, a Cartesian product is a mathematical  operation that returns a set (or product set or simply product) from multiple  sets (in this case the sample space, ${\cal S}$. That is, for sets $A$ and $B$, the Cartesian product $A \times B$ is the set of all ordered pairs  $(a,b)$ where $a \in A$ and $b \in B$.]
 
 Now given this sample space we can assign a probability to the 
 event that two people chosen at
 random will have the same birthday. The denominator will this be $365^n$. 
-The nominator for
+The numerator for
 this probability will be much more straightforward to figure out, if we compute the
 complement. 
 We discussed before that the probability of the complement of an event 
 is 1 minus the probability of the event: $P(\text{not} A) = 1 - P(A)$.
 
-Let $A$ denote the event that no two people share the same brithday.
+Let $A$ denote the event that no two people share the same birthday.
 We can then use the complement rule to compute the probability of at least 
 two people sharing a birthday: Compute the probability that no 
 two people share a birthday. Subtract this probability from 1 to get the 
@@ -1166,7 +1166,7 @@ probability of at least one match.
 Here's how we compute the probability of no matches:
 
 1.    The first person can have any birthday $(365/365)$.
-2.    The second person must avoid the first person’s birthday $(364/365)$.
+2.    The second person must avoid the first person's birthday $(364/365)$.
 3.    The third person must avoid the first two birthdays $(363/365)$.
 
 Now continue this reasoning for $n$ people.
@@ -1192,7 +1192,7 @@ can use the `:` operator and take advantage from one of its cool properties. If 
 the command as `365:343` then the colon operator will give us a descending list of integers
 starting at 365 and ending at 343. Then the probability can be computed as
 
-```{r coindcindence-23}
+```{r coincidence-23}
 1 - prod(365:343)/365^23
 ```
 
@@ -1200,17 +1200,17 @@ We have used the operator `^` which is needed to compute powers. Now we see from
 that with 23 people the probability is already larger than 50 %. Quite stunning. You can now
 verify yourself that with 50 people this probability is already at 97 %.
 
-Let’s visualize how the probability of at least one shared birthday grows with 
+Let's visualize how the probability of at least one shared birthday grows with 
 the size of the group. This time I will use base R's plotting functionality
 and not use the `ggplot2` package.^[I used `ggplot2` before to explain the
 concept of a package and how to load it to enhance R's functionality.
-Base R containts a lot of powerful plotting functions which work
-independently of `gglot2`.]
+Base R contains a lot of powerful plotting functions which work
+independently of `ggplot2`.]
 
 The plot below shows that the probability exceeds 50% with 
 just 23 people and quickly approaches 100% as the group size increases.
 
-```{r visualize-brithday-problem}
+```{r visualize-birthday-problem}
 
 # Define the birthday_collisions function
 
@@ -1239,13 +1239,13 @@ marginal note here or use the LLM for a step by step explanation.^[`birthday_col
 ### Determining birthday collisions by simulation
 
 Instead of deriving the probability analytically, we can simulate the birthday experiment if we use the relative frequency notion of probability which
-we informally had used in our visualization of coin tosses. Here’s how:
+we informally had used in our visualization of coin tosses. Here's how:
 
-1. Generate random birthdays for nn people using `sample(1:365, n, replace = TRUE)`.
-2. Count how often at least two people share a birthday using the `duplicated() function`in combination with the logical function `any()`.
+1. Generate random birthdays for $n$ people using `sample(1:365, n, replace = TRUE)`.
+2. Count how often at least two people share a birthday using the `duplicated()` function in combination with the logical function `any()`.
 3. Repeat the simulation many times (e.g., 10,000) using replicate() to estimate the probability.
 
-```{r sim-brithday-function}
+```{r sim-birthday-function}
 
 sim_birthday <- function(n, trials = 10000) {
   results <- replicate(trials, {
@@ -1315,7 +1315,7 @@ trial.Use the `apply()`function for Row-Wise Operations checking for
 duplicates. The result should be a logical vector indicating whether each trial
 has a duplicate and then take the mean of this vector.]
 
-Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:
+Let's compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:
 
 ```{r}
 sim_birthday(23)
@@ -1336,7 +1336,7 @@ By understanding and applying this simulation, you now have a practical tool to 
 
 The birthday problem has practical implications beyond recreational math. In cryptography, the 
 same underlying principles are used to analyze the likelihood of hash collisions 
-in blockchain systems and digital signatures. Let’s explore this connection further.
+in blockchain systems and digital signatures. Let's explore this connection further.
 
 ### Hash-functions and the blockchain {#hashfunctions}
 
@@ -1405,8 +1405,8 @@ probability as
 \begin{equation*}
 \ln P_{nc}(n) \approx - \sum_{k=0}^{n-1} \frac{k}{M}
 \end{equation*}
-Simplify the summation by usin the fact that 
-$\sum_{k=0}^{n-1} = \frac{n(n-1)}{2}$ we get
+Simplify the summation by using the fact that 
+$\sum_{k=0}^{n-1} k = \frac{n(n-1)}{2}$ we get
 \begin{equation*}
 \ln P_{nc}(n) \approx -\frac{n(n-1)}{2\, M}
 \end{equation*}
@@ -1419,7 +1419,7 @@ P_{nc}(n) \approx \exp \left( - \frac{n(n-1)}{2 \, M} \right)
 Thus the probability of a hash-collision as a function of $n$ is then approximately
 
 \begin{equation*}
-P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
+P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{2M}
 \end{equation*}
 
 Let's try a visualization to show how $P_{c}(n)$ increases with $n$:
@@ -1468,7 +1468,7 @@ These are the basic **probability concepts** we have covered in this lecture:
 2. **Sample space**: The collection of all possible outcomes of a random experiment.
 3. **Basic outcome**: A possible outcome of a random experiment.
 4. **Event**: An event is a subset of basic outcomes. Any event which contains a single outcome is called a simple event.
-5. **Classical probability** find or make equally probably cases and the count them.
+5. **Classical probability**: find or make equally probable cases and then count them.
 The probability of an event $A$ is the number of cases when $A$ occurs divided by the
 total number of cases.
 6. **Relative frequency probability** defined as the number of times an event $A$ occurs in
@@ -1477,8 +1477,8 @@ a repeated number of trials divided by the total number of trials in a random ex
 These are the **R concepts** we have covered in this lecture:
 
 1. **objects** arbitrary names that can store different values and data types.
-2. **functions** ab R object that can accept other R objects as arguments, operate on them and return a new object.
-3. **scripts** files that store sequences of R commands and can be saved, repopened and allow the
+2. **functions** an R object that can accept other R objects as arguments, operate on them and return a new object.
+3. **scripts** files that store sequences of R commands and can be saved, reopened and allow the
 execution of commands.
 4. **using packages**
 5. **finding help**
@@ -1490,7 +1490,7 @@ These are the **Applications** we have covered in the lecture:
 2. **The birthday problem and how to solve it analytically as well as through simulation**
 3. **Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability**
 
-## Project: Designing transaction identifyers for digital payment systems
+## Project: Designing transaction identifiers for digital payment systems
 
 ### Introduction: Real-World Importance of Unique Identifiers in Finance
 
@@ -1540,7 +1540,7 @@ duplicates using R's `duplicated()` function.
 ### Visualize the results
 
 Plot the collision probability as a function of $n$ for different values of $M$.
-We did not cover Rs plotting functions in the lecture so far. We only showed some
+We did not cover R's plotting functions in the lecture so far. We only showed some
 examples which we did not explain. But we explained how you could research
 R's help system and how you could ask an LLM for help. With any of these
 resources you should be able to come up with some reasonable visualization.

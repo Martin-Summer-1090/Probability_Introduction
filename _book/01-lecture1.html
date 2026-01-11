@@ -278,7 +278,7 @@ window.Quarto = {
   <li><a href="#hashfunctions" id="toc-hashfunctions" class="nav-link" data-scroll-target="#hashfunctions"><span class="header-section-number">1.3.3</span> Hash-functions and the blockchain</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.4</span> Summary</a></li>
-  <li><a href="#project-designing-transaction-identifyers-for-digital-payment-systems" id="toc-project-designing-transaction-identifyers-for-digital-payment-systems" class="nav-link" data-scroll-target="#project-designing-transaction-identifyers-for-digital-payment-systems"><span class="header-section-number">1.5</span> Project: Designing transaction identifyers for digital payment systems</a>
+  <li><a href="#project-designing-transaction-identifiers-for-digital-payment-systems" id="toc-project-designing-transaction-identifiers-for-digital-payment-systems" class="nav-link" data-scroll-target="#project-designing-transaction-identifiers-for-digital-payment-systems"><span class="header-section-number">1.5</span> Project: Designing transaction identifiers for digital payment systems</a>
   <ul class="collapse">
   <li><a href="#introduction-real-world-importance-of-unique-identifiers-in-finance" id="toc-introduction-real-world-importance-of-unique-identifiers-in-finance" class="nav-link" data-scroll-target="#introduction-real-world-importance-of-unique-identifiers-in-finance"><span class="header-section-number">1.5.1</span> Introduction: Real-World Importance of Unique Identifiers in Finance</a></li>
   <li><a href="#simulate-transaction-identifiers" id="toc-simulate-transaction-identifiers" class="nav-link" data-scroll-target="#simulate-transaction-identifiers"><span class="header-section-number">1.5.2</span> Simulate transaction identifiers</a></li>
@@ -320,7 +320,7 @@ window.Quarto = {
 <p>What does tossing a coin have to do with Finance? Consider this thought experiment: Imagine you are deciding to invest in a stock with an equal chance of increasing or decreasing in value. Simulating a coin toss on the computer, where heads and tails have equal chances, provides a simple yet powerful example. It introduces us to probability and R simultaneously. By linking this example to a financial scenario—such as a stock investment—we also begin connecting probability and R to computational Finance.</p>
 <section id="tossing-a-coin" class="level2 page-columns page-full" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="tossing-a-coin"><span class="header-section-number">1.1</span> Tossing a fair coin: First Probability ideas.</h2>
-<p>Lets start with a classic and basic example of a probability model: Tossing a fair coin. When probability theorists talk of a fair coin they mean that the coin has equal chances of coming up heads as coming up tails. When the coin is tossed it is uncertain whether it will ultimately come up Heads or Tails.</p>
+<p>Let’s start with a classic and basic example of a probability model: Tossing a fair coin. When probability theorists talk of a fair coin they mean that the coin has equal chances of coming up heads as coming up tails. When the coin is tossed it is uncertain whether it will ultimately come up Heads or Tails.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-coin-toss" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -335,11 +335,11 @@ Figure&nbsp;1.1: Figure 1: Tossing a coin
 </div>
 </div>
 </div>
-<p><a href="#fig-coin-toss" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-coin-toss</span></a> visualizes such a process.</p>
+<p><a href="#fig-coin-toss" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> visualizes such a process.</p>
 <section id="random-experiments-sample-space-events" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="random-experiments-sample-space-events"><span class="header-section-number">1.1.1</span> Random experiments, sample space, events</h3>
 <p>In the theory of probability a process leading to an uncertain outcome is called a <strong>random experiment</strong>. The example of tossing a coin helps us to give a precise meaning to the notion of an uncertain outcome. While we can imagine in principle that the coin lands on its rim and this is one outcome, we agree <em>on the outset</em> that we are going to consider the (practically relevant cases) that it will land on one of the faces.</p>
-<p>The collection of all possible outcomes of a practical or conceptual random experiment is called in probability theory a <strong>sample space</strong>. While the sample space of tossing a coin is an idealization it is exactly this idealization which simplifies the theory without affecting its applicability. The <strong>basic outcomes</strong> in the random experiment of tossing a coin are that the die lands such that the upward showing face shows Heads or Tails. Let us encode this outcome by 1 for “Heads” and 0 for “Tails”. In the theory the collection of basic outcomes is denoted as a set. Thus the sample space of tossing a coin is given as the set <span class="math inline">\({\cal S} = \{1,0\}\)</span>.</p>
+<p>The collection of all possible outcomes of a practical or conceptual random experiment is called in probability theory a <strong>sample space</strong>. While the sample space of tossing a coin is an idealization it is exactly this idealization which simplifies the theory without affecting its applicability. The <strong>basic outcomes</strong> in the random experiment of tossing a coin are that the coin lands such that the upward showing face shows Heads or Tails. Let us encode this outcome by 1 for “Heads” and 0 for “Tails”. In the theory the collection of basic outcomes is denoted as a set. Thus the sample space of tossing a coin is given as the set <span class="math inline">\({\cal S} = \{1,0\}\)</span>.</p>
 <p>The sample space <span class="math inline">\({\cal S}\)</span> is the set of all basic outcomes, which are in our case only two: 1 or 0.</p>
 <p>In more complex random experiments there will usually be more than two outcomes. Subsets of the sample space containing more than one basic outcome are called <strong>events</strong> in the theory of probability.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -358,13 +358,13 @@ Figure&nbsp;1.1: Figure 1: Tossing a coin
 </section>
 <section id="the-role-and-nature-of-idealizations-in-applications" class="level3" data-number="1.1.2">
 <h3 data-number="1.1.2" class="anchored" data-anchor-id="the-role-and-nature-of-idealizations-in-applications"><span class="header-section-number">1.1.2</span> The role and nature of idealizations in applications</h3>
-<p>Idealizations of the kind we discussed for the toss of a coin are standard in probability and we will encounter them again and again. For example the movement of a stock price is often though of as a conceptual random experiment. When we try to agree on what is the appropriate sample space of this experiment, we can say that the price can not fall below 0 but it is hard to agree on what will be the highest possible price. In the probabilistic treatment of stock prices, which we will discuss later in our course, it is for instance common to assume that the sample space of this random experiment is the entire interval of non-negative real numbers <span class="math inline">\({\cal S} = [0, \infty)\)</span>.</p>
+<p>Idealizations of the kind we discussed for the toss of a coin are standard in probability and we will encounter them again and again. For example the movement of a stock price is often thought of as a conceptual random experiment. When we try to agree on what is the appropriate sample space of this experiment, we can say that the price can not fall below 0 but it is hard to agree on what will be the highest possible price. In the probabilistic treatment of stock prices, which we will discuss later in our course, it is for instance common to assume that the sample space of this random experiment is the entire interval of non-negative real numbers <span class="math inline">\({\cal S} = [0, \infty)\)</span>.</p>
 <p>Many of us would hesitate to claim that the price might rise without bound. Yet many models in applied Finance are based on such an assumption. The models allow arbitrary price hikes but with arbitrary small probability as the price gets higher and higher. Practically it does not make sense to believe that a security price can become arbitrarily high. The use of arbitrarily small probabilities in a financial model might seem absurd but it does no practical harm and makes the model simple and convenient to use. Moreover, if we seriously introduced an upper bound on a security price at <span class="math inline">\(x\)</span> it would be also awkward to assume that it is impossible that it could be just a cent higher, an assumption equally unappealing than assuming it can get in principle arbitrarily high.</p>
 </section>
 <section id="classical-probability" class="level3 page-columns page-full" data-number="1.1.3">
 <h3 data-number="1.1.3" class="anchored" data-anchor-id="classical-probability"><span class="header-section-number">1.1.3</span> Classical Probability: Measuring uncertainty</h3>
 <p><strong>Probability</strong> is a measure of how likely an event of an experiment is. But how could we measure chance? Here is the first big idea of probability theory and how the originators thought about it.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> How do you measure anything? If you think of length, for example, you take an arbitrary standard you agree on and then count. The originators of probability theory pursued the same idea with chance: To measure probability you choose equally probable cases and then count.</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;In this discussion I use chapter 1 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>The probability of an event <span class="math inline">\(A\)</span> according to the originators of the theory of probability is then <span class="math display">\[\begin{equation}
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;In this discussion I use chapter 1 in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>The probability of an event <span class="math inline">\(A\)</span> according to the originators of the theory of probability is then <span class="math display">\[\begin{equation}
 P(A) = \frac{\text{Number of cases where $A$ occurs}}{\text{Total number of cases}}
 \end{equation}\]</span></p>
 <p>Thus, if we want to know the probability of the coin ending up Heads, we have to compute according to this notion <span class="math inline">\(1/2\)</span>, since the total number of cases is 2 (Heads or Tails).</p>
@@ -410,7 +410,7 @@ P(A) = \frac{\text{Number of cases where $A$ occurs}}{\text{Total number of case
 </div>
 <p>In particular then the probability that an event does <em>not</em> occur is 1 less the probability that it occurs: <span class="math inline">\(P(\text{not}\, A) = 1 - P(A)\)</span>.</p>
 <p>Now let me show you how you can make use of a large language model, using ChatGPT as a use case, to support learning new concepts such as we have just introduced them here.</p>
-<p>We have discussed new two classical and famous random experiments you will probably find in every textbook on probability. Assume you would like to deepen your understanding of these concepts and also consider more complex examples in particular from Finance. This is something the LLM is very good at. You could - for instance - ask ChatGPT at the prompt something like shown in <a href="#fig-Promptgpt" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-Promptgpt</span></a> :</p>
+<p>We have discussed two new classical and famous random experiments you will probably find in every textbook on probability. Assume you would like to deepen your understanding of these concepts and also consider more complex examples in particular from Finance. This is something the LLM is very good at. You could - for instance - ask ChatGPT at the prompt something like shown in <a href="#fig-Promptgpt" class="quarto-xref">Figure&nbsp;<span>1.2</span></a> :</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-Promptgpt" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -432,7 +432,7 @@ Figure&nbsp;1.2: Figure 2: The ChatGPT prompt
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Answer by ChatGPT40
+<span class="screen-reader-only">Tip</span>Answer by ChatGPT-4o
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -503,7 +503,7 @@ Figure&nbsp;1.2: Figure 2: The ChatGPT prompt
 <h2 data-number="1.2" class="anchored" data-anchor-id="tossing-coin-on-computer"><span class="header-section-number">1.2</span> Tossing a coin on the computer: First steps in R</h2>
 <section id="r-interface" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="r-interface"><span class="header-section-number">1.2.1</span> The R User Interface</h3>
-<p>Before we can ask our tool to do anything for us, we need to know how to talk to it. In our case RStudio allows us to talk to our computer. It works like any other application. When you launch RStudio on your computer, in figure <a href="#fig-rstudio-start-screen" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-rstudio-start-screen</span></a> you see a screen looking like this:</p>
+<p>Before we can ask our tool to do anything for us, we need to know how to talk to it. In our case RStudio allows us to talk to our computer. It works like any other application. When you launch RStudio on your computer, in figure <a href="#fig-rstudio-start-screen" class="quarto-xref">Figure&nbsp;<span>1.3</span></a> you see a screen looking like this:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-rstudio-start-screen" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -536,26 +536,26 @@ Figure&nbsp;1.3: The RStudio startup screen
 </div>
 <p>meaning that 20 is the first value displayed in your result. Then there is a line break because not all values can be displayed on the same line and R tells you that <code>45</code> is the 26-th value of the result.</p>
 <p>The colon operator <code>:</code> is a very useful function in R which we will need often. It allows us to create sequences of every integer between two given integers.</p>
-<p>R needs a complete command to be able to execute it, when the return key is pressed. Lets see what happens, if a command is incomplete, like for instance <code>&gt; 5*</code>.</p>
+<p>R needs a complete command to be able to execute it, when the return key is pressed. Let’s see what happens, if a command is incomplete, like for instance <code>&gt; 5*</code>.</p>
 <p>In this case R will show the expression followed by a <code>+</code> instead of showing a new prompt. This means that the expression is incomplete. It expects more input. If we complete the expression, say like</p>
 <pre><code>&gt; 5*
 + 4</code></pre>
 <p>the expression can be evaluated and a new prompt is shown in the console.</p>
-<p>If you type a command that R does not understand, you will be returned an error message. Don’t worry if you see an error message. It just is a way the computer tells you that he does not understand what you want him to do.</p>
+<p>If you type a command that R does not understand, you will be returned an error message. Don’t worry if you see an error message. It just is a way the computer tells you that it does not understand what you want it to do.</p>
 <p>For instance, if you type <code>5%3</code> you will get an error message like this</p>
 <pre><code>&gt; 5%3
 Error: unexpected input in "5%3"
 &gt;</code></pre>
 <p>Sometimes it is obvious why a mistake occurred. In this case, that R just does not know what to do with the symbol <code>%</code>. It has no meaning in this context. Sometimes it is not so obvious what the error message actually means and what you might do about it.</p>
-<p>A useful strategy in this case is to type the error message into a search engine and see what you can find. The chance is very high that others encountered the same problem before you and got helpful advice how to fix it from other users on the internet. One site, we find particularly helpful for all kinds of questions related to R and R programming is https://stackoverflow.com/. Try it at the next opportunity. You can also show the error to the LLM prompt and ask how to fix it. In most cases chatGPT will give you a useful answer.</p>
-<p>Now with this basic knowledge, we can already make the first step to create a coin on the computer using R. If you think of a physical coin, the essential thing that matters is that it can show Heads or Tails. Lets encode Heads by 1 and Tails by 0. If you toss the coin it will usually land on one of these faces and the upward showing side of the coin shows the outcome of the toss. The colon operator <code>:</code> gives us a way to create a group of numbers from 0 to 1. R gives us the result as a one dimensional set of numbers.</p>
+<p>A useful strategy in this case is to type the error message into a search engine and see what you can find. The chance is very high that others encountered the same problem before you and got helpful advice how to fix it from other users on the internet. One site, we find particularly helpful for all kinds of questions related to R and R programming is https://stackoverflow.com/. Try it at the next opportunity. You can also show the error to the LLM prompt and ask how to fix it. In most cases ChatGPT will give you a useful answer.</p>
+<p>Now with this basic knowledge, we can already make the first step to create a coin on the computer using R. If you think of a physical coin, the essential thing that matters is that it can show Heads or Tails. Let’s encode Heads by 1 and Tails by 0. If you toss the coin it will usually land on one of these faces and the upward showing side of the coin shows the outcome of the toss. The colon operator <code>:</code> gives us a way to create a group of numbers from 0 to 1. R gives us the result as a one dimensional set of numbers.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span><span class="sc">:</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0 1</code></pre>
 </div>
 </div>
-<p>Lets use these first steps in R to recap the probability concepts we have learned using this example of the six sided die: A <em>basic outcome</em> of tossing the coin is for example <code>1</code> if the upper side after tossing the coin happens to be Heads. The <em>sample space</em> of the experiment of tossing a coin is the set <span class="math inline">\({\cal S} = \{0,1\}\)</span>. In probability theory we often use the symbol <span class="math inline">\({\cal S}\)</span> or <span class="math inline">\(S\)</span> for sample space. In many probability texts the sample space is also often denoted by the symbol <span class="math inline">\(\Omega\)</span> the Greek letter for (big) Omega. A <em>random experiment</em> in this example is the tossing of the coin. The outcome is uncertain but once the coin is tossed the outcome can be determined precisely. The event that the outcome is a display of 2 is the empty set <span class="math inline">\(A = \emptyset\)</span>. The symbol <span class="math inline">\(\emptyset\)</span> comes from set theory and means the set containing no elements. This event can contain no elements because we can not get any other number than 0 or 1 by tossing the coin.</p>
+<p>Let’s use these first steps in R to recap the probability concepts we have learned using this example of the coin: A <em>basic outcome</em> of tossing the coin is for example <code>1</code> if the upper side after tossing the coin happens to be Heads. The <em>sample space</em> of the experiment of tossing a coin is the set <span class="math inline">\({\cal S} = \{0,1\}\)</span>. In probability theory we often use the symbol <span class="math inline">\({\cal S}\)</span> or <span class="math inline">\(S\)</span> for sample space. In many probability texts the sample space is also often denoted by the symbol <span class="math inline">\(\Omega\)</span> the Greek letter for (big) Omega. A <em>random experiment</em> in this example is the tossing of the coin. The outcome is uncertain but once the coin is tossed the outcome can be determined precisely. The event that the outcome is a display of 2 is the empty set <span class="math inline">\(A = \emptyset\)</span>. The symbol <span class="math inline">\(\emptyset\)</span> comes from set theory and means the set containing no elements. This event can contain no elements because we can not get any other number than 0 or 1 by tossing the coin.</p>
 </section>
 <section id="objects" class="level3 page-columns page-full" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="objects"><span class="header-section-number">1.2.2</span> Objects</h3>
@@ -596,17 +596,17 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 </div>
 </div>
 </div>
-<p>You can now see in the right upper Environment pane in figure <a href="#fig-rstudio-screen-with-command" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-rstudio-screen-with-command</span></a> that R shows you that there is an object with the name <code>coin</code> that it consists of integers <code>0,1</code>. As you create more objects they will be stored in the Environment pane and are ready for your reference, unless you delete them. You can remove or delete an object by typing <code>rm(object)</code> or by assigning the value <code>coin &lt;- NULL</code> which would also remove the object from your environment or workspace.</p>
+<p>You can now see in the right upper Environment pane in figure <a href="#fig-rstudio-screen-with-command" class="quarto-xref">Figure&nbsp;<span>1.4</span></a> that R shows you that there is an object with the name <code>coin</code> that it consists of integers <code>0,1</code>. As you create more objects they will be stored in the Environment pane and are ready for your reference, unless you delete them. You can remove or delete an object by typing <code>rm(object)</code> or by assigning the value <code>coin &lt;- NULL</code> which would also remove the object from your environment or workspace.</p>
 <p>You can name your objects almost anything with a few exceptions. An object name must not start with a number. There are some special symbols which can also not be used in object names, like <code>^, !, $, @, +, -, /, *</code>. Note that R is case sensitive and distinguishes small and big letters. If you assign a new value for an object you have already created, R will overwrite the object without warning.</p>
 <p>You can see which objects are currently created and available for you in the Environment pane of your session of by typing <code>ls()</code>. The UNIX users among you will recognize this command from the unix shell, where it displays the files in a directory.</p>
-<p>Before we learn how we can actually roll our die and perform a random experiment with it, let us briefly use the opportunity to explain a few things about how R does computations. We have already explained that we can use the object name to refer to the value. So for instance if we type</p>
+<p>Before we learn how we can actually toss our coin and perform a random experiment with it, let us briefly use the opportunity to explain a few things about how R does computations. We have already explained that we can use the object name to refer to the value. So for instance if we type</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>coin<span class="sc">*</span>coin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0 1</code></pre>
 </div>
 </div>
-<p>This might irritate some of you because we have called the object a vector. In linear algebra multiplication of vectors is only allowed if there is an inner product. What happens here, if we use <code>*</code> the multiplication operator is that R does an element-wise multiplication of the six numbers of our die. Of course R allows to take an inner product as well, but this needs a different operator. To compute an inner product, we would type</p>
+<p>This might irritate some of you because we have called the object a vector. In linear algebra multiplication of vectors is only allowed if there is an inner product. What happens here, if we use <code>*</code> the multiplication operator is that R does an element-wise multiplication of the two numbers of our coin. Of course R allows to take an inner product as well, but this needs a different operator. To compute an inner product, we would type</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>coin <span class="sc">%*%</span> coin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -622,7 +622,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 <pre><code>[1] 1 2</code></pre>
 </div>
 </div>
-<p>R would subtract <code>1</code> from every component in the vector <code>coin</code>.</p>
+<p>R would add <code>1</code> to every component in the vector <code>coin</code>.</p>
 <p>Another specific behavior of R, you need to know about is called <strong>recycling</strong>. If you give R two vectors of different length in an operation, R will repeat the shorter vector as long as it is of equal length with the longer one. For example, if you have:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>coin <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -631,7 +631,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 </div>
 </div>
 <p>you see that R adds 1 to 0 and then starts over again by adding 1 to 1.</p>
-<p>If the longer vectors is not a multiple of the shorter one, R recycles but the cuts off.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>If the longer vector is not a multiple of the shorter one, R recycles but then cuts off.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;As of R version 4.2.0 (released in April 2022), the behavior regarding the recycling rule has changed. In older versions of R, a warning was issued when the length of one vector was not a multiple of the length of the other vector during arithmetic operations. The reasoning behind this change was to reduce unnecessary noise in the output. Many users found the warnings redundant in cases where the recycling rule was intentional and understood. However, this change means you need to be more cautious, as unexpected behavior might go unnoticed without the warning.</p></div></div><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>coin <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -671,27 +671,27 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 </div>
 <p>for example.</p>
 <p>For simulating random experiments, R has the very useful function <code>sample()</code>. With this function we can - for example - toss a coin on the computer and conduct actual random experiments.</p>
-<p>The function takes as arguments a vector names <code>x</code> and a number named <code>size</code>. <code>sample</code> will return <code>size</code> elements randomly chosen from the vector <code>x</code>. Lets say:</p>
+<p>The function takes as arguments a vector named <code>x</code> and a number named <code>size</code>. <code>sample</code> will return <code>size</code> elements randomly chosen from the vector <code>x</code>. Let’s say:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 </div>
 <p>In this case <code>sample</code> has chosen either 0 or 1 from the vector <code>x = (0,1)</code> at random.</p>
-<p>If we want to toss the coin in our computer we can thus pass the coin as an argument to <code>sample</code> and use the number <code>1</code> for the <code>size</code> argument. Lets do a few tosses with our die</p>
+<p>If we want to toss the coin in our computer we can thus pass the coin as an argument to <code>sample</code> and use the number <code>1</code> for the <code>size</code> argument. Let’s do a few tosses with our coin</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -715,7 +715,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 NULL</code></pre>
 </div>
 </div>
-<p>Note that the <code>digits</code> argument in the <code>round</code> function is already set to <code>0</code>. Frequently R functions come with optional arguments. These arguments are optional because the come with a default value, which is <code>0</code> in case of the round function.</p>
+<p>Note that the <code>digits</code> argument in the <code>round</code> function is already set to <code>0</code>. Frequently R functions come with optional arguments. These arguments are optional because they come with a default value, which is <code>0</code> in case of the round function.</p>
 <p>We recommend that you write out argument names as a rule. It gives clearer code and avoids errors. If you don’t write argument names, R matches your values to the arguments of the function by order.</p>
 </section>
 <section id="writing_your_own_functions" class="level3" data-number="1.2.4">
@@ -724,7 +724,7 @@ NULL</code></pre>
 <pre><code>my_function &lt;- function() {}
 </code></pre>
 <p>The name here is <code>my_function</code>, next comes the expression <code>function()</code> which needs to be assigned. The names of the function arguments have to be written between the parentheses. Then we have to write the actual code within the braces <code>{}</code>.</p>
-<p>To do this for the die, lets write a function named <code>toss_coin</code>.</p>
+<p>To do this for the coin, let’s write a function named <code>toss_coin</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>toss_coin <span class="ot">&lt;-</span> <span class="cf">function</span>(){coin <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span> </span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">sample</span>(coin, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -749,7 +749,7 @@ NULL</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>Note that in our function <code>toss_coin()</code> has no arguments, just the function body. This is perfectly legitimate in R. It is important that when we call the function we have to call it with the parenthesis like <code>toss_coin()</code>. If we only call the name <code>toss_coin</code>, R will display the code in the function body.</p>
@@ -761,9 +761,9 @@ NULL</code></pre>
 NULL</code></pre>
 </div>
 </div>
-<p>Lets do not discuss all the details of this output but concentrate for a moment on the <code>replace</code> argument. What does this mean?</p>
-<p>As we saw previously we can use the sample function to model the rolling of our die. If we set the <code>size</code> argument to <code>1</code> we get the toss of one coin. If we set the <code>size</code> argument to <code>n</code>, we would simulate the tossing of <code>n</code> coins. But now the <code>replace</code> argument becomes crucial. As we can see in the output of the <code>args</code> function <code>replace</code> has a default value <code>FALSE</code>. This is a logical argument. It tells R, for example, that if we set <code>size = 2</code>, meaning that two coins are tossed, if the first coin shows, say Heads - a value of 1- the coin die cannot show Heads as well.</p>
-<p>This is clearly not what we have in mind when we model the tossing of two coins. It should be possible that both coins show the same value. To enable this behavior of the sample function, we have to change the default value of the <code>replace</code> argument to <code>TRUE</code>. Then R chooses a random draw from all of the six possible values for all dice rolled.</p>
+<p>Let’s not discuss all the details of this output but concentrate for a moment on the <code>replace</code> argument. What does this mean?</p>
+<p>As we saw previously we can use the sample function to model the tossing of our coin. If we set the <code>size</code> argument to <code>1</code> we get the toss of one coin. If we set the <code>size</code> argument to <code>n</code>, we would simulate the tossing of <code>n</code> coins. But now the <code>replace</code> argument becomes crucial. As we can see in the output of the <code>args</code> function <code>replace</code> has a default value <code>FALSE</code>. This is a logical argument. It tells R, for example, that if we set <code>size = 2</code>, meaning that two coins are tossed, if the first coin shows, say Heads - a value of 1 - the second coin cannot show Heads as well.</p>
+<p>This is clearly not what we have in mind when we model the tossing of two coins. It should be possible that both coins show the same value. To enable this behavior of the sample function, we have to change the default value of the <code>replace</code> argument to <code>TRUE</code>. Then R chooses a random draw from all possible values for all coins tossed.</p>
 <p>Congratulations ! You have written your first R function for conducting a simple random experiment. Let me remind you once again: Think of the parentheses as a trigger that tells R to run the function. If you omit the trigger R just prints the body of the function. When you run a function, all the code in the function body is executed and R returns the result of the last line of code. If the last line of code does not return a value neither will R.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -781,12 +781,12 @@ NULL</code></pre>
 </section>
 <section id="arguments" class="level3" data-number="1.2.5">
 <h3 data-number="1.2.5" class="anchored" data-anchor-id="arguments"><span class="header-section-number">1.2.5</span> Arguments</h3>
-<p>Imagine we remove the first line of code in our function body and changed the name die in the sample function to “ball”.</p>
+<p>Imagine we remove the first line of code in our function body and changed the name coin in the sample function to “ball”.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>toss_coin2 <span class="ot">&lt;-</span> <span class="cf">function</span>(){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>If we call the function now, we will get an error. The function call <code>roll_die2()</code> will result in the error message <code>Error in sample(ball, size = 1) : object 'ball' not found</code> (try it!)</p>
-<p>We could supply ball when we call <code>toss_coin2</code> if we make ball an argument of the function. Lets do this:</p>
+<p>If we call the function now, we will get an error. The function call <code>toss_coin2()</code> will result in the error message <code>Error in sample(ball, size = 1) : object 'ball' not found</code> (try it!)</p>
+<p>We could supply ball when we call <code>toss_coin2</code> if we make ball an argument of the function. Let’s do this:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>toss_coin2 <span class="ot">&lt;-</span> <span class="cf">function</span>(ball){<span class="fu">sample</span>(ball, <span class="at">size =</span> <span class="dv">1</span>)}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -805,14 +805,14 @@ NULL</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin2</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>everything works, just as intended.</p>
 </section>
 <section id="scripts" class="level3" data-number="1.2.6">
 <h3 data-number="1.2.6" class="anchored" data-anchor-id="scripts"><span class="header-section-number">1.2.6</span> Scripts</h3>
-<p>So far we have worked by interacting with the console. But what if you want to edit your functions? It would be much easier, if you could use a draft of your code and work form there. This can be done by using a <strong>script</strong>.</p>
+<p>So far we have worked by interacting with the console. But what if you want to edit your functions? It would be much easier, if you could use a draft of your code and work from there. This can be done by using a <strong>script</strong>.</p>
 <p>You create a script by going to <code>File &gt; New File &gt; R script</code> in the menu bar of RStudio. Using scripts is the standard way to write code in R. It not only helps you to keep track of your code, save it and edit it later. It also makes your work <em>reproducible</em>. You can edit and proofread your code and share it with others. To save your script go to <code>File &gt; Save As</code> in the menu bar.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -877,11 +877,11 @@ NULL</code></pre>
 <p>After executing your code, you can compile the document into a readable output format by clicking the <code>Render</code> button or using the shortcut <code>Ctrl + Shift + K</code> (Windows) or <code>Cmd + Shift + K</code> (Mac).</p></li>
 </ol>
 <p>There is of course a lot you can do to enhance your quarto documents. For example the lecture notes you are reading now are all written and composed in quarto as are the lecture slides.</p>
-<p>By using Quarto documents, you can create well-documented, interactive code files that are both functional and easy to share with others. You can use quarto indpendently from R and combine it with other languages like phyton or julia. Ceck out: https://quarto.org/</p>
+<p>By using Quarto documents, you can create well-documented, interactive code files that are both functional and easy to share with others. You can use quarto independently from R and combine it with other languages like Python or Julia. Check out: https://quarto.org/</p>
 </section>
 <section id="packages_help" class="level3" data-number="1.2.8">
 <h3 data-number="1.2.8" class="anchored" data-anchor-id="packages_help"><span class="header-section-number">1.2.8</span> Using packages and finding Help</h3>
-<p>We have now a function which we can use to simulate the tossing of a coin, <code>coin_toss()</code>. If the coin is <em>fair</em> it should be the case that if we toss the coin often, Heads and Tails should occur about equally often. The coin should not be weighted in favor of a particular value.</p>
+<p>We have now a function which we can use to simulate the tossing of a coin, <code>toss_coin()</code>. If the coin is <em>fair</em> it should be the case that if we toss the coin often, Heads and Tails should occur about equally often. The coin should not be weighted in favor of a particular value.</p>
 <p>One way to learn whether our coin is fair are <em>repetition</em> and <em>visualization</em>. These are tools we will need all the time, when working with data and when doing probability. While R has many useful functions, one of the great powers is that R is constantly extended by a huge community of users by providing packages.</p>
 <p>Packages are add on functions, which will not be available when you install R. They need to be installed and loaded before you can use them. Since packages are such a powerful tool in R we need to introduce what they are and how to use them in the beginning.</p>
 </section>
@@ -889,23 +889,23 @@ NULL</code></pre>
 <h3 data-number="1.2.9" class="anchored" data-anchor-id="packages"><span class="header-section-number">1.2.9</span> Packages</h3>
 <p>There are many visualization tools in R that come with the basic installation. Since the point we want to make here is about packages, we will use a visualization function which is part of the add on package <strong>ggplot2</strong>, a very popular package for making all kinds of graphs. ggplot2 is not part of the base-R distribution. It has to be therefore loaded before we can use it.</p>
 <p>There are many additional functions provided with this package. Indeed you could run a whole course on just that <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;A very good starting point is for instance <span class="citation" data-cites="Healy2018">Healy (<a href="#ref-Healy2018" role="doc-biblioref">2019</a>)</span>, in case you are interested. Also a good source is the first chapter in <span class="citation" data-cites="WickhamGrolemund2017">Wickham and Grolemund (<a href="#ref-WickhamGrolemund2017" role="doc-biblioref">2017</a>)</span>.</p></div></div><p>Since we want to use functios now which are not in the base R distribution. we need to load the package which provides the functions we want. In this example we use the package <em>ggplot2</em>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;A very good starting point is for instance <span class="citation" data-cites="Healy2018">Healy (<a href="06-references.html#ref-Healy2018" role="doc-biblioref">2019</a>)</span>, in case you are interested. Also a good source is the first chapter in <span class="citation" data-cites="WickhamGrolemund2017">Wickham and Grolemund (<a href="06-references.html#ref-WickhamGrolemund2017" role="doc-biblioref">2017</a>)</span>.</p></div></div><p>Since we want to use functions now which are not in the base R distribution. we need to load the package which provides the functions we want. In this example we use the package <em>ggplot2</em>.</p>
 <p>When we use a package for the first time it needs to be installed. Once installed it does not have to be reinstalled when we use it at later coding sessions again.</p>
 <p>To install a package you need to be connected to the internet. If you have internet connection go to the command line and run at the command line: <code>install.packages("ggplot2")</code>.</p>
-<p>R displays what is happening while executing the command. Don’t worry if you don not know what all of these messages exactly mean and don’t panic that they are displayed in red. All packages can be installed like this. You have just to enter the correct name in the function <code>install.packages()</code>. The lower right pane in the RStudio software alternatively provides a tab called <strong>Packages</strong>. Using this tab, you can also install R packages interactively by clicking the install button on the upper left corner of the Packages tab.</p>
+<p>R displays what is happening while executing the command. Don’t worry if you do not know what all of these messages exactly mean and don’t panic that they are displayed in red. All packages can be installed like this. You have just to enter the correct name in the function <code>install.packages()</code>. The lower right pane in the RStudio software alternatively provides a tab called <strong>Packages</strong>. Using this tab, you can also install R packages interactively by clicking the install button on the upper left corner of the Packages tab.</p>
 <p>After installation the package is on our hard-drive but it can not yet be used. To use the package it has to be loaded. This is done with the command <code>library</code>. To load the <em>ggplot2</em> package we type</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>and hit the return key. Many things could be said about the R package system and you will learn it in more detail as we go along in our course. For the moment the most important thing to remember is that a package needs to be newly loaded whenever you want to use it in a new R session.</p>
 <p>To check whether our coin is fair, we need to toss it many times. R provides a function, that does this for us. This function is called <code>replicate()</code> and provides an easy way to repeat a command many times. The number of times we want to repeat something is given as an argument to the <code>replicate</code> function.</p>
-<p>Now lets roll our die 100 times and save the result in an object we call <code>tosses</code>:</p>
+<p>Now let’s toss our coin 100 times and save the result in an object we call <code>tosses</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>tosses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">toss_coin</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The function <code>set.seed()</code> I used here with the argument <code>123</code> is just a device to make this experiment reproduceable. If this function is not used, each new run of the 100 replications would show a different outcome.</p>
-<p>I now show you a code for visualizing this outcome. The code contains some concepts that we did not yet discuss. Don’t worry. We will learn them soon. The point here is to shwo you how we use the functions of the package to produce a visualization of the outcome of our 100 coin tosses.</p>
+<p>I now show you a code for visualizing this outcome. The code contains some concepts that we did not yet discuss. Don’t worry. We will learn them soon. The point here is to show you how we use the functions of the package to produce a visualization of the outcome of our 100 coin tosses.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for plotting</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>tosses_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -929,8 +929,8 @@ NULL</code></pre>
 </div>
 </div>
 </div>
-<p>It looks like every value occurred roughly 50 times but there is still quite some variation. Tail occured fewer times than Heads.</p>
-<p>Maybe we have to give it another trial with more replications. With the computer we can do this with a fingertip. Let us roll our die 1000 times and plot the result.</p>
+<p>It looks like every value occurred roughly 50 times but there is still quite some variation. Tails occurred fewer times than Heads.</p>
+<p>Maybe we have to give it another trial with more replications. With the computer we can do this with a fingertip. Let us toss our coin 1000 times and plot the result.</p>
 <p>Here is how we would code this by recycling the code used before.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
@@ -958,8 +958,8 @@ NULL</code></pre>
 </div>
 </div>
 </div>
-<p>Now it looks much better: Each face comes up approximately 500 times. We will learn in our course why the picture get better as we increase the number of rolls of the die. For the moment, let us just state that at least for this case it seems that there is no significant visual evidence that our virtual die is loaded.</p>
-<p>But wait a minute. We have introduced the idea of classical probability by constructing equally probable cases and then count. Here we have repeated a random experiment over and over again to draw some conclusion on the underlying probabilities by visualizing the frequency polts of outcomes? These ideas are connected. We have just informally introduced a new idea in probability, the <strong>relative frequency notion</strong> of probability. How the two concepts are related and why this notion makes sense we will learn more formally in the next lecture. For the moment let’s just stick with the idea that practitioners have used at all times to assess probabilities by looking at frequencies of particular events occurring. When and why this kind of reasoning about probability works we learn in the next lecture.</p>
+<p>Now it looks much better: Each side comes up approximately 500 times. We will learn in our course why the picture gets better as we increase the number of tosses of the coin. For the moment, let us just state that at least for this case it seems that there is no significant visual evidence that our virtual coin is loaded.</p>
+<p>But wait a minute. We have introduced the idea of classical probability by constructing equally probable cases and then count. Here we have repeated a random experiment over and over again to draw some conclusion on the underlying probabilities by visualizing the frequency plots of outcomes? These ideas are connected. We have just informally introduced a new idea in probability, the <strong>relative frequency notion</strong> of probability. How the two concepts are related and why this notion makes sense we will learn more formally in the next lecture. For the moment let’s just stick with the idea that practitioners have used at all times to assess probabilities by looking at frequencies of particular events occurring. When and why this kind of reasoning about probability works we learn in the next lecture.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -984,7 +984,7 @@ NULL</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>?sample</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Then, after you have pressed the return key, a help page is opened in the right lower pane under the help tab as shown in <a href="#fig-helpinr" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-helpinr</span></a></p>
+<p>Then, after you have pressed the return key, a help page is opened in the right lower pane under the help tab as shown in <a href="#fig-helpinr" class="quarto-xref">Figure&nbsp;<span>1.5</span></a></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-helpinr" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1014,10 +1014,10 @@ sample.int(n, size = n, replace = FALSE, prob = NULL,
 <p>Next comes a list of arguments the function takes and what type of information R expects you to provide, as well as what R will do with this information. Here it says for example</p>
 <pre><code>Arguments
 x   
-either a vector of one or more elements from which to choose, or a positive integer. See ‘Details.’
+either a vector of one or more elements from which to choose, or a positive integer. See 'Details.'
 
 n   
-a positive number, the number of items to choose from. See ‘Details.’
+a positive number, the number of items to choose from. See 'Details.'
 
 size    
 a non-negative integer giving the number of items to choose.
@@ -1038,10 +1038,10 @@ a vector of probability weights for obtaining the elements of the vector being s
 <h2 data-number="1.3" class="anchored" data-anchor-id="coincidences"><span class="header-section-number">1.3</span> Application: Coincidences and the Blockchain</h2>
 <section id="birthday_problem" class="level3 page-columns page-full" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="birthday_problem"><span class="header-section-number">1.3.1</span> The birthday problem</h3>
-<p>In this section, we will apply our foundational knowledge of probability - which is at the moment just the informal and intuitive notion of counting equally probably cases - to a fascinating real-world problem known as the <em>birthday problem</em>:</p>
+<p>In this section, we will apply our foundational knowledge of probability - which is at the moment just the informal and intuitive notion of counting equally probable cases - to a fascinating real-world problem known as the <em>birthday problem</em>:</p>
 <p>The starting question in the birthday problem is: What is the probability that at least two people in a room share the same birthday, when we neglect things like leap years, and when we assume that birthdays on any day of the year are equiprobable and the birthdays of the people in the room are independent. We have no twins for example.</p>
-<p>Perhaps some of you have already seen this problem before. If not, the result may surprise you. Even if you saw the birthday problem before, perhaps not many of you are aware that the significance of this problem reaches far beyond recreational math puzzles. This is because the birthday story is of course accidential. The mathematical formulation of the problem will reveal through the process of abstraction that this problem is at the heart a problem about the probability of coincidences. As such it has real world connections to cryptography and the blockchain security.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;We follow here the discussion in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>Through this problem, we will:</p>
+<p>Perhaps some of you have already seen this problem before. If not, the result may surprise you. Even if you saw the birthday problem before, perhaps not many of you are aware that the significance of this problem reaches far beyond recreational math puzzles. This is because the birthday story is of course accidental. The mathematical formulation of the problem will reveal through the process of abstraction that this problem is at the heart a problem about the probability of coincidences. As such it has real world connections to cryptography and the blockchain security.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;We follow here the discussion in <span class="citation" data-cites="DiaconisSkyrms2019">Diaconis and Skyrms (<a href="06-references.html#ref-DiaconisSkyrms2019" role="doc-biblioref">2019</a>)</span></p></div></div><p>Through this problem, we will:</p>
 <ul>
 <li>Explore how to frame probability questions mathematically.</li>
 <li>Use basic R functions to compute probabilities.</li>
@@ -1052,8 +1052,8 @@ a vector of probability weights for obtaining the elements of the vector being s
 <p>The <em>sample space</em> is the set of possible outcomes of the experiment. The sample space for our problem includes all possible combinations of birthdays for the group. For example, if there are 3 people, each with a birthday on any of 365 days, the sample space contains all possible sequences of three birthdays:</p>
 <p><span class="math inline">\((1,1,1),(1,1,2),…,(365,365,365)\)</span></p>
 <p>In general, for <span class="math inline">\(n\)</span> people, there are <span class="math inline">\(365^n\)</span> possible combinations, as each person’s birthday is independent of the others.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;Mathematically you can describe the sample space for the birthday problem as a set with <span class="math inline">\(365^n\)</span> ordered <span class="math inline">\(n\)</span>-tuples or sequences of birthdays: <span class="math inline">\({\cal S} = \{x | x \in 365^n \}\)</span> This is the sample space of this experiment, written as in set theoretic notation. It means the sample space is the set of all ordered <span class="math inline">\(n-tuples\)</span> from the Cartesian product <span class="math inline">\(365^n\)</span>. Remember that in mathematics, a Cartesian product is a mathematical operation that returns a set (or product set or simply product) from multiple sets (in this case the sample space, <span class="math inline">\({\cal S}\)</span>. That is, for sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the Cartesian product <span class="math inline">\(A \times B\)</span> is the set of all ordered pairs <span class="math inline">\((a,b)\)</span> where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in B\)</span>.</p></div></div><p>Now given this sample space we can assign a probability to the event that two people chosen at random will have the same birthday. The denominator will this be <span class="math inline">\(365^n\)</span>. The nominator for this probability will be much more straightforward to figure out, if we compute the complement. We discussed before that the probability of the complement of an event is 1 minus the probability of the event: <span class="math inline">\(P(\text{not} A) = 1 - P(A)\)</span>.</p>
-<p>Let <span class="math inline">\(A\)</span> denote the event that no two people share the same brithday. We can then use the complement rule to compute the probability of at least two people sharing a birthday: Compute the probability that no two people share a birthday. Subtract this probability from 1 to get the probability of at least one match.</p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;Mathematically you can describe the sample space for the birthday problem as a set with <span class="math inline">\(365^n\)</span> ordered <span class="math inline">\(n\)</span>-tuples or sequences of birthdays: <span class="math inline">\({\cal S} = \{x | x \in 365^n \}\)</span> This is the sample space of this experiment, written as in set theoretic notation. It means the sample space is the set of all ordered <span class="math inline">\(n-tuples\)</span> from the Cartesian product <span class="math inline">\(365^n\)</span>. Remember that in mathematics, a Cartesian product is a mathematical operation that returns a set (or product set or simply product) from multiple sets (in this case the sample space, <span class="math inline">\({\cal S}\)</span>. That is, for sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the Cartesian product <span class="math inline">\(A \times B\)</span> is the set of all ordered pairs <span class="math inline">\((a,b)\)</span> where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b \in B\)</span>.</p></div></div><p>Now given this sample space we can assign a probability to the event that two people chosen at random will have the same birthday. The denominator will this be <span class="math inline">\(365^n\)</span>. The numerator for this probability will be much more straightforward to figure out, if we compute the complement. We discussed before that the probability of the complement of an event is 1 minus the probability of the event: <span class="math inline">\(P(\text{not} A) = 1 - P(A)\)</span>.</p>
+<p>Let <span class="math inline">\(A\)</span> denote the event that no two people share the same birthday. We can then use the complement rule to compute the probability of at least two people sharing a birthday: Compute the probability that no two people share a birthday. Subtract this probability from 1 to get the probability of at least one match.</p>
 <p>Here’s how we compute the probability of no matches:</p>
 <ol type="1">
 <li>The first person can have any birthday <span class="math inline">\((365/365)\)</span>.</li>
@@ -1076,7 +1076,7 @@ P(\text{at least two people share birthday}) =
 </div>
 <p>We have used the operator <code>^</code> which is needed to compute powers. Now we see from our computation that with 23 people the probability is already larger than 50 %. Quite stunning. You can now verify yourself that with 50 people this probability is already at 97 %.</p>
 <p>Let’s visualize how the probability of at least one shared birthday grows with the size of the group. This time I will use base R’s plotting functionality and not use the <code>ggplot2</code> package.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;I used <code>ggplot2</code> before to explain the concept of a package and how to load it to enhance R’s functionality. Base R containts a lot of powerful plotting functions which work independently of <code>gglot2</code>.</p></div></div><p>The plot below shows that the probability exceeds 50% with just 23 people and quickly approaches 100% as the group size increases.</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;I used <code>ggplot2</code> before to explain the concept of a package and how to load it to enhance R’s functionality. Base R contains a lot of powerful plotting functions which work independently of <code>ggplot2</code>.</p></div></div><p>The plot below shows that the probability exceeds 50% with just 23 people and quickly approaches 100% as the group size increases.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the birthday_collisions function</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1098,7 +1098,7 @@ P(\text{at least two people share birthday}) =
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="01-lecture1_files/figure-html/visualize-brithday-problem-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="01-lecture1_files/figure-html/visualize-birthday-problem-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1109,8 +1109,8 @@ P(\text{at least two people share birthday}) =
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="determining-birthday-collisions-by-simulation"><span class="header-section-number">1.3.2</span> Determining birthday collisions by simulation</h3>
 <p>Instead of deriving the probability analytically, we can simulate the birthday experiment if we use the relative frequency notion of probability which we informally had used in our visualization of coin tosses. Here’s how:</p>
 <ol type="1">
-<li>Generate random birthdays for nn people using <code>sample(1:365, n, replace = TRUE)</code>.</li>
-<li>Count how often at least two people share a birthday using the <code>duplicated() function</code>in combination with the logical function <code>any()</code>.</li>
+<li>Generate random birthdays for <span class="math inline">\(n\)</span> people using <code>sample(1:365, n, replace = TRUE)</code>.</li>
+<li>Count how often at least two people share a birthday using the <code>duplicated()</code> function in combination with the logical function <code>any()</code>.</li>
 <li>Repeat the simulation many times (e.g., 10,000) using replicate() to estimate the probability.</li>
 </ol>
 <div class="cell">
@@ -1196,14 +1196,14 @@ P_{nc}(n) \approx \prod_{k=0}^{n-1} \left( 1 - \frac{k}{M} \right)
 \end{equation}\]</span></p>
 <p>Now to do the estimation of the threshold we use an approximation, which works with a simple property of the logarithm: <span class="math inline">\(\log(1-x)\approx -x\)</span> when <span class="math inline">\(x\)</span> is small. Thus for <span class="math inline">\(n\)</span> much smaller than <span class="math inline">\(M\)</span>, or <span class="math inline">\(n \ll M\)</span>, we can write the no-collision probability as <span class="math display">\[\begin{equation*}
 \ln P_{nc}(n) \approx - \sum_{k=0}^{n-1} \frac{k}{M}
-\end{equation*}\]</span> Simplify the summation by usin the fact that <span class="math inline">\(\sum_{k=0}^{n-1} = \frac{n(n-1)}{2}\)</span> we get <span class="math display">\[\begin{equation*}
+\end{equation*}\]</span> Simplify the summation by using the fact that <span class="math inline">\(\sum_{k=0}^{n-1} k = \frac{n(n-1)}{2}\)</span> we get <span class="math display">\[\begin{equation*}
 \ln P_{nc}(n) \approx -\frac{n(n-1)}{2\, M}
 \end{equation*}\]</span> By taking exponentials on both sides this gives us <span class="math display">\[\begin{equation*}
 P_{nc}(n) \approx \exp \left( - \frac{n(n-1)}{2 \, M} \right)
 \end{equation*}\]</span></p>
 <p>Thus the probability of a hash-collision as a function of <span class="math inline">\(n\)</span> is then approximately</p>
 <p><span class="math display">\[\begin{equation*}
-P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
+P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{2M}
 \end{equation*}\]</span></p>
 <p>Let’s try a visualization to show how <span class="math inline">\(P_{c}(n)\)</span> increases with <span class="math inline">\(n\)</span>:</p>
 <div class="cell">
@@ -1243,14 +1243,14 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 <li><strong>Sample space</strong>: The collection of all possible outcomes of a random experiment.</li>
 <li><strong>Basic outcome</strong>: A possible outcome of a random experiment.</li>
 <li><strong>Event</strong>: An event is a subset of basic outcomes. Any event which contains a single outcome is called a simple event.</li>
-<li><strong>Classical probability</strong> find or make equally probably cases and the count them. The probability of an event <span class="math inline">\(A\)</span> is the number of cases when <span class="math inline">\(A\)</span> occurs divided by the total number of cases.</li>
+<li><strong>Classical probability</strong>: find or make equally probable cases and then count them. The probability of an event <span class="math inline">\(A\)</span> is the number of cases when <span class="math inline">\(A\)</span> occurs divided by the total number of cases.</li>
 <li><strong>Relative frequency probability</strong> defined as the number of times an event <span class="math inline">\(A\)</span> occurs in a repeated number of trials divided by the total number of trials in a random experiment.</li>
 </ol>
 <p>These are the <strong>R concepts</strong> we have covered in this lecture:</p>
 <ol type="1">
 <li><strong>objects</strong> arbitrary names that can store different values and data types.</li>
-<li><strong>functions</strong> ab R object that can accept other R objects as arguments, operate on them and return a new object.</li>
-<li><strong>scripts</strong> files that store sequences of R commands and can be saved, repopened and allow the execution of commands.</li>
+<li><strong>functions</strong> an R object that can accept other R objects as arguments, operate on them and return a new object.</li>
+<li><strong>scripts</strong> files that store sequences of R commands and can be saved, reopened and allow the execution of commands.</li>
 <li><strong>using packages</strong></li>
 <li><strong>finding help</strong></li>
 <li><strong>the functions sample and replicate</strong></li>
@@ -1262,8 +1262,8 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 <li><strong>Extrapolating the birthday problem to analyze cryptographic collision resistance of hash-functions by using ideas from probability</strong></li>
 </ol>
 </section>
-<section id="project-designing-transaction-identifyers-for-digital-payment-systems" class="level2 page-columns page-full" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="project-designing-transaction-identifyers-for-digital-payment-systems"><span class="header-section-number">1.5</span> Project: Designing transaction identifyers for digital payment systems</h2>
+<section id="project-designing-transaction-identifiers-for-digital-payment-systems" class="level2 page-columns page-full" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="project-designing-transaction-identifiers-for-digital-payment-systems"><span class="header-section-number">1.5</span> Project: Designing transaction identifiers for digital payment systems</h2>
 <section id="introduction-real-world-importance-of-unique-identifiers-in-finance" class="level3 page-columns page-full" data-number="1.5.1">
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="introduction-real-world-importance-of-unique-identifiers-in-finance"><span class="header-section-number">1.5.1</span> Introduction: Real-World Importance of Unique Identifiers in Finance</h3>
 <p>In modern financial systems, every transaction is assigned a unique identifier, allowing stakeholders to track, verify, and manage transaction details efficiently. These identifiers are critical for maintaining transparency, accountability, and security across high-volume transaction systems. However, as the volume of transactions grows, the risk of identifier collisions—where two different transactions are assigned the same identifier—increases.</p>
@@ -1293,7 +1293,7 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 </section>
 <section id="visualize-the-results" class="level3" data-number="1.5.4">
 <h3 data-number="1.5.4" class="anchored" data-anchor-id="visualize-the-results"><span class="header-section-number">1.5.4</span> Visualize the results</h3>
-<p>Plot the collision probability as a function of <span class="math inline">\(n\)</span> for different values of <span class="math inline">\(M\)</span>. We did not cover Rs plotting functions in the lecture so far. We only showed some examples which we did not explain. But we explained how you could research R’s help system and how you could ask an LLM for help. With any of these resources you should be able to come up with some reasonable visualization.</p>
+<p>Plot the collision probability as a function of <span class="math inline">\(n\)</span> for different values of <span class="math inline">\(M\)</span>. We did not cover R’s plotting functions in the lecture so far. We only showed some examples which we did not explain. But we explained how you could research R’s help system and how you could ask an LLM for help. With any of these resources you should be able to come up with some reasonable visualization.</p>
 </section>
 <section id="investigate-the-system-design" class="level3" data-number="1.5.5">
 <h3 data-number="1.5.5" class="anchored" data-anchor-id="investigate-the-system-design"><span class="header-section-number">1.5.5</span> Investigate the system design</h3>
@@ -1311,7 +1311,7 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{M}
 </ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-DiaconisSkyrms2019" class="csl-entry" role="listitem">
 Diaconis, Persi, and Brian Skyrms. 2019. <em>10 Great Ideas about Chance</em>. Princeton University Press.
 </div>
