@@ -367,8 +367,7 @@ high that others
 encountered the same problem before you and got helpful advice how to fix it from other users on 
 the internet. One site, we find particularly helpful for all kinds of questions related to R
 and R programming is https://stackoverflow.com/. Try it at the next opportunity.
-You can also show the error to the LLM prompt and ask how to fix it. In most cases
-ChatGPT will give you a useful answer.
+You can also show the error to your LLM and ask how to fix it. In most cases you will get a useful answer.
 
 Now with this basic knowledge, we can already make the first step to create a 
 coin on the computer
@@ -485,7 +484,8 @@ coin %*% coin
 
 Now R displays the result as a vectors with one row and one column, which is denoted in the output by
 `[ , 1]` for the column and `[1, ]` for the row. We will learn later more about 
-the use and the meaning of this notation in R.
+the use and the meaning of this notation in R. Don't worry if this 
+seems advanced—we won't need matrix operations for now, and we'll revisit these concepts later when they become relevant.
 
 The element wise execution R usually uses also means that when you, for example type
 
@@ -1305,6 +1305,19 @@ the course of the lecture. For the moment I ask you to bear with this
 quick and superficial explanation of why this way of proceeding does what
 we want.
 
+::: {.callout-tip}
+## Example: Logical to numeric coercion
+
+For example:
+```{r logical-coercion-example}
+# A vector of logical values
+example <- c(TRUE, FALSE, TRUE, TRUE)
+# Taking the mean treats TRUE as 1 and FALSE as 0
+mean(example)  # Returns 0.75 (three out of four are TRUE)
+```
+
+:::
+
 Note that this code uses a function within a function, which makes the
 code very efficient.^[As always there are many different ways to write this
 code a bit differently. Those of you who are more experienced in
@@ -1422,6 +1435,15 @@ Thus the probability of a hash-collision as a function of $n$ is then approximat
 P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{2M}
 \end{equation*}
 
+::: {.callout-tip}
+## Key takeaway
+
+If this derivation feels challenging, don't worry — the key insight is this: the 
+collision probability grows roughly with $n^2$ and shrinks with the size of the 
+hash space $M$. This means doubling the number of inputs roughly quadruples 
+the collision risk, while doubling the hash space cuts the risk in half.
+:::
+
 Let's try a visualization to show how $P_{c}(n)$ increases with $n$:
 
 ```{r hash-collisions}
@@ -1441,7 +1463,7 @@ abline(h = 0.5, col = "red", lty = 2)  # 50% threshold
 These results show that for SHA-256:
 
 - To have a $50$% chance of a collision, an attacker would need to compute approximately $2^{128}$ hashes.
-- At $10000$ hashes per second, this would take longer than the age of the universe.
+- Even if every computer on Earth computed billions of hashes per second, finding a collision would take far longer than the age of the universe.
 
 This enormous computational difficulty ensures the security of modern cryptographic systems. Even with the combined computing power of all devices on Earth, finding a collision is practically impossible.
 
@@ -1517,7 +1539,9 @@ under high workloads.
 In this project, we will explore this critical aspect of financial systems 
 by simulating transaction identifiers and analyzing collision probabilities. 
 This exercise demonstrates how theoretical probability concepts translate 
-directly to practical challenges in computational finance.^[For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com]
+directly to practical challenges in computational finance.^[
+For more information and details you might want to check this source:
+https://www.hostmerchantservices.com/articles/what-are-transaction-ids/]
 
 In this project, you will:
 

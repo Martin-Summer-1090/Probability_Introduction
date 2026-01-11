@@ -547,7 +547,7 @@ Figure&nbsp;1.3: The RStudio startup screen
 Error: unexpected input in "5%3"
 &gt;</code></pre>
 <p>Sometimes it is obvious why a mistake occurred. In this case, that R just does not know what to do with the symbol <code>%</code>. It has no meaning in this context. Sometimes it is not so obvious what the error message actually means and what you might do about it.</p>
-<p>A useful strategy in this case is to type the error message into a search engine and see what you can find. The chance is very high that others encountered the same problem before you and got helpful advice how to fix it from other users on the internet. One site, we find particularly helpful for all kinds of questions related to R and R programming is https://stackoverflow.com/. Try it at the next opportunity. You can also show the error to the LLM prompt and ask how to fix it. In most cases ChatGPT will give you a useful answer.</p>
+<p>A useful strategy in this case is to type the error message into a search engine and see what you can find. The chance is very high that others encountered the same problem before you and got helpful advice how to fix it from other users on the internet. One site, we find particularly helpful for all kinds of questions related to R and R programming is https://stackoverflow.com/. Try it at the next opportunity. You can also show the error to your LLM and ask how to fix it. In most cases you will get a useful answer.</p>
 <p>Now with this basic knowledge, we can already make the first step to create a coin on the computer using R. If you think of a physical coin, the essential thing that matters is that it can show Heads or Tails. Let’s encode Heads by 1 and Tails by 0. If you toss the coin it will usually land on one of these faces and the upward showing side of the coin shows the outcome of the toss. The colon operator <code>:</code> gives us a way to create a group of numbers from 0 to 1. R gives us the result as a one dimensional set of numbers.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span><span class="sc">:</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -614,7 +614,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 [1,]    1</code></pre>
 </div>
 </div>
-<p>Now R displays the result as a vectors with one row and one column, which is denoted in the output by <code>[ , 1]</code> for the column and <code>[1, ]</code> for the row. We will learn later more about the use and the meaning of this notation in R.</p>
+<p>Now R displays the result as a vectors with one row and one column, which is denoted in the output by <code>[ , 1]</code> for the column and <code>[1, ]</code> for the row. We will learn later more about the use and the meaning of this notation in R. Don’t worry if this seems advanced—we won’t need matrix operations for now, and we’ll revisit these concepts later when they become relevant.</p>
 <p>The element wise execution R usually uses also means that when you, for example type</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>coin <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -675,7 +675,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>In this case <code>sample</code> has chosen either 0 or 1 from the vector <code>x = (0,1)</code> at random.</p>
@@ -683,7 +683,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -695,7 +695,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> coin, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>These are the random outcomes of our consecutive tosses. It is as if we had thrown an actual coin but in this case we have done the same thing on the computer. Isn’t it cool that this is possible at all? The <code>sample()</code> function will remain our good friend throughout this course.</p>
@@ -704,7 +704,7 @@ Figure&nbsp;1.4: The RStudio Environment pane keeps track of the objects you hav
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(coin,<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 </div>
 <p>R would also know what to do. It is not always clear which names to use for a function. If you are not sure, you can use the function <code>args()</code> to look it up. Here we take the function <code>round</code>as one example.</p>
@@ -733,7 +733,7 @@ NULL</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -741,7 +741,7 @@ NULL</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -794,7 +794,7 @@ NULL</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toss_coin2</span>(<span class="at">ball =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>Note that we still get an error, if we forget to supply ball argument. This could be avoided if we give the function a default argument</p>
@@ -1146,14 +1146,36 @@ P(\text{at least two people share birthday}) =
 <p>The <code>results</code> vector contains <code>TRUE</code> (collision occurred) or <code>FALSE</code> (no collision) for each trial. Taking the <code>mean()</code> of this logical vector calculates the proportion of trials with a collision, which corresponds to the simulated probability. This step ties back to the definition of relative frequency probability introduced earlier: the probability of an event is the ratio of favorable outcomes to the total number of trials.</p></li>
 </ol>
 <p>This step requires some explanation of how R uses data types. We will learn about this more systematically in the next lecture. Here I give a quick and superficial explanation. R can force logical data types automatically to a numerical type when it applies arithmetic functions to a logical vector, forcing <code>TRUE</code> to 1 and <code>FALSE</code> to 0. Now, when you take the average (<code>mean()</code>) of a vector containing only 1 and 0 values you will get the proportion of 1’s or <code>TRUE</code> values. We will use such tricks often during the course of the lecture. For the moment I ask you to bear with this quick and superficial explanation of why this way of proceeding does what we want.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Example: Logical to numeric coercion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A vector of logical values</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking the mean treats TRUE as 1 and FALSE as 0</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(example)  <span class="co"># Returns 0.75 (three out of four are TRUE)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.75</code></pre>
+</div>
+</div>
+</div>
+</div>
 <p>Note that this code uses a function within a function, which makes the code very efficient.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;As always there are many different ways to write this code a bit differently. Those of you who are more experienced in programming you can challenge yourself by using for instance the following approach: Create a single matrix where each row represents one trial, and each column corresponds to a birthday for one person in that trial.Use the <code>apply()</code>function for Row-Wise Operations checking for duplicates. The result should be a logical vector indicating whether each trial has a duplicate and then take the mean of this vector.</p></div></div><p>Let’s compute the birthday collision probability for 23 (as in our analytical solution) and 50 people:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_birthday</span>(<span class="dv">23</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_birthday</span>(<span class="dv">23</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5111</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_birthday</span>(<span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_birthday</span>(<span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9718</code></pre>
 </div>
@@ -1205,17 +1227,30 @@ P_{nc}(n) \approx \exp \left( - \frac{n(n-1)}{2 \, M} \right)
 <p><span class="math display">\[\begin{equation*}
 P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{2M}
 \end{equation*}\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key takeaway
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If this derivation feels challenging, don’t worry — the key insight is this: the collision probability grows roughly with <span class="math inline">\(n^2\)</span> and shrinks with the size of the hash space <span class="math inline">\(M\)</span>. This means doubling the number of inputs roughly quadruples the collision risk, while doubling the hash space cuts the risk in half.</p>
+</div>
+</div>
 <p>Let’s try a visualization to show how <span class="math inline">\(P_{c}(n)\)</span> increases with <span class="math inline">\(n\)</span>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">256</span></span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>collision_prob <span class="ot">&lt;-</span> (n<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> M)</span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n, collision_prob, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">col =</span> <span class="st">"blue"</span>,</span>
-<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Inputs (n)"</span>, <span class="at">ylab =</span> <span class="st">"Collision Probability (log scale)"</span>,</span>
-<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Hash Collision Probability (SHA-256)"</span>)</span>
-<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.5</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># 50% threshold</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">256</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>collision_prob <span class="ot">&lt;-</span> (n<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> M)</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n, collision_prob, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">log =</span> <span class="st">"y"</span>, <span class="at">col =</span> <span class="st">"blue"</span>,</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Inputs (n)"</span>, <span class="at">ylab =</span> <span class="st">"Collision Probability (log scale)"</span>,</span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Hash Collision Probability (SHA-256)"</span>)</span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.5</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># 50% threshold</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1227,7 +1262,7 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{2M}
 <p>These results show that for SHA-256:</p>
 <ul>
 <li>To have a <span class="math inline">\(50\)</span>% chance of a collision, an attacker would need to compute approximately <span class="math inline">\(2^{128}\)</span> hashes.</li>
-<li>At <span class="math inline">\(10000\)</span> hashes per second, this would take longer than the age of the universe.</li>
+<li>Even if every computer on Earth computed billions of hashes per second, finding a collision would take far longer than the age of the universe.</li>
 </ul>
 <p>This enormous computational difficulty ensures the security of modern cryptographic systems. Even with the combined computing power of all devices on Earth, finding a collision is practically impossible.</p>
 <p>The birthday problem demonstrates how fundamental probability concepts can inform critical applications like cryptographic hash functions. By understanding the collision probabilities, we see why hash functions like SHA-256 are effective for ensuring data integrity and security.</p>
@@ -1270,7 +1305,7 @@ P_{c}(n) = 1- P_{nc}(n) \approx \frac{n^2}{2M}
 <p>This issue is analogous to the birthday problem: as the number of transactions increases, the likelihood of collisions rises due to the combinatorial nature of the problem. A collision could result in processing errors or even security vulnerabilities, such as fraudulent transactions or misattribution of funds.</p>
 <p>To mitigate such risks, many financial systems employ hash functions, such as the widely used SHA-256, to map data to a large space of possible outputs. These hash functions, with their vast output range (e.g., <span class="math inline">\(2^{256}\)</span>), make collisions extremely unlikely, even for billions of transactions. By understanding the principles behind collision probabilities, financial institutions can design systems that maintain transaction integrity even under high workloads.</p>
 <p>In this project, we will explore this critical aspect of financial systems by simulating transaction identifiers and analyzing collision probabilities. This exercise demonstrates how theoretical probability concepts translate directly to practical challenges in computational finance.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/?utm_source=chatgpt.com</p></div></div><p>In this project, you will:</p>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp; For more information and details you might want to check this source: https://www.hostmerchantservices.com/articles/what-are-transaction-ids/</p></div></div><p>In this project, you will:</p>
 <ol type="1">
 <li>Simulate a system assigning transaction identifiers.</li>
 <li>Investigate the probability of identifier collisions under different scenarios.</li>
