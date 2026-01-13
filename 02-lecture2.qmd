@@ -633,9 +633,8 @@ the relative frequency is identical to the theoretical
 probability of $0.5$.
 
 ```{r weak-lwaw-coin-example}
-
 # Define the coin
-coin <- c(1, 0)
+coin <- 0:1
 
 # Toss the coin n times
 n <- 1000
@@ -1350,8 +1349,8 @@ aapl_prices[1, "close"]
 Let us compute the day-to-day differences in closing prices. Using indexing, we can calculate these differences manually:
 
 ```{r manual-difference}
-aux_1 <- aapl_prices[2:8044, "close"]
-aux_2 <- aapl_prices[1:8043, "close"]
+aux_1 <- aapl_prices[2:nrow(aapl_prices), "close"]
+aux_2 <- aapl_prices[1:nrow(aapl_prices), "close"]
 diff_close <- aux_1 - aux_2
 head(diff_close, n = 10)
 ```
@@ -1467,7 +1466,7 @@ relation has to be investigated for each single case.
 As Louis Bachelier and Paul Samuelson noted, randomness in financial markets may emerge from the interplay of rational traders, yet this randomness is not absolute. A nuanced understanding of market dynamics is crucial for drawing meaningful conclusions.
 
 
-### Example: Benford's Law and Trading Volumes {#benford}
+### Example: Benford's Law and Trading Volumes
 
 Let us conclude this lecture with an example that ties together our understanding of empirical probabilities and relative frequencies while also showcasing a surprising pattern in real-world data. This example will further strengthen your R skills and prepare you for the assigned project.
 
@@ -1774,9 +1773,9 @@ In this lecture, we explored foundational concepts in **probability theory** and
 
 Through this lecture, we reinforced the connection between probability theory and data analysis, demonstrating how abstract concepts like empirical probabilities and independence can be applied in real-world scenarios using R. The integration of theoretical ideas with computational tools prepares you for more advanced analysis and real-world problem-solving.
 
-## Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law**
+## Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law
 
-### **Overview**
+### Overview
 
 This project challenges you to apply Benford’s Law to detect 
 potential anomalies in financial data. By analyzing the 
@@ -1789,14 +1788,14 @@ and their applications, while also practicing critical
 data analysis skills in R.
 
 
-### **Objectives**
+### Objectives
 
 1. Analyze the distribution of leading digits in revenue and expenditure data.
 2. Compare empirical distributions with the theoretical predictions of Benford’s Law.
 3. Identify and interpret deviations from Benford’s Law.
 4. Reflect on the implications of your findings in the context of financial forensics.
 
-### **Steps**
+### Steps
 
 **Step 1: Understand the Research Question**
 Your main tasks are:

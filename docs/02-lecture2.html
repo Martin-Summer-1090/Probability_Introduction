@@ -282,15 +282,15 @@ window.Quarto = {
   <li><a href="#robjects" id="toc-robjects" class="nav-link" data-scroll-target="#robjects"><span class="header-section-number">2.7.2</span> R Objects and Stock Price Movements</a></li>
   <li><a href="#robjects-extended" id="toc-robjects-extended" class="nav-link" data-scroll-target="#robjects-extended"><span class="header-section-number">2.7.3</span> Extending R Objects: Factors, Data Frames, and Lists</a></li>
   <li><a href="#apple-up-down" id="toc-apple-up-down" class="nav-link" data-scroll-target="#apple-up-down"><span class="header-section-number">2.7.4</span> Example: Will the Stock Price of Apple Move Up or Down?</a></li>
-  <li><a href="#benford" id="toc-benford" class="nav-link" data-scroll-target="#benford"><span class="header-section-number">2.7.5</span> Example: Benford’s Law and Trading Volumes</a></li>
+  <li><a href="#example-benfords-law-and-trading-volumes" id="toc-example-benfords-law-and-trading-volumes" class="nav-link" data-scroll-target="#example-benfords-law-and-trading-volumes"><span class="header-section-number">2.7.5</span> Example: Benford’s Law and Trading Volumes</a></li>
   <li><a href="#enhancing-your-learning-with-an-llm-debugging-and-exploring-data-analysis-pitfalls" id="toc-enhancing-your-learning-with-an-llm-debugging-and-exploring-data-analysis-pitfalls" class="nav-link" data-scroll-target="#enhancing-your-learning-with-an-llm-debugging-and-exploring-data-analysis-pitfalls"><span class="header-section-number">2.7.6</span> Enhancing Your Learning with an LLM: Debugging and Exploring Data Analysis Pitfalls</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.8</span> Summary</a></li>
-  <li><a href="#project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law" id="toc-project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law" class="nav-link" data-scroll-target="#project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law"><span class="header-section-number">2.9</span> Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law**</a>
+  <li><a href="#project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law" id="toc-project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law" class="nav-link" data-scroll-target="#project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law"><span class="header-section-number">2.9</span> Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law</a>
   <ul class="collapse">
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">2.9.1</span> <strong>Overview</strong></a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives"><span class="header-section-number">2.9.2</span> <strong>Objectives</strong></a></li>
-  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps"><span class="header-section-number">2.9.3</span> <strong>Steps</strong></a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">2.9.1</span> Overview</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives"><span class="header-section-number">2.9.2</span> Objectives</a></li>
+  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps"><span class="header-section-number">2.9.3</span> Steps</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -856,7 +856,7 @@ P(A) = \frac{\text{Number of times $A$ occurs in repeated identical trials}}{\te
 <p>Then we plot these frequencies againts the number of tosses. The <span class="math inline">\(x\)</span>-axis represents the number of tosses, while the <span class="math inline">\(y\)</span>-axis represents the relative frequency of heads. We draw a red horizontal line where the relative frequency is identical to the theoretical probability of <span class="math inline">\(0.5\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the coin</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Toss the coin n times</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
@@ -956,17 +956,28 @@ This is the probability of the event “5 on the first roll and 6 on the second 
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   symbol       date     open     high      low    close    volume  adjusted
-1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
-6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.2647689
-7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.2533336
-8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.2427781
-9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.2427781
-10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.2410190</code></pre>
+<pre><code>    X symbol       date     open     high      low    close     volume
+1   1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442  535796800
+2   2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179  512377600
+3   3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571  778321600
+4   4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214  767972800
+5   5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393  460734400
+6   6   aapl 2000-01-10 0.910714 0.912946 0.845982 0.872768  505064000
+7   7   aapl 2000-01-11 0.856585 0.887277 0.808036 0.828125  441548800
+8   8   aapl 2000-01-12 0.848214 0.852679 0.772321 0.778460  976068800
+9   9   aapl 2000-01-13 0.843610 0.881696 0.825893 0.863839 1032684800
+10 10   aapl 2000-01-14 0.892857 0.912946 0.887277 0.896763  390376000
+    adjusted
+1  0.8392805
+2  0.7685209
+3  0.7797668
+4  0.7122870
+5  0.7460274
+6  0.7329062
+7  0.6954172
+8  0.6537111
+9  0.7254082
+10 0.7530560</code></pre>
 </div>
 </div>
 <p>This reveals a table with columns such as the opening price, highest and lowest prices, and adjusted closing price for each day. While we won’t dive into the exact meaning of these financial terms just yet, this dataset will serve as the foundation for our analysis.</p>
@@ -1036,7 +1047,7 @@ This is the probability of the event “5 on the first roll and 6 on the second 
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>week_movements <span class="ot">&lt;-</span> <span class="fu">sample</span>(price_changes, <span class="at">size =</span> <span class="dv">7</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>week_movements</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  0 -1  1  0  0  1 -1</code></pre>
+<pre><code>[1]  0 -1  1  0 -1  1  1</code></pre>
 </div>
 </div>
 <p>Here, <code>size = 7</code> simulates 7 days of movements, and <code>replace = TRUE</code> allows values to be selected more than once.</p>
@@ -1051,7 +1062,7 @@ This is the probability of the event “5 on the first roll and 6 on the second 
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>))</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>week_movements_weighted</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  0  1 -1  0  1  1  0</code></pre>
+<pre><code>[1]  1  0 -1 -1 -1  0  1</code></pre>
 </div>
 </div>
 <p>Here, the probabilities <code>0.3</code>, <code>0.4</code>, and <code>0.3</code> represent the likelihood of a decrease, no change, or an increase in price, respectively.</p>
@@ -1073,7 +1084,7 @@ This is the probability of the event “5 on the first roll and 6 on the second 
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>up_day <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>close <span class="sc">&gt;</span> aapl_prices<span class="sc">$</span>open</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices<span class="sc">$</span>up_day, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE</code></pre>
+<pre><code> [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE</code></pre>
 </div>
 </div>
 </section>
@@ -1112,7 +1123,7 @@ This is the probability of the event “5 on the first roll and 6 on the second 
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-01-13 20:40:21 CET"</code></pre>
+<pre><code>[1] "2026-01-13 21:16:04 CET"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(now)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1171,13 +1182,13 @@ $class
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>up_day <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  symbol       date     open     high      low    close    volume  adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
-6   AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.2647689</code></pre>
+<pre><code>  X symbol       date     open     high      low    close    volume  adjusted
+1 1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442 535796800 0.8392805
+2 2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179 512377600 0.7685209
+3 3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571 778321600 0.7797668
+4 4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214 767972800 0.7122870
+5 5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393 460734400 0.7460274
+6 6   aapl 2000-01-10 0.910714 0.912946 0.845982 0.872768 505064000 0.7329062</code></pre>
 </div>
 </div>
 <p>To identify days when the price decreased, we can compute the daily price change and create a factor to categorize the changes (<code>"up"</code>, <code>"down"</code>, <code>"unchanged"</code>). Then, we can use factors to tabulate occurrences for each day of the week.</p>
@@ -1212,20 +1223,20 @@ $class
 <span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a><span class="co"># View the updated data</span></span>
 <span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  symbol       date     open     high      low    close    volume  adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
-6   AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.2647689
+<pre><code>  X symbol       date     open     high      low    close    volume  adjusted
+1 1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442 535796800 0.8392805
+2 2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179 512377600 0.7685209
+3 3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571 778321600 0.7797668
+4 4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214 767972800 0.7122870
+5 5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393 460734400 0.7460274
+6 6   aapl 2000-01-10 0.910714 0.912946 0.845982 0.872768 505064000 0.7329062
     weekday price_change
-1   Tuesday           up
-2 Wednesday         down
-3  Thursday         down
-4    Friday    unchanged
-5    Monday           up
-6   Tuesday         down</code></pre>
+1    Monday           up
+2   Tuesday         down
+3 Wednesday           up
+4  Thursday         down
+5    Friday           up
+6    Monday         down</code></pre>
 </div>
 </div>
 <p>The factor structure allows us quick tabulations, like this:</p>
@@ -1236,11 +1247,11 @@ $class
 <div class="cell-output cell-output-stdout">
 <pre><code>           
              up down unchanged
-  Monday    895  726        39
-  Tuesday   887  876        45
-  Wednesday 917  855        34
-  Thursday  846  891        39
-  Friday    835  889        41</code></pre>
+  Monday    676  549         4
+  Tuesday   693  644         6
+  Wednesday 709  632         2
+  Thursday  666  650         1
+  Friday    632  678         4</code></pre>
 </div>
 </div>
 <p>Then we can use our table to see how many down moves we count on Mondays in our data set.</p>
@@ -1249,7 +1260,7 @@ $class
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>down_on_mondays <span class="ot">&lt;-</span> tabulated_data[<span class="st">"Monday"</span>, <span class="st">"down"</span>]</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>down_on_mondays</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 726</code></pre>
+<pre><code>[1] 549</code></pre>
 </div>
 </div>
 <p>This analysis reveals how many times Apple’s stock price decreased on Mondays in the dataset. Using factors, we can categorize data and extract meaningful insights, making them an invaluable tool for financial analysis and beyond. They are a powerful tool in exploratory data analysis involving categorical data.</p>
@@ -1261,20 +1272,20 @@ $class
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  symbol       date     open     high      low    close    volume  adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
-6   AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.2647689
+<pre><code>  X symbol       date     open     high      low    close    volume  adjusted
+1 1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442 535796800 0.8392805
+2 2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179 512377600 0.7685209
+3 3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571 778321600 0.7797668
+4 4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214 767972800 0.7122870
+5 5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393 460734400 0.7460274
+6 6   aapl 2000-01-10 0.910714 0.912946 0.845982 0.872768 505064000 0.7329062
     weekday price_change
-1   Tuesday           up
-2 Wednesday         down
-3  Thursday         down
-4    Friday    unchanged
-5    Monday           up
-6   Tuesday         down</code></pre>
+1    Monday           up
+2   Tuesday         down
+3 Wednesday           up
+4  Thursday         down
+5    Friday           up
+6    Monday         down</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(aapl_prices)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1297,11 +1308,11 @@ $class
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices[<span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"close"</span>, <span class="st">"up_day"</span>)], <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        date    close up_day
-1 1990-01-02 0.332589   TRUE
-2 1990-01-03 0.334821  FALSE
-3 1990-01-04 0.335938  FALSE
-4 1990-01-05 0.337054  FALSE
-5 1990-01-08 0.339286   TRUE</code></pre>
+1 2000-01-03 0.999442   TRUE
+2 2000-01-04 0.915179  FALSE
+3 2000-01-05 0.928571   TRUE
+4 2000-01-06 0.848214  FALSE
+5 2000-01-07 0.888393   TRUE</code></pre>
 </div>
 </div>
 <p>Data frames are extremely flexible. You can subset them, filter rows, or add new columns:</p>
@@ -1311,20 +1322,20 @@ $class
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>higher_close <span class="ot">&lt;-</span> aapl_prices[aapl_prices<span class="sc">$</span>up_day <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span>
 <span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(higher_close)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   symbol       date     open     high      low    close    volume  adjusted
-1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
-9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.2427781
-11   AAPL 1990-01-16 0.299107 0.312500 0.292411 0.311384 214244800 0.2454167
-14   AAPL 1990-01-19 0.301339 0.308036 0.299107 0.305804 265137600 0.2410190
-17   AAPL 1990-01-24 0.290179 0.305804 0.287946 0.303571 169792000 0.2392588
-     weekday price_change up_day
-1    Tuesday           up   TRUE
-5     Monday           up   TRUE
-9     Friday           up   TRUE
-11   Tuesday           up   TRUE
-14    Friday           up   TRUE
-17 Wednesday           up   TRUE</code></pre>
+<pre><code>    X symbol       date     open     high      low    close     volume
+1   1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442  535796800
+3   3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571  778321600
+5   5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393  460734400
+9   9   aapl 2000-01-13 0.843610 0.881696 0.825893 0.863839 1032684800
+10 10   aapl 2000-01-14 0.892857 0.912946 0.887277 0.896763  390376000
+11 11   aapl 2000-01-18 0.901786 0.946429 0.896763 0.928013  459177600
+    adjusted   weekday price_change up_day
+1  0.8392805    Monday           up   TRUE
+3  0.7797668 Wednesday           up   TRUE
+5  0.7460274    Friday           up   TRUE
+9  0.7254082  Thursday           up   TRUE
+10 0.7530560    Friday           up   TRUE
+11 0.7792982   Tuesday           up   TRUE</code></pre>
 </div>
 </div>
 </section>
@@ -1346,20 +1357,20 @@ $class
 
 $price_summary
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-  0.1155   0.3834   3.3300  30.5265  28.8950 259.0200 
+  0.2343   2.5631  18.5564  50.2000  54.0862 286.1900 
 
 $highest_price
-[1] 260.1
+[1] 288.62
 
 $date_range
-[1] "1990-01-02" "2024-12-27"</code></pre>
+[1] "2000-01-03" "2026-01-12"</code></pre>
 </div>
 </div>
 <p>You can access elements in a list using double brackets (<code>[[</code>):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>stock_summary[[<span class="st">"highest_price"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 260.1</code></pre>
+<pre><code>[1] 288.62</code></pre>
 </div>
 </div>
 <p>Lists can also contain nested lists or data frames, enabling complex data structures. For example:</p>
@@ -1376,28 +1387,28 @@ $summary$ticker
 
 $summary$price_summary
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-  0.1155   0.3834   3.3300  30.5265  28.8950 259.0200 
+  0.2343   2.5631  18.5564  50.2000  54.0862 286.1900 
 
 $summary$highest_price
-[1] 260.1
+[1] 288.62
 
 $summary$date_range
-[1] "1990-01-02" "2024-12-27"
+[1] "2000-01-03" "2026-01-12"
 
 
 $recent_data
-  symbol       date     open     high      low    close    volume  adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+  X symbol       date     open     high      low    close    volume  adjusted
+1 1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442 535796800 0.8392805
+2 2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179 512377600 0.7685209
+3 3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571 778321600 0.7797668
+4 4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214 767972800 0.7122870
+5 5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393 460734400 0.7460274
     weekday price_change up_day
-1   Tuesday           up   TRUE
-2 Wednesday         down  FALSE
-3  Thursday         down  FALSE
-4    Friday    unchanged  FALSE
-5    Monday           up   TRUE</code></pre>
+1    Monday           up   TRUE
+2   Tuesday         down  FALSE
+3 Wednesday           up   TRUE
+4  Thursday         down  FALSE
+5    Friday           up   TRUE</code></pre>
 </div>
 </div>
 </section>
@@ -1437,18 +1448,18 @@ $recent_data
 <span id="cb69-28"><a href="#cb69-28" aria-hidden="true" tabindex="-1"></a>summary_list</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$week_data
-  symbol       date     open     high      low    close    volume  adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+  X symbol       date     open     high      low    close    volume  adjusted
+1 1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442 535796800 0.8392805
+2 2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179 512377600 0.7685209
+3 3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571 778321600 0.7797668
+4 4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214 767972800 0.7122870
+5 5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393 460734400 0.7460274
     weekday price_change up_day       day
-1   Tuesday           -1   TRUE    Monday
-2 Wednesday           -1  FALSE   Tuesday
-3  Thursday            0  FALSE Wednesday
-4    Friday           -1  FALSE  Thursday
-5    Monday            1   TRUE    Friday
+1    Monday           -1   TRUE    Monday
+2   Tuesday           -1  FALSE   Tuesday
+3 Wednesday            0   TRUE Wednesday
+4  Thursday           -1  FALSE  Thursday
+5    Friday            1   TRUE    Friday
 
 $positive_days
 [1] 1
@@ -1490,28 +1501,28 @@ $total_change
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   symbol       date     open     high      low    close    volume  adjusted
-1    AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2    AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3    AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4    AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5    AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
-6    AAPL 1990-01-09 0.339286 0.339286 0.330357 0.335938  86139200 0.2647689
-7    AAPL 1990-01-10 0.335938 0.335938 0.319196 0.321429 199718400 0.2533336
-8    AAPL 1990-01-11 0.323661 0.323661 0.308036 0.308036 211052800 0.2427781
-9    AAPL 1990-01-12 0.305804 0.310268 0.301339 0.308036 171897600 0.2427781
-10   AAPL 1990-01-15 0.308036 0.319196 0.305804 0.305804 161739200 0.2410190
-     weekday price_change up_day
-1    Tuesday           up   TRUE
-2  Wednesday         down  FALSE
-3   Thursday         down  FALSE
-4     Friday    unchanged  FALSE
-5     Monday           up   TRUE
-6    Tuesday         down  FALSE
-7  Wednesday         down  FALSE
-8   Thursday         down  FALSE
-9     Friday           up   TRUE
-10    Monday         down  FALSE</code></pre>
+<pre><code>    X symbol       date     open     high      low    close     volume
+1   1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442  535796800
+2   2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179  512377600
+3   3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571  778321600
+4   4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214  767972800
+5   5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393  460734400
+6   6   aapl 2000-01-10 0.910714 0.912946 0.845982 0.872768  505064000
+7   7   aapl 2000-01-11 0.856585 0.887277 0.808036 0.828125  441548800
+8   8   aapl 2000-01-12 0.848214 0.852679 0.772321 0.778460  976068800
+9   9   aapl 2000-01-13 0.843610 0.881696 0.825893 0.863839 1032684800
+10 10   aapl 2000-01-14 0.892857 0.912946 0.887277 0.896763  390376000
+    adjusted   weekday price_change up_day
+1  0.8392805    Monday           up   TRUE
+2  0.7685209   Tuesday         down  FALSE
+3  0.7797668 Wednesday           up   TRUE
+4  0.7122870  Thursday         down  FALSE
+5  0.7460274    Friday           up   TRUE
+6  0.7329062    Monday         down  FALSE
+7  0.6954172   Tuesday         down  FALSE
+8  0.6537111 Wednesday         down  FALSE
+9  0.7254082  Thursday           up   TRUE
+10 0.7530560    Friday           up   TRUE</code></pre>
 </div>
 </div>
 <section id="understanding-the-structure-of-the-data" class="level4" data-number="2.7.4.1">
@@ -1531,10 +1542,10 @@ $total_change
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aapl_prices)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8815   11</code></pre>
+<pre><code>[1] 6546   12</code></pre>
 </div>
 </div>
-<p>The dataset contains price information for 8815 trading days.</p>
+<p>The dataset contains price information for 6546 trading days.</p>
 <hr>
 </section>
 <section id="subsetting-data-accessing-specific-elements" class="level4" data-number="2.7.4.2">
@@ -1551,7 +1562,7 @@ $total_change
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">"close"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.332589</code></pre>
+<pre><code>[1] 0.999442</code></pre>
 </div>
 </div>
 <ul>
@@ -1560,7 +1571,7 @@ $total_change
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">"close"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.332589 0.334821 0.335938 0.337054 0.339286</code></pre>
+<pre><code>[1] 0.999442 0.915179 0.928571 0.848214 0.888393</code></pre>
 </div>
 </div>
 <ol start="2" type="1">
@@ -1572,7 +1583,7 @@ $total_change
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>     <span class="fu">head</span>(aapl_prices[<span class="sc">-</span><span class="dv">1</span>, <span class="st">"close"</span>], <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.334821 0.335938 0.337054</code></pre>
+<pre><code>[1] 0.915179 0.928571 0.848214</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -1597,7 +1608,7 @@ $total_change
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>     sel <span class="ot">&lt;-</span> aapl_prices[, <span class="st">"close"</span>]</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">length</span>(sel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8815</code></pre>
+<pre><code>[1] 6546</code></pre>
 </div>
 </div>
 <ol start="5" type="1">
@@ -1609,8 +1620,8 @@ $total_change
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>     aapl_prices[<span class="dv">1</span>, <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      high    close
-1 0.334821 0.332589</code></pre>
+<pre><code>      open      low up_day
+1 0.936384 0.907924   TRUE</code></pre>
 </div>
 </div>
 <ol start="6" type="1">
@@ -1622,7 +1633,7 @@ $total_change
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>aapl_prices[<span class="dv">1</span>, <span class="st">"close"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.332589</code></pre>
+<pre><code>[1] 0.999442</code></pre>
 </div>
 </div>
 </section>
@@ -1630,32 +1641,36 @@ $total_change
 <h4 data-number="2.7.4.3" class="anchored" data-anchor-id="calculating-daily-price-differences"><span class="header-section-number">2.7.4.3</span> Calculating Daily Price Differences</h4>
 <p>Let us compute the day-to-day differences in closing prices. Using indexing, we can calculate these differences manually:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">2</span><span class="sc">:</span><span class="dv">8044</span>, <span class="st">"close"</span>]</span>
-<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>aux_2 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="dv">8043</span>, <span class="st">"close"</span>]</span>
-<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>diff_close <span class="ot">&lt;-</span> aux_1 <span class="sc">-</span> aux_2</span>
-<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(diff_close, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>aux_1 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(aapl_prices), <span class="st">"close"</span>]</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>aux_2 <span class="ot">&lt;-</span> aapl_prices[<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(aapl_prices), <span class="st">"close"</span>]</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>diff_close <span class="ot">&lt;-</span> aux_1 <span class="sc">-</span> aux_2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in aux_1 - aux_2: longer object length is not a multiple of shorter
+object length</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(diff_close, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.002231985  0.001117021  0.001116008  0.002231985 -0.003347993
- [6] -0.014508992 -0.013393015  0.000000000 -0.002231985  0.005579978</code></pre>
+<pre><code> [1] -0.08426297  0.01339197 -0.08035702  0.04017901 -0.01562500 -0.04464298
+ [7] -0.04966497  0.08537894  0.03292406  0.03125000</code></pre>
 </div>
 </div>
 <p>Alternatively, the built-in <code>diff()</code> function simplifies this task:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(aapl_prices<span class="sc">$</span>close))</span>
-<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(aapl_prices<span class="sc">$</span>close))</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  symbol       date     open     high      low    close    volume  adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+<pre><code>  X symbol       date     open     high      low    close    volume  adjusted
+1 1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442 535796800 0.8392805
+2 2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179 512377600 0.7685209
+3 3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571 778321600 0.7797668
+4 4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214 767972800 0.7122870
+5 5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393 460734400 0.7460274
     weekday price_change up_day        diff
-1   Tuesday           up   TRUE          NA
-2 Wednesday         down  FALSE 0.002231985
-3  Thursday         down  FALSE 0.001117021
-4    Friday    unchanged  FALSE 0.001116008
-5    Monday           up   TRUE 0.002231985</code></pre>
+1    Monday           up   TRUE          NA
+2   Tuesday         down  FALSE -0.08426297
+3 Wednesday           up   TRUE  0.01339197
+4  Thursday         down  FALSE -0.08035702
+5    Friday           up   TRUE  0.04017901</code></pre>
 </div>
 </div>
 <p>The first observation is <code>NA</code> because there is no prior day to calculate a difference.</p>
@@ -1664,31 +1679,31 @@ $total_change
 <h4 data-number="2.7.4.4" class="anchored" data-anchor-id="frequency-based-probability-of-upward-moves"><span class="header-section-number">2.7.4.4</span> Frequency-Based Probability of Upward Moves</h4>
 <p>To determine the probability of the stock moving up on any given day, we create a logical column that indicates whether the price difference is positive:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff_pos <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>diff <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>aapl_prices<span class="sc">$</span>diff_pos <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>diff <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aapl_prices, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  symbol       date     open     high      low    close    volume  adjusted
-1   AAPL 1990-01-02 0.314732 0.334821 0.312500 0.332589 183198400 0.2621293
-2   AAPL 1990-01-03 0.339286 0.339286 0.334821 0.334821 207995200 0.2638886
-3   AAPL 1990-01-04 0.341518 0.345982 0.332589 0.335938 221513600 0.2647689
-4   AAPL 1990-01-05 0.337054 0.341518 0.330357 0.337054 123312000 0.2656486
-5   AAPL 1990-01-08 0.334821 0.339286 0.330357 0.339286 101572800 0.2674077
+<pre><code>  X symbol       date     open     high      low    close    volume  adjusted
+1 1   aapl 2000-01-03 0.936384 1.004464 0.907924 0.999442 535796800 0.8392805
+2 2   aapl 2000-01-04 0.966518 0.987723 0.903460 0.915179 512377600 0.7685209
+3 3   aapl 2000-01-05 0.926339 0.987165 0.919643 0.928571 778321600 0.7797668
+4 4   aapl 2000-01-06 0.947545 0.955357 0.848214 0.848214 767972800 0.7122870
+5 5   aapl 2000-01-07 0.861607 0.901786 0.852679 0.888393 460734400 0.7460274
     weekday price_change up_day        diff diff_pos
-1   Tuesday           up   TRUE          NA       NA
-2 Wednesday         down  FALSE 0.002231985     TRUE
-3  Thursday         down  FALSE 0.001117021     TRUE
-4    Friday    unchanged  FALSE 0.001116008     TRUE
-5    Monday           up   TRUE 0.002231985     TRUE</code></pre>
+1    Monday           up   TRUE          NA       NA
+2   Tuesday         down  FALSE -0.08426297    FALSE
+3 Wednesday           up   TRUE  0.01339197     TRUE
+4  Thursday         down  FALSE -0.08035702    FALSE
+5    Friday           up   TRUE  0.04017901     TRUE</code></pre>
 </div>
 </div>
 <p>Using the relative frequency approach, we calculate the probability of an upward move as:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aapl_prices<span class="sc">$</span>diff_pos, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5073746</code></pre>
+<pre><code>[1] 0.5220779</code></pre>
 </div>
 </div>
-<p>or about 51 %.</p>
+<p>or about 52 %.</p>
 <p>This one line of code does several important things that are worth unpacking.</p>
 <p>First, R has an internal behavior known as <strong>type coercion</strong>, where logical values (<code>TRUE</code> and <code>FALSE</code>) are automatically converted into numerical values when used in numerical operations. Specifically:</p>
 <ul>
@@ -1721,8 +1736,8 @@ $total_change
 <p>As Louis Bachelier and Paul Samuelson noted, randomness in financial markets may emerge from the interplay of rational traders, yet this randomness is not absolute. A nuanced understanding of market dynamics is crucial for drawing meaningful conclusions.</p>
 </section>
 </section>
-<section id="benford" class="level3" data-number="2.7.5">
-<h3 data-number="2.7.5" class="anchored" data-anchor-id="benford"><span class="header-section-number">2.7.5</span> Example: Benford’s Law and Trading Volumes</h3>
+<section id="example-benfords-law-and-trading-volumes" class="level3" data-number="2.7.5">
+<h3 data-number="2.7.5" class="anchored" data-anchor-id="example-benfords-law-and-trading-volumes"><span class="header-section-number">2.7.5</span> Example: Benford’s Law and Trading Volumes</h3>
 <p>Let us conclude this lecture with an example that ties together our understanding of empirical probabilities and relative frequencies while also showcasing a surprising pattern in real-world data. This example will further strengthen your R skills and prepare you for the assigned project.</p>
 <section id="the-curious-case-of-leading-digits" class="level4" data-number="2.7.5.1">
 <h4 data-number="2.7.5.1" class="anchored" data-anchor-id="the-curious-case-of-leading-digits"><span class="header-section-number">2.7.5.1</span> The Curious Case of Leading Digits</h4>
@@ -1734,19 +1749,19 @@ $total_change
 <h4 data-number="2.7.5.2" class="anchored" data-anchor-id="benfords-law-in-trading-volumes"><span class="header-section-number">2.7.5.2</span> Benford’s Law in Trading Volumes</h4>
 <p>Let’s see if trading volumes follow Benford’s Law. First, we extract the trading volumes from the <code>aapl_prices</code> dataset:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>volumes <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>volume</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>volumes <span class="ot">&lt;-</span> aapl_prices<span class="sc">$</span>volume</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Next, we filter out invalid values (e.g., zeros or missing values) and extract the leading digits:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>valid_volumes <span class="ot">&lt;-</span> volumes[volumes <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(volumes)]</span>
-<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>leading_digits <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>valid_volumes <span class="ot">&lt;-</span> volumes[volumes <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(volumes)]</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>leading_digits <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s break down this code:</p>
 <p>Here’s an explanation of the two code lines tailored for students:</p>
 <p><strong>1. Filter Valid Trading Volumes</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>valid_volumes <span class="ot">&lt;-</span> volumes[volumes <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(volumes)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>valid_volumes <span class="ot">&lt;-</span> volumes[volumes <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(volumes)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This line ensures that only valid trading volumes are included in the analysis. Let’s break it down:</p>
 <ol type="1">
@@ -1771,16 +1786,16 @@ $total_change
 </ol>
 <p><strong>2. Extract Leading Digits</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>leading_digits <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>leading_digits <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This line extracts the leading digit of each valid trading volume. Here’s how it works:</p>
 <ol type="1">
 <li><strong>Convert to Character Strings</strong>:</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.character</span>(valid_volumes),<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.character</span>(valid_volumes),<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "183198400" "207995200" "221513600" "123312000" "101572800"</code></pre>
+<pre><code>[1] "535796800" "512377600" "778321600" "767972800" "460734400"</code></pre>
 </div>
 </div>
 <ul>
@@ -1791,9 +1806,9 @@ $total_change
 <li><strong>Extract the First Character</strong>:</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>),<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">substr</span>(<span class="fu">as.character</span>(valid_volumes), <span class="dv">1</span>, <span class="dv">1</span>),<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "1" "2" "2" "1" "1"</code></pre>
+<pre><code>[1] "5" "5" "7" "7" "4"</code></pre>
 </div>
 </div>
 <ul>
@@ -1806,20 +1821,20 @@ $total_change
 </ol>
 <p>Now we compute the empirical frequencies of the leading digits and compare them to the theoretical probabilities:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabulate empirical frequencies</span></span>
-<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>emp_freq <span class="ot">&lt;-</span> <span class="fu">table</span>(leading_digits) <span class="sc">/</span> <span class="fu">length</span>(leading_digits)</span>
-<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with empirical and Benford probabilities</span></span>
-<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Digit =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
-<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Empirical_Freq =</span> <span class="fu">as.numeric</span>(emp_freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]), <span class="co"># Match digits 1 to 9</span></span>
-<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Benford_Prob =</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>))</span>
-<span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabulate empirical frequencies</span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>emp_freq <span class="ot">&lt;-</span> <span class="fu">table</span>(leading_digits) <span class="sc">/</span> <span class="fu">length</span>(leading_digits)</span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with empirical and Benford probabilities</span></span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>benford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Digit =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Empirical_Freq =</span> <span class="fu">as.numeric</span>(emp_freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]), <span class="co"># Match digits 1 to 9</span></span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Benford_Prob =</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>))</span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here’s an explanation of the code chunk, step by step:</p>
 <p><strong>1. Tabulate Empirical Frequencies</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>emp_freq <span class="ot">&lt;-</span> <span class="fu">table</span>(leading_digits) <span class="sc">/</span> <span class="fu">length</span>(leading_digits)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>emp_freq <span class="ot">&lt;-</span> <span class="fu">table</span>(leading_digits) <span class="sc">/</span> <span class="fu">length</span>(leading_digits)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
 <li><strong><code>table(leading_digits)</code></strong>:
@@ -1874,8 +1889,8 @@ $total_change
 </ol>
 <p>We can now display the results</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the comparison</span></span>
-<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(benford)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the comparison</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(benford)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -1888,47 +1903,47 @@ $total_change
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.3072036</td>
+<td style="text-align: right;">0.2598533</td>
 <td style="text-align: right;">0.3010300</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.1674419</td>
+<td style="text-align: right;">0.1374885</td>
 <td style="text-align: right;">0.1760913</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0.1185479</td>
+<td style="text-align: right;">0.1232814</td>
 <td style="text-align: right;">0.1249387</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.0976744</td>
+<td style="text-align: right;">0.1208372</td>
 <td style="text-align: right;">0.0969100</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.0713556</td>
+<td style="text-align: right;">0.0898258</td>
 <td style="text-align: right;">0.0791812</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">0.0670448</td>
+<td style="text-align: right;">0.0803544</td>
 <td style="text-align: right;">0.0669468</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">0.0620533</td>
+<td style="text-align: right;">0.0711885</td>
 <td style="text-align: right;">0.0579919</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">8</td>
-<td style="text-align: right;">0.0584231</td>
+<td style="text-align: right;">0.0656890</td>
 <td style="text-align: right;">0.0511525</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">9</td>
-<td style="text-align: right;">0.0502552</td>
+<td style="text-align: right;">0.0514818</td>
 <td style="text-align: right;">0.0457575</td>
 </tr>
 </tbody>
@@ -2115,13 +2130,13 @@ $total_change
 </section>
 </section>
 <section id="project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law"><span class="header-section-number">2.9</span> Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law**</h2>
+<h2 data-number="2.9" class="anchored" data-anchor-id="project-2-financial-data-forensics-investigating-financial-reports-using-benfords-law"><span class="header-section-number">2.9</span> Project 2: Financial Data Forensics – Investigating Financial Reports Using Benford’s Law</h2>
 <section id="overview" class="level3" data-number="2.9.1">
-<h3 data-number="2.9.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">2.9.1</span> <strong>Overview</strong></h3>
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">2.9.1</span> Overview</h3>
 <p>This project challenges you to apply Benford’s Law to detect potential anomalies in financial data. By analyzing the leading digits of revenue and expenditure data for a set of companies, you will explore whether these datasets follow the natural logarithmic distribution predicted by Benford’s Law. Through this project, you will reinforce your understanding of empirical probabilities and their applications, while also practicing critical data analysis skills in R.</p>
 </section>
 <section id="objectives" class="level3" data-number="2.9.2">
-<h3 data-number="2.9.2" class="anchored" data-anchor-id="objectives"><span class="header-section-number">2.9.2</span> <strong>Objectives</strong></h3>
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="objectives"><span class="header-section-number">2.9.2</span> Objectives</h3>
 <ol type="1">
 <li>Analyze the distribution of leading digits in revenue and expenditure data.</li>
 <li>Compare empirical distributions with the theoretical predictions of Benford’s Law.</li>
@@ -2130,7 +2145,7 @@ $total_change
 </ol>
 </section>
 <section id="steps" class="level3" data-number="2.9.3">
-<h3 data-number="2.9.3" class="anchored" data-anchor-id="steps"><span class="header-section-number">2.9.3</span> <strong>Steps</strong></h3>
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="steps"><span class="header-section-number">2.9.3</span> Steps</h3>
 <p><strong>Step 1: Understand the Research Question</strong> Your main tasks are: 1. To determine if the leading digits of revenues and expenditures conform to Benford’s Law. 2. To interpret deviations, particularly in expenditure data, which may suggest anomalies such as fraud or manipulation.</p>
 <p><strong>Step 2: Obtain and Inspect the Dataset</strong></p>
 <ol type="1">
