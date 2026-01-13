@@ -2,6 +2,7 @@
 title: "An Introduction to Probability"
 subtitle: "Probability: Basic Definitions and Rules"
 author: "Martin Summer"
+bibliography: ../references.bib
 date: last-modified
 date-format: D MMMM, YYYY
 format:
@@ -11,6 +12,15 @@ format:
     fig-align: center
     fig-width: 6     # Default width for all figures
     fig-height: 4    # Default height for all figures
+    include-in-header:
+      - text: |
+          \usepackage{fvextra}
+          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+            fontsize=\footnotesize,
+            breaklines,
+            commandchars=\\\{\}
+          }
+          \fvset{fontsize=\scriptsize}
 execute:
   echo: true
   eval: true
@@ -161,7 +171,7 @@ B <- c(2,4,6)
 
 - `union(A, B)`
 
-- This gives us the union of both sets, $A \cup B = {1,2,3,4,6}$.
+- This gives us the union of both sets, $A \cup B = \{1,2,3,4,6\}$.
 
 ## Visualizing Set Union
 
@@ -293,7 +303,7 @@ Mutual exclusivity ensures no double counting, allowing probabilities to be adde
 
 # Using an LLM to Deepen Your Understanding of Set Theory in Probability
 
-An LLM like ChatGPT can be a powerful tool to explore concepts and solidify your understanding.  
+An LLM can be a powerful tool to explore concepts and solidify your understanding.  
 Here are some ways to use it effectively.
 
 ---
@@ -500,7 +510,7 @@ Consider tossing a fair coin where $P(\text{Heads}) = 0.5$.
 
 ```{r weak-law-coin-example}
 # Define the coin
-coin <- c(1, 0)
+coin <- 0:1
 
 # Toss the coin n times
 n <- 1000
@@ -526,7 +536,7 @@ abline(h = 0.5, col = "red", lty = 2)
 #| echo: false
 
 # Define the coin
-coin <- c(1, 0)
+coin <- 0:1
 
 # Toss the coin n times
 n <- 1000
@@ -1109,7 +1119,6 @@ The probability is approximately `r round(mean(aapl_prices$diff_pos, na.rm = TRU
 
 This showcases the power of R’s vectorized operations for analyzing financial data.
 
-Here is the updated Quarto slide content using `$` for inline math expressions:
 
 ---
 
