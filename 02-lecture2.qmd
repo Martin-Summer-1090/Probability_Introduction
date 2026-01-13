@@ -35,7 +35,7 @@ of other cases, if outcomes are independent, using this intuitive idea
 we can already analyse fairly sophisticated problems like some
 problems of coincidences.
 
-We also learned some basic uses of R and how we can use R to built
+We also learned some basic uses of R and how we can use R to build
 random experiments and simulate uncertain outcomes. We learned how
 we can use R to visualize experiments to enhance our understanding and
 how we can interact with an LLM to dive deeper into problems and
@@ -46,7 +46,7 @@ the probability of an outcome using a new idea of thinking
 about probabilities. In this way the informal discussion in 
 lecture 1 gave us a panoramic
 overview both of basic probability ideas as well as of R which we
-are now going to enhance an deepen.
+are now going to enhance and deepen.
 
 
 ## Terminology {#terminology}
@@ -67,10 +67,10 @@ the specific outcome cannot be predicted with certainty beforehand.
 :::
 
 To clarify this concept, we define uncertain outcomes in advance.
-We pin down the possible outcomes by agreeing *on the outset* what
+We pin down the possible outcomes by agreeing *at the outset* what
 we want to consider as the possible outcomes.
 Take the simple example of considering whether the price of a stock is
-going to rise or fall at the next day. In a practical situations the outcome
+going to rise or fall at the next day. In practical situations the outcome
 of a move in the stock price can be that it rises or falls but 
 it could in 
 principle
@@ -79,7 +79,7 @@ experiment of observing the stock price tomorrow
 in many applications in Finance we usually agree that
 *rise* and *fall* are the only possible outcomes of this experiment. When
 we want to consider the random experiment that includes the case that the
-price stays the same we need to agree upfront the the possible outcomes
+price stays the same we need to agree upfront that the possible outcomes
 are *rise*, *fall* and *unchanged*.
 
 This collection of all possible outcomes in probability
@@ -130,7 +130,7 @@ The function has to fulfill three properties:
 1. $P({\cal S}) = 1$.
 2. For any event $A \in {\cal S}$,  $0 \leq P(A) \leq 1$. The probability of an event can never be
 negative or larger than 1.
-3. For mutually exclusive events $A$ and $B$, $P(A \cup B) \leq P(A) + P(B)$.
+3. For mutually exclusive events $A$ and $B$, $P(A \cup B) = P(A) + P(B)$.
 
 :::
 
@@ -293,7 +293,7 @@ This can again be visualized in @fig-set-minus
 knitr::include_graphics('figures/set_minus.png')
 ```
 
-This complement is the dice shown in the light redish area, i.e. all the elements of ${\cal S}$
+This complement is the dice shown in the light reddish area, i.e. all the elements of ${\cal S}$
 which are not in $A \cup B$.
 
 ::: {.callout-tip #mutually-exclusive}
@@ -350,7 +350,7 @@ changed?
 
 ## Using an LLM to Deepen Your Understanding of Set Theory in Probability
 
-An LLM like ChatGPT can be a helpful tool to explore concepts 
+An LLM can be a helpful tool to explore concepts 
 and solidify your understanding. Here are some example of what you could do:
 
 ### Ask for Clarifications  
@@ -498,7 +498,7 @@ Try it alone or with your group.
 Now it is time to explain a connection we made
 so far informally when we looked at visualizations
 and simulations, where we used connection between
-relative frequencies of probabilities in  repetions of
+relative frequencies of probabilities in repetitions of
 a random experiment.
 
 The **frequency interpretation of probability** is a 
@@ -558,7 +558,7 @@ probabilities as trials increase.
 2. The weak law does not guarantee exact convergence in finite samples - it 
 describes **long run** outcomes of repeating identical experiments many times.
 
-Let's go back to the exmple of the fair coin we played with in
+Let's go back to the example of the fair coin we played with in
 lecture 1: There we constructed a fair coin toss where 
 $P(\text{Heads})=0.5$. When we have just a few tosses, say 10 times, you might 
 observe 6 Heads (60%), which is close to but not exactly 50%. As you increase
@@ -919,7 +919,7 @@ R supports six basic types of atomic vectors:
 5. **Complex**: Numbers with imaginary components (not used in this course).
 6. **Raw**: Binary data (not used in this course).
 
-We will primarily work with **doubles**, **integers**, **characters**, and **logicals**.We will primarily work with **doubles**, **integers**, **characters**, and **logicals**.^[Why should we care for distinguishing integers from doubles? This has to do with how a computer performs computations. Sometimes, differences in precision can lead to surprising effects. In your computer, 64 bits of memory are allocated for each double in an R program. While this allows for precise representation of numbers, not all numbers can be exactly represented with 64 bits. For example, $\pi$ has an infinite sequence of digits and must therefore be rounded by the computer. Usually, rounding errors introduced into computations go unnoticed, but sometimes they become apparent. For instance, the expression $\sqrt{2^2} - 2$ results in a small floating-point error because the square root of 2 cannot be expressed precisely. These are called *floating-point errors*. While integers avoid floating-point errors, they are often impractical for many applications. Luckily, floating-point arithmetic is sufficiently precise for most use cases.]
+We will primarily work with **doubles**, **integers**, **characters**, and **logicals**.^[Why should we care for distinguishing integers from doubles? This has to do with how a computer performs computations. Sometimes, differences in precision can lead to surprising effects. In your computer, 64 bits of memory are allocated for each double in an R program. While this allows for precise representation of numbers, not all numbers can be exactly represented with 64 bits. For example, $\pi$ has an infinite sequence of digits and must therefore be rounded by the computer. Usually, rounding errors introduced into computations go unnoticed, but sometimes they become apparent. For instance, the expression $\sqrt{2^2} - 2$ results in a small floating-point error because the square root of 2 cannot be expressed precisely. These are called *floating-point errors*. While integers avoid floating-point errors, they are often impractical for many applications. Luckily, floating-point arithmetic is sufficiently precise for most use cases.]
 
 
 
@@ -954,7 +954,7 @@ be put between quotation marks `""`. Strings are the individual
 elements of a character vector.
 We could use character vectors for instance in building our
 virtual coin earlier in the lecture in a more human readable form
-by using `coin <- c("H", "T")` isntead of `coin <- c(1,0)`. 
+by using `coin <- c("H", "T")` instead of `coin <- c(1,0)`. 
 
 Note that a string can be more than just letters. If you type, for instance the number `1` with
 quotation marks, like `"1"` R would interpret the value as a string not as a number. Sometimes
@@ -1034,7 +1034,7 @@ attributes(ordered_days)
 Factors are powerful not only for categorizing data but also for performing analyses based on these categories. Let’s analyze how often Apple’s stock price decreased on Mondays in the given dataset.
 
 Suppose we take our original data about the Apple stock price and remove
-the ùp_day`column, we had creatde before:
+the `up_day` column, we had created before:
 
 ```{r data-preview}
 # Preview of the dataset
@@ -1641,7 +1641,7 @@ For your project, you will explore whether Benford’s Law holds for another fin
 
 ### Enhancing Your Learning with an LLM: Debugging and Exploring Data Analysis Pitfalls
 
-One of the most powerful ways to use a **Large Language Model (LLM)**, like ChatGPT, is as a **debugging companion** and a tool for 
+One of the most powerful ways to use a **Large Language Model (LLM)** is as a **debugging companion** and a tool for 
 uncovering potential pitfalls in your data analysis. 
 This can be particularly valuable as you learn new 
 concepts, such as the ones covered in this lecture on probability and data analysis with R.
