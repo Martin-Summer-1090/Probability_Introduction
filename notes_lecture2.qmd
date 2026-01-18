@@ -1,0 +1,238 @@
+---
+title: "Untitled"
+editor: visual
+---
+
+```{r}
+A <- c(1,2,3)
+B <- c(2,4,6)
+union(A,B)
+intersect(A,B)
+```
+
+```{r}
+B <- c(2,4,6)
+C <- c(1,3,5)
+intersect(B, C)
+```
+
+```{r}
+# Define the coin
+coin <- 0:1
+# Toss the coin n times
+n <- 1000000
+results <- replicate(n, sample(coin, size = 1))
+# Calculate cumulative frequency of Heads
+heads_freq <- cumsum(results == 1) / (1:n)
+# Plot the convergence
+plot(1:n, heads_freq, type = "l", ylim = c(0.4, 0.6),
+xlab = "Number of Tosses", ylab = "Frequency of Heads",
+main = "Convergence of Relative Frequency to True Probability")
+abline(h = 0.5, col = "red", lty = 2)
+```
+
+```{r}
+aapl_prices <- read.csv("data/aapl_prices.csv")
+```
+
+```{r}
+getwd()
+```
+
+```{r}
+getwd()
+```
+
+```{r}
+aapl_prices <- read.csv('data/aapl_prices.csv')
+```
+
+```{r}
+head(aapl_prices)
+```
+
+```{r}
+tail(aapl_prices)
+```
+
+```{r}
+price_changes <- c(-1, 0, 1)
+```
+
+```{r}
+is.atomic(price_changes)
+```
+
+```{r}
+length(price_changes)
+```
+
+```{r}
+typeof(price_changes)
+```
+
+```{r}
+week_movements <- sample(price_changes, size = 7, replace = TRUE)
+week_movements
+```
+
+```{r}
+week_movements_weighted <- sample(price_changes,
+size = 7,
+replace = TRUE,
+prob = c(0.3, 0.4, 0.3))
+week_movements_weighted
+```
+
+```{r}
+aapl_prices$up_day <- aapl_prices$close > aapl_prices$open
+head(aapl_prices$up_day, n = 10)
+```
+
+```{r}
+days <- factor(c("Monday", "Tuesday","Wednesday", "Thursday", "Friday"))
+days
+```
+
+```{r}
+ordered_days <- factor(days, levels =
+c("Monday", "Tuesday", "Wednesday",
+"Thursday", "Friday"), ordered = TRUE)
+ordered_days
+```
+
+```{r}
+aapl_prices$date <- as.Date(aapl_prices$date)
+aapl_prices$weekday <- factor(weekdays(aapl_prices$date),
+levels = c("Monday", "Tuesday",
+"Wednesday", "Thursday", "Friday"))
+```
+
+```{r}
+# Calculate daily price changes
+price_diff <- aapl_prices$close - aapl_prices$open
+aapl_prices$price_change <-
+factor(ifelse(price_diff > 0, "up",
+ifelse(price_diff < 0, "down", "unchanged")))
+```
+
+```{r}
+tabulated_data <- table(aapl_prices$weekday,
+aapl_prices$price_change)
+tabulated_data
+```
+
+```{r}
+aapl_prices$up_day <-
+aapl_prices$close > aapl_prices$open
+head(aapl_prices[c("date", "close", "up_day")], n = 5)
+```
+
+```{r}
+higher_close <- aapl_prices[aapl_prices$up_day == TRUE, ]
+head(higher_close)
+```
+
+```{r}
+stock_summary <- list(
+ticker = "AAPL",
+price_summary = summary(aapl_prices$close),
+highest_price = max(aapl_prices$high, na.rm = TRUE),
+date_range = range(aapl_prices$date, na.rm = TRUE)
+)
+stock_summary
+```
+
+```{r}
+# Extract the first five rows of data
+weekly_data <- head(aapl_prices, 5)
+# Add a factor for days of the week
+weekly_data$day <- factor(
+c("Monday", "Tuesday", "Wednesday",
+"Thursday", "Friday"),
+levels = c("Monday", "Tuesday",
+"Wednesday", "Thursday", "Friday"),
+ordered = TRUE
+)
+```
+
+```{r}
+# Simulate price changes
+set.seed(42)
+weekly_data$price_change <- sample(
+c(-1, 0, 1),
+size = nrow(weekly_data),
+replace = TRUE,
+prob = c(0.3, 0.4, 0.3)
+)
+```
+
+```{r}
+summary_list <- list(
+week_data = weekly_data,
+positive_days = sum(weekly_data$price_change > 0),
+total_change = sum(weekly_data$price_change)
+)
+summary_list
+```
+```{r}
+aapl_prices <- read.csv("data/aapl_prices.csv")
+```
+
+```{r}
+typeof(aapl_prices)
+```
+
+```{r}
+class(aapl_prices)
+```
+
+```{r}
+dim(aapl_prices)
+```
+
+```{r}
+aapl_prices[1, "close"]
+```
+
+```{r}
+aapl_prices[1:5, "close"]
+```
+
+```{r}
+sel <- aapl_prices[, "close"]
+length(sel)
+```
+
+```{r}
+aapl_prices[1, c(FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE)]
+```
+```{r}
+aux_1 <- aapl_prices[2:nrow(aapl_prices), "close"]
+aux_2 <- aapl_prices[1:(nrow(aapl_prices)-1), "close"]
+
+diff_close <- aux_1 - aux_2
+head(diff_close, n = 10)
+```
+
+```{r}
+aapl_prices$diff <- c(NA, diff(aapl_prices$close))
+head(aapl_prices, n = 5)
+```
+
+```{r}
+aapl_prices$diff_pos <- aapl_prices$diff > 0
+head(aapl_prices, n = 5)
+```
+```{r}
+mean(aapl_prices$diff_pos, na.rm=TRUE)
+```
+
+```{r}
+volumes <- aapl_prices$volume
+
+valid_volumes <- volumes[volumes > 0 & !is.na(volumes)]
+leading_digits <- as.numeric(
+substr(as.character(valid_volumes), 1, 1))
+```
+

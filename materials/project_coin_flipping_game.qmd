@@ -1,0 +1,337 @@
+---
+title: "Project: The Coin-Flipping Investment Game"
+subtitle: "Bayesian Updating and the Cost of Overconfidence"
+format: html
+---
+
+## Introduction and Motivation
+
+This project is inspired by a brilliant analogy from the world of investing. Consider an investor in 2011 who believed that corporate profit margins, then at record highs of 10% versus a historical average of 6%, would inevitably revert to the mean. Year after year—2012, 2013, 2014, 2015, 2016, 2017—the investor waited for this reversion, holding cash while the stock market more than doubled.
+
+The investor's initial belief wasn't unreasonable given historical data. The real mistake was **failing to update those beliefs** efficiently as disconfirming evidence accumulated. Each year of sustained high profit margins was information that should have shifted the investor's stance, but didn't.
+
+Winning in the investing game—and in life—isn't simply about having correct prior beliefs. It's about **efficiently updating those beliefs in response to feedback from reality**.
+
+This project explores these ideas through a coin-flipping game that serves as a microcosm of Bayesian learning. You will:
+
+1. Implement the game mechanics and Bayesian updating
+2. Visualize how different prior beliefs affect learning speed
+3. Discover the asymmetric costs of overconfidence
+4. Connect these insights to real-world decision-making
+
+## The Coin-Flipping Game
+
+### Game Setup
+
+You are competing in a game with the following rules:
+
+**Two types of coins exist:**
+
+- **Green coins**: 70% probability of landing Heads, 30% probability of landing Tails
+- **Red coins**: 30% probability of landing Heads, 70% probability of landing Tails
+
+**Game structure:**
+
+- The game consists of multiple **rounds**, each with 50 coin flips
+- At the start of each round, a referee secretly draws one coin from a bucket containing an unknown mix of green and red coins
+- Before each flip, you can "buy" ownership of the flip at some price
+- If the flip lands Heads, you receive €2.00; if Tails, you receive €0.00
+- Your goal: determine what each flip is **worth** (its expected value) so you know the maximum price you should pay
+
+**The key insight:** 
+
+- A green coin flip is worth: $0.70 \times €2.00 + 0.30 \times €0.00 = €1.40$
+- A red coin flip is worth: $0.30 \times €2.00 + 0.70 \times €0.00 = €0.60$
+
+If you can accurately estimate which coin is being used, you'll know what to pay and will outperform competitors who estimate poorly.
+
+### The Challenge
+
+You can't see the coin's color directly. However:
+
+1. Before each round, you can examine the bucket to estimate the proportion of green vs. red coins (your **prior**)
+2. As flips occur, you observe the results (your **data**)
+3. You must **update** your belief about which coin is being used
+
+This is exactly what Bayes' Rule does!
+
+## Part 1: Understanding the Worth Calculation
+
+### Question 1.1: Expected Value
+
+Suppose you believe there's a 90% chance the referee is using a green coin and a 10% chance it's red. 
+
+**(a)** Calculate the expected worth of a single flip under this belief.
+
+**(b)** Write an R function `calculate_worth()` that takes the probability of a green coin as input and returns the expected worth of a flip.
+
+```{r}
+#| label: q1-starter
+#| eval: false
+
+# Starter code
+calculate_worth <- function(prob_green) {
+  # Green coin worth: €1.40
+  # Red coin worth: €0.60
+  # Your code here
+}
+
+# Test: should return €1.32 for prob_green = 0.9
+calculate_worth(0.9)
+```
+
+## Part 2: Implementing Bayesian Updating
+
+The core of this project is implementing Bayes' Rule to update our belief about the coin color based on observed flip results.
+
+### The Mathematics
+
+Let $G$ denote the event "coin is green" and let $D_n$ denote the data from $n$ flips showing $k$ heads.
+
+By Bayes' Rule:
+$$P(G | D_n) = \frac{P(D_n | G) \cdot P(G)}{P(D_n)}$$
+
+Where:
+
+- $P(G)$ is your **prior** probability that the coin is green
+- $P(D_n | G)$ is the **likelihood** of observing this data if the coin is green
+- $P(D_n)$ is the **total probability** of observing this data (under either coin)
+
+The likelihood follows a binomial distribution:
+
+- $P(k \text{ heads in } n \text{ flips} | G) = \binom{n}{k} (0.7)^k (0.3)^{n-k}$
+- $P(k \text{ heads in } n \text{ flips} | R) = \binom{n}{k} (0.3)^k (0.7)^{n-k}$
+
+### Question 2.1: Implementing Bayes' Rule
+
+Write a function `update_belief()` that takes:
+
+- `prior_green`: your prior probability that the coin is green
+- `n_heads`: number of heads observed
+- `n_flips`: total number of flips
+
+And returns the **posterior** probability that the coin is green.
+
+```{r}
+#| label: q2-starter
+#| eval: false
+
+# Starter code
+update_belief <- function(prior_green, n_heads, n_flips) {
+  # Coin parameters
+  p_heads_green <- 0.7
+  p_heads_red <- 0.3
+  
+  # Calculate likelihood of data under each hypothesis
+  # Hint: use dbinom() for binomial probabilities
+  likelihood_green <- # Your code
+  likelihood_red <- # Your code
+  
+  # Apply Bayes' Rule
+  # P(G|D) = P(D|G) * P(G) / P(D)
+  # where P(D) = P(D|G)*P(G) + P(D|R)*P(R)
+  
+  posterior_green <- # Your code
+  
+  return(posterior_green)
+}
+
+# Test cases:
+# After 10 flips with 2 heads, starting from 0.9 prior:
+# (This is the scenario from the article - expect a big drop!)
+update_belief(0.9, n_heads = 2, n_flips = 10)
+```
+
+### Question 2.2: Sequential Updating
+
+In the actual game, you observe results flip-by-flip and should update after each one.
+
+Write a function `simulate_round()` that:
+
+1. Takes a true coin color ("green" or "red") and a prior probability
+2. Simulates 50 flips
+3. After each flip, updates the belief using Bayes' Rule
+4. Returns a data frame with columns: `flip_number`, `result` (H/T), `cumulative_heads`, `posterior_green`, `worth_estimate`
+
+```{r}
+#| label: q2-2-starter
+#| eval: false
+
+# Starter code
+simulate_round <- function(true_color, prior_green, n_flips = 50) {
+  # Set the true probability of heads
+  p_heads <- ifelse(true_color == "green", 0.7, 0.3)
+  
+  # Initialize storage
+  results <- data.frame(
+    flip_number = 1:n_flips,
+    result = character(n_flips),
+    cumulative_heads = integer(n_flips),
+    posterior_green = numeric(n_flips),
+    worth_estimate = numeric(n_flips)
+  )
+  
+  # Simulate flips and update beliefs
+  cumulative_heads <- 0
+  
+  for (i in 1:n_flips) {
+    # Simulate one flip
+    flip <- # Your code (hint: use sample() or rbinom())
+    
+    # Update cumulative count
+    # Your code
+    
+    # Update belief using your update_belief function
+    # Your code
+    
+    # Calculate worth estimate
+    # Your code
+    
+    # Store results
+    # Your code
+  }
+  
+  return(results)
+}
+```
+
+## Part 3: Visualizing the Cost of Overconfidence
+
+This is where the real insight emerges. We'll compare how quickly different priors converge to the truth.
+
+### Question 3.1: Convergence Under Different Priors
+
+Suppose the true coin is **red** (biased 30% toward heads), but you start with different prior beliefs:
+
+- Prior 0.500: "I have no idea" (50% green, 50% red)
+- Prior 0.900: "Probably green" (90% green)
+- Prior 0.990: "Almost certainly green" (99% green)
+- Prior 0.999: "Virtually guaranteed green" (99.9% green)
+
+Using your `simulate_round()` function:
+
+**(a)** Run one simulation for each prior (all with the same true red coin)
+
+**(b)** Create a plot showing how the **worth estimate** evolves over the 50 flips for each prior. Include a horizontal line at €0.60 (the true worth).
+
+**(c)** Approximately how many flips does each prior need before the worth estimate falls below €0.80?
+
+```{r}
+#| label: q3-1-starter
+#| eval: false
+
+# Set seed for reproducibility
+set.seed(2011)  # The year of our hypothetical investor!
+
+# Run simulations with different priors
+priors <- c(0.5, 0.9, 0.99, 0.999)
+# Your code to run simulations...
+
+# Create visualization
+# Hint: You can use base R's plot() and lines() functions
+# or if you're familiar with ggplot2, that works too
+```
+
+### Question 3.2: The Asymmetry of Overconfidence
+
+Now let's explore the flip side: what if the coin really IS green?
+
+**(a)** Repeat Question 3.1, but with a true **green** coin.
+
+**(b)** Compare the two scenarios:
+   - When the coin is red but you thought it was green
+   - When the coin is green and you thought it was green
+
+**(c)** Explain in your own words: Why is overconfidence asymmetrically costly? (Hint: What do you gain vs. what do you lose?)
+
+## Part 4: Simulating a Competition
+
+Let's make this concrete by simulating actual profits and losses.
+
+### Question 4.1: Profit Calculation
+
+Suppose in each flip, you bid exactly your current worth estimate. If another player bids higher, you don't buy. If you do buy:
+
+- You pay your worth estimate
+- You receive €2.00 if heads, €0.00 if tails
+- Your profit/loss = payout - price paid
+
+For simplicity, assume you win every bid (i.e., you always buy at your estimated worth).
+
+Write a function that calculates cumulative profit/loss over a round:
+
+```{r}
+#| label: q4-1-starter
+#| eval: false
+
+calculate_profits <- function(simulation_results) {
+  # simulation_results is the output from simulate_round()
+  
+  # For each flip:
+  # - You pay the worth_estimate
+  # - You receive 2.00 if Heads, 0.00 if Tails
+  # - Calculate profit = payout - worth_estimate
+  
+  # Return data frame with cumulative_profit column added
+}
+```
+
+### Question 4.2: Expected Loss from Overconfidence
+
+**(a)** Using your profit calculation, compare the expected total profit/loss for each prior when the true coin is red.
+
+**(b)** How much money do you expect to lose with a 0.999 prior vs. a 0.5 prior over 50 flips?
+
+**(c)** Now imagine you play 20 rounds of 50 flips each. The referee draws a new coin each round from a bucket that truly does contain 90% green coins. Over this larger sample, how do the different priors compare?
+
+## Part 5: Connecting to Real-World Investing
+
+### Question 5.1: The Profit Margin Analogy
+
+Re-read the introduction about the investor waiting for profit margin reversion.
+
+**(a)** In the coin-flipping game analogy:
+   - What corresponds to "profit margins are elevated"?
+   - What corresponds to "profit margins revert to the mean"?
+   - What corresponds to "assigning a 99.9% prior"?
+
+**(b)** The article argues that the investor's mistake wasn't having wrong initial beliefs, but failing to update efficiently. Explain this using your simulations.
+
+### Question 5.2: Calibrating Confidence
+
+The article makes a crucial point: "If we're genuinely confident that the coin is green, then we should assign a strong prior probability... But we need to make sure we have a **sound basis** for our confidence."
+
+**(a)** What kinds of evidence might justify a 0.999 prior in the coin game?
+
+**(b)** What kinds of evidence did investors have about profit margin reversion? Was it strong enough to justify high confidence?
+
+**(c)** How might you design a "reality check" for your own strongly-held beliefs?
+
+## Part 6: Extensions (Optional Challenge Problems)
+
+### Challenge 6.1: The Kelly Criterion Connection
+
+The Kelly Criterion says you should bet a fraction of your bankroll proportional to your edge. How does uncertainty about the coin color affect optimal bet sizing?
+
+### Challenge 6.2: Multiple Hypothesis Testing
+
+What if there were three types of coins: green (70% heads), yellow (50% heads), and red (30% heads)? Extend your Bayesian updating to handle three hypotheses.
+
+### Challenge 6.3: Non-Stationary Environments
+
+In real investing, the "true coin" might change over time. How would you modify your updating to detect and adapt to regime changes?
+
+## Summary
+
+Through this project, you've learned:
+
+1. **Bayesian updating** provides a principled way to revise beliefs based on evidence
+2. **Overconfidence is asymmetrically costly**: being wrong with high confidence takes longer to correct and causes more damage than being wrong with appropriate uncertainty
+3. **The evidence required for strong beliefs should be proportional to the confidence**: small sample sizes or murky theoretical arguments don't justify extreme priors
+4. **Updating is as important as having good priors**: efficient learning from feedback can compensate for initially incorrect beliefs
+
+These lessons apply far beyond coin-flipping games—to investing, scientific reasoning, and everyday decision-making under uncertainty.
+
+## References
+
+- The coin-flipping game analogy is adapted from "Profit Margins, Bayes' Theorem, and the Dangers of Overconfidence" from the blog *Philosophical Economics* (September 2017).

@@ -1,0 +1,118 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.6cm]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+
+\setlist[itemize]{leftmargin=*,itemsep=0.25em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=*,itemsep=0.25em,topsep=0.25em}
+
+\title{Redesign Memo: \emph{An Introduction to Probability with R} (Bootcamp)}
+\author{Internal note}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	
+	\paragraph{Context and constraints.}
+	Audience: heterogeneous, mid-career professionals (finance and adjacent technical backgrounds) entering a Master's program in quantitative/computational finance. Format: five online units of 3 hours, spread over roughly one month (January). The course has a dual mandate: (i) teach probability foundations in a finance-relevant way, and (ii) give students a first serious encounter with R (while other courses primarily use Python). Current course site: \url{https://martin-summer-1090.github.io/Probability_Introduction/}.
+	
+	\section*{High-level design goal (what ``success'' should look like)}
+	After five sessions, every student should be able to:
+	\begin{itemize}
+		\item translate a finance-flavored uncertainty question into a \emph{computational experiment};
+		\item implement it in \emph{base R} (objects, indexing, functions, simulation);
+		\item quantify uncertainty (Monte Carlo error, sensitivity checks);
+		\item communicate results reproducibly (a small Quarto report).
+	\end{itemize}
+	In the LLM era: syntax is cheap; \textbf{modeling, verification, and interpretation are expensive}.
+	
+	\section*{What I would keep (core strengths to preserve)}
+	\begin{itemize}
+		\item \textbf{Simulation-first intuition}: build probability concepts by constructing random experiments in code.
+		\item \textbf{Finance-first motivation}: keep examples that feel like real finance problems (risk, dependence, fraud detection, identification/cryptography).
+		\item \textbf{Projects between sessions}: the ``do it yourself'' arc is essential for heterogeneous cohorts.
+		\item \textbf{Explicit LLM use}: keep it, but frame it as \emph{code generation + code auditing}, not outsourcing thinking.
+	\end{itemize}
+	
+	\section*{The main change from scratch: one coherent storyline}
+	Rather than five topic blocks, design the course as one continuous build:
+	\begin{quote}\small
+		\emph{``We are building a minimal risk engine: define uncertainty $\rightarrow$ generate scenarios $\rightarrow$ measure risk $\rightarrow$ stress assumptions $\rightarrow$ report.''}
+	\end{quote}
+	Each session adds one indispensable capability to that engine. This reduces cognitive context switching for weaker students and prevents stronger students from feeling the course is a sequence of disconnected mini-worlds.
+	
+	\section*{Second big change: two rails (Core vs.\ Extension)}
+	To handle heterogeneity without splitting the class socially:
+	\begin{itemize}
+		\item \textbf{Core rail (required)}: base R only; minimal syntax; deliverables that everyone can achieve.
+		\item \textbf{Extension rail (optional)}: for fast learners---performance, nicer visualizations, extra modeling depth, optional packages.
+	\end{itemize}
+	Rule of thumb: the core rail must be runnable by a tired student at 22:30 on a laptop.
+	
+	\section*{Base-R-first policy (and why)}
+	\begin{itemize}
+		\item Teach durable concepts: objects, indexing, vectorization, functions, randomness, checks.
+		\item Use packages only when they introduce a \emph{new capability}, not merely a new syntax.
+		\item Offer a short ``translation appendix'' later (base manipulation $\leftrightarrow$ tidy pipelines), but do not make it the primary language of explanation.
+	\end{itemize}
+	
+	\section*{What I would move out of the critical path}
+	In a five-session bootcamp, the following are valuable but should be \emph{optional} or deferred:
+	\begin{itemize}
+		\item deeper R internals (environments/scoping beyond what is needed for functions);
+		\item performance engineering beyond ``vectorize first, then measure'';
+		\item parallel computing (mention as a next step; do not require it).
+	\end{itemize}
+	
+	\section*{One ``cutting-edge but minimal'' addition: LLM-generated code audits}
+	Add a recurring exercise type: students receive a short code snippet (possibly LLM-generated) and must answer:
+	\begin{enumerate}
+		\item What does it compute, in plain English?
+		\item What assumptions does it make (distribution, independence, parameterization)?
+		\item What checks would you add (invariants, dimensions, edge cases)?
+		\item What counterexample could break it or mislead interpretation?
+	\end{enumerate}
+	This directly trains the professional skill they will need most: \emph{reading and validating code}.
+	
+	\section*{A concrete 5$\times$3h blueprint (base-R core)}
+	\begin{enumerate}
+		\item \textbf{Random experiments \& simulation primitives.}
+		Coin toss $\rightarrow$ vectors $\rightarrow$ empirical frequencies; seeds; first plots (base).
+		\emph{Project: collisions / identifiers} (hook: crypto/payment systems).
+		\item \textbf{Rules of probability as computational rules.}
+		Events as sets; complements/unions; LLN intuition via simulation; independence as a modeling choice.
+		\emph{Project: Benford-style forensics} (hook: ``does this data smell funny?'').
+		\item \textbf{Dependence is the whole game in finance.}
+		Conditional probability; Bayes updating; joint vs marginal; illustrate ``independence error'' costs.
+		\emph{Project: discrete loss model under alternative dependence assumptions}.
+		\item \textbf{Random variables as models you can interrogate.}
+		Expectation/variance/covariance; sampling distributions; binomial model as workhorse.
+		\emph{Project: binomial lattice implemented as clean functions + tests}.
+		\item \textbf{Continuous models \& Monte Carlo risk reporting.}
+		Normal/lognormal as approximations; quantiles; VaR/ES intuition; Monte Carlo engine; reporting in Quarto.
+		\emph{Extension: performance (vectorization, profiling), then ``what changes at scale''}.
+	\end{enumerate}
+	
+	\section*{Minimum tooling (modern, but not heavy)}
+	\begin{itemize}
+		\item \textbf{One blessed workflow:} RStudio Project + Quarto + simple folder convention.
+		\item \textbf{Reproducibility habits:} \texttt{set.seed()}, session info, and a ``run-all'' script per project.
+		\item \textbf{Assessment artifacts:} each project ends with (i) a short Quarto report, (ii) one figure, (iii) one sanity-check table.
+	\end{itemize}
+	
+	\section*{Implementation checklist (pragmatic)}
+	\begin{itemize}
+		\item Pre-course: a 20-minute ``setup + first success'' onboarding (run R, run a script, render a Quarto doc).
+		\item Each session: 20--30 min concept, 40 min live coding, 30 min breakout practice, 20 min debrief, 10 min ``what to do next''.
+		\item Between sessions: small, sharply scoped projects; provide a minimal template; publish a worked solution after submission.
+	\end{itemize}
+	
+	\paragraph{Bottom line.}
+	Keep the finance-driven, simulation-driven identity. Tighten the arc into a single narrative (a minimal risk engine), teach on two rails to handle heterogeneity, go base-R-first, and explicitly train verification (including LLM code audits). This shifts weight from syntax to computational thinking---exactly what the cohort needs.
+	
+\end{document}
