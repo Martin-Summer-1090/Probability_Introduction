@@ -11,6 +11,9 @@ format:
     fig-align: center
     fig-width: 6     # Default width for all figures
     fig-height: 4    # Default height for all figures
+    include-in-header:
+      text: |
+        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\footnotesize}
 execute:
   echo: true
   eval: true
@@ -108,9 +111,9 @@ kable(ratings_table, align = "lcc", col.names = c("Rating Category", "Moody's", 
   - No Default ($N$): €1.
   - Default ($D$): €0.
 
-- Graphically represented as an event tree:
+---
 
-```{r fig-single_bond_event_tree, echo=FALSE}
+```{r fig-single_bond_event_tree, echo=FALSE, out.width='80%'}
   knitr::include_graphics('../figures/single_bond_event_tree.png')
 ```
 
@@ -172,11 +175,11 @@ kable(ratings_table, align = "lcc", col.names = c("Rating Category", "Moody's", 
   
 ---
 
-```{r fig-two_bond_event_tree, echo=FALSE}
+```{r fig-two_bond_event_tree, echo=FALSE, out.width='85%'}
 knitr::include_graphics('../figures/two_bonds_event_tree.png')
 ```
 
-
+---
 
 - Outcomes:
   - Each path represents a combination of defaults or no defaults.
@@ -197,7 +200,7 @@ knitr::include_graphics('../figures/two_bonds_event_tree.png')
   
 ---
 
-```{r fig-pooling-and-tranching, echo=FALSE}
+```{r fig-pooling-and-tranching, echo=FALSE, out.width='85%'}
 knitr::include_graphics('../figures/pooling_and_tranching.png')
 ```
 
@@ -215,7 +218,7 @@ knitr::include_graphics('../figures/pooling_and_tranching.png')
   
 ---
 
-```{r fig-pooling-and-tranching-dependent, echo=FALSE}
+```{r fig-pooling-and-tranching-dependent, echo=FALSE, out.width='85%'}
 knitr::include_graphics('../figures/two_bonds_event_tree_dependent_events.png')
 ```
 
@@ -350,7 +353,7 @@ stopifnot(abs(P_DD + P_DN + P_ND + P_NN - 1) < 1e-6)
 
 ```{r}
 #| eval: false
-#| 
+
 # Simulate joint outcomes based on the contingency table
 simulate_defaults <- function(N, probs) {
   sample(
@@ -602,7 +605,9 @@ cat("Joint probability for Junk bonds:", junk_joint, "\n")
 - Circle $B$ represents the event with area $P(B)$.
 - A speck of sand falls randomly in the square.
 
-```{r where-is-the-speck, echo=FALSE}
+---
+
+```{r where-is-the-speck, echo=FALSE, out.width='60%'}
 knitr::include_graphics('../figures/where_speck.png')
 ```
 
@@ -614,7 +619,9 @@ knitr::include_graphics('../figures/where_speck.png')
 - Question:
   - What is $P(B|A)$, the probability that the speck is in $B$, given it is inside $A$?
 
-```{r where-is-the-speck-now, echo=FALSE}
+---
+
+```{r where-is-the-speck-now, echo=FALSE, out.width='60%'}
 knitr::include_graphics('../figures/speck_in_D.png')
 ```
 
@@ -627,13 +634,13 @@ knitr::include_graphics('../figures/speck_in_D.png')
 
 # Small Overlap: Low Probability
 
-```{r where-is-the-speck-now-small-overlap, echo=FALSE}
+```{r where-is-the-speck-now-small-overlap, echo=FALSE, out.width='60%'}
 knitr::include_graphics('../figures/small_overlap.png')
 ```
 
 # Large Overlap: High Probability
 
-```{r where-is-the-speck-now-big-overlap, echo=FALSE}
+```{r where-is-the-speck-now-big-overlap, echo=FALSE, out.width='60%'}
 knitr::include_graphics('../figures/big_overlap.png')
 ```
 
@@ -648,40 +655,271 @@ knitr::include_graphics('../figures/big_overlap.png')
   2. Add evidence $P(A|B)$.
   3. Compute updated belief $P(B|A)$.
 
-## Project Overview
+# Summary
 
-### Problem Description
+## Summary: Probability Concepts
 
-- A bank is evaluating a loan application.
-- Goal: Estimate the likelihood of default using historical data.
-- Key probabilities provided:
-  1. **Default Rates**:
-     - $P(D) = 0.04$ (default probability).
-     - $P(ND) = 0.96$ (non-default probability).
-  2. **Low Credit Score**:
-     - $P(L|D) = 0.7$ (probability of low credit score given default).
-     - $P(L|ND) = 0.1$ (probability of low credit score given non-default).
-- Objective:
-  - Compute the posterior probability of default given a low credit score, $P(D|L)$.
+- **Conditional Probability**: $P(A|B) = \frac{P(A \cap B)}{P(B)}$
+  - Probability of $A$ given that $B$ has occurred
+
+- **Independence vs. Dependence**
+  - Independent: $P(A|B) = P(A)$
+  - Dependent: Knowing $B$ changes the probability of $A$
+
+- **Bayes' Rule**: $P(B|A) = \frac{P(A|B) \cdot P(B)}{P(A)}$
+  - Updating beliefs based on new evidence
 
 ---
 
-## Key Questions
+## Summary: Finance Concepts
 
-1. Compute $P(D|L)$ Theoretically:
-   - Use Bayes' Rule:
-     $$
-     P(D|L) = \frac{P(L|D) \cdot P(D)}{P(L|D) \cdot P(D) + P(L|ND) \cdot P(ND)}
-     $$
+- **Credit Risk and Bond Ratings**
+  - Default probabilities vary by credit quality
+  - Ratings: AAA (safest) to C/D (default)
 
-2. Simulate the Scenario in R:
-   - Create a dataset of 10,000 customers.
-   - Assign default status based on $P(D)$ and simulate credit scores.
+- **Structured Finance: Pooling and Tranching**
+  - Combine risky assets into pools
+  - Create tranches with different risk profiles
 
-3. Compute $P(D|L)$ Empirically:
-   - Calculate $P(D|L)$ using simulated data and compare with the theoretical result.
+- **The Independence Trap**
+  - Assuming independence can drastically underestimate risk
+  - Systemic events create correlated defaults
+  - Lesson from 2007-2008: dependencies matter!
 
-4. Visualize Results:
-   - Plot theoretical vs. simulated probabilities.
+---
+
+## Summary: R Concepts
+
+- **Environments and Scoping**
+  - Global vs. local variables
+  - Lexical scoping: R searches from inner to outer environments
+
+- **Lookup Tables**
+  - Named vectors for mapping inputs to outputs
+  - Cleaner than nested if-else statements
+
+- **Closures (Function Factories)**
+  - Functions that "remember" their creation environment
+  - Useful for creating specialized calculators
+
+---
+
+## Project: The Coin-Flipping Investment Game
+
+### Motivation
+
+- An investor in 2011 believed corporate profit margins would revert to mean
+- Year after year, profits stayed elevated while the investor waited
+- The mistake: **failing to update beliefs** as disconfirming evidence accumulated
+- Winning isn't about having correct priors—it's about **efficiently updating** them
+
+---
+
+### The Game Setup
+
+**Two types of coins:**
+
+- **Green coins**: 70% Heads, 30% Tails
+- **Red coins**: 30% Heads, 70% Tails
+
+**Rules:**
+
+- Referee secretly draws a coin from a bucket
+- You can "buy" each flip at some price
+- Heads pays €2.00, Tails pays €0.00
+
+---
+
+### The Key Insight
+
+**Worth of a flip depends on the coin:**
+
+- Green coin: $0.70 \times 2.00 + 0.30 \times 0.00 = 1.40$ (in €)
+- Red coin: $0.30 \times 2.00 + 0.70 \times 0.00 = 0.60$ (in €)
+
+**Your task:** Estimate which coin is being used to know what to pay
+
+---
+
+### The Challenge
+
+You can't see the coin's color directly. However:
+
+1. Before each round, examine the bucket to estimate the proportion of green vs. red coins (your **prior**)
+2. As flips occur, observe the results (your **data**)
+3. **Update** your belief about which coin is being used
+
+This is exactly what Bayes' Rule does!
+
+---
+
+### Part 1: Expected Value (Question 1.1)
+
+Suppose you believe there's a 90% chance the coin is green.
+
+**(a)** Calculate the expected worth of a single flip.
+
+**(b)** Write an R function `calculate_worth()`:
+
+```{r}
+#| eval: false
+
+# Starter code
+calculate_worth <- function(prob_green) {
+  # Green coin worth: €1.40
+  # Red coin worth: €0.60
+  # Your code here
+}
+
+# Test: should return €1.32 for prob_green = 0.9
+calculate_worth(0.9)
+```
+
+---
+
+### Part 2: Bayesian Updating Mathematics
+
+Let $G$ = "coin is green", $D_n$ = data from $n$ flips with $k$ heads.
+
+$$P(G | D_n) = \frac{P(D_n | G) \cdot P(G)}{P(D_n)}$$
+
+The likelihood follows a binomial distribution:
+
+- $P(k \text{ heads in } n \text{ flips} | G) = \binom{n}{k} (0.7)^k (0.3)^{n-k}$
+- $P(k \text{ heads in } n \text{ flips} | R) = \binom{n}{k} (0.3)^k (0.7)^{n-k}$
+
+---
+
+### Part 2: Implementing Bayes' Rule (Question 2.1)
+
+```{r}
+#| eval: false
+
+update_belief <- function(prior_green, n_heads, n_flips) {
+  p_heads_green <- 0.7
+  p_heads_red <- 0.3
+  
+  # Calculate likelihood (hint: use dbinom())
+  likelihood_green <- # Your code
+  likelihood_red <- # Your code
+  
+  # Apply Bayes' Rule
+  posterior_green <- # Your code
+  
+  return(posterior_green)
+}
+
+# Test: After 10 flips with 2 heads, prior 0.9
+update_belief(0.9, n_heads = 2, n_flips = 10)
+```
+
+---
+
+### Part 2: Sequential Updating (Question 2.2)
+
+Write `simulate_round()` that simulates 50 flips and updates beliefs:
+
+```{r}
+#| eval: false
+
+simulate_round <- function(true_color, prior_green, n_flips = 50) {
+  p_heads <- ifelse(true_color == "green", 0.7, 0.3)
+  
+  results <- data.frame(
+    flip_number = 1:n_flips,
+    result = character(n_flips),
+    cumulative_heads = integer(n_flips),
+    posterior_green = numeric(n_flips),
+    worth_estimate = numeric(n_flips)
+  )
+  # Your code: simulate flips and update beliefs
+  return(results)
+}
+```
+
+---
+
+### Part 3: Visualizing Overconfidence (Question 3.1)
+
+True coin is **red**, but you start with different priors:
+
+- Prior 0.500: "I have no idea"
+- Prior 0.900: "Probably green"
+- Prior 0.990: "Almost certainly green"
+- Prior 0.999: "Virtually guaranteed green"
+
+```{r}
+#| eval: false
+
+set.seed(2011)  # The year of our hypothetical investor!
+priors <- c(0.5, 0.9, 0.99, 0.999)
+# Run simulations and plot worth estimates over 50 flips
+```
+
+---
+
+### Part 3: The Asymmetry (Question 3.2)
+
+Compare two scenarios:
+
+- When the coin is **red** but you thought it was green
+- When the coin is **green** and you thought it was green
+
+**Question:** Why is overconfidence asymmetrically costly?
+
+(Hint: What do you gain vs. what do you lose?)
+
+---
+
+### Part 4: Profit Calculation (Question 4.1)
+
+You bid your worth estimate on each flip:
+
+- Pay: your worth estimate
+- Receive: €2.00 if Heads, €0.00 if Tails
+
+```{r}
+#| eval: false
+
+calculate_profits <- function(simulation_results) {
+  # For each flip:
+  # - You pay the worth_estimate
+  # - You receive 2.00 if Heads, 0.00 if Tails
+  # - profit = payout - worth_estimate
+  # Return data frame with cumulative_profit added
+}
+```
+
+---
+
+### Part 5: Real-World Connection (Question 5.1)
+
+In the coin-flipping game analogy:
+
+- What corresponds to "profit margins are elevated"?
+- What corresponds to "profit margins revert to the mean"?
+- What corresponds to "assigning a 99.9% prior"?
+
+**Key insight:** The investor's mistake wasn't having wrong initial beliefs, but failing to update efficiently.
+
+---
+
+### Summary: What You'll Learn
+
+1. **Bayesian updating** provides a principled way to revise beliefs based on evidence
+
+2. **Overconfidence is asymmetrically costly**: being wrong with high confidence takes longer to correct
+
+3. **Evidence required for strong beliefs should be proportional to confidence**
+
+4. **Efficient updating** can compensate for initially incorrect beliefs
+
+---
+
+### Reference
+
+The coin-flipping game analogy is adapted from "Profit Margins, Bayes' Theorem, and the Dangers of Overconfidence" from the blog *Philosophical Economics* (September 2017).
+
+
 
 
